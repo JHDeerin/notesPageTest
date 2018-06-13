@@ -19,8 +19,6 @@ function loadPage(url) {
   });
 }
 
-var mainNotes = document.querySelector('pre');
-
 function changePage() {
   var url = window.location.href;
 
@@ -28,10 +26,10 @@ function changePage() {
     var wrapper = document.createElement('div');
         wrapper.innerHTML = responseText;
 
-    //var oldContent = document.querySelector('pre');
+    var oldContent = document.querySelector('pre');
     var newContent = wrapper.querySelector('pre');
 
-    mainNotes.innerHTML = newContent.innerHTML;
+    oldContent.innerHTML = newContent.innerHTML;
     //mainNotes.appendChild(newContent);
     //animate(oldContent, newContent);
   });
