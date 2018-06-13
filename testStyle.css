@@ -1,0 +1,50 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    font-family: 'Inconsolata', monospace;
+    color: #A6B2C0;
+}
+
+main {
+    display: flex;
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+
+    background: #282c34;
+}
+
+a.side-link {
+    display: block;
+    margin: 0;
+    flex-grow: 100;
+
+    background: #282c34;
+    transition: 0.25s all;
+}
+a.side-link:hover {
+    /*background: #3a404c;*/
+    background: #31353f;
+}
+
+article {
+    margin: 0 auto;
+    padding: 0;
+
+    font-size: 14px;
+    width: min-content;
+    padding: 0 1ch;
+
+    background: #282c34;
+    border-left: 1px solid #abb2bf26;
+    border-right: 1px solid #abb2bf26;
+}
+
+pre {
+    white-space: pre-wrap;
+    padding: 0;
+    margin: 0 auto;
+    width: 80ch;
+}
