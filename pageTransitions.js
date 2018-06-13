@@ -19,7 +19,7 @@ function loadPage(url) {
   });
 }
 
-var mainNotes = document.querySelector('pre');
+const main = document.querySelector('main');
 
 function changePage() {
   var url = window.location.href;
@@ -28,10 +28,10 @@ function changePage() {
     var wrapper = document.createElement('div');
         wrapper.innerHTML = responseText;
 
-    //var oldContent = document.querySelector('pre');
+    var oldContent = document.querySelector('pre');
     var newContent = wrapper.querySelector('pre');
 
-    mainNotes.innerHTML = newContent.innerHTML;
+    main.replaceChild(newContent, oldContent);
     //mainNotes.appendChild(newContent);
     //animate(oldContent, newContent);
   });
