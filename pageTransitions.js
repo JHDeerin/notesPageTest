@@ -19,7 +19,7 @@ function loadPage(url) {
   });
 }
 
-const main = document.querySelector('main');
+const main = document.querySelector('article');
 
 function changePage() {
   var url = window.location.href;
@@ -31,13 +31,11 @@ function changePage() {
     var oldContent = document.querySelector('pre');
     var newContent = wrapper.querySelector('pre');
 
-    main.replaceChild(newContent, oldContent);
-    //mainNotes.appendChild(newContent);
-    //animate(oldContent, newContent);
+    article.appendChild(newContent);
+    animate(oldContent, newContent);
   });
 }
 
-/*
 function animate(oldContent, newContent) {
   oldContent.style.position = 'absolute';
 
@@ -52,7 +50,7 @@ function animate(oldContent, newContent) {
   fadeIn.onfinish = function() {
     oldContent.parentNode.removeChild(oldContent);
   };
-}*/
+}
 
 window.addEventListener('popstate', changePage);
 
