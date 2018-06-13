@@ -31,7 +31,7 @@ function changePage() {
     var oldContent = document.querySelector('pre');
     var newContent = wrapper.querySelector('pre');
 
-    article.appendChild(newContent);
+    main.appendChild(newContent);
     animate(oldContent, newContent);
   });
 }
