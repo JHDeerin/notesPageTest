@@ -4,6 +4,8 @@
  */
 
 var cache = {};
+const main = document.querySelector('article');
+
 function loadPage(url) {
   if (cache[url]) {
     return new Promise(function(resolve) {
@@ -18,8 +20,6 @@ function loadPage(url) {
     return cache[url];
   });
 }
-
-const main = document.querySelector('article');
 
 function changePage() {
   var url = window.location.href;
@@ -37,15 +37,16 @@ function changePage() {
 }
 
 function animate(oldContent, newContent) {
+  const fadeInMSLength = 100;
   oldContent.style.position = 'absolute';
 
   var fadeOut = oldContent.animate({
     opacity: [1, 0]
-  }, 1000);
+  }, fadeInMSLength);
 
   var fadeIn = newContent.animate({
     opacity: [0, 1]
-  }, 1000);
+  }, fadeInMSLength);
 
   fadeIn.onfinish = function() {
     oldContent.parentNode.removeChild(oldContent);
@@ -65,7 +66,6 @@ document.addEventListener('click', function(e) {
     e.preventDefault();
     history.pushState({}, "", el.href);
     changePage(el.href);
-
     return;
   }
 });
