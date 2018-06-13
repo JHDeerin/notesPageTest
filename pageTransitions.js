@@ -19,11 +19,8 @@ function loadPage(url) {
   });
 }
 
-<<<<<<< HEAD
 const main = document.querySelector('main');
 
-=======
->>>>>>> 2d6f38a5684c3388737ece61b220f4977cc8559f
 function changePage() {
   var url = window.location.href;
 
@@ -34,11 +31,7 @@ function changePage() {
     var oldContent = document.querySelector('pre');
     var newContent = wrapper.querySelector('pre');
 
-<<<<<<< HEAD
     main.replaceChild(newContent, oldContent);
-=======
-    oldContent.innerHTML = newContent.innerHTML;
->>>>>>> 2d6f38a5684c3388737ece61b220f4977cc8559f
     //mainNotes.appendChild(newContent);
     //animate(oldContent, newContent);
   });
