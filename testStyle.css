@@ -8,7 +8,7 @@ body {
 }
 
 nav {
-    position: relative;
+    position: fixed;
     margin: 0;
     padding: 0;
 
@@ -66,6 +66,7 @@ main {
     display: flex;
     margin: 0 auto;
     padding: 0;
+    padding-top: 64px; /*same as navbar height*/
     width: 100%;
 
     background: #282c34;
