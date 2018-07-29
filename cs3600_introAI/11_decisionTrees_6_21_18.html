@@ -1,0 +1,340 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Intro to AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Intro to AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a href="0_AIHistoryAndAgents_5_15_18.html">0. CS 3600 First Day</a></li><li><a href="1_agentsAndSearchIntro_5_17_18.html">1. Agents and Intro to Search</a></li><li><a href="2_search_5_22_18.html">2. Search</a></li><li><a href="3_searchCont_5_24_18.html">3. Search (cont.)</a></li><li><a href="4_cspAndLogic_5_29_18.html">4. CSP and Logic Agents</a></li><li><a href="5_introProbability_5_31_18.html">5. Intro to Probabilistic Agents</a></li><li><a href="6_probabilityCont_6_5_18.html">6. Probability (cont.)</a></li><li><a href="7_introBayesNets_6_7_18.html">7. Introduction to Bayes' Nets</a></li><li><a href="8_dynamicBayesNets_6_12_18.html">8. Dynamic Bayes Nets</a></li><li><a href="9_introMachineLearning_6_14_18.html">9. Introduction to Machine Learning</a></li><li><a href="10_moreMachineLearning_6_19_18.html">10. Intro. Machine Learning (cont.)</a></li><li class="active-note-page"><a href="11_decisionTrees_6_21_18.html">11. Decision Trees/Review</a></li><li><a href="12_moreDecisionTrees_6_28_18.html">12. More Decision Trees</a></li><li><a href="13_markovDecisionProc_7_5_18.html">13. Markov Decision Processes</a></li><li><a href="14_policyAlgos_7_10_18.html">14. Policy Algorithms</a></li><li><a href="15_introRL_7_12_18.html">15. Reinforcement Learning</a></li><li><a href="16_localSearch_7_17_18.html">16. Local Search</a></li><li><a href="17_introNeuralNets_7_19_18.html">17. Introduction to Neural Networks</a></li><li><a href="18_backpropagation_7_24_18.html">18. Backpropagation</a></li></ul>
+</nav>
+<main>
+<a class="side-link" href="10_moreMachineLearning_6_19_18.html"></a>
+<article>
+<pre>//****************************************************************************//
+//***************** Decision Trees/Review- June 21st, 2018 ******************//
+//**************************************************************************//
+
+- Wait, did I forget - is it the first day of summer?
+    - *one Google search later* IT IS! Solstice day is upon us, the longest 
+    bright!
+- *shudder* no agenda...NO AGENDA...THE WHITEBOARD IS BLANK!
+    - (this is significantly less important than I think)
+- The midterm is on Tuesday - closed book, closed notes as you'd expect, so 
+look over the topic guide, study hard, etc.
+-----------------------------------------------------------
+
+- So, we gave an example decision tree last time, and using them is pretty 
+straightforward - we give a bunch of input parameters, follow the tree 
+according to what they are, and whatever leaf we end up at is our answer
+    - But how do we actually construct our tree?
+        - Well, we could take our first parameter and give it a child for EACH 
+        possible option
+            - Keep in mind that we can ALWAYS turn a multi-child tree into a 
+            binary tree (by splitting each child into a new branching point); 
+            this is useful if we only have an algorithm that works on binary 
+            trees, or something similar
+    - Now, exploring all possibilities for which parameters should go in which 
+    order would take too long - so, given a data set that we KNOW the answers 
+    for, let's just greedily put the paramters (the "question nodes") in some 
+    order
+        - For a restaurant example, where we're deciding if we want to actually 
+        bother waiting to eat at the restaurant, our first node that we choose 
+        could be "food," with 4 restaurant food types as children nodes: 
+        "French," "Thai," "Italian," and "Burger"
+            - Now, given our dataset, how do we know if this was a good 
+            variable to start with?
+                - Well, we WANT to have to ask as few questions as possible - 
+                in other words, we want to get to an answer as FAST as we can
+                - So, let's look at each of the food types and (from the 
+                dataset) see how many restaurants in each category we'll 
+                eventually wait for or not wait for:
+
+                    French: 1 No, 1 Yes
+                    Italian: 1 No, 1 Yes
+                    Thai: 2 No, 2 Yes
+                    Burger: 2 No, 2 Yes
+
+                - This 50-50 split is actually BAD - we ideally want all the 
+                variables to be all "yes" or all "no" - since then, when we 
+                reach that food type, we can just assume the answer's a "yes" 
+                or a "no"!
+            - So, we want to find a split that will maximize the number of 
+            variables that are definitely in one category
+                - There will probably be cases, though, where no variable has 
+                all its children COMPLETELY in just one answer category; to get 
+                around this:
+                    - If the child is above a certain threshold of "almost all 
+                    1 category" (e.g. 5 Nos and 1 Yes), we'll just say that's 
+                    good enough and consider it a "No" leaf 
+                        - "If the leaf isn't unanimous, just take a majority 
+                        vote"
+                    - Otherwise, if it's still pretty evenly split, then we'll 
+                    just split that node again and ask another question
+            - Now, what happens if the tree doesn't have our answer?
+                - Well, we can work our way back up the tree until we find a 
+                parent that CAN give us a "majority vote" one way or another; 
+                if we end up going all the way back to the root without finding 
+                a node that can "vote" for us, we'll assume that the root node 
+                has a default answer to use in that circumstance (e.g., if 
+                we're just not sure if it's worth waiting, don't wait)
+
+- So, those are some good guidelines for creating a shallow/efficient decision 
+tree, but we still need to choose all these things - how do we come up with an 
+algorithm for splitting on the "best node?"
+    - Believe it or not, there are many different algorithms for doing this, 
+    partially because people disagree about what makes a question node "best"
+        - Either way, our GOAL is an algorithm that will get us all leaves - or 
+        at least to get as close as possible
+    - So, formally, we want to maximize our "information gain" for each level 
+    of the tree - we want to minimize our uncertainty for each question we ask
+
+- To help with this, we'll need to bring in a little bit of INFORMATION THEORY 
+(don't worry, you'll get more of this in other classes)
+    - Now, let's say that information is predicting the outcome of an experiment
+        - So, flipping a 1-sided coin (use your imagination) doesn't give us 
+        any information for predicting the next flip - however, if the coin is 
+        two-sided, it DOES give us a bit of information for finding the 
+        distribution of the coin
+    - Let's say we flip a coin 6 times, and get the following outcomes:
+
+            T, H, H, H, T, T
+
+        - By doing this, we've generated 6 "bits" of information
+            - As a sidenote, these bits are also the units of "entropy" - which 
+            is technically the amount of uncertainty in a problem, but that's 
+            outside this class's scope
+        - Now, if the coin is fair, we've gained 1 bit of information per flip, 
+        since we had no way of knowing what the outcome would be
+            - If the coin was COMPLETELY unfair and always gave the same 
+            result, we'd have gained 0 bits of information - we already knew 
+            what would happen!
+            - Anything in-between, though, would give us between 0 and 1 bits 
+            of information - we didn't know for sure what the answer was, but 
+            we had some guess
+        - How do we figure out how much information we gain?
+            - Well, if there are "N" possible outcomes v1...vn, and the 
+            probability of each is between 1 and N, then we'll say:
+
+                I(P(v1), ..., P(vn)) = {-1 * P(vi) * log2(P(vi)), n}
+
+            - "The base of the log doesn't really matter that much"
+            - Let's check to see if this makes intuitive sense for a fair coin:
+
+                I(1/2, 1/2) = -1/2 * log2(1/2) + -1/2 * log2(1/2)
+                            = -1/2 * -1 + -1/2 * -1
+                            = 1/2 + 1/2
+                            = 1
+
+            - Let's see if it works for our 1-sided, completely unfair coin:
+
+                I(1) = -1 log2(1) = -1 * 0 = 0
+
+            - Now, what about a coin that comes up heads 1% of the time, and 
+            tails 99% of the time?
+
+                I(1/100, 99/100) = -1/100 * log2(1/100) + -99/100 * log2(99/100)
+                                = (...calculator math later...)
+                                = 0.08
+
+                - So, because it only gives us 0.08 "bits" of information, we'd 
+                have to flip this unfair coin a LOT more times than the fair 
+                one to start getting new information - to learn something I 
+                didn't know before
+    - "Now, information theory isn't exactly barrels of fu...well, it's 
+    enlightening and useful, even if you don't appreciate it as you go through 
+    it"
+
+- So, if we can figure out for our dataset how much information each 
+answer/question gives us, we can then figure out which variable gives us the 
+most information towards our answer - which is what we want!
+    - Sticking with our boolean "yes/no" restaurant example, let's define 2 
+    variables "P" and "N"
+
+            P = # of positive examples ("I will wait here")
+            N = # of negative examples ("I won't wait here")
+
+    - So, given that we KNOW P and N for a question, then our probability for a 
+    "yes" is P/(P+N), and for a "no" is N/(P+N)
+        - Figuring out the general entropy equation for this, then:
+
+            I(P/(P+N), N/(P+N)) = 
+                    -P/(P+N) * log2(P/(P+N)) + -N/(P+N) * log2(N/(P+N))
+
+    - So, given this equation, we want to choose the question/variable that 
+    will give us the HIGHEST value of I - that will give us the most 
+    information towards our answer
+        - How do we figure this out? Well, by iterating over each of the 
+        variables we could use and checking how much information we'd get
+            - Keep in mind that, if we're choosing a variable that isn't the 
+            root question (2nd level, 3rd, etc.), the probability would be the 
+            probability GIVEN the variables we've already chosen
+--------------------------------------------------------------------
+
+- NOW, we'll come back to that next week - but, with the midterm on Tuesday, 
+I'm assuming most of you want to review for that
+- ...so, let's review what we've learned here since we wandered in at May
+    - These questions are taken from the review midterm stuff I posted on Canvas
+
+    - The first one is a static Bayes' Net question with nodes 
+    "B","I","M","G","J"
+        - "I swear, this problem was created in the 1990s during Bill Clinton's 
+        presidency - any similarities to persons President today is unintended"
+        - Now, for question a)
+            - The first answer would suggest that B,I, and M are all 
+            independent - which isn't true, since B and M both have I as a 
+            child, so I depends on B and M
+            - The second statement is TRUE - since G is a child of I, and J is 
+            a child of G, P(J|G) = P(J|G,I), as J is only directly dependent on 
+            G, not on I
+            - This is TRUE - P(M|G,B,I) = P(M|G,B,I,J), since M is independent 
+            of J
+
+        - For question b)
+            - We're just calculating ONE joint probability (in this case, P(b, 
+            i, not m, g, j))
+                - "These kinds of problems are pretty common, so you should 
+                definitely know how to do them"
+            - To make this easier, we can split this up using 
+            independence/conditional independence:
+
+                = P(b)P(i|b,m)P(not m)P(g|b,i,not m)P(j|g)
+
+            - "We have ALL these probabilities in the JDT , so we just need to 
+            plug in"
+
+                = 0.9 * (0.5) * (0.9) * (0.8) * (0.9)
+                = 0.2916
+
+        - For question C)
+            - Okay, so we have a word problem: "calculate the probability that 
+            someone goes to jail GIVEN that they broke the law, face a 
+            politically motivated processor, and have been indicted"
+                - Simply translated, this is P(j|b,i,m)
+            - Now, you could waste a LOT of time on this if you do all the 
+            cases - but we can marginalize out G!
+                - Therefore, we JUST have to sum over 2 cases: "G" and "not G"
+
+                = a * {P(j,g)}
+                = a * (P(j,g) + P(j, not g))
+            - So, calculating the first one:
+                P(j,g) = P(j|g) * P(g|b,i,m) = 0.9 * 0.9 = 0.81
+            - The second one:
+                P(j, not g) = P(j| not g) * P(not g|b,i,m) = 0 * 0.1
+            - Thus, the total probability is:
+                a * (0.81 + 0) = 0.81a
+            - We COULD try to calculate the probability of NOT going to jail 
+            given this stuff to figure out A, but since we KNOW there are only 
+            2 possibilities, we know that'd be 1 - 0.81 = 0.19 - so, the final 
+            answer IS just 0.81 
+
+        - For question d)
+            - Quick definition here: a "context-specific independence"
+
+        - For question e)
+            - So, if we want to add a new variable "P" representing a 
+            presidential pardon, how would the net change? In other words, what 
+            would it reasonably affect and why?
+                - ...well, it would probably just affect "J" - the probability 
+                of going to jail 
+            - And what, in turn, might reasonably affect "P"?
+                - Well, "I" - being indicted - and "G" - if the person was 
+                found guilty - would both DEFINITELY affect P and be parents of 
+                it, since you can't pardon someone who wasn't found guilty and 
+                was never indicted
+                    - The other two arguably could affect it, too, but they 
+                    aren't required
+
+    - The 2nd question's a Search problem: given a graph A, B, C, D, G, and S
+        - "Again, this is a problem where you can waste a LOT of time if you 
+        don't know how to properly do things"
+        - For a)
+            - Breadth-first search would just return "S,G" - you start at S, 
+            and S is adjacent to G, so it would just hop straight to G!
+            - Remember, BFS doesn't factor in edge costs
+        - For b)
+            - So, we need to give the visited list and solution for UCS: 
+            starting from "S," then:
+
+                Open: (0,S,-)x (1,A,S)x (12,G,S - too high cost, look 
+                elsewhere) (2,C,SA)x (3,D,SAC)x (4,B,SAC)x (4,G,SAC)x 
+                (6,G,SACD) (7,D,SAB)
+                Closed: S,A,C,D,B,G
+
+                Solution: SACG
+        - For c)
+            - Giving the visited list/solution for DFS, we assume that we add 
+            things to the stack in alphabetical order
+                - Do we add duplicates to the open list? Either one's fine, but 
+                make sure you're consistent
+
+                Solution: SACG
+        - For d)
+            - Since UCS always returns the optimal path, we ALREADY know that 
+            A* with a consistent heuristic will ALSO return the same path as 
+            UCS - namely, SACG
+        - For e)
+            - Considering the heuristics, are they admissible/consistent?
+                - For h1, it is NOT admissible, since h1(s) overestimates the 
+                distance to the goal for S (we know from UCS that the shortest 
+                path from S to the goal is 4, but the heuristic guessed 5)
+                    - h1 also CAN'T consistent, since it isn't admissible
+                - For h2, it is admissible, but it is NOT consistent since the 
+                heurstic estimates the distance between S and A is 2, when it's 
+                actually 1
+        - "That covers most of what we would cover on searching problems"
+
+    - The 3rd review question is on dynamic Bayes' Nets, given a 3x3 grid 
+        - For a)
+            - The X's should be connected to each other - they clearly affect 
+            one another!
+                - We could NOT take an action that would affect both X and Y in 
+                1 step, so X/Y should stay independent
+            - Both X and Y should be connected to the sensor readings in the 
+            same timestep - as our position affects what our sensor reading is!
+            - Connect the action we take to the X/Y for the next step
+                - "Notice that our action does NOT directly affect the sensor, 
+                but indirectly influences it through our position"
+        - For b)
+            - The easiest way to start this problem is by drawing our world and 
+            thinking where we could start
+                - Since N1=1, we start next to 1 wall - so we can't start in 
+                the corners or in the middle of the 3x3 grid
+                - We then try to move right (a1 = right) and n2=2 - so our move 
+                WAS succesful, so we couldn't have moved into a wall
+                - ...and since n2 = 2, we must've moved into a corner
+            - Therefore, the only 2 positions consistent with this are the 
+            top-middle and bottom-middle!
+        - For c)
+            - So, we'll never got false positives, but we might get false 
+            negatives - in other words, the number of walls our sensor gives is 
+            either equal to or less than the actual number of walls
+                - There's a chance it'll "miss" each wall around it
+            - Now, N2 = 1 - there's at LEAST 1 wall next to it when it finishes
+                - Therefore, it can be anywhere except the center
+            - We got there by taking "action right" - so, we could NOT have 
+            been in the left-center at the start, since moving from there 
+            would've moved us into the center!
+            - We also could NOT have been in the middle, since N1=1, but there 
+            atre no walls in the center
+            - Therefore, we couldn't have been in EITHER left-center or the 
+            center to start!
+        - For d)
+            - If we keep moving right and down, we can guarantee that we're in 
+            the bottom-right corner since we know where the walls are - so, 
+            it's FALSE that we can't know for certain where we are! We can 
+            coerce the environment by moving ourselves!
+
+
+</pre>
+</article>
+<a class="side-link" href="12_moreDecisionTrees_6_28_18.html"></a>
+</main>
+</body>
+</html>

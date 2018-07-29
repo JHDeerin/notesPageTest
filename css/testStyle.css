@@ -1,0 +1,146 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    font-family: 'Inconsolata', monospace;
+    color: #A6B2C0;
+}
+
+/* Top Navigation Bar Settings */
+nav {
+    display: flex;
+    position: fixed;
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 64px;
+
+    overflow: hidden;
+    background: #21252B;
+    border-bottom: 1px solid #abb2bf26;
+
+    font-size: 1.5em;
+
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+
+    width: 50%;
+    height: 100%;
+}
+
+nav li {
+    display: block;
+
+    margin: auto 0;
+    margin-left: 1ch;
+
+    white-space: nowrap;
+}
+.link-with-slash::after {
+    content: " /";
+}
+
+li a {
+    height: 100%;
+
+    padding: 5px;
+    text-decoration: none;
+
+    text-align: center;
+    vertical-align: middle;
+
+    color: #A6B2C0;
+    border: 1px solid #abb2bf26;
+    border-radius: 5px;
+}
+li a:hover {
+    color: #747D9180;
+}
+
+.note-links-slider {
+    overflow-x: auto;
+
+    -webkit-overflow-scrolling: touch;
+
+    border-left: 1px solid #abb2bf26;
+}
+.note-links-slider::-webkit-scrollbar {
+    background: transparent;
+    height: 6px;
+}
+.note-links-slider::-webkit-scrollbar-track {
+    background: #191b21;
+}
+.note-links-slider::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background: #31353f;
+}
+/*Creates a gradient border around the selected note link*/
+ul.note-links-slider > li.active-note-page {
+    background: linear-gradient(90deg,#02cfb2, #0288d6);
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-radius: 5px;
+}
+ul.note-links-slider > li.active-note-page a {
+    background: #21252B;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+/* Settings for the Main Note Content */
+main {
+    display: flex;
+    margin: 0 auto;
+    padding: 0;
+    padding-top: 64px; /*same as navbar height*/
+    width: 100%;
+
+    background: #282c34;
+}
+
+a.side-link {
+    display: block;
+    margin: 0;
+    flex-grow: 100;
+
+    background: #282c34;
+    transition: 0.25s all;
+}
+a.side-link:hover {
+    /*background: #3a404c;*/
+    background: #31353f;
+}
+
+article {
+    margin: 0 auto;
+    padding: 0;
+
+    font-size: 14px;
+    width: min-content;
+    padding: 0 1ch;
+    padding-top: 1ch;
+
+    background: #282c34;
+    border-left: 1px solid #abb2bf26;
+    border-right: 1px solid #abb2bf26;
+}
+
+pre {
+    white-space: pre-wrap;
+    padding: 0;
+    margin: 0 auto;
+    width: 80ch;
+}

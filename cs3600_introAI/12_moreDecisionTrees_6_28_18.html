@@ -1,0 +1,366 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Intro to AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Intro to AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a href="0_AIHistoryAndAgents_5_15_18.html">0. CS 3600 First Day</a></li><li><a href="1_agentsAndSearchIntro_5_17_18.html">1. Agents and Intro to Search</a></li><li><a href="2_search_5_22_18.html">2. Search</a></li><li><a href="3_searchCont_5_24_18.html">3. Search (cont.)</a></li><li><a href="4_cspAndLogic_5_29_18.html">4. CSP and Logic Agents</a></li><li><a href="5_introProbability_5_31_18.html">5. Intro to Probabilistic Agents</a></li><li><a href="6_probabilityCont_6_5_18.html">6. Probability (cont.)</a></li><li><a href="7_introBayesNets_6_7_18.html">7. Introduction to Bayes' Nets</a></li><li><a href="8_dynamicBayesNets_6_12_18.html">8. Dynamic Bayes Nets</a></li><li><a href="9_introMachineLearning_6_14_18.html">9. Introduction to Machine Learning</a></li><li><a href="10_moreMachineLearning_6_19_18.html">10. Intro. Machine Learning (cont.)</a></li><li><a href="11_decisionTrees_6_21_18.html">11. Decision Trees/Review</a></li><li class="active-note-page"><a href="12_moreDecisionTrees_6_28_18.html">12. More Decision Trees</a></li><li><a href="13_markovDecisionProc_7_5_18.html">13. Markov Decision Processes</a></li><li><a href="14_policyAlgos_7_10_18.html">14. Policy Algorithms</a></li><li><a href="15_introRL_7_12_18.html">15. Reinforcement Learning</a></li><li><a href="16_localSearch_7_17_18.html">16. Local Search</a></li><li><a href="17_introNeuralNets_7_19_18.html">17. Introduction to Neural Networks</a></li><li><a href="18_backpropagation_7_24_18.html">18. Backpropagation</a></li></ul>
+</nav>
+<main>
+<a class="side-link" href="11_decisionTrees_6_21_18.html"></a>
+<article>
+<pre>//****************************************************************************//
+//********************* More Decision Trees - June 28th *********************//
+//**************************************************************************//
+
+- 2:33, yet no agenda effaces the board's white - have we relinquished this 
+tradition midsummer?
+- 2:34 - A blank test is up on the projector...this is actually the most 
+terrifying thing I've seen in weeks
+
+- Okay, actual agenda today:
+    - Quick exam run-through
+    - Finishing up Decision Trees
+    - Intro to Decision Theory
+        - "This is my favorite thing in this entire class" - Prof. Byrd
+        - (I am assuming that includes all of us)
+--------------------------------------------------
+
+- So, the TAs are promising that grades will be done sometime tomorrow; in the 
+meantime, let's quickly go through the answers for the exam:
+    Part I: Grab-Bag Sampler)
+        1) FALSE! Consistent means it must match ALL the training data!
+        2) TRUE! That's what sequential is
+        3) FALSE! It's EXPECTED optimal, not *magically perfect* for things it 
+        can't sense
+        4) FALSE! You need an intial/goal state!
+        5) FALSE! Informed means they have outside/"domain expert" information
+        6) "Factored State" - basically, can be broken up into separate 
+        variables the agent can inspect
+        7) Consistency means the state "breaks no rules," i.e. no variables 
+        violate any constraints
+        8) Agents need to coerce the environment when it can't figure out what 
+        to do next, i.e. "can't make a decision," so you take an action to 
+        force a known world state
+        9) UCS is cost so far, greedy is the heuristic, BestFS is cost so far + 
+        heuristic
+        10) 2 Implication rule: W22 implies ALL the surounding are stenches (we 
+        use ANDs), S22 implies all surrounding options *could* have a Wumpus 
+        (ORs)
+            - Should be a bidirectional relation to make it "more correct"
+        11) Parameter is something the algorithm changes, hyperparameters are 
+        things you specify
+        12) Error rate = # errors / # attempts, loss function gives a 
+        weight/score for each error; loss functions are preferable to give 
+        different errors different weights
+        13) 5% or 1/20th for 20N
+        14) Y = 4 (I didn't have to draw a graph for this; could've just drawn 
+        the dots on the line)
+        15) FALSE! 
+        16) FALSE! The Generative matches the JOINT distribution
+        17) FALSE! That's what generative does!
+        18) FALSE! That's the opposite of what paramteric means!
+        19) TRUE! That's the point of ML!
+        20) TRUE! That's what induction is doing, and why we like ML!
+
+    Part II: Search)
+        1) Greedy best first search was pretty easy: 
+                Visited:    ABF
+                Path:       ABF
+                Cost:       10
+        2) This UCS is the only other search you actually have to run:
+                Visited:    ACEDBF
+                Path:       ACDF
+                Cost:       6
+        3) With a heuristic of 0, A* is just the same thing as UCS! It's the 
+        exact same as in 2!
+        4) H2 is admissible!
+        5) H2 is also consistent!
+        6) Path would be the same as UCS, since the heuristic is admissible!
+            - Keep in mind the visited list *might* be different, but the 
+            solution will be the same
+        7) H3 is NOT admissible, since it overestimates the distance for D
+        8) H3 is NOT consistent, since it isn't admissible
+
+    Part III: Eurasia Probability)
+        1) So, writing down the probability rules:
+            P(Y1 = eu) = 0.2
+            P(Y2 = ea| y1 = eu) = 0.6
+            P(Y2 = eu| Y1 = ea) = 0.3
+
+        2) We're trying to find P(Y2 = ea)
+            - There's 2 cases for this: we were at war with eu or ea in the 
+            first year
+            - Thus, just adding up the cases, we get 0.68
+
+    Part IV: Bayes' Net)
+        1) P(c, s, not b, not s, r); breaking this up with independence, we get:
+                P(c) * P(s) * P(not b|c, not g)
+                    = 0.01344
+
+        2) So, S ONLY affects G, but we already know G, so we can ignore G
+            - Thus, we only have 4 cases to consider:
+                {B, G}, {B, not G}, {not B, not G}
+                = P(r|b) * P(b|g,c) * P(c) + P(r|b) * P(b|g,not c) * P(not c) + 
+                (...)
+                = 0.632
+
+    Part V: Woomba Probability)
+        - "I think the joint sensors confused some people, but this was 
+        actually a pretty easy problem if you knew how to look at it"
+        1) Adding up the transition I model (I did this correctly)
+            - After that, its just the prior distribution times the 
+            distribution model - this is just the first part of our prior 
+            distribution model!
+            A: 0.1*0.8 + 0.2*0.3 = 0.14
+                - Can start from either A or B, so add up the probabilities of 
+                starting in A/B times probability of moving to A from A/B
+            B: = 0.21
+            C: = 0.31
+            D: = 0.34
+        2) "Okay, this is the one question I actually wanted to be hard"
+            - The key point is that the sensors are INDEPENDENT, so you just 
+            multiply their probabilities together!
+            - Making the sensor table here:
+
+
+            vs: P(vs|A)     B       C       D
+             T      1       0.7     0.4     0.1
+             F      0       0.3     0.6     0.9
+             
+             - (same thing for VB)
+
+             - Then, we're just answering the weight for each particle "How 
+             likely am I to see the particle here given these readings?"
+                - Just multiply the sensor readings for the given square 
+                together!
+             - B: P(vs|B) * P(vb|B) = 0.7 * 0.6 = 0.42
+             - C: 0.4 * 0.3 = 0.12
+             - D: 0.1*0 = 0
+                - No need to normalize! We didn't ask for the probability 
+                distribution
+        3) Sampling these particles is independent, so just multiply the 
+        probabilities together!
+            - 0.1 * 0.1 * 0.3 = 0.003
+        4) 2 particles out of 3 in B, so 2/3 chance of a particle in B and 1/3 
+        chance of particles in D, 0% chance of particles in C or A
+- Alright, and that's the midterm! No more tests until the final!
+---------------------------------------------------------------------
+
+- Okay, NOW back to decision trees!
+    - Now, we were talking about choosing which parameter it would be best to 
+    split the tree on
+    - Given a parameter "A," we would say:
+
+            Remainder(A) = {Pi+Ni/P+N * I(Pi/Pi+Ni, Ni/Pi+Ni), valuesInDataset}
+
+    - So, to give a numeric example for our food problem:
+
+            Remainder(type) = 2/12*I(.5,.5) + 2/12*I(.5,.5) + 4/12*I(.5,.5) + 
+            4/12*I(.5,.5)
+                = 2/12 + 2/12 + 4/12 + 4/12 = 1
+
+        - So, we gain NO information by splitting on restaurant type! There's 
+        still 1 whole bit of information left after we split on type!
+
+            Remainder(patron) = 2/12*I(0/2,2/2) + 4/12*I(4/4,0/4) + 
+            6/12*I(2/6,4/6)
+                = 0 + 0 * 1/2*I(1/3,2/3) = (...math...) = 1/2 * 0.918 = 0.459
+        
+        - What did the 0.918 represent? Well, it's the bits of entropy we have 
+        left if we pick this child
+            - And why did we split in half? Well, because we only have a 1/2 
+            chance of picking this branch (in this case, Italian restaurants vs 
+            French restaurants; the other 2 branches both only have 1 outcome, 
+            so we don't have to split them any more); the 0.459 is our expected 
+            remainder, but once we're inside the Italian branch, we need to use 
+            0.918 as our remaining information
+    - However, we don't want the remainder; we want to know how much 
+    information we've gained by splitting on this variable! Fortunately, this 
+    is pretty easy:
+
+            Gain = Original Info - Remainder(A)
+
+        - In this case,
+
+            Gain = 1 - 0.459 = 0.541
+
+        - "We CANNOT always assume the starting information is 1; that only 
+        happens if we have a balanced tree. Instead, we'll have to use the 
+        number from our remainder equation, i.e. the entropy of this current 
+        branch we're in"
+
+    - So, for our decision tree, we'll calculate the gain for each potential 
+    variable "question", pick the one with the highest gain, repeat for the 
+    next branches down, and so on until we've completed the tree
+    - In this case, "Patrons" is the maximum gain, so we'd choose it as the 
+    root; the tree would then look like this:
+
+                                    Patrons
+                                        |
+                                        |
+                            ------------------------
+                            |       |       |      |
+
+        - To test if we still need to split a node, we could check for one of 2 
+        things
+            - If the entropy is 0 (i.e. I(node) = 0), the answers in that node 
+            are all of 1 type, so we don't have to split it any further
+            - If we go through each node and they're all of one type, great! We 
+            clearly don't have to split
+        - THEN, we'd go inside each branch, and JUST for the data in that 
+        branch (e.g. if we're in the "Italian Restaurants" branch, we don't 
+        care about the French restaurants), keep recursively running this 
+        algorithm, splitting over the remaining variables until we don't have 
+        to split anymore
+            - There is a failure case, of course - what if we can't split any 
+            more, but we still don't have 0 entropy (i.e. all our splits are 
+            50/50)? Well, we'd have to guess by majority vote 
+    
+- This is known as the "ID3 Model" - the "Iterative Dichotamizer #3"
+    - (it was the third model proposed by the paper-writing guy)
+        - This algorithm has some limitations, though - it only works on 
+        discrete variables, and (missed the rest)
+    - Luckily, there are algorithms like "C45," CART, PERT, etc. that are very 
+    similar, but do work for continuous variables
+        - (we won't worry about them in this class)
+
+- Annnnnnddddd...for this class, that's all you actually have to know for 
+decision trees!
+    - If you take machine learning, you'll learn plenty more about these fellas
+
+- "Now, we get to talk about MY favorite stuff! It's stupid cool, really 
+applicable to simulation and video game AI - reinforcement learning is just a 
+really powerful thing in general"
+    - First, though, we've gotta talk about sequential decisions and utility
+        - Up until now, we've only been thinking about 1 action at a time; 
+        we've been using PAST history in stuff like Bayes' Nets, but we've 
+        never looked more than 1 step into the future
+            - We might have problems where we need to consider the consequences 
+            of our actions into the future
+        - We've had "logic knowledge bases," "probability knowledge bases," 
+        "Bayes Nets," etc. - but none of these actually made any decisions. WE 
+        still had to tell it what to choose - the most likely spot where the 
+        ghost was, or where the Wumpus wasn't, etc.
+        - So, how do we take this knowledge we have about the world and turn it 
+        into real decisions?
+            - We can get probabilities for how likely something happens, but we 
+            don't have anything that tells us how GOOD something is
+                - So, we need a UTILITY FUNCTION: a function that takes in a 
+                state and returns a real-value number for how "good" that state 
+                is for our agent
+                    - Formally, this is just U(X) = R; it answers the question, 
+                    "how good is this world for our agent?"
+        - Combined with the likelihood of that state (which we know how to 
+        figure out with probability), we should be able to make a decision from 
+        this!
+    - Now, in statistics (and gambling, the civilized version of statistics), 
+    there's the concept of EXPECTED RETURN: 
+        - We say the EXPECTED UTILITY of an action is the sum of (for all 
+        possible states) the probability of a state times its utility
+            - Formally: EU = {P(x) * U(x), X}
+        - Let's give an example: What's the expected utility of a lottery with 
+        a $1m payoff, a 1/125,000,000 chance of winning, and a ticket costing 
+        $1?
+            - Let's say our utility function is just how much money we gain
+            - Well, EU(play) = P(winning) * u(winning) + P(lose) * u(lose)
+                = 1/125,000,000 * 1,000,000 + (1 - 1/125,000,000) * -1
+                = -0.992
+            - "So, every time I play the lottery, I 'win' -99.2 cents - not the 
+            greatest deal!"
+                - Meanwhile, if we don't play, we have 0 chance of winning and 
+                lose 0 dollars, so we get an EU of 0 - we're better off just 
+                not playing!
+    - Believe it or not, these are the building blocks of Decision Theory
+        - So, for our AI agents, we can say the expected utility of an action 
+        is just:
+
+            EU = { P(result|weDoAction, allKnownEvidence) * 
+            U(result|weDoAction, allKnownEvidence), possibleResults }
+
+        - ...annnnnnd that's the barebone basics of UTILITY THEORY!
+    - Why bother doing all this, though? It seems pretty intuitive!
+        - Let's give a really simple example where we already need this: our 
+        agent is Evil Knievel, and we're about to jump. If we make the jump, we 
+        get fame, fortune, men, women, robots, etc.; if we miss it...well, we 
+        die
+            - Without utility, it's REALLY HARD to tell an agent how good fame 
+            is, or how bad death is, etc.
+                - "Now, we still have to design a good utility function to tell 
+                our agent what's bad and what's good, what it should try and 
+                achieve and what it should avoid - we can't completely get away 
+                from designing something"
+            - Let's say we have the probabilities for each:
+                P(Fame|Jump) = 0.9
+                P(Death|Jump) = 0.1
+                U(Fame) = ?
+                U(Death) = ?
+                    - "If our agent is a human, death will probably have a 
+                    stupidly low utility value - if it's an expensive prototype 
+                    robot, it'll still be very low and require a HIGH 
+                    likelihood of jump success - if it's a video game 
+                    character, it might be low, but high enough that we're more 
+                    willing to risk the jump"
+    - Okay, that seems intutive enough - but where does this model start to 
+    break down?
+        - Well, just like with Bayes' Nets, TIME throws a wrench into this and 
+        makes everything more complicated
+        - If we're only thinking 1 step ahead, we might go for a short-term 
+        gain but miss out on better long-term opportunities - or worse
+            - Let's say our utility-seeking robot sees a pot of gold on the 
+            ground in front of it - that's got a HIGH utility value, and we 
+            have 0% chance of getting it if we stay put, so we tell our robot 
+            to move forward!
+            - Unknown to our agent, though, the gold is on a slippery slope, 
+            with some GLaDOS style lava on the bottom - and, if we look ahead, 
+            the probability of slipping into the lava when you step in the 
+            slope is 0.99
+                - Suddenly, going to that gold seems like a BAD idea!
+                - Our agent, though, is incapable of handling this - its 2-step 
+                utility will be VERY negative, but its 1-step utility value 
+                will look fine
+
+- So, how do we design an agent that can look at the utility of - not just a 
+single action - but a SEQUENCE of action?
+    - Well, that'll bring us into MARKOV DECISION PROCESSES - MDPs
+    - The canonical teaching example for this is GRIDWORLD - "The Land of Grids 
+    and Nothing Else"
+        - Let's say that our agent starts somewhere in the world, and needs to 
+        find the exit while avoiding a pit in the middle of the world - 
+        conveniently right next to the exit
+            - If our actions were deterministic, this'd be a REALLY simple 
+            search problem - just find the goal and move towards it!
+            - The "fun" part of this problem, though, is that our actions are 
+            uncertain:
+                - 80% chance of going where we want
+                - 10% chance of going to the left of where we want
+                - 10% chance of going to the right
+                - "With just that small change, search can't optimally solve 
+                this problem - it'll generate a plan, but once we execute the 
+                plan it can't correct itself if something goes wrong"
+                    - "Aha! I'll run search again at every timestep!"
+                        - ...that's running an exponential algorithm inside of 
+                        an exponential algorithm. For anything that isn't a toy 
+                        problem, this'll be unrealistically slow
+            - Instead, we need to create a POLICY - a function that tells us 
+            "If I'm in this state, I should do this"
+        - We'll go through about 3 different complicated algorithms for 
+        generating these policies
+
+- Alright, next week, we'll start getting into the nitty-gritty of MDPs and RL 
+- see you then!
+
+</pre>
+</article>
+<a class="side-link" href="13_markovDecisionProc_7_5_18.html"></a>
+</main>
+</body>
+</html>

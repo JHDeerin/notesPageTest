@@ -1,0 +1,294 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Intro to AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Intro to AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a href="0_AIHistoryAndAgents_5_15_18.html">0. CS 3600 First Day</a></li><li><a href="1_agentsAndSearchIntro_5_17_18.html">1. Agents and Intro to Search</a></li><li><a href="2_search_5_22_18.html">2. Search</a></li><li><a href="3_searchCont_5_24_18.html">3. Search (cont.)</a></li><li><a href="4_cspAndLogic_5_29_18.html">4. CSP and Logic Agents</a></li><li><a href="5_introProbability_5_31_18.html">5. Intro to Probabilistic Agents</a></li><li><a href="6_probabilityCont_6_5_18.html">6. Probability (cont.)</a></li><li><a href="7_introBayesNets_6_7_18.html">7. Introduction to Bayes' Nets</a></li><li><a href="8_dynamicBayesNets_6_12_18.html">8. Dynamic Bayes Nets</a></li><li><a href="9_introMachineLearning_6_14_18.html">9. Introduction to Machine Learning</a></li><li class="active-note-page"><a href="10_moreMachineLearning_6_19_18.html">10. Intro. Machine Learning (cont.)</a></li><li><a href="11_decisionTrees_6_21_18.html">11. Decision Trees/Review</a></li><li><a href="12_moreDecisionTrees_6_28_18.html">12. More Decision Trees</a></li><li><a href="13_markovDecisionProc_7_5_18.html">13. Markov Decision Processes</a></li><li><a href="14_policyAlgos_7_10_18.html">14. Policy Algorithms</a></li><li><a href="15_introRL_7_12_18.html">15. Reinforcement Learning</a></li><li><a href="16_localSearch_7_17_18.html">16. Local Search</a></li><li><a href="17_introNeuralNets_7_19_18.html">17. Introduction to Neural Networks</a></li><li><a href="18_backpropagation_7_24_18.html">18. Backpropagation</a></li></ul>
+</nav>
+<main>
+<a class="side-link" href="9_introMachineLearning_6_14_18.html"></a>
+<article>
+<pre>//****************************************************************************//
+//************ Intro. Machine Learning (cont.) - June 19th, 2018 ************//
+//**************************************************************************//
+
+- Strinkingly, the whiteboard was empty before the start of class! Only just 
+now marked on the surface can be seen:
+    - "Intro. ML (Wrap-Up)
+    - Decision Trees"
+
+- A practice exam for the midterm has been posted; there'll be a few different 
+sections in the exam, like...
+    - An overall "grab-bag" short answer section
+    - A few sections that do a "deep dive" into specific topics
+        - e.g. Bayes' Nets, Search, etc; these will ask specific questions 
+        about algorithms, terms, etc. and how these things work
+
+- Lastly, for the homework: a LOT of people have asked questions about particle 
+filtering like "how do I update my beliefs?", "I can't update my beliefs," etc.
+    - Remember, particle filtering does NOT use beliefs - that's exact 
+    filtering! You might have to calculate your "beliefs" for the current step 
+    temporarily to finish getting your probabilities, then distribute your 
+    particles based on that, but you shouldn't need to keep track of them over 
+    time
+------------------------------------------------------
+
+- Okay, last week we had a broad overview of Machine Learning, the terminology 
+you need to know, etc.; today, we'll finish going over that, then start getting 
+into Decision Trees
+    - Now, the entire point of an ML learning algorithm is to generalize: to 
+    perform well on unseen data!
+        - We already have databases, which perform PERFECTLY and efficiently 
+        with retrieving and operating on known data - what ML brings to the 
+        table is that it can handle completely new data that it's never seen 
+        before
+        - As it learns, the algorithm generates a "model" from the training 
+        data as part of its fitting 
+    - In ML, there are two main kinds of variables we worry about during 
+    training: "parameters" and "hyperparameters"
+        - PARAMETERS are variables that our model is allowed to change, e.g. to 
+        improve the "fit" of its model (like weights of the edges, or the 
+        coefficients in a polynomial equation)
+        - HYPERPARAMETERS are variables we specify for the algorithm that it is 
+        NOT allowed to change (e.g. the "K" in KNN, degree of the polynomial, 
+        shape of the neural net, etc.)
+            - Now, you *could* write a loop that tries different 
+            hyperparameters, but that's effectively training multiple different 
+            models - it's outside of the actual learning algorithm itself
+    - So, with those definitions, let's jump back to overfitting/underfitting, 
+    and detecting errors
+        - We've said that we want algorithms that generalize "well," but what 
+        does that actually mean?
+            - Well, it usually means that we have a PERFORMANCE METRIC, usually 
+            in the form of an error/loss function
+                - This function, typically, returns 0 for correct answers and 
+                some penalty for incorrect ones
+                - Some common loss functions are "root-mean square error," 
+                "mean absolute error," "sum of square error," etc. - different 
+                regression equations, basically
+                    - Notice that these are always returning numbers &gt;= 0, 
+                    since if we have negative AND positive errors, then 2 
+                    different errors can cancel each other out! We just want 
+                    the magnitude of the error
+                    - If you've taken Stats, you've probably heard of the 
+                    "correlation coefficient" for a regression - our loss 
+                    function is basically doing the same thing here, measuring 
+                    our model's accuracy
+            - By this definition, the "best learner" is the one that MINIMIZES 
+            the loss function
+            - Now, classification problems have become HUGELY important in ML, 
+            but when we start looking at ML in detail, you'll see that they 
+            were really built for regression
+                - To get them to work as classifiers, we usually have to force 
+                it with the "0-1 LOSS SCHEME" - basically, we add 0 for a 
+                correct answer and 1 for incorrect
+        - Okay, so we've got our measure of the number of errors - now how do 
+        we use it to determine the "goodness" of our algorithm?
+            - We could just use the "error rate" and say the measure of 
+            goodness is the "# of errors" / "# of predictions"
+                - The PROBLEM with this, though, is that it assumes all errors 
+                are equally bad, and they're not!
+                    - If I get a false positive for cancer, the worst that 
+                    happens is I panic a little, do some estate planning, and 
+                    then pay for an extra test - that's annoying, but not too 
+                    bad
+                    - If I get a false NEGATIVE, though, then I could literally 
+                    die of cancer, or not catch it until it's much harder to 
+                    treat
+            - So, by using our loss function, we can easily say that different 
+            kinds of errors are weighted differently - the false positive can 
+            add +1, while the false negative can add +10; we can say which 
+            errors we care about, and which are just minor problems
+                - This way, our cancer algorithm will naturally try to find 
+                models that minimize false negatives and won't worry as much 
+                about false positives - great!
+            - Therefore, we'll usually just use the raw score our loss function 
+            gives, and try to minimize that
+
+- Okay, so we've got our loss function, which tells us how good our model is 
+compared to other models - but how do we tell how ABSOLUTELY good our model is?
+    - If we just have a model with a score of "0.3" is that good? Bad? We don't 
+    know!
+    - In order to verify if it's good or not, we'll save a small portion of our 
+    data for testing, and then test our trained model on the new data we've 
+    saved
+        - Usually, people will recommend using 60-80% of the data for training, 
+        but that's a bit simplistic in practice
+    - Practically, after we've trained our model, we test it on the data it HAS 
+    been trained on - if it's "good" (by our metric), then we continue on to 
+    the next stage - otherwise, our model's been underfit, and we have to try 
+    again and retrain it
+    - We THEN test our model on the testing data we've saved - if it runs well, 
+    great, it's a good model! If it DOESN'T, though, then it means our model's 
+    been overfitted to the training data
+        - There's one more problem, though - how do we know we didn't just have 
+        a "bad split" of our data and accidentally train it on the biased data 
+        from our set? Well, we try to avoid that by randomly sampling the 
+        training/testing pools from the whole data set
+            - Quick note: IN-SAMPLE refers to data from the training set, 
+            OUT-OF-SAMPLE refers to stuff we keep for testing
+- This leads into an idea called CROSS-VALIDATION - training/testing multiple 
+models on a single data set, and comparing them, to avoid getting a single 
+biased model
+    - N-FOLD CROSS-VALIDATION is where we split the data into "n" subsets, 
+    train/test "n" learners, and then, for EACH learner, we pick one subset to 
+    test on and train on all the rest of them; after that, the results are 
+    averaged
+        - So, if we split the data into groups 1, 2, 3, and 4, we'll then 
+        create 4 models: model 1 would use group 1 as a test and train on the 
+        rest of the data, model 2 would use group 2 to test and train on the 
+        rest, etc.
+    - A common special case of this is "LEAVE ONE OUT" CROSS VALIDATION, where 
+    we run N-Fold but say that "N" equals the size of our data set
+        - In English, this means that we have a model for each data point, and 
+        leave out 1 testing data point for each model
+        - This is commonly used when we just don't have a lot of data to train 
+        on
+
+- Alright, with that, we're ready to answer a question from last week - how do 
+we quantitatively KNOW that we're overfitting our model?
+    - Well, practically, we can train and test multiple models (using CV) using 
+    DIFFERENT hyperparameters 
+    - Then, we can plot the average training/testing errors separately against 
+    the hyperparameter we're varying
+        - After plotting the training/testing curves separately, we'll get a 
+        graph
+        - Using this graph, let's look at it for KNN
+            - In this case, the training curve has 0 error when K = 1, then 
+            gradually increases before stabilizing, while the test data is a 
+            "smile shape" above the training data curve
+    - So, we can see here that OVERFITTING formally occurs when our training 
+    error decreases, but our testing error increases!
+        - Now, to detect "underfitting," we can just compare the training data 
+        in a vacuum - but to catch overfitting, we'll need both curves
+            - In general, underfitting isn't a huge issue nowadays, since it's 
+            fairly easy to detect - the HUGE problem is overfitting
+
+- Now, something you'll hear sometimes in the Machine Learning field is 
+"Biased-Variance Tradeoff" - B-V TRADEOFF
+    - BIAS here is the inability of the model to predict correct values on 
+    average
+        - An example is if we have very nonlinear data (like a spiral) but try 
+        to do linear regression - no matter HOW many models we train, even if 
+        we average them all up, it's still just a straight line - the average 
+        of all their results is still poor
+        - So, we want models to be low-bias 
+    - VARIANCE is when the prediction you make for the same datapoint varies a 
+    lot, based on the training data you use
+        - An example would be if we do K=1 KNN for a straight-line linearish 
+        data set - if we trained it with one half of the line, and then the 
+        other half, the two models would give us a COMPLETELY different answer 
+        for the same input!
+            - The exact data we choose for our training shouldn't matter - 
+            we're trying to generalize
+        - Again, we want to have models with low-variance
+    - Going through some examples...
+        - Low-bias, low-variance is the ideal - our model is consistently dead 
+        on target
+        - Low-bias, high-variance models are noisy - their average guess might 
+        be pretty close, but each model gives very scattered answers
+        - High-bias, low-variance models are consistent, but consistently wrong
+        - High-bias, high-variance models are the worst - they're very 
+        scattered and not on-target at all
+    - Now, in ML, we say a model's "Complexity," or "Degrees-Of-Freedom," is 
+    how many parameters it has that we can tweak
+        - In general, people've found that there's a trade-off between bias and 
+        error, depending on how complex the model is
+            - As models get MORE complex, the bias tends to go down, but the 
+            variance gets worse
+            - As the models get simpler, the models get more consistent, but 
+            tend to get more biased and off-target
+    - "Hopefully you can see that this is pretty related to underfitting (like 
+    bias) and overfitting (like variance); it's just taking a different spin on 
+    things"
+
+- "Alright, teaching this next topic to undergraduates is actually quite a bit 
+easier than graduate students - every year, there're grad students who don't 
+know what a binary tree is, and that complicates things"
+
+- So, DECISON TREES are a data structure that works well for a number of 
+different problem types, and in particular for classification and regression
+    - "A random forest of decision trees is usually the SECOND best solution 
+    for just about every domain - the best solution is usually domain specific 
+    (deep learning for computer vision, regression for stocks, etc.)"
+    - Now, if we think back to binary trees, each node usually has 2 parts: a 
+    "value" for the node that we use to sort it, and the actual data contained 
+    in the rest of the node
+        - Now, in binary trees, though, if we ever reach a leaf and it's not 
+        the answer, that's it - the answer we want isn't in the tree
+            - ...what if we could generate an answer for ourselves, though?
+        - In fact, decision trees are like trees where we ask a bunch of 
+        questions, and the leaf nodes at the bottom are the "answers" we're 
+        looking for
+    - Here are how decision trees DIFFER from simple BSTs, though:
+        1) The tree "splits" on more than one variable (it's not binary)
+        2) We give it all the "keys" to generate the tree at once; the order we 
+        add nodes in shouldn't matter
+        3) All of the intermediate nodes are like questions we ask to try and 
+        find the answer; the answers themselves are only contained in the leaves
+        4) All of the QUESTIONS - in this class at least - will be dealing with 
+        "categorical" questions that have a discrete # of definite answers (yes 
+        or no, {rainy cloudy sunny foggy snowy}, etc.)
+            - So, no dealing with temperatures, real number answers, "the 
+            meaning of love," etc.
+- So, let's build an example decision tree for choosing a restaurant:
+    - Let's say we have 3 variables:
+        - X1 = price per person of the restaurant
+        - X2 = serves Pepsi (true or false)
+        - X3 = how much you love your date (on a discrete scale of 1-10)
+    - So, a few things to consider:
+        - This is Atlanta. If a restaurant dares to serve Pepsi, it BETTER be a 
+        cheap place to eat
+        - Let's say a cheap restaurant is less than $15 per person
+        - If it's an expensive resturant, we'd better love our date
+
+
+                            X1
+                           /  \
+                         &lt;15  15&lt;
+                         /      \
+                       X2
+                      / \
+                    Yes  No
+                    /     \
+                   X1     Eat!
+                  / \
+                 &lt;5  5&lt; 
+                /     \
+              Eat!  No Eat.   
+
+        - (above tree is unfinished for the expensive-restaurant side; I was 
+        too slow taking notes)
+        - NOW, to figure out if the restaurant is worth eating at, we can just 
+        plug in our vector X1, X2, and X3 inputs (e.g. &lt;$12, no, 7&gt;), and the 
+        tree will give us the answer! 
+    - Now, for THIS example, we designed the tree entirely from scratch, by 
+    hand - but if we want an algorithm to be able to build a tree like this, we 
+    have to translate these sorts of designs into code
+        - If we have a lot of these sorts of variables to consider, though, 
+        we'll end up with a lot of possible trees to consider - for this simple 
+        example, it's not too bad, but it can explode
+            - (something about how factoring in datasets and checking all the 
+            possibilities makes this much worse)
+        - So, to avoid that issue, we'll have to use a greedy algorithm to 
+        rummage through the possibilities
+
+- Anyway, we'll talk more about how we can actually generate these trees - next 
+time!
+        
+
+</pre>
+</article>
+<a class="side-link" href="11_decisionTrees_6_21_18.html"></a>
+</main>
+</body>
+</html>
