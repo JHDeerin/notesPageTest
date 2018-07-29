@@ -5,6 +5,7 @@
 
 var cache = {};
 const main = document.querySelector('article');
+let newPageLoading = false;
 
 function loadPage(url) {
     if (cache[url]) {
@@ -22,19 +23,32 @@ function loadPage(url) {
 }
 
 function changePage() {
-    var url = window.location.href;
+    if (newPageLoading === false) {
+        newPageLoading = true;
+        var url = window.location.href;
 
-    loadPage(url).then(function(responseText) {
-        var wrapper = document.createElement('div');
-            wrapper.innerHTML = responseText;
+        loadPage(url).then(function(responseText) {
+            var wrapper = document.createElement('div');
+                wrapper.innerHTML = responseText;
 
-        var oldContent = document.querySelector('pre');
-        var newContent = wrapper.querySelector('pre');
+            var oldContent = document.querySelector('pre');
+            var newContent = wrapper.querySelector('pre');
 
-        changeSelectedNoteLink(wrapper);
-        main.appendChild(newContent);
-        animate(oldContent, newContent);
-    });
+            resetSideLinks(wrapper);
+            changeSelectedNoteLink(wrapper);
+
+            main.appendChild(newContent);
+            animate(oldContent, newContent);
+        });
+    }
+}
+
+function resetSideLinks(newHtmlWrapper) {
+    const currentSideLinks = document.querySelectorAll('a.side-links');
+    const newSideLinks = newHtmlWrapper.querySelectorAll('a.side-links');
+    
+    currentSideLinks[0].setAttribute('href', newSideLinks[0].getAttribute('href'))
+    currentSideLinks[1].setAttribute('href', newSideLinks[0].getAttribute('href'))
 }
 
 function changeSelectedNoteLink(newHtmlWrapper) {
@@ -66,6 +80,7 @@ function animate(oldContent, newContent) {
 
     fadeIn.onfinish = function() {
         oldContent.parentNode.removeChild(oldContent);
+        newPageLoading = false;
     };
 }
 
