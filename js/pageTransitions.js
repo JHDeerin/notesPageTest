@@ -44,8 +44,8 @@ function changePage() {
 }
 
 function resetSideLinks(newHtmlWrapper) {
-    const currentSideLinks = document.querySelectorAll('a.side-links');
-    const newSideLinks = newHtmlWrapper.querySelectorAll('a.side-links');
+    const currentSideLinks = document.querySelectorAll('a.side-link');
+    const newSideLinks = newHtmlWrapper.querySelectorAll('a.side-link');
     
     currentSideLinks[0].setAttribute('href', newSideLinks[0].getAttribute('href'))
     currentSideLinks[1].setAttribute('href', newSideLinks[0].getAttribute('href'))
