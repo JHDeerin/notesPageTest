@@ -7,12 +7,17 @@ main {
     padding: 0;
     padding: 1em;
 
-    width: 80ch;
+    width: 90%;
     height: 100%;
 
     text-align: center;
 
     background: #21252B;
+}
+
+main > header {
+    margin: 0 auto;
+    width: 80ch;
 }
 
 main h1, h2 {
@@ -43,6 +48,7 @@ article {
 section.college-year {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
 
     width: 100%;
 }
@@ -59,6 +65,7 @@ div.class-notes-card {
     overflow: hidden;
     width: 33%;
     min-width: 300px;
+    max-width: 500px;
 
     margin: 10px;
     padding: 0;
