@@ -54,7 +54,10 @@ function resetSideLinks(newHtmlWrapper) {
 function changeSelectedNoteLink(newHtmlWrapper) {
     const linkListElements = document.querySelectorAll('ul.note-links-slider li');
     linkListElements[getSelectedLinkIndex(document)].className = "";
-    linkListElements[getSelectedLinkIndex(newHtmlWrapper)].className = "active-note-page";
+    
+    const newSelectedPageIndex = getSelectedLinkIndex(newHtmlWrapper);
+    linkListElements[newSelectedPageIndex].className = "active-note-page";
+    linkListElements[newSelectedPageIndex].scrollIntoView({behavior: "smooth"});
 }
 
 function getSelectedLinkIndex(htmlWrapper) {
