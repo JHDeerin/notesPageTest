@@ -31,9 +31,25 @@ function changePage() {
         var oldContent = document.querySelector('pre');
         var newContent = wrapper.querySelector('pre');
 
+        changeSelectedNoteLink(wrapper);
         main.appendChild(newContent);
         animate(oldContent, newContent);
     });
+}
+
+function changeSelectedNoteLink(newHtmlWrapper) {
+    const linkListElements = document.querySelectorAll('ul.note-links-slider li');
+    linkListElements[getSelectedLinkIndex(document)].className = "";
+    linkListElements[getSelectedLinkIndex(newHtmlWrapper)].className = "active-note-page";
+}
+
+function getSelectedLinkIndex(htmlWrapper) {
+    const linkListElements = htmlWrapper.querySelectorAll('ul.note-links-slider li');
+    for (let i = 0; i < linkListElements.length; i++) {
+        if (linkListElements[i].className === "active-note-page") {
+            return i;
+        }
+    }
 }
 
 function animate(oldContent, newContent) {
