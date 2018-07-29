@@ -5,6 +5,15 @@ body {
 
     font-family: 'Inconsolata', monospace;
     color: #A6B2C0;
+    background: #282c34;
+}
+
+a {
+    text-decoration: none;
+    color: #A6B2C0;
+}
+a:hover {
+    color: #747D9180;
 }
 
 /* Top Navigation Bar Settings */
@@ -59,12 +68,8 @@ li a {
     text-align: center;
     vertical-align: middle;
 
-    color: #A6B2C0;
     border: 1px solid #abb2bf26;
     border-radius: 5px;
-}
-li a:hover {
-    color: #747D9180;
 }
 
 .note-links-slider {
