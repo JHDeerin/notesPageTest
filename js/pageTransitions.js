@@ -53,17 +53,17 @@ function resetSideLinks(newHtmlWrapper) {
 
 function changeSelectedNoteLink(newHtmlWrapper) {
     const linkListElements = document.querySelectorAll('ul.note-links-slider li');
-    linkListElements[getSelectedLinkIndex(document)].className = "";
+    linkListElements[getSelectedLinkIndex(document)].classList.remove("active-note-page");
     
     const newSelectedPageIndex = getSelectedLinkIndex(newHtmlWrapper);
-    linkListElements[newSelectedPageIndex].className = "active-note-page";
+    linkListElements[newSelectedPageIndex].classList.add("active-note-page");
     linkListElements[newSelectedPageIndex].scrollIntoView({behavior: "smooth"});
 }
 
 function getSelectedLinkIndex(htmlWrapper) {
     const linkListElements = htmlWrapper.querySelectorAll('ul.note-links-slider li');
     for (let i = 0; i < linkListElements.length; i++) {
-        if (linkListElements[i].className === "active-note-page") {
+        if (linkListElements[i].classList.contains("active-note-page")) {
             return i;
         }
     }
@@ -92,7 +92,8 @@ window.addEventListener('popstate', changePage);
 document.addEventListener('click', function(e) {
     var el = e.target;
 
-    while (el && !el.href) {
+    //go up the DOM tree until we find something with a link
+    while (el && !el.href) { 
         el = el.parentNode;
     }
 
