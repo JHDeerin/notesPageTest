@@ -48,7 +48,7 @@ function resetSideLinks(newHtmlWrapper) {
     const newSideLinks = newHtmlWrapper.querySelectorAll('a.side-link');
     
     currentSideLinks[0].setAttribute('href', newSideLinks[0].getAttribute('href'))
-    currentSideLinks[1].setAttribute('href', newSideLinks[0].getAttribute('href'))
+    currentSideLinks[1].setAttribute('href', newSideLinks[1].getAttribute('href'))
 }
 
 function changeSelectedNoteLink(newHtmlWrapper) {
