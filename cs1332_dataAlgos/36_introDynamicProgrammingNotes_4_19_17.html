@@ -1,0 +1,209 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Data Structures / Algorithms</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs1332Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Data Structures / Algos.</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDayNotes_1_9_17.html">0. First Day of Class!</a></li><li><a class="is-note-link" href="1_arrayListNotes_1_11_17.html">1. Arrays &amp; ArrayLists</a></li><li><a class="is-note-link" href="2_linkedListNotes_1_13_17.html">2. Linked Lists</a></li><li><a class="is-note-link" href="3_linkedListTypes_1_18_17.html">3. Linked List Types</a></li><li><a class="is-note-link" href="4_stackNotes_1_20_17.html">4. Stacks</a></li><li><a class="is-note-link" href="5_queueNotes_1_23_17.html">5. Queues</a></li><li><a class="is-note-link" href="6_recursionNotes_1_25_17.html">6. Recursion</a></li><li><a class="is-note-link" href="7_introTreeNotes_1_27_17.html">7. Intro. to Trees</a></li><li><a class="is-note-link" href="8_treeTraversalNotes_1_30_17.html">8. Tree Traversals</a></li><li><a class="is-note-link" href="9_binarySearchTreeNotes_2_1_17.html">9. Binary Search Trees</a></li><li><a class="is-note-link" href="10_iteratorNotes_2_3_17.html">10. Iterators</a></li><li><a class="is-note-link" href="11_heapNotes_2_6_17.html">11. Heaps</a></li><li><a class="is-note-link" href="12_moreHeapNotes_2_10_17.html">12. Heaps (cont.)</a></li><li><a class="is-note-link" href="13_hashMapNotes_2_13_17.html">13. Intro. to Hashmaps</a></li><li><a class="is-note-link" href="14_moreHashMapNotes_2_15_17.html">14. Hashmaps (cont.)</a></li><li><a class="is-note-link" href="15_skipListNotes_2_17_17.html">15. Skip Lists</a></li><li><a class="is-note-link" href="16_avlTreeNotes_2_20_17.html">16. AVL Trees</a></li><li><a class="is-note-link" href="17_randomRealityCheck_2_22_17.html">17. Random Reality Check</a></li><li><a class="is-note-link" href="18_moreAvlTreeNotes_2_24_17.html">18. AVL Trees (cont.)</a></li><li><a class="is-note-link" href="19_splayTreeNotes_2_27_17.html">19. Splay Trees</a></li><li><a class="is-note-link" href="20_bTreeNotes_3_1_17.html">20. B Trees</a></li><li><a class="is-note-link" href="21_moreBTreeNotes_3_3_17.html">21. B Trees (cont.)</a></li><li><a class="is-note-link" href="22_reviewAndSortIntro_3_6_17.html">22. Review / Intro. to Sorting</a></li><li><a class="is-note-link" href="23_basicSortingAlgoNotes_3_10_17.html">23. Basic Sorting Algorithms</a></li><li><a class="is-note-link" href="24_moreSortingAlgoNotes_3_13_17.html">24. Sorting Algorithms (cont.)</a></li><li><a class="is-note-link" href="25_evenMoreSortingAlgoNotes_3_15_17.html">25. Advanced Sorting Algorithms (cont.)</a></li><li><a class="is-note-link" href="26_radixSortNotes_3_17_17.html">26. Radix Sort</a></li><li><a class="is-note-link" href="27_kthSelectionNotes_3_27_17.html">27. Kth Selection</a></li><li><a class="is-note-link" href="28_stringSearchNotes_3_29_17.html">28. String Searching</a></li><li><a class="is-note-link" href="29_moreStringSearchNotes_3_31_17.html">29. String Searching (cont.)</a></li><li><a class="is-note-link" href="30_evenMoreStringSearchNotes_4_3_17.html">30. KMP String Searching (cont.)</a></li><li><a class="is-note-link" href="31_theLastStringSearchNotes_4_5_17.html">31. Rabin Karp String Search</a></li><li><a class="is-note-link" href="32_exam3ReviewAndGraphTermNotes_4_7_17.html">32. Exam 3 Review / Graphs Vocab</a></li><li><a class="is-note-link" href="33_introGraphTheoryNotes_4_10_17.html">33. Intro to Graph Theory</a></li><li><a class="is-note-link" href="34_introGraphTheoryDijkstra_4_14_17.html">34. Dijkstra's Algorithm</a></li><li><a class="is-note-link" href="35_introGraphTheoryMSTs_4_17_17.html">35. Minimum Spanning Trees</a></li><li class="active-note-page"><a class="is-note-link" href="36_introDynamicProgrammingNotes_4_19_17.html">36. Intro. to Dynamic Programming</a></li><li><a class="is-note-link" href="37_theLastLectureNotes_4_24_17.html">37. Last Lecture :(</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="35_introGraphTheoryMSTs_4_17_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>u//************************************************************************//
+//********Intro. to Dynamic Programming - April 19th, 2017****************//
+//***********************************************************************//
+
+-"Two-factor login, heed the professor's call..."
+-...but really, 8 minutes in, and HB is still wrestling to get the presentation 
+up and running because of the new two-factor login policy
+    -"The document camera is locked down currently, so let's see how this 
+    goes..."
+-------------------------------------------------
+
+-So, we introduced Kruskal's algorithm last time but didn't quite get through 
+an example (actual example on T-Square)
+    -As a reminder: with KRUSKAL'S MST algorithm, we start on a weighted graph 
+    and find the edge with the LOWEST weight
+        -We then add the two vertices connected to that edge, and that edge
+    -We then find the NEXT lowest weight edge, and add that...and so on
+        -If we find an edge is connected to one of the vertices we've ALREADY 
+        looked at, then we "connect" those two edges together into a group; if 
+        two subgroups are joined by a new edge, we then join those subgroups 
+        together into a single group
+    -If adding an edge would create a CYCLE (i.e. connect two vertices that are 
+    already part of the same group), then we do NOT add it as an edge
+        -"We CONSIDER the edges in order of edge-weights, but we may not 
+        actually add all the edges we're considering"
+        -Once we have formed a single group that connects ALL of the vertices, 
+        then we're done!
+
+    -So, in order to execute Kruskal's, we need a list of edges and a list of 
+    vertices for each of the subgroups
+
+-DYNAMIC PROGRAMMING-
+    -This is *GASP* our LAST topic of the semester: DYNAMIC PROGRAMMING
+        -"I like this because it's a VERY powerful idea, but by itself, it's 
+        really not all that complicated"
+    -Some VERY complex problems actually can be boiled down to a bunch of very 
+    simple sub-problems that have been put together; dynamic programming is a 
+    way of doing this
+
+    -So, actual definition: DYNAMIC PROGRAMMING is a technique where we break a 
+    complex problem into a collection of simpler, recurring subproblems, SOLVE 
+    each of those subproblems ONCE, and then store the solutions to those 
+    subproblems and use them to solve the complex problem
+
+    -Technically, this is considered the "Bottom-Up" dynamic programming (DP) 
+    approach, where we break the problem down into simpler problems, solve ALL 
+    the sub-problems first, and then move up a step to the larger problem
+        -In this scheme, the subproblems are ALL independent (i.e. the solution 
+        of one sub-problem is NOT dependent on the solution of another)
+    -Classic example of an application: Matrix multiplication!
+        -"So, in matrix multiplication, you take a given row's entries and 
+        multiply it by a column's entries, then sum them up"
+
+    -So, DP allows us to efficiently solve a seemingly complex or 
+    time-consuming problem if it has:
+        -(relatively) Simple subproblems
+        - (other thing)
+        - (...another thing)
+
+        -So, one example of this: String Subsequences
+            -A subsequence is not *quite* the same thing as a substring;
+                -e.g., from a string "ABCDEFGHIJK",
+                    -ACEGIJK is a valid subsequence
+                    -DFGHK is a valid subsequcne
+                    -DAGH is NOT a valid subsequence, since it didn't preserve 
+                    the relative ordering of the characters
+            -A common problem is finding the LONGEST COMMON SUBSEQUENCE (LCS): 
+            given 2 strings X and Y, we want to find the longest subsequence 
+            that BOTH X and Y share
+                -e.g. For "ABCDEFG" and "XZACKDFWGH", the longest common 
+                subsequence is "ACDFG"
+            -Seems kind of arbitrary at first, but this problem does have 
+            real-world applications is gene sequencing, DNA testing, etc.
+
+        -So, how do we do this using DP?
+            -Let's say that L[i, j] is the length of the LCS of the substrings 
+            from X[0] to X[i], and from Y[0] to Y[j]
+            -Let's also say that -1 is allowed as an index (to prevent 
+            OutOfBounds errors in the upcoming algorithm), where L[-1,*] = 0 
+            and L[*, -1] = 0 (i.e. "the null subsequence of X has no match w/ 
+            any subsequence in Y", and vice-versa)
+            -We can then say that, in general, this is our problem-solving 
+            strategy for finding a new LCS for the substrings:
+                -If X[i] == Y[j], then L[i,j] = L[i-1, j-1] + 1 (i.e. if the 
+                last characters match, then the LCS length for this substring 
+                is equal to 1 + the length of the LCS of tese substrings w/ the 
+                last characters removed)
+                -If X[i] =/= Y[j], then L[i,j] = max(L[i-1, j], L[i, j-1]) (if 
+                there's no match, then the LCS length is whatever it was with 
+                the non-matching characters removed)
+            -Using this algorithm, we can use the previously found LCS lengths 
+            to calculate the new ones, meaning we don't have to start over from 
+            scratch!
+                -That's the power of DP; by remembering our old results, we can 
+                avoid having to recalculate the same things over and over!
+
+            -In Pseudocode:
+                lcs(String x, String y) {
+                    int[,] L = new int[x.length][y.length];
+                    for (int i = 0; i &lt; x.length; i++) {
+                        l[i, -1] = 0;
+                    }
+                    for (int j = 0; j &lt; y.length; j++) {
+                        l[-1, j] = 0;
+                    }
+
+                    for (int i = 0; i &lt; x.length; i++) {
+                        for (int j = 0; j &lt; y.length; y++) {
+                            if (x.charAt(i) == y.charAt(j)) {
+                                l[i, j] = l[-1, j-1] + 1
+                            } else {
+                                l[i, j] = max(l[i-1, j], l[i, j-1]);
+                            }
+                        }
+                    }
+                }
+
+        -An example of this LCS algorithm in action:
+            -Let's say we have strings "bacbad" and "abazdc"
+                -We first fill in the first row/column as zero, since nothing 
+                will match the blank/"null" character
+                -We then go from left-to-right and top-to-bottom
+                    -If there's a match, then we take the entry to the TOP-LEFT 
+                    of the current entry and add 1 to it (top-left + 1), then 
+                    put it in the entry
+                    -If there's NOT a match, then we say the entry = the 
+                    maximum previous entry in the row/column (i.e. immediately 
+                    to the left/top) of the current entry
+            b | a | c | b | a | d
+            0   0   0   0   0   0
+        a|0 0   1   1   1   1   1
+        b|0 1   1   1   2   2   2
+        a|0 1   2   2   2   3   3
+        z|0 1   2   2   2   3   3
+        d|0 1   2   2   2   3   4
+        c|0 1   2   3   3   3   4
+                    -The largest entry is "4," so we know the LCS is 4 
+                    characters long
+                        -How do we know what those characters are? Well, we 
+                        pretend that for each entry, an arrow is pointing from 
+                        the entry we took the value from
+                            -So, for each entry where we incremented the value 
+                            from the top-left corner (i.e. the arrow is 
+                            pointing to the bottom-right), we know that that 
+                            letter was a match!
+                            -Going backwards from the bottom-right entry, we 
+                            see that this subsequence is "abad"
+
+(***ADDENDUM - April 21st, 2017)
+-Woke up at 8:53, ran here in a panic, still somehow beat HB to the room...
+-"Graphs WILL be on your final, and could show up as either coding questions or 
+diagrams; dynamic programming / LCS could make an appearance as a diagramming 
+question"
+    -Remember that the final IS CUMULATIVE; we can cover ANYTHING from this 
+    semester. What were the most important topics? What did the previous exams 
+    not cover? Be prepared for anything!
+-Remember, the homework is due on THIS SUNDAY; AFTER MONDAY, NO REGRADE 
+REQUESTS WILL BE ACCEPTED
+-Also: FILL OUT CIOS!!!
+
+        - Another example (* indicates a match, meaning we've taken the 
+        top-left value + 1 for that entry):
+
+            t | a | c | o | c | a | t
+          0 0   0   0   0   0   0   0
+        t|0*1   1   1   1   1   1  *1
+        o|0 1   1   1  *2   2   2   2
+        g|0 1   1   1   2   2   2   2
+        a|0 1  *2   2   2   2  *3   3
+        s|0 1   2   2   2   2   3   3
+
+            -So, the largest entry (in the bottom-left) is "3", so we know the 
+            LCS is 3 characters long
+            -To reconstruct the string, we follow the arrows back up until we 
+            hit the top-left corner; doing this, we get the substring "toa"
+
+-----------FROM THIS POINT, NOTHING NEW WE TEACH'LL BE ON THE FINAL-------------
+
+-(...they taught nothing new after this point)
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="37_theLastLectureNotes_4_24_17.html"></a>
+</main>
+</body>
+</html>

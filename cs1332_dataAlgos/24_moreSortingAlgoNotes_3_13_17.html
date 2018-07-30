@@ -1,0 +1,131 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Data Structures / Algorithms</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs1332Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Data Structures / Algos.</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDayNotes_1_9_17.html">0. First Day of Class!</a></li><li><a class="is-note-link" href="1_arrayListNotes_1_11_17.html">1. Arrays &amp; ArrayLists</a></li><li><a class="is-note-link" href="2_linkedListNotes_1_13_17.html">2. Linked Lists</a></li><li><a class="is-note-link" href="3_linkedListTypes_1_18_17.html">3. Linked List Types</a></li><li><a class="is-note-link" href="4_stackNotes_1_20_17.html">4. Stacks</a></li><li><a class="is-note-link" href="5_queueNotes_1_23_17.html">5. Queues</a></li><li><a class="is-note-link" href="6_recursionNotes_1_25_17.html">6. Recursion</a></li><li><a class="is-note-link" href="7_introTreeNotes_1_27_17.html">7. Intro. to Trees</a></li><li><a class="is-note-link" href="8_treeTraversalNotes_1_30_17.html">8. Tree Traversals</a></li><li><a class="is-note-link" href="9_binarySearchTreeNotes_2_1_17.html">9. Binary Search Trees</a></li><li><a class="is-note-link" href="10_iteratorNotes_2_3_17.html">10. Iterators</a></li><li><a class="is-note-link" href="11_heapNotes_2_6_17.html">11. Heaps</a></li><li><a class="is-note-link" href="12_moreHeapNotes_2_10_17.html">12. Heaps (cont.)</a></li><li><a class="is-note-link" href="13_hashMapNotes_2_13_17.html">13. Intro. to Hashmaps</a></li><li><a class="is-note-link" href="14_moreHashMapNotes_2_15_17.html">14. Hashmaps (cont.)</a></li><li><a class="is-note-link" href="15_skipListNotes_2_17_17.html">15. Skip Lists</a></li><li><a class="is-note-link" href="16_avlTreeNotes_2_20_17.html">16. AVL Trees</a></li><li><a class="is-note-link" href="17_randomRealityCheck_2_22_17.html">17. Random Reality Check</a></li><li><a class="is-note-link" href="18_moreAvlTreeNotes_2_24_17.html">18. AVL Trees (cont.)</a></li><li><a class="is-note-link" href="19_splayTreeNotes_2_27_17.html">19. Splay Trees</a></li><li><a class="is-note-link" href="20_bTreeNotes_3_1_17.html">20. B Trees</a></li><li><a class="is-note-link" href="21_moreBTreeNotes_3_3_17.html">21. B Trees (cont.)</a></li><li><a class="is-note-link" href="22_reviewAndSortIntro_3_6_17.html">22. Review / Intro. to Sorting</a></li><li><a class="is-note-link" href="23_basicSortingAlgoNotes_3_10_17.html">23. Basic Sorting Algorithms</a></li><li class="active-note-page"><a class="is-note-link" href="24_moreSortingAlgoNotes_3_13_17.html">24. Sorting Algorithms (cont.)</a></li><li><a class="is-note-link" href="25_evenMoreSortingAlgoNotes_3_15_17.html">25. Advanced Sorting Algorithms (cont.)</a></li><li><a class="is-note-link" href="26_radixSortNotes_3_17_17.html">26. Radix Sort</a></li><li><a class="is-note-link" href="27_kthSelectionNotes_3_27_17.html">27. Kth Selection</a></li><li><a class="is-note-link" href="28_stringSearchNotes_3_29_17.html">28. String Searching</a></li><li><a class="is-note-link" href="29_moreStringSearchNotes_3_31_17.html">29. String Searching (cont.)</a></li><li><a class="is-note-link" href="30_evenMoreStringSearchNotes_4_3_17.html">30. KMP String Searching (cont.)</a></li><li><a class="is-note-link" href="31_theLastStringSearchNotes_4_5_17.html">31. Rabin Karp String Search</a></li><li><a class="is-note-link" href="32_exam3ReviewAndGraphTermNotes_4_7_17.html">32. Exam 3 Review / Graphs Vocab</a></li><li><a class="is-note-link" href="33_introGraphTheoryNotes_4_10_17.html">33. Intro to Graph Theory</a></li><li><a class="is-note-link" href="34_introGraphTheoryDijkstra_4_14_17.html">34. Dijkstra's Algorithm</a></li><li><a class="is-note-link" href="35_introGraphTheoryMSTs_4_17_17.html">35. Minimum Spanning Trees</a></li><li><a class="is-note-link" href="36_introDynamicProgrammingNotes_4_19_17.html">36. Intro. to Dynamic Programming</a></li><li><a class="is-note-link" href="37_theLastLectureNotes_4_24_17.html">37. Last Lecture :(</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="23_basicSortingAlgoNotes_3_10_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//***********************************************************************//
+//************* Sorting Algorithms (cont.)- March 13th, 2017************//
+//*********************************************************************//
+
+-HB is out this week to attend a conference
+-Annnnnnnnd the TA's are currently discussing whether or not to teach us Radix 
+sort before Quick sort. Yay.
+-Also, EXAM GRADES: they're out! Regrade requests must be submitted by Friday, 
+of which the TA's have already gotten a nutty amount
+---------------------------------------
+
+-So, on Friday, we covered all of the "basic" sorts; aka, the "naive" sorts 
+which really aren't that complicated, but don't run all that well, making 
+O(n^2) comparisons
+    -We ALWAYS start the algorithms section with sorting because it's a very 
+    well-known (and more-or-less solved) problem, with a clear progression from 
+    "obvious" sorts to those that are less intuitive, but run far better
+
+-The first "advanced" sort we're going to talk about is "Merge Sort"
+
+-MERGE SORT is a "divide-and-conquer" algorithm (i.e. one that breaks a problem 
+into multiple parts that can each be handled more efficiently)
+    -The way it works is, basically, it breaks an array in half; then it breaks 
+    each of THOSE arrays in half, and so on...until we've broken the array down 
+    into a bunch of single-element arrays
+        -Hey, this kinda sounds like a job for recursion, doesn't it?
+    -THEN, once we've broken the array down completely, we re-combine these 
+    elements
+
+    -e.g.
+    [13, 92, 71, 36a, 45, 84, 36b, 23, 9]
+    [13, 92, 71, 36a, 45]|[84, 36b, 23, 9]
+    [13, 92, 71]|[36a, 45]   [84, 36b]|[23, 9]
+    [13, 92]|[71]   [36a]|[45]   [84]|[36b]  [23]|[9]
+    [13]|[92] [71] [36a] [45] [84] [36b] [23] [9]
+        -NOW, we start merging them back together into 2-element array, where 
+        we put the smaller element first (so we do 1 comparison per 2 elements)
+            -We do this by having an "i" pointer at the beginning of the 1st 
+            sub-array, and a "j" pointer at the beginning of the second 
+            sub-array; when we add to the new "merged" array, we add the 
+            SMALLER of the 2 elements i and j FIRST; we then increment whatever 
+            index we used (either i or j), and compare the next element, add 
+            the smaller...and repeat until we reach the end of the array
+    [13, 92] [71] [36a, 45] [36b, 84] [9, 23]
+        -NOTE: 71 was skipped because the 2 element arrays are "re-merged" when 
+        going back UP from our recursive calls; therefore, the arrays get 
+        merged in the same order that we broke them
+    [13, 71, 92]    [36a, 45]     [9, 23, 36b, 84]
+    [13, 36a, 45, 71, 92]         [9, 23, 36b, 84]
+    [9, 13, 23, 36a, 36b, 45, 71, 84, 92]
+    -DONE!
+        -NOTE: In this example, we sorted both sides of the array in parallel; 
+        more often in a recursive implementation, we split the array, then 
+        focus only on the right/left branch until we're done with that part
+
+    -This sort IS STABLE if we say that we'll always add the element from the 
+    left (i.e. first) array FIRST if 2 elements are equal
+    -So, what's the SPEED for this algorithm? O(nlogn), in best, average, AND 
+    worst case!
+        -This is AWESOME! In fact, technically, this is the fastest speed for 
+        (comparison) sorting that's been discovered! (although a hard proof on 
+        this limit HASN'T been found yet, to the TA's knowledge)
+    -However, there are a few disadvantages:
+        -The algorithm ISN'T adaptive (i.e. it doesn't run any faster when the 
+        input is sorted)
+        -It is also OUT-OF-PLACE, creating extra arrays for the sort
+            -As a consequence, it uses more memory / space than other sorting 
+            algorithms
+                -There IS a variant of Merge Sort that's in-place, but we don't 
+                cover that in this course
+
+-QUICK SORT (which, TA fact, is Deja's favorite algorithm) is another O(nlogn), 
+divide-and-conquer sorting algorithm, but it's a bit more complicated
+    -Like Merge Sort, it's a recursive divide-and-conquer sort that involves 
+    splitting the array and merging it back together
+        -NOTE: There are a TON of variations of Quick Sort, so Googling it 
+        might just end up confusing you; the one we'll use in class is an 
+        in-place version that is NOT stable
+            -There are variants that are stable, that are out-of-place, etc.
+    -Now, INSTEAD of always dividing the array down the middle, we divide it 
+    into two parts around a PIVOT so that, if we do it right, everything in the 
+    LEFT part of the array is smaller than the right part
+        -In other words, the splitting IS the sorting! We don't have to do 
+        comparisons when we're re-merging!
+    -So, in pseuduocode(ish):
+        if (array length is 1 or 0)
+            do nothing; this is our base case!
+        else
+            1) (Randomly) choose a "pivot" element in the array; IDEALLY, this 
+            is the "middle" element of the array
+            2) Put every element SMALLER than the pivot to the left and every 
+            larger element to its right
+            3) THEN, we choose a new pivot for each of the left/right branches 
+            and repeat!
+    -In theory, this means that after splitting the array, we don't need to do 
+    anything special; we're done!
+-So, ON AVERAGE, Quick Sort has O(nlogn) performance - the same as Merge Sort
+    -HOWEVER, if we keep choosing a pivot that is the smallest/largest element, 
+    then we end up with O(n^2) since we're shifting ALL the elements to the 
+    left/right, then repeating; in other words, Quick Sort acts identically to 
+    selection sort!
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="25_evenMoreSortingAlgoNotes_3_15_17.html"></a>
+</main>
+</body>
+</html>

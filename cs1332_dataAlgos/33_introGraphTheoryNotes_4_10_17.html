@@ -1,0 +1,159 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Data Structures / Algorithms</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs1332Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Data Structures / Algos.</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDayNotes_1_9_17.html">0. First Day of Class!</a></li><li><a class="is-note-link" href="1_arrayListNotes_1_11_17.html">1. Arrays &amp; ArrayLists</a></li><li><a class="is-note-link" href="2_linkedListNotes_1_13_17.html">2. Linked Lists</a></li><li><a class="is-note-link" href="3_linkedListTypes_1_18_17.html">3. Linked List Types</a></li><li><a class="is-note-link" href="4_stackNotes_1_20_17.html">4. Stacks</a></li><li><a class="is-note-link" href="5_queueNotes_1_23_17.html">5. Queues</a></li><li><a class="is-note-link" href="6_recursionNotes_1_25_17.html">6. Recursion</a></li><li><a class="is-note-link" href="7_introTreeNotes_1_27_17.html">7. Intro. to Trees</a></li><li><a class="is-note-link" href="8_treeTraversalNotes_1_30_17.html">8. Tree Traversals</a></li><li><a class="is-note-link" href="9_binarySearchTreeNotes_2_1_17.html">9. Binary Search Trees</a></li><li><a class="is-note-link" href="10_iteratorNotes_2_3_17.html">10. Iterators</a></li><li><a class="is-note-link" href="11_heapNotes_2_6_17.html">11. Heaps</a></li><li><a class="is-note-link" href="12_moreHeapNotes_2_10_17.html">12. Heaps (cont.)</a></li><li><a class="is-note-link" href="13_hashMapNotes_2_13_17.html">13. Intro. to Hashmaps</a></li><li><a class="is-note-link" href="14_moreHashMapNotes_2_15_17.html">14. Hashmaps (cont.)</a></li><li><a class="is-note-link" href="15_skipListNotes_2_17_17.html">15. Skip Lists</a></li><li><a class="is-note-link" href="16_avlTreeNotes_2_20_17.html">16. AVL Trees</a></li><li><a class="is-note-link" href="17_randomRealityCheck_2_22_17.html">17. Random Reality Check</a></li><li><a class="is-note-link" href="18_moreAvlTreeNotes_2_24_17.html">18. AVL Trees (cont.)</a></li><li><a class="is-note-link" href="19_splayTreeNotes_2_27_17.html">19. Splay Trees</a></li><li><a class="is-note-link" href="20_bTreeNotes_3_1_17.html">20. B Trees</a></li><li><a class="is-note-link" href="21_moreBTreeNotes_3_3_17.html">21. B Trees (cont.)</a></li><li><a class="is-note-link" href="22_reviewAndSortIntro_3_6_17.html">22. Review / Intro. to Sorting</a></li><li><a class="is-note-link" href="23_basicSortingAlgoNotes_3_10_17.html">23. Basic Sorting Algorithms</a></li><li><a class="is-note-link" href="24_moreSortingAlgoNotes_3_13_17.html">24. Sorting Algorithms (cont.)</a></li><li><a class="is-note-link" href="25_evenMoreSortingAlgoNotes_3_15_17.html">25. Advanced Sorting Algorithms (cont.)</a></li><li><a class="is-note-link" href="26_radixSortNotes_3_17_17.html">26. Radix Sort</a></li><li><a class="is-note-link" href="27_kthSelectionNotes_3_27_17.html">27. Kth Selection</a></li><li><a class="is-note-link" href="28_stringSearchNotes_3_29_17.html">28. String Searching</a></li><li><a class="is-note-link" href="29_moreStringSearchNotes_3_31_17.html">29. String Searching (cont.)</a></li><li><a class="is-note-link" href="30_evenMoreStringSearchNotes_4_3_17.html">30. KMP String Searching (cont.)</a></li><li><a class="is-note-link" href="31_theLastStringSearchNotes_4_5_17.html">31. Rabin Karp String Search</a></li><li><a class="is-note-link" href="32_exam3ReviewAndGraphTermNotes_4_7_17.html">32. Exam 3 Review / Graphs Vocab</a></li><li class="active-note-page"><a class="is-note-link" href="33_introGraphTheoryNotes_4_10_17.html">33. Intro to Graph Theory</a></li><li><a class="is-note-link" href="34_introGraphTheoryDijkstra_4_14_17.html">34. Dijkstra's Algorithm</a></li><li><a class="is-note-link" href="35_introGraphTheoryMSTs_4_17_17.html">35. Minimum Spanning Trees</a></li><li><a class="is-note-link" href="36_introDynamicProgrammingNotes_4_19_17.html">36. Intro. to Dynamic Programming</a></li><li><a class="is-note-link" href="37_theLastLectureNotes_4_24_17.html">37. Last Lecture :(</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="32_exam3ReviewAndGraphTermNotes_4_7_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//*********************************************************************//
+//************Intro to Graph Theory - April 10th, 2017****************//
+//*******************************************************************//
+
+-Once again, HB is out today, so Raymond is taking over
+-Exam 3 is THIS WENDNESAY! Practice exam, topic list, etc. is out, so you 
+should have EVERYTHING you need to prepare!
+-------------------------------------------------------
+
+-What is this?
+            *
+           / \
+          *   *
+    -A binary tree? It COULD be, but even more generally, this is a GRAPH!
+        -Once again, a graph is just anything where we have a set of 
+        "vertices"/"nodes" connected by "edges"
+        -"V" is the # of vertices in the graph; "E" is the # of edges
+            -So, when we're dealing with graph algorithms, we'll measure Big-O 
+            in terms of O(v) and O(n)
+    -The DENSITY of a graph is the ratio of edges to vertices
+        -An UNCONNECTED graph is a graph that has NO edges (its just a set of 
+        points); it has the minimum density a graph can have (i.e., zero)
+        -A SPARSE graph is one where the density is small (i.e., the average 
+        degree is small)
+    -Like we talked about on Friday, graphs can also be directed vs undirected, 
+    have a "degree" (# of edges connected to a vertex; for a directed graph, 
+    each vertex has an incoming and an outcoming degree), self-looping edges, 
+    etc.
+        -Don't worry; we'll go over this vocab in recitation
+    -Finally, it can also be VERY useful if we're allowed to WEIGHT the edges/ 
+    vertices of the graphs
+        -When we weight VERTICES, they tend to be called "labels;" it is FAR 
+        more common to weigh edges instead of vertices
+        -e.g. behind the scenes, Google Maps is basically a very complicated 
+        graph, where the edges have "weights" of the distances between cities/ 
+        locations
+
+-So, let's say we have this graph:
+
+    A--&gt;C
+    | /
+    B---D
+
+    -How could we represent this graph? One way is with an ADJACENCY LIST
+        -We list each vertex, and then, for each vertex, we have a list of the 
+        edges it's connected to
+        -e.g.:
+            A -&gt; B,C
+            B -&gt; A,C,D
+            C -&gt; B
+            D -&gt; B
+        -For a WEIGHTED graph, we could use a dictionary to hold the edge 
+        weights, or we could have the edges we store in this list be objects
+
+    -ANOTHER way is with an ADJACENCY MATRIX, where we have a "V X V" matrix of 
+    the vertices, where one dimension is input and the other is output
+        -The entries in this matrix say what weight the edges have; if it's 0, 
+        then that edge doesn't exist
+        -Here, let's say the left side is the input
+               A B C D
+            A  0 4 3 0
+            B  4 0 1 1
+            C  0 1 0 0
+            D  0 1 0 0
+
+    -So, when do we want to use one over the other?
+        -If we have a SPARSE graph, then the adjacency matrix will have a lot 
+        of empty spaces / wasted space, so we should use the LIST!
+        -If we have a DENSE graph, then the matrix will give us O(1) look-up 
+        time, so we should use the matrix
+
+-So, now let's get into some of the algorithms involving graphs
+    -Let's start with node "traversals," where we have this problem: we have a 
+    "START" node that we start from, and we want to find a given "END"/ targest 
+    node
+    -We'll start off with 2 well-known algorithms: depth-first search, and 
+    breadth-first search
+        -These both work for weighted/unweighted AND directed/undirected graph
+
+        A---B (B is also connected to D, but that's hard to draw in ASCII)
+       / \
+      C---E
+       \
+        D---F
+
+    -In DEPTH-FIRST SEARCH (DFS), we have two external data structures: a stack 
+    where we keep track of the current node's neighbors (the "to be looked at" 
+    stack), AND a hashmap/other structure where we keep track of the nodes 
+    we've already visited
+        -So, we start at the start node, add the start node to the "visited" 
+        list, and add all of the nodes that START is connected to to the stack
+        -We then pop the top node off of the stack, add it to the visited list, 
+        and then look at all of the current node's neighbors
+            -If the neighbor is already in the "visited" list, we ignore it and 
+            do NOT add it to the stack
+            -If the node in the stack that we POPPED (e.g. are visiting) is 
+            already in the "visited" list (aka, we added a duplicate node to 
+            the stack), then we ignore it and pop off the next node
+        -We keep going until we visit the node that we're looking for
+            -Missed whether or not this is when we find it as a NEIGHBOR, or 
+            actually visit it on the stack; probably in the slides
+    -So, at a high level, it just picks a path (more-or-less at random) and goes
+    -In this raw form, we're just finding out if the end node can be reached 
+    (i.e., that a path exists)
+        -You can modify it slightly to find the actual path by keeping track of 
+        the nodes you've visited in a 3rd data structure, but that's rarely 
+        used since more efficient algorithms exist for FINDING the actual path
+
+    - In BREADTH-FIRST SEARCH (BFS), it's actually the same process, but 
+    INSTEAD of using a stack we use a QUEUE!
+        -This means that, say, if we start at A, then we'll visit all of A's 
+        neighbors first (B, C, and E) before we go outwards and visit and each 
+        of THEIR neighbors, etc.
+    -Like in our DFS algorithm above, we have to include a 3rd data structure 
+    to actually get the path to this node, rather than just show the path exists
+        -We can do this for both DFS and BFS, but it's a bit tricky to 
+        implement correctly, so we tend to not bother with it in this class
+
+    -So, even though their processes are similar, these two methods behave VERY 
+    differently
+        -DFS just picks a path and goes as far as it can before it has to turn 
+        back
+        -BFS, on the other hand, expands gradually outwards
+    -Both of these algorithms have the EXACT same efficiency: O(V + E)
+        -In other words, on average, we're going to be visiting every node and 
+        edge
+        -This is also the WORST CASE; we're literally visiting everything
+    -So, these algorithms by themselves aren't extremely efficient, but ALMOST 
+    ALL of our later graph algorithms are based on these two
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="34_introGraphTheoryDijkstra_4_14_17.html"></a>
+</main>
+</body>
+</html>

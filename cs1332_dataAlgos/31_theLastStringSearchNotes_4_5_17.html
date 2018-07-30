@@ -1,0 +1,128 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Data Structures / Algorithms</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs1332Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Data Structures / Algos.</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDayNotes_1_9_17.html">0. First Day of Class!</a></li><li><a class="is-note-link" href="1_arrayListNotes_1_11_17.html">1. Arrays &amp; ArrayLists</a></li><li><a class="is-note-link" href="2_linkedListNotes_1_13_17.html">2. Linked Lists</a></li><li><a class="is-note-link" href="3_linkedListTypes_1_18_17.html">3. Linked List Types</a></li><li><a class="is-note-link" href="4_stackNotes_1_20_17.html">4. Stacks</a></li><li><a class="is-note-link" href="5_queueNotes_1_23_17.html">5. Queues</a></li><li><a class="is-note-link" href="6_recursionNotes_1_25_17.html">6. Recursion</a></li><li><a class="is-note-link" href="7_introTreeNotes_1_27_17.html">7. Intro. to Trees</a></li><li><a class="is-note-link" href="8_treeTraversalNotes_1_30_17.html">8. Tree Traversals</a></li><li><a class="is-note-link" href="9_binarySearchTreeNotes_2_1_17.html">9. Binary Search Trees</a></li><li><a class="is-note-link" href="10_iteratorNotes_2_3_17.html">10. Iterators</a></li><li><a class="is-note-link" href="11_heapNotes_2_6_17.html">11. Heaps</a></li><li><a class="is-note-link" href="12_moreHeapNotes_2_10_17.html">12. Heaps (cont.)</a></li><li><a class="is-note-link" href="13_hashMapNotes_2_13_17.html">13. Intro. to Hashmaps</a></li><li><a class="is-note-link" href="14_moreHashMapNotes_2_15_17.html">14. Hashmaps (cont.)</a></li><li><a class="is-note-link" href="15_skipListNotes_2_17_17.html">15. Skip Lists</a></li><li><a class="is-note-link" href="16_avlTreeNotes_2_20_17.html">16. AVL Trees</a></li><li><a class="is-note-link" href="17_randomRealityCheck_2_22_17.html">17. Random Reality Check</a></li><li><a class="is-note-link" href="18_moreAvlTreeNotes_2_24_17.html">18. AVL Trees (cont.)</a></li><li><a class="is-note-link" href="19_splayTreeNotes_2_27_17.html">19. Splay Trees</a></li><li><a class="is-note-link" href="20_bTreeNotes_3_1_17.html">20. B Trees</a></li><li><a class="is-note-link" href="21_moreBTreeNotes_3_3_17.html">21. B Trees (cont.)</a></li><li><a class="is-note-link" href="22_reviewAndSortIntro_3_6_17.html">22. Review / Intro. to Sorting</a></li><li><a class="is-note-link" href="23_basicSortingAlgoNotes_3_10_17.html">23. Basic Sorting Algorithms</a></li><li><a class="is-note-link" href="24_moreSortingAlgoNotes_3_13_17.html">24. Sorting Algorithms (cont.)</a></li><li><a class="is-note-link" href="25_evenMoreSortingAlgoNotes_3_15_17.html">25. Advanced Sorting Algorithms (cont.)</a></li><li><a class="is-note-link" href="26_radixSortNotes_3_17_17.html">26. Radix Sort</a></li><li><a class="is-note-link" href="27_kthSelectionNotes_3_27_17.html">27. Kth Selection</a></li><li><a class="is-note-link" href="28_stringSearchNotes_3_29_17.html">28. String Searching</a></li><li><a class="is-note-link" href="29_moreStringSearchNotes_3_31_17.html">29. String Searching (cont.)</a></li><li><a class="is-note-link" href="30_evenMoreStringSearchNotes_4_3_17.html">30. KMP String Searching (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="31_theLastStringSearchNotes_4_5_17.html">31. Rabin Karp String Search</a></li><li><a class="is-note-link" href="32_exam3ReviewAndGraphTermNotes_4_7_17.html">32. Exam 3 Review / Graphs Vocab</a></li><li><a class="is-note-link" href="33_introGraphTheoryNotes_4_10_17.html">33. Intro to Graph Theory</a></li><li><a class="is-note-link" href="34_introGraphTheoryDijkstra_4_14_17.html">34. Dijkstra's Algorithm</a></li><li><a class="is-note-link" href="35_introGraphTheoryMSTs_4_17_17.html">35. Minimum Spanning Trees</a></li><li><a class="is-note-link" href="36_introDynamicProgrammingNotes_4_19_17.html">36. Intro. to Dynamic Programming</a></li><li><a class="is-note-link" href="37_theLastLectureNotes_4_24_17.html">37. Last Lecture :(</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="30_evenMoreStringSearchNotes_4_3_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//*******************************************************************//
+//***********Rabin Karp String Search - April 5th, 2017*************//
+//*****************************************************************//
+
+-Well, when it rains, it pours...and generates tornado warnings
+    -In other news, CS 2051 test: I HAS TO STUDY NOWS!!!!
+    -...but, gripped by the endless curse of colossal laziness, I'm kinda 
+    hoping for a storm delay (which, c'mon, won't happen)
+        -Note From Future Me: It did not happen (the storm delay, I mean; the 
+        test very much did happen)
+-Test 3 is in ONE WEEK
+    -AVL Coding questions ARE FAIR GAME! Will probably focus on rotations
+    -Will include matching questions, a few where you have to trace pattern 
+    matching, and instead of 1 big coding question, 2 or 3 smaller coding 
+    questions
+        -...of course, be prepared for anything
+--------------------------------------------------------------
+
+-Well, let's start with the last pattern-matching algorithm: Rabin-Karp!
+    -Hey, I spelled it right this time!
+
+-The 3 previous searches we did:
+    -BRUTE FORCE
+        -The ONLY one we went over that has no pre-processing step
+        -It's considered a "naive" algorithm; it takes the most obvious, simple 
+        approach
+    -BOYER-MOORE
+        -Uses a last-occurrence table
+        -Starts from the back of the pattern, uses LOT to shift efficiently up
+        -Lines up matching characters, but still has to check them
+    -KMP
+        -Generates a failure table
+        -Uses prefixes / suffixes
+
+-RABIN-KARP is different from these 3 since it does NOT directly compare 
+characters; instead, it uses a "rolling hash" to calculate a hash pattern for 
+the text substring we're searching through, and we compare the HASHCODES
+    -NOTE: If the hashes match, it's possible we still have a collision, so we 
+    STILL have to check the characters to verify it's a valid match
+    -O(n) to generate the initial hash, but O(1) to shift it over
+
+    -To generate the initial hash for the pattern, we take the sum from 0 to 
+    m-1 of character(i) * BASE^((m-1) - i)
+        -In code:
+            String pattern;
+            int hash = 0;
+            int base = 10;
+            for (int i = 0; i &lt; m.length; i++) {
+                hash += pattern.getCharAt(i) * pow(base, m.length - 1 - i);
+            }
+        -e.g. for the message "347," it would be hash = 3*100 + 4*10 + 7 = 347
+            -This function is sometimes called "Rabin's fingerprint function"
+    -We then calculate this hash for the substring from 0 to pattern.length - 1 
+    in the text we're searching through
+        -To "roll" this hash to the next character, we say:
+            newHash = base * (oldHash - (oldChar * base^(pattern.length - 1))) 
+            + newChar
+    -So, let's do an example, with CHARACTERS this time around
+        -Let's say "a"  =1, "b" = 2, "c" = 3, etc., to make the math easier
+            -In your actual code, you'll just use the ASCII values of each 
+            character
+        -Let's also say our "base" is 2 (for example's sake)
+            pattern:    bac
+            text:       abcbabac
+        -The FIRST THING we should check is to see if pattern.length &gt; 
+        text.length; if it is, then we'll NEVER find a match, so we shouldn't 
+        waste time preprocessing and should just return "false" right away
+            -In this case, "bac" is smaller than the text, so let's move on
+        -To generate the hash for "bac", we say:
+            -"hash" = "b" * 2^(3-1) + "a" * 2^(3-2) + "c" * 2^(3-3)
+                = 2*4 + 1*2 + 3*1 = 13
+        -We then do the same thing for the first 3 characters in the text, 
+        "abc," and get 11
+            -This doesn't match our pattern's hash, so we "roll" the hash over 
+            by 1
+        -"bcb"s hash = (11 - 1*2^(3-1))*2 + 2 = 16
+            -Still not match, so we keep going
+        -Once we DO find a match, then we are NOT done; we might have just 
+        happened to find a collision
+            -So, we go in and compare the characters old-fashioned style; if 
+            all the characters match, YAY! Otherwise, we have to keep looking
+        -We keep going until we hit the end of the text; at this point, the 
+        substring will be smaller than our pattern, so we're done
+
+    -So, what's performance for Rabin-Karp?
+        -The best case is O(m), where "m" is the length of the pattern string
+            -This is in the event that the first "m" characters match; this 
+            best case exists for pretty much all the sorts that we just looked 
+            through
+        -In the WORST-CASE, where we have a bad hash function and all of the 
+        hashes match, we end up with O(m*n); the algorithm basically is just 
+        brute-force search at this point
+        -In the AVERAGE case, Rabin-Karp is O(m + n)
+
+    -Another example (illustrate the worst case):
+        pattern: c a b
+        text:    a b c b a c
+    -With a base of 2, the "abc" hash is 1*4 + 2*2 + 3*1 = 11, and "cab" is
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="32_exam3ReviewAndGraphTermNotes_4_7_17.html"></a>
+</main>
+</body>
+</html>

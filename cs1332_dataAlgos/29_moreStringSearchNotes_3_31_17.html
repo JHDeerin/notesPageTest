@@ -1,0 +1,159 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Data Structures / Algorithms</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs1332Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Data Structures / Algos.</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDayNotes_1_9_17.html">0. First Day of Class!</a></li><li><a class="is-note-link" href="1_arrayListNotes_1_11_17.html">1. Arrays &amp; ArrayLists</a></li><li><a class="is-note-link" href="2_linkedListNotes_1_13_17.html">2. Linked Lists</a></li><li><a class="is-note-link" href="3_linkedListTypes_1_18_17.html">3. Linked List Types</a></li><li><a class="is-note-link" href="4_stackNotes_1_20_17.html">4. Stacks</a></li><li><a class="is-note-link" href="5_queueNotes_1_23_17.html">5. Queues</a></li><li><a class="is-note-link" href="6_recursionNotes_1_25_17.html">6. Recursion</a></li><li><a class="is-note-link" href="7_introTreeNotes_1_27_17.html">7. Intro. to Trees</a></li><li><a class="is-note-link" href="8_treeTraversalNotes_1_30_17.html">8. Tree Traversals</a></li><li><a class="is-note-link" href="9_binarySearchTreeNotes_2_1_17.html">9. Binary Search Trees</a></li><li><a class="is-note-link" href="10_iteratorNotes_2_3_17.html">10. Iterators</a></li><li><a class="is-note-link" href="11_heapNotes_2_6_17.html">11. Heaps</a></li><li><a class="is-note-link" href="12_moreHeapNotes_2_10_17.html">12. Heaps (cont.)</a></li><li><a class="is-note-link" href="13_hashMapNotes_2_13_17.html">13. Intro. to Hashmaps</a></li><li><a class="is-note-link" href="14_moreHashMapNotes_2_15_17.html">14. Hashmaps (cont.)</a></li><li><a class="is-note-link" href="15_skipListNotes_2_17_17.html">15. Skip Lists</a></li><li><a class="is-note-link" href="16_avlTreeNotes_2_20_17.html">16. AVL Trees</a></li><li><a class="is-note-link" href="17_randomRealityCheck_2_22_17.html">17. Random Reality Check</a></li><li><a class="is-note-link" href="18_moreAvlTreeNotes_2_24_17.html">18. AVL Trees (cont.)</a></li><li><a class="is-note-link" href="19_splayTreeNotes_2_27_17.html">19. Splay Trees</a></li><li><a class="is-note-link" href="20_bTreeNotes_3_1_17.html">20. B Trees</a></li><li><a class="is-note-link" href="21_moreBTreeNotes_3_3_17.html">21. B Trees (cont.)</a></li><li><a class="is-note-link" href="22_reviewAndSortIntro_3_6_17.html">22. Review / Intro. to Sorting</a></li><li><a class="is-note-link" href="23_basicSortingAlgoNotes_3_10_17.html">23. Basic Sorting Algorithms</a></li><li><a class="is-note-link" href="24_moreSortingAlgoNotes_3_13_17.html">24. Sorting Algorithms (cont.)</a></li><li><a class="is-note-link" href="25_evenMoreSortingAlgoNotes_3_15_17.html">25. Advanced Sorting Algorithms (cont.)</a></li><li><a class="is-note-link" href="26_radixSortNotes_3_17_17.html">26. Radix Sort</a></li><li><a class="is-note-link" href="27_kthSelectionNotes_3_27_17.html">27. Kth Selection</a></li><li><a class="is-note-link" href="28_stringSearchNotes_3_29_17.html">28. String Searching</a></li><li class="active-note-page"><a class="is-note-link" href="29_moreStringSearchNotes_3_31_17.html">29. String Searching (cont.)</a></li><li><a class="is-note-link" href="30_evenMoreStringSearchNotes_4_3_17.html">30. KMP String Searching (cont.)</a></li><li><a class="is-note-link" href="31_theLastStringSearchNotes_4_5_17.html">31. Rabin Karp String Search</a></li><li><a class="is-note-link" href="32_exam3ReviewAndGraphTermNotes_4_7_17.html">32. Exam 3 Review / Graphs Vocab</a></li><li><a class="is-note-link" href="33_introGraphTheoryNotes_4_10_17.html">33. Intro to Graph Theory</a></li><li><a class="is-note-link" href="34_introGraphTheoryDijkstra_4_14_17.html">34. Dijkstra's Algorithm</a></li><li><a class="is-note-link" href="35_introGraphTheoryMSTs_4_17_17.html">35. Minimum Spanning Trees</a></li><li><a class="is-note-link" href="36_introDynamicProgrammingNotes_4_19_17.html">36. Intro. to Dynamic Programming</a></li><li><a class="is-note-link" href="37_theLastLectureNotes_4_24_17.html">37. Last Lecture :(</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="28_stringSearchNotes_3_29_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//***********************************************************************//
+//************String Searching (cont.) - March 31st, 2017***************//
+//*********************************************************************//
+
+-Apparently there was a mildly catastrophic bridge failure on I-85, which means 
+traffic in Atlanta has gone from "pretty insufferable" to 
+"floodgates-of-the-dead" levels of crowded
+----------------------------------------------
+
+-Today, we'll start going over the KMP (Knuth-Morris-Pratt) String Search 
+algorithm, and specifically TODAY, we'll be going over the KMP failure tables, 
+which are HARD
+    -"Even the TAs still struggle with these failure tables...they are NOT easy 
+    for students to learn"
+    -We'll wrap up KMP next week, then we'll start going over graphs, which 
+    start out pretty easy but can get harder later on (minimum spanning trees, 
+    graph traversals, pathfinding, etc.)
+        -"The most of graphs you'll see on Test 3 will be some simple traversal 
+        problems; nothing more"
+        -Sorting will DEFINITELY be on the test, String searching will be 
+        there, but you aren't expected to code string searching (but you SHOULD 
+        be able to answer MC questions about it, and be able to trace the 
+        algorithms, know their performances, etc.)
+
+-The KMP ALGORITHM searches strings by constructing a "FAILURE TABLE" (aka, a 
+"failure function") to determine how much we should shift the pattern by when a 
+mismatch occurs
+    -In Boyer-Moore, we constructed the "Last Occurrence Table" during 
+    preprocessing
+    -With KMP, the big idea is that we look at the beginning of the pattern and 
+    look for a "prefix" at the beginning of the pattern; we then go through the 
+    rest of the pattern and look for
+-KMP starts searching from the beginning of the pattern; HOWEVER, when the 
+pattern is shifted over, it may or may not start from the beginning again based 
+on a few conditions
+
+-The "Failure Table" is a table (usually an array) the same length as the 
+pattern; each entry in the table contains a number representing the length of 
+the longest "suffix"
+    -e.g. in the pattern "revararev", the longest suffix that is also a prefix 
+    is "rev"
+    -In the pattern "aba"
+-KMP needs to know the length of the longest suffix for the [1] to [length - 1] 
+characters in the string;
+    -e.g., for "revararev", these would be:
+        -re, rev, reva, revar, revara, revarar, revarare, revararev
+        -So, in the failure table, [0] represents "r", [1] represents "re", [2] 
+        represents "rev", etc. (CHECK THIS??????)
+
+-So, how do we make the failure table?
+    -Create 2 markers, "i" and "j"; i points to the first character in the 
+    STRING (NOT at the table; the table is where we store the values, NOT what 
+    we're looking at), and j points to the 2nd character
+        -In the table, set the 1st entry (for the 1st character) to 0, since it 
+        can't have matched any pattern that came before it
+            -THEN, start going through and comparing the characters at i and j:
+                1) If they are the same, write "i+1" into entry "j" for the 
+                failure table, and then move i and j BOTH forward by 1 character
+                2) If they are DIFFERENT, and i is still at [0] (the 1st 
+                character), then set entry "j" to 0 and increment ONLY j
+                3) If they are DIFFERENT, and i is NOT at the first character 
+                of the pattern, then reset i to the "i-1" entry in the FAILURE 
+                table
+                    -Do NOT move j's position, and don't add any values to the 
+                    table
+            -Repeat until j passes the end of the string, meaning all of the 
+            entries in the table have a value
+
+-So, that's...complicated, right? Let's go through some examples to try and 
+clear things up a bit
+    indices:    0 1 2 3 4 5 6 7 8
+    pattern:    r e v a r a r e v
+    failTable: (starts empty)
+
+    -We start w/ i = 0, j = 1, and set fT[0] = 0
+        pattern:    r e v a r a r e v
+                    i j
+        failTable:  0,
+    -So, pattern[i] =/= pattern[j], and i = 0; so we say fT[j] = 0, and j++
+        pattern:    r e v a r a r e v
+                    i   j
+        failTable:  0,0,
+    -Now, still the same case as above, so we do the same thing
+        pattern:    r e v a r a r e v
+                    i     j
+        failTable:  0,0,0
+    -...and again, it's case #2
+        pattern:    r e v a r a r e v
+                    i       j
+        failTable:  0,0,0,0
+    -NOW, pattern[i] = pattern[j], so it's case #1; so, right now i = 0 and j = 
+    4, and fT[j] = i + 1 = 0 + 1 = 1, and we then increment both i and j
+        pattern:    r e v a r a r e v
+                      i       j
+        failTable:  0,0,0,0,1
+    -Well, now pattern[i] =/= pattern[j], but i does NOT equal zero, so we're 
+    in case #3! SO, we say i = fT[i - 1] = fT[0] = 0; we do NOT edit the 
+    failure table, and we do NOT change j
+        pattern:    r e v a r a r e v
+                    i         j
+        failTable:  0,0,0,0,1
+    -Now, we have case #1 again; we know what to do
+        pattern:    r e v a r a r e v
+                    i           j
+        failTable:  0,0,0,0,1,0
+    -NOW, pattern[i] = pattern[j], so we have case #2! fT[j] = i+1
+        pattern:    r e v a r a r e v
+                      i           j
+        failTable:  0,0,0,0,1,0,1
+    -Same thing, pattern[i] = pattern[j], so we have case #2 again!
+        pattern:    r e v a r a r e v
+                        i           j
+        failTable:  0,0,0,0,1,0,1,2
+    -Case #2 again! Let's keep it going; fT[j] = i + 1, and remember, i = 2!
+        pattern:    r e v a r a r e v
+                          i           j
+        failTable:  0,0,0,0,1,0,1,2,3
+    -...and j == pattern.length, meaning it's gone past the edge of the table, 
+    so we're done!
+
+-So, that was a REALLY detailed example, but hopefully you can see how this 
+works now!
+    -Let's do another (just filling in the table):
+        indices:    0 1 2 3 4 5 6
+        pattern:    t h e a t h a
+        fT:         0,0,0,0,1,2,0
+
+-On Monday, we'll go through some more examples and finish showing how you 
+actually DO the algorithm using this table
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="30_evenMoreStringSearchNotes_4_3_17.html"></a>
+</main>
+</body>
+</html>
