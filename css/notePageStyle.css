@@ -96,6 +96,7 @@ main {
     width: 100%;
 
     background: #282c34;
+    border-bottom: 1px solid #abb2bf26;
 }
 
 a.side-link {
