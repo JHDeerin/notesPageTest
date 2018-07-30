@@ -24,9 +24,10 @@ function loadPage(url) {
 
 function changePage(isLinkToAnotherNote) {
     if (newPageLoading === false) {
+        var url = window.location.href;
+        
         if (isLinkToAnotherNote) {
             newPageLoading = true;
-            var url = window.location.href;
 
             loadPage(url).then(function(responseText) {
                 var wrapper = document.createElement('div');
