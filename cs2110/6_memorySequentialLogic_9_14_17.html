@@ -1,0 +1,191 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2110Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li class="active-note-page"><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="5_introToMemory_9_7_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//*********** Memory and Sequential Logic - September 14th, 2017 ************//
+//**************************************************************************//
+
+- QUESTION: How do we divide by 5 on a computer?
+    -...as it turns out, this infuriating question on the study guide was a 
+    typo: it was meant to say "multiply"...
+        -...I spent part of my life on that problem. -_0
+    - Dr. Leahey's answer, nevertheless: "You can do simple division by 
+    sequential subtraction, right? And this'll get you the right answer, 
+    eventually, but it's slow...the way an actual computer would do it 
+    basically involves approximating the fraction w/ adding together divisions 
+    by power of 2 (which we CAN just do with bit-shifting), but the actual 
+    exact process is complicated"
+
+- NOTE: Do NOT try to draw these circuits; they're too big and they'll show up 
+on the screen too briefly. Watch the slides, listen to me explain it, and try 
+to understand how these work. Take some brief notes if you have any flashes of 
+insight, but really, just try and understand what I'm saying in the moment. 
+That'll be the most helpful. If you want to look at the diagrams again, the 
+circuits are all in the textbook.
+    - "Is Game of Thrones on tonght? No? Well, then you have a free night to 
+    draw these circuits in Logisim! Seriously, though, that'll give you a much 
+    better understanding of how these work than trying to furiously scribble it 
+    off of my Powerpoint."
+-----------------------------------------------------
+
+- So, we have 1 D-Latch, right? Well, we want to make a memory with 4 
+addresses, each 3-bits long.
+    - So, we need 12 D-latches to store these, in a 4x3 grid.
+    - We want to STORE 3 bits, so we have a 3-bit input at the top, we each 
+    input connected to the input of all 4 D-latches in their respective "bit 
+    row'
+        - However, the write-enable is OFF by default
+- 4 memory locations, so we need a 2-bit input to select which memory address 
+we want; we use a decoder to split this into 1 output to each memory
+    - BUT, we also want to have the write-enable work, so we hook up ONE 1-bit 
+    input for "write-enable on/off"; for each of the decoder's output, we put 
+    it through an AND gate w/ the write-enable plugged in so we can ONLY access 
+    the memory when the write-enable is on as well
+        - This way, write-enable is ONLY turned on for the memory location we 
+        want to write to!
+- So, to write something in memory, we put the address in, turn write-enable on 
+for that address, put in our 3-bit code we want to store, and boom! ONLY the 
+location we wanted to store that input in stores it
+
+- To ACCESS something in memory, we have each individual block's inputs hooked 
+togeter, and we select the address we want to read from w/ a multiplexor
+    - "Seriously, though, I REALLY encourage you to build these circuits in a 
+    simulator like Logisim. Just watching me build it isn't the same."
+    
+- "Now, there's always that one person in this class - I call them SuperStudent 
+- who gets SO excited by this class that they don't build these circuits in 
+Logisim. Oh no. They go out to RadioShack and actually build this whole 3-by-4 
+memory contraption."
+    - At THIS point, just when they've completed their masterpiece, is usually 
+    when the Distinguished Looking Japanese Gentleman taps on their door and 
+    asks if they can buy their memory board.
+        -...cha-$hing!
+    - BUT, they want 4 bits of memory that store SIX-bit long data
+        -... :(
+    - BUT THEN, you realize that not all is lost! You can have a 6-bit input, 
+    6-bit output, split the input in 2 3-bit parts between two SEPARATE memory 
+    locations, and then combine their output! AND IT'LL WORK!
+        - SAVED!
+- So, now that the SuperStudent is an internationally recognized vendor, the 
+Very Distinguished Korean-Looking Gentleman comes tapping on the door and wants 
+to buy your boards for a company...let's call them Sam.
+    - BUT NOW, the catch is that they want 3 memory locations that are EIGHT 
+    BITS...you're heartbroken.
+    - So, you're about to come clean, BUT THEN your little sister comes up with 
+    an idea:
+        - (insert little sister's amazing idea here)
+-..."Happens every year, I tell you."
+
+-The POINT of this exercise, though, is that you can always make memory 
+locations longer by doubling their size by hooking up subsequent gates - if 
+you've upgraded your computer's RAM before, congratulations, you've already 
+done this.
+    - "Now physically, of course, as we add more and more memory, those extra 
+    gates lead to microsecond delays that can seriously degrade 
+    performance...but that's why we have those monkeys in the ECE department."
+
+- SEQUENTIAL LOGIC
+    - So, as we've said before, combination logic is ONLY dependant on the 
+    CURRENT input: you give it the same input, it'll always give you the same 
+    output
+    - SEQUENTIAL logic, though it can also have some combinational 
+    logic-deciding parts inside it, can have its output CHANGED based off of 
+    what the PREVIOUS inputs have been...or, to put it another way, its output 
+    is based not JUST on what the inputs are, but also on what the device's 
+    STATE is. 
+        - "Think of a stoplight - it could be green, yellow, or red, and it 
+        changes to a different color depending on what it's current color is."
+        - So, to know what the output'll be, we have to know what the STATE of 
+        the system is.
+- Now, briefly, let's consider the D-latch:
+    - It's SIMPLE, which is great when we have to deall with 4 billion of the 
+    suckers; but it has a problem (something about triggers or level-triggered 
+    logic or somethinf, where the value is always stored if write enable is 
+    turned on; have to look at slides)
+    - "For example, let's say I have a register with the number 42 stored in 
+    it, and I want to add 1 to it. So I read the value of 42 from the register, 
+    plug it back in with the 1 added, turn on the write enable...and BANG. 
+    Infinite loop, the input is being output which is getting input which is..."
+        - This is called a "race condition", or "spin"
+    - "Think of this like an airlock on a spaceship: We can open 1 door at a 
+    time, but you DO NOT OPEN BOTH DOORS AT THE SAME TIME OR BAD THINGS WILL 
+    HAPPEN"
+        -...right now, the D-latch is kinda like that; when we try to write and 
+        read at the same time, it's like we're opening both doors at the SAME 
+        TIME.
+    - So, what if we made it so, metaphorically, we couldn't open both doors at 
+    the same time?
+    - The way we fix this problem is that we add ANOTHER register to hold our 
+    stored value, and we MAKE SURE that their "write enables" are ALWAYS 
+    different by hooking them together with a NOT gate
+        - So, one register stores the previous one's value while we change the 
+        other one; and BOOM! Our problem is solved!
+
+- In fact, this was such a good idea that they said, "Well, if we can do this 
+with registers, why don't we cut out the middleman and redesign D-Latches to 
+support this?"
+    - 
+
+    -----------|*1st input   |-----------|*2nd input|--------
+               |             |           |          |
+    ---|NOT&gt;--write enable   |           |          |
+      |                                  |          |
+      |-------------------------------write enable  |
+
+- This bottom input wire, hooked up to the "write enable"s, is attachedthe 
+CLOCK (I think); it'll regularly switch from ON to OFF at a specific rate, so 
+that the devices can ONLY change when the clock switches("1 clock cycle"); 
+otherwise, the input will never go through
+    - "Having this specified moment when we can read/write things makes 
+    designing circuits WAY easier"
+- We then hook up a Mux to the input (NOT the clock) before hand, and attach 
+the output of the 2nd D-latch as an input to the Mux, w/ an "enable" input to 
+decide if the regular input / stored input is put through the "input wire" (I 
+*think* this is so you can do operations w/ the stored info? Not really sure...)
+    - CAN'T replace mux w/ an AND, since then we could write to board when we 
+    didn't want to 
+    - "Enable tells us to 'ignore the clock and just not write anything', or to 
+    allow input through to our circuit (so input only goes through if enable = 
+    1)"
+    - (kinda confused about this section, need to look at it again)
+
+- This whole clock input is called "Edge-Triggered Logic", instead of 
+level-triggered logic like normal SR latches/D-latches
+
+- COMMON POINT OF CONFUSION: In "Brandonsim", D-Latches are D Flip-Flops w/ set 
+to high; they're NOT called "D-Latches"
+
+- Now, we're about to embark on a most exciting journey: how a processor works. 
+We have basic memory, we can do basic arithmetic...now we need a way to combine 
+it: a way to enable/disable certain devices automatically so we can move data 
+to the adder, do the work we wanted, and then move it back to memory for storage
+    - So, we need a hardware device that TELLS everything what to do: what 
+    devices should stay on, what components should stay off...in other words, 
+    what STATE everything should be in.
+    - So, we'll get into this discussion about "State Machines..." on Tuesday.
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="7_stateMachines_9_19_17.html"></a>
+</main>
+</body>
+</html>

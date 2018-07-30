@@ -1,0 +1,265 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2110Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li class="active-note-page"><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="0_firstDay_8_22_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//**************** CS 2110 First Day - August 22nd, 2017 ********************//
+//**************************************************************************//
+
+- 2:52: Right, nearly went to the wrong room, now hopefully in the right room, 
+no sign of the professor so I can't tell...class is off to a less-than-typical 
+start.
+-3:01: Professor, still MIA; wunderbar
+-3:04: Right, the Eagle has landed...and he's wearing a 2110 hat. Phew.
+-3:09: class is actually starting
+-----------------------------------------------------------
+
+- "What've you heard about this class? Hard? Lots of work? Don't get behind?"
+    - "...GameBoy?" *general laughter*
+- "Well, I guess most of that's true!"
+
+-Prof. William Leahy
+    - "Do NOT call me a Doctor; I'm a 'Senior Lecturer' for the CoC"
+    - Born in New Jersey, worked in France, been over half the world, and helps 
+    run the CoC Art Club, Gamefest club, paintball club
+        -"My daughters went to these schools..." (casually flashes the Harvard 
+        and Yale logo)
+    - Originally went to Georgia Tech to study Ceramic Engineering (which is 
+    now usually wraped up in Mat. Sci.)
+    - Worked for Corning for a long time, then went back to school for CS
+    - Also helps run DragonCon, "COME TO DRAGON CON!"
+    -...and yes, he likes trains
+-"BUT, first and foremost, I'm a teacher"
+
+- So, here's the usual "course objectives" first lecture
+
+- FOR DEMOS, you'll be doing them in 108b in the CoC. It's next to the 1332 TA 
+lab, basically.
+-So, what's the course's point? "To understand how computers work!"
+    -More formally, to understand "the structure and operation of computers"
+    -So, we'll learn about some basics of electronics in computers, then learn 
+    about assembly, basic computer concepts like runtime stack, i/o devices, 
+    etc., etc.
+- "Now, here's the question: can we really make this FUN?"
+    - Students used to HATE this class, but while it's still a lot of work, 
+    we've done our best over the past few years to make sure it's not boring, 
+    slow, or useless
+    - "So, if you're NOT having fun, come talk to me!" 
+
+- Labs are a mix of normal "tutorial" recitations and "labs" that evaluate you; 
+YOU ARE EXPECTED TO ATTEND
+    - It is NOT just a "help session"; you are ACTUALLY GRADED for the work you 
+    do in recitation
+- TEXTBOOK: You'll have to get "Intro to Computing Systems" by Patt &amp; Patel 
+(2nd edition); this has a GREAT first section on low-level stuff, but the C 
+part is a little shaky, so we'll then switch over to Brian Kernighan's 
+"Introduction to the C Language"
+- You'll be using Linux in this course; we ASSUME you have no knowledge of 
+Linux in this class, so we'll teach you how to do stuff, but you'll need this 
+knowledge for later on in the CS curriculum
+- We'll also use a software called "Logisim" to play with logic gates; we'll 
+get to that when we come to it
+- EXAMS: show up for them, or you'll fail. Yay :)
+- Homeworks: ~1 per week. We DO allow some collaboration (so you can ask 
+friends for help), but you're still expected to turn in your own work, and to 
+UNDERSTAND all the work you hand in.
+    - We also have cheat-finding software, so please...don't try. We send 
+    students to the Office of Integrity every year.
+    - "You've heard of a game called Destiny 2, right? My LIFE GOAL right now 
+    is to play as much of that thing as I can next week, and I DON'T want YOU 
+    to interrupt MY time filling out misconduct reports."
+
+- FINAL: The final IS cumulative, so be aware of that now
+
+- If you want to look at the syllabus, or find a class schedule, you can find 
+it under "Resources" on T-Square
+
+- Some BIG ideas of the course:
+    - ALL computers in the world can compute the same kinds of things
+        - They all do computation in the same way, roughly based on Alan 
+        Turing's "Turing Machines," processing or altering a series of 
+        instructions in sequence 
+            -Broadly, individual machines would do functions that would take an 
+            input and return an output, like "addition" or "multiplication," 
+            and they could then be combined into a "universal Turing machine" 
+            that could take a more abstract kind of input: a question; and 
+            then, it would return the answer!
+            - This is the basis for ALL modern computing architecture; your 
+            smartphone might be less powerful than a supercomputer, but the 
+            fundamental way their hardware works isn't really different at all.
+                - "Your smartphone can do the EXACT same computations that a 
+                souped-up gaming desktop can; it's just a matter of time"
+    - There are LAYERS that make the electrons do our work
+        - From "most abstract" to "least abstract":
+            - Problem
+            - Algorithm
+            - Language
+            - Machine Architecture (ISA)
+            - Computer Microarchitecture
+            - Circuitry
+            - Devices
+        - This class will go from "bottom-up," starting with the fundamental 
+        electronic components and then gradually building up to an 
+        understanding of how computers work as a whole, hardware and software
+            - "This means you HAVE to know the lower parts of the order before 
+            you move on to the higher parts; we're going to be building upon 
+            your previous knowledge in this class, so if you don't understand 
+            something we did, FIX THAT!"
+    - Binary EVERYTHING
+        -"One thing you HAVE to grasp as a CS student is whether or not you can 
+        encode a set of data - if it's images or musical notes or whatever - as 
+        binary data"
+    - Computers store POSITIVE, WHOLE NUMBERS
+
+- Now, every day, this class is going to be me...talking...for 75 minutes. 
+That's boring. So, EVERY LECTURE, we're going to have a 5-minute break. So, 
+after 35 minutes, hopefully every day, we'll take a 5-minute brain-break.
+
+- GAMEBOY PROJECT:
+    - "Now, I've said that as long as a decent number of people in my class 
+    have, at some point, touched a GameBoy, I still have a reason to keep 
+    living"
+        - GameBoys literally don't have an operating system; they're SUPER 
+        low-level, so you actually get to write a program that DIRECTLY 
+        interacts with the system hardware
+        - "Now, we'll be using an emulator, so don't rush out and buy a GameBoy 
+        yet...at least not for this class"
+- History of Computers:
+    - The history of Computer Science is crazy, because it's such a young 
+    field. No Mathematician has ever met Pythagoras, but Donald Knuth is still 
+    walking around TODAY!
+    - Next Tuesday, at 6pm, at HOWEY L2, I'll give a lecture on the history of 
+    computing. It's totally optional - but I think it'd be worth it.
+
+- So, WHAT TO DO before the next class:
+    - Get your textbooks
+    - Start reading them! (well, specifically the "Patt" book. The C book is 
+    for later)!
+
+------------------------------------
+// Datatypes I
+------------------------------------
+
+- What's a bit? "smallest unit of memory", "1s and 0s"...that's all true!
+    -A "bit" stands for binary digit (the name came from Bell telephone 
+    engineers as their term for the smallest meaningful piece of information)
+
+- QUESTION: What is the smallest # of bits we would need need to designate 5 
+different items?
+    - A: 3 bits! We can actually represent EIGHT states with 3 bits (2^3)
+
+- BUT WHY, you may cry, DO WE NOT JUST USE REGULAR DECIMAL!?!? GAAAHHHHHHHHHH!!!
+- Well, in the early days, people DID try to create decimal-based computer 
+architectures. And you know what? THEY COULD DO IT!
+    - BUT, BUT, BUT...it was HARD. You had to measure the voltage in the 
+    circuit to determine what state it was, etc. etc., etc., and eventually, it 
+    became clear that just telling if a circuit was "on" or "off" was much more 
+    efficient
+- Now, a DECIMAL circuit, to represent all #s from 0 to 999, needs 3 "decimal 
+bits" - one for each digit
+- For a binary circuit, you need TEN: 2^10 = 1024
+    - You NEED to know powers of 2 as a computer scientist; this is ESSENTIAL 
+    for low-level optimization, and even if it seems a bit arcane now, every 
+    computer in the world is based on binary architecture - with powers-of-two 
+    divisions of information. Trust me, even now, you will use this math far, 
+    far more than you'd ever believe.
+
+- Inside a computer, a bit has NO IDEA what it's representing; it could be a 
+music note, a number, an image - but really, THEY ARE JUST 1s and 0s. There is 
+NOTHING inside the bits themselves that says, "I'm a music note. I'm an image." 
+It's just up to the software to interpret this data for its own use. 
+
+- DATATYPES: "A set of values from which a variable, constant, function, or 
+other expresion may take its value. A type is a classification of data that 
+tells the compiler how the programmer wants to use the data; e.g., the result 
+of adding two variables differs a LOT depending on if they're strings, 
+integers, floating point #s, etc."
+
+- Unsigned integers
+    - How many DIFFERENT numbers can be represented by 4 bits?
+        - 2^4, right?
+    - DIFFERENT #s by 7 bits?
+        - 2^7, right?
+    - By "n" bits?
+        - 2^n, right?
+    - Well, YES - that's absolutely correct! 
+- BUT, sometimes we need to represent negative numbers, and then half of those 
+bits get devoted to negatives
+    - There are SEVERAL ways of doing this (i.e. representing negatives)
+- SIGNED MAGNITUDE takes the FIRST BIT of a number, and arbitrarily says it is 
+"0" if it's a positive # and 1 if it's a negative #
+    -Remember the elementary-school algorithm for adding negative numbers?
+        - If the signs are the same, just add as normal and keep the sign
+        - If the signs are different, SUBTRACT the smaller from the greater, 
+        and keep the sign of the greater number
+    - As it turns out, this algorithm is difficult (though not impossible) to 
+    represent via circuitry
+    - So, a NEW method was devised for this, called "1's Complement"
+        -Now, a 1 in front still represented a negative, but the way that 
+        negatives were represented changed
+        - NOW, negative numbers were gotten by "flipping" all the bits of their 
+        positive counterpart (e.g. 1 = 0001, -1 = 1110)
+        - However, while this made some of the math easier, it was still 
+        required us to design special logic gates that performed arithmetic on 
+        this sort of data
+- Nowadays, we instead use somethings called "2's Complement"
+    - Basically, we have a line of binary numbers that represents the numbers 
+    in order, and when we want to add a negative, then we go BACKWARDS on the 
+    line
+    - Mathematically, this can be done by shifting all of the negative numbers 
+    from 1's complenment DOWN 1 (e.g. 1111 no longer means "-0", but "-1"); 
+    this means that, when we run these numbers through a REGULAR adder (circuit 
+    that ALWAYS adds binary numbers together in the usual way, carrying numbers 
+    to the left if a 1+1 is done (e.g. 0001 + 0011 = 0100)), we AUTOMATICALLY 
+    get the correct result; 0001 + 1111 = 0000 (because the adder "loops" back 
+    around to 0 if there's a binary integer overflow, at least for the 2's 
+    complement integer datatype)
+        - e.g. "What is the 2's complement representation of -13?"
+            - Let "A" = 13 = 01101 //0 in front to show it's positive
+            - The COMPLEMENT of A is 10010 (literally the binary gotten by 
+            flipping all the bits)
+            - THEN, we add 1 to the complement (10010 + 00001 = 10011)
+                - So, the 2's complement representation of -13 is 10011!
+            - To verify the result, let's see if we get 0 when we add 13 and 
+            -13:
+                01101 //13
+              + 10011 //-13
+              --------
+                00000 //yup, success!
+    - This method, however, leaves us 1 binary string that has not been 
+    assigned a value in 2's complement(for 4-bit #s): 1000 (since we add 1 to 
+    negative numbers, 0111 would be 1001 as a negative). Since it starts with a 
+    1, it must be a negative, and since up to -7 has been already assigned, 
+    we'll assign it a value of -8 (as the next negative number that hasn't been 
+    assigned)
+        - This is why we say that binary #s can represent 1 extra NEGATIVE 
+        number than they can positive #s (e.g. in 16-bit, we can represent #s 
+        from -32768 to +32767)
+
+- So, RECITATION tomorrow - please go to that, and I'll see you on Thursday
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="1_dataTypes_8_24_17.html"></a>
+</main>
+</body>
+</html>

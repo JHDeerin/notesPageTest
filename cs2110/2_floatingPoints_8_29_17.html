@@ -1,0 +1,196 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2110Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="1_dataTypes_8_24_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//**************** Floating Points - August 29th, 2017 **********************//
+//**************************************************************************//
+
+- "So, who's going to DragonCon on Saturday!?"
+    - Apparently, admission is paid but the parade is free
+- TONIGHT, at 6pm at Physics L2 in Howey, there'll be a history of computing 
+lecture I'll give; it's OPTIONAL, and you won't be graded on anything I say in 
+there, but I think you'd find it interesting
+--------------------------------------------------
+
+- So, BIT VECTORS!
+    - This is basically a memory location where we treat a string of bits as an 
+    array of boolean "true/false" values
+    - Now, most computer architectures don't let us manipulate individual bits; 
+    we instead have to do it in clumps of 16 bits or 32 bits or 64 bits 
+    (whatever the architecture specifies)
+        - So, how do we manipulate individual bit values? We create a MASK
+            - A MASK has the same # of bits as our bit vector; there are a few 
+            different kinds, but let's say we want to TURN ON (aka, SET) a 
+            specific bit on
+                - Could also do it with multiple bits
+            - Then, we would have mask of all 0s, EXCEPT have a 1 where that 
+            bit we want to turn on is
+            - Then, we would use a bitwise or:
+                vector = vector | mask
+                - This would preserve the rest of the bits, but DEFINITELY turn 
+                our selected bit into a 1
+            - To CLEAR a bit, with the same mask, we would use AND and NOT:
+                vector = vector &amp;~ mask
+            - To TOGGLE the bit, we would use XOR (since it's all 0s except for 
+            the 1 in the position we want to toggle, 1s and 0s will be 
+            preserved)
+                vector = vector ^ mask
+            - To TEST a bit, you would use:
+                if (x &amp; mask)
+                - returns true if the bit is turned on in the vector, returns 
+                false otherwise
+    - The reason we use bit vectors is because we can easily enumerate the 
+    (something)
+
+- FLOATING POINT
+    - Historically, the State of Indiana once tried to pass a law declaring 
+    that, for educational purposes, the value of pi was EXACTLY 3, instead of 
+    3.14
+        - (...needless to say, it didn't pass)
+    - Well, initially, hardware manufacturers used their own proprietary 
+    methods to represent fractional numbers
+        - As you can imagine, when computers started becoming connected, there 
+        were MASSIVE problems with these multiple formats being used; CHAOS 
+        REIGNED
+        - So, in 1985, IEEE came up with a standard solution to represent these 
+        numbers
+    - So, what's the logical way to represent decimals? Well, the first thing 
+    that comes to mind is we just cut the bit in half and say, "the right half 
+    is the part after the decimal," right? That's perfectly logical; in fact, 
+    sometimes it's still used for EXTREME optimization purposes, but it has a 
+    problem: it cuts our range IN HALF
+        - So, remember scientific notation? You have the BASE of 10 raised to 
+        some exponent, the SIGN of the #, and the part called the "normalized 
+        mantissa"; aka, the "actual number" part, which means that there can 
+        only be 1 digit to the left of the decimal place
+        - Well, IEEE decided to use something like this, but reworked it to fit 
+        binary and base 2, to be efficient as possible, to have some way of 
+        representing infinity, "not a number" (e.g. for / 0), etc.
+            - So, they decided to allocate 32 bits for the floating point #: 1 
+            bit for the sign, 8 for the exponential part, and 23 for the 
+            "mantissa" (aka, actual # part):
+                0 |  00000000 | 00000000000000000000000
+            (sign)|(exponent) |    (mantissa)
+                - And it's turned into a # based on this formula:
+
+                    # = (-1)^sign * 1.(mantissa) * 2^(exponent - 127)
+
+                - The "sign" is 0 for positive, 1 for negative
+                - The "exponent - 127" lets us represent exponents from -127 to 
+                128 (with the actual "exponent" part being from 0 to 255)
+                - Now, is there ANY way to represent 0 with this equation?
+                    -...NO! So, IEEE basically said that they would give up 2 
+                    cases for exponents: -127 and 128
+                        - If the exponent part is all 0s (aka, -127), and the 
+                        "mantissa" = 0, then the # = 0
+                            - This means that there's *technically* a negative 
+                            0 ("1000000000..."), but it's never used
+                        - If the exponent part is all 1s (aka, 128), and the 
+                        mantissa = 0, then the # is INFINITY
+                            - If the exponent is 128 and the mantissa is NOT 0, 
+                            then it is "not a number"
+                        - Everything else is just treated as a normal #, 
+                        converted using the formula
+
+            - So, let's turn the number "42.75" into raw binary:
+                101010.11 //.11 means, basically, 3/4 (2^-1 + 2^-2 = 1/2 + 1/4)
+            - Turning this into "binary scientific notation":
+                1.0101011 * 2^5
+            - Then, converting this into IEEE's floating point standard:
+                0|10000100|01010110000000...
+
+            - So, in floating point, 2 is:
+                0 10000000 00000000...
+            - 0 is :
+                0 00000000 00000000...
+            - 0 10000001 10100000000... is:
+                - In binary: 1.101 * 2^(129 - 127) = 110.1 = 6 + 1/2 = 6.5
+            - 0 00000001 00000000000... is:
+                2 ^ -126 * 0.00000000...001 = 2^-149
+                - This is the smallest # we can represent using IEEE's standard
+
+- So, in CS 1331 we learned that we could do this:
+    float f;
+    int i;
+    f = i;
+    i = (int)f;
+- Why did they make us cast this? So that we acknowledged that we could lose 
+some precision when we convert from a float to an integer
+    - As it turns out, though, we can ALSO lose information when we convert an 
+    integer to a float!!!
+    - Why? BECAUSE an integer is represented with 32 bits; but a floating point 
+    # only has 23 non-exponent bits for the mantissa, so we LOSE those 9 bits!
+        - "doubles" get around this problem by using 64 bits of memory (i.e. 
+        "double" the memory), so their mantissa has enough space to hold the 
+        full 32-bit integer (with some space leftover)
+        - Specifically, doubles have 1 sign bit, 11 exponent bits, and 52 
+        mantissa bits
+
+- The floating point formula lets us quickly compare ("greater than" / "less 
+than") 2 numbers by just looking at the exponent values / sign without having 
+to "unpack" the number into a regular binary # 
+
+- ASCII (American Standard Code for Information Interchange)
+    - So, ASCII is a datatype where each character is assigned a binary # code, 
+    from 0 to 256 (only first 128 are used, I think?)
+    - Fun fact! *something something showed ASCII* (basically, the point was 
+    that capital/lowercase letter's binary codes are related)
+
+- Hexadecimal was created by IBM to break up binary into groups of 4 digits, 
+which gives us base-16
+    - e.g. 1100|0101|0111|1110 = C A 7 E
+    - To differentiate hexadecimal from binary (since you CAN have hexadecimal 
+    like "101"), we prefix it with "0x"
+- Now, SOME people said "WHOA! We can't have LETTERS in a NUMBER!". So, they 
+ran away and created octals instead
+    - Instead of "0x", octal puts a leading "0" in-front to say that the number 
+    is octal (base 8); this has ever-since brought tears to many a C 
+    programmer's debugging session
+
+- Now, TRANSISTORS: there are 2 ways to understand them:
+    - To fully understand them, sit in Howey until a quantum mechanics 
+    professor shows up, and train in the dark arts under him for 4 to 6 years
+    - To MOSTLY understand them, google "Britney Spears guide to Transistors", 
+    and thank me later
+- MOS (metal-oxide silicon) transistors are kinda like switches, in that they 
+can either let current through or stop it from going through
+    - For N-type transistors, current will only flow through if you put a 
+    voltage on the "gate" terminal, wich will create an electric field that 
+    will allow the semiconductor to let electricity pass through
+        - So, when the gate is "at ground" (i.e. at the same potential as the 
+        negative side of the battery), no electricity flows through
+        - Then, when the gate is connected, electricity flows
+    - P conductors are the opposite, and are "normally closed" and conduct by 
+    default unless you apply electricity to the gate
+- A wire with a high enough voltage represents a 1, a wire with virtually no 
+voltage 0
+
+- Next time, we'll start tying these transistors together to make logic gates
+
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="3_logicGates_8_31_17.html"></a>
+</main>
+</body>
+</html>

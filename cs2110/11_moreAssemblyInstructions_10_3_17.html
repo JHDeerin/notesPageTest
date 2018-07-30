@@ -1,0 +1,181 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2110Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li class="active-note-page"><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="10_introToAssembly_9_28_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//************** More Assembly Instructions- October 3rd, 2017 **************//
+//**************************************************************************//
+
+- 2 tests down, 2 A's thus far, but the hardest one hasn't been returned yet...
+- Also, checking assembly code is stressful. I thought regular debugging was 
+bad enough, but comparing actual machine code to physical hardware components 
+to see if they match up is entirely new levels of blood-pressure-raising 
+pedantic
+    - "Eh, tha there's nothin' compare wi' what us ol' time fellers faced. Yeh 
+    see, back in the ol' days, I fought off dem' electrons wi' nothin' but a 
+    sauterin' iron an' a copper pipe! Yessir!"
+- Also, Prof. Leahy is sorry/not sorry for forgetting to give us a break last 
+time
+-----------------------------------------------------------------------
+
+- Today, we'll be going over the CONTROL instructions for the LC-3 ISA. These 
+are what let us do more than just execute instruction x3000, then x3001, then 
+x3002, then...
+
+- The first command is the CONDITIONAL BRANCH (BR)
+    - Format: [0000 | n | z | p | pcoffset9]
+        - If any of the N, Z, P bits are on, then it'll check it's respective 
+        register (N, Z, P) (e.g. if the "n" bit is 1, it'll check to see if 
+        there's a 1 stored in the "N" condition code register); if ANY of those 
+        registers contain a 1, then it'll change the PC address to the address 
+        pointed to by the "pcoffset9"
+        - In assembly, we write "BRN" for "check if N is 1", "BRP" for "check 
+        if P is 1", and "BRZ" for "check if Z is 1" 
+    - To force it to ALWAYS branch, you can do "BRNZP", and make ALL of them 0
+        - As a shortcut for this, there's an UNCONDITIONAL BRANCH instruction 
+        if we just write "BR"; this'll always change the address (this is how 
+        WHILE loops work)
+    - If you leave ALL of the "n", "z", "p" fields as 0, then the instruction 
+    will never execute and it'll just get skipped over. It becomes a "no-op"; 
+    an instruction that doesn't do anything!
+
+- Let's say we have the following Java code:
+    "int a[] = {5, 3, 6, 8, 3, 4};
+    int total = 0;
+    for (int i = 0; i &lt; 6; i++) {
+        total = total + a[i];
+    }"
+    -...how would an assembly programmer think about this?
+    - All of the "a" variables and "total" would be saved in memory, since we 
+    want them to be persistent later on
+        - "i" is just temporary, though, so we'll keep it in R0 as the "loop 
+        counter"
+        - We'll then keep the current value of "total" in R1, and the current 
+        index of a we're looking at ("a[i]") in R2
+            - R3 would then be the address of the START of the array, 
+        - Now, we do NOT have a function for checking equality...but we DO have 
+        a built-in function in the computer for checking if it's 0: the "Z" 
+        register!
+            - "Even in C or C++, it's slightly more performant to have your 
+            arrays count down to 0 and end there; not all compilers will do 
+            this optimization for you."
+        - So, we want our array counter to start at 6; let's start writing the 
+        assembly code
+
+        - The assembly program:
+            .ORIG x3000
+            AND R0, R0, 0 ;;clears R0; serves as our "i" counter
+            ADD R0, R0, 6 ;;this would NOT fit in the instruction if the # is 
+            &gt;255, so we could instead declare a symbol "ArraySize .FILL 6", and 
+            replace this line with "LDR R0, ArraySize"
+            AND R1, R1, 0 ;;stores our "total"
+            LEA R3, A ;;stores the starting address in our array
+            LoopStart LDR R2, R3, 0 ;;gets the current array element; LoopStart 
+            points to it
+            ADD R1, R1, R2 ;;adds number to total and stores it in "total"
+            ADD R3, R3, 1 ;;moves our "current array element" up
+            ADD R0, R0, -1 ;;decrements our counter
+            BRP LoopStart ;;AS LONG AS the R0 value is still positive, go back 
+            up to our "LoopStart" address! Note that this command is LINKED 
+            with the one before it; it's testing the most recently changed 
+            register, so the counter HAS to be set right before we test for 
+            branching!
+            ST R1, Total;; stores our total value in the "Total" address
+            HALT
+
+            ;;all our variables
+            Total .Fill 0 ;;where we will store our total value after it's 
+            calculated
+            A .FILL 5 ;;declares the array; if no symbol exists, assembly just 
+            puts the value in the current address
+            .FILL 3
+            .FILL 6
+            .FILL 8 
+            .FILL 3
+            .FILL 4
+
+         - "EVERY good assembly programmer I've seen comments their code; not 
+         just with what the line LITERALLY does, but what algorithm it's 
+         supposed to be implementing, etc.; WHY the code exists, AND what it's 
+         doing"
+
+- SIDE NOTE: You're currently at the level where you think the compiler always 
+gets things right..."HAHAHAHAHAHAHAHAAAAAAAAAAAAAAAAAAAAAAAAA!!!!!"
+    - "More immediately relvant to you guys, though, if you've ever programmed 
+    in C (and if you haven't, you will in a few weeks), there's an option in 
+    the C compiler to print out the assembly your program generates. That could 
+    be a good learning tool."
+
+- Now, back to control instructions:
+    - The JUMP (JMP) instruction is ALSO a control instruction, although we did 
+    go over it earlier
+        - Format: [1100 | 000 | BaseR | 000000]
+    - This is used because, if you were paying attention, the BR instruction 
+    only has 9 bits for the PC offset, so we can ONLY go to addresses that are 
+    within -256 or +255 of the current PC address!
+        - JMP, since it lets us use the value in a base register, has no such 
+        limitations 
+    - So, we can use JMP both to do long-distance branching AND to implement 
+    GOTO statements
+        - Side note: do NOT use GOTO! If you're experienced enough to know when 
+        using a GOTO is good, you shouldn't be in this course.
+
+    - The TRAP instruction
+        - Basically, modern operating systems have systems to prevent user 
+        programs from accidentally (or maliciously) interfering with system 
+        functions
+            - The details of HOW they do this isn't important in this class, 
+            but it's mostly built to prevent accidents, rather than to keep out 
+            hard-core hackers
+        - The TRAP function gives us a way of communicating with the operating 
+        system
+            - Format: [1111 | 0000 | trapvect8]
+                - So, there's 256 different possible addresses we can access 
+                with the TRAP command
+            - Examples of common trapvects:
+                - x23: IN, stores input from the keyboard in R0
+                    - This'll overwrite anything in there, so MAKE SURE the 
+                    register doesn't have anything important
+                - x21: OUT, outputs the character stored in R0 to the monitor
+                - x25: HALT, halts the program
+            -...there are more of them
+                - Also, for convenience, they allow you to call certain TRAP 
+                functions using their own keywords without writing it 
+                explicitly as a TRAP: HALT, OUT, IN, etc., can be called on 
+                their own
+        - When the TRAP is executed, a few things happen in order:
+            1) Store the PC in R7 (R7 gets overwritten)
+            2) Zero-extend trapvect8 (put zeroes in front)
+            3) Put that into the MAR
+            4) Address now in the MDR
+            5) Put the MDR into the PC
+    - If your program doesn't have a HALT instruction, the computer will just 
+    keep running your code
+
+- NOTE: Tuesday NEXT WEEK (not this week), we don't have class. So remember 
+that.
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="12_introToIO_10_5_17.html"></a>
+</main>
+</body>
+</html>

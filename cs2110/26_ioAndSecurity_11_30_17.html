@@ -1,0 +1,224 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2110Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li class="active-note-page"><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="25_COddsAndEnds_11_28_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//****************** I/O and Security - November 30th, 2017 *****************//
+//**************************************************************************//
+
+- So, we're getting to the end of the semester, and you know what that means: 
+it's time to throw a bunch of random stuff we didn't get to into the last 2 
+lectures!
+
+- Archive files in C
+    - Basically, takes .o files and indexes them ahead of time so that the 
+    linker can find their stuff very rapidly during compilation; a lot of the C 
+    standard library uses this
+        - Curiously, the math library doesn't use this, which means we have to 
+        include the "-lm" option in our gcc line (double-check what this 
+        actually does?)
+        - "If you take 2200, there's something very similar called the 
+        lpthreads library"
+
+- Streams vs Blocks
+    - Let's take a trip backwards in time, to the early days of computing...
+    - Mostly, people were concerned with getting the computer itself working - 
+    NOT with passing data into the computer
+    - Now, by the late 1800s, the U.S. Census bureau was taking 11 years to 
+    process the census data...if you forget your Constitution, the Census is 
+    taken every 10 years
+        - ...this math did not work
+        - So, what the U.S. Government did was approach an MIT engineering 
+        professor named Joseph Herman (?), and he created a new system for 
+        processing the census records: a system of punch cards that, once they 
+        were filled out, could be fed into a machine that processed them
+            - Sure enough, this worked, and Herman later modified his machine 
+            to work electronically, creating a new company to sell them 
+            - The company he founded evenually became known as "International 
+            Business Machines" - IBM
+    - So, when computers came along, they adapted this punchcard system for 
+    their use, and that was how programs were passed into these computers in 
+    the early days
+        - These people - because these cards were in 80-character long chunks - 
+        tended to think of program's data in pieces
+    - When a company called DEC (?) realized how expensive actual punchcards 
+    were, they changed their computers to instead use long strips of (cheaper) 
+    paper tape
+        - Because of this, DEC programmers didn't think of data passing into 
+        computers in "chunks", but as a STREAM
+- The legacy of this in C is that files are passed in as "streams" of data, 
+using the FILE pointer
+
+- Character I/O
+    - 4 relevant methods in stdio: int putchar(int ch), int getchar(), 
+        - Notice that the characters are returned as integers - why? Because it 
+        allows the method to pass error codes as well - the values from 0 to 
+        255 are used for ASCII values, and the rest are reserved for error 
+        codes!
+    - "Now, if you're one of those exceptionally-talented-and-handsome students 
+    who run home every day after lecture and try out what I told you, you might 
+    write something like this to get some input:"
+
+        while ((c = getchar()) != EOF) {
+            putchar(c);
+        }
+
+        - Now, if you write this, you'll be surprised to see that when you 
+        type, it doesn't print anything out...you keep typing...finally, you 
+        hit enter, and the whole thing prints out! What the heck?
+            - Well, when you do this, the operating system doesn't pass this 
+            input to your program immediately - instead, it stores all the 
+            "putchar" stuff
+                - This is because of the OS's "terminal buffer"; you can 
+                disable this if you want, but then 
+
+- fgets
+    - When C was written, there was a function called "gets()" - "get a 
+    string"...we don't use this function anymore
+        - Basically, it would accept characters from the user until it reached 
+        "end of file" or something, and then store it in a 100 character buffer
+        - One day, a student at Columbia realized that if you gave it MORE than 
+        100 characters, it wouldn't do anything special; it would just keep 
+        overflowing and overwrite the rest of the code! (have to double)
+            - So, that's the story of how the first worm virus was created, the 
+            first programming student was arrested, and why we never, ever, 
+            ever use gets() in our program
+    - So, "fgets" is like "gets" except we can specify how big the character 
+    buffer is (max number of characters we're accepting)
+    -e.g.:
+
+        char buffer[8];
+        while (fgets(buffer, sizeof(buffer), stdin)) 
+            printf("Got %s\n", buffer);
+
+        - This will KEEP ACCEPTING INPUT until it reaches an end-of-file; even 
+        if you type 300 characters, it'll just read that in 7 characters at a 
+        time every time you hit enter
+
+- Formatted I/O
+    - Stuff like printf, sprintf, fprintf, scanf, fscanf, sscanf
+        - Now, scanf is a little...weird. Look at the documnetation carefully; 
+        how it works it makes sense, but it isn't very intuitive 
+
+    - Now, printf has a signature like this: "int printf(const char *format, 
+    ...)"
+        - That "..." means "keep accepting parameters past this"
+            - In Assembly, it'll just take those extra parameters and put them 
+            on the stack, from left-to-right, underneath the 1st argument
+
+    - An example program that uses this:
+
+            int i = 0;
+            int total = 0;
+            int *ptr = &amp;numnums
+            ptr++;
+            for (i = 0; i &lt; numnums; i++) {
+                total += *ptr;
+                ptr++;
+            }
+            return total
+
+        - ...this'll work!
+        - So, in our C program, we can mess around with the stack! Does that 
+        sound like a good idea? No?
+            - ...well, like so many things in CS, it depends
+
+- Strings
+    - You know how to cocnatenate 2 strings in Java? In Python? Easy, right! 
+    How hard can it be!
+        - Let's say we write this:
+
+                char *x = "Hello";
+                char *y = " World!";
+                strcat(x, y);
+
+        - Run this, and...segfault!
+            - Why? Because strcat is trying to put the SOURCE information (y) 
+            into the destination array (x)...but X doesn't have any extra room 
+            to fit those bytes, so we get a segmentation fault!
+            - To get this to  work, we have to say char x[13] = "hello"; or 
+            something instead
+    - So, if we have to do THAT for 2 strings, what if we want to concatenate 
+    MULTIPLE strings? What about a VARIABLE number of strings? What kind of 
+    black magic do we have to do to get that working...?
+        - Well, we have to use this C standard library function: 
+            
+            - "char *strcatv(char *dst, ...)"
+
+        - We then have to declare a va_list, pass it into the va_start() macro 
+        (which C provides us)...you can Google this
+    - "Basically, whenver you need to deal with variable arguments in C, google 
+    'stdargs'; there'll be some pretty helpful documentation, because doing it 
+    on your own gets complicated fast"
+        - There's...other problems with strcat. More severe ones:
+
+- Security example:
+    - In the I/O slides, the "smash()" function is expecting you to pass in a 
+    maximum of 5 values...but what if the user passes in MORE than 5 values? 
+    Well, in that example code, it'll just keep writing into memory: instead of 
+    stopping at [4], it'll put the input into [5], [6], [7], ...
+    - What if it wasn't just a careless user, though? What if it was someone 
+    who, in those extra memory locations, was putting CODE INSTRUCTIONS?
+        - ...well, you've got a security vulnerability, friend. At best, the 
+        program crashes; at worst, you've got a virus that could cripple your 
+        infrastructure because YOUR computer now has malicious code executing 
+        on it.
+    - A fairy tale that's come true way too often: a breach occurs in the Papa 
+    John's website, suddenly the servers are crippled, and NO ONE'S ABLE TO 
+    SELL PIZZA! They're losing millions of dollars a day, and suddenly a man 
+    with an Eastern European accent comes up and says: ah, yes, my company is 
+    aware of this issue; for about $20,000 a month, we can help secure your 
+    comapny. What does Papa J do? PAY THE MAN, of course! They need the money!
+        - So, they pay him, the guy leaves smiling, whips out his cell phone 
+        and says "Okay, guys, shut the attack down."
+- ..and what was the root cause of this? A BUFFER OVERFLOW ERROR!
+- "More relevantly, a few decades ago, we hosted all our college code on a UNIX 
+server, and I've had former students admit that they'd use these buffer 
+overflow tricks to change their grades. How the times have changed, right?"
+- Similarly, several years ago, Microsoft was having almost weekly data 
+breaches; it was so bad that they were being investigated by Congress. So, one 
+night, Bill Gates woke up in a cold sweat (I'm guessing; I wasn't there), and 
+called all of his company to say STOP: We're shutting the company down, sending 
+security experts to every facility, giving security training to ALL computers, 
+and conducting a thorough security review of their systems.
+    - As it turns out, there were a bunch of small features that Windows 
+    shipped with - small parts of Internet Explorer, the Aquarium Manager, etc. 
+    - that weren't coded with security in mind, but were still shipped with the 
+    program. In fact, it wasn't just these little programs that had problems - 
+    CONSISTENTLY, MS found that security had been underprioritized when they 
+    were designing their systems. It had previously been left as a "we'll take 
+    care of it at the end of the project" thing; that changed FAST, and 
+    nowadays, security is considered from the VERY START of the project, and 
+    all the way through, as an integral part of MS services.
+        - How do these genius hackers find these buffer overflow (or "stack 
+        smashing" (I think; might be different???)) vulnerabilities? Well, they 
+        mostly just do "fluttering" attacks: finding where a program accepts 
+        user input, and pump in a bunch of random data to see if the program 
+        crashes or alters.
+- So, the lesson from all this? Watch out for buffer overflows, program 
+defensively, and: NEVER. TRUST. ANY. USER.
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="27_lastLecture_12_5_17.html"></a>
+</main>
+</body>
+</html>

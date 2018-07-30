@@ -1,0 +1,263 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2110Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li class="active-note-page"><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="15_introToC_10_19_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//******************* More About C - October 24th, 2017 *********************//
+//**************************************************************************//
+
+- Now, we mentioned the preprocessor last time, and how by including the 
+"#include" instruction in your code the compiler will look for the .h file you 
+specify, get the code, and include it in your file
+- Now, we're going to talk about MACROS
+
+- We declare a macro like this:
+
+    #define PI 3.1415
+    
+    - Now, we can write "PI" in our program, and it'll be treated like a 
+    constant!
+    - So, using it for constants is well and good and all, but the REAL power 
+    of macros is that we can do stuff like THIS:
+
+        #define SQUARE(x) x*x
+        (...)
+        int x = SQUARE(7)
+
+    - When the compiler runs, it'll replace everywhere it says "SQUARE(X)" with 
+    "X * X"; for instance, it'll replace "SQUARE(7)" with "7*7"
+        - What if we had instead written "#define SQUARE (x) x*x"? Well, this 
+        changes the whole meaning of the statement! Now, instead of recognizing 
+        (x) as the PARAMETER of the macro, the compiler will think that the 
+        macro "SQUARE" is the WHOLE line "(x) x*x"
+            - So, it'll replace "SQUARE(7)" with "(x) x*x(7)", which'll cause 
+            an error!
+        - What if we left square as-is (properly defined), but called it like 
+        SQUARE(3+4)?
+            - The compiler would THINK we meant "3+4*3+4", which is NOT the 
+            same a 7*7!
+            - To fix this, we'd need to surround the 3+4 statement in 
+            parentheses to make sure it evaluated BEFORE the macro is "called", 
+            like this:
+
+                SQUARE((3+4))
+
+            - Alternatively, and PREFERABLY, define the macro like this:
+
+                #define SQUARE(x) ((x)*(x)); //this makes sure x evaluates in 
+                the macro before we do the multiply
+
+        - Now, what if we wrote "SQUARE(p++)"? 
+            -...will it increment p once? Twice? Before or after it's called? 
+            "Believe it or not, the Honorable Bill Leahy has NO IDEA!"
+            - "If you wouldn't bet your life on what your code will do, DON'T 
+            WRITE IT!"
+    - Now, since Macros are copy-pasted into the code when it's compiled, 
+    rather than just referenced from functions, they don't have to be retrieved 
+    from memory when they're called; that makes them slightly faster than 
+    function calls in speed-critical environments. On the other hand, since 
+    they're copy pasted multiple times instead of just referenced like 
+    functions, they take up a noticeable amount of more memory than functions
+        - "At a very low-level, that's the tradeoff of functions vs macros in 
+        C: memory vs speed"
+
+- A 3rd thing C's preprocessor does: conditional compilation!
+    - Let's say we write this code for debugging:
+        printf("y = %d \n", y);
+    - Now, obviously, we don't want debug code in our final program, but we DO 
+    want it while we're working on the code; to handle this, we can do this:
+
+        #define DEBUG
+        (...)
+        #ifdef DEBUG    //if a macro/variable called DEBUG exists, include this 
+            (...)
+        #endif
+
+    - So, this'll keep being compiled as long as DEBUG is defined; as soon as 
+    we remove the DEBUG definition, though, the compiler will ignore everything 
+    in the "ifdef" brackets!
+    - Similarly, we can make long block-comments like:
+
+        #if 0
+            (...)
+        #endif
+
+        - This is useful if we have comments already in the code we're 
+        commenting out, which would make commenting it out a pain
+- Read the Kernighan and Richie book for more stuff on the preprocessor
+
+- Now, people expect us in this part of the class to go through EVERYTHING in 
+the C language...but you folks have already taken Java. Sure, there are some 
+differences, and we'll point those out - like how there's no boolean type in C 
+- but for the most part, a LOT of what was true in Java carries over to C. For 
+loops are the same. Functions are (mostly) the same. We'll go over a few of the 
+weird differences, but most of C should look relatively familiar.
+
+- Variable types in C:
+    Integers: char, short int (or just "short"), int, long int (or just "long")
+    Floats: float, double
+- One WEIRD thing about C: there's no standardized size for each of these 
+datatypes!
+    - Historically, when they were writing the standard, they didn't want to 
+    prefer 1 manufacturer over another, so they left it up to the manufacturer 
+    what size each of these datatypes were
+- Now, there are some rules in the standard for these sizes, though:
+    - "char" is ALWAYS 1 byte (8 bits)
+    - "int" is always at LEAST as long as a "short", and "long" is always at 
+    LEAST as long as an "int"
+        - On the GameBoy, short = 16 bits, int = 32 bits, long = 64 bits 
+    - float / double are USUALLY the IEEE standard, although there are some 
+    rare exceptions
+    - ALL integer types (including char) can be declared as either signed or 
+    unsigned; by default, they're created as signed
+- "There are a whole bunch of rules for how to cast these things...back when I 
+first learned to program, straight from the guys who invented this stuff, we 
+had to learn about "mixed-mode operations", where we had to memorize what would 
+happen when you added a char to an int, a double to a float, that kind of 
+thing...nowadays, that stuff is pretty standardized and intuitive, so nobody 
+really worries about teaching them, but they still exist in the specification."
+
+- Even though the standard is loosey-goosey about the "official" size of these 
+types, though, the TYPICAL size of each of them is:
+                BITS   |    BYTES
+    - char:     8           1
+    - short:    16          2
+    - int:      32          4
+    - long:     32          4
+    - float:    32          4
+    - double:   64          8
+
+- So, we've got all these different types; we also know from Assembly that 
+sometimes, when we have a number in a register, it can be a number, or a char, 
+or some other value; other times, it's an address where a value is located
+- In C, we have a similar idea:
+
+    int x = 42  //this is a variable that holds an int value
+    int *pt;    //this is a variable that ONLY holds the ADDRESS of an int value
+    pt = &amp;x     //this assigns "pt" the address of "x"
+
+    int *pt = &amp;x;   //this'll do both of those in 1 step, and declare/assign 
+    the variable in 1 step 
+    *pt = 999;      //This'll get the address stored in pointer, find the value 
+    stored there, and REPLACE it with 999; it's the same thing as saying "x = 
+    999;" 
+
+    int *a, b;       //declares an address-holder called "a" and a regular int 
+    called "b"
+
+    int* a;         //ALL 3 are valid ways of declaring a pointer
+    int * a;        //...although if you like this one, something's wrong
+    int *a;
+
+- These variables that ONLY hold the address of another variable are called 
+POINTERS!
+    - "Super-frequently, you'll see this described by drawing an arrow from the 
+    "pt" variable to "x". Go home tonight and disassemble your computer - you 
+    won't find any arrows in there! It's just an abstraction - it's a way of 
+    understanding what these variables do"
+        - "Wait, Prof. Leahy, aren't addresses just numbers? Why can't we store 
+        these addresses in regular ints?" Well, we COULD do that, and C allows 
+        it if we cast an address - but the C designers KNEW that this could get 
+        confusing. If we could store addresses as regular ol' ints, we'd 
+        constantly be swapping them, confusing the address of something with 
+        it's value...and so instead, C makes a HARD TYPE DISTINCTION between 
+        the address and value of a variable. ONLY pointers can hold addresses 
+        by default, unless you cast them to ints
+- So, we just learned 2 new uses for asterisks: 
+    - Declaring a pointer variable (int *ptr)
+    - DEREFERENCING a pointer to get the value (*ptr = 12)
+
+- Let's see some pointers in action:
+
+    void doubleIt(int x) {
+        x = x * 2;
+    }
+    int main() {
+        int y = 42;
+        doubleIt(y);
+
+        return 0;
+    }
+
+- Since "x" is just a local variable, this would NOT change the value of Y at 
+all! The value of y would get copied to x, doubled, and then discarded without 
+returning
+    - Of course, we ,can fix this by making doubleIt RETURN a value:
+
+            (...)
+            return x;
+        }
+        (...)
+        y = doubleIt(y);
+
+    - This works as well as it always did in Java, but let's come up with a new 
+    situation: what is we want to SWAP two numbers? Well, we could write a 
+    function like this:
+
+        void swap(int x, int y) {
+            int temp = a;
+            a = b;
+            b = temp;
+        }
+
+    -...but when we call it, it won't actually swap anything. And we can only 
+    return one variable at time...so what can we do?
+        -...we can use POINTERS!
+
+        void swap(int *pa, int *pb) {
+            int t = *pa;
+            *pa = *pb;
+            *pb = t;
+        }
+        (...)
+        int x = 999;
+        int y = 42;
+        swap(&amp;x, &amp;y);
+
+    - This WILL swap everything properly! It'll change the value stored at the 
+    ADDRESS of x and y, which WILL change it outside of the function! It 
+    doesn't just go away when we get 
+    - Now, you won't get hired to write the "swap" function once a week by any 
+    company, but pointers are used EVERYWHERE, especially in low-level 
+    programming. If you're interviewing at Google, and they ask you to write 
+    this function, and you don't know what the pointers do, do you think you're 
+    going to get hired? NO. You won't simply not get hired; you will be HARD 
+    REJECTED.
+        - *hard rejection fact confirmed by Brandon, former TA and current 
+        Google employee*
+        - "Now, despite my boyish looks, here's a shocker: I am OLD! I will 
+        soon be in a medical facility, hooked up to a machine, possibly 
+        programmed by YOU! I want those machines to work when I get there, so I 
+        have a vested interest in making sure you can program things correctly. 
+        You can't just say 'sure, this'll work'; you need to KNOW it'll work!"
+
+- "What were references in Java, then? Well, in Java, a reference is a word you 
+use when you don't want to scare your students by telling them their language 
+is completely full of pointers. C'mon, "NullPointerException?"; you've all seen 
+pointers before, even if you didn't know it!"
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="17_gameboyDisplay_10_26_17.html"></a>
+</main>
+</body>
+</html>

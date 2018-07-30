@@ -1,0 +1,213 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2110Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li class="active-note-page"><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="2_floatingPoints_8_29_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//****************** Logic Gates - August 31st, 2017 ************************//
+//**************************************************************************//
+
+- headacheowwww...unsure of cause, but probably stress (diff eq.) related
+    - Heck, even stats is more of a headache than I predicted (though 
+    ultimately not that bad...yet)
+----------------------------------
+
+- Just to keep in mind while we're going through electricity:
+    - Think of electricity like water going through a pipe; the electrons 
+    aren't being added, they're being "pushed" around the circuit; resistors 
+    are areas of "high-pressure" / compression, etc.
+        - "Voltage is like pressure, in that it can vary throughout the 
+        pipe/wire; we're going to talk about the voltage (potential) in the 
+        circuit defining the 1s and 0s"
+        - We don't talk about current very much in this class (leave that to 
+        the ECE people), but don't worry; it's there
+
+- So, there are transistors, P (default closed/wire-like) and N (default 
+open/non-wirelike) types, with a source, drain, and gate
+    - We can use these 2 transistors to make a very simple logical circuit: the 
+    NOT gate
+                                (power)
+                                    |
+                                    |
+                        ________(P-type transistor)
+                        |           |
+        (input)_________|           |____________(output)________
+                        |           |
+                        ________(N-type transistor)
+                                    |
+                                    |
+                                (ground)
+
+    - So, if NO voltage is flowing in the input, the P-type transistor lets 
+    electricity flow through...but when voltage is applied to the input, then 
+    the P-type transistor shuts off the power and connects the output to the 
+    zero-volt ground!
+
+    - Now, electrical engineers don't like to draw these gates in this much 
+    detail every time, so INSTEAD, they represent NOT-gates with this 
+    triangle-with-a-circle-on-the-end sort of symbol:
+
+            ------ |&gt;o ------ (looks alot better when it's not in ASCII)
+
+    - Now, you can draw a NAND gate like this:
+
+            (...I can't draw circuits in ASCII this fast, but it's the same 
+            diagram as the textbook)
+
+    - "Now, I know some of you are saying, 'BILL! I came here to see an AND 
+    gate, not a NAND gate!'; well, to get an AND from a NAND, just reverse the 
+    output! Just stick a d*** NOT gate on the output, and there you go!"
+        - AND is represented by this D-like symbol with 2 inputs and 1 output:
+
+              ==== D --------
+
+    - Similarly, we can make a NOR gate like this:
+
+        (...diagrams are in Section 3.2, by the way)
+
+    -... and turn it into an OR:
+
+        (your expectations are far too high of me)
+
+    - "And if you're having trouble remembering what the EE symbols for these 
+    gates are..." *flashes a picture of the "ANDroid" robot, with different 
+    heads for NANDroid, ORdroid, NORdroid, XORdroid*
+
+- As it turns out, you can express ALL of these relationships of true/false 
+with all these different gates with something called "Boolean Algebra"
+    - AND is expressed with a dot, like multiplication: A*B
+    - OR is expressed with a plus sign, like addition: A+B 
+    - NOT is expressed with a bar over the letter
+        - Similarly,
+        - ...and as Prof. Leahey just pointed out, "This bar works great on 
+        blackboards, but is a pain in the neck to type on computers, so we'll 
+        usually replace it with PRIME notation" : A' , B'
+            -...just like complements in set theory!
+        - Can negate a SET of statements as well: (A*B*(C+D))'
+- "ANY expression in boolean algebra CAN BE BUILT as a series of logic gates!"
+
+- Now, in boolean algebra, there's something called "De Morgan's laws", which 
+basically say that you can use an AND to represent an OR operation, or vice 
+versa
+    - IN OTHER WORDS, (A'B')' = (A+B)
+    - Literally, you can just prove this via proof-by-exhaustion with a truth 
+    table
+        - "You can actually use this in coding; if you're looking at this 
+        complicated 'if(and)' statements, sometimes you can reduce it to an 
+        'or'"
+        - It's also occasionally useful in manufacturing processes for 
+        microchips, but we won't get into that here
+
+- Now, we CAN make gates with 3, 4, or more inputs, but these can all be built 
+using gates with 1 or 2 inputs
+    - PRACTICALLY, each gate has a nanosecond delay due to the speed of 
+    electricity, which means that using 2 gates to build a 3-input gate is HALF 
+    as fast...but we'll leave that problem to the EE and CE majors now
+        - "We basically gloss over all the messy physics of these electronics 
+        in this class"
+    - "Be careful with truth tables for this, ESPECIALLY NOTs! If you hook up 2 
+    NAND gates, you're not going to get a 3-input NAND gate; the 2 NOTs will 
+    cancel each other out!"
+
+- Now, there's something called COMBINATIONAL LOGIC, where given the set of 
+inputs to the circuit, no matter HOW the circuit is internally combined / made, 
+it will ALWAYS give the same output
+    - This is NOT always true in SEQUENTIAL logic...but we'll get to that later
+    - "Combinational logic is kinda like a bike lock; it's this idea that no 
+    matter what order we turn the different numbers in, if we turn them all to 
+    the right spot, it'll still open"
+
+- Let's say you work for the Whack-a-Mole company, happily as an intern, when 
+all of a sudden the factory breaks! The manager WHISKS into the room, grabs YOU 
+(just because you happen to be the closest person), and screams, "FIX IT!"
+    -You have a black-box "Whack-a-mole control unit," with 2 output wires; we 
+    want to control 4 components based on the output
+    - If the output is a 00, we want to turn on the "Play WAM!" sign
+    - If it's a 01, we want to raise the 1st mole
+    - If it's a 10, we want to raise the 2nd mole
+    - If it's a 11, we want to raise the 3rd mole
+- So, how do we hook up these 4 states in an encoded 2-bit signal to our 4 
+separate components? Well, we can use these 4 AND gates and some NOT gates to 
+properly split the output to ONLY turn on for their specific code!
+    - (Prof. Leahey blows our minds by showing how you can hook up the NOT 
+    gates to the AND inputs, and it looks like (if "0" represent each NOT gate) 
+    "00", "01", "10", "11", in-order, with 1 AND gate hooked up to each 
+    component)
+- Then the ACTUAL engineering department shows up, sees what you did, and says 
+"Well, yeah, that's a standard circuit called a DECODER"
+    - Standard Decoders have "n" inputs, "2^n" outputs, and for a given input 
+    only turn on ONE of the output wires
+    - There's an algorithm for how to create this circuit properly for "n" 
+    outputs, but we'll skip that for now
+
+- "Wonderful as being a Computer Scientist is, I have some bad news: it's not 
+the most fun job in the world."
+    -...what is the most fun job? A SUPERVILLAIN!
+        - "Good LUCK getting people to tremble in fear before a COMPUTER 
+        SCIENTIST!"
+    -...and where do supervillains live? In hollowed-out volcanos, of course!
+    - "Of course, the job has one problem: a perpetual fear of British secret 
+    agents, ESPECIALLY if they're serial number starts with...0"
+    - So, you decide (awesome Supervillain that you are) to install a sensor to 
+    detect approaching British secret-agents
+        - So, you put one on the top of the volcano, one in the underwater 
+        sumbarine hole, one by the laser-equipped shark tank...
+
+    - You hook up an alert box with 4 input wires (one for each of your 
+    sensors, with 2 switches on the box to switch between each sensor (00, 01, 
+    10, 11) (1 switch per digit, if it isn't clear); when the selected sensor 
+    detects the agent, then the light on the box turns off
+        - You hire someone to stare at the box 24 hours a day, which is 
+        GUARANTEED to put your guard to sleep, which is how the secret agent 
+        slips in, which is how the movie gets made
+
+            -----------------
+     00-----|               |
+     01-----|               |------------(out)----
+     10-----|               |
+     11-----|               |
+            -----------------
+
+    - Well, each input is just 1 bit from the sensors: "agent"(1)/"no agent"(0)
+        - NOTE: You must NEVER allow the 2.9 volt "1" bit into the ground, 
+        because then you'll get like 2.9 volts/ 0.00001 ohm = stupid-high 
+        amperage, which will result in an instant short-circuit
+    - You then hook each input up to a three-input AND gate, 1 input is the 
+    sensor and the others are the 2 switches (full circuit diagram in textbook, 
+    Section 3.3.2) (sadly, not for an ACME Corp. Supervillain-protection device)
+    - This circuit is called a MULTIPLEXER (which basically everyone calls a 
+    MUX); a device with 1 output, 2^n inputs, and n "control lines"/switches 
+    that lets you route the selected input to the output 
+        - You can also have multi-bit multiplexer's, with multi-bit output, by 
+        hooking them together
+
+- WHY am I rambling on about this, and all these crazy different componenets? 
+Because ALL of these things are component's that we're going to use to put 
+together a memory, processor, and eventually, a very, very basic computer
+- So, on the test, you're going to PANIC when you see this terrifying diagram 
+with all these components, and then you'll realize WAIT! That part's an Adder! 
+That part's a Mux! That's a...well, you get the picture.
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="4_addersBooleanSimplification_9_5_17.html"></a>
+</main>
+</body>
+</html>

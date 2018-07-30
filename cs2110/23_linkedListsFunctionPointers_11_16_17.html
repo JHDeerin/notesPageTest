@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2110Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li class="active-note-page"><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//********* Linked Lists &amp; Function Pointers - November 16th, 2017 **********//
+//**************************************************************************//
+
+- So, end of the semester, so much work, yadda yadda - welcome to Fall!
+----------------------------------------------------
+
+- So, we were talking about linked lists yesterday - but one thing that we 
+didn't cover was what we should do if malloc() returns NULL
+
+        int addToFront(...) {
+            (...)
+            NODE *temp = malloc(sizeof(NODE));
+            if (temp == NULL) {
+                (...????...)
+            }
+        }
+
+    - Well, we could have a status code like "2 = malloc_fail", and return THAT 
+    once we're done!
+        - Then, when we're calling the method, we could surround the function 
+        call in a macro like IF_MALLOC_FAIL_PRINT_ERROR, or something
+        - NOTE: There's something called "Hungarian Notation" that says that 
+        for a pointer to a type, you put a "p" in the variable anme (e.g. 
+        "pObject"); if it's a pointer to a pointer, you put TWO p's 
+        ("ppObject"); it's kind of fallen out of favor, but if you like it, 
+        feel free to use it
+            - "A tip if you're a teacher: NEVER name a variable for a linked 
+            list 'ppHead'"
+
+- Now, to REMOVE the head, you first check that head != null; if it doesn't, 
+you then get the data in "head", set the actual head to "head.next", and free 
+the old head 
+
+- So, once we're done with that, what can we do with our linked list? Well, we 
+could create a STACK really easily!
+- We could also create a QUEUE, but there's an issue with that; we need to add 
+node's to the back, but in order to do that, we have to reach the last node, 
+which is an O(N) operation!
+    - To make this easier, we'll create a TAIL pointer as well!
+        - When we add the 1st node to the list, we point the tail to the HEAD 
+        node; after that, we leave the tail as-is until it gets to the end
+
+- Now, to FREE the list, unlike in Java, we can't just set our Head pointer to 
+null; we have to actually go through all the items and free them:
+
+        void freeList(LIST *lst) {
+            NODE *cur = lst-&gt;head;
+            NODE *temp;
+            while(cur != NULL) {
+                temp = cur-&gt;next;
+                free(cur);
+                cur = temp;
+            }
+            lst-&gt;head = NULL;
+            lst-&gt;tail = NULL;
+        }
+
+    - NOTE: You should ONLY ever free data that YOU malloc()'d (do NOT try to 
+    free() something on the stack), which can make things tricky when you have 
+    a struct w/ pointers to non-malloc'd data. What should you do?...well, 
+    disappointingly, it depends. In general, if you malloc'd it yourself and 
+    you're only using it here, free it; otherwise, things get complicated, and 
+    YOU have to make the choice of what to do.
+
+- To make the linked-list generic, we change the "data" variable's datatype 
+from int* to void*, making it a void pointer instead
+    - Remember, void pointers ONLY hold the address, and CANNOT be dereferenced 
+    w/o being cast to a new pointer type
+- Now, let's take a quick detour to look at function pointers
+    - Let's say you work for a company that's making a new GameBoy game for 
+    kids ("which is a TERRIBLE idea, you know, but they're paying you bags of 
+    money so you kinda just shrug and accept it"), and it's a game that lets 
+    kids draw things. One day, your boss comes in and tells you it's getting 
+    better: they're gonna use Mode 4 to let kids ANIMATE their movies!
+        - A quick thing about MODE 4: it's a mode in the GameBoy that lets you 
+        draw animations via page-flipping; it's faster, but requires some 
+        special techniques
+    - So, you start making 175 new MODE4-versions of your existing MODE3 
+    functions...but that's a lot of copy-paste
+    - You think of making an if-statement in each existing function to check if 
+    it's MODE3 or MODE4...but all those extra "if" statements are slowing down 
+    the game
+    - ...you know what, screw examples, let's just get to the meat of what 
+    function pointers ARE:
+        - This is a function prototype:
+
+                int f1(int, int);
+
+        - This is function protype that returns an int pointer:
+
+                int *f2(int*, int);
+
+        - This is also a function prototype:
+
+                void setPixel(int, int, u16);
+
+        - This is function pointer:
+
+                void *fp(int, int, u16);   //Wait, the compiler will think 
+                that's a protoype! This won't work!
+                void (*fp)(int, int, u16);  //Phew! NOW the compiler knows "fp" 
+                is a pointer to a void _____(int, int, u16) function!
+                fp = setPixel;              //Sets fp to the function address!
+                (*fp)(3, 4, BLUE);          //dereferences the pointer, then 
+                calls the function w/ those arguments!
+
+        - ...BUT WAIT, THERE'S MORE! As syntactic sugar, C only requires us to 
+        write THIS to call a function in a function pointer:
+
+                fp(3, 4, blue);     //this'll work just fine!
+
+            - Some people prefer this, since it's writing less; other people 
+            say you should EXPLICITLY de-reference the function pointer with 
+            the asterisk first to make it clear what you're doing
+                - "I actually wrote Kernighan (who now teaches at Princeton) a 
+                note to see if he prefers the star or the syntactic sugar, and 
+                he wrote back! Basically, he said 'well, I prefer the star, but 
+                you can do whatever the heck you want'" 
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="24_interrupts_11_21_17.html"></a>
+</main>
+</body>
+</html>

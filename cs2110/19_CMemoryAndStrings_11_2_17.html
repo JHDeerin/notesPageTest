@@ -1,0 +1,246 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2110Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li class="active-note-page"><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="18_drawingOnGameboy_10_31_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//**************** C Memory and Strings - November 2nd, 2017 ****************//
+//**************************************************************************//
+
+-   here come we to the tower of the learned/ 
+    waiting for an answer to be made/
+    reveling in drink and the absurd/
+    working until the night when we play/
+    and on the third day, rise, to find/
+    a beating head,and a more empty mind/
+    such are the grounds and village town/
+    around the tower of the learned
+- Nervous about how to prepare for the interview; should probably look up GTRI 
+internships, ask QB people how GTRI is, come up with questions, etc.
+    - Most important thing is to be honest, I suppose
+---------------------------------------------------------------------
+
+- Now when you learned to write Assembly language programs, we started with 
+some pretty simple programs, then just stuck the data at the end of the program
+    - When we got into RECURSION, though, that wasn't good enough; we had to 
+    store our data in the STACK, a piece of memory that we could manage
+    - Suppose you're writing a big, massive, complicated assembly program with 
+    dozens of variables, and finally you throw up your hands and say, "I don't 
+    want to have to pass this data from function to function to function. I 
+    just want to put the data in one place, and then get it when I need it."
+        - Remember in Java, when you declared an instance variable and you 
+        could just "grab it" from any method in the same class? Well, how could 
+        we do that in assembly?
+        - Well, one way would be to allocate a set of memory specifically for 
+        "instance variables" that we can get for the current method; then, we 
+        could have the starting address of that block of memory stored in a 
+        register, and whenever we need the variable, we just hop to that block
+
+- In C, there's a similar idea where we can have variable declared outside of 
+any function
+    - Behind the scenes in C, there's a dedicated chunk of memory called the 
+    STATIC memory for these variables; these are for variables whose ADDRESS 
+    doesn't change (why it has the name static)
+
+- There's 4 kinds of "layers" of memory in a C program:
+    - The CODE memory are for local variables that we're using, declaring, and 
+    getting rid of during the exexcution of the program; all of these variables 
+    are created at RUNTIME, so the memory has to be allocated dynamically
+        - These variables are sometimes known as AUTOMATIC variables, where 
+        they're local variables that are allocated when a function is run and 
+        deallocated when the function stops
+        - (might've actually gotten this switched w/ the stack; I think the 
+        Stack is where local variables go, and the "Code" block is where the 
+        actual compiled program itself is kept)
+    - The STATIC memory is for variables that we declare outside of a function; 
+    we know that we need these variables during compile time
+
+        - e.g. If we have a file "file1.c" and we write
+
+            int p;
+            int main(){...}
+
+        - ...and a file "file2.c"...
+
+            int p;
+            char getChar(){...}
+
+        - ...how are these 2 P's related? They're the SAME! NOT just the same 
+        value; this is a GLOBAL static variable, and its memory is in the 
+        "STATIC" memory block, shared across the whole program 
+            - Small note: If you don't assign a static variable a value, it 
+            will default to a value of "0" in that address, whereas automatic 
+            variables will just take whatever value was previously stored at 
+            its address
+        - If you try and initialize "p" with 2 values in different places, the 
+        compiler will error
+            - To declare another, global variable "p" in a different place, you 
+            have to use the keyword "extern" to tell the compiler it's 
+            initialized in a different file (?)
+            
+    - The HEAP, which we won't talk about right now; pretend it doesn't exist, 
+    cover your eyes, "what's a heap?", etc.
+    - The STACK, where everything lives at a low-level in Assembly 
+
+- Now, what if I want an instance variable that's accessible throughout in the 
+CURRENT file, but that is NOT a global variable? Well, we use the keyword 
+"static" in front of the variable:
+
+    static int m;   //can be accessed all throughout the file it's declared in, 
+    but NOT by an external file; similar to a private variable in Java
+
+- "Now, this is confusing, right? We're using static to mean 2 different 
+things! ...well, it's about to get worse"
+- One neat trick that we can do with this: We can write variables that are NOT 
+dereferenced after the end of a function call:
+
+    int f() {
+        int x = 10;     //Whenever we call the function, create a variable 
+        named X, use it, and then dereference it after we're done
+        static int y = 20;  //When we FIRST call the function, allocate y; 
+        THEN, after we're done, DON'T get rid of y!
+        y = 20 + x; 
+        printf("y : %d", y)
+    }
+
+    - NOW, if we call this function, the 1st time it'll print 30; the 2nd time, 
+    40, the 3rd time 50, then 60, then...you get the picture. Y is NOT 
+    dereferenced at the end of the function if we declare it as static
+
+- "A quick side note: if any of this memory stuff confuses you, because there 
+is a lot to remember, look at the 'Lecture 8' slides on T-Square"
+- So, a quick list of the special keywords we can put in-front of variables:
+
+    - auto
+        - Default for local variables, we de-reference and forget em' once the 
+        method is done
+    - static
+        - Means a few things, but is A) The default for global variables B) 
+        Used when declaring global variables to ONLY be accessible in the 
+        current file C) Used for local variables that aren't dereferenced after 
+        being called
+    - extern
+        - This means that the variable is used here, but it's actually already 
+        been declared somewhere else
+    - volatile
+        - Tells the C compiler this memory will change and we want it to not be 
+        ignored
+    - register
+        - "you'll probably never see this, since it's long been deprecated in C"
+        - Basically, this used to let you change the value of a register in a 
+        computer
+    - const
+        - Tells the compiler we do NOT want the variable to ever have a new 
+        value assigned; just means that the compiler will prevent anything from 
+        being changed
+        - Has some other cool uses, but we'll talk about
+
+- "So, these are the 6 magic words of memory in C"
+
+- So, we've got these rules; how can we use them to improve this C GameBoy 
+program we've been running?
+- Well, when we're importing the font array, instead of using an "include" 
+statement we can just put this as a global variable:
+
+    extern const unsigned char fontdata_6x8[12280]; //"extern" tells C to look 
+    for this data declaration in another file (I think?)
+
+- Now, to print the whole ASCII table on our screen, we could write some debug 
+code like:
+
+    char ch = 0;
+    for (int r = 0; r &lt; 16; r++) {
+        for (int c = 0; c &lt; 16; c++) {
+            printChar(r*9, c*9, ch++, YELLOW);
+        }
+    }
+
+- More usefully, we could write a function to display a string on the screen:
+
+    void drawString(int row, int col, char *str, unsigned short color) {
+        while (*stringStart) {  //while *stringStart != the null code (which'll 
+        implicitly return false, since it's == 0)
+            drawChar(row, col, *str, color);
+            col += 6;
+            str++;      //Wait! You're messing with the pointer!...no, we 
+            passed in the ADDRESS of the pointer. We stored the ADDRESS of the 
+            pointer in a new local variable called "str, so we're just changing 
+            the address of our local pointer, not the original
+        }
+    }
+
+        - SIDE NOTE: If you write "*str++", this will dereference the pointer, 
+        get the value, and then increment THE POINTER - NOT the value!
+        - alternatively, you could write the method header using the bracket 
+        syntax, and it'll do the same thing:
+
+            void drawstring(int row, int col, char str[], unsigned short color)
+                (...)
+- Now, to call this, we could do either of these two things (3 things, I cannot 
+count):
+
+    char buffer[] = "Dear Mom - send cookies!";
+    drawString(150, 5, buffer, YELLOW);
+
+        or
+
+    char *message = "Dear Mom - send cookies!"
+    drawString(...same...)
+
+        or
+
+    drawString(150, 5, "You can pass in the literal string", YELLOW)
+
+    - Differences between the first two: 
+        - You can change the values in the "buffer" array, since we "own" those 
+        array-allocated addresses; the pointer one is declared as a string 
+        literal in READ-ONLY memory, and then just points to it - so we can't 
+        edit those values
+            - "The GameBoy doesn't even throw an error when you try to do this, 
+            so if you're getting frustrated because it's not updating the score 
+            or something, check that"
+        - You CANNOT change the address that "buffer" points to (since it was 
+        declared as an array), but you CAN change the address that "message" 
+        points to
+
+- More usefully for our game, we can use this to draw a score in our game:
+
+    #include &lt;stdio.h&gt;      //needed for sprintf
+    (...)
+    int score;
+    (...)
+    rect(row, col, textWidth, textHeight, BLACK);   //Erases our old text first
+    sprintf(buffer, "Score: %d", score);    //stands for "String printf"; will 
+    create a new string like normal printf does, then pass the starting address 
+    to the "buffer" pointer
+    drawString(row, col, buffer, YELLOW);
+    (...)
+
+- Cool!
+
+- Still, our game has a few problems with how it draws things...but we'll go 
+over how to fix those issues on Monday
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="20_DMAAndStructs_11_7_17.html"></a>
+</main>
+</body>
+</html>
