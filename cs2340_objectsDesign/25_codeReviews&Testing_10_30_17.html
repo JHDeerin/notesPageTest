@@ -1,0 +1,172 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Objects and Design</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2340Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Objects and Design</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_21_17.html">0. First Day of CS 2340</a></li><li><a class="is-note-link" href="1_workingInTeams_8_23_17.html">1. Working in Teams</a></li><li><a class="is-note-link" href="2_teamExercise_8_25_17.html">2. NASA Team Exercise</a></li><li><a class="is-note-link" href="3_introToAgile_8_28_17.html">3. Agile Development / Zenhub</a></li><li><a class="is-note-link" href="4_sourceControl_8_30_17.html">4. Intro to Git/Version Control</a></li><li><a class="is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html">5. Git and Gradle</a></li><li><a class="is-note-link" href="6_gradleAndAndroid_9_6_17.html">6. Gradle and Intro. Android</a></li><li><a class="is-note-link" href="7_introToAndroid_9_8_17.html">7. Intro. to Android</a></li><li><a class="is-note-link" href="8_moreAndroidStudio_9_13_17.html">8. Android Studio (cont.)</a></li><li><a class="is-note-link" href="9_introProgrammingParadigms_9_15_17.html">9. Intro to Programming Paradigms/OOP</a></li><li><a class="is-note-link" href="10_OOPDesignUserStories_9_18_17.html">10. User Stories OOP Design</a></li><li><a class="is-note-link" href="11_domainModels_9_20_17.html">11. Domain Models</a></li><li><a class="is-note-link" href="12_moreDomainAndRDD_9_22_17.html">12. Domain Models (cont.) and RDD</a></li><li><a class="is-note-link" href="13_googleCleanCode_9_25_17.html">13. Google Clean Code</a></li><li><a class="is-note-link" href="14_basicAnalysis_9_29_17.html">14. Basic Analysis</a></li><li><a class="is-note-link" href="15_introToArchitecture_10_2_17.html">15. Intro to Software Architecture</a></li><li><a class="is-note-link" href="16_moreSoftwareArchitecture_10_4_17.html">16. Software Architecture (cont.)</a></li><li><a class="is-note-link" href="17_umlDiagrams_10_6_17.html">17. UML Diagrams</a></li><li><a class="is-note-link" href="18_classDiagrams_10_11_17.html">18. Class Diagrams (cont.)</a></li><li><a class="is-note-link" href="19_sequenceDiagrams_10_13_17.html">19. Sequence Diagrams</a></li><li><a class="is-note-link" href="20_mapsAndPersistence_10_16_17.html">20. Google Maps &amp; Persistence</a></li><li><a class="is-note-link" href="21_persistenceAndSafety_10_18_17.html">21. Persistence(cont.) &amp; Safety</a></li><li><a class="is-note-link" href="22_contractsAndExceptions_10_20_17.html">22. Contracts &amp; Exceptions</a></li><li><a class="is-note-link" href="23_introDesignPrinciples_10_25_17.html">23. Intro to Design Principles</a></li><li><a class="is-note-link" href="24_graspPrinciples_10_27_17.html">24. GRASP Principles</a></li><li class="active-note-page"><a class="is-note-link" href="25_codeReviews&amp;Testing_10_30_17.html">25. Code Reviews and Unit Tests</a></li><li><a class="is-note-link" href="26_testingCode_11_1_17.html">26. Testing Code</a></li><li><a class="is-note-link" href="27_moreUnitTests_11_3_17.html">27. More Unit Tests</a></li><li><a class="is-note-link" href="28_moreDesignPrinciples_11_6_17.html">28. More Design Principles</a></li><li><a class="is-note-link" href="29_SOLID_11_8_17.html">29. SOLID Principles (cont.)</a></li><li><a class="is-note-link" href="30_evaluatingDesigns_11_10_17.html">30. Evaluating Good Designs</a></li><li><a class="is-note-link" href="31_moreEvaluatingDesigns_11_13_17.html">31. Evaluating Designs</a></li><li><a class="is-note-link" href="32_UIDesignPrinciples_11_15_17.html">32. UI Design Principles</a></li><li><a class="is-note-link" href="33_packages_11_17_17.html">33. Packages</a></li><li><a class="is-note-link" href="34_metricsDesignPatterns_11_20_17.html">34. Metrics &amp; Design Patterns</a></li><li><a class="is-note-link" href="35_moreDesignPatterns_11_27_17.html">35. More Design Patterns</a></li><li><a class="is-note-link" href="36_exam2Review_11_29_17.html">36. Exam 2 Review</a></li><li><a class="is-note-link" href="37_finalExam_12_4_17.html">37. Final Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="24_graspPrinciples_10_27_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//************ Code Reviews and Unit Tests - October 30th, 2017 *************//
+//**************************************************************************//
+
+- Trying to debug impossible code w/o the TAs, I'm not ready yet...welp
+---------------------------------------------------------
+
+- So, today we're taking a quick break from design principles since M10 has to 
+do with Code Reviews and creating jUnit tests
+    - "The Google lecture on clean code already covered a LOT of this, so I'll 
+    be skipping some of the stuff I usually cover in this lecture"
+    - One thing that might be interesting: look up Google's coding standards 
+    for Java, which goes over how to name things, set up folder structure, etc.
+        - "A good book on how to be a good CODER (although not necessarily a 
+        good software 'designer') is CODE COMPLETE"
+    - "The big idea: remember to write your code clearly, as if you were 
+    explaining it to a stranger...since in 6 months, you won't remember what 
+    the heck you were writing it for. You'll be that stranger."
+        - "All software starts out with the best intentions, using good design 
+        principles, etc; the difference between good and inexperienced 
+        designers, though, is if you keep up with it" (also said something 
+        else, but of course I missed it)
+
+- Code Reviews - they're REALLY important
+    - Code reviews are, basically, just meeting with someone in-person to go 
+    over your code
+        - "Costwise, it's MUCH more efficient to fix bugs on the spot as they 
+        come up, instead of having to pay $200/hour for a QA team to look over 
+        it"
+        - Code reviews are a best practice, since they can catch bugs early on 
+        before they're submitted to everyone else and become difficult and 
+        expensive to find
+            - "Pair programming is basically a continuous code review, where 
+            someone is constantly double-checking your code to catch bugs as 
+            they come"
+    - These reviews can be formal or informal; they could be as simple as 
+    meeting with your friend to glance through your code quickly, or as formal 
+    as being called into a conference room and having multiple managers go 
+    through your code recording defects as they're found
+        - "Code reviews are NOT about fixing things, but about finding 
+        problems; there are usually multiple ways to fix a problem, and it's 
+        better to leave that up to later discussion instead of arguing over how 
+        to fix it during the review"
+    - Code reviews should rarely (if ever) be more than 1 hour; after that 
+    point, most people's brains are more or less fried and productivity sinks
+        - "If a company's catering your code review, you know you're in trouble"
+    - Have a checklist of standard things to look for during these reviews - 
+    "Are constructors necessary? Should this be private or public? Are braces 
+    balanced? Are comments appropriate? Are algorithms consistent w/ design? 
+    etc."
+        - On T-Square, under "Code Review Stuff", there's an example checklist 
+        of what you should be looking for during a typical review
+    - These meetings should always be to critique the CODE, NOT the coder - the 
+    point isn't to say "Oh, Bob, you're an awful coder, etc."; it's just to 
+    make sure the code is as good as possible
+        - "Code reviews shouldn't ever hurt people's feelings or be an 
+        indictment of the coder; keep the focus squarely on the code"
+
+- For simpler stuff like coding standards, we have AUTOMATED code reviews - 
+these automatically scan your code to try and find common errors without 
+requiring people to manually read through everything (e.g. Checkstyle)
+    - "Currently these are mostly limited to things like style guides, basic 
+    common bugs, etc., but the AI for them is improving all the time; in the 
+    past few years alone, they've gotten MUCH more sophisticated"
+
+- "In M10, you'll be doing a code review of your own code; there's an 'Issue 
+Inspection Log' that you'll need to fill out"
+    - In addition, you'll have to fill out the "Summary Report" for who did the 
+    review, how long the review was, who was present, etc.; "The Product 
+    Appraisal" part is more for real-company usage, so I won't worry about that 
+    too much"
+        - You do NOT have to fix all of these issues
+    - You also WILL have to run a checkstyle-like file that we give you for 
+    Android Studio; you WILL have to fix issues that it detects (unused 
+    variables, etc.), OR explain why you're not going to fix an issue ("It 
+    thinks i'm not using it, but that's because I'm setting the variable in my 
+    XML file")
+        - "If you've got like 1000 formatting errors, try using Android 
+        Studio's (missed this)"
+        - "Real-life, you'd be running files like this before every commit to 
+        GitHub"
+
+-...and that's pretty much it for code reviews in this class
+
+================
+// Unit Testing
+================
+
+- Testing is SUPER important, but can also (at times) be VERY difficult
+    - "One problem specific to this class - not learning JUnit's syntax. Take 
+    10 minutes before you start on M10 to do that - it'll save you a few 
+    headaches"
+
+- Testing should start early on in the project with Acceptance tests (writing 
+user stories, then writing all the "given X, should do Y" stuff...), most of 
+which'll come from the Customer's criteria
+    - "We can't test EVERY possible input to a program, so we have to decide 
+    what we're actually going to test as a representative sample to make sure 
+    our code is working"
+- During the design phase, we do USABILITY tests
+    - This is to make sure it works well, users understand how to use the 
+    system, etc.
+- During implementation, we write UNIT tests - which is what we'll be focusing 
+on in this course
+- During Integration, we then write Integration tests, and during the final 
+testing phase we write System &amp; Alpha/Beta tests
+    - "These last 2 we really don't cover at all in this course"
+
+- Some quick vocabulary:
+    - FAILURES are incorrect behaviors of a component - this is a symptom of 
+    the error
+        - e.g. "We gave our square(x) function 4, and it output 18 instead of 
+        16"
+    - FAULTS (or BUGS, or DEFECTS) are the actual problems in the code (e.g. 
+    using an "add" instead of a "multiply" in the square function, or something 
+    more complex like omitting a critical step, error in pointer arithmetic, 
+    etc.)
+    - ERRORS are more general, and are the actual mistake in logic that caused 
+    the coder to write the bug - this is the root CAUSE of the bug
+        - e.g. "I went to UGA, and they taught me that adding two numbers 
+        together was how you square things" or "I didn't understand pointer 
+        arithmetic, so I forgot to account for the datatype size", or even "I'm 
+        a sloppy typer and I was typing really fast, so I accidentally hit 'q' 
+        instead of 'w'..."
+
+- The life cycle of problems in code usually looks something like this: ERRORS 
+in logic cause the programmer to make a FAULT, which then causes a FAILURE the 
+programmer sees, which results in the programmer debugging the code to fix the 
+fault, which possibly results in a new ERROR on the programmer's part that 
+results in a new FAULT...
+
+- Now, in this class, we're focusing on UNIT TESTS - testing a single class or 
+piece of code to make sure it behaves as expected
+    - Can be done "statically" by looking at the code manually during code 
+    reviews ("hand-compiling" the code in our head), or "dynamically" by 
+    writing new pieces of code to check the behavior of our existing code
+        - "The dynamic stuff is usually done using a special automated testing 
+        framework"
+    - Classically, there's two general types of unit tests: WhiteBox and 
+    BlackBox
+- "We'll wrap up going over Unit Tests on Wednesday" 
+
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="26_testingCode_11_1_17.html"></a>
+</main>
+</body>
+</html>

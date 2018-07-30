@@ -1,0 +1,93 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Objects and Design</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2340Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Objects and Design</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_21_17.html">0. First Day of CS 2340</a></li><li><a class="is-note-link" href="1_workingInTeams_8_23_17.html">1. Working in Teams</a></li><li><a class="is-note-link" href="2_teamExercise_8_25_17.html">2. NASA Team Exercise</a></li><li><a class="is-note-link" href="3_introToAgile_8_28_17.html">3. Agile Development / Zenhub</a></li><li><a class="is-note-link" href="4_sourceControl_8_30_17.html">4. Intro to Git/Version Control</a></li><li><a class="is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html">5. Git and Gradle</a></li><li><a class="is-note-link" href="6_gradleAndAndroid_9_6_17.html">6. Gradle and Intro. Android</a></li><li><a class="is-note-link" href="7_introToAndroid_9_8_17.html">7. Intro. to Android</a></li><li><a class="is-note-link" href="8_moreAndroidStudio_9_13_17.html">8. Android Studio (cont.)</a></li><li><a class="is-note-link" href="9_introProgrammingParadigms_9_15_17.html">9. Intro to Programming Paradigms/OOP</a></li><li><a class="is-note-link" href="10_OOPDesignUserStories_9_18_17.html">10. User Stories OOP Design</a></li><li><a class="is-note-link" href="11_domainModels_9_20_17.html">11. Domain Models</a></li><li><a class="is-note-link" href="12_moreDomainAndRDD_9_22_17.html">12. Domain Models (cont.) and RDD</a></li><li><a class="is-note-link" href="13_googleCleanCode_9_25_17.html">13. Google Clean Code</a></li><li><a class="is-note-link" href="14_basicAnalysis_9_29_17.html">14. Basic Analysis</a></li><li><a class="is-note-link" href="15_introToArchitecture_10_2_17.html">15. Intro to Software Architecture</a></li><li><a class="is-note-link" href="16_moreSoftwareArchitecture_10_4_17.html">16. Software Architecture (cont.)</a></li><li><a class="is-note-link" href="17_umlDiagrams_10_6_17.html">17. UML Diagrams</a></li><li><a class="is-note-link" href="18_classDiagrams_10_11_17.html">18. Class Diagrams (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="19_sequenceDiagrams_10_13_17.html">19. Sequence Diagrams</a></li><li><a class="is-note-link" href="20_mapsAndPersistence_10_16_17.html">20. Google Maps &amp; Persistence</a></li><li><a class="is-note-link" href="21_persistenceAndSafety_10_18_17.html">21. Persistence(cont.) &amp; Safety</a></li><li><a class="is-note-link" href="22_contractsAndExceptions_10_20_17.html">22. Contracts &amp; Exceptions</a></li><li><a class="is-note-link" href="23_introDesignPrinciples_10_25_17.html">23. Intro to Design Principles</a></li><li><a class="is-note-link" href="24_graspPrinciples_10_27_17.html">24. GRASP Principles</a></li><li><a class="is-note-link" href="25_codeReviews&amp;Testing_10_30_17.html">25. Code Reviews and Unit Tests</a></li><li><a class="is-note-link" href="26_testingCode_11_1_17.html">26. Testing Code</a></li><li><a class="is-note-link" href="27_moreUnitTests_11_3_17.html">27. More Unit Tests</a></li><li><a class="is-note-link" href="28_moreDesignPrinciples_11_6_17.html">28. More Design Principles</a></li><li><a class="is-note-link" href="29_SOLID_11_8_17.html">29. SOLID Principles (cont.)</a></li><li><a class="is-note-link" href="30_evaluatingDesigns_11_10_17.html">30. Evaluating Good Designs</a></li><li><a class="is-note-link" href="31_moreEvaluatingDesigns_11_13_17.html">31. Evaluating Designs</a></li><li><a class="is-note-link" href="32_UIDesignPrinciples_11_15_17.html">32. UI Design Principles</a></li><li><a class="is-note-link" href="33_packages_11_17_17.html">33. Packages</a></li><li><a class="is-note-link" href="34_metricsDesignPatterns_11_20_17.html">34. Metrics &amp; Design Patterns</a></li><li><a class="is-note-link" href="35_moreDesignPatterns_11_27_17.html">35. More Design Patterns</a></li><li><a class="is-note-link" href="36_exam2Review_11_29_17.html">36. Exam 2 Review</a></li><li><a class="is-note-link" href="37_finalExam_12_4_17.html">37. Final Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="18_classDiagrams_10_11_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//************** Sequence Diagrams - October 13th, 2017 *********************//
+//**************************************************************************//
+
+- So, we just started going over SEQUENCE DIAGRAMS, where we draw a bunch of 
+boxes with dashed lines going down from them
+    - "The ORDER of the boxes does NOT matter; we want to minimize line 
+    crossings, but the left-to-right order itself doesn't mean anything"
+        - The METHOD CALL LINES, though, need to be arranged in order of TIME 
+        (from top to bottom, w/ top being most recent)
+    - Class boxes are boxes w/ a colon before the classname (e.g. 
+    ":LoginManager")
+    - We start with a TRIGGER EVENT on the far left of the diagram, e.g. 
+    "OnLogClick", that points to the "lifeline" (dashed line) underneath the 
+    1st class that recieves it/starts the application
+        - Lifeline is just a place to draw interactions w/ that object, and to 
+        show how long the object exists (most objects will be alive the whole 
+        time, but not always)
+    - We then draw an arrow from that 1st class's line TO another class's line; 
+    this arrow represents a method that we're calling ON THE CLASS THE ARROW IS 
+    POINTING TO, e.g. "doLogin(user, pWord)", w/ the method signature written 
+    above the line
+        - If we need to show that the method ITSELF needs to call a method on 
+        another class, then we draw another line lower-down FROM the end of the 
+        method-call arrow to the class we're calling the method on
+    - To show looping/conditionals, we use "Context Boxes" 
+        - Basically, we draw a box around the lines representing method calls 
+        we're looping/"if"-statement-ing, and in the corner we write LOOP (if 
+        it's a loop), OPT (if it's just an if statment), or ALT (if it's an 
+        if-else statement or a switch statement)
+            - If it's an "if" statement, then we split the box into the 
+            different possible branches with HORIZONTALLY dashed lines; at the 
+            top of each partition, the condition that the thing is called on 
+            (the GUARD CONDITION) is put in brackets like [] (e.g [else], 
+            [b=10], [isValidUser] etc.)
+    - To show that we're CREATING a new Object, we draw a dashed arrow from the 
+    method we called with "new" written over it; at the end of the arrow, we 
+    draw a new class box (e.g. ":User") being pointed to by the arrow, w/ it's 
+    own lifeline
+-...and that's about it!
+- "There's really not much to them, but students always seem to have the 
+hardest time thinking about Sequence Diagrams. Just look at some examples, work 
+through some logic, and memorize the few rules we've talked about; they're 
+really not too bad."
+
+-...kind of hard to describe these Sequence Diagrams without images, so look up 
+plenty of examples to see what I mean
+
+- So, most of us here are "novice designers", and there are 2 REALLY COMMON 
+mistakes novice designers do:
+    - Just jumping on the first design they think of - "I think we should do 
+    MVC!" - without really thinking through alternatives, or if it's the best 
+    way of doing things
+    - Concerns about error handling; most novice designers think they can add 
+    in validation/error handling at the end of the project, when really, you 
+    NEED to be worried about handling errors all throughout the process
+- To try and improve reliability (i.e. it does what it's supposed to do, and 
+NOTHING MORE, and handles errors as acceptably as possible), we use CONTRACTS: 
+an explicit list of what a "Client" can request from a "Server"
+    - For contracts, we say our "Server" is whatever provides the method, and 
+    the "client" is whatever uses the server's methods
+        - "So it's more of a restaurant analogy, instead of a computer-y 
+        server-type thing"
+- We'll talk more about what contracts are, and why they're used, on Monday
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="20_mapsAndPersistence_10_16_17.html"></a>
+</main>
+</body>
+</html>

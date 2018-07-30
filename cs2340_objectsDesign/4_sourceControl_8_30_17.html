@@ -1,0 +1,142 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Objects and Design</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2340Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Objects and Design</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_21_17.html">0. First Day of CS 2340</a></li><li><a class="is-note-link" href="1_workingInTeams_8_23_17.html">1. Working in Teams</a></li><li><a class="is-note-link" href="2_teamExercise_8_25_17.html">2. NASA Team Exercise</a></li><li><a class="is-note-link" href="3_introToAgile_8_28_17.html">3. Agile Development / Zenhub</a></li><li class="active-note-page"><a class="is-note-link" href="4_sourceControl_8_30_17.html">4. Intro to Git/Version Control</a></li><li><a class="is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html">5. Git and Gradle</a></li><li><a class="is-note-link" href="6_gradleAndAndroid_9_6_17.html">6. Gradle and Intro. Android</a></li><li><a class="is-note-link" href="7_introToAndroid_9_8_17.html">7. Intro. to Android</a></li><li><a class="is-note-link" href="8_moreAndroidStudio_9_13_17.html">8. Android Studio (cont.)</a></li><li><a class="is-note-link" href="9_introProgrammingParadigms_9_15_17.html">9. Intro to Programming Paradigms/OOP</a></li><li><a class="is-note-link" href="10_OOPDesignUserStories_9_18_17.html">10. User Stories OOP Design</a></li><li><a class="is-note-link" href="11_domainModels_9_20_17.html">11. Domain Models</a></li><li><a class="is-note-link" href="12_moreDomainAndRDD_9_22_17.html">12. Domain Models (cont.) and RDD</a></li><li><a class="is-note-link" href="13_googleCleanCode_9_25_17.html">13. Google Clean Code</a></li><li><a class="is-note-link" href="14_basicAnalysis_9_29_17.html">14. Basic Analysis</a></li><li><a class="is-note-link" href="15_introToArchitecture_10_2_17.html">15. Intro to Software Architecture</a></li><li><a class="is-note-link" href="16_moreSoftwareArchitecture_10_4_17.html">16. Software Architecture (cont.)</a></li><li><a class="is-note-link" href="17_umlDiagrams_10_6_17.html">17. UML Diagrams</a></li><li><a class="is-note-link" href="18_classDiagrams_10_11_17.html">18. Class Diagrams (cont.)</a></li><li><a class="is-note-link" href="19_sequenceDiagrams_10_13_17.html">19. Sequence Diagrams</a></li><li><a class="is-note-link" href="20_mapsAndPersistence_10_16_17.html">20. Google Maps &amp; Persistence</a></li><li><a class="is-note-link" href="21_persistenceAndSafety_10_18_17.html">21. Persistence(cont.) &amp; Safety</a></li><li><a class="is-note-link" href="22_contractsAndExceptions_10_20_17.html">22. Contracts &amp; Exceptions</a></li><li><a class="is-note-link" href="23_introDesignPrinciples_10_25_17.html">23. Intro to Design Principles</a></li><li><a class="is-note-link" href="24_graspPrinciples_10_27_17.html">24. GRASP Principles</a></li><li><a class="is-note-link" href="25_codeReviews&amp;Testing_10_30_17.html">25. Code Reviews and Unit Tests</a></li><li><a class="is-note-link" href="26_testingCode_11_1_17.html">26. Testing Code</a></li><li><a class="is-note-link" href="27_moreUnitTests_11_3_17.html">27. More Unit Tests</a></li><li><a class="is-note-link" href="28_moreDesignPrinciples_11_6_17.html">28. More Design Principles</a></li><li><a class="is-note-link" href="29_SOLID_11_8_17.html">29. SOLID Principles (cont.)</a></li><li><a class="is-note-link" href="30_evaluatingDesigns_11_10_17.html">30. Evaluating Good Designs</a></li><li><a class="is-note-link" href="31_moreEvaluatingDesigns_11_13_17.html">31. Evaluating Designs</a></li><li><a class="is-note-link" href="32_UIDesignPrinciples_11_15_17.html">32. UI Design Principles</a></li><li><a class="is-note-link" href="33_packages_11_17_17.html">33. Packages</a></li><li><a class="is-note-link" href="34_metricsDesignPatterns_11_20_17.html">34. Metrics &amp; Design Patterns</a></li><li><a class="is-note-link" href="35_moreDesignPatterns_11_27_17.html">35. More Design Patterns</a></li><li><a class="is-note-link" href="36_exam2Review_11_29_17.html">36. Exam 2 Review</a></li><li><a class="is-note-link" href="37_finalExam_12_4_17.html">37. Final Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="3_introToAgile_8_28_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//*********** Intro to Git/Version Control - August 30th, 2017 **************//
+//**************************************************************************//
+
+- So, for M1, someone'll need to create your GitHub site, and then create a 
+repository for the project
+- For ZENHUB, should get the extension for your browser and create the 
+milestones listed in the homework
+    - For issues, do NOT just make 4 issues called "m1", "m2", "m3", "m4"; LOOK 
+    at what you need to do for those milestones and put in the specific stuff 
+    to implement - "create team charter," "add user registration", etc., with 
+    them ordered by priority (priority should be based on time when they're all 
+    due) 
+        - Then, create a sprint, assign your issues/milestones, etc.
+---------------------------------------------------------------------
+
+- So, source/version control is a CS-specific type of engineering practice 
+called "configuration management", which lets us keep track of our project and 
+what we're doing
+    - We're not going to go through all the specifics of configuration 
+    management as a discipline; we'll just be focusing on one, specific aspect: 
+    CONTROL
+
+- Problem: how can multiple people work on the same code at the SAME TIME?
+    - This used to be a REALLY big problem, and so you'd have techniques like 
+    "one person - one file", copying files from a shared directory, token-based 
+    "coke can" models (only 1 person can work on the same piece of code at the 
+    same time), etc.
+        - NOW, this problem has been WAYYYYYYYYY simplified with source 
+        control, which automatically keeps track of ALL our changes and can 
+        coordinate them!
+        - Initially, this class started out with CVS, then switched to 
+        Subversion, and now, we're currently using Git
+
+- "Source control is a pain in the neck when you start learning to use it, but 
+trust me, it'll be a MASSIVE help once you get used to it"
+
+- Now, some decisions that we have to make as configuration managers is "what 
+should we control?", "When do we control it?", "How do we stay in sync?", etc.
+    - Git really only helps with the last part, but for this class, that's all 
+    we really need; the rest of this is software engineering stuff that you 
+    just have to decide for yourself
+
+- So, let's cover the high-level theory of how version control works
+    - In a CENTRALIZED system (like CVS, although Git has a mode that works 
+    like this), there's a server on the internet called the "repository"
+        - When Bob wants to look at the code, he "checks out" the code from the 
+        repository, downloading it to his machine
+        -Then, Bob works on the file(s) he downloaded LOCALLY; the 
+        version-control system doesn't know anything has changed
+        - Then, when Bob's done, he "commits" the file to the version-control 
+        system. The repository updates the repository number to "version 2" or 
+        something like that
+        - Then, Sally wants to work on a file, so she checks it out...etc.
+    - Now, what if you're BOTH working at the same time? And you both check out 
+    "Version 37" or something...
+        - Well, the FIRST person to commit will just have it smoothly update 
+        the repo as normal
+        - The SECOND person, though, who tries to commit from that same 
+        codebase ("changes were also based on v.37") will have the repo tell 
+        them that they'll need to "MERGE" their code to get it working
+            - So, the 2nd person would actually have to "fetch" the changes the 
+            1st person made, add their changes locally, then send a new update 
+            to the repo
+            - In  some cases, the software will be clever enough to 
+            automatically merge (e.g. if we edited the same file but only added 
+            things, didn't delete anything); if we changed the SAME LINES, 
+            though, then the software isn't sure who's changes should take 
+            precedence, and we'll have to manually resolve these merge 
+            conflicts"
+
+- So, GIT developed out of Linus Torvald's annoyance with centralized 
+version-control system; he decided to modify this version-control model to use 
+a DISTRIBUTED model
+    - With Git, you can push changes to a LOCAL, no-internet-required 
+    repository by "cloning" the whole online repository to your local machine, 
+    and enjoy local version control; THEN, you can push from your local 
+    repository to the online "master" repository!
+
+- To create a new LOCAL repo with Git (after you've downloaded it, set up 
+paths, etc.), you navigate to the folder you want to make a repo (in the 
+command line) and say "git init"
+    - This will create a ".git" file that keeps track of your changes
+- To add files from the folder to the list of "tracked" files in your repo, 
+type "git add &lt;filename(s)&gt;"
+    - You need to do this after EVERY TIME you update the file; if you want to 
+    add ALL changed files, you use "git add *"
+- "git status" will tell you if there are any files that have changed / aren't 
+being tracked / etc.
+- Then, you say "git commit" to "stage" those changes
+    - Git will then prompt you for a "commit message" describing your changes; 
+    you can type "git commit -m '...' " as a shortcut for this
+        - PLEASE, PLEASE, PLEASE write decent messages that actually describe 
+        what you did
+    - This JUST commits changes to your LOCAL repo
+- NOTE: If you want to see the list of all previous commits, you can use the 
+"git log" command 
+
+- Now, to "clone" an existing GitHub repository, you use "git clone &lt;online 
+repo url&gt;"
+    - You can get the url by hitting the "clone" button on GitHub's website
+    - This will bring in all the files from that online repository onto your 
+    repo
+- So, after you've made your changes, and are ready to push them online, say 
+"git push origin master"
+    - The branch can be named anything, and the "origin" name can be changed
+    - WARNING: If you go on "GitHub", there's a "pencil" icon that lets you 
+    edit the file DIRECTLY on the master repository. DO NOT USE THIS. IT WILL 
+    LEAD TO CRAZY, WILD, STUPID MERGE CONFLICTS. If you need to edit something 
+    REALLY unimportant, like the readme file, that's okay; but do NOT edit code 
+    files except through the actual "add/commit/push" process
+
+    
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html"></a>
+</main>
+</body>
+</html>

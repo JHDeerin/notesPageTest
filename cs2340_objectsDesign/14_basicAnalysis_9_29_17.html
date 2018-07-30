@@ -1,0 +1,119 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Objects and Design</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2340Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Objects and Design</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_21_17.html">0. First Day of CS 2340</a></li><li><a class="is-note-link" href="1_workingInTeams_8_23_17.html">1. Working in Teams</a></li><li><a class="is-note-link" href="2_teamExercise_8_25_17.html">2. NASA Team Exercise</a></li><li><a class="is-note-link" href="3_introToAgile_8_28_17.html">3. Agile Development / Zenhub</a></li><li><a class="is-note-link" href="4_sourceControl_8_30_17.html">4. Intro to Git/Version Control</a></li><li><a class="is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html">5. Git and Gradle</a></li><li><a class="is-note-link" href="6_gradleAndAndroid_9_6_17.html">6. Gradle and Intro. Android</a></li><li><a class="is-note-link" href="7_introToAndroid_9_8_17.html">7. Intro. to Android</a></li><li><a class="is-note-link" href="8_moreAndroidStudio_9_13_17.html">8. Android Studio (cont.)</a></li><li><a class="is-note-link" href="9_introProgrammingParadigms_9_15_17.html">9. Intro to Programming Paradigms/OOP</a></li><li><a class="is-note-link" href="10_OOPDesignUserStories_9_18_17.html">10. User Stories OOP Design</a></li><li><a class="is-note-link" href="11_domainModels_9_20_17.html">11. Domain Models</a></li><li><a class="is-note-link" href="12_moreDomainAndRDD_9_22_17.html">12. Domain Models (cont.) and RDD</a></li><li><a class="is-note-link" href="13_googleCleanCode_9_25_17.html">13. Google Clean Code</a></li><li class="active-note-page"><a class="is-note-link" href="14_basicAnalysis_9_29_17.html">14. Basic Analysis</a></li><li><a class="is-note-link" href="15_introToArchitecture_10_2_17.html">15. Intro to Software Architecture</a></li><li><a class="is-note-link" href="16_moreSoftwareArchitecture_10_4_17.html">16. Software Architecture (cont.)</a></li><li><a class="is-note-link" href="17_umlDiagrams_10_6_17.html">17. UML Diagrams</a></li><li><a class="is-note-link" href="18_classDiagrams_10_11_17.html">18. Class Diagrams (cont.)</a></li><li><a class="is-note-link" href="19_sequenceDiagrams_10_13_17.html">19. Sequence Diagrams</a></li><li><a class="is-note-link" href="20_mapsAndPersistence_10_16_17.html">20. Google Maps &amp; Persistence</a></li><li><a class="is-note-link" href="21_persistenceAndSafety_10_18_17.html">21. Persistence(cont.) &amp; Safety</a></li><li><a class="is-note-link" href="22_contractsAndExceptions_10_20_17.html">22. Contracts &amp; Exceptions</a></li><li><a class="is-note-link" href="23_introDesignPrinciples_10_25_17.html">23. Intro to Design Principles</a></li><li><a class="is-note-link" href="24_graspPrinciples_10_27_17.html">24. GRASP Principles</a></li><li><a class="is-note-link" href="25_codeReviews&amp;Testing_10_30_17.html">25. Code Reviews and Unit Tests</a></li><li><a class="is-note-link" href="26_testingCode_11_1_17.html">26. Testing Code</a></li><li><a class="is-note-link" href="27_moreUnitTests_11_3_17.html">27. More Unit Tests</a></li><li><a class="is-note-link" href="28_moreDesignPrinciples_11_6_17.html">28. More Design Principles</a></li><li><a class="is-note-link" href="29_SOLID_11_8_17.html">29. SOLID Principles (cont.)</a></li><li><a class="is-note-link" href="30_evaluatingDesigns_11_10_17.html">30. Evaluating Good Designs</a></li><li><a class="is-note-link" href="31_moreEvaluatingDesigns_11_13_17.html">31. Evaluating Designs</a></li><li><a class="is-note-link" href="32_UIDesignPrinciples_11_15_17.html">32. UI Design Principles</a></li><li><a class="is-note-link" href="33_packages_11_17_17.html">33. Packages</a></li><li><a class="is-note-link" href="34_metricsDesignPatterns_11_20_17.html">34. Metrics &amp; Design Patterns</a></li><li><a class="is-note-link" href="35_moreDesignPatterns_11_27_17.html">35. More Design Patterns</a></li><li><a class="is-note-link" href="36_exam2Review_11_29_17.html">36. Exam 2 Review</a></li><li><a class="is-note-link" href="37_finalExam_12_4_17.html">37. Final Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="13_googleCleanCode_9_25_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//****************** Basic Analysis - September 29th, 2017 ******************//
+//**************************************************************************//
+
+- So, CSV files - just short for "Comma Separated Files"
+    - In your homework, you'll have to read in a file w/ all the rat data from 
+    New York since 2005(?)
+    - The file should start with a header that lists the properties of the file:
+        "Name, ID, Email, Fruit
+        Bob Waters,4322,bob@bob.com,Apple"
+            - If you're designing this for a database, you'd only want to load 
+            in the data ONE TIME, not every time the app is opened; for the 
+            rest of us not doing that for extra credit, just load it in every 
+            time when the app starts up
+    - You should have a POJO model object that holds all the data needed for 
+    ONE entry
+    - Then, for actually reading/parsing the file, we use an InputStream, and 
+    call "getResources().openRawResource(R.raw.&lt;data name&gt;)"; then, create a 
+    BufferedReader to hold the file, like "BufferedReader br = new 
+    BufferedReader(new InputStream(&lt;previously Gotten Input Stream&gt;, 
+    StandardCharset.UTF-8))"
+    - We then use "br.readLine()" to skip the header line; we don't care about 
+    that, we've already hardcoded the property in (if you wanted to be more 
+    robust, you could have it parse the header to find the possibilities)
+    - Then, while "line = br.readLine()", we get all the info on the line 
+    (using the 'line = br.readLine()' test), use Java's built-in methods to 
+    turn the line into an array of Strings (separated via commas), 
+        - NOTE: When you're using "setText()" to print the data to Android, 
+        make sure you're converting it to a String; otherwise, things might go 
+        wrong
+- Again, if you got this to work another way, I DON'T CARE - as long as it 
+works, great! I just think this is an easy way to do it.
+---------------------------------------------------------
+
+- So, we were wrapping up domain models before the Google talks; now, we're 
+going to move on a bit to analysis
+- We know what the external actors are from our context diagram, know what our 
+program needs to model from our domain models, but NOW, we need to verify that 
+our domain model makes sense with our user stories
+    - One way of doing this is ROBUSTNESS DIAGRAMS
+    - These have 3 types of classes:
+        - BOUNDARY CLASSES are user interfaces / API interfaces to external 
+        input, to allow outside data to be used in our program
+            - So, all outside data MUST come through our boundary class; it 
+            CAN'T be directly used by our program, it must go through this 
+            class first
+            - Boundary classes shouldn't talk to each other; they should just 
+            be an interface between the data and the Controllers that will use 
+            the data
+            - Have this symbol:
+                |
+                |-----(circle)
+                |
+        - ENTITY CLASSES are classes from the domain model
+            - Basically only talk w/ controllers; don't actually 
+            - Have this symbol:
+                    (circle)
+                ----------------
+        - CONTROLLER CLASSES are classes that represent "business logic" in our 
+        app
+            - These coordinate between our Boundary Classes, Entities, and 
+            other controllers
+            - Have this symbol:
+                - (can't draw it, but a circle with an arrow pointing around 
+                it, lie an ouroboros)
+        - There's also a "stick figure" symbol, representing an ACTOR/AGENT, 
+        but that's the same as from context diagrams
+
+- Now, Boundary Classes can represent potential screens we need for the UI; so, 
+based on this diagram, the UI designers can create prototypes for the UI, and 
+create a UI FLOW DIAGRAM that represents the different screens and how the user 
+trnasitions from one screen to another
+    - Basically, this flow diagram is an FSM diagram for all the major screens 
+    in your application, w/ the different "states" and the arrows representing 
+    transitions between them
+    - "A word of caution to UI people: I know the UI deisgners can 
+    be...ah...extremely creative, at times. MAKE SURE that your design can 
+    actually be done by your programmers. If you overpromise, and then the 
+    programmers say 'yeah, we can't actually implement this', your customers 
+    are gonna be disappointed."
+        - One tool to quickly create actual UI prototypes: FluidUI. This is 
+        paid, but there is a (limited) free version
+
+- So, that's the analysis phase of our project.
+    - In REAL LIFE, we'd be doing this analysis WHILE we were making the 
+    project; it's not step-by-step, but simultaneous with the other parts of 
+    the project
+
+- On Monday, we'll start talking about how we actually DESIGN the software 
+itself. 
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="15_introToArchitecture_10_2_17.html"></a>
+</main>
+</body>
+</html>

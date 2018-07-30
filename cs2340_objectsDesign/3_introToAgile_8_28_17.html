@@ -1,0 +1,164 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Objects and Design</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2340Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Objects and Design</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_21_17.html">0. First Day of CS 2340</a></li><li><a class="is-note-link" href="1_workingInTeams_8_23_17.html">1. Working in Teams</a></li><li><a class="is-note-link" href="2_teamExercise_8_25_17.html">2. NASA Team Exercise</a></li><li class="active-note-page"><a class="is-note-link" href="3_introToAgile_8_28_17.html">3. Agile Development / Zenhub</a></li><li><a class="is-note-link" href="4_sourceControl_8_30_17.html">4. Intro to Git/Version Control</a></li><li><a class="is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html">5. Git and Gradle</a></li><li><a class="is-note-link" href="6_gradleAndAndroid_9_6_17.html">6. Gradle and Intro. Android</a></li><li><a class="is-note-link" href="7_introToAndroid_9_8_17.html">7. Intro. to Android</a></li><li><a class="is-note-link" href="8_moreAndroidStudio_9_13_17.html">8. Android Studio (cont.)</a></li><li><a class="is-note-link" href="9_introProgrammingParadigms_9_15_17.html">9. Intro to Programming Paradigms/OOP</a></li><li><a class="is-note-link" href="10_OOPDesignUserStories_9_18_17.html">10. User Stories OOP Design</a></li><li><a class="is-note-link" href="11_domainModels_9_20_17.html">11. Domain Models</a></li><li><a class="is-note-link" href="12_moreDomainAndRDD_9_22_17.html">12. Domain Models (cont.) and RDD</a></li><li><a class="is-note-link" href="13_googleCleanCode_9_25_17.html">13. Google Clean Code</a></li><li><a class="is-note-link" href="14_basicAnalysis_9_29_17.html">14. Basic Analysis</a></li><li><a class="is-note-link" href="15_introToArchitecture_10_2_17.html">15. Intro to Software Architecture</a></li><li><a class="is-note-link" href="16_moreSoftwareArchitecture_10_4_17.html">16. Software Architecture (cont.)</a></li><li><a class="is-note-link" href="17_umlDiagrams_10_6_17.html">17. UML Diagrams</a></li><li><a class="is-note-link" href="18_classDiagrams_10_11_17.html">18. Class Diagrams (cont.)</a></li><li><a class="is-note-link" href="19_sequenceDiagrams_10_13_17.html">19. Sequence Diagrams</a></li><li><a class="is-note-link" href="20_mapsAndPersistence_10_16_17.html">20. Google Maps &amp; Persistence</a></li><li><a class="is-note-link" href="21_persistenceAndSafety_10_18_17.html">21. Persistence(cont.) &amp; Safety</a></li><li><a class="is-note-link" href="22_contractsAndExceptions_10_20_17.html">22. Contracts &amp; Exceptions</a></li><li><a class="is-note-link" href="23_introDesignPrinciples_10_25_17.html">23. Intro to Design Principles</a></li><li><a class="is-note-link" href="24_graspPrinciples_10_27_17.html">24. GRASP Principles</a></li><li><a class="is-note-link" href="25_codeReviews&amp;Testing_10_30_17.html">25. Code Reviews and Unit Tests</a></li><li><a class="is-note-link" href="26_testingCode_11_1_17.html">26. Testing Code</a></li><li><a class="is-note-link" href="27_moreUnitTests_11_3_17.html">27. More Unit Tests</a></li><li><a class="is-note-link" href="28_moreDesignPrinciples_11_6_17.html">28. More Design Principles</a></li><li><a class="is-note-link" href="29_SOLID_11_8_17.html">29. SOLID Principles (cont.)</a></li><li><a class="is-note-link" href="30_evaluatingDesigns_11_10_17.html">30. Evaluating Good Designs</a></li><li><a class="is-note-link" href="31_moreEvaluatingDesigns_11_13_17.html">31. Evaluating Designs</a></li><li><a class="is-note-link" href="32_UIDesignPrinciples_11_15_17.html">32. UI Design Principles</a></li><li><a class="is-note-link" href="33_packages_11_17_17.html">33. Packages</a></li><li><a class="is-note-link" href="34_metricsDesignPatterns_11_20_17.html">34. Metrics &amp; Design Patterns</a></li><li><a class="is-note-link" href="35_moreDesignPatterns_11_27_17.html">35. More Design Patterns</a></li><li><a class="is-note-link" href="36_exam2Review_11_29_17.html">36. Exam 2 Review</a></li><li><a class="is-note-link" href="37_finalExam_12_4_17.html">37. Final Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="2_teamExercise_8_25_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//************* Agile Development / Zenhub - August 28th, 2017 **************//
+//**************************************************************************//
+
+- Agile today, Agile hooray, agileAgileAGILEagile...
+-----------------------------------------------------
+
+- So, there's a LOT of different "Software Development Life Cycles," from the 
+simple ("Code and Fix" (which is awful, btw)) to the complex ("Spiral Model")
+    - The "Waterfall" model is an example, but it has a LOT of problems; so, 
+    out of frustration, some experienced developers created the AGILE model
+
+- As an example of the difference, let's say that the Pharoah wants to build a 
+HUGE pyramid for his grave, but if the pyramid isn't done by the time he dies, 
+the contractor dies too!
+    - Fred, a UGA student, spends a year studying other pyramids for his 
+    references, then spends another year planning it out, then begins to build 
+    the massive pyramid
+        - 2 years into construction, the pharoah dies, but the pyramid is only 
+        halfway done!
+    - Sally, a Georgia Tech student, instead builds a *tiny pyramid* to start 
+    off; then, she enlarges it; then she enlarges it again
+        - This way, the pyramid is ALWAYS ready to be used!
+
+- Now, some people corrupt Agile to say that you don't do ANY documentation, 
+that you should NEVER make a prior plan; this is NOT how Agile works
+    - Some people have seen the "Agile Manifesto," which says stuff like 
+    "Working software over documentation"...this does NOT mean the stuff on the 
+    right is useless, but INSTEAD that the stuff on the left is where the 
+    emphasis should be
+- Some of the Agile principles:
+    - Highest priority is on satisfying the customer
+    - Working software is our PRIMARY measure of success (not # of code lines, 
+    not quality documentation, etc.)
+    - Working software should be delivered frequently
+
+- "Now, does this mean that Agile is our silver bullet? Will Agile projects 
+ALWAYS finish, ALWAYS stay under-budget and on-time?"
+    -...NO
+    - Agile solves a LOT of the Waterfall model's problem, and it WILL help you 
+    to be more efficient if followed correctly, but it can't magically fix 
+    everything in a project
+    - A GREAT essay on this is "The Mythical Man-Month," which has a section 
+    called "The Silver Bullet" on Agile's strengths and limitations
+
+- A BIG part of Agile is "Iterative development"
+    - The project is divided into a number of small pieces called "iterations" 
+    (usually 2-4 weeks)
+    - We try to use "timeboxing" instead of "scopeboxing"
+        - In TIMEBOXING, these iterations always take the same amount of TIME, 
+        and no matter HOW MUCH WE FINISH in the iteration, if the iteration is 
+        2 weeks long, we ALWAYS finish the iteration at the end of those 2 weeks
+            - This GUARANTEES that we turn in something usable on schedule, 
+            even if it doesn't have as many features as we wanted
+        - In SCOPEBOXING, we instead decide what FEATURES we want at the 
+        beginning of the iteration, and each iteration lasts as long as it 
+        takes to finish those features, EVEN IF WE GO OVER TIME
+            - This means that we ALWAYS finish all functionality for the 
+            project, but we can go wayyyyyyy over time
+    - Timeboxing is generally preferred to scopeboxing since it's generally 
+    more useful to the customer, more predictable, and forces us to focus on 
+    essential features first
+    - In this class, we'll be working in 1-week iterations
+
+- Now, as per usual, we do have to watch out for the "Dilbert" version of 
+Agile, where people say that we should do NO planning and NO 
+documentation...this is NOT AGILE. This is a recipe for chaos.
+
+- There are several SPECIFIC types of Agile, like SCRUM (all about project 
+management), eXtreme Programming (XP) (focus on process, e.g. pair 
+programming), EVO (requirements focused), RUP (rational unified process) 
+(complete system), etc.
+
+-So, why are these software management procedures so important? Well, a survey 
+of industry in 2004 found that only 25% of software projects finished on-time 
+and within budget
+    - Now, civil engineers are LAUGHING at us for this; they can estimate how 
+    long it will take to build a bridge to the WEEK, and we're constantly going 
+    overbudget!
+    - OUR problem is the "infinite malleability of software"
+        - In other kinds of engineering, you can't tear down the bridge and 
+        start over just because the company wants us to add a Starbucks to the 
+        bottom; the project is more-or-less fixed once building commences
+        - In SOFTWARE, though, the equivalent of a manager asking "can you make 
+        this bridge 4 lanes instead of 8 lanes?" halfway through happens ALL 
+        THE TIME
+
+- So, a quick overview of the management process we recommend, SCRUM
+    - Focuses mainly on software product development
+    - Works in timeboxed iterations called "sprints"; EACH sprint ends with a 
+    working, ready-to-ship deliverable product
+    - Project planned via 2 spreadsheets ("Product" and "Sprint")
+        - Product has a backlog of general features we want/need the product to 
+        have, with ~ estimates of how long each task will take and how long the 
+        overall product will take
+        - For EACH sprint, we take the highest-priority items from the Product 
+        backlog and assign them more specifically to different people (the 
+        "Sprint" spreadsheet)
+    - Additionally, the manager uses these things called BURNDOWN CHARTS
+        - There's a PRODUCT burndown chart, showing how many hours are left in 
+        the project, and a SPRINT burndown chart, showing how many hours are 
+        left in the current sprint
+            - This lets us quickly see if we're being too ambitious for the 
+            project (i.e. # of hours left in sprint to implement features is 
+            more than we have left in sprint)
+    - Has daily meetings to answer 3 basic question: 
+        - 1) What did you do since the last meeting?
+        - 2) Did you hit any obstacles?
+        - 3) What will you have done before the next meeting?
+            - Meetings should usually take only 10-20 minutes
+
+- ZENHUB!
+    - Built on-top of GitHub
+    - Issues used to measure Product features, Milestones to measure Sprints, 
+    labels to organize things, estimation to see how long things will take
+- Will NOT work on the GaTech private GitHub; for this class, it IS okay to 
+have a public repository (some other classes consider this an honor code 
+violation, but that's not the case here)
+- ISSUE_TEMPLATE.txt is optional, BUT (somehow relevant to ZenHub in a way I 
+did not catch)
+- Once you install ZenHub (HAVE to install it first), there'll be a "Boards" 
+tab that will show the list of current issues/features (there'll be different 
+categories for "Unfinished", In-Progress", "Closed" etc.)
+    - "Icebox" are the features that we wanted to do but decided are infeasible 
+    for the current project
+    - "Backlog" are the features that we want to implement for our project
+        - Can/should still assign features in the backlog to a specific sprint 
+        (can filter "issues" in backlog by current sprint)
+    - "In-Progress" are the features we're working on in the current sprint
+
+- TAs are looking to see that you've entered a task, assigned it to a milestone 
+/ specific person, etc.
+
+- We'll talk a bit more about ZenHub on Wednesday, and THEN...we'll get into 
+Git!
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="4_sourceControl_8_30_17.html"></a>
+</main>
+</body>
+</html>

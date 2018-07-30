@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Objects and Design</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2340Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Objects and Design</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_21_17.html">0. First Day of CS 2340</a></li><li><a class="is-note-link" href="1_workingInTeams_8_23_17.html">1. Working in Teams</a></li><li><a class="is-note-link" href="2_teamExercise_8_25_17.html">2. NASA Team Exercise</a></li><li><a class="is-note-link" href="3_introToAgile_8_28_17.html">3. Agile Development / Zenhub</a></li><li><a class="is-note-link" href="4_sourceControl_8_30_17.html">4. Intro to Git/Version Control</a></li><li><a class="is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html">5. Git and Gradle</a></li><li><a class="is-note-link" href="6_gradleAndAndroid_9_6_17.html">6. Gradle and Intro. Android</a></li><li><a class="is-note-link" href="7_introToAndroid_9_8_17.html">7. Intro. to Android</a></li><li><a class="is-note-link" href="8_moreAndroidStudio_9_13_17.html">8. Android Studio (cont.)</a></li><li><a class="is-note-link" href="9_introProgrammingParadigms_9_15_17.html">9. Intro to Programming Paradigms/OOP</a></li><li><a class="is-note-link" href="10_OOPDesignUserStories_9_18_17.html">10. User Stories OOP Design</a></li><li><a class="is-note-link" href="11_domainModels_9_20_17.html">11. Domain Models</a></li><li><a class="is-note-link" href="12_moreDomainAndRDD_9_22_17.html">12. Domain Models (cont.) and RDD</a></li><li><a class="is-note-link" href="13_googleCleanCode_9_25_17.html">13. Google Clean Code</a></li><li><a class="is-note-link" href="14_basicAnalysis_9_29_17.html">14. Basic Analysis</a></li><li><a class="is-note-link" href="15_introToArchitecture_10_2_17.html">15. Intro to Software Architecture</a></li><li><a class="is-note-link" href="16_moreSoftwareArchitecture_10_4_17.html">16. Software Architecture (cont.)</a></li><li><a class="is-note-link" href="17_umlDiagrams_10_6_17.html">17. UML Diagrams</a></li><li><a class="is-note-link" href="18_classDiagrams_10_11_17.html">18. Class Diagrams (cont.)</a></li><li><a class="is-note-link" href="19_sequenceDiagrams_10_13_17.html">19. Sequence Diagrams</a></li><li><a class="is-note-link" href="20_mapsAndPersistence_10_16_17.html">20. Google Maps &amp; Persistence</a></li><li><a class="is-note-link" href="21_persistenceAndSafety_10_18_17.html">21. Persistence(cont.) &amp; Safety</a></li><li><a class="is-note-link" href="22_contractsAndExceptions_10_20_17.html">22. Contracts &amp; Exceptions</a></li><li><a class="is-note-link" href="23_introDesignPrinciples_10_25_17.html">23. Intro to Design Principles</a></li><li><a class="is-note-link" href="24_graspPrinciples_10_27_17.html">24. GRASP Principles</a></li><li><a class="is-note-link" href="25_codeReviews&amp;Testing_10_30_17.html">25. Code Reviews and Unit Tests</a></li><li><a class="is-note-link" href="26_testingCode_11_1_17.html">26. Testing Code</a></li><li class="active-note-page"><a class="is-note-link" href="27_moreUnitTests_11_3_17.html">27. More Unit Tests</a></li><li><a class="is-note-link" href="28_moreDesignPrinciples_11_6_17.html">28. More Design Principles</a></li><li><a class="is-note-link" href="29_SOLID_11_8_17.html">29. SOLID Principles (cont.)</a></li><li><a class="is-note-link" href="30_evaluatingDesigns_11_10_17.html">30. Evaluating Good Designs</a></li><li><a class="is-note-link" href="31_moreEvaluatingDesigns_11_13_17.html">31. Evaluating Designs</a></li><li><a class="is-note-link" href="32_UIDesignPrinciples_11_15_17.html">32. UI Design Principles</a></li><li><a class="is-note-link" href="33_packages_11_17_17.html">33. Packages</a></li><li><a class="is-note-link" href="34_metricsDesignPatterns_11_20_17.html">34. Metrics &amp; Design Patterns</a></li><li><a class="is-note-link" href="35_moreDesignPatterns_11_27_17.html">35. More Design Patterns</a></li><li><a class="is-note-link" href="36_exam2Review_11_29_17.html">36. Exam 2 Review</a></li><li><a class="is-note-link" href="37_finalExam_12_4_17.html">37. Final Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="26_testingCode_11_1_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//****************** More Unit Tests - November 3rd, 2017 *******************//
+//**************************************************************************//
+
+- So, because of how far we've been pushed back by the hurricane, I'm making 
+M11 OPTIONAL - you can do it individually for EXTRA CREDIT
+    - M12, the system evaluation, will still be required for everyone, though
+---------------------------------------------------------------------------
+
+- So, the main JUnit part is the "assertion"; here's a list of the most 
+important ones:
+    - Assert.assertTrue(msg, condition)
+    - Assert.assertEquals(msg, expected, actual)    //uses .equals, value 
+    equivalence
+    - Assert.assertNull(msg, variable)
+    - Assert.assertSame(msg, v1, v2)            //uses ==, checks if addresses 
+    are same
+    - Assert.assertNotSame(msg, v1, v2)
+    - Assert.fail(msg)
+        - "If your code should never do something, this will always throw an 
+        exception when it's reached"
+
+- Practically, where do we put our tests in Android stduio?
+    - Let's say in our java/src/main/model folder (or wherever), we have a 
+    "Stack" class that we want to write tests for
+    - Now, in the "test" folder Android provides, create a new class called 
+    "StackTest" (could be called anything, but &lt;classname&gt;Test is a common 
+    convention), and add in an "@Before" method to set up any variables we'll 
+    need for our tests (usually called "setUp()")
+        - Then, for each test method (@Test), we write our test methods with 
+        assert statements to verify that everything's working
+            - "The old philosophy of testing was to create 1 test method per 
+            method that we were testing - so, we'd have a "testPop" method, 
+            then have a bunch of assert statements for all the different inputs 
+            we wanted to test for pop()"
+            - "The more modern way of doing things is to create one method PER 
+            condition that we're pushing - e.g. instead of a single 'testStack' 
+            method, we'd have a bunch of methods like 'testEmptyStackPop', 
+            'testPopAfterPush', etc. - ideally, each with only a single assert 
+            statement testing a single condition"
+    - Then, with all our tests written, we just run that class alone 
+    ("StackTest") and see if our tests pass or fail
+        - "Also, a quick tip - write as many of your tests as you can for your 
+        non-Android classes; that way, you don't have to wait for the whole 
+        emulator and everything to launch before you run your tests, you can 
+        just run the tests right away. It'll save you time"
+            - "...this is also a good way to verify that you're keeping your 
+            business logic separate from the Android display stuff"
+            - Tests are also shorter, since we don't have to fetch all the 
+            Android UI stuff, etc.
+
+- Now, sometimes we'll HAVE to run tests on our actual Android classes, which 
+requires us to set up an "ActivityTestRule" variable to hook up our Activity to 
+our test
+    - Can also use an API Google provides called "Espresso" - see Google's 
+    Android documentation for "Testing your App" for a good introduction
+    - This lets us simulate input into textboxes, clicks on parts of the 
+    screen, test Android-specific classes (e.g. UI widgets), etc.
+
+- Now, sometimes you'll hear about people "mocking up" the database, or running 
+a test on some "mock" data
+    - What they're talking about is this: let's say another team is in charge 
+    of designing the database for your application, so you have a meeting, 
+    decide on the interface you're going to use, and then write all your 
+    code...but the database people are behind schedule and haven't finished 
+    yet; so how are we going to test our database code?
+        - Well, knowing the interface, we can use a "mock api" to setup a 
+        "fake" object with EXPECTATIONS - "if you recieve this input, do this" 
+        - to simulate our database, even though we don't have the actual 
+        database class
+        - "This is a lot faster than trying to create a whole new fake 
+        implementation of the whole database; we can just specify how we would 
+        EXPECT the mock object to behave, instead of having the write the whole 
+        thing"
+
+- One popular way of using tests is TDD - "Test Driven Development"
+    - The basic idea of this is that BEFORE we write our actual code, we write 
+    the TESTS for that code and how we want it to behave
+    - Then, we write all of our code for that class until it passes all of the 
+    tests
+        - "Writing the tests FIRST forces you to think through how the class 
+        needs to behave and what it needs to do; it's not the only way to do 
+        that, but TDD is a popular way of doing things"
+
+============================================
+
+- Now, back to design principles, there's two kinds of change we were talking 
+about: variation points (CURRENTLY required, know we need it to change) and 
+evolution points (something we MIGHT need to handle later)
+
+- Now, as far as this goes, there's 3 common kinds of developers:
+
+    - Novices: Brittle designs that're easy to code at first, but are 
+    inflexible and hard to maintain
+
+    - Intermediates: over-engineer things ("I'll use ALL these design 
+    patterns"), makes designs that are overly fancy and flexible and 
+    generalized in ways we probably won't ever need (easy to maintain, but hard 
+    to code at first)
+
+    - Experts: They actually use their insight and experience to decide what 
+    can be brittle, and what NEEDS to be flexible (e.g. "The backend code for 
+    loading databases won't change, but the UI needs to be skinnable for future 
+    updates") - we get easy-to-code, hard-to-maintain stuff when we can get 
+    away with this, and we use hard-to-code, easy-to-maintain design when we 
+    need it
+        - "This way, we're allowing for flexibility down the line, but not 
+        wasting time trying to overly-design everything"
+
+- "Now, these GRASP principles are great points to follow when you're thinking 
+about design, but they're pretty specific to our textbook; you won't hear to 
+many interviewers asking you about GRASP."
+- There are still quite a few other design principles we'll talk about: Law of 
+demeter, Tell Don't Ask, CQS, SOLID, etc...but we'll start going over those on 
+Monday
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="28_moreDesignPrinciples_11_6_17.html"></a>
+</main>
+</body>
+</html>

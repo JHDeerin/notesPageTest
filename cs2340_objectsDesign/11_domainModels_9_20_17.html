@@ -1,0 +1,183 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - Objects and Design</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2340Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Objects and Design</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_21_17.html">0. First Day of CS 2340</a></li><li><a class="is-note-link" href="1_workingInTeams_8_23_17.html">1. Working in Teams</a></li><li><a class="is-note-link" href="2_teamExercise_8_25_17.html">2. NASA Team Exercise</a></li><li><a class="is-note-link" href="3_introToAgile_8_28_17.html">3. Agile Development / Zenhub</a></li><li><a class="is-note-link" href="4_sourceControl_8_30_17.html">4. Intro to Git/Version Control</a></li><li><a class="is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html">5. Git and Gradle</a></li><li><a class="is-note-link" href="6_gradleAndAndroid_9_6_17.html">6. Gradle and Intro. Android</a></li><li><a class="is-note-link" href="7_introToAndroid_9_8_17.html">7. Intro. to Android</a></li><li><a class="is-note-link" href="8_moreAndroidStudio_9_13_17.html">8. Android Studio (cont.)</a></li><li><a class="is-note-link" href="9_introProgrammingParadigms_9_15_17.html">9. Intro to Programming Paradigms/OOP</a></li><li><a class="is-note-link" href="10_OOPDesignUserStories_9_18_17.html">10. User Stories OOP Design</a></li><li class="active-note-page"><a class="is-note-link" href="11_domainModels_9_20_17.html">11. Domain Models</a></li><li><a class="is-note-link" href="12_moreDomainAndRDD_9_22_17.html">12. Domain Models (cont.) and RDD</a></li><li><a class="is-note-link" href="13_googleCleanCode_9_25_17.html">13. Google Clean Code</a></li><li><a class="is-note-link" href="14_basicAnalysis_9_29_17.html">14. Basic Analysis</a></li><li><a class="is-note-link" href="15_introToArchitecture_10_2_17.html">15. Intro to Software Architecture</a></li><li><a class="is-note-link" href="16_moreSoftwareArchitecture_10_4_17.html">16. Software Architecture (cont.)</a></li><li><a class="is-note-link" href="17_umlDiagrams_10_6_17.html">17. UML Diagrams</a></li><li><a class="is-note-link" href="18_classDiagrams_10_11_17.html">18. Class Diagrams (cont.)</a></li><li><a class="is-note-link" href="19_sequenceDiagrams_10_13_17.html">19. Sequence Diagrams</a></li><li><a class="is-note-link" href="20_mapsAndPersistence_10_16_17.html">20. Google Maps &amp; Persistence</a></li><li><a class="is-note-link" href="21_persistenceAndSafety_10_18_17.html">21. Persistence(cont.) &amp; Safety</a></li><li><a class="is-note-link" href="22_contractsAndExceptions_10_20_17.html">22. Contracts &amp; Exceptions</a></li><li><a class="is-note-link" href="23_introDesignPrinciples_10_25_17.html">23. Intro to Design Principles</a></li><li><a class="is-note-link" href="24_graspPrinciples_10_27_17.html">24. GRASP Principles</a></li><li><a class="is-note-link" href="25_codeReviews&amp;Testing_10_30_17.html">25. Code Reviews and Unit Tests</a></li><li><a class="is-note-link" href="26_testingCode_11_1_17.html">26. Testing Code</a></li><li><a class="is-note-link" href="27_moreUnitTests_11_3_17.html">27. More Unit Tests</a></li><li><a class="is-note-link" href="28_moreDesignPrinciples_11_6_17.html">28. More Design Principles</a></li><li><a class="is-note-link" href="29_SOLID_11_8_17.html">29. SOLID Principles (cont.)</a></li><li><a class="is-note-link" href="30_evaluatingDesigns_11_10_17.html">30. Evaluating Good Designs</a></li><li><a class="is-note-link" href="31_moreEvaluatingDesigns_11_13_17.html">31. Evaluating Designs</a></li><li><a class="is-note-link" href="32_UIDesignPrinciples_11_15_17.html">32. UI Design Principles</a></li><li><a class="is-note-link" href="33_packages_11_17_17.html">33. Packages</a></li><li><a class="is-note-link" href="34_metricsDesignPatterns_11_20_17.html">34. Metrics &amp; Design Patterns</a></li><li><a class="is-note-link" href="35_moreDesignPatterns_11_27_17.html">35. More Design Patterns</a></li><li><a class="is-note-link" href="36_exam2Review_11_29_17.html">36. Exam 2 Review</a></li><li><a class="is-note-link" href="37_finalExam_12_4_17.html">37. Final Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="10_OOPDesignUserStories_9_18_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//****************************************************************************//
+//***************** Domain Models - September 20th, 2017 ********************//
+//**************************************************************************//
+
+- So, we were talking about user stories - ways to document what our app is 
+supposed to do.
+    - "Nowadays, these are the principle ways people manage Agile projects, and 
+    are meant to serve as a placeholder for further discussions with customers"
+
+- For stories in the current sprint, as we said, each team member should choose 
+ONE user story, and then:
+    - List the details and tasks needed to implement the story
+        - Examples of such details:
+            - Design the creation UI
+            - Design the assignment table for our database
+            - Actually code the UI
+            - Code the SQL for the database
+            - Create Controller/Model classes for all these
+    - List the "acceptance criteria" the story needs to do
+        - "How do we know if the story is actually working?" Well, we use the 
+        BEHAVIOR-DRIVEN DEVELOPMENT (BDD) format:
+            - We think of outlining unit tests like this: GIVEN &lt;some initial 
+            conditions&gt;, WHEN &lt;the user does this&gt;, THEN &lt;the system does this&gt;
+            - We should be testing both failure AND success scenarios; e.g.:
+                - "GIVEN an instructor is viewing the "create new assignment" 
+                page, WHEN the instructor enters a valid name, due date, and 
+                instructions, and hits the submit button, THEN a new assignment 
+                is created in the database and added to the list of course 
+                assignemnts"
+                    - This is a "success" scenario; a failure scenario might be 
+                    what happens when the user enters a date that's already 
+                    passed, forgets to type a valid name, exits from the page 
+                    without submitting, etc.
+                - Another example from "dannorth.net" about withdrawing cash 
+                from an ATM (full example on website is much longer):
+                    -Story: "As an account holder, I want to withdraw cash from 
+                    an ATM so that I can get money when the bank is closed"
+                    - "Scenario 1: The account has sufficient funds
+                        - Given the balance is $100, and the card is valid, and 
+                        the machine contains enough money, when the account 
+                        holder requests $20, the machine should dispense $20 
+                        and display the customer's new balance and reduce the 
+                        customer's balance to $80"
+                    -
+    - List the "done done" criteria; at what point is the feature COMPLETELY 
+    done?
+        - So, what has the TEAM agreed must be done on this task to call it 
+        done?
+        - Well, depends on your team's standards...but a common list:
+            - All acceptance criteria met
+            - Code reviewed by another team member
+            - Test cases have been written
+            - Unit tests and UI automation tasks are written
+            - Features have been tested for accessibility
+
+- NOTE: For the homework, I tell you WHAT you have to do, but not always HOW 
+you have to do it. Some teams might have separate login/welcome pages, some 
+teams might do both together, etc.
+
+- So, with user stories done, let's talk about DOMAIN MODELS
+    - A DOMAIN is just a certain area or field that our project is within - 
+    like Video Games, or Sanitation, or Financial Analytics, etc.
+    - "If we're NOT familiar with the domain that we're working in, then we 
+    have to do some research to understand the domain - if an Air Force Colonel 
+    asks you to build a stick-and-ball azimuthal monitor, you can't build it 
+    until you know what that is!"
+    
+    - Thus far, we've identified external users/systems, we've described the 
+    stories of use for our system, but NOW we have to start understanding 
+    what's inside the "system box"
+    - Step 1 of that is the DOMAIN MODEL - understanding the CUSTOMER'S 
+    concepts, terms, and needs
+        - This is known as "Ubiquitous Language" in Domain-Driven Design
+        - We want to focus on what's important to the customer - NOT what's 
+        important to us programmers!
+            - "That way, when we build something for the customer, we end up 
+            making something the customer understands. When a customer asks us 
+            to build something, we shouldn't start out with "Okay, so I'll use 
+            AngularJS for the frontend, Node for the back, and..." NO! We need 
+            to start out by asking what the customer wants it to do!"
+    - Step 1: Brainstorming!
+        - The team generates a lot of ideas for possible objects/classes 
+        without too much analysis - e.g. for a board game project, we might 
+        immediately think of a "Player Class", a "Board" class, some "Dice" 
+        objects, etc.
+            - Don't think too hard or overanalyze these; record all ideas
+            - "Notice that these are terms where you DON'T need to be a 
+            programmer to recognize these things we're throwing out - the board 
+            game designers at Milton Bradley would understand these objects and 
+            concepts"
+        - There's multiple techniques for coming up with these objects/classes, 
+        like:
+            - Domain Analysis
+            - Noun Analysis 
+            - etc.
+    - At this point, these are all just "candidate classes", so now we go to 
+    STEP 2: Filtering!
+        - We need to reduce this BIG list of possible objects down to things we 
+        think are in the customer's domain
+            - REMEMBER: The customer should be able to recognize every noun 
+            we're selecting as an object; anything else is in danger of just 
+            being "Computer-speak", and we should delay that to the design phase
+        - Things to look for (and get rid of):
+            - Synonyms - two objects that mean that same thing in the 
+            customer's domain
+            - Attributes - "nouns" that are really just simple numbers or 
+            strings that should be properties of other objects
+                - e.g. "In a checkers game, red/black is a PROPERTY of the 
+                pieces or squares, not a class in itself"
+            - Implementation - nouns that represent implmentation / design 
+            decisions INSTEAD OF the customer's ideas (e.g. databases, 
+            networking, etc.; the customer DOESN'T CARE or understand anything 
+            about these)
+            - User Interface - anything related to the UI (windows, screens, 
+            dialogs, etc.) should be postponed to the design phase; these have 
+            nothing to do with the model itself, but with how customers 
+            interact with our representation of the domain
+    - Now, STEP 3: Draw the domain model!
+        - Write out all of our remaining "candidate classes" w/ their 
+        attributes and methods diagrammed
+        - We should be able to explain this to the customer - "Alright, Bob, 
+        this is how we understand your business domain: you've got a Board 
+        object with 2 Players, and all Players have 6 Pieces, and each Piece 
+        has a color property..."
+        - We should NOT have "programmer" details at this stage
+            - No public/private visibility markings
+            - No parameters, return types, etc.
+            - No types of instance data
+        - What we SHOULD provide:
+            - Basic class boxes
+            - Associations between classes (NOT inheritance or aggregation; 
+            just "logical" connections, e.g. up to 6 "Pieces" are owned by each 
+            "Player")
+                - Represent these in a UML diagram w/ lines and arrows, and 
+                brief annotations about the connections
+            - Cardinality Constraints / multiplicity information ("A player can 
+            only have 6 pieces")
+
+- Now, let's make a brief distinction between "Entity Objects" and "Value 
+Objects"
+    - An ENTITY is something where, if the attributes change, it's still the 
+    same object
+        - "If my Job changes or my Email address changes, I'm still Bob Waters"
+    - A VALUE object is where if the value changes, it's NOT the same object
+        - "If the Latitude of a Location object changes, it is NOT the same 
+        location"
+        - We do NOT care about the instance of the object itself - just its 
+        values!
+    - Entity objects are MUTABLE, and we care about their identity (in fact, 
+    most of these have some sort of ID attribute); these have a "history" to 
+    them, and a "lifecycle"
+    - Value objects are IMMUTABLE, and we don't care about their identity; we 
+    create and destoy these without tracking their history
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="12_moreDomainAndRDD_9_22_17.html"></a>
+</main>
+</body>
+</html>
