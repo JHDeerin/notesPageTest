@@ -1,0 +1,8 @@
+.cs1332 header:after {
+    /*background: linear-gradient(90deg,#2a692b, #f9e6e1);*/
+    background: linear-gradient(90deg,#444e58, #b1d678);
+}
+
+ul.note-links-slider > li.active-note-page {
+    background: linear-gradient(90deg,#444e58, #b1d678);
+}
