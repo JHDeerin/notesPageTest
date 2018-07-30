@@ -1,0 +1,155 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - OOP</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs1331Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">OOP</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_classNotes_9_14_16.html">0. Classes</a></li><li><a class="is-note-link" href="1_moreClassNotes_9_16_16.html">1. Classes (Cont.)</a></li><li><a class="is-note-link" href="2_inheritanceNotes_9_26_16.html">2. Inheritance</a></li><li><a class="is-note-link" href="3_moreInheritanceNotes_9_28_16.html">3. Inheritance (cont.)</a></li><li><a class="is-note-link" href="4_polymorphismNotes_9_30_16.html">4. Polymorphism</a></li><li><a class="is-note-link" href="5_morePolymorphismNotes_10_3_16.html">5. Polymorphism (cont.)</a></li><li><a class="is-note-link" href="6_objectSuperclassNotes_10_5_16.html">6. The Object Superclass</a></li><li class="active-note-page"><a class="is-note-link" href="7_moreObjectSuperclassNotes_10_7_16.html">7. Object Superclass (cont.)</a></li><li><a class="is-note-link" href="8_exceptionNotes_10_19_16.html">8. Exceptions</a></li><li><a class="is-note-link" href="9_moreExceptionNotes_10_21_16.html">9. Exceptions (cont.)</a></li><li><a class="is-note-link" href="10_collectionsNotes_10_24_16.html">10. Java Collections</a></li><li><a class="is-note-link" href="11_moreCollectionNotes_10_26_16.html">11. Collections (cont.)</a></li><li><a class="is-note-link" href="12_collectionAlgorithms_10_31_16.html">12. Collection Algorithms</a></li><li><a class="is-note-link" href="13_iteratorNotes_11_2_16.html">13. Iterators</a></li><li><a class="is-note-link" href="14_lambdaNotes_11_4_16.html">14. Lambda Expressions</a></li><li><a class="is-note-link" href="15_hashedNotes_11_7_16.html">15. Hashed Collections</a></li><li><a class="is-note-link" href="16_javafxNotes_11_9_16.html">16. JavaFX Notes</a></li><li><a class="is-note-link" href="17_JavaFXNotes_11_11_16.html">17. JavaFX (cont.)</a></li><li><a class="is-note-link" href="18_test3Review_11_14_16.html">18. Test 3 Review</a></li><li><a class="is-note-link" href="19_recursionNotes_11_28_16.html">19. Recursion</a></li><li><a class="is-note-link" href="20_linkedListNotes_11_30_16.html">20. Linked Lists</a></li><li><a class="is-note-link" href="21_stackQueueNotes_12_2_16.html">21. Stacks &amp; Queues</a></li><li><a class="is-note-link" href="22_closingNotes_12_5_16.html">22. Closing Time</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="6_objectSuperclassNotes_10_5_16.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//************************************************************//
+//*******Object Superclass (cont.) - October 7th, 2016*******//
+//**********************************************************//
+
+-(for real this time)
+-Every class you write in java is part of a class hierarchy/ framework, and ALL 
+classes inherit from a class called "Object"
+    -Stored in java.lang.Object; since it's in java.lang, is automatically 
+    imported wherever it is
+
+-Object HAS some default methods, but many of them are meant to be overridden 
+(e.g. toString, equals, hashCode, etc.)
+    -Java will automatically call toString whenever we try to print an object; 
+    how does it know every class has a toString method? Because EVERY class 
+    inherits from object, which has a toString method.
+        -Clone() method exists, but should NEVER be used (read Joshua Block)
+        -Finalize() is helpful in some scenarios (runs code before destroying 
+        object), but is only used very rarely, so we won't go over it
+
+-So, we have a class "Animal" that "is-a" Object, and a class "Mammal" which 
+is-a Object
+
+-By default, the .equals() method checks for identity equality, or "ALIASING"- 
+Java checks to see if two objects have the same memory address
+-When should a class override this method?
+    -When logical equality, or VALUE EQUALITY, is needed (e.g. checking if 2 
+    dates stored in different objects are the same)
+    -When classes don't use "instance control" (class checks that there's only 
+    one instance of a class (like a singleton))
+    -When the equals method for the superclass isn't suitable
+    -In this class: ALMOST ALWAYS need to override the .equals().
+
+-More importantly, we need to know not just "when", but HOW to override this
+    -SIDE NOTE: ALWAYS use .equals(), unless you're testing for identity 
+    equality or working with primitives (otherwise, you can be making a 
+    dangerous assumption about how the equality )
+    -SIDE NOTE 2: KNOW OPERATOR PRECEDENCE! print("truth value : " + n == q ) 
+    will just print "false", since the == operator has precedence and will 
+    operate at the end
+    -SIDE NOTE 3: When initializing a string with the same text as a 
+    pre-existing string, Java will just make the new string an alias of the old 
+    one, unless instantiated via String n = new String("coolString");
+
+    -For Comparable interface: we'll get to it later, but don't use it for now
+
+    -In the Java documentation, the .equals(Object n) method should define "an 
+    equivalence relationship", which satisfies the properties:
+        -Reflexivity: every object is equal to itself
+        -Symmetry: A = B is the same as B = C
+        -Transitive: A = C and B = C, then A = C
+        -Consistent: If A and B don't change, then the same result should be 
+        given
+        - a.equals(null) should ALWAYS return false (as otherwise, a is null 
+        and doesn't have an equals method)
+
+    -e.g. we have a "Person" class, and we follow the recipe of:
+        -Check object is not null
+        -Check if we're comparing the object to itself
+        -Check that the object is an "instanceof" the class we're using (return 
+        false if not true)
+            -BE AWARE that this will return true if the object is a subclass of 
+            the current class
+        -Cast the object to the type we want
+        -Check the "significant" fields for the other object to determine if 
+        the two objects are equivalent
+
+        -We follow this for ALL of our equals methods (for now...)
+
+        -So, we would end up with this for the Person class:
+
+        @Override
+        public boolean equals(Object other) {
+            if(null == other) {return false; }
+            if(this == other) {return true; }
+            if(!(other instanceof Person)) {return false; }
+                return ((Person)other).getName().equals(this.name);
+        }
+
+-Arrays are fixed collections of a fixed size and single type
+-ArrayLists are dynamically-allocated, and automatically resizes to fit objects
+    -Uses multiple arrays behind the scenes, but we can just use it as a 
+    resizeable list
+
+    e.g. ArrayList tasks = new ArrayList();
+        tasks.add("Eat");
+
+-The "contains()" method in collections (not just ArrayLists) uses the "equals" 
+method in the stored object to find if an object is in the list; the default 
+implementation rarely works right off the bat for this
+    -Note that ArrayList is a "generic" typed collection; by default, we can 
+    use it, but it will throw a warning if we don't give the ArrayList a 
+    specific type (by default, uses the "Object" type)
+
+-Override equivalence:
+    -You want to override a method in a subclass; the method MUST have the 
+    EXACT same name, EXACT SAME parameter list, and a covariant return type
+
+-"Covariant return type? Gee, what's that?"
+    -Means that it has to return either the same class OR a subclass of the 
+    return type as the original class
+    -"Return type of equal or lesser hierarchy to the original return type"
+        -Practically, returning subclass is rare, but occasionally useful
+    -If EVERYTHING ELSE is the same except the return type/method body, then it 
+    won't compile (even as overloading)
+        -Overloading is only when the parameter list is the only thing that has 
+        changed
+
+-Trying to override method in same class as the original method freaks the 
+compiler out (WHICH ONE IS REAL AGGGGHHHHHH), so don't do it
+-Make sure to use @Override, as it is easy to OVERLOAD a method instead of 
+actually overriding it
+
+-Static abstract classes: can call the static methods on the class directly w/o 
+instantiation, but really, no one actually does this
+    -Can we instantiate a static class? WHO KNOWS! (Taylor didn't know)
+
+-Won't be questions on exceptions (even if they're on the practice test)
+
+-Enums: can do some crazzzzzzy stuff with them (enum constructors, methods, 
+etc.), but for this class, they're just numbers w/ names
+    -Values given in order (0, 1, 2, 3, ..., n)
+    -If more interested, Oracle has a great tutorial on Enums
+
+(...I got bored and went on a really awful poetry tangent in the margins of a 
+paper I'll probably need later)
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="8_exceptionNotes_10_19_16.html"></a>
+</main>
+</body>
+</html>

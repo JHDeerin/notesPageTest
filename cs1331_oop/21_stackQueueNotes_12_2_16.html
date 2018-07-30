@@ -1,0 +1,153 @@
+<html>
+<head>
+<title>(*TEST PAGE*) Jake's CS Notes - OOP</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs1331Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">OOP</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_classNotes_9_14_16.html">0. Classes</a></li><li><a class="is-note-link" href="1_moreClassNotes_9_16_16.html">1. Classes (Cont.)</a></li><li><a class="is-note-link" href="2_inheritanceNotes_9_26_16.html">2. Inheritance</a></li><li><a class="is-note-link" href="3_moreInheritanceNotes_9_28_16.html">3. Inheritance (cont.)</a></li><li><a class="is-note-link" href="4_polymorphismNotes_9_30_16.html">4. Polymorphism</a></li><li><a class="is-note-link" href="5_morePolymorphismNotes_10_3_16.html">5. Polymorphism (cont.)</a></li><li><a class="is-note-link" href="6_objectSuperclassNotes_10_5_16.html">6. The Object Superclass</a></li><li><a class="is-note-link" href="7_moreObjectSuperclassNotes_10_7_16.html">7. Object Superclass (cont.)</a></li><li><a class="is-note-link" href="8_exceptionNotes_10_19_16.html">8. Exceptions</a></li><li><a class="is-note-link" href="9_moreExceptionNotes_10_21_16.html">9. Exceptions (cont.)</a></li><li><a class="is-note-link" href="10_collectionsNotes_10_24_16.html">10. Java Collections</a></li><li><a class="is-note-link" href="11_moreCollectionNotes_10_26_16.html">11. Collections (cont.)</a></li><li><a class="is-note-link" href="12_collectionAlgorithms_10_31_16.html">12. Collection Algorithms</a></li><li><a class="is-note-link" href="13_iteratorNotes_11_2_16.html">13. Iterators</a></li><li><a class="is-note-link" href="14_lambdaNotes_11_4_16.html">14. Lambda Expressions</a></li><li><a class="is-note-link" href="15_hashedNotes_11_7_16.html">15. Hashed Collections</a></li><li><a class="is-note-link" href="16_javafxNotes_11_9_16.html">16. JavaFX Notes</a></li><li><a class="is-note-link" href="17_JavaFXNotes_11_11_16.html">17. JavaFX (cont.)</a></li><li><a class="is-note-link" href="18_test3Review_11_14_16.html">18. Test 3 Review</a></li><li><a class="is-note-link" href="19_recursionNotes_11_28_16.html">19. Recursion</a></li><li><a class="is-note-link" href="20_linkedListNotes_11_30_16.html">20. Linked Lists</a></li><li class="active-note-page"><a class="is-note-link" href="21_stackQueueNotes_12_2_16.html">21. Stacks &amp; Queues</a></li><li><a class="is-note-link" href="22_closingNotes_12_5_16.html">22. Closing Time</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="20_linkedListNotes_11_30_16.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre>//***********************************************************//
+//**********Stacks &amp; Queues - December 2nd, 2016************//
+//*********************************************************//
+
+-...annnnnnnnnd Simpkins is back!
+    -Sleep-deprived due to thesis preparation, but back!
+-Grade average for the class is 82% right now, which is higher than exepected
+-Monday will just be review for the exam; bring your questions!
+-Good way to study for final: look at your past exams!
+    -basically copy-pasting previous questions w/ minor changes (e.g. coding a 
+    for loop instead of a while loop, etc.)
+-----------------------------------------------
+
+-Right! Stacks!
+-What kind of stacks? Pancake stacks?
+    -No, it's a data structure (which is more useful, but slightly less tasty)
+    -Name originally comes from "stacks" of plates in cafeterias, as they 
+    operate in basically the same way
+-The stack is a LIFO data structure - "Last in, first out"
+-Operates basically like...well, a stack
+    -2 Key operations: "push" and "pop"!
+        -PUSH: puts a new element on the stack
+        -POP: removes and returns the most recently "pushed" data
+            -Basically, this removes the "head" of the list and assigns the 
+            head to the new "top" of the stack (the 2nd element in the list, if 
+            you're using LinkedLists)
+            -Most usually also have a "peek" method that returns (but does not 
+            remove) the top element, and an "isEmpty()" check
+
+-VERY easy to implement using arrayLists
+-Using Linked Lists, there's also a "Linked Stack" implementation; major 
+difference is, when removing, you have to handle re-assigning the head when 
+popping something off the stack
+
+"LinkedStack myStack = new LinkedStack();
+myStack.push("a");"
+
+    -Generates a new "head" "a", with a null "next" pointer
+
+then, "myStack.push("b")"
+    -Now, "b"'s "next" pointer = "a", and "b" becomes the new "head"
+
+(Minor Simpkins screw-up when drawing this in a diagram
+    -"The squiggly line is formal language for 'erased'" - Simpkins 2016)
+
+"x = myStack.pop();"
+    -"head" (b) is first re-assigned to "a", then "b" is removed from the list 
+    and stored in x
+    -SIDE NOTE: if we stop here, then X(?) would get garbage collected, since 
+    nothing is referring to it
+        -In languages w/o garbage collection, not noticing stuff like this is 
+        what results in "memory leaks"...which you'll probably cause in 2110
+
+-A QUEUE, on the other hand, is a FIFO - "First in, first out" - data structure 
+with two methods:
+    -Way to remember spelling - "KYOO-EY-OO-EY". Ta-da
+    -enqueque: adds element to the end of the list
+    -dequeque: removes element at the beginning of the list
+        -Very similarly to LinkedStacks, there's a implementation for this via 
+        linkedlists - there's just, in addition to a head,
+
+-HOWEVER, if we use the ArrayList operation to pop() something from a stack, it 
+takes O(n) time
+    -NOT because we have to iterate through the list to find th head (we still 
+    find it right away), but because AFTER removing that element, we have to 
+    shift EVERY element in the array one place to the left
+-How long does it take for a LinkedList implementation? O(1) !!!!
+    -NO MATTER HOW BIG THE LIST, it only takes two steps - removing the 
+    element, and re-assigning the head variable
+    -This is in CONSTANT TIME - which, if you learn ANYTHING about algorithms, 
+    is AWESOME
+        -...and, for some applications, essential
+-Same principle applies for Queues as well
+
+-So, IMPLEMENTATION MATTERS
+    -Also, you just learned an ACTUAL use for LinkedLists
+        -"Why would I use a linkedList when I have an ArrayList?" Because 
+        LinkedLists do have ACTUAL ADVANTAGES over ArrayLists - we teach these 
+        things because they're actually useful, not just to torture you
+
+-Theoretically, our implementations follow all the core principles of these 
+data structures; BUT, from an OOP standpoint, there are a few design issues
+    -Calling "Pop" on an empty stack...:
+        -ArrayLisy:"ArrayIndexOutOfBounds"; tries to access "length-1" element, 
+        so when we try it on a 0-length list, it tries to access a negative 
+        element and explodes
+        -LinkedList: "NullPointerException"; tries to get the "next" element 
+        from a head that doesn't exist any more
+
+-This is a problem, for two reasons:
+    -It gives implementation details to the user, cluttering the error report 
+    and violating abstraction
+    -MORE IMPORTANTLY, if someone else uses this function (e.g. in a library), 
+    they'll see the error with OUR implementation, and NOT the fundamental 
+    ERROR THEY MADE: trying to access elements from an empty stack
+
+-So, we change this by having our implementation throw a runtime 
+"EmptyStackException" (conveniently in the JSL (Java Standard Library))
+    -SIDE NOTE: Instead of importing things, can use the "fully qualified 
+    classname" of calling something (e.g. "int = java.util.Random.nextInt()")
+        -Can be useful if there are multiple classes with the same name (e.g. 
+        you have your own custom "EmptyStackException", but also want to use 
+        Java's implementation elsewhere in the class)
+-The PROBLEM with this is that since Java's implementation is a 
+RuntimeException, classes won't be required to catch the error - leading to 
+crashes that the user doesn't understand the reason for (without digging 
+through the error report)
+
+-So, we'll fix THAT by creating an Abstract class that handles catching the 
+error ourselves
+    -Implementation in slides has an example of this using Abstract classes / 
+    interfaces together
+
+-Programming Exercise in slides - We'll go over it in next lecture, so try it 
+out!
+    -For those curious, pseudocode for that excercise is written in LISP
+    -For the first one, oyu don't need a stack; for the 2nd, you do
+        -First one: INITIAL HEURISTIc is to count # of open / closing 
+        parentheses and see if they're equal, BUT doesn't catch the case of if 
+        there's a closing before an open (e.g. ")()")
+            -So, we fix this by counting ALONG THE WAY, adding 1 for every open 
+            and subtracting for every closed - if we ever get to a negative # 
+            OR aren't at zero by the end, parentheses are unbalanced 
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="22_closingNotes_12_5_16.html"></a>
+</main>
+</body>
+</html>
