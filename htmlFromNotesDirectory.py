@@ -64,7 +64,7 @@ def setupHtmlHeaderLinks(outputDirectoryName, noteTitles):
         headerNoteLinks = updatedHtml.nav.find('ul', class_="note-links-slider")
         headerNoteLinks.clear()
         for j in range(0, len(outputHtmlFiles)):
-            newTag = BeautifulSoup('<li><a href="#"></a></li>', "html.parser")
+            newTag = BeautifulSoup('<li><a href="#" class="is-note-link"></a></li>', "html.parser")
             newTag.a['href'] = outputHtmlFiles[j]
             newTag.a.string = "%d. %s" % (j, noteTitles[j])
             if i == j: #if this is the current file's link

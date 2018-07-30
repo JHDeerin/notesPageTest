@@ -22,24 +22,29 @@ function loadPage(url) {
     });
 }
 
-function changePage() {
+function changePage(isLinkToAnotherNote) {
     if (newPageLoading === false) {
-        newPageLoading = true;
-        var url = window.location.href;
+        if (isLinkToAnotherNote) {
+            newPageLoading = true;
+            var url = window.location.href;
 
-        loadPage(url).then(function(responseText) {
-            var wrapper = document.createElement('div');
+            loadPage(url).then(function(responseText) {
+                var wrapper = document.createElement('div');
                 wrapper.innerHTML = responseText;
+            
+                var oldContent = document.querySelector('pre');
+                var newContent = wrapper.querySelector('pre');
 
-            var oldContent = document.querySelector('pre');
-            var newContent = wrapper.querySelector('pre');
+                resetSideLinks(wrapper);
+                changeSelectedNoteLink(wrapper);
 
-            resetSideLinks(wrapper);
-            changeSelectedNoteLink(wrapper);
-
-            main.appendChild(newContent);
-            animate(oldContent, newContent);
-        });
+                main.appendChild(newContent);
+                animate(oldContent, newContent);
+            });
+        } else {
+            //for now, just load non-note links like normal without any effects
+            window.location.href = url;
+        }
     }
 }
 
@@ -100,7 +105,9 @@ document.addEventListener('click', function(e) {
     if (el) {
         e.preventDefault();
         history.pushState({}, "", el.href);
-        changePage(el.href);
+
+        isLinkToAnotherNotePage = el.classList.contains("is-note-link")
+        changePage(isLinkToAnotherNotePage);
         return;
     }
 });
