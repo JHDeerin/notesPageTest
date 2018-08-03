@@ -78,19 +78,18 @@ function getSelectedLinkIndex(htmlWrapper) {
 function animate(oldContent, newContent) {
     const fadeInMSLength = 100;
     oldContent.style.position = 'absolute';
+    oldContent.style.opacity = 1;
+    oldContent.style.transition = `${fadeInMSLength / 1000.0}s opacity`;
+    oldContent.style.opacity = 0;
 
-    var fadeOut = oldContent.animate({
-        opacity: [1, 0]
-    }, fadeInMSLength);
+    newContent.style.opacity = 0;
+    newContent.style.transition = `${fadeInMSLength / 1000.0}s opacity`;
+    newContent.style.opacity = 1;
 
-    var fadeIn = newContent.animate({
-        opacity: [0, 1]
-    }, fadeInMSLength);
-
-    fadeIn.onfinish = function() {
+    window.setTimeout(function() {
         oldContent.parentNode.removeChild(oldContent);
         newPageLoading = false;
-    };
+    }, fadeInMSLength);
 }
 
 window.addEventListener('popstate', changePage);
