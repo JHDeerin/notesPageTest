@@ -17,7 +17,10 @@ main {
 
 main > header {
     margin: 0 auto;
-    width: 80ch;
+    width: 100%;
+    max-width: 80ch;
+
+    font-size: 1em;
 }
 
 main h1, h2 {
