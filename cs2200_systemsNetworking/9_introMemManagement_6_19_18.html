@@ -1,0 +1,205 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>(*TEST PAGE*) Jake's CS Notes - Intro to AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2200Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Systems and Networks</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_5_15_18.html">0. CS 2200 First Day</a></li><li><a class="is-note-link" href="1_processorBasics&amp;Stack_5_17_18.html">1. Processor Basics / Calling Stack</a></li><li><a class="is-note-link" href="2_processorDesignBasics_5_22_18.html">2. Processor Design Basics</a></li><li><a class="is-note-link" href="3_controlUnits_5_24_18.html">3. Control Unit Basics</a></li><li><a class="is-note-link" href="4_interrupts_5_29_18.html">4. Interrupts</a></li><li><a class="is-note-link" href="5_improvingPerformance_5_31_18.html">5. Performance Basics</a></li><li><a class="is-note-link" href="6_introPipeline_6_5_18.html">6. Introduction to Pipelining</a></li><li><a class="is-note-link" href="7_introScheduling_6_12_18.html">7. Scheduling and Multiprogramming</a></li><li><a class="is-note-link" href="8_schedulingAlgos_6_14_18.html">8. Scheduling Algorithms</a></li><li class="active-note-page"><a class="is-note-link" href="9_introMemManagement_6_19_18.html">9. Memory Management</a></li><li><a class="is-note-link" href="10_paging_6_21_18.html">10. Paging</a></li><li><a class="is-note-link" href="11_replacementAlgos_6_26_18.html">11. Page Replacement</a></li><li><a class="is-note-link" href="12_caching_7_2_18.html">12. Caching</a></li><li><a class="is-note-link" href="13_introMultithreading_7_5_18.html">13. Intro to Multithreading</a></li><li><a class="is-note-link" href="14_moreMultithreading_7_10_18.html">14. Multithreading (cont.)</a></li><li><a class="is-note-link" href="15_diskIO_7_12_18.html">15. Disk and I/O</a></li><li><a class="is-note-link" href="16_introFiles_7_17_18.html">16. Introduction to Filesystems</a></li><li><a class="is-note-link" href="17_errorChecking_7_19_18.html">17. Error Checking</a></li><li><a class="is-note-link" href="18_conclusion_7_24_18.html">18. Concluding Remarks</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="8_schedulingAlgos_6_14_18.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//***************** Memory Management - June 19th, 2018 *********************//
+//**************************************************************************//
+
+- 10:03 - A grand total of 10 people in the room with 2 minutes to start...is 
+that normal for this "late" in the semester?
+    - A couple more trickled in at the last second, but still, only ~30% of the 
+    class is actually here...
+- So, we've talked about datapaths, pipelining, and getting our basic hardware 
+ducks in a row - now, we're starting to move up the abstraction tree to 
+"processes"
+----------------------------------------------------------
+
+- First off, last lecture was a little messy, so let's clarify a few things:
+    - We WILL be using the book definitions for the exams, but to be thorough...
+    1) FCFS behaves differently from a normal queue; it actually uses a 
+    PRIORITY QUEUE, or "heap"
+        - Now, for a normal queue, the time to add is O(1); for a priority 
+        queue/heap, it's O(log n)
+    2) Response time/turnaround time are explained as the same in the book; in 
+    other textbooks, they are NOT
+        - In other literature, the response time is "how long does the process 
+        take to start running, after I started it"
+        - This is why RR is so good; it's not a whole lot better for turnaround 
+        time, but it's significantly better by this definition of response time!
+    3) The "quantum size" of the Round Robin algorithm can have a significant 
+    impact
+        - If we have a shorter "time quantum," we can SIGNIFICANTLY improve the 
+        response time, but we have to switch the processes more often - and 
+        every time we switch processes, the dispatcher/scheduler have to run 
+        too! Because of that, we actually end up increasing the overall 
+        turnaround time as the time quantum goes down
+            - As we'll learn later, this is called "thrashing"
+        - ALSO, FCFS can be considered a special case of "Round Robin" with an 
+        infinite time quantum
+
+- "From a teaching perspective, I try to teach 2 main things about these 
+managers: MECHANICS (the details of how things actually work) and POLICIES (the 
+different ways of doing things and their trade-offs)"
+
+- So, in the good ol' days before the internet, Professor Mark would be coding 
+away on his Apple II, adding features left and right, and suddenly things would 
+start going into CHAOS - nothing worked anymore!
+    - ...why? Well, because the computer had run out of memory!
+        - "Even today, computers struggle with memory management - it's an old 
+        problem, but still a current one!"
+    - So, if we have a looooooong program, just throwing the whole thing into 
+    physical memory might not be the greatest idea ever - but how did people 
+    get around that?
+        - One old technique is to break the program up into its individual 
+        functions/procedures - to start off, we just load the "main" procedure 
+        from the hard drive, then load/unload in the code for the other 
+        procedures as they're needed
+            - This was known as OVERLAYING, and you had to define which 
+            procedures were needed, and when to load/unload them, for EVERY 
+            procedure
+                - ...as you can imagine, this was error-prone and annoyed a LOT 
+                of programmers
+
+- There HAD to be a better way to organize stuff in memory then just letting 
+the programmer manually define everything - but first, let's REALLY think about 
+what a program is
+    - There are 3 times we care about dealing with the program's memory and 
+    addresses:
+        - Compile Time (have to know where the program resides; moving the 
+        program's instructions would require a recompile)
+        - Load Time (compiler has to generate code that can be moved around in 
+        memory; just reload the code if the starting address has changed)
+        - Execution Time ()
+    - So, to handle this stuff, we need our computer to support a few different 
+    things:
+        - POSITION INDEPENDENT CODE, so that we aren't depending on the program 
+        being loaded at a particular memory address (e.g. base+offset 
+        addressing instead of hardcoding memory locations)
+        - DYNAMIC LOADING, where we only load a routine when it's needed
+            - If you've ever seen .dll files in your computer, that's what 
+            these are - the program fetches instructions from the .dll files as 
+            it's needed
+        - DYNAMIC LINKING, 
+    - The main problem behind ALL of this, though, is to let our programs use 
+    memory more flexibly - to try and find a way to let the programmer/CPU 
+    think they're in one place in memory, when in reality, behind the scene, 
+    our processor can be putting it somewhere else that's more convenient 
+
+- To do this, we'll have to talk about a few things:
+    - Logical/Virtual vs Physical Addresses
+    - Paging
+    - Segmentation
+    - Virtual Memory
+
+- First up, let's talk about addresses themselves
+    - In the computer, there's the idea of "LOGICAL ADDRESSES" (aka "Virtual 
+    Addresses"), which are generated by the CPU
+        - ALL of the program manipulation in our code - pointers, etc., - are 
+        done with logical addresses (e.g. if we have a 32-bit architecture, 
+        then we have 2^32 logical memory addresses)
+        - ...the PROBLEM, though, is that we might have less physical memory 
+        than the addressing space (e.g. 32-bit architecture but only 512mb of 
+        RAM)!
+            - We might also have multiple processes trying to use the same 
+            memory location, etc.
+        - There's a few different schemes we can try to use to manage this 
+        memory: by putting a "memory manager" component that will map between 
+        logical addresses and the actual physical address
+            - One of the basic ones is to separate the KERNEL memory and "User" 
+            memory
+                - In this scheme, the "kernel" memory for the OS is like the 
+                teacher's desk - you don't touch it!
+                - Practically, if an address is given to us that tries to 
+                access the OS's code, we call a trap - otherwise, we let it 
+                write to memory as normal
+                - This is an improvement, but a bit simplistic, and doesn't 
+                solve the problem of processes "fighting" over each other's 
+                memory
+            - Another one is "STATIC RELOCATION" - each process is given a 
+            "lower bound" and an "upper bound" address, and they can only run 
+            in that partition that they're given
+                - The catch with this one, though, is that once a process is 
+                given a partition, that's it - it's given in terms of absolute 
+                addresses, so it's fixed and dependent on never mvoing
+            - So, a better version of this is to support DYNAMIC RELOCATION - 
+            instead of giving a process two fixed bounds, we instead just give 
+            it a base and a maximum offset
+    - So, we're giving each process it's own fixed-size partition - great!
+        - The ISSUE with these fixed-size partition, though, is that we can end 
+        up wasting space via INTERNAL FRAGMENTATION - if we give each process 
+        8kb partitions, but a process is only using 2kb of memory, then it has 
+        6kb of memory just sitting around that NO other processes can use!
+    - To solve this, we can try to have DYNAMIC partitions, where we can have 
+    partitions that grow or shrink as needed by the program
+        - Now, in 2110, we had the malloc() assignment, where we tried to 
+        "compact" the free memory segments into 1 segment - actually doing this 
+        in the hardware, though, and trying to rearrange the processes to be 
+        contiguous with free memory, is TOUGH
+        - So, what we often end up with here is EXTERNAL FRAGMENTATION - we 
+        have free blocks of memory that're only a couple kilobytes long, too 
+        short for anyone to use!
+
+- So, we want to keep memory contiguous, but re-arranging all the processes is 
+tough from a hardware standpoint...but let's be smart about this: we don't need 
+the PHYSICAL memory to be contiguous - we just need the user to THINK the 
+memory partions are contiguous! We can try doing this with "Paging"! (recheck 
+this ENTIRE section)
+    - The idea behind PAGING is to conceptually break up logical/"virtual" 
+    memory and physical memory into equal-sized blocks
+        - So, we're taking the "logical" memory that the process thinks it has 
+        and breaking it up into multiple "pages" all of the same size
+        - The physical memory, then, is broken into a bunch of equal-sized 
+        "frames," and we put our virtural memory into these frames to run as 
+        they become available
+    - To keep track of these different pages, we have a PAGE TABLE in memory 
+    that maps a given logical address into the page # it belongs to (e.g., all 
+    addresses between 0 and 99 maps to "page #0"), and then maps THAT into an 
+    available "frame" in physical memory (e.g. Virtual Page #1 might be in 
+    Physical Frame/Page #12, Virtual Page #2 might be in Physical Frame/Page 
+    #35, etc.)
+        - By doing this, the user *thinks* the memory is contiguous, but the 
+        physical location of the memory can be wherever we need!
+    - So, how do we actually set this addressing scheme up in memory?
+        - Basically, instead of having a raw address #, we split the page 
+        table's addresses into a "virtual page number," and an offset from the 
+        starting address of that page #
+        - Then, when converting this to a physical address, we can just decode 
+        this into "VPN * (size of page) + offset"
+- Now, this scheme assumes that all of the program's code is in memory - but, 
+usually, not all of the program's code is running at the same time, and often 
+much of it (error-checking, etc.) doesn't have to be run at all
+    - This brings us into Chapter 8, with DEMAND PAGING - the first time we ask 
+    for a page, it isn't loaded into memory yet, so we go get the data from the 
+    disk, find a free frame, put the data in that frame, and then mark that 
+    page in the data as being loaded (to do this, we add an extra 
+    "valid/invalid" bit to the page table)
+        - This is a "lazy algorithm" in the good sense - we're not doing more 
+        work than we have to!
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="10_paging_6_21_18.html"></a>
+</main>
+</body>
+</html>

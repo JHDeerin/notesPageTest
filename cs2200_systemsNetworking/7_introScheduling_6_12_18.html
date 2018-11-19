@@ -1,0 +1,179 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>(*TEST PAGE*) Jake's CS Notes - Intro to AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2200Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Systems and Networks</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_5_15_18.html">0. CS 2200 First Day</a></li><li><a class="is-note-link" href="1_processorBasics&amp;Stack_5_17_18.html">1. Processor Basics / Calling Stack</a></li><li><a class="is-note-link" href="2_processorDesignBasics_5_22_18.html">2. Processor Design Basics</a></li><li><a class="is-note-link" href="3_controlUnits_5_24_18.html">3. Control Unit Basics</a></li><li><a class="is-note-link" href="4_interrupts_5_29_18.html">4. Interrupts</a></li><li><a class="is-note-link" href="5_improvingPerformance_5_31_18.html">5. Performance Basics</a></li><li><a class="is-note-link" href="6_introPipeline_6_5_18.html">6. Introduction to Pipelining</a></li><li class="active-note-page"><a class="is-note-link" href="7_introScheduling_6_12_18.html">7. Scheduling and Multiprogramming</a></li><li><a class="is-note-link" href="8_schedulingAlgos_6_14_18.html">8. Scheduling Algorithms</a></li><li><a class="is-note-link" href="9_introMemManagement_6_19_18.html">9. Memory Management</a></li><li><a class="is-note-link" href="10_paging_6_21_18.html">10. Paging</a></li><li><a class="is-note-link" href="11_replacementAlgos_6_26_18.html">11. Page Replacement</a></li><li><a class="is-note-link" href="12_caching_7_2_18.html">12. Caching</a></li><li><a class="is-note-link" href="13_introMultithreading_7_5_18.html">13. Intro to Multithreading</a></li><li><a class="is-note-link" href="14_moreMultithreading_7_10_18.html">14. Multithreading (cont.)</a></li><li><a class="is-note-link" href="15_diskIO_7_12_18.html">15. Disk and I/O</a></li><li><a class="is-note-link" href="16_introFiles_7_17_18.html">16. Introduction to Filesystems</a></li><li><a class="is-note-link" href="17_errorChecking_7_19_18.html">17. Error Checking</a></li><li><a class="is-note-link" href="18_conclusion_7_24_18.html">18. Concluding Remarks</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="6_introPipeline_6_5_18.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//*********** Scheduling and Multiprogramming - June 12th, 2018 *************//
+//**************************************************************************//
+
+- So, pipeline-wise, other people are halfway done, have finished X and Y and 
+Z...sooooooo yeah, I should probably start on that soon
+- Meanwhile, a solid 1/3 of the class is here on an overcast day, at 10:08, and 
+we're just about to get started with our dive into Chapter 6
+------------------------------------------------------------
+
+- So, up until now, we've been focused on the underlying architecture of the 
+machine and getting our processor running. But what does the processor have to 
+actually DO?
+    - In this lecture, we'll be jumping up to the next step of abstraction for 
+    this class, and talking about how the processor actually starts to run and 
+    manage user programs
+
+- Looking through the processes on your systems, what do you see?
+    - Remember, a program is the code containing the instructions for a 
+    program, and a process is the portion(s) of code that's actually running at 
+    a given time
+        - So, a process needs space in memory to hold its instructions and 
+        dynamic data, runs when the PC points to it (CPU time), and possibly 
+        access to I/O (like the hard drive) or the network
+
+- Let's say that you have a list of things you need to do for the day (get 
+groceries, call mom, make dinner, do homework); how do you decide when to do 
+what?
+    - In a computer, we have a similar problem: we've got 2 or more programs 
+    that both need to run at the same time, so how do we decide when each one 
+    gets to run?
+    - Well, that's a job for the operating system!
+        - Specifically, it's a job for the SCHEDULER, which keeps track of the 
+        processes for the different resources; within a process, we can also 
+        have THREADS that execute at different times
+    - So, the big questions: how do we switch from running one job to another?
+        - This brings in the idea of CONTEXT SWITCHING: moving all the state 
+        information we need for the current process to its PCB (Process Control 
+        Block), and moving the new process' state information from its PCB to 
+        the registers, PC, etc.
+            - Honestly, this isn't too different from calling functions, where 
+            we put the state information we need to save on the stack before 
+            switching control to the callee
+                - The difference, of course, is that for processes we don't 
+                just "forget" the callee after we're done running it; we have 
+                to save ALL the processes' states before we switch!
+                - In UNIX-based systems, processes keep track of their "process 
+                ID" (PID) and their "parent" processes (PPID)
+                    - This is commonly done using a "fork and exec" process: 
+                    the "fork" command makes a duplicate process (the only 
+                    difference is the new one has a different process ID, and 
+                    will start on the line AFTER the fork was created), and the 
+                    "execvp" command runs the given program
+                        - Usually, an ID check is done to check if the program 
+                        is the parent/child; if it's the child, it will execute 
+                        the child program instead
+                        - This is commonly done because it's simple (you just 
+                        copy the process and rewrite what you need inside it), 
+                        but it is kinda "heavyweight" (uses memory we might not 
+                        need, etc.); we'll address this with threads later on
+        - We have to switch between contexts fast enough to convince people 
+        that all their programs are running at the same time, so predictably 
+        enough, this whole process usually takes under a microsecond on modern 
+        hardware
+    - To decide WHEN to switch processess, the OS can be "NON-PREEMPTIVE" 
+    (waits until the current process says it's okay to switch) or "PREEMPTIVE" 
+    (will "cut off" programs early if they've been running for too long)
+        - In Non-Preemptive systems, the process has the duty of saving all its 
+        state; in Preemptive systems, since the OS is possibly cutting the 
+        program off early, it has to save the process' state and usually has to 
+        save EVERYTHING (since it can't be sure what the process really needs)
+
+- So, what information actually needs to be in a process' PCB?
+    - We need a process #, so we know what the processes ID is
+    - The current PC value/Stack Pointer
+    - General register values (NOT internal registers like the MAR)
+    - Scheduling info
+    - Memory limits ("processes don't get to use the whole memory, but just 
+    what they've been allocated")
+    - I/O status (is it waiting for a disk read, keystroke, etc.)
+    - Accounting info (ports used)
+    - Process state (any custom state info it needs)
+    - A pointer to the next process
+        - "Pointers save TONS of time compared to trying to manipulate 
+        everything in memory"
+- In C, this might literally take the form of a struct like this:
+
+        enum state_type {new, ready, running, waiting, halted};
+
+        typedef struct control_block_type {
+            struct control_block *next_pcb;
+            enum state_type currentState;
+            address pc;                     // where to resume
+            int reg_file[NUMREGS];          // contents of registers
+
+            int priority;
+            address address_space;          // location in memory
+        } control_block;
+
+- Now, the basic steps we need for a scheduler are:
+    1) 
+    2)
+    3)
+    4)
+    - Now, for handling processes we usually think of just the "short-term 
+    scheduler;" but there are a few different kinds of scheduler as well:
+        - Long-term schedulers 
+        - Medium-term schedulers are
+    - So, how do we pick which process should be run next?
+        - We know one of the big bottlenecks of our architecture is accessing 
+        memory, and ESPECIALLY reading from the the disk or waiting for I/O
+        - So, if a process has to wait for I/O or another event, we put it in 
+        the "waiting" state until that operation has been completed; if it's 
+        "just" been interrupted, we'll just put it back in the ready queue
+    - So, we'll initially put processes in the "Ready" queue, run them, and 
+    then depending on what they're doing will do one of a few things:
+        - If it wants to make an I/O request, it will put it on the I/O request 
+        queue
+            - Then, when it's made the I/O request, we'll put it in a separate 
+            I/O queue (since we want to let the processes make I/O requests and 
+            not wait for them to complete)
+        - If it ran for too long, then we'll stop it running and put it back on 
+        the ready queue to let another process have a turn
+        - If it's creating a child process, put it to the side to do that
+        - 
+
+- Great! We've got our shiny, working multiprogramming OS - how do we measure 
+how "good" our system is?
+    - Well, there are a few metrics we can use; most of them boil down to the 
+    question, "how long did our processes spend just waiting?":
+        - CPU Utilization: Percent of time the processor is budy doing something
+        - Throughput: How many o
+        - Average Turnaround Time: Average time between jobs entering/leaving 
+        the system
+        - Average Waiting Time
+        - Response Time
+    - Aside from these "quantitative" measures, we also have two qualitative 
+    issues:
+        - STARVATION is where your scheduling algorithm prevents a process from 
+        ever completing
+        - The CONVOY EFFECT is where the scheduling algorithm allows 
+        long-running jobs to dominate the CPU and significantly delay smaller 
+        processes (it's like waiting for a parade to pass to cross the street)
+
+- So, what're some scheduling algorithms we can use to maximize our performance 
+and minimize these issues? We'll look at 3 different ways (First-Come 
+First-Served, Round-Robin, and Shortest Job First), each with different 
+tradeoffs - but that'll be next time
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="8_schedulingAlgos_6_14_18.html"></a>
+</main>
+</body>
+</html>

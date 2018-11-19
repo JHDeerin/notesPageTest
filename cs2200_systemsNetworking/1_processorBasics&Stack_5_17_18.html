@@ -1,0 +1,220 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>(*TEST PAGE*) Jake's CS Notes - Intro to AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2200Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Systems and Networks</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_5_15_18.html">0. CS 2200 First Day</a></li><li class="active-note-page"><a class="is-note-link" href="1_processorBasics&amp;Stack_5_17_18.html">1. Processor Basics / Calling Stack</a></li><li><a class="is-note-link" href="2_processorDesignBasics_5_22_18.html">2. Processor Design Basics</a></li><li><a class="is-note-link" href="3_controlUnits_5_24_18.html">3. Control Unit Basics</a></li><li><a class="is-note-link" href="4_interrupts_5_29_18.html">4. Interrupts</a></li><li><a class="is-note-link" href="5_improvingPerformance_5_31_18.html">5. Performance Basics</a></li><li><a class="is-note-link" href="6_introPipeline_6_5_18.html">6. Introduction to Pipelining</a></li><li><a class="is-note-link" href="7_introScheduling_6_12_18.html">7. Scheduling and Multiprogramming</a></li><li><a class="is-note-link" href="8_schedulingAlgos_6_14_18.html">8. Scheduling Algorithms</a></li><li><a class="is-note-link" href="9_introMemManagement_6_19_18.html">9. Memory Management</a></li><li><a class="is-note-link" href="10_paging_6_21_18.html">10. Paging</a></li><li><a class="is-note-link" href="11_replacementAlgos_6_26_18.html">11. Page Replacement</a></li><li><a class="is-note-link" href="12_caching_7_2_18.html">12. Caching</a></li><li><a class="is-note-link" href="13_introMultithreading_7_5_18.html">13. Intro to Multithreading</a></li><li><a class="is-note-link" href="14_moreMultithreading_7_10_18.html">14. Multithreading (cont.)</a></li><li><a class="is-note-link" href="15_diskIO_7_12_18.html">15. Disk and I/O</a></li><li><a class="is-note-link" href="16_introFiles_7_17_18.html">16. Introduction to Filesystems</a></li><li><a class="is-note-link" href="17_errorChecking_7_19_18.html">17. Error Checking</a></li><li><a class="is-note-link" href="18_conclusion_7_24_18.html">18. Concluding Remarks</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="0_firstDay_5_15_18.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//*********** Processor Basics / Calling Stack - May 17th, 2018 *************//
+//**************************************************************************//
+
+- Slowly learning the best routes to the Mason building from West...slowly.
+    - They mostly seem to involve parking lots. Unfortunately.
+--------------------------------------------------------------
+
+- Alright, let's get right back into it!
+    - Today, we'll be talking about processors, BUT FIRST...some syllabus things
+        - Office hours will be slightly updated; again, if none of them work 
+        for you, feel free to reach out to me or the TAs to arrange a meeting
+        - The late policy of "one assignment can be late by 3 days" will stand
+            - "It's like a ticket; you can't chop it up into 3 one-time tickets"
+            - I understand that you've got other classes, and sometimes things 
+            get tight; that's why we have this one-time "get out of jail free" 
+            card, but we don't want to encourage a habit of turning things in 
+            late
+        - There's a 2-hour lecture, then a 2-hour recitation; we'll try to keep 
+        them in sync. The basic philosophy is:
+            - Lectures cover concepts from the textbook, first at a high level, 
+            then going through the details
+            - Recitation/Lab will take those concepts, cover the confusing 
+            parts, and translate them into hands-on "what do I need to know to 
+            make this work?"
+
+- So, last time/in recitation, we covered a few things:
+    - There's a "layer cake" of how computers work from most abstract to least 
+    abstract: 
+        - Algorithms/High-Level Programs 
+        - -&gt; Software (e.g. OS/compiler) 
+        - -&gt; Computer Architecture (i.e. ISA) 
+        - -&gt; Machine Organization (datapath/control) 
+        - -&gt; Sequential/Combinational Logic elements (ALU, registers, PC, etc.) 
+        - -&gt; Logic Gates 
+        - -&gt; Transistors 
+        - -&gt; Solid-State Physics 
+    - Quick reminders:
+        - COMBINATIONAL logic doesn't depend on prior states; given an input, 
+        we know what the output will be. SEQUENTIAL logic means that we 
+        remember what happened in prior operations, affecting the result
+        - The OS acts a resource manager for programs, gives the "illusion" of 
+        a consistent interface to hardware operations, etc.
+- In math, you don't start by teaching people about complex numbers, but by 
+teaching them "1-2-3". The LC-3 was our "1-2-3" of processor design; now, in 
+this class, we're going to start getting more realistic
+- Quick overview of OS evolution:
+    - In the 1960s, during the Apollo missions, we had mainframe computers
+        - Nowadays, most laptops are ~2-3 GHz, 8-16 gb of RAM, etc; the Apollo 
+        guidance computer had 2 Khz and 38 Kb of RAM
+            - "Nowadays, our SELFIES are 1 MB! The power of what even a few 
+            kilobytes of processing can do is ENORMOUS!"
+            - Still, ABC: "Always Be Creative", always ask how can we do things 
+            better...that's what drives innovation
+    - We then proceeded to PC/Desktops with GUIs, Enterprise OS software, etc.
+- This course will teach us about Processor, Memory, I/O, Parallelism, and 
+Networking
+
+- So, what does the "hardware-software" stack look like for this class?
+    - Instruction Set Architecture (ISA)
+        - We start here, because it's the dictionary of the "words" we know how 
+        to use to talk to the hardware (specifically, the processor)
+        - We store these instructions on some sort of persistent storage, like 
+        a hard drive
+    - When the computer starts, these instructions are loaded by the BIOS: the 
+    "Basic Input-Output System"
+        - The BIOS usually first does a diagnostic check to make sure the 
+        computer hardware is A-okay and working
+        - It THEN starts searching in a few places for the OS itself; when it 
+        finds it, it initalizes the OS, makes sure it's running, and then says 
+        good night and lets the OS take over
+            - Where might the OS be found? A hard drive, a USB drive, a CD, on 
+            a network, a floppy disk (if you've been cursed)
+            - There's a small "bootloader" component in each OS that handles 
+            booting, which is when you see the "startup" screen on your computer
+                - How does the BIOS know where this bootloader is? There's 
+                apparently a convention so that it knows, but we won't get into 
+                that right now
+    - So, once the OPERATING SYSTEM (OS) is loaded into memory, the computer 
+    has officially begun running
+        - When the operating system is running, it'll run any machine code for 
+        applications that start up
+        - When we have source code we write on the OS, though, that we want to 
+        run, we need compilers to turn it into machine code, or interpreters 
+        that do this in realtime, which is what makes the application work
+- So, with that basic high-level stack gone through, let's reconvene in a few 
+minutes; then, we'll go through some architecture stuff...
+    - ...including *drumroll*...the datapath
+
+========== 10 Minute Break ==========
+
+- So, on the slides, there's another layer cake of how high-level languages 
+"trickle down" to ISA instructions
+    - Compilers turn the language into a set of "static" machine code that runs 
+    natively on the computer
+    - Interpreters are programs that execute source code at run-time, 
+    line-by-line; because of this, compiled code is usually significantly 
+    faster, but takes longer to start up the first time
+        - With "Just-In-Time" compilers (JTCs), interpreted languages are 
+        sometimes faster overall, and they tend to also be simpler to debug 
+        since they fail right at the actual line in the program; they also have 
+        the advantage of not having to re-compile the source code for each type 
+        of hardware (just the interpreter itself needs to be recompiled)
+    - ...Java, with the JVM, is a weird hybrid of this
+- So, the goals for writing a good ISA are to 1) Maximize performance 2) Easy 
+to build compilers for 3) Easy to build hardware for 4) Minimize cost
+    - ...these goals are usually in conflict; large instruction sets make 
+    building compilers easy (e.g. "don't have to manually program 
+    multiplication in assembly") but makes the hardware more complex and often 
+    less optimized, increasing performance usually increases cost and hardware 
+    complexity, etc.
+
+- Operands: there's a choice to keep them just in memory, or in a combination 
+of registers and memory. Basically ALL computers nowadays use registers
+    - People ALWAYS want more registers, so guess what? In this class, the fake 
+    computer has more registers!
+- For addressing: remember from 2110 the idea of "base + offset" addressing 
+when dealing with memory
+    - Remember the Apollo computer? It DIDN'T HAVE memory addresses explicitly, 
+    because of the memory constraints; they had to write SELF-MODIFYING CODE to 
+    get it to work! That's crazy!
+- Compiling loops, if-statements, etc.; should be basically the same as 2110
+- Compiling procedure calls: this is almost NECESSARY for sane high-level 
+programming, but introduces a LOT of issues from an assembly, compilation 
+perspective: how do we swap to a different place in code? How do we remember 
+where we need to return to? How do we know when we need to go back? How do we 
+save the state of each scope? What the HECK is going on with recursion (it's 
+actually just a function call, so recursion isn't a special case, but it still 
+freaks out students)?
+    - Remember the stack from 2110? That's how we did it then, but there's a 
+    BUNCH of different ways to do this, and really all of them are a bit messy; 
+    we have to preserve the caller's state, pass in parameters, save the 
+    address we're returning to, transfer control to the called procedure, 
+    allocate space for the procedure's local variables, do what we need to do, 
+    pass back any returned values, and then go back to our old state
+    - Most ISA's have a recommended way of doing this; for the 2200 
+    architecture, we'll have a slightly new way of doing this, using our new 
+    bunch of registers to communicate between the caller/callee so that we 
+    don't have to go to memory as much
+        - ...we still have to worry about the stack for deeply nested calls, 
+        large parameter lists, etc., though, and then handle returning the 
+        address (with a JAL, "jump-and-link" instruction) and transferring 
+        control
+    - So, the software conventions we'll use:
+        - Registers s0-s2 are the caller's registers (must be saved if 
+        overwritten), t0-t2 are temp, a0-a2 are parameter-passing registers, v0 
+        is used for return value, ra has the return address, at is the target 
+        address, sp is the stack pointer
+        - REMEMBER: Stack pointer points to the TOP of the stack, and the frame 
+        pointer points to the return address
+            - The frame pointer is NOT necessary to do things, but it means we 
+            don't have to remember how many arguments/variables we're saving to 
+            find the return address
+    - The steps we use for the stack WITHOUT the frame pointer (images on Chpt. 
+    2 text slides):
+        1) Save any registers you need as the caller
+        2) Caller puts parameters in the registers
+        3) Save return values (if needed)
+        4) Save return address
+        5) Jump to the callee
+        6) Callee saves any registers it plans to use during execution on the 
+        stack
+        7) Allocate space for any local variables
+            - (...do work...)
+        8) Put the return value in the return register
+        9-12) (...breaking the stack down, missed the exact steps)
+        - BASICALLY, the point is that if we're just doing a simple procedure 
+        call, we can just save our values in the registers and not deal with 
+        memory access slowing us down; we can use registers more and memory 
+        less on average
+    - With the frame pointer, we say our "new" step 6 includes storing the old 
+    frame pointer on the stack and pointing the new frame pointer at it, so we 
+    always can get back to the old one
+
+- Architectural styles: how can we organize the computer? We've been talking 
+about "register-oriented" architectures (ARM is an example), but there are 
+other ways of doing it
+    - Stack-oriented architectures (calculators, JVM), since they don't depend 
+    on the number of registers, tend to be more portable
+    - Memory-oriented architectures (IBM 360, older machines) used memory 
+    instead of registers since registers were still expensive back then; 
+    nowadays, this style has been mostly supplanted by register-oriented 
+    architectures for speed reasons
+    - Hybrid schemes that try and combine some of the advantages of these 
+    schemes
+
+- ...okay, so we didn't *quite* get to the datapath today, but we definitely 
+will next week! Until then, see you later!
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="2_processorDesignBasics_5_22_18.html"></a>
+</main>
+</body>
+</html>

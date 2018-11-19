@@ -1,0 +1,149 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>(*TEST PAGE*) Jake's CS Notes - Intro to AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2200Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Systems and Networks</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_5_15_18.html">0. CS 2200 First Day</a></li><li><a class="is-note-link" href="1_processorBasics&amp;Stack_5_17_18.html">1. Processor Basics / Calling Stack</a></li><li><a class="is-note-link" href="2_processorDesignBasics_5_22_18.html">2. Processor Design Basics</a></li><li><a class="is-note-link" href="3_controlUnits_5_24_18.html">3. Control Unit Basics</a></li><li><a class="is-note-link" href="4_interrupts_5_29_18.html">4. Interrupts</a></li><li><a class="is-note-link" href="5_improvingPerformance_5_31_18.html">5. Performance Basics</a></li><li><a class="is-note-link" href="6_introPipeline_6_5_18.html">6. Introduction to Pipelining</a></li><li><a class="is-note-link" href="7_introScheduling_6_12_18.html">7. Scheduling and Multiprogramming</a></li><li><a class="is-note-link" href="8_schedulingAlgos_6_14_18.html">8. Scheduling Algorithms</a></li><li><a class="is-note-link" href="9_introMemManagement_6_19_18.html">9. Memory Management</a></li><li><a class="is-note-link" href="10_paging_6_21_18.html">10. Paging</a></li><li><a class="is-note-link" href="11_replacementAlgos_6_26_18.html">11. Page Replacement</a></li><li><a class="is-note-link" href="12_caching_7_2_18.html">12. Caching</a></li><li><a class="is-note-link" href="13_introMultithreading_7_5_18.html">13. Intro to Multithreading</a></li><li><a class="is-note-link" href="14_moreMultithreading_7_10_18.html">14. Multithreading (cont.)</a></li><li><a class="is-note-link" href="15_diskIO_7_12_18.html">15. Disk and I/O</a></li><li><a class="is-note-link" href="16_introFiles_7_17_18.html">16. Introduction to Filesystems</a></li><li class="active-note-page"><a class="is-note-link" href="17_errorChecking_7_19_18.html">17. Error Checking</a></li><li><a class="is-note-link" href="18_conclusion_7_24_18.html">18. Concluding Remarks</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="16_introFiles_7_17_18.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//******************* Error Checking - July 19th, 2018 **********************//
+//**************************************************************************//
+
+- Once again, the stalwarts have arrived...and no one else
+---------------------------------------------------------------
+
+- Alright, today we'll finish talking about file system transactions (i.e. 
+logging file changes before committing them), error correction codes ("keep 
+your data safe when it's being stored!"...also important for networking), and 
+some brief networking concepts
+    - "We're only going to cover the basics of all of these, but I want to give 
+    you all a good overviw"
+
+- So, in a modern system, we try to not actually spend that much time writing 
+everything to disk (that'd slow us down); INSTEAD of writing those changes 
+directly, we first have these "transaction records" we write that keep track of 
+what's going on
+    - e.g. "&lt;T3, X, 9, 1&gt;" means that transaction #3 is going to change the 
+    value of X from 9 to 1
+        - Naturally, we'll have a whole bunch of these things
+    - This way, if your system crashes, two things happen when we boot the 
+    system back up: 
+        - If the transactions have a "commit" message for a certain transaction 
+        (e.g. &lt;T3 commit&gt;), then we REDO all those changes and write them back 
+        into the file
+        - Otherwise, we UNDO all of that transaction's changes (since it 
+        crashed halfway through doing something) and change all the values in 
+        that file to the old values
+            - The order we do this is usually UNDO first (start at the end of 
+            the log, check if there's a commit message for that transaction ID, 
+            otherwise undo it), then REDO by going back from the start to the 
+            end of the list
+
+- Now, sad as it may be, disk storage systems aren't perfect - bits can get 
+flipped by solar radiation, data can get corrupted, etc., so we try to deal 
+with this via ERROR DETECTION
+    - Let's say we know that for any given set of 3 bits (X, Y, Z), there's a 
+    chance that one of them might get changed - how can we deal with that?
+        - Well, we can think of this as a set of 3D coordinates (X, Y, Z); if 
+        we start with data 000, there are 8 combinations of what could happen 
+        in the "cube" of potential X/Y/Z changes: (000, 010, 100, 001, 011, 
+        110, 101, 111)
+
+                011 ------- 111
+                /|           /|
+               / |          / |
+             010 ------- 110  |
+              | 001 ----- | -101
+              | /         |  /
+              |/          | /
+             000 ------- 100 
+
+            - However, only 1 bit can be flipped AT A TIME - so, if we envision 
+            the changes as going along 1 "edge" of this cube, if we choose 
+            values on opposite "corners" of the cube (000 vs 101, 010 vs 111), 
+            the # of 1s and 0s have changed from what we intended (CHECK THIS?)
+                - So, if you know we meant to send either 000 or 101, and 
+                instead we get something that 
+        - So, if you're sending 000, and instead I get 001, how do I know that 
+        an error had occurred?
+            - Well, let's say that we ONLY are sending 000 or 111 - because 
+            only 1 bit can be flipped, that means that if a change occurs, the 
+            ones that changed from 000 will only have 1 "1" bit, while those 
+            changed from 111 will have only 1 "0" bit, so we know an error 
+            occurred - and not only that, we KNOW if it should've been 000 or 
+            111!
+
+- "So, that's nice, but if I told you you had to program everything in terms of 
+000 and 111 bit groups, you'd look at me like I was crazy - and rightfully so!"
+    - So, what we more often do is use PARITY BITS - for a given chunk of data 
+    (e.g. a 5x5 "grid" of 25 bits), we could have 10 bits (1 for each 
+    row/column) and say that 1 means an even/odd number of 1s in the 
+    row/column, and 0 means an even number of 1s in the row/column
+        - This way, if a bit in the "grid" is changed, you can just redo all 
+        the row/column calculations and, if both the column AND the row bits 
+        don't match, we've got the coordinates of the corrupted bit 
+        (row/column) and can change it back!
+            - What if the parity bits THEMSELVES change, though? Well, then 
+            either a column or row will change - but not BOTH, so if only one 
+            of them is invalid, we assume it's the parity bit that was 
+            corrupted, not the data
+        - Now, if we expect multiple bits to change at a time, we can add more 
+        dimensions to this scheme to handle that - but it gets MUCH more tricky
+    - "This isn't the only scheme for parity bits, of course - there are a 
+    BUNCH of them - but its a good scheme to teach for this class"
+
+- Alright, that about wraps our discussion of file systems for this class - 
+now, LET US PROCEED GLORIOUSLY ON TO NETWORKING!
+    - "We're only covering a pretty thin part of the networking chapter"
+        - (...this quickly got messy)
+    - Believe it or not, the internet is NOT run through a physical switchboard 
+    connecting every computer in the world, operated by an elite team of 
+    highly-trained monkeys - it's largely wireless!
+        - ...even if we were so blessed, though, the underlying principles 
+        wouldn't change too drastically
+    - To send data to another computer, you need to know its "name" (usually in 
+    the form of an IP address)
+        - Forwarding vs routing - forwarding is just sending a packet to the 
+        next computer, routing is figuring out where to go next to get closer 
+        to your destination
+        - What's a protocol? There's a BUNCH of them, but (kind of like an 
+        interface) it's a set procedure for how to exchange data between 
+        something (format, what information gets sent back-and-forth, etc.)
+    - On every packet, it has a record of the maximum number of hops it can go 
+    through (TTL) - if that counter reaches zero, the packet gets sent back to 
+    the original sender to tell it that the destination couldn't be found - 
+    either because it took too long, or because there was no destination with 
+    that address
+        - So, what happens with a tracert? Well, it sends a packet 1 hop, gets 
+        the name of that router, sends another 2 hops, gets that router...and 
+        gradually builds up a map of the routers it's going through
+            - "Now, the internet was designed in the midst of Cold War 
+            apocalypse fears, so it is built upon VERY robust systems" - 
+            (mentions how secure DNS systems are built and connected)
+
+- Last lecture on Tuesday - come one, come all!
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="18_conclusion_7_24_18.html"></a>
+</main>
+</body>
+</html>

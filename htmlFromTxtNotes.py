@@ -1,9 +1,20 @@
+'''
+Converts a .txt note file into an HTML file\n
+To run from the command line:\n
+'python htmlFromTextNotes.py <path to HTML template> <path to note file>'
+'''
+
 import os
 import sys
 import ntpath
 from bs4 import BeautifulSoup
 
-def softBreakTextLines(txtFile, maxLineLength):
+def softWrapTextLines(txtFile, maxLineLength):
+    '''
+    Takes in a plaintext file and returns the file contents as a string,
+    "soft wrapping" each line to the given maximum length (such that the wrapped
+    part matches the indentation level of the original line)
+    '''
     originalText = txtFile.read().split('\n')
     brokenLines = ''
     for line in originalText:
@@ -33,6 +44,11 @@ def softBreakTextLines(txtFile, maxLineLength):
     return brokenLines + '\n' # add extra line of padding at the bottom
 
 def createHtmlFromTxt(htmlBaseFileName, notesTextFileName, outputHtmlFileDestFolder):
+    '''
+    Converts the given text file and HTML template into an HTML file with the
+    .txt's content copied into any element in the template with the
+    'main-note-text' class; saves the file in the given directory with 
+    '''
     if not os.path.exists(outputHtmlFileDestFolder):
         os.makedirs(outputHtmlFileDestFolder)
 
@@ -40,7 +56,11 @@ def createHtmlFromTxt(htmlBaseFileName, notesTextFileName, outputHtmlFileDestFol
     notesTextFile = open(notesTextFileName, 'r')
 
     outputHtml = BeautifulSoup(htmlBaseFile, "html.parser")
-    outputHtml.main.article.pre.string = softBreakTextLines(notesTextFile, 80)
+    # soft wrap the notes so the output HTML matches how they look in VS Code
+    textContainers = outputHtml.find_all(class_ = "main-note-text")
+    noteText = softWrapTextLines(notesTextFile, 80)
+    for element in textContainers:
+        element.string = noteText
 
     notesFileNameWithoutExtension = ntpath.basename(ntpath.splitext(notesTextFileName)[0])
     outputHtmlFile = open(os.path.join(outputHtmlFileDestFolder, 

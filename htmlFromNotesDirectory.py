@@ -1,3 +1,9 @@
+'''
+Converts a directory of .txt note files into HTML\n
+To run from the command line:\n
+'python htmlFromNotesDirectory.py <path to HTML template> <path to notes directory>'
+'''
+
 from bs4 import BeautifulSoup
 import sys
 import ntpath
@@ -14,12 +20,21 @@ def sort_naturally( l ):
     l.sort( key=alphanum_key )
 
 def getFilesInDir(directoryName):
+    '''
+    Returns the files in the given directory (sorted 'naturally' by filename)
+    '''
     directoryPath = ntpath.dirname(directoryName)
     directoryFiles = os.listdir(directoryPath)
     sort_naturally(directoryFiles)
     return directoryFiles
 
 def getTitleOfNoteFile(notesFilename):
+    '''
+    Returns the title written INSIDE the given file in the following format:\n
+    //*****************************************//\n
+    //****** <TITLE> - <OTHER INFO> **********//\n
+    //***************************************//
+    '''
     notesTextFile = open(notesFilename, 'r')
     titleLine = notesTextFile.read().split('\n')[1]
     notesTextFile.close()
@@ -27,6 +42,10 @@ def getTitleOfNoteFile(notesFilename):
     return titleLine.split('-')[0].strip()
 
 def stitchHtmlSideLinksTogether(outputDirectoryName):
+    '''
+    Edits the previous/next links to point to the previous/next HTML note files
+    for all HTML note files in the given directory
+    '''
     print("Stitching HTML side links together...")
 
     outputHtmlFiles = getFilesInDir(outputDirectoryName)
@@ -51,6 +70,10 @@ def stitchHtmlSideLinksTogether(outputDirectoryName):
     print("All side links stitched together successfully!")
 
 def setupHtmlHeaderLinks(outputDirectoryName, noteTitles):
+    '''
+    Adds links to all HTML note files in the directory to the header of each
+    HTML note file in the directory
+    '''
     print("Setting up HTML header note links...")
 
     outputHtmlFiles = getFilesInDir(outputDirectoryName)
@@ -77,6 +100,9 @@ def setupHtmlHeaderLinks(outputDirectoryName, noteTitles):
         currentHtmlFile.close()
 
     print("All header links setup successfully!")
+
+#===============================================================================
+# -------------------- Actually Executed Part Below ----------------------------
 
 htmlBaseFileName = sys.argv[1]
 directoryPath = ntpath.dirname(sys.argv[2])

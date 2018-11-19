@@ -1,0 +1,146 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>(*TEST PAGE*) Jake's CS Notes - Intro to AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs2200Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Systems and Networks</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_5_15_18.html">0. CS 2200 First Day</a></li><li><a class="is-note-link" href="1_processorBasics&amp;Stack_5_17_18.html">1. Processor Basics / Calling Stack</a></li><li><a class="is-note-link" href="2_processorDesignBasics_5_22_18.html">2. Processor Design Basics</a></li><li><a class="is-note-link" href="3_controlUnits_5_24_18.html">3. Control Unit Basics</a></li><li><a class="is-note-link" href="4_interrupts_5_29_18.html">4. Interrupts</a></li><li><a class="is-note-link" href="5_improvingPerformance_5_31_18.html">5. Performance Basics</a></li><li><a class="is-note-link" href="6_introPipeline_6_5_18.html">6. Introduction to Pipelining</a></li><li><a class="is-note-link" href="7_introScheduling_6_12_18.html">7. Scheduling and Multiprogramming</a></li><li><a class="is-note-link" href="8_schedulingAlgos_6_14_18.html">8. Scheduling Algorithms</a></li><li><a class="is-note-link" href="9_introMemManagement_6_19_18.html">9. Memory Management</a></li><li class="active-note-page"><a class="is-note-link" href="10_paging_6_21_18.html">10. Paging</a></li><li><a class="is-note-link" href="11_replacementAlgos_6_26_18.html">11. Page Replacement</a></li><li><a class="is-note-link" href="12_caching_7_2_18.html">12. Caching</a></li><li><a class="is-note-link" href="13_introMultithreading_7_5_18.html">13. Intro to Multithreading</a></li><li><a class="is-note-link" href="14_moreMultithreading_7_10_18.html">14. Multithreading (cont.)</a></li><li><a class="is-note-link" href="15_diskIO_7_12_18.html">15. Disk and I/O</a></li><li><a class="is-note-link" href="16_introFiles_7_17_18.html">16. Introduction to Filesystems</a></li><li><a class="is-note-link" href="17_errorChecking_7_19_18.html">17. Error Checking</a></li><li><a class="is-note-link" href="18_conclusion_7_24_18.html">18. Concluding Remarks</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="9_introMemManagement_6_19_18.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//************************ Paging - June 21st, 2018 *************************//
+//**************************************************************************//
+
+- The students numbers in lecture continue to dwindle...
+----------------------------------------------------------
+
+- Alright, so we were talking about memory management and, specifically, paging!
+    - We talked about cutting up the memory into static partitions, but that's 
+    pretty inflexible and leads to wasted space due to memory fragmentation
+    - Dynamic memory is a little better, but it still has an issue with 
+    external fragmentation (creating partitions too small to be used)
+        - This can be controlled a little bit with compaction (combining free 
+        memory chunks into one), but, as it turns out, compaction is an 
+        expensive and time-intensive process
+    - So, we settled on a kind of virtual memory called PAGING as the way to 
+    go: it gives us flexibility, we can have more addresses from a programmer's 
+    perspective than the physical memory, etc.
+- Today, hopefully, we'll dive a bit deeper into the details of how paging 
+actually works
+
+- Alright, so last class we looked at the basic ideas of paging: splitting up 
+the "logical memory" into different, equal-sized chunks called "pages," and 
+mapping those pages onto physical "frames" in the actual memory
+    - Now, because we have to get the frame # from our page, we have to make 
+    TWO trips to memory: 1 to get the physical address for our virtual address, 
+    the 2nd to actually get the data
+        - That seems *really* slow, but there are things we can do to keep this 
+        reasonable - even fast!
+    - Also, remember the purpose of the valid bit in the page table: if it's 0, 
+    it means that our process isn't using that frame yet, so we have to try and 
+    fetch it from memory
+        - This is referred to as a PAGE FAULT, and all it means is "you, 
+        Mr./Mrs./[REDACTED] Process, don't have that page in memory; you've 
+        gotta fetch it from the disk"
+            - Usually, this happens because another process was using this 
+            frame; we have a separate data structure (the frame table) that 
+            tells us which process is using the frame
+        - While we handle this, we've gotta stall the pipeline so that it 
+        doesn't try to run new instructions while we're setting this frame up
+    - If the bit is valid (i.e. 1) after we do our first memory check, on the 
+    other hand, we can just go ahead to the physical frame the page table says 
+    and do whatever we need!
+
+- Alright, let's go through the worksheet I handed out last time - let's walk 
+through some stuff we need to do for paging by hand!
+    - For simplicity, we'll assume only 1 page is moving at the same time
+    - Doing this, some things I noted:
+        - Just getting the next instruction is pretty simple
+        - Instructions that deal with memory (like "store" or something) have 
+        to run their addresses through the paging process AGAIN - if the frame 
+        is invalid, well, we have to pick an available frame (preferably NOT 
+        one containing our instructions), put that frame # in our page table 
+        (at the page entry we were trying to access originally, i.e. the one 
+        with the invalid bit), and then update the "valid" bit to be 1
+            - After all that, we then basically run the instruction AGAIN 
+            (starting the pipeline over), and, now that the bit is valid, we 
+            can just write the value into the frame
+            - Side note: The page # is usually calculated as physical address / 
+            frame size (integer division, e.g. )
+                - ...the free frames are kept track of in a linked list, called 
+                the "free list"
+            - We do the SAME THING when fetching instructions, if we need to 
+            allocate a new frame and put instructions in memory (instructions 
+            gotten from the disk, I believe?)
+        - We rely on the OS to set the page table register (PTBR)
+
+- Now, what if during a page fault we're looking for the next free frame, and 
+we make a SHOCKING DISCOVERY: there are no more free frames available! We're 
+using all of them!
+    - In this case, we'll have to take (*dun dun dun*)...DESPERATE measures 
+    (*thunder and cackling in the background*)
+    - Basically, we'll have to find an active frame that we can evict
+- Before we get to that, though, let's talk about DEMAND PAGING
+    - In this scheme, we ONLY load a page when an instruction needs it; 
+    otherwise, we'd be trying to load a lot of empty pages that we don't need 
+    yet
+    - Do we need to add any hardware to support this? Well, we need to add a 
+    small amount of stuff to check for page faults, but other than that, it's 
+    just the regular paging hardware!
+        - When a page fault occurs, if we have to update the valid bit for our 
+        process, then we need to add a data structure called the FRAME TABLE 
+        that, for each frame in memory, will keep track of which process is 
+        using it, and where its page table entry is - this way, we can update 
+        that process's page table so it knows we took that frame from it
+- When EVICTING a page, though, we need to do a few things:
+    - First off, there are 2 statuses the page could be in:
+        - A CLEAN page has not been written to yet, and thus matches its 
+        counterpart on the disk
+        - A DIRTY page has been written to and no longer matches what's stored 
+        on the disk for it
+    - So, we can "simply" evict clean pages without penalty, but dirty pages 
+    have to be stored back onto the disk!
+    - Now, if we're just reading from the frame, that's fine, we don't have to 
+    change anything - but if we're planning on overwriting anything, well, 
+    we've gotta mark it as dirty
+
+- More conceptually, what's actually the performance of demand paging?
+    - Now, let's say that "p" is the probability of a page fault, accessing 
+    normal memory takes 100ns, and accessing the disk takes 25,000,000 ns
+        - That means that, if p is only 0.1%, our access time compared to just 
+        normal memory is 250 times slower than normal - OUCH!
+    - Luckily, there are ways for us to speed this up and enjoy the sweet, 
+    sweet flexibility of paging without destroying our processing speed - ways 
+    that we'll start looking at next week
+        - As a quick overview, though, here are some of the thing we can do:
+            - Take advantage of the fact we usually access from the same page 
+            multiple times in a row
+            - Optimize our choice of page size, etc.
+            - Add some hardware like "translation look-aside buffers", caches, 
+            etc.
+
+- ...but until then, study for your test next week and enjoy the weekend! 
+Caching will NOT be on the exam, but paging will! 
+    
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="11_replacementAlgos_6_26_18.html"></a>
+</main>
+</body>
+</html>
