@@ -1,0 +1,176 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>(*TEST PAGE*) Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs3451Theme.css" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li class="active-note-page"><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="10_hiddenSurfaces_2_1_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//****************** Shading Basics - February 4th, 2019 ********************//
+//**************************************************************************//
+
+- "Reading: Lines/Hidden Surfaces (last week); Shading (today)"
+    - This will be useful; my line-reading skills have been regressing lately, 
+    and I've always had some issues with seeing hidden surfaces
+- In other news, Professor Turk figured out how to disable automatic white 
+balancing on the camera, so we can now read the paper he's writing on! Woohoo!
+    - "Technically on the schedule, we should be doing radiometry right now - 
+    but for concisions sake, we're going to skip it for now and jump straight 
+    into shading. We might come back to it later on in the course, but if 
+    you're interested, the textbook is always open!"
+--------------------------------------------------------------
+
+- QUICK MATH REVIEW FACT:
+    - If we have 2 unit vectors "u" and "v", then the dot product is:
+
+        u*v = v*u = cos(theta)
+
+    - This lets us check what the angle between two vectors is, which is VERY 
+    useful
+- We can also calculate the SURFACE NORMAL of a polygon (i.e. a vector pointing 
+perpendicularly "out" from the surface)
+    - Say we've got a triangle ABC (where each one is a 3D point/vector) - in 
+    that case, we can do THIS:
+
+        - vector1 = B - A
+        - vector2 = C - A
+        - Normal = crossProduct(vector1, vector2) = v1 X v2
+
+- Now, let's switch gears to the topic of surface shading
+    - When we look at a surface, it isn't just a single color; instead, it's 
+    darker or lighter based off of how it's interacting with the light
+    - In particular, there are two BIG factors that affect how bright a surface 
+    is:
+        - Where the light sources shining on the object are
+        - Properties of the surface itself
+            - There're a LOT of these, but for now, we'll only care about two 
+            of them: if the surface reflects light (and how much), and if it 
+            absorbs light (and how much)
+    - If an object is DIFFUSE (or 'matte' or 'lambertian'), it means that the 
+    surface reflects light equally in all directions
+        - A good example of this is chalk, or paper (from most angles)
+        - (cue students excitedly looking at pieces of paper from various 
+        angles - thank you, Fresnel effect!)
+- Now, imagine that there's a light source (like the sun) where all the photons 
+are coming from a single direction
+    - If we hold the paper flat up against the light, a set amount of photons 
+    are hitting it in a 2D-area 'a'
+    - If we tilt that paper, then the effective surface area where the same 
+    amount of photons has increased to 'a/cos(theta)' - i.e., the same amount 
+    of light has to cover a larger area, so the light will seem dimmer!
+
+- So, to figure out how much light we should draw on the surface, we need to 
+know how much light is hitting the surface, and how much of that light is 
+reaching our eyes
+    - Since a diffuse surface reflects light equally in all directions, the 
+    position of our eye won't matter when drawing it - but it WILL matter for 
+    reflective surfaces
+    - So, for a given point on our surface, let's say we know a) the 
+    unit-length normal vector N at that point, and b) the unit vector L 
+    pointing TOWARDS the light source we want to worry about
+        - We can get a vector pointing towards the light pretty easily, by 
+        saying "L = lightPos - surfacePos"
+        - Using our dot product, we can calculate the angle between the two 
+        vectors as:
+
+                N*L = cos(theta)
+
+            - If theta is small, it means the light is striking the surface 
+            almost head-on, so the surface will be bright
+            - If theta is large, it means the light is just glancing the 
+            surface, so the surface will be dim
+        - So, this quantity represents approximately how much light is hitting 
+        our surface!
+- If we then also know the color "Cs" of our surface, and the color "Cl" of our 
+light, we can multiply it by our brightness factor to get the color the surface 
+should be! Putting this together, we get an equation:
+
+        final surface color = Cs * Cl * (N*L)
+
+    - ...where Cs is the surface color, Cl is the light color, N*L is how much 
+    light is hitting the surface, and 'b' is a scaling factor 
+    - Since we have to deal with RGB color, we'll do this equation separately 
+    for the red, blue, and green channels; so REALLY, we have a matrix that 
+    does this 3 separate times:
+
+        C = (Cr, Cg, Cb) =  [Csr * Clr * (N*L)]
+                            [Csg * Clg * (N*L)]
+                            [Csb * Clb * (N*L)]
+
+- However, what if the angle between the vectors (i.e. the dot product) is 
+negative? Well, it means that the light is BEHIND the object, so no light 
+should be hitting the surface! Therefore, our equation should actually be:
+
+        C = Cs * Cl * max(0, N*L)
+
+- However, is it realistic for objects in shadow to be COMPLETELY pitch black? 
+No! In the real world, light bounces around and can provide "indirect 
+illumination," even to objects the light source can't directly "see"
+    - Calculating all those bounces, however, is pretty expensive - so instead, 
+    we'll often just fake this indirect light by adding some constant ambient 
+    light color 'Ca' to our objects so shadows aren't just pure black:
+
+            C = Cs * (Ca + Cl*max(0, N*L))
+
+        - For a number of years, calculating indirect illumination at all, in 
+        fact, was pretty difficult...but today, there are several (computation 
+        intensive) well-understood methods for doing it correctly, including:
+            - Photon mapping
+            - Metropolis light transport
+            - Radiosity
+
+- So, those're the basics of Lambertian diffuse shading - but what should we do 
+for SPECULAR (i.e. glossy) surfaces, like plastics and metals? 
+    - Well, there are a number of different ways of doing this, but one of the 
+    simplest and most common is the PHONG-BLINN ILLUMINATION model
+        - Again, let's say we've got a surface normal N and our light-pointing 
+        vector L again
+        - But now, let's ALSO suppose we have a vector "R" that's the mirrored 
+        version of L (flipped about the normal vector), and a vector "E" for 
+        which way our eye/camera is pointed
+            - If the eye is pointed towards R (i.e. angle between E and R is 
+            small), then it should see the full glare of the reflection
+            - If the eye is pointed perpendicularly to R, it shouldn't see any 
+            glare at all
+            - In-between, it'll drop off by some pretty high amount
+        - So, one way of representing the reflected light is like this:
+
+                cos (angle between E and R)^(specular power)
+                    = (E*R)^P
+
+        - ...which'd give us a final PHONG ILLUMINATION color of:
+
+                C = Cl * max(0, (E*R)^P)
+
+    - This should give us the SPECULAR HIGHLIGHTS (i.e. bright spots) we see on 
+    shiny objects like glossy plastics
+
+- So, using these two technqiues (and some trial and error), we can simulate a 
+wide variety of materials - cool! However, there's still plenty we can do to 
+make this look better (early 3D animations had a reputation for everything 
+looking plastic, for instance), so we'll keep pushing forward in the next 
+lecture.
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="11_basicShading_2_4_19.html"></a>
+</main>
+</body>
+</html>
