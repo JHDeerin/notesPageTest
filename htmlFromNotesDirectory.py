@@ -105,31 +105,38 @@ def setupHtmlHeaderLinks(outputDirectoryName, noteTitles):
 # -------------------- Actually Executed Part Below ----------------------------
 
 htmlBaseFileName = sys.argv[1]
-directoryPath = ntpath.dirname(sys.argv[2])
-filesInDirectory = getFilesInDir(sys.argv[2])
+directoryPath = sys.argv[2]
 
-print('Found the following files in directory "%s":' % (directoryPath))
-print(filesInDirectory)
-print()
-print('Converting .txt files...')
+def createHtmlFromNotes(htmlBaseFileName, directoryPath,
+        outputDirectoryName='notesToHtmlOutput/'):
+    # TODO: Verify this is valid across systems
+    if directoryPath[-1] != '/':
+        directoryPath += '/'
+    filesInDirectory = getFilesInDir(directoryPath)
 
-outputDirectoryName = "notesToHtmlOutput/"
-txtNoteTitles = []
-for filename in filesInDirectory:
-    if filename.endswith('.txt'):
-        notesFilename = os.path.join(directoryPath, filename)
-        htmlFromTxtNotes.createHtmlFromTxt(htmlBaseFileName, notesFilename, outputDirectoryName)
-        txtNoteTitles.append( getTitleOfNoteFile(notesFilename) )
-
-createdSomeFiles = len(txtNoteTitles) > 0
-if createdSomeFiles:
-    # NOTE: ASSUMES ONLY THE JUST-CREATED FILES ARE IN THE OUTPUT DIRECTORY!
-    print("Initial files all created successfully!")
-    print(txtNoteTitles)
+    print('Found the following files in directory "%s":' % (directoryPath))
+    print(filesInDirectory)
     print()
+    print('Converting .txt files...')
 
-    stitchHtmlSideLinksTogether(outputDirectoryName)
-    print()
-    setupHtmlHeaderLinks(outputDirectoryName, txtNoteTitles)
-else:
-    print("No .txt files found. Aborting operation...")
+    txtNoteTitles = []
+    for filename in filesInDirectory:
+        if filename.endswith('.txt'):
+            notesFilename = os.path.join(directoryPath, filename)
+            htmlFromTxtNotes.createHtmlFromTxt(htmlBaseFileName, notesFilename, outputDirectoryName)
+            txtNoteTitles.append( getTitleOfNoteFile(notesFilename) )
+
+    createdSomeFiles = len(txtNoteTitles) > 0
+    if createdSomeFiles:
+        # NOTE: ASSUMES ONLY THE JUST-CREATED FILES ARE IN THE OUTPUT DIRECTORY!
+        print("Initial files all created successfully!")
+        print(txtNoteTitles)
+        print()
+
+        stitchHtmlSideLinksTogether(outputDirectoryName)
+        print()
+        setupHtmlHeaderLinks(outputDirectoryName, txtNoteTitles)
+    else:
+        print("No .txt files found. Aborting operation...")
+
+createHtmlFromNotes(htmlBaseFileName, directoryPath)
