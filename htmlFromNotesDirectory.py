@@ -101,15 +101,15 @@ def setupHtmlHeaderLinks(outputDirectoryName, noteTitles):
 
     print("All header links setup successfully!")
 
-#===============================================================================
-# -------------------- Actually Executed Part Below ----------------------------
+def createHtmlFromNotesDir(htmlBaseFileName, directoryPath,
+        outputDirectoryName='notesToHtmlOutput'):
+    '''
+    Creates HTML files based on the .txt files found in the given directoryPath,
+    using the base file as a template; all output files placed in the given
+    output directory
+    '''
 
-htmlBaseFileName = sys.argv[1]
-directoryPath = sys.argv[2]
-
-def createHtmlFromNotes(htmlBaseFileName, directoryPath,
-        outputDirectoryName='notesToHtmlOutput/'):
-    # TODO: Verify this is valid across systems
+    # TODO: Find a more robust way of making sure it's a directory
     if directoryPath[-1] != '/':
         directoryPath += '/'
     filesInDirectory = getFilesInDir(directoryPath)
@@ -120,6 +120,9 @@ def createHtmlFromNotes(htmlBaseFileName, directoryPath,
     print('Converting .txt files...')
 
     txtNoteTitles = []
+    if not os.path.exists(outputDirectoryName):
+        os.makedirs(outputDirectoryName)
+    outputDirectoryName += '/'
     for filename in filesInDirectory:
         if filename.endswith('.txt'):
             notesFilename = os.path.join(directoryPath, filename)
@@ -139,4 +142,10 @@ def createHtmlFromNotes(htmlBaseFileName, directoryPath,
     else:
         print("No .txt files found. Aborting operation...")
 
-createHtmlFromNotes(htmlBaseFileName, directoryPath)
+#===============================================================================
+# -------------------- Actually Executed Part Below ----------------------------
+
+if __name__ == '__main__':
+    htmlBaseFileName = sys.argv[1]
+    directoryPath = sys.argv[2]
+    createHtmlFromNotesDir(htmlBaseFileName, directoryPath)
