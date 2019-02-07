@@ -18,15 +18,43 @@ class ClassNoteEntry:
         self.pathToStylesheet = pathToStylesheet
         self.outputDirectory = outputDirectory
 
+# Freshman Year
 notesToCreate.append(ClassNoteEntry(
-    '../../../Class Materials/summer2018/cs3600_introAI/lectures',
-    'css/cs3600Theme.css',
-    'TEST_cs3600_introAI'))
+    '../../../Class Materials/fall2016/cs1331_objectOriented/theBigCollectionOfAllFullNotesInOrder',
+    'css/cs1331Theme.css',
+    'cs1331_oop'))
+
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/spring2017/cs1332_dataStructuresAlgorithms/allLectureNotesCombined',
+    'css/cs1332Theme.css',
+    'cs1332_dataAlgos'))
+
+# Sophomore Year
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/fall2017/cs2110/lectures',
+    'css/cs2110Theme.css',
+    'cs2110'))
+
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/fall2017/cs2340/lectures',
+    'css/cs2340Theme.css',
+    'cs2340_objectsDesign'))
 
 notesToCreate.append(ClassNoteEntry(
     '../../../Class Materials/summer2018/cs2200_systemsAndNetworks/lectures',
     'css/cs2200Theme.css',
-    'TEST_cs2200_systemsNetworking'))
+    'cs2200_systemsNetworking'))
+
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/summer2018/cs3600_introAI/lectures',
+    'css/cs3600Theme.css',
+    'cs3600_introAI'))
+
+# Junior Year
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/spring2019/cs3451_compGraphics/notes',
+    'css/cs3451Theme.css',
+    'cs3451_compGraphics'))
 
 #===============================================================================
 #===============================================================================
