@@ -66,6 +66,12 @@ notesToCreate.append(ClassNoteEntry(
     'cs3451_compGraphics',
     "Computer Graphics"))
 
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/spring2019/cs4731_gameAI/notes',
+    'css/cs4731Theme.css',
+    'cs4731_gameAI',
+    "Game AI"))
+
 #===============================================================================
 #===============================================================================
 

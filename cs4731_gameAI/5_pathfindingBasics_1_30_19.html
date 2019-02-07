@@ -1,0 +1,219 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Game AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4731Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Game AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_gameVsRegularAI_1_9_19.html">1. Game AI vs Regular AI</a></li><li><a class="is-note-link" href="2_introPathfinding_1_14_19.html">2. Intro to Pathfinding</a></li><li><a class="is-note-link" href="3_pathNetworks_1_16_19.html">3. Path Networks</a></li><li><a class="is-note-link" href="4_morePathNetworks_1_23_19.html">4. Path Networks (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="5_pathfindingBasics_1_30_19.html">5. Pathfinding Basics</a></li><li><a class="is-note-link" href="6_pathfindingCont_2_4_19.html">6. Pathfinding (cont.)</a></li><li><a class="is-note-link" href="7_groupsDecisions_2_6_19.html">7. Groups and Decision Making</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="4_morePathNetworks_1_23_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//**************** Pathfinding Basics - January 30th, 2019 ******************//
+//**************************************************************************//
+
+- Alright, after a seemingly-infinite amount of time has passed since our last 
+class, Professor Riedl reascends the stage, takes the podium, and...opens a 
+OneNote document
+    - Still already better than most of my lectures! (kinda) (...not really)
+    - He has drawn a grid! This has now become the most gloriously 
+    enetertaining event of my day!
+- "First, let me congratulate you all on surviving Snowpocalypse 2019"
+    - Also, apologies for canceling class on Monday - Professor Riedl was at a 
+    conference (AAAI) presenting his research on "Safely Interruptable Agents," 
+    which basically means trying to design an AI that won't disable it's own 
+    kill switch
+        - It's actually...kind of boring, really, but important (he guesses)
+- Project 3 is due Sunday, so make sure you get it wrapped up before your 
+Superbowl snooze
+-------------------------------------------------------------------
+
+- So, looooooooooooong ago, we were talking about "Repathing" - making an agent 
+that can react to obstacles suddenly appearing in the middle of its nice new 
+navigation mesh
+    - If it's just a blockage, where an edge in the path node has been 
+    covered/"removed", we can isolate that part of the map and just regenerate 
+    the network for the affected part to get around it/find an alternate route
+- ...but what do we do if we need to ADD an edge? Say, for instance, a 
+destructible wall has just been blown up - how do we reconstruct the path 
+network so the AI knows to walk through, and so the old path network still 
+makes sense?
+    - There might not be any existing path nodes that can get 
+    line-of-sight/"see" through the new route, so we can't just connect up some 
+    more lines
+    - INSTEAD, when we detect the wall has been destroyed, we can place 2 new 
+    path nodes on either side of the wall, connect the 2 nodes to any other 
+    nodes in LOS, and then we're good to go
+        - "So, that's...disappointingly simple, right? But it gets the job 
+        done!"
+        - If we already know what pre-made parts of the level can be destroyed, 
+        it gets even easier - we can just pregenerate our path network, and 
+        disable the nodes the agent isn't supposed to go through yet
+
+- "ALRIGHT, I promised you smoothing, so let's talk about smoothing!"
+    - As I'm sure you've noticed in your homework, auto-generated path networks 
+    can be pretty messy, and the actual agent movement can look a little janky. 
+    SMOOTHING is the process of taking a more natural-looking path than just 
+    blindly following our path node lines
+        - Right now, even if the agent could've just walked in a straight line 
+        to the destination, it'll turn around, get on the path nodes, and then 
+        "ride" the network until it gets close enough to "hop off"
+    - Smoothing basically lets the agent take shortcuts so it looks a little 
+    less dumb
+        - Say an agent has planned to walk the sequence of nodes [A,B,C,D], but 
+        halfway through moving towards A, the agent gets line-of-sight to B!
+            - At this point, the agent doesn't need to walk towards A anymore - 
+            it can just skip that and start walking straight to B!
+            - Similarly, it might be walking on towards B, when it comes out 
+            from behind and obstacle and sees C - so we can just start walking 
+            towards C!
+            - ...and finally, as it;s still marching on toward C, it sees its 
+            final destination of D, and heads straight towards it
+        - This isn't perfectly smooth movement, but it's still better than what 
+        we had before
+        - So, the algorithm for smoothing is actually pretty simple:
+
+            - Continuously check for line-of-sight to some desired future 
+            waypoint in the path
+                - If that waypoint is seen, move towards it instead!
+
+        - You can try to compute LOS to the paths in-between the waypoints, but 
+        it's a more expensive
+        - Usually, you'll only check for LOS on the next waypoint (since it's 
+        more efficient), but this might result in you missing some shortcuts 
+        (especially if your path network isn't optimal for whatever reason)
+
+- So, we now know how to (basically) smooth our agent's path, but we haven't 
+talked about how to figure out a path in the first place - what's up with that? 
+Let's talk about that now
+    - In the worst case, A* is O(b^n) - but what if I told you I can find the 
+    shortest path on a path network in linear time?
+        - How did I do that? Am I magical? NO! I've cheated!
+    - What we're going to do is PRE-COMPUTE the shortest path between any 2 
+    nodes in the network before the game begins; then, when we're actually 
+    playing, we can just look up what the shortest path is!
+        - This assumes, of course, that we've got a static network that isn't 
+        changing
+    - How'll we do this? With the FLOYD-WARSHALL algorithm:
+        - This is an "all-pairs shortest path algorithm" that tells us the 
+        paths from all nodes to all other nodes, and runs in O(n^3)
+            - Dijkstra's algorithm, in contrast, is a 
+            single-source-all-desitnation algorithm that tells us the shortest 
+            paths from just ONE starting point to all other point
+            - Floyd-Warshall basically just runs Dijkstra's algorithm a linear 
+            number of times (using the magic of dynamic programming to avoid 
+            running it n^2 times)
+        - Here, we set up a 2D adjacency-ish matrix with a cell for every node 
+        in the path network
+        - We then exhaustively search from all possible starting points to all 
+        possible ending points, store the shortest paths between any given pair 
+        of nodes, and save this to a file
+        - Here's the pseduocode, given a graph G,V:
+
+            # initialization loop part
+            for each edge(u,v):
+                dist[u][v] = weight of edge(u,v), or infinity (if no edge 
+                exists)
+                next[u][v] = 0 (if connected) or nil (if not connected)
+            for k = 1 to V:             # potential intermediate node
+                for i = 1 to V:         # start node
+                    for j = 1 to V:     # end node
+                        # Is taking the intermediate route a shortcut?
+                        if dist[i][k] + dist[k][j] &lt; dist[i][j]:
+                            dist[i][j] = dist[i][k] + dist[k][j]
+                            next[i][j] = next[i][k]
+
+        - So, since any node we're not next to is initally "infinitely far 
+        away," any intermediate node we can add to get there will be shorter!
+        - Once we find a path, we'll then factor in any shortcuts we can take 
+        thanks to the intermediate nodes, eventually getting us all the 
+        shortest paths by considering all triplets of nodes
+            - So, this isn't AI by any means - it's a "dumb" algorithm that 
+            just checks all combinations, but it's a pretty clever dumb 
+            algorithm that's fairly efficient
+    - "...I used to ask you to implement this, but nowadays I'm pretty sure 
+    it's included in the files we give you"
+
+- With that done, the actual pathfinding is the easy part:
+
+        if next[start][destination] is empty:
+            return null
+        path = (start)
+        while start != destination:
+            start = next[start][destination]
+            path.append(start)
+        return path
+
+- So, that's great! Why would we ever use A* again?
+    - ...well, if you can't pre-compute the paths for some reason; for instance:
+        - You have a dynamic environment (terrain can change, edges can be 
+        eliminated/created, etc.)
+        - There're too many possible paths for you to reasonably compute in 
+        O(n^3) time
+- To refresh your memory on what the A* pathfinding algorithm looks like:
+    - We're trying to find the shortest path from a single starting point to a 
+    single destination; we don't NEED to look at the whole graph for this, we 
+    just need to know enough about the graph to know we've got the best route 
+    from A to B
+    - To do this, we'll have a SUCCESSOR function that tells us what nodes we 
+    can reach from the current point
+        - We'll also have a HEURISTIC function that gives us a lower-bound 
+        estimate of how far away we are from our goal; for this class, straight 
+        line Euclidean distance should be good enough
+        - Finally, we'll keep track of our path's current cost from the start 
+        (i.e. cost-to-get-here)
+    - If we always try to minimize how far we've had to travel from the start 
+    AND choose the successor node our heuristic *thinks* is closest to the 
+    goal, then we'll end up eventually finding the shortest path to our goal!
+    - Some pseudocode for your time ("If you've taken intro to AI here at Tech, 
+    guess what? You've seen this slide before!"):
+
+        a*(init, goal(s), possibleOps):
+            closed = nil #nodes we've already considered
+            open = {init} #nodes we want to consider in the future
+            current = init
+            while NOT isGoal(current) AND NOT isEmpty(open):
+                # say we've already considered our current node
+                closed += {current}
+                # make sure to sort the open list as a priority queue, sorted 
+                in ascending order according to g + h = costFromStart + 
+                heuristicEstimate
+                open = open - {current} + (successors(current, possibleOps) 
+                that aren't in closed)
+                current = firstElement(open) #get the smallest estimated cost 
+                node
+            if isGoal(current):
+                # we found our path!
+                # How do we reconstruct it? When we use our successor function, 
+                we say that the current node is the parent of all of its 
+                successors, and we store that tuple (node, parentNode) in the 
+                closedList; we can then just follow the chain of parents until 
+                we reach our start, and boom! That's our path!
+                reconstruct our path from the closed list
+                return path
+            else:
+                return abject failure
+
+- On Monday, we'll finish our review of how A* considers paths, and then keep 
+on trucking along with pathfinding. Good luck with the homework until then!
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="6_pathfindingCont_2_4_19.html"></a>
+</main>
+</body>
+</html>

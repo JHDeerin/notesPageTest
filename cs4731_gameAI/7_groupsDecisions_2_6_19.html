@@ -1,0 +1,224 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Game AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4731Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Game AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_gameVsRegularAI_1_9_19.html">1. Game AI vs Regular AI</a></li><li><a class="is-note-link" href="2_introPathfinding_1_14_19.html">2. Intro to Pathfinding</a></li><li><a class="is-note-link" href="3_pathNetworks_1_16_19.html">3. Path Networks</a></li><li><a class="is-note-link" href="4_morePathNetworks_1_23_19.html">4. Path Networks (cont.)</a></li><li><a class="is-note-link" href="5_pathfindingBasics_1_30_19.html">5. Pathfinding Basics</a></li><li><a class="is-note-link" href="6_pathfindingCont_2_4_19.html">6. Pathfinding (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="7_groupsDecisions_2_6_19.html">7. Groups and Decision Making</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="6_pathfindingCont_2_4_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//********* Groups and Decision Making - February 6th, 2019 *****************//
+//**************************************************************************//
+
+- Okay, homework 4 is out and due next week!
+    - Currently, the autograder isn't working on Windows despite Professor 
+    Riedl's best efforts ("I don't know how Windows even works - maybe I forgot 
+    the blood sacrifice, I don't know"), so hopefully you all have access to a 
+    Linux VM
+------------------------------------------------
+
+- Alright, we're going over "advanced steering" dealing with coordinating 
+multiple agents, and last time we went over the 3 rules for boids/"flocking"
+    - As it turns out, these boid rules work great for bird flocks, great for 
+    insects (except that they don't use alignment, so it's even easier), etc.
+
+- This is probably the simplest version of a group movement algorithm we can 
+come up with, and it's interesting, but it's pretty chaotic - what if we want 
+our units to move in some formation, like a wedge or a square?
+    - For simplicity, let's assume we're dealing with grid-based movement
+    - If all these agents are just considering themselves, then, and use A*, 
+    they're all going to bump into each other and create havoc Abbot and 
+    Costello style real quick - not good!
+- So, what can we do as an alternative?
+
+- One simple technique is to use an offset: for a given group, instead of doing 
+pathfinding for each individual agent to the same spot, we INSTEAD offset each 
+agent's destination by their original position
+    - This means they'll keep their formation as they're moving and that 
+    they'll always end in the same formation as they started in, which is great!
+    - However, this starts running into problems quickly:
+        - If the agents need to move around obstacles, then the agents might 
+        split off from one another into separate formations, which doesn't look 
+        smart
+            - We also run into the issue of if the destination is small and the 
+            original formation won't fit there, we have to 
+        - Chokepoints can also be a small issue, with the agents smooshing 
+        together
+
+- How can we improve this, then? Well, we can do a FOLLOW-THE-LEADER strategy
+    - In this case, a single "leader" unit in the group pathfinds to the 
+    destination, and all the other agents try to steer constantly to the leader 
+    (usually, the agents are close enough to the leader that A* isn't needed 
+    for them, although some do)
+    - This means that the agents definitely stay together, but they kind of 
+    squeeze right up around the leader, which usually isn't what we want
+- Because of that, this technique isn't often a good idea - it has the 
+redeeming factor of only 1 person needing full-blown pathfinding, but the 
+results look more like a mob than a military
+
+- To fix this, we might create a VIRTUAL ENTITY that groups multiple agents 
+together and lets us treat them as one big entity - when we turn the entity, 
+all the agents turn, and we can pathfind as if the entity was one very large 
+agent
+    - This will make the agents stay together in harmony, but it has trouble 
+    dealing with chokepoints; if the chokepoint is smaller than the entity, 
+    it's not clear what we should do!
+
+- So, yet another technique (and Professor Riedl's preferred method) is LEADER 
+WITH OFFSETS
+    - Here, just like in follow-the-leader, we choose a leader who pathfinds to 
+    the destination
+    - The other agents, however, instead of trying to pathfind DIRECTLY to the 
+    leader's current position, will pathfind to the leader's position offset by 
+    their original formation position
+        - We'll say that the agents will just move straight towards their 
+        target destinations if they have line-of-sight on thenm, and run A* to 
+        get to it otherwise
+    - This way, agents will stay in formation as they pass through chokepoints 
+    and around large obstacles
+    - The stickling point, though, is what happens when the leader passes 
+    through a chokepoint too narrow for the original formation?
+        - You can do a few things: you can just wait until the leader is past 
+        the narrow point, you can have a backup rule where they go straight to 
+        the leader if their target's invalid, you can try moving the target 
+        positions toward the leader if they're blocked, etc.
+- So, A* for the leader, rest of team mostly uses line-of-sight with A* as a 
+backup, it handles choke points pretty well, etc. - this does most of what we 
+want!
+
+- What if the choke point is so narrow that the agents would have to pass 
+through each other while they're moving, though?
+    - On a grid, we just say the agents occupy the whole cell they're in and 
+    that they "claim" the next cell they're moving into, preventing other 
+    agents from moving to that cell (it becomes an obstacle for everyone else 
+    that turn)
+        - If an agent really can't go anywhere, we'll usually just be lazy and 
+        have the agent wait until it's unblocked - it doesn't always work well, 
+        but for this class, it's good enough
+
+- Now, there's one more thing we should talk about before we say goodbye to 
+formations: the "Giant Robot Problem"
+    - A long, long time agoe, a game development studio had a very large robot 
+    - much, much larger than the other agents in the game
+        - If we assume every agent has a bounding box around it, and there are 
+        multiple little agents around the robot, then the robot can be blocked 
+        in by the other agents and be unable to move anywhere - how do we fix 
+        this?
+            - You could do physics and push the guys out of the way - that sort 
+            of works, but it still doesn't deal well with crowds...
+            - So, the solution the developers eventually came up with was 
+            wherever the big robot went, the little agents would scramble out 
+            of the way - that was it!
+                - This made it look like the enemy agents were afraid of the 
+                big robot, which worked ot their aesthetics advantage
+- So, the lesson here: it's okay for your game to cheat. You can fake things, 
+you can let the enemy AI see the other team's pathfinding data if it'll help 
+out the experience. At the end of the day, what the player sees is all that 
+matters.
+
+- ...annnnnnd with that, our movement unit is pretty much done - hooray!
+
+- Now, we have to deal with something much more exciting: figuring out WHY 
+we're moving, shooting, sitting, etc. - in other words, creating AI for 
+DECISION MAKING
+    - Conventional AI tries to make the optimal choice (given what it knows) to 
+    maximize its reward
+    - Game AI, on the other hand, tries to choose the right 
+    goal/behavior/animation to support the player experience
+        - Animation is actually really important in most games; if the player 
+        doesn't see an animation for an action, then to the player, it doesn't 
+        exist to them. We need to provide some feedback so the player 
+        understands the AI is doing something
+- There're a lot of different schemes for making decisions, given the list of 
+options we have - we'll spend the next few lecture going through them
+
+- One of the simplest is a TRIGGER SYSTEM - the set of rules for when to move 
+or when to perform some action
+    - In HALO 2, for instance, there're a lot of levels where you walk into a 
+    large room and immediately get attacked upon entry
+    - Behind the scenes, when you enter this room, 3 things might happen:
+
+        1) There's an invisible line across the entrance; as soon an you cross 
+        the line, a whole bunch of enemies spawn in an area you can't see and 
+        start heading towards you
+            - So, the decision of when to attack is hardcoded into the 
+            environment in this case
+        2) When the enemy force is &lt; 50% full strength, choose a point away 
+        from the player and have the enemies navigate towards it (possibly 
+        playing some special animations)
+            - This makes it look like the enemies are all retreating
+        3) There's a 2nd invisible line where, when you enter that particular 
+        room, the enemies pathfind to points in-front of you and behind you
+            - To the player, this looks like a coordinated flanking maneuver - 
+            but really, this strategy was entirely pre-planned by the game 
+            developer!
+
+    - "This really isn't game AI at all - it's game developer-I, if anything"
+        - Once again, Game AI can be considered part of game design
+
+- The next step up from this is SCRIPTED AI
+    - Instead of having specific triggers and conditions that cause behaviors, 
+    there's a script of pre-defined actions that the AI takes - it might be 
+    paired with triggers, it might not, but it's not really AI. It's just 
+    hardcoding stuff in.
+
+- Another step up, and we reach the FINITE STATE MACHINE - "which I know, yeah, 
+you've all written a dozen times"
+    - Again though, we have some set of states, some input the systme knows 
+    about ("hit wall", "see player", etc.), and a list of transitions for what 
+    to do if we're in a particular state and receive a particular input
+    - For video games, there are two things that're commonly distinct about 
+    their FSMs:
+        - Very commonly, animations are tied into all these transitions and 
+        states (e.g. idle animations, running away when going from the "attack" 
+        state to the "hiding" state, etc.)
+        - 
+    - These FSMs still have to be fully designed by the programmer, though - 
+    not a lot of manual work is getting cut out here
+- Implementation-wise, you've probably done the "centralized" approach before, 
+where you just have a giant switch statement for each state and the behavior 
+for each state inside
+    - This gets unwieldy FAST if you're dealing with a lot of states
+    - Instead, game designers will often take a more "distributed" approach 
+    where each state is an object with its own class
+        - The agent will then have "changeState" and "takeAction" methods 
+        that'll either change what state it's in, or take the action 
+        appropriate for its current state
+        - Each state will then have an "onEnter", "execute," and "onExit" 
+        function
+            - Basically, none of the AI logic is in the agent itself - it's in 
+            the states!
+            - "I like to think of each state as putting on a different brain: 
+            we'll swap from our Hiding brain to our Fleeing brain when we see a 
+            predator, and then back to our Eating brain when we're far enough 
+            away"
+        - This way, all of the logic we need to worry about is divied up 
+        between these classes, allowing us to re-use a decent amount of code 
+        and add new states pretty easily
+- Writing FSMs isn't particularly hard...but getting agents to do cool stuff 
+with them? That's where the challenge lies!
+
+- Alright, that's that - Homework 4 is out there, so go forth!
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="7_groupsDecisions_2_6_19.html"></a>
+</main>
+</body>
+</html>
