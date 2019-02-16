@@ -1,0 +1,161 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li class="active-note-page"><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="14_colorSpaces_2_11_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//***** Color Space(cont.) / Intro to Raytracing - February 13th, 2019 ******//
+//**************************************************************************//
+
+- Alright, today our goal is to wrap up color and start moving on towards 
+raytracing - let's do it!
+---------------------------------
+
+- First off, let's talk about two more color spaces that are sometimes used 
+today: HSV, and HLS
+    - HSV, or HUE-VALUE-SATURATION, is a color space designed to make it easier 
+    to choose the right color you need; it's easier to think about defining 
+    colors this way for most people, instead of thinking abstractly in terms of 
+    "mixing" red, green, and blue
+        - Hue is the actual color (green, magenta, orange, blue, etc.) that you 
+        want to have a shade of
+            - Practically, there are 6 different hues we can pick from: red, 
+            yellow, green, cyan, blue, and magenta
+        - Value is the same thing as brightness, intensity, lightness, etc. - 
+        it's how bright/dark your colors are, between 0 (black) and 1 (full 
+        brightness)
+        - Saturation is how vibrant the color itself is vs. the value, between 
+        0 (white/gray) and 1 (the fully vibrant color)
+            - We can think of this color space as a cone with a hexagonal base, 
+            and each of the hues on one of the corners (and white in the 
+            middle, and the different shades of color in-between)
+                - The hue is our rotation around the cone (i.e. which color 
+                we're closest to), the value is our color's height within the 
+                cone (0 is black near the tip of it, 1 is full brightness near 
+                the base), and saturation is how far away we are from the 
+                center of the cone (1 is on the edges (i.e. fully vibrant), 0 
+                is right in the center)
+                - If you think about it, this cone is actually just a distorted 
+                version of the RGB cube, with the black corner stretched out 
+                and the white point flattened to be in line with the other 
+                colors!
+        - So, this HSV cone is great for picking out specific colors we want: 
+        it's easy to think about how make a particular color brighter, or more 
+        yellow, etc.
+            - It's NOT as good, however, for seeing complementary colors, or 
+            for working with additive color displays that are based on RGB
+        - HSL (Hue-Saturation-Lightness) is a variant of this where white, 
+        instead of being flat with the other colors, is instead raised up from 
+        them to form a double cone; some people thought that white deserved to 
+        be given special treatment, and HSL was the result
+- ...there are a LOT more special-case color spaces, but really, the ones we 
+talked about'll cover 99.9% of what you need in the real world
+
+- Now, let's change gears here and look at some pictures of spheres and 
+surfaces. These are different from what we've seen so far: the reflections are 
+accurate, the light in glass is distorted, there are soft shadows...it looks 
+pretty realistic! What's going on here? The power of RAYTRACING!
+    - Roughly speaking, there are two main techniques for drawing 3D graphics 
+    on computers these days:
+        - Rasterization is what we've been doing so far. It's FAST, can be 
+        hardware-accelerated on the GPU pretty easily, and is well supported. 
+        But to get it to look nice, we have to use a lot of tricks.
+            - The vast majority of video games still use rasterization and 
+            Z-buffer 
+        - Ray Tracing is much slower than rasterization, it's difficult to 
+        compute on a GPU. But compared to rasteriation, it's a LOT easier to 
+        get realistic-looking images, and almost necessary for some effects.
+            - Nvidia threw a bit of a wrench in this by claiming their newest 
+            GPUs have started to support raytracing, but historically, GPUs 
+            haven't been able to support it
+            - Because of the extra realism, most movies and special effects use 
+            raytracing these days; for these applications, it doesn't matter 
+            how long it takes a frame to render!
+
+- "That's great, Professor Turk, but what IS raytracing?"
+    - Well, think back to our viewing plane concept, where our camera had a 
+    grid of cells that each corresponded to a pixel needing to be rendered
+    - Now, in raytracing, we shoot out a line (or RAY) from our camera's eye 
+    through each pixel in the grid, and see what object it hits - and the pixel 
+    color is determined by that collision!
+        - In high-level pseudocode terms:
+
+            for each pixel(xs, ys):
+                create ray R from eye through (xs, ys)
+                for each object Oi in scene:
+                    if R intersects Oi and is closest hit by R so far:
+                        save the intersection point
+                shade pixel based on nearest intersection we found
+                # might have to do extra work here for shading/transparency/etc.
+
+        - This seems pretty simple, but it does a LOT: the "closest so far" 
+        part handles hidden surfaces for us implicitly, for instance, and 
+        shooting the ray from the eye gets us perspective projection for free!
+            - Isn't this how Z-buffering basically worked, though? Well, 
+            Z-buffering only worried about the pixels that we knew had a chance 
+            of appearing on screen, so it worked out to being far less 
+            computation-intensive on average
+    - But why is raytracing slow? Not because we have to go through every pixel 
+    (we have to do that no matter what), but because we have to check 
+    intersections against EVERY object in the scene. That's fine if we've only 
+    got a few cubes, but what about modern movie scenes, which can have tens of 
+    millions of polygons?
+        - There are some clever techniques for speeding up this loop, of 
+        course, but we'll get into those later
+
+- We can describe the rays themselves PARAMETRICALLY, like this:
+
+        x(t) = x0 + t*(x1 - x0) = x + t*dx
+        y(t) = y0 + ''          = y + t*dy
+        z(t) = z0 + ''          = z + t*dz
+
+    - We can rewrite this as a 3D vector equation for the position on the line 
+    'r':
+
+        r(t) = o + t*d
+
+    - Where 'o' is the origin of the ray (x0, y0, z0), and 'd' is the direction 
+    of the ray (dx, dy, dz)
+
+- Okay, that's how we define our rays - but what about our object surfaces? How 
+do we define them so we know when  our rays have collided with them?
+    - Well, we usually describe our objects with IMPLICIT equations instead; 
+    for instance, a unit sphere centered at the origin would be defined as:
+
+            x^2 + y^2 + z^2 = 1
+
+        - Or, more generally (for what??):
+
+            (x0 + t*dx)^2 + (y0 + t*dy)^2 + (z0 + t*dz)^2 = 1
+
+        - where t is the only unknown, which we can solve to find
+
+- We'll explain how this works a bit more on Friday - hopefully project 2A 
+won't consume all your free time between now and then.
+    - Today's farewell: "do widzenia!"
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="16_raytracingIntersections_2_15_19.html"></a>
+</main>
+</body>
+</html>

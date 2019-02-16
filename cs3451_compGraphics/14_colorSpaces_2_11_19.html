@@ -1,0 +1,158 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li class="active-note-page"><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="13_colorPerception_2_8_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//******************* Color Spaces - February 11th, 2019 ********************//
+//**************************************************************************//
+
+- I might have finished a project...early? What world have I trespassed into?
+- Apparently 5 minutes ago, Professor Turk has also decided that project 2A 
+will be due this Thursday (St. Valentine's Nation Singles Rememberance Day), 
+and part 2B will be due next week on Feb. 23rd
+-----------------------------------------------
+
+- We wrapped up last week by talking about the cones in the human eye, and how 
+we perceive colors. A few important takeaways:
+    - There are significantly less blue cone receptors, which means we don't 
+    focus on it as well as gren/red; this is why many people recomend avoiding 
+    blue text
+    - There IS some overlap between each of these cones frequency
+- We also started talking about the "CIE" chromaticity diagram that shows all 
+the colors visible to the human eye
+    - This is actually a 3D diagram, where 2D slices of it are shown at a time; 
+    the X-axis is, the Y-axis is , and the Z-axis as brightness
+    - Everything on the curved porition of the diagram are "visible 
+    chromaticity values," meaning they correspond to visible wavelengths - 
+    i.e., we can find a photon for that color!
+        - On the flat part, though, are colors we see that don't match up with 
+        an exact wavelengths (mostly shades of magenta, i.e. mixes of 
+        purple/red) - we only see them as mixes of different colors of light! 
+        There are NO photons with this color, we just perceive mixes of light 
+        as such!
+            - These are known as NON-SPECTRAL colors (because they're 
+            SPOOOOOOOOKYYYYYYYY...and, well, not part of the visible spectrum)
+    - Another thing to note for this diagram is the notion of COMPLEMENTARY 
+    COLORS, i.e. colors that are opposite from each other on the diagram 
+    (blue-yellow, green-magenta, etc.)
+
+- For a given display device, we say the GAMUT of the device is the range of 
+colors that it can display
+    - But can't my smartphone display ANY color? NO! Most devices can only 
+    display a medium-ish-sized triangle of color inside the CIE diagram - there 
+    are vivid colors that your monitor simply can't display
+        - Why a triangle? Because most displays are just RGB, with only 3 
+        colors - we could add more types of colors to add more corners, but 
+        there's still (at least for right now) limitations on how extreme the 
+        colors can get
+            - What about making the corners encompass the whole CIE diagram? 
+            Well, to get the triangle's corners that far out, you'd need a 
+            monitor that could produce X-rays, which are expensive (and mildly 
+            dangerous)
+- How do we display colors that are outside our device's range, then? There are 
+2 main schools of thought:
+    - PROJECTING the color to the nearest point on the triangle
+    - CLIPPING any of the color's extreme R/G/B values to the maximum possible 
+    with the monitor 
+
+- So, most monitors have the RGB color space with ADDITIVE colors, where we 
+produce light of a given wavelength for the color we want
+    - You can think of the colors we make as a 3-circle Venn diagram, with a 
+    circle each for red, green, and blue
+        - Red + Green = Yellow
+        - Blue + Green = Cyan
+        - Red + Blue = Magenta
+            - Magenta photons do NOT exist; you won't find them on the color 
+            spectrum by themselves
+        - Red + Green + Blue = White light
+            - Similarly, there is no such thing as a pure-white photon
+    - You might also think of this scheme as an RGB "color cube" with RGB 
+    coordinates from (0,0,0) to (1,1,1), with red, blue, and green all in 
+    opposite corners, yellow/cyan/magenta at the in-between corners, black at 
+    (0,0,0) and white at (1,1,1), and the mixes of colors all in-between
+        - This'd mean that gray is in the very middle of the cube
+        - In a computer, of course, we represent these colors as discrete 
+        values between 0 and 255, instead of a continuous [0, 1] range, since 
+        it's convenient to represent each color channel with a single byte
+            - This is starting to change, however - most digital cameras 
+            nowadays have more than 8 bits of colors, and high-end monitors 
+            have higher color ranges as well
+- An alternative to this is SUBTRACTIVE color methods, like with printers and 
+inks
+    - Excepting really weird cases, paints and inks don't produce photons - 
+    they just absorb particular wavelengths of light, and reflect the remaining 
+    ones
+    - In this scheme, the primary colors change to CYAN, MAGENTA, and YELLOW
+        - "But Greg, what about red, blue, and yellow? What happened to them? 
+        Well, while that was still a subtractive color scheme, your teachers 
+        didn't want to confuse you by teaching about these weird cyan colors!"
+        - Here, in the "CMY" color space, the colors are:
+            - Cyan + Magenta = Blue
+                - Cyan by itself absorbs red light, and magenta by itself 
+                absorbs green - so when we mix them, only blue remains 
+                unabsorbed!
+            - Magenta + Yellow = Red
+            - Cyan + Yellow = Green
+            - Cyan + Magenta + Yellow = Black
+        - ...and if all colors are left out, you get white, since none of the 
+        colors are absorbed!
+            - In the "real world," black is often included as its own pigment 
+            because it's so common, and because mixing cyan/magenta/yellow 
+            perfectly into black is more difficult to get right than just 
+            having it by itself. This ids known as the "CMYK" color space ("K" 
+            instead of "B" so we don't confuse black and blue)
+    - We can think of this sort of color scheme as subtracting RGB colors from 
+    white light, like so:
+
+            |1|   |R|
+            |1| - |G| = final color
+            |1|   |B|
+
+- So, we talked about non-spectral colors already, like magenta and white - but 
+for some colors, there are more than one way to get them
+    - These colors are known as METAMERS: "two spectral distributions that look 
+    the same to humans"
+        - Cyan light, for instance, can either be gotten directly as a photon 
+        w/ a wavelength between blue and green, OR we can get it by having blue 
+        AND green light of the same intensity together!
+    - Colors we can get just on the spectrum directly, without having to mix 
+    two different colors of light, are known as "spectrally pure"
+        - Colors like magenta, on the other hand, can only be gotten by mixing 
+        two colors together - the fact we can see them at all is down mostly to 
+        human biology interpolating the colors 
+
+- On Wednesday, we'll start talking about some other color spaces - not for 
+human perception, or for display devices, but for it to be easier for human 
+designers to get the color mix they want. It's hard to tell what makes off-pink 
+color in RGB, for instance - but a clever color scale can help us out!
+
+- So, that's what's on the menu - see you for dinner (in the most platonic of 
+senses) on Wednesday!
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="15_colorRaytracing_2_13_19.html"></a>
+</main>
+</body>
+</html>

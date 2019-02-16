@@ -72,6 +72,12 @@ notesToCreate.append(ClassNoteEntry(
     'cs4731_gameAI',
     "Game AI"))
 
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/spring2019/cx4230/notes',
+    'css/cx4230Theme.css',
+    'cx4230',
+    "Intro. Modeling/Simulation"))
+
 #===============================================================================
 #===============================================================================
 

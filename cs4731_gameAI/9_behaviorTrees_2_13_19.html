@@ -1,0 +1,249 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Game AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4731Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Game AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_gameVsRegularAI_1_9_19.html">1. Game AI vs Regular AI</a></li><li><a class="is-note-link" href="2_introPathfinding_1_14_19.html">2. Intro to Pathfinding</a></li><li><a class="is-note-link" href="3_pathNetworks_1_16_19.html">3. Path Networks</a></li><li><a class="is-note-link" href="4_morePathNetworks_1_23_19.html">4. Path Networks (cont.)</a></li><li><a class="is-note-link" href="5_pathfindingBasics_1_30_19.html">5. Pathfinding Basics</a></li><li><a class="is-note-link" href="6_pathfindingCont_2_4_19.html">6. Pathfinding (cont.)</a></li><li><a class="is-note-link" href="7_groupsDecisions_2_6_19.html">7. Groups and Decision Making</a></li><li><a class="is-note-link" href="8_moreDecisionMaking_2_11_19.html">8. Decision Making (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="9_behaviorTrees_2_13_19.html">9. Behavior Trees</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="8_moreDecisionMaking_2_11_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//****************** Behavior Trees - February 13th, 2019 *******************//
+//**************************************************************************//
+
+- It was a bright cold day in February, and the calendars were marked 13...
+- Fun story: it turns out Professor Riedl's microphone broadcasts at the same 
+frequency as the 3rd floor lecture hall, which means that every now and again 
+they'll hear the ghostly sounds of an unembodied Professor, talking...
+
+- Also: EXAM 1!
+    - The first exam has been pushed back to February 25th; if this ends up 
+    being an issue due to travel plans, etc., PLEASE come talk to me!
+- In the meantime, let's start looking at Homework 5
+    - With this homework, we'll start putting decision-making into the agent 
+    using FSMs so that it can play a simple capture-the-flag style MOBA game
+        - Normally in a MOBA, each team will have one or more hero characters, 
+        along with a few minions who'll go straight towards the base and start 
+        attacking it
+            - You'll be implementing the minions - once again, the gates'll 
+            screw everything up, so you'll need to use your homework 4 solution 
+            for pathfinding. You'll have to have the agents destroy all the 
+            towers FIRST before they attack the main base
+    - There'll be a naive 'BaselineMinion' agent for you to test your solution 
+    against
+    - To make sure you're doing a decent job, you'll have to use no more than 
+    60 agents to destroy the base, and defeat the baseline agents 3/3 times 
+    over 3 games, to get a full score
+        - There'll be several different maps, so you can't just hardcode 
+        scripted strategies in
+        - There's no friendly fire, so you don't need to worry about that
+        - One last thing to know: if minions are inside a tower, they take 
+        damage, so you can't just have them hide inside the tower and cheat 
+        (this was an, um, "popular" solution last semester)
+    - To run this, you'll be using the "py -2 runmobacompetition BaselineMinion 
+    MyMinion" command
+- "The hard part of this assignment isn't creating the FSM, but creating it in 
+a way that works well with the game engine"
+
+- (My initial idea: 'save up' minions for defense on my side until I have ~20 
+or so, and then send 10 of them over at once)
+    - (According to Professor Riedl, though, people have figured out how to 
+    take down a base with just 3 minions in previous semesters (unsure how - 
+    maybe by dodging the tower shots?))
+---------------------------------------------------------
+
+- Annnnnnnnyways, we were talking about behavior trees last time: a way of 
+specifying sequences of actions "in context," by creating a decision tree 
+style...tree, which leads to an action that (hopefully, based on the decision 
+nodes) is appropriate for the given task
+    - In HALO, for example, there are very weak enemies called "Grunts" who 
+    flock together and get more organized when a Commander enemy is nearby, but 
+    are less effective o their own. In the actual game, their decision tree 
+    probably has like 1000 nodes in it; I'll give you the ~12-node pared-down 
+    version:
+        - The priority list nodes are ordered left-to-right, with the 
+        highest-priority action on the left
+
+                            [PL(Root)]
+                                |
+                                |
+            -------------------------------------------
+            |                   |                     |
+        (force&lt;50%)         (playerVisible)           |
+            |                   |                     |
+     [SEQ(Retreat)]         [PL(Attack)]         [SEQ(Patrol)]
+            |                   |                     |
+    -----------------      ---------------           (...)
+    |       |       |      |             |
+[Panic] [MoveAway] [PL]  (hasCommander) [SEQ]
+                    |      |             
+                  (...)  [SEQ]
+                           |
+                         (...)
+
+    - Now, we CAN do everything we can do with behavior trees using just FSMs 
+    (they're Turing complete, after all), but it's a LOT easier to create 
+    sequences of actions with Behavior Trees. It's like going from Assembly to 
+    C++ for decision making structures
+        - You'll have a chance to design your own behavior trees for homework 6 
+        - wait, what's that? You don't know how to make them? Let's fix that!
+
+- If you go online, you can find PLENTY of pseudocode for behavior trees, but 
+most of it is simplified to the point of being unusable. Let's try and run 
+through a few things you'll need to have:
+    - ACTIONS are the actual things we want our agent to be able to do, and 
+    will make up the leaves of the tree
+        - The code for them will look something like this (we return false if 
+        the action wasn't fully completed):
+
+            Class Action(Node):
+                def run():
+                    if (can't perform action for some reason):
+                        return False
+                    (...do whatever we need to do...)
+                    return True or False
+
+    - PRIORITY LIST is a selector node that'll just execute the first action it 
+    can, and only that one
+        - The code'll look like:
+
+            Class PriorityList(Node):
+                childrenNodes = []
+                def run():
+                    for child in childrenNodes:
+                        if child.run() == True:
+                            return True
+                    return False (if we couldn't execute any children)
+
+        - "So, we try to execute any child we can...and to be clear, no kids 
+        were harmed in the making of this slide, folks"
+
+    - SEQUENCES are like PLs, except we try to execute all our children and 
+    return False if ANY of our children fail to run
+        - Code-wise:
+
+            Class Sequence(Node):
+                childrenNodes = []
+                def run():
+                    for child in childrenNodes:
+                        if child.run() == False:
+                            return False
+                    return True (if we executed all the children)
+
+- There's a MASSIVE problem with this code, though. In a game engine, what'll 
+this code for Sequence actually do?
+    - Well, it'll try to execute an ENTIRE sequence of actions in a single 
+    tick! We're telling the agent to move AND shoot AND duck AND jump AND turn, 
+    ALL AT THE SAME INSTANT!
+        - So, we need to modify this so our behavior trees know that time needs 
+        to pass: that we only want to execute one action per tick, and that 
+        that action might take multiple ticks to complete
+    - At a high level, here's what we can do to fix this:
+        - Each PL and Sequence node will keep a pointer to a single child node 
+        - the "currently executing" node
+        - Each tick, if we end up at the node with the pointer, we first follow 
+        this pointer down to the leaf and ONLY execute this one action; next 
+        tick, we start at the root again
+            - If the current action is STILL around, we'll just go straight 
+            back to that action again until we're done with it, then clear the 
+            pointer
+            - Let's add a 3rd return option for the actions, then: if the 
+            action returns NONE, that means "I'm still completing this action, 
+            keep me around as the current action"
+                - All the selector nodes should return "None" if their current 
+                action returns None
+
+- Sometimes, though, you'll need to interrupt a sequence early (e.g. if the 
+player walks into a room, you don't want your agent to say 'hold on, I need to 
+finish my patrol action first!')
+    - To handle this, we'll add an INTERRUPT DAEMON: a special node with only 1 
+    child, where if some condition is true it'll execute that child
+    - So, for instance, we might put an interrupt node with a condition 
+    "playerNotVisible" in-between the root and the "patrol" sequence node
+        - This allows us to short-circuit certain actions if we need to - which 
+        is great!
+        - Most commonly, you'll be short-circuiting sequence nodes to stop 
+        sequences if a plan is no longer relevant
+
+- Rarely, we might also want SHORTCUTS that allow us to jump from one subtree 
+to another subtree
+    - This allows for code reuse, which is great! It also has another name: 
+    SPAGHETTI PROGRAMMING!
+        - If you use this all over the place, your tree will become a DAG 
+        instead, which is a MESS to deal with - in general, using shortcuts for 
+        behavior trees isn't the greatest idea if you can avoid it
+
+- Okay, that's some implementation stuff - but what're the advantages of these 
+behavior trees?
+    - First off, the appearance of goal driven behavior
+        - The agent is really only doing decision-making in the priority lists, 
+        and all those decisions are very simple - but because of how the tree 
+        is structured, it still allows us to give the illusion of structure and 
+        order in how the agent reacts
+    - Multi-step behavior
+        - This was hard to do in FSMs, but in behavior trees, it's 
+        comparatively easy thanks to our sequence nodes
+    - Fast performance
+        - We can run this every single tick, since actions that take multiple 
+        ticks should be handled with the right implementation
+    - Recovery from errors
+        - Using our interrupt nodes, we can quickly replan if the situation 
+        changes (which is great, since the player is basically an agent of 
+        chaos)
+- Why WOULDN'T we want to use these sorts of trees, though?
+    - The agent isn't ACTUALLY thinking, it's just following recipes - and the 
+    players can learn these sequences
+    - The behavior is still only as good as the designer makes it - if you 
+    design the tree stupidly, your agents will act stupidly
+
+- So, behavior trees allow a *little* bit of decision making on the agent's 
+part, but what can a REAL AI planner do?
+    - Keep in mind that having a full-blown AI system is a tradeoff: we have to 
+    do less hard-coding, but as the designer, we're losing a lot of control 
+    over the agent
+- One fancy thing we can do, though, is handle decision making with a RULE 
+SYSTEM (or "production system")
+    - This is a form of reactive planning where we have a bunch of 
+    "IF...THEN..." style rules about the world
+        - Here, we'll have bunch of "facts" that the agent knows about the 
+        world ('I have a gun,' 'The leader is here,' etc), and some rules for 
+        what to do (IF player visible, THEN IF hasGun, THEN fireGun)
+        - We match our known list of facts to our rules using pattern matching
+    - If a rule could be applied to the current known state of the world, then 
+    we say that rule is now "activated" (i.e. ready-to-run)
+        - Every tick, we choose one of the active rules to use (somehow), take 
+        that action, update the agent's knowledge based on how the world has 
+        changed, and repeat
+        - "It's like writing a program, and then allowing the computer to 
+        decide which functions to call and when - which allows the agent to 
+        automate a lot of things, but means we lose a good amount of control 
+        over the experience"
+
+- Where are rule engines actually used? Well, for one example, Valve's TF2 and 
+Left 4 Dead games use rule engines to handle banter between characters ('That 
+medic is a spy!', 'Nein, mein Freund!')!
+
+- We'll dive into the details of how rule systems are actually implemented, and 
+the algorithms they use, next week! See y'all then!
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="9_behaviorTrees_2_13_19.html"></a>
+</main>
+</body>
+</html>

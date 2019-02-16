@@ -1,0 +1,169 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Game AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4731Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Game AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_gameVsRegularAI_1_9_19.html">1. Game AI vs Regular AI</a></li><li><a class="is-note-link" href="2_introPathfinding_1_14_19.html">2. Intro to Pathfinding</a></li><li><a class="is-note-link" href="3_pathNetworks_1_16_19.html">3. Path Networks</a></li><li><a class="is-note-link" href="4_morePathNetworks_1_23_19.html">4. Path Networks (cont.)</a></li><li><a class="is-note-link" href="5_pathfindingBasics_1_30_19.html">5. Pathfinding Basics</a></li><li><a class="is-note-link" href="6_pathfindingCont_2_4_19.html">6. Pathfinding (cont.)</a></li><li><a class="is-note-link" href="7_groupsDecisions_2_6_19.html">7. Groups and Decision Making</a></li><li class="active-note-page"><a class="is-note-link" href="8_moreDecisionMaking_2_11_19.html">8. Decision Making (cont.)</a></li><li><a class="is-note-link" href="9_behaviorTrees_2_13_19.html">9. Behavior Trees</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="7_groupsDecisions_2_6_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//************* Decision Making (cont.) - February 11th, 2019 ***************//
+//**************************************************************************//
+
+- "Let me tell you a fun little story: once upon a time, I thought I'd give you 
+guys a binary autograder for homework 4. Mac was easy, Linux was easy, but 
+Windows...ho boy. Dealing with multiple python version, different OS versions, 
+PATH issues...long story short, 2 weeks later than I wanted to, I got the 
+autograder working. Sorry for those of you who had to use the nightmare 
+version, but hopefully, we're all cool now."
+-------------------------------------------------
+
+- Alright, for the next hour and a half, let's pretend we've got pathfinding 
+down pat and are moving on to a bigger, better problem: decision making!
+    - We talked about scripting and trigger systems, which...aren't that 
+    interesting
+    - We talked about finite state machines, which...also aren't all that 
+    interesting
+        - About the only way interesting thing we can say is to use the 
+        "distributed" implementation for FSMs, which makes maintaining them 
+        MUCH easier
+        - For these, we have the Update function and ChangeState function on 
+        our agent, and every time the Update function is called we delegate the 
+        actual action-taking to whatever state the agent has "equipped" at the 
+        time
+            - The state computes whatever logic it needs, then calls some 
+            callback functions on the agent to make it take the appropriate 
+            actions, like a marionette pulling the strings on a puppet (but 
+            with bytes)
+            - In homework 4, the Navigator class is doing a similar thing - it 
+            does all the hard path-calculating work, and then just tells the 
+            agent where to go next until it gets to the destination
+                - Some game engines (like Unreal) will also provide macros and 
+                macro-making abilities for states like "ATTACK," "FLEE," etc., 
+                in the programming language; this is the same exact thing, just 
+                with syntactical sugar for dealing with the states
+
+- There's another way of doing FSMs, though: we can make HIERARCHICAL FSMs!
+    - What're these? Well, basically, we can put states inside of states!
+        - For instance, if there are no predators in the area and our agent is 
+        hungry, we might jump into a "find food" state, which itself contains 
+        two alternating states for "search" and "eat"
+    - An HFSM can't do anything new that a regular FSM can't do, but it does 
+    let us make our states more organized and helps us think about 
+    encapsulation. It's a programming convenience, just like OOP or other 
+    techniques! 
+- So, yeah: formally equivalent to a regular FSM, but cleaner to write most of 
+the time
+
+- One last thing about FSMs worth mentioning: FSMs put conceptual emphasis on 
+states and observations
+    - ...but this leaves an open question: where do we put the actions? Where 
+    do we put the agent's actual behavior?
+    - Primarily, they're inside the states themselves, but they can also be in 
+    the transitions and elsewhere, and really aren't the focus of the logic 
+    inside an FSM
+
+- Why don't we put the emphasis on our actions instead, then? Why don't we try 
+working with behavior planning?
+    - "Planning," for our purposes, is "finding a sequence of ACTIONS that 
+    transform the world from an initial state to a world in which some goal 
+    condition is met"
+    - Our agent may have a goal, like "blow up the spaceship" or "take down the 
+    empire"
+        - But that goal might not be immediately within our grasp! It might 
+        take SEVERAL steps for us to conquer the Bubblegum Empire!
+    - So in order to accomplish this stuff, we need to think ahead and find 
+    some sequence of actions that ends up getting us to the goal
+    - Then, we execute that plan, and hopefully everything works out
+- State machines, on the other hand, tell us what to do NOW, but they don't 
+tell us what we should be doing later
+    - You CAN do sequential reasoning in them, but it's pretty hard; you need 
+    to have these massive chains of states that all transition to one another, 
+    and it gets real messy fast
+    - What we'd rather do is think about our actual goals and sequences, right? 
+    This way, we can just tell our agent "get this thing done," and it'll come 
+    up with some way to do it
+        - Goals and actions are reusable, which is nice!
+    - buuuuuut there's a catch: planning, in general, is an NP-Hard problem. 
+    That's not the greatest thing for our runtime performance.
+
+- One way we can handle this is through REACTIVE PLANNING: instead of making 
+the whole plan at once (I think?), we just make a decision on what action to 
+take next in real time, execute that one action, and then repeat
+    - This way, we get the advantages of being action-focused and goal-focused, 
+    but we don't have to consider every possibility!
+- What're some tricks we can use to do this, then?
+    - We could use a STATE-ACTION TABLE, which pre-decides the best action to 
+    take for any given state
+        - This is the same thing we did with Markov Decision Processes and 
+        policies from intro to AI, if you'd be so kind as to recall that dark 
+        time
+        - The problem here, though, is that this suffers from the same issue as 
+        finite state machines: it's pretty difficult to encode sequences of 
+        events in here!
+    - We could use a UNIVERSAL PLAN, where we pre-calculate the best plan for 
+    any given state
+        - This is even MORE difficult to calculate, though, and pretty time 
+        intensive - and good luck trying to code these up by hand
+    - BEHAVIOR TREES are a smarter way of writing down universal plans, where 
+    we have a tree of different behaviors that specify what an agent should do 
+    for any given circumstances (kind of like FSMs)
+        - These are probably the 2nd most popular way of doing game AI these 
+        days (after finite state machines), and were first introduced by (once 
+        again) the HALO series
+        - The leaves of the tree are the actual actions the agent can take, 
+        while the inner nodes are SELECTORS that help the agent determine what 
+        action are most appropriate - in particular, we'll talk about 
+        prioritized list selectors and sequence selectors
+            - PRIORITIZED LISTS pick some action from a list of possible 
+            choices, and choose the highest-priority one that makes sense/meets 
+            our conditions
+            - SEQUENCE selectors tell the agent to do all of its associated 
+            child actions, one after the other
+                - You can also do probabilisitc selectors (random chance of 
+                either branch), One-offs (do action once and never do it again, 
+                i.e. delete branch after action taken), or sequential looping 
+                (keep doing sequence until interrupted)
+        - We write down this entire tree in advance, often by hand - this lets 
+        us create convincing sequential decision making, which was MUCH harder 
+        to do with FSMs
+        - An example of a simple behavior tree for finding food in a 
+        predator-rich environment:
+
+
+                    Root (Idle if neither is true)
+                    /                           \
+        (predator = true)                   (hungry = true)
+                /                                  \
+            Flee (Prio. List)                      SearchFood(Seq.)
+            /            \                          /        \
+    (predator OR hungry) (predator AND hungry)     (Search)  (Eat)
+        |                         |
+    (#2 - Run)          (#1 - Run/Search)
+
+
+- Alright, we'll keep diving into behavior trees and planning on Wednesday - 
+"plan" to be here! *winces in pain*
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="9_behaviorTrees_2_13_19.html"></a>
+</main>
+</body>
+</html>

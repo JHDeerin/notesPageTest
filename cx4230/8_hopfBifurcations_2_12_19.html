@@ -1,0 +1,217 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. Modeling/Simulation</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cx4230Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. Modeling/Simulation</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_introConceptualModels_1_8_19.html">0. Introduction / Conceptual Models</a></li><li><a class="is-note-link" href="1_complexSystemBasics_1_10_19.html">1. Complex System Basics</a></li><li><a class="is-note-link" href="2_mathReview_1_15_19.html">2. Math Review for Modeling</a></li><li><a class="is-note-link" href="3_stabilityBifurcations_1_17_19.html">3. Stability and Bifurcations</a></li><li><a class="is-note-link" href="4_1dBifurcations_1_22_19.html">4. 1D Bifurcations (cont.)</a></li><li><a class="is-note-link" href="5_2dDiffEqs_1_24_19.html">5. 2D Differential Equations</a></li><li><a class="is-note-link" href="6_2dLinearStability_1_31_19.html">6. 2D Linear System Stability</a></li><li><a class="is-note-link" href="7_2dBifurcations_2_5_19.html">7. 2D Bifurcations</a></li><li class="active-note-page"><a class="is-note-link" href="8_hopfBifurcations_2_12_19.html">8. Hopf Bifurcations</a></li><li><a class="is-note-link" href="9_chaosIteratedMaps_2_14_19.html">9. Chaos and Iterated Maps</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="7_2dBifurcations_2_5_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//******************* Hopf Bifurcations - February 12th, 2019 ***************//
+//**************************************************************************//
+
+- Okay, we have about 3 more classes before your first midterm, and then only 1 
+more class past that before your first project is due - so keep an eye on that! 
+Keep working on your project!
+- The checkpoints should be graded; for the most part, the ones we looked at 
+seemed fine, but please ask questions about what's expected, what you need to 
+do to impress us, etc.
+-----------------------------------------------
+
+- Last time, we ended up by looking at 2D systems where bifurcations occur, and 
+we saw that they're similar to (but more complicated than) the bifurcations we 
+saw in the 1D case
+    - We gave one example problem at the very end, which Professor Vuduc plans 
+    to post solutions to when he has time
+
+- What we just saw were "supercritical" and "subcritical" bifurcations - those 
+occur when the eigenvalues are real, but remember, we're in 2D now! These 
+eigenvalues can be complex, and that leads us to a new kind of bifurcation: the 
+HOPF BIFURCATION
+    - So, if our Jacobian matrix has complex eigenvalues near a fixed point, 
+    what sort of bifurcations might we expect to see?
+        - There might be a circle/cycle around the critical point, where if a 
+        point is closer than this radius it spirals outwards, and if it's 
+        farther away, it spirals in - is there some way this behavior might 
+        change?
+            - Let's say the two eigenvalues are "negative real part +/- i" 
+            (i.e. negative complex conjugates), so that the two solutions start 
+            out stable
+            - Imagine that as we change some other parameter of the model, the 
+            real part of the eigenvalue starts to increase and become positive
+        - So we can more clearly understand the "radius growing/shrinking" 
+        idea, let's pretend we've moved into polar coordinate world - which, to 
+        remind you, means:
+
+                Coordinate = (r, theta), where r &gt;= 0
+                x0 = r*cos(theta)
+                x1 = r*sin(theta)
+
+            - Let's say, then, that we're working with an example problem like 
+            this:
+
+                    r' = ar + r^3 - r^5
+                    theta' = 1
+
+                - This means the object has a constant rotation, but the radius 
+                term is a little more complicated
+                    - In the 1D case, when an equation included cubic and 
+                    quintic terms, it was possible for us to see some 
+                    HYSTERESIS in this system, where as we change the parameter 
+                    the critical point passes through a section of instability 
+                    before becoming stable again, meaning we have to "jump" to 
+                    get back to the stable part again
+                    - In 2D (missed, but basically there's an analog of this, I 
+                    think?)
+                - Given these equations, the actual problem is this: "Analyze 
+                bifurcations in the region -1/4 &lt; a &lt; 0 for this system"
+                - Let's rewrite the equation for r as:
+
+                        r' = r(a + r^2 - r^4)
+
+                    - So, we immediately know there's a critical point r* = 0
+                    - If we solve for r, we'll also find r* = 0.5 +/- sqrt(1/4 
+                    + a)
+                        - "Remember, this is NOT a fixed point, but a circle of 
+                        points with radius r* - welcome to Polar World!"
+                - So, looking at the cases for a:
+                    - If a = -1/4, there're critical values for r at {0, 1/2}
+                        - So, is the origin stable? Is this ring at r=1/2 
+                        stable?
+                            - If we imagine that r &lt; 1/2, then r^2 = 1/4 and 
+                            r^4 = 1/16, which means that:
+
+                                a + r^2 - r^4 = -0.5 + 0.25 - 1/16 = -0.25 - 
+                                1/16
+                            
+                            - So, this'll be negative! The radius is decreasing 
+                            and going TOWARDS the origin, but away from r = 1/2!
+                            - If r &gt; 1/2 (say, for instance, r = 1), then:
+
+                                a + r^2 - r^4 = -0.5 + 1 - 1 = -0.5
+
+                            - So, it'll go towards the 1/2 ring if r &gt; 1/2, and 
+                            away from it (towards the origin) if r &lt; 1/2
+                        - So, the origin is stable, but the 1/2 ring is only 
+                        half-stable
+                    - Generalizing this for -1/4 &lt; a &lt; 0:
+                        - There'll now be a fixed point at the orign, and then 
+                        TWO fixed rings at "1/2 +/- sqrt(1/4 + a)"
+                            - This means that the single ring at r=1/2 has 
+                            split into two rings!
+                                - When a = 0 again, though, then the 2nd ring 
+                                will have a radius of 0, so we'll end up with 
+                                only 1 ring again
+                            - If we analyze their stability, inside the inner 
+                            circle, points will still decay towards the origin; 
+                            between the two rings, it'll expand outwards; and 
+                            outside the large circle, it'll decay towards the 
+                            origin
+                            - This means the origin and the outer ring are 
+                            stable, while the inner ring is unstable
+                    - Finally, for a = 0, we get r* = {0, 1} - which means r &gt; 
+                    1 is decreasing, and r &lt; 1 is increasing
+                        - So, in this case, the origin is unstable (it spirals 
+                        outwards), and the r=1 ring is stable
+    - PHEW - that was a lot, but what does this example show for bifurcations? 
+    It shows that for a brief range of 'a' (namely, -1/4 &lt; a &lt; 0), this ring of 
+    instability briefly appears, and the origin turns from a stable point to an 
+    unstable point
+- So, a HOPF BIFURCATION is when the eigenvalues either are complex or become 
+complex, and the fixed point goes for some parameter value's range from being 
+stable to unstable (or vice-versa)
+    - There's two versions: a "supercritical Hopf" bifurcation (where r' = ar - 
+    r^3) where a stable critical point becomes unstable as an uncritical ring 
+    shrinks onto it, and a "subcritical Hopf" (where r' = ar + r^3) where an 
+    unstable critical point becomes stable, with a ring of stability around it 
+    shrinking onto it
+        - The supercritical case is considered "safe," since even if the 
+        results blow up, they'll be "caught" by the stable ring around the 
+        origin
+        - The subcritical case, on the other hand, is considered "unsafe," 
+        because even though the immediate area around the origin is now stable, 
+        if we escape that region of attraction, the results could explode
+
+- Okay - but WHY do we care? Well, if the origin of (0,0) is a desirable stable 
+point for us, and we're increasing some lever on our machine, then at SOME 
+POINT it'll jump and become unstable, and the system will suddenly jump to the 
+stable ring where r=1
+    - If the system is stock prices of goal in Angola, for instance, and the 
+    parameter is the amount we're paying miners, then if we tweak the payrate 
+    just a *little* down, prices could PLUMMET
+
+- ...alright, that might've been a bit messy, but I think we're ready to make 
+another jump: from the flat planes of 2D systems to the mountains of 3D!
+    - And to begin, let's look at an extremely famous 3D system: the Lorenz 
+    System!
+        - Lorenz was a weather scientist at MIT in the 1960s, trying to model 
+        weather patterns on a computer
+        - When Professor Vuduc was a student at Cornell under Professor 
+        Strogatz, he watched a video on "Chaotic Water Wheels," where a wheel 
+        with a bunch of leaky water-holding cups on it spins around as water 
+        sprays the cups from a hose (like a regular water wheel), with 
+        variables representing the angular vecloity of the wheel, the flow rate 
+        of water into/out of the cups, and the angle of the wheel
+        - Lorenz was using a very similar model to this in his weather research 
+        to analyze convection, and it looked something like this (x is the 
+        rotational velocity, y is the difference in water volume between the 
+        wheel's left/right halves, and z is the difference in water volume 
+        between the top/bottom):
+
+            x' = a*(y - x)
+            y' = rx - y - xz
+            z' = xy - bz
+
+        - There are nonlinearities here (x*z, for instance), but they look 
+        pretty simple, right? It's not TOO nonlinear
+        - Another thing we see is that this system is symmetric in X and Y; if 
+        (x, y, z) is a solution, then so will (-x, -y, z)
+        - But (and this is where things start to get weird), as t -&gt; infinity, 
+        all the volumes in the phase space start going to 0!
+            - What does this mean? Well, if we plotted these variables x/y/z on 
+            a 3D graph, the surface defined by x=y=z always shrank into nothing 
+            eventually
+            - At first glance, that seems to indicate that the solutions settle 
+            down into some fixed point, right? So there must be a critical 
+            point, right? Well, NOPE! It turns out it isn't that at all!
+        - Lorenz realized this, and started looking for bifurcations in the 
+        system - and specifically, he began looking at how the system changed 
+        as he changed the value of 'r' (which appears in y')
+            - For 1 &lt; r &lt; rh, he found that the system acted like a subcritical 
+            Hopf, where 'rh' was the bifurcation point (i.e. a fixed point 
+            suddenly become unstable as r grew to rh)
+                - So, at r = 1, the single fixed point split into 2 (like a 
+                pitchfork bifurcation) - but then, at the rh point, each of the 
+                two trajectories splits AGAIN
+        - Lorenz was really confused by this behavior, so he turned to the one 
+        tool he thought could help him: a 1960s mainframe computer. He plugged 
+        in his equations with a = 10, b = 8/3, and r = 28 (since rh ~= 24.7), 
+        and...
+
+- Well, we ran out of time, so you'll have to hear the end of the story...next 
+time.
+
+
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="9_chaosIteratedMaps_2_14_19.html"></a>
+</main>
+</body>
+</html>
