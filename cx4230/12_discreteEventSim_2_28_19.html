@@ -1,0 +1,254 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. Modeling/Simulation</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cx4230Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. Modeling/Simulation</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_introConceptualModels_1_8_19.html">0. Introduction / Conceptual Models</a></li><li><a class="is-note-link" href="1_complexSystemBasics_1_10_19.html">1. Complex System Basics</a></li><li><a class="is-note-link" href="2_mathReview_1_15_19.html">2. Math Review for Modeling</a></li><li><a class="is-note-link" href="3_stabilityBifurcations_1_17_19.html">3. Stability and Bifurcations</a></li><li><a class="is-note-link" href="4_1dBifurcations_1_22_19.html">4. 1D Bifurcations (cont.)</a></li><li><a class="is-note-link" href="5_2dDiffEqs_1_24_19.html">5. 2D Differential Equations</a></li><li><a class="is-note-link" href="6_2dLinearStability_1_31_19.html">6. 2D Linear System Stability</a></li><li><a class="is-note-link" href="7_2dBifurcations_2_5_19.html">7. 2D Bifurcations</a></li><li><a class="is-note-link" href="8_hopfBifurcations_2_12_19.html">8. Hopf Bifurcations</a></li><li><a class="is-note-link" href="9_chaosIteratedMaps_2_14_19.html">9. Chaos and Iterated Maps</a></li><li><a class="is-note-link" href="10_moreIteratedMapsCellAuto_2_19_19.html">10. Iterated Maps (cont.) / Cellular Automata</a></li><li><a class="is-note-link" href="11_cellularAutomata_2_21_19.html">11. Cellular Automata (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="12_discreteEventSim_2_28_19.html">12. Discrete</a></li><li><a class="is-note-link" href="13_queueProcessScheduling_3_5_19.html">13. Queuing and Process Scheduling</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="11_cellularAutomata_2_21_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//************ Discrete-Event Simulation - January 28th, 2019 ***************//
+//**************************************************************************//
+
+- There was rain, there was mud, there was a LITERAL gas leak evacuation of 
+this building, and yet we still have class...I suppose that's "good" for us
+- Professor Vuduc has officially been replaced with Dr. Fujimora - and with it, 
+the second half of the class has begun!
+    - HOWEVER, your projects are STILL DUE ON MONDAY - don't forget!
+- In this second half, we're going to be focusing on discrete modeling, as well 
+as the overall methodology of how we simulate things in the "real world"
+    - After spring break, we'll also begin getting into the practical parts of 
+    parallel computing - we gotta get these things to run after all!
+- Reading for today is chapter 2 of the Arbetz book, if you're the reading kind
+---------------------------------------------------------------------------
+
+- Now, this lecture has not one, not three, but TWO whole parts!
+    - The first part is focused on the "lifecycle" of a typical 
+    modeling/simulation project, which we'll dive into more and more in the 
+    coming weeks
+    - The second part is looking at discrete-event simulation, hopefully in 
+    enough detail that you could go home and code it
+
+- So, what are the steps of this "process?" Very roughly, something like this:
+    - Come up with a project description
+    - Create a CONCEPTUAL MODEL of the system
+    - Create the SIMULATION MODEL/PROGRAM based on that abstraction
+    - Then, VERIFY and VALIDATE that your system is correct
+    - And finally, run some experiments on your simulation to get the 
+    information you want
+
+- Let's dive into each of those in some detail
+    - First up, the beloved project description!
+        - This step is REALLY often overlooked, but it's important! This is 
+        where you ask: What's the goal of our simulation? Why do you need a new 
+        model? What's the business justification? etc.
+            - In the computer chip design industry, they NEED to simulate these 
+            chips before they ship them out - why? Because fixing those chips 
+            once they're out in the wild is HARD and expensive, so they need to 
+            make sure they're going to work well before that
+        - One thing that often makes this complicated is that we often don't 
+        KNOW what our goals are going to be until halfway through the process, 
+        based on what we've learned - "we have to be flexible"
+            - "Now, I'm assuming you know how gas stations work"
+            - Long lines behind slower trucks at gas stations can lead to 
+            complaints, inefficiencies, etc.; so, let's suppose management 
+            wants to know if they should restrict large vehicle to a single 
+            pump - would that help speed things up, or not?
+            - From there, the description should include a few details about 
+            the system we're investigating itself (e.g. "there are 3 phases to 
+            servicing a vehicle")
+    - Next up: develop a conceptual model!
+        - We've already talked about these quite a bit, but just to remind you, 
+        a conceptual model is your chosen abstraction for viewing the system in 
+        question
+    - After that, we have to actually create the SIMULATION MODEL/ computer 
+    program
+        - Some people draw a distinction between the "model" and "programming" 
+        stages of this step; Professor Fujimora isn't that picky about it
+        - To begin this step, we'll typically need to collect a lot of data 
+        about the system (e.g. for a traffic model, we need to know typical 
+        road geometries, signal timings, traffic demands, probability 
+        distributions, etc.)
+            - From there, we'll create the program itself: "a software 
+            representation of the conceptual model"
+                - We might write this up from scratch in a general-purpose 
+                language like C, or a simulation-specific language like SIMULA, 
+                or even just mock it up in an existing software package
+                - The choice'll usually depend on various factors: how much 
+                time you have to make it, how customizable the simulation needs 
+                to be, if the goal is "simulation-oriented" (want to build the 
+                model) or "result-oriented" (just want to answer a question), 
+                performance constraints, etc.
+    - Alright, now that we've got the simulation program, we need to VERIFY and 
+    VALIDATE it
+        - These are NOT the same thing!
+            - VERIFICATION asks if we built the model correctly: "does this 
+            computer program I built match the conceptual model we made?"
+                - Typically, this mostly means debugging the code; it's largely 
+                a software engineering job
+            - VALIDATION aks if we built the correct model; we might've 
+            programmed everything perfectly, but does our model give accurate 
+            results?
+                - The gold standard for this is comparing our simulation's 
+                results against data from the actual system, but this data 
+                isn't always available ("for instance, you might be designing a 
+                bridge in a site that's never been tested before")
+                    - In that case, you'll do the next best thing and compare 
+                    your simulation against existing models, or what's 
+                    mathematically expected
+                - IMPORTANTLY, validation does NOT prove the model is 
+                absolutely correct; there could be errors that we didn't test 
+                for. It's an extremely important step for convincing yourself 
+                (and your customer) the model works, but it is NOT foolproof
+    - Finally, with all that done, we'll start using our simulation to run 
+    experiments and answer questions
+        - What experiments should we run? How many runs do we need? How long 
+        does each run need to be? Which parameters should we vary? How should 
+        we analyze the output? There's a LOT of questions here!
+        - After you've gathered and interpreted the data, you need to present 
+        it to the customer in a way they can understand and use - "and if it 
+        looks nice, they're more likely to actually care. Sad but true."
+
+- So, that's the high-level process, but be aware that these steps are very, 
+VERY easy to get wrong: you can easily get nonsense results from a 
+perfectly-programmed model, and these methodologies are meant to help us avoid 
+the worst mistakes
+    - In practice, the process is never as smooth as these nice Powerpoint 
+    flowcharts: requirements change, customers lose interest, data turns out to 
+    be flawed, bugs appear (SO MANY BUGS), etc.
+    - "Over the next few weeks, we'll dive deeper into what each of these 
+    components actually look like, but hopefully this gives you the lay of the 
+    land"
+
+- Alright, and with that, have a two minute break - you've earned it! (kinda)
+
+- Now, let's switch gears and take a look at a technique a little different 
+from what you've been doing these last few weeks: DISCRETE-EVENT SIMULATIONS!
+    - So, we've got our project approved, a conceptual model made, and now we 
+    need to write our program - but which program!
+    - A DISCRETE EVENT SIMULATION is a model where "the state of the simulation 
+    changes at discrete points in time"
+        - It's like a comic strip - we have a bunch of snapshots of the system!
+    - These have TWO fundamental concepts:
+        - The system's state (usually stored in state variables)
+        - State transitions (the "events" that could happen)
+    - Here, we'll view the system as a sequence of events happening at a 
+    specific time, each of which can change the state variables and result in 
+    new events happening
+
+- All of the simulations we've done so far have been "timestep driven," where 
+we jump forward in time by set amounts (1, 2, 3, ...) and update the simulation 
+at each point
+    - For event-based simulations, that doesn't make any sense! We might have 
+    long stretches where no event occurs, of where multiple events are closesly 
+    clustered
+    - Instead, here we'll view time itself as a continuous variable, and jump 
+    from event-to-event instead of from time-to-time
+        - We'll have this sequence of events stored in some "future event 
+        list", and then process them in the order of their timestamps
+            - Events that happen might put new events into the "future event 
+            list," as well as updating the system's variables itself
+
+- For our software, there are some things that'll vary from model-to-model: for 
+instance, each simulation will have its own defined events, state variables, 
+I/O, defined behavior, etc. - part of the "application" software
+    - What does NOT change is the actual "execution engine" of our simulation; 
+    stuff like managing the event list, advancing in time, etc. won't 
+    fundamentally change, and can be 
+- The interface between these two are the events that actually occur (check 
+this??)
+    - code-wise, the event processing loop for our system looks something like 
+    this:
+
+        while simulation not finished:
+            E = smallest time stamp in the future event list
+            remove E from FEL
+            currentTime = time stamp for E
+            call event handler procedure
+
+    - Each event, then, will have its own event handler behavior stored in a 
+    class/data structure, which'll vary from model to model
+
+- What is "event scheduling?" Basically, for each event, we'll create a data 
+structure for that event and plop it into the future event list (which is 
+almost always a priority queue)
+    - This FEL queue'll hold all our unprocessed events, where the main 
+    scheduler loop removes the next event and processes it, which might result 
+    in new 
+        - "What if something unexpected happens and we need to remove stuff 
+        from the FEL? We'll come back to this, but it turns out to cause a few 
+        headaches"
+
+- As a simple example of this, let's look at the world-famous DISCRETE AIRWAYS!
+    - This is an imaginary airport that only has one runway, where 3 events 
+    could happen: "AIRCRAFT ARRIVING", "AIRCRAFT LANDS," "AIRCRAFT DEPART"
+        - The last two are self-explanatory; the first one means that airplane 
+        signals the airport 5 minutes in advance of when it's landing
+    - To do this, let's have the following constants for all aircraft:
+
+            R - the time it takes each landing aircraft to use the runway
+            G - the time each departing aircraft requires on the runway to take 
+            off
+
+        - Inside the state, we'll keep track of the following variables:
+
+            Now - the current simulation time
+            InTheAir - Number of aircraft landing or waiting to land
+            OnTheGround - Number of aircraft that are waiting to take off
+            RunwayFree - Is the runway being used right now?
+
+        - Finally, we'll have the events for ARRIVAL, LANDED, and DEPARTURE
+    - So, only one aircraft can land/take-off at a time; otherwise, they need 
+    to get in line and wait until the runway's free and it's their turn
+        - This means that incoming aircraft, trying to land, get in a queue for 
+        landing; when it's the aircraft's turn AND the runway is free, we 
+        schedule a landing event for it, then considered off the runway but "on 
+        the ground" and prepared for departure
+    - Code-wise, then, each event looks like this (wait, how is the queue for 
+    landing aircraft handled?):
+
+            ARRIVAL:
+                inTheAir += 1
+                if RunwayFree: # since we're not tracking 
+                    RunwayFree = False
+                    Schedule LANDED event @ Now + R
+
+            LANDED:
+                # finished using runway, so...
+                InTheAir -= 1
+                OnTheGround += 1
+                Schedule DEPARTURE event @ Now + G
+                if inTheAir &gt; 0:
+                    Schedule LANDED event @ Now + R
+                else:
+                    RunwayFree = True
+
+            DEPARTURE:
+                OnTheGround -= 1
+
+- Okay, so hopefully you're at a point where you'd feel comfortable coding a 
+simple discrete-event simulation on your own - in the meantime, get your 
+projects done! Good luck!
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="13_queueProcessScheduling_3_5_19.html"></a>
+</main>
+</body>
+</html>
