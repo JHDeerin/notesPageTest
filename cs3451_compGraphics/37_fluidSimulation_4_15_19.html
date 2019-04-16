@@ -1,0 +1,209 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="36_moreVolumeRendering_4_12_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//******************* Fluid Simulation - April 15th, 2019 *******************//
+//**************************************************************************//
+
+- So, fresh from the weekend, let's start off the day by talking about Project 5
+    - Going from corners to vertices is EASY - but going from a vertex to a 
+    corner? That's harder
+        - Why would we EVER want to do this, though? To process all the corners 
+        around a vertex, the easiest way is to get a corner near the vertex and 
+        then use the swing operator!
+        - The "vanilla" corners representation doesn't let us do this, but we 
+        can still do this efficiently with some extra information:
+            - For each vertex, store an arbitrary adjacent corner along with it
+    - Another issue you might've encountered is that, when subdividing, we need 
+    to make a new vertex for each edge - in other words, a vertex for each pair 
+    of opposite corners!
+        - That means we need to make sure we only create ONE vertex for each 
+        pair, instead of two; you need to think of some way to handle this
+-----------------------------------------------------------------------------
+
+- Today, we're going to cover another topic you voted to hear about: fluid 
+simulation for animation!
+    - As it turns out, Professor Turk is pretty familiar with this; he's had 
+    graduate students do research on this for theses he's overseen before
+
+- Why simulate fluids, though? Well, because there're a BUNCH of applications 
+for realistic fluid physics:
+    - Animated movies
+    - Computer games
+    - Medical simulations (e.g. blood flow in the heart)
+    - ...and, most importantly, because it's FUN!
+
+- This is actually a whole field known as COMPUTATIONAL FLUID DYNAMICS, and 
+borrows quite a bit from engineering and mathematical simulations
+    - For graphics applications, we usually prefer a technique known as the 
+    "finite differences" method
+
+- Now, here's a very scary slide you might not understand at first: the 
+NAVIER-STOKES EQUATIONS!
+    - These look AWFUL, like a bunch of nonsense greek letters, but don't worry 
+    - we'll go through it!
+        - There are two of these equations:
+
+                laplacian*u = 0
+
+            - This is the INCOMPRESSIBILITY equation
+
+                u_t = k*laplacian(u) - (u*laplacian)*u - laplacian*p + f
+
+            - This "U_t" represents the change in velocity of the particle, and 
+            has 4 different terms:
+                - The "diffusion term", k*laplacian^2()
+                - The "advection term," -(u*laplacian)*u
+                - The "pressure term," del
+                - The "body force," f
+
+- Before we dive into each of these, we need to talk about "Finite Difference 
+grids"
+    - Here, we say that all of the values in our simulation live on regular 
+    square grids, which gives us:
+        - A SCALAR FIELD, representing how much liquid is in each cell
+        - A VECTOR FIELD, representing the fluid velocities at that grid point
+    - The DIFFUSION TERM looks like this:
+
+            c_t = k*laplacian(c_t)
+
+        - Where c_t is the change in value, and k is the "diffusion rate," 
+        saying how fast the 
+            - What's the "laplacian," though? Well, it's basically just the 
+            value of the cell "t" relative to its neighboring values
+                - In the finite difference method, we'll approximate this 
+                laplacian by getting the 
+        - So, using this equation, for a given cell "cxy," we'll update the 
+        cell's value via diffusion like this:
+
+            c_xy = c_xy + k*dt*(c_(x-1, y) + c(x+1, y) + c_(x, y-1) + c_(x, 
+            y+1) + 4*c_xy)
+
+        - Interestingly, diffusion is the EXACT same as blurring 
+        mathematically; it actually is equivalent to Gaussian blurring
+    - What the Navier-Stokes equations say is that we need to diffuse the 
+    VELOCITY of our fluid
+        - We'll represent the velocity of a given cell "ij" as
+
+            u_ij = (xVel = u_ij^x, yVel = u_ij^y)
+
+        - In the context of these equations, "k" is equal to the VISCOCITY of 
+        the fluid
+            - Interestingly, viscocity does NOT have to be constant throughout 
+            the simulation; it can vary by position, by temperature, etc.
+                - (Video of a simulated bunny candle melting; "no bunnies were 
+                harmed in the making of this film")
+        - We'll seperately diffuse the x/y velocities (the xVel has NO effect 
+        on the yVel, and vice-versa)
+
+- The second term is the ADVECTION TERM, which is all about pushing stuff around
+    - Specifically, we're doing something a bit backwards known as 
+    "semi-lagrangian advection," where we know where the cell values would end 
+    up and calculate how much of it moves to that destination
+        - The equation looks like this:
+
+                c_t = -(u*del)*c
+
+            - Where, again, c_t is the change in value, u*del is a CRAZY 
+            notation for, and C is the current value of whatever we're updating
+        - Again, we'll calculate this separately for the X/Y cases
+    - Advection is relatively easy to code, and it's stable even at large 
+    timesteps
+
+- The PRESSURE TERM is related very closely to incompressibility by something 
+known as DIVERGENCE!
+    - A high-diveregence vector field is where we have a little bit of material 
+    moving into something and a LOT of stuff coming out; low divergence is the 
+    opposite, where we have a lot of stuff going into a space
+        - Both of these are unrealistic! For incompressible fluids like water, 
+        we'd expect ZERO divergence, meaning the amount of stuff going in is 
+        EXACTLY balanced by however much is getting pushed out
+    - To enforce this incompressibility, we'll first do our velocity/advection 
+    calculations
+        - We'll then find
+            - How do we measure divergence? The symbol for it is a dot product, 
+            like this:
+
+                    divergence(u) = del*u_ij
+
+                    - 
+                - Using the finite-differences method on a grid, we'll do this 
+                by basically asking "how much material is coming into the cell 
+                from one side, and leaving it on the opposite side?"
+            - Equation wise, that looks something like this:
+
+                divergence(u) = ((u(i+1, j) - ) + 
+
+        - To calculate our pressure, we'll start off with this:
+
+                unew = u - del*p
+
+            - And take the divergence of both sides...
+
+                -
+
+            - Which gets us this:
+
+                    del*u = laplacian(p)
+
+                - We already KNOW del*u from our equation above! But we DON'T 
+                know what the laplacian of p is
+                - We can say the new value of p is
+                    - Basically, we take the old pressure
+        - So, this gets us the "nearest" vector field from our original that's 
+        divergence free!
+
+- Okay, this is a LOT - I don't expect you to follow every little step, but I 
+want you to see that every individual step isn't that hard. You really cuodl
+
+- So, putting this all together, how do we actually simulate a fluid?
+    - Well, we'll first diffuse the velocities
+        - We'll then advect those velocites
+        - ...and then add in any body forces (e.g. gravity)
+    - We'll then do pressure projection (i.e. calculate the pressures)
+    - Then diffuse the scalar VALUES for the fluid (the amount of 
+    smoke/dye/etc. inside the fluid)
+    - 
+
+- To model objects INSIDE of the fluid, we can do rigid-body simulations using 
+effects very similar to our pressure calculations
+
+- What about different sizes of fluids? What's the difference between simulating
+    - Well, at small scales (centimeter-sizes), surface tension effects become 
+    FAR more important, whereas they're negligible for surfaces much larger 
+    than that
+        - The basic idea here is that drops of water will be convex, drawn 
+        together by surface tension
+            - On hydrophilic surfaces, the drop tends to spread out more; if 
+            it's hydrophobic, though, the water drop will bead up and become 
+            more spherical
+
+- 
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="37_fluidSimulation_4_15_19.html"></a>
+</main>
+</body>
+</html>
