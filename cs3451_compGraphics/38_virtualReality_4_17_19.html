@@ -1,0 +1,172 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li><li class="active-note-page"><a class="is-note-link" href="38_virtualReality_4_17_19.html">38. Virtual Reality</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="37_fluidSimulation_4_15_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//******************* Virtual Reality - April 17th, 2019 ********************//
+//**************************************************************************//
+
+- Don't be happy it's today because it's not tomorrow; be happy that it's 
+today. And when tomorrow comes, even if it feels rough, be happy for that, too; 
+it'll pass!
+    - Also, fill out the CIOS! Greg Turk's done an awesome job teaching 
+    throughout this whole semester, and he deserves some credit for that!
+--------------------------------------------------------------------------
+
+- Alright, we're gonna talk about VIRTUAL REALITY today, and there're 3 BIG 
+pieces any VR system needs:
+    - We need to track the user's head motion
+    - We need to create images of the virtual world in real time
+    - We need to display those images convincingly to the user
+
+- The history of VR is actually a rather long one, with 3 sort of distinct 
+"waves" in history
+    - In the 1960's, Ivan Sutherland started looking into the first parts of VR
+        - Ivan Sutherland is considered the "founder" of computer graphics as a 
+        field, and he famously created a constraint-based design package called 
+        "Sketchpad"
+            - After winning a Turing Award for his research, he worked at the 
+            University of Utah for several years trying to create an "Ultimate 
+            Display" that would 
+                - They built the first head-mounted display; it had all 3 of 
+                the key VR components (a tracking device, a head-mounted 
+                display, and real-time rendering), but was actually an 
+                AUGMENTED REALITY device, projecting virtual stuff onto the 
+                real world
+                    - However, the device was bulky and INCREDIBLY unweildy, 
+                    and required a ceiling-mounted pipe to track movements, 
+                    earning the nickname "Sword of Damocles"
+        - Several research labs considered pursuing this kind of work (such as 
+        Henry Fuchs at UNC (Professor Turk's Phd. advisor), and Stever), dubbed 
+        "virtual environments," but it certainly wasn't mainstream
+    - In the late 1980's, Jaron Lanier founded a company called VPL - "Virtual 
+    Programming Language" - and he coined the term "virtual reality"
+        - VPL sold complete virtual reality systems that had all the key 
+        components, a magnetic motion tracking system, and a "data glove" that 
+        let people use their hands to interact with the virtual world
+            - ...it wasn't very accurate at ALL, but it did work!
+        - The work Lanier did here drew a LOT of attention from the tech field, 
+        but what happened?
+            - Well, the technology at the time was still a little crude, and it 
+            didn't live up to the hype: the images weren't realistic, the 
+            tracking wasn't good enough, it was heavy, 
+                - MOTION SICKNESS is when there's a disconnect between when 
+                    - Some people have thought this is because the body thinks 
+                    you've been poisoned when you get dizzy
+            - There was also no obvious market for the tech - everyone thought 
+            it was cool, but no one wanted to actually buy it
+        - So, once again, VR work died off, and
+    - In 2010, Palmer Luckey made a custom head-mounted display prototype that 
+    had surprisingly good motion tracking - enough to significantly decrease 
+    the motion sickness problem
+        - After a successful Kickstarter campaign, he founded Oculus VR to 
+        expand on his display, earning early 
+        - In 2014, Facebook bought Oculus for ~3 BILLION dollars, basically 
+        solidifying that this was tech they wanted to take seriously
+
+- That's some of the history, but what about the tech that goes into VR systems 
+today?
+    - Nowadays, we have GPUs EVERYWHERE that can render millions of polygons at 
+    well over 60 Hz, which is a MASSIVE advantage we have over the early 1980 
+    VR attempts
+        - Because of this, image synthesis is mostly a solved problem
+    - More tricky is the Head-Mounted Display, which'll be how we display these 
+    images to the user
+        - For this HMD, we need to deliver separate images to each eye so that 
+        we can get a 3D parallax effect
+            - Oftentimes this is done using 2 small LCD or OLED displays, with 
+            lenses to make the image appear at a comfortable distance instead 
+            of being mashed directly into your eye)
+            - Ideally, this HMD will also have a wide field-of-view
+            - Having it be as light as possible would also be nice, both for 
+            user comofrt and because heavy headsets can contribute to motion 
+            sickness
+            - Wireless headsets would also be a plus, so that users can't trip 
+            on wires (that's an actual concern!)
+- Let's now take a closer look at the Oculus Rift headset, specifically
+    - The headset is able to obtain a pretty wide field-of-view using FRESNEL 
+    LENSES to focus the light
+        - This means that, instead of a traditional thicker lens, we can get a 
+        similar focusing effect by having "slices" in the lens; in exchange for 
+        a little bit of image quality, we get a much smaller, lighter lens!
+
+- The last piece of the puzzle is tracking systems - and there's still a LOT of 
+variability in how these work!
+    - Our main concern here is to figure out the x,y,z position of the user's 
+    head AND their head's orientation, all at 60 Hz or faster
+        - We then need to pass this information to the rendering system, render 
+        from the user's position, and put that image on the 
+    - As mentioned, there's several techniques we could use:
+        - Magnetic tracking systems have fallen out of favor, since metal 
+        inside the room can mess up their calibration
+        - Nowadays, OPTICAL systems are pretty popular
+            - "Outside-in" systems uses a camera outside of and track "beacons" 
+            placed strategically on the HMD
+                - This is the system Oculus uses, where they have invisible 
+                Infrared LEDs scattered around the HMD, which the camera 
+                observes
+                    - The camera then uses traditional computer vision 
+                    techniques (triangulation, etc.) to figure out where the 
+                    HMD is; the more beacons it observes, the higher our 
+                    accuracy
+                - However, the accuracy here decreases as we get farther away 
+                from the camera, making this technique best for seated 
+                positions where the user isn't moving around much
+            - "Inside-out" systems put the camera on the HMD itself, and then 
+            tries to observe reference points placed throughout the room the 
+            figure out where it is
+                - An example of something that does this is the HTC Vive, which 
+                has a larger tracking area than the Rift
+                    - Here, there are two "lighthouses" in the room that sweeps 
+                    the room with a sheet of laser light: one horizontal sheet, 
+                    one vertical
+                    - The headset then has a bunch of light sensors on it (not 
+                    true cameras per se) that track this laser light to figure 
+                    out its position
+                        - Because of this, the Vive has a wider range of motion
+
+- So, what're the challenges for VR today?
+    - Well, motion sickness still remains a problem; it's getting better, but 
+    it's not perfect by any means
+        - Some people have almost no motion sickness issues, while for other 
+        people it's debilitating
+    - There's also the lack of a "killer app" that'd give a reason for everyone 
+    to buy this
+        - Video conferencing, video games, data visualization, medical 
+        operations - there're some use cases, but there hasn't been anything so 
+        compelling yet to justify everyone buying a $300 headset
+        - Augmented reality might also be a thing to watch out for - the two 
+        big systems around today (Magic Leap and Hololens) are both pretty 
+        similar and aren't perfect, but it's still early days
+- Is this 3rd round of VR going to be "the one?" I don't know, and the market 
+certainly doesn't know, but there are some very large companies pushing to make 
+this a reality
+
+- Alright, two more lectures to go! Come Friday to hear the next one!
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="38_virtualReality_4_17_19.html"></a>
+</main>
+</body>
+</html>

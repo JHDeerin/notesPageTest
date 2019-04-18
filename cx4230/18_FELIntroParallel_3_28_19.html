@@ -29,7 +29,7 @@
 - Alright, you should be working hard on your checkpoints, so one again, we're 
 expecting:
     - Your problem statement / conceptual model
-    - (we might NOT need the empirical distribution done yet?)
+    - We do NOT need the empirical distribution/input analysis done yet?
         - "You should've started on it, and you'll need it for your final 
         project, but it's okay if your simulations for the checkpoint are using 
         placeholder data"
@@ -114,9 +114,10 @@ model to do empirical performance evaluation
         - When deleting, we also might need to search through a LOT of buckets, 
         and particularly empty buckets
     - To avoid this, if the number of events in the queue gets too large we'll 
-    occasionally resize the calendar so that there are only 1-2 events 
+    occasionally resize the calendar so that there are only 1-2 events per 
+    bucket
         - To do this, we literally just make a larger event calendar, and then 
-        copy all of our existing events over to the new one - it's expensive
+        copy all of our existing events over to the new one - it's expensive!
 - How's the performance of this Calendar queue? Well, for a small number of 
 events, linear lists still win - but for large queues, the HOLD model shows it 
 massively outperforming other data structures
@@ -150,8 +151,8 @@ massively outperforming other data structures
     - So, the big ideas behind this data structure are that:
         - Each "rung" of our middle-layer level has a different bucket size
         - We try to delay sorting until events are just about to be dequeued; 
-        insertions to the middle/top layer and aren't sorted at all, which 
-        means our resizing calendars can't mess up any sorting we did
+        insertions to the middle/top layer aren't sorted at all, which means 
+        our resizing calendars can't mess up any sorting we did
 
 - In summary for future event lists, then, priority queue performance is an 
 important issue, ESPECIALLY for very large simulations with many millions of 
@@ -182,10 +183,10 @@ computer had
     - We might also care because we have resources that are distributed over a 
     large space, and we need to coordinate those different computers (e.g. 
     multiplayer videogames)
-    - Interoperability (?) is yet another concern, where we need to have 
-    multiple separate programs all running together in coordination (e.g. a 
-    military simulation that has to use "tankEngine.java"'s results to 
-    calculate the effect of "shootEnemy.py")
+    - Interoperability is yet another concern, where we need to have multiple 
+    separate programs all running together in coordination (e.g. a military 
+    simulation that has to use "tankEngine.java"'s results to calculate the 
+    effect of "shootEnemy.py," and needs them both to run in synch)
         - If you need to deal with any of these problems, you should consider 
         doing parallel processing!
 
@@ -233,7 +234,7 @@ airports - we'll have a process for each airport!
 - So, that sounds really easy! But what's the catch?
     - At first, it seems like this LP thing is suited to concurrent events 
     really naturally - we're just changing a physical process to a logical 
-    process and each physical interaction into an event/message
+    process, and each physical interaction into an event/message
     - But back when we had everything on a single processor, we had a guarantee 
     of the all-important LOCAL CAUSALITY CONSTRAINT: our single future event 
     list meant we ALWAYS processed all events in time-stamp order!
@@ -268,8 +269,8 @@ sequential program
 CHANDY-MISRA-BRYANT (CMB) ALGORITHM (or "Null Message algorithm")
     - To use this algorithm, we need to make 4 assumptions first:
         - All the logical processes are exchanging messages with time stamps
-        - The network isn't changing (i.e. no logical processes are being 
-        created or deleted)
+        - The network topology isn't changing (i.e. no logical processes are 
+        being created or deleted)
         - Messages on each link are sent in time-step order (i.e. from a given 
         process, any later-sent messages from that process will really be later)
         - The network delivers things reliably in their sent order
@@ -282,10 +283,9 @@ CHANDY-MISRA-BRYANT (CMB) ALGORITHM (or "Null Message algorithm")
 
     - So, the simplest way we can use this is an algorithm like this:
 
-            while running:
+            while LP is running:
                 Wait until each FIFO contains at least one message
                 Remove smallest time stamped event from all FIFOs
-
 
         - This looks good, right? But the problem is that this can lead to 
         DEADLOCK: two separate LPs can be waiting to receive a message from the 

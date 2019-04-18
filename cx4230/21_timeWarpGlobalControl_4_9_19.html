@@ -50,8 +50,8 @@ on Thursday
 - So, we started talking about TIME WARP(!) last time, and especially the 
 "local control system" where we handle errors; now, we're talking about the 
 "global control system" that's needed to speed some of this stuff up, and 
-particularly SMOTTI'S ALGORTIHM that highlights the issues we need to deal with
-    - As we mentioned, this isn't the most efficient algorithm for this task, 
+particularly SAMADI'S ALGORTIHM that highlights the issues we need to deal with
+    - As we mentioned, this isn't the most efficient algorithm for the task, 
     but it's a good example of the issues we need to deal with for calculating 
     the "global virtual time" (GVT, the lower bound on how far we can roll back)
 
@@ -70,21 +70,24 @@ which is a bit more subtle
         - For instance, if we make a GVT request at timestamp 80ms to 2 
         different processes, but the request message to the 2nd process is 
         delayed by 20ms, that 2nd LP might process a message with a timestamp 
-        of 90ms; then, when it gets the GVT request, it'll then incorrectly 
-        return the next latest timestamp LARGER than 90ms!
+        of 90ms in the interval
+            - Then, when it gets the GVT request, it'll incorrectly return the 
+            smallest unprocessed timestamp as LARGER than 90ms!
     - So, who's responsible for handling this sort of error?
         - Process 1 didn't have this time stamp 90 message, so it couldn't 
         account for it
-        - 
+        - But process 2 was counting on process 1 accounting for this!
     - Do message acknowledgements get us out of this issue?
         - Not necessarily; that acknowledgement to LP2 might've been received 
         before the GVT request, which means the 90ms message still wouldn't 
         have been included in the GVT calculation for LP1
         - However, they do give us a hint on how we CAN solve this problem!
-            - If we mark when an acknowledgement has been sent AFTER a local 
-            min time has been calculated (but before receiving the new GVT from 
-            the controller), then we know there's a chance something like this 
+            - If we mark acknowledgements that have been sent AFTER a local min 
+            time has been calculated (but before receiving the new GVT from the 
+            controller), then we know there's a chance something like this 
             could happen!
+                - If we haven't received that acknowledgement back yet, it'll 
+                be included in our min calculations
                 - If we receive such an acknowledgement back, then, we can 
                 include that message's timestamp in LP2's calculations until we 
                 receive the new global GVT!
@@ -102,22 +105,23 @@ SAMADI'S ALGORITHM
         - However, there are a few things that make it problematic in the real 
         world:
             - Requiring a central controller means we have a single thread that 
-            could end up being a bottleneck, especially
+            could end up being a bottleneck, especially if we have a LOT of 
+            processors
             - It also requires acknowledgement messages, which DOUBLE the 
             number of messages we need to send - that can get expensive quickly!
 
 - Practically, this means Samadi's algorithm is almost never used today - but 
 one type of algorithm that IS still in use is DISTRIBUTED SNAPSHOTS!
     - Back when we first saw the GVT, we mentioned it'd be REALLY easy to find 
-    if we had a snapshot of the system's global state - but, alas, it's hard to 
-    compute this for the same instant across the entire system...
+    if we had a snapshot of the system's global state - but, alas, it's 
+    impossible to compute this for the same instant across the entire system...
         - ...but can we do something similar if we only had "local" snapshots 
         for each process? As it turns out, we can!
             - This'll be an asynchronous process, meaning that it doesn't 
             require LPs to block while it's running, and it doesn't require ANY 
             acknowledgement messages at all!
-            - Historically, it's related to Mattern's algorithm, but that's not 
-            too relevant for this class
+                - Historically, it's related to Mattern's algorithm, but that's 
+                not too relevant for this class
     - To do this, we need to find something called a CONSISTENT CUT!
         - In each LP, it's possible for us to define an arbitrary CUT POINT: a 
         time that divides the LP's computations into "past computations" and 
@@ -134,16 +138,14 @@ one type of algorithm that IS still in use is DISTRIBUTED SNAPSHOTS!
             - In other words, it's a cut where there are no messages from the 
             "future" part that are received in our "past"
     - From all this stuff, we can compute a CUT VALUE that's the minimum among 
-    all the cut message's time stamps AND the local minimum (?) of each LP at 
-    its cut point
+    all the cut messages' time stamps AND the local minimum timestamp of each 
+    LP at its cut point (i.e. pretending the "cut point" is the LP's current 
+    time)
         - As it turns out, this cut value will be a valid GVT for the system!
             - How can we prove that? Well, let's go through a few things:
                 - First of all, it turns out that any non-cut messages (i.e. 
                 future to past) can be ignored, since their timestamp values 
-                will always be larger than the cut value
-                    - This is because their timestamp will be larger than 
-                    either the local minimum of the LP that sent them OR the 
-                    minimum time (?)
+                will always be larger than at least one cut value
                     - There are 3 types of non-cut messages:
                         - Sent before any cut messages have been received, 
                         meaning its timestamp is greater than the cut point of 
@@ -156,10 +158,11 @@ one type of algorithm that IS still in use is DISTRIBUTED SNAPSHOTS!
                         the latest message's sending timestamp!
                             - (Unsure when a non-cut message wouldn't fall 
                             under the 1st type, so why are the other 2 needed?)
-                - Now, consider Samadi's algorithm, where
-                    - (on slides)
-            - So, this "cut value" will end up giving us the same result for 
-            Samadi's algorithm
+                - If we consider Samadi's algorithm, and pretend each cut point 
+                is when the LP received the "calculate GVT" message, we can see 
+                that this algorithm is actually doing the same thing!
+            - So, this "cut value" will end up giving us the same result as 
+            Samadi's algorithm, meaning it MUST be a valid GVT!
 
 - Okay, so that's a proof that this scheme can work, but how do we actually 
 compute it?
@@ -174,40 +177,44 @@ compute it?
             - We'll extend this Butterfly algorithm so that instead of just 
             sending an "I'm at the barrier" message, we ALSO say what our LP's 
             local minimum was when it sent that message!
-            - We'll then compute the new "current minimum" between our minimum 
-            and the incoming message we received, and send THAT minimum in the 
-            next step
-                - This is known as a "reduction computation"
+            - Each LP will then compute the new "current minimum" between its 
+            own minimum and the incoming message we received, and send THAT 
+            minimum in the next step
+                - This is known as a REDUCTION COMPUTATION!
+        - So, after log(n) steps, we'll have computed the the global minimum 
+        AND have sent the global minimum to each process
+
 - This leaves us with a few problems, but fortunately, all of them are solvable:
-    - How do we identify cut messages, though?
-        -Well, if you remember back to your graph theory, we can consider this 
+    - How do we identify cut messages in the first place?
+        - Well, if you remember back to your graph theory, we can consider this 
         cut as a LITERAL cut in the graph, with the "past" section set to one 
         color and the "future" section set to another color
             - So, we'll add a flag to each message for if it was sent from the 
-            past or the future,
+            past or the future; if a "future" section of an LP has a "past" 
+            message it's received, then that's a cut message!
     - How do we know when we've received all the cut messages?
         - Well, each process can keep track of how many "past" messages it's 
         sent, and how many past messages it's received
             - In this case, when the sum of ALL the LPs "sent" counters equals 
             the sum
             - How can we calculate this sum, though? Just like we did 
-            previously the past, we can use the Butterfly method!
-                - So, the butterfly is now ALSO summing up these counters as it 
-                goes!
+            previously, we can use the Butterfly method to pass this sum!
+                - So, the Butterfly is now ALSO summing up these counters as it 
+                goes along!
                 - If the counters don't match when we're done, that means we 
                 still need to wait for some transient messages to be received, 
-                so we'll just compute this again until the counter becomes 0
+                so we'll just compute this again until the counters match up
     -...the notes have some more gory details about this, but those're the main 
     idea behind how this works
 
 - Now, you might notice that computing the GVT here is pretty similar to 
 computing the lower-bound time step in YAWNS for the future event list - in 
 fact, they're EXACTLY the same thing!
-    - So, we can use this EXACT same scheme to calculate the LBTS value in 
+    - So, we can use this EXACT same GVT scheme to calculate the LBTS value in 
     YAWNS!
         - Historically, people didn't realize this for a good while, which led 
-        to some confusing mixed terminology...but, hopefully, we've got that 
-        worked out
+        to some confusing mixed terminology and assumptions...but, hopefully, 
+        we've now got that worked out
 - There are a TON of variant algorithms for computing the GVT, but this as far 
 as we'll go in our class
 
@@ -221,16 +228,22 @@ about parallel computation
         - There's also a LOT of overhead for parallel computing (rollbacks, 
         barriers, etc.), and so we might also just want to know how fast the 
         event processing itself - WITHOUT this overhead - is being sped up 
-        (since we can try and reduce the overhead with)
+        (since we can try and reduce the overhead, this'll give us a 
+        theoretical best-possible speedup)
             - We can calculate this using our old (not-so-dear) friend, the 
-            DEPENDENCY GRAPH! (how?)
-        - Ignoring the details, the important thing here is that the minimum 
-        execution time will be the longest path through this graph, since 
-        this'll mean the path with
-            - This is known as the CRITICAL PATH
-            - If the critical path is just as long as the sequential program, 
-            that means there's no point trying to parallelize it; it'll never 
-            be faster, no matter how much of the overhead we eliminate
+            DEPENDENCY GRAPH!
+                - If you'd be so kinda as to notice, any sequence of events 
+                that are NOT dependent on each other can be safely run 
+                concurrently without issues
+                - Ignoring the details, the important thing here is that the 
+                minimum execution time will be the longest path through this 
+                graph, since this'll mean the path with the most number of 
+                processes that we NEED to deal with sequentially
+                    - This is known as the CRITICAL PATH!
+                    - If the critical path is just as long as the sequential 
+                    program, that means there's no point trying to parallelize 
+                    it; it'll NEVER get faster, no matter how much of the 
+                    overhead we eliminate
 
 - We'll talk more about some high-level stuff - pros and cons of conservative 
 vs optimistic algorithms, benchmarking stuff, etc. - on Thursday!
