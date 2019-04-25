@@ -127,9 +127,10 @@ technique called Z-BUFFERING
         for every pixel (x,y):
             writePixel(x, y, background_color)
             writeZ(x, y, very_far_away_large_constant_value)
+
         // Now, the real workhorse loop
         for every polygon:
-            //Figure out the pixels polygon covers using our rasterization 
+            Figure out the pixels polygon covers using our rasterization 
             techniques
             for every pixel(x,y) in polygon:
                 pz = Z-value of polygon at pixel (x,y)

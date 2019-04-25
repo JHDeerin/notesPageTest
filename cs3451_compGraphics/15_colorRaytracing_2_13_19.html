@@ -81,8 +81,8 @@ pretty realistic! What's going on here? The power of RAYTRACING!
         But to get it to look nice, we have to use a lot of tricks.
             - The vast majority of video games still use rasterization and 
             Z-buffer 
-        - Ray Tracing is much slower than rasterization, it's difficult to 
-        compute on a GPU. But compared to rasteriation, it's a LOT easier to 
+        - Ray Tracing is much slower than rasterization, and it's difficult to 
+        compute on GPUs. But compared to rasterization, it's a LOT easier to 
         get realistic-looking images, and almost necessary for some effects.
             - Nvidia threw a bit of a wrench in this by claiming their newest 
             GPUs have started to support raytracing, but historically, GPUs 
@@ -137,17 +137,18 @@ pretty realistic! What's going on here? The power of RAYTRACING!
     of the ray (dx, dy, dz)
 
 - Okay, that's how we define our rays - but what about our object surfaces? How 
-do we define them so we know when  our rays have collided with them?
+do we define them so we know when our rays have collided with them?
     - Well, we usually describe our objects with IMPLICIT equations instead; 
     for instance, a unit sphere centered at the origin would be defined as:
 
             x^2 + y^2 + z^2 = 1
 
-        - Or, more generally (for what??):
+        - Or, more generally, the places where the ray intersects this sphere 
+        are given by:
 
             (x0 + t*dx)^2 + (y0 + t*dy)^2 + (z0 + t*dz)^2 = 1
 
-        - where t is the only unknown, which we can solve to find
+        - Where "t" is the only unknown, which we can solve to find!
 
 - We'll explain how this works a bit more on Friday - hopefully project 2A 
 won't consume all your free time between now and then.

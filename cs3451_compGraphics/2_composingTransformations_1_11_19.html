@@ -26,14 +26,14 @@
 //************ Composing 2D Transformations- January 11th, 2019 *************//
 //**************************************************************************//
 
-- The 4th row...it is a thing
+- The 4th row in a class...it is a thing
 ---------------------------------------
 
 - Okay, so on Wednesday we talked about the 3 major types of transformations: 
 translation, scaling, and rotation
-    - Translation, sadly, worked out to adding 2 vectors instead of 
-    multitplying matrices...but then we found out that we COULD express it as a 
-    matrix multiplication using "homogenous coordinates!"
+    - Translation, sadly, worked out to adding 2 vectors instead of multiplying 
+    matrices...but then we found out that we COULD express it as a matrix 
+    multiplication using "homogenous coordinates!"
         - "This is how graphic libraries handle transformations internally, as 
         matrix multiplications"
 
@@ -77,10 +77,10 @@ therefore, we can combine ALL of our operations into a single matrix just by
 multiplying them together!
     - "So, if we have a polygon with 5 million points or something, we don't 
     have to do 3 separate intense calculations to rotate it - we can just do 3 
-    quick matrix operations to combine our tranformations, then do it once!"
+    quick matrix operations to combine our transformations, then do it once!"
 - So, the key points to remember:
     1) Operation order matters
-        - if we rotated before translating, we'd end up with a completely 
+        - If we rotated before translating, we'd end up with a completely 
         different result!
     2) We can combine/compose multiple operations into one
 

@@ -26,12 +26,16 @@
 //************* Volume Rendering (cont.) - April 12th, 2019 *****************//
 //**************************************************************************//
 
+- (blank)
+    - ...
+    - ...
+    - BOO! I HAVE SCARED THEE!
 ----------------------------------------
 
 - So, on Wednesday, we started to talk about volume rendering, where our model 
 is stored as a 3D array of "voxels"
     - We began talking about how we might render these models using the 
-    "marching cubes" algorithm, and went through a 2D version of !
+    "marching cubes" algorithm, and went through a 2D version of it!
 
 - This 3D version, the MARCHING CUBES algorithm, is one of the most cited in 
 all of computer graphics, so let's talk about it!
@@ -100,11 +104,11 @@ How do the pieces all come together?
         floating-point value associated with its density
             - Air might have a very low density value, while muscle has a 
             certain density "range" and bone has another density range
-                - What if two of these density ranges seem to overlap (e.g. 
+                - What if two of these density ranges seem to overlap? (e.g. 
                 it's very difficult to distinguish, from the data, if something 
                 is tough muscle or weak bone?)
                     - That's a very real-world issue, and with the Broom of 
-                    Fuggadaboutit Professor Turk is choosing to push it 
+                    Fuggedaboutit Professor Turk is choosing to push it 
                     underneath the Rug of Ignorance (ostensibly within the Room 
                     of Messy Graphics?)
             - Once we've figured out what the voxel should be, we give it the 

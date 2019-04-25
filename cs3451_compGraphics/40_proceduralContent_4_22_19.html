@@ -50,7 +50,8 @@ stuff using random numbers)
     onto our computer overlords, that'd be great!
 
 - Procedural generation is used in a BUNCH of stuff, but particularly in games
-    - Minecraft is probably the most famous of these, using 
+    - Minecraft is probably the most famous of these, generating all of its 
+    terrain randomly
     - Simcity ALSO uses procedural generation to algorithmically place trees, 
     NPCs, etc.
         - "Simcity sucked me in about a year and a half ago, and I had to quit 
@@ -63,7 +64,7 @@ what does that look like?
     different shapes, sizes, colors and features- and to do that, we need 
     random numbers!
         - One of the most famous techniques for this is PERLIN NOISE, which 
-        lets us get "controlled random" numbers in the range[0, 1] by passing 
+        lets us get "controlled random numbers" in the range [0, 1] by passing 
         in a 1D, 2D, or 3D position
             - If we change our position, though, the random value we get out 
             changes SLOWLY, as if we were walking down a hill
@@ -87,7 +88,8 @@ what does that look like?
 
 - One common use of PCG, though, is to create terrain for games and movies 
 (mountains, dunes, cliffs, etc.) - "But GREG," you ask, "HOW!?"
-    - 
+    - Well, we can use different noise textures as heightmaps, or generate the 
+    terrain with fractals *cue examples reel*
         - One thing missing from most of these examples is erosion from water 
         and wind - but, as it turns out, this has been an area of research as 
         well
@@ -122,9 +124,9 @@ PLANTS!
             you can get a pretty realistic flower by arranging them in a spiral 
             with an angle of ~137 degrees (a number related to the golden 
             ratio), known as the "phyllotaxis" method
-    - Where does the randomness come into grammars, then? Well, we can aside 
+    - Where does the randomness come into grammars, then? Well, we can assign 
     random probabilities to which rule we use, or for what the results of a 
-    rule will be (e.g. how many )
+    rule will be (e.g. how many petals the flower has)
 
 - Can we do this for human-made objects, like buildings? As one famous builder 
 said, YES WE CAN!
@@ -152,7 +154,7 @@ said, YES WE CAN!
 but I have chosen to stop taking notes. I apologize for the inconvenience)
 
 - Alright, and that's it for today - and for the class! Come to the final on 
-Friday, but otherwise, live your lives! You're free!
+Friday, but otherwise, live your lives! Carry on! You're free!
 
 </pre>
 </article>

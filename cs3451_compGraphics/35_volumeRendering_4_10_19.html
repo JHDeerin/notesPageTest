@@ -39,23 +39,23 @@ go!
             good measure)
 -----------------------------------------------------------
 
-- So, with half the class gone, let's talk about VOLUME RENDERING!
+- So, with half the class gone by, let's talk about VOLUME RENDERING!
     - This is a technique that's used a lot in the medical field, and the idea 
-    is that, instead of storing a 3D object as a bunch of polygons), we store 
-    them using VOLUME DATA: values given in a grid
+    is that, instead of storing a 3D object as a bunch of polygons, we store 
+    them using VOLUME DATA: values given in a 3D grid
         - Each data point in the grid is known as a VOXEL (for "volume 
         element"), one for each vertex of the grid
             - ...the X, apparently, just wanted to inject some pizazz
         - Typically, this is just a 3D rectangular grid; a typical size for a 
-        grid is in the hundreds to thousands of voxels long on a size (e.g. 
+        grid is in the hundreds to thousands of voxels long on a side (e.g. 
         128x128x128)
-    - Where does this data come from? Usually, it'll come from a real-world 
+    - Where does this data come from? Usually, it'll come from real-world 
     sources where we need to know what's going on INSIDE an object as well, 
     like CAT scans (measures X-ray permeability), MRIs (measures hydrogen), 
     various engineering datasets like:
-        - e.g. fluid simulations with pressure, vorticity, etc.)
+        - fluid simulations with pressure, vorticity, etc.
             - For the fluid simulation, note that we do NOT store the velocity 
-            at each point; that'd make it a vector field, which is different 
+            at each point; that'd make it a vector field, which is a different 
             beast entirely
         - Temperature gradients for a room
         - Stress/strain information for a building
@@ -65,7 +65,7 @@ go!
     - There are 2 main approaches we can take:
         - ISO-SURFACE METHODS, where we create polygons based on the voxel 
         data, and then render those
-        - DIRECT methods, where we create a rendering directly from the voel 
+        - DIRECT methods, where we create a rendering directly from the voxel 
         data (via raytracing, etc.)
             - This is more commonly used when we need transparency
 
@@ -90,12 +90,12 @@ go!
                 those 2 points
                     - We'll then connect all of those interpolated points 
                     together with line segments so that all the "inside" points 
-                    are closed into 
+                    are closed into the shape
                         - In 3D, we'd connect these points with polygons 
                         instead of a line segment, and each one of the points 
                         would be vertices instead
 
-- We'll talk more about the 3D version of th
+- We'll talk more about the 3D version of this algorithm come Friday
 
 </pre>
 </article>

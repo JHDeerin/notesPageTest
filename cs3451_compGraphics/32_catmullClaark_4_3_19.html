@@ -111,17 +111,19 @@ an otherwise-smooth desk)! How can we replicate that with subdivision?
 
             - Where v1/v2 are the vertices making up the sharp edge's line 
             segment
-                - This way, the new points will only be 
-    - If a vertex is between 2 sharp edges, then, we'll change the formula for 
-    its new position to be:
+                - This way, the new points will only be on the line, and won't 
+                change that outline!
+    - If an old vertex is between 2 sharp edges, then, we'll change the formula 
+    for its new position to be:
 
             v' = (6v + v1 + v2)/8
 
         - Where v1/v2 are the adjacent vertices to "v" along the sharp edge
-            - This means that "v" is only allowed to slide along the
+            - This means that "v" is only allowed to slide along the existing 
+            sharp edge - again, not disturbing the outline!
     - This doesn't *quite* cover all the cases for sharp edges (what if there 
     are 3 sharp edges leading to a vertex? What about vertices at the end of a 
-    sharp edge), but it should give you the general idea
+    sharp edge?), but it should give you the general idea
 
 - Sometimes, we might also want SEMI-SHARP EDGES: cases where we don't want a 
 knife-sharp edge, but we DO want it to hold its shape in some way

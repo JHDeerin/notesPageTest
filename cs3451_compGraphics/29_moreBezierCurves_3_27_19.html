@@ -52,7 +52,7 @@ Did they come to him in a dream?
         like this: P1P2, P2P3, and P3P4
             - If we take the midpoints of each of those line segments, we'll 
             end up with 3 midpoints: M12, M23, and M34 (or "L2, H, R3")
-            - If we then connect those midpoints with ine segments, we'll end 
+            - If we then connect those midpoints with line segments, we'll end 
             up with 2 line segments: M12M23, and M23M34...
             - ...and if we repeat this and connecting the midpoints of THOSE 
             line segments (L3 and R2, respectively) with a single line segment, 
@@ -125,7 +125,7 @@ functions look like - here we go!
 many cases, pixels just aren't good enough - we NEED curves to have shapes that 
 look sharp at any resolution, which is important for things like font 
 rendering, architectural drawing, etc.
-    - For cubic Beziers in particular, that "indpendent tangent" property is 
+    - For cubic Beziers in particular, that "independent tangent" property is 
     important
 
 - Now, take a look at the following sequence: "3, 4, 9, 18, 31." Do you see a 
@@ -135,9 +135,9 @@ EVALUATION!
 
             f(t) = at^3 + bt^2 + c*t + d
 
-        - How many operations does it take to evaluate this?  Well, t^2 takes 2 
-        multiplies to computer, and t^3 takes 2 more (since it's t^2 * t), so 
-        it'll take 5 multiplies and 3 additions
+        - How many operations does it take to evaluate this?  Well, b*t^2 takes 
+        2 multiplies to compute, and a*t^3 takes 2 more (since it's t^2 * t), 
+        so it'll take 5 multiplies and 3 additions
     - We can do better than this using HORNER'S RULE! For a cubic polynomial, 
     we can cut down the number of operations by grouping things cleverly:
 
@@ -149,7 +149,7 @@ EVALUATION!
         - Consider a scale between 0 and 1, split up into equally-sized pieces 
         each of length "h"
         - Let's suppose, then, we've got a linear function "f(t) = at + b"
-            - In that case, 
+            - In that case,
             
                     f(0) = a*0 + b = b
                     f(h) = a*h + b = f(0) + ah
@@ -179,9 +179,6 @@ EVALUATION!
             - So, the SPACING is increasing by a linear amount, which makes the 
             actual sequence (3, 4, 9, 18, ...) look like it's increasing 
             quadratically! Neat!
-
-- 
-
 
 </pre>
 </article>

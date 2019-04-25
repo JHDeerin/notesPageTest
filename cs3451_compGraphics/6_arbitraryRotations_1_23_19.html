@@ -50,7 +50,7 @@ rotations, and instead to learn how to rotate around any vector we want
         vectors is 0
     - ...and additionally, there's this operation you might remember called the 
     CROSS-PRODUCT, where we multiply 2 vectors and get a 3rd vector that's 
-    orthagonal to both of the original ones
+    orthogonal to both of the original ones
         - I won't derive it here, but to remind you, the cross-product equation 
         looks like this:
 
@@ -71,7 +71,7 @@ rotations, and instead to learn how to rotate around any vector we want
 
                     A*B = a1*b1 + a2*b2 = ax*-ay + ay*ax = 0
 
-                - In 2D, there's also another perependicular vector that would 
+                - In 2D, there's also another perpendicular vector that would 
                 also work - this would give us the same answer (although it 
                 might possibly flip something?)
 
@@ -107,8 +107,8 @@ rotations, and instead to learn how to rotate around any vector we want
 rotations?" Well, let's try looking at this in 3D!
     - Let's say that A is now a 3D vector |ax, ay, az|, pointing off in space 
     somewhere, and we want to rotate a point around A - how can we do it?
-    - Well, we're not - INSTEAD, we're going to break this down into 3 simpler 
-    problems:
+    - Well, we're not going to - INSTEAD, we're going to break this down into 3 
+    simpler problems:
         1) We're going to rotate A onto the X-axis
         2) We're going to rotate about the X-axis (which we know how to do)
         3) We're going to rotate A back to its original positions
@@ -122,7 +122,7 @@ rotations?" Well, let's try looking at this in 3D!
             perpendicular to both of them!
             - and C, the cross-product of AxB (which should be unit-length if 
             we've normalized B)
-        - So, we now have 3 orthoganal vectors A, B, and C - which we can now 
+        - So, we now have 3 orthogonal vectors A, B, and C - which we can now 
         use to create the following rotation matrix:
 
             R = [ax ay az 0]
@@ -131,7 +131,7 @@ rotations?" Well, let's try looking at this in 3D!
                 [0  0  0  1]
 
             - Will this really rotate A onto the X axis? Well, yes!
-                - The x-corrdinate of R*A will be one (dot product with itself)
+                - The x-coordinate of R*A will be one (dot product with itself)
                 - The z/y coordinates of R*A will be 0 (dot product of A with 
                 perpendicular vectors)
 
@@ -192,7 +192,7 @@ in any direction?
 tells us which direction/axis is "up" in our world
     - But many graphics libraries require us to give up to NINE numbers! What 
     gives? Well, skipping some of the details, it's for convenience sake so 
-    that we don't have to calculate the aximuth/elevation when passing them to 
+    that we don't have to calculate the azimuth/elevation when passing them to 
     the functions
 
 - On Friday, we'll dig a bit deeper into HOW we're going to implement this - in 

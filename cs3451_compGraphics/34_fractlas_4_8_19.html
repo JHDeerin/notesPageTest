@@ -41,10 +41,22 @@ about for it!
 - Way back in the 1880s, Georg Cantor (one of Professor Turk's favorite 
 mathematicians) came up with a simple, strange pattern:
 
-        - Draw a straight line segment
-        - Remove the middle third of that line
+        - Draw a straight line segment:
+
+                ---------------------------
+
+        - Remove the middle third of that line:
+
+                ---------         ---------
+
         - Remove the middle third from the remaining 2 lines...
+
+                ---   ---         ---   ---
+
             - ...continue to infinity
+
+                - -   - -         - -   - -
+                . .   . .         . .   . .
 
     - If we keep doing this, we'll end up with a sort of FRACTAL DUST, where we 
     have an INFINITE number of unconnected points but, surprisingly, a total 
@@ -91,7 +103,7 @@ answer that, we need to consider the concept of dimensionality in geometry
     - So, what do we mean when we say a square is a "two-dimensional" shape? 
     Well, we mean that if we doubled the length of the square's sides, it would 
     quadruple in area; we'd end up with 4 copies of our original square!
-        - Similarly, for a 3D cube, doubling one of the cuve's sides would get 
+        - Similarly, for a 3D cube, doubling one of the cube's sides would get 
         us a cube 9x the volume of the original cube!
     - Because of this, a common definition of a shape's "dimension" is the 
     HAUSSDORF-BESICOVICH DIMENSION, which states that:
@@ -108,7 +120,7 @@ answer that, we need to consider the concept of dimensionality in geometry
         the replication factor should be 4
         - ...but how does the length change? Well, each of the 4 line segments 
         will end up being 1/3 the size of the original, giving us a scaling 
-        factor of 2
+        factor of 3 (I think?)
             - Using these numbers, we end up with a dimension of:
 
                 d = log(4) / log(3) ~= 1.2
@@ -116,7 +128,7 @@ answer that, we need to consider the concept of dimensionality in geometry
             - Not an integer dimension? That's WEIRD!
 
 - For a long time, these were just considered fun shapes to draw, but in the 
-1970s Benoit B. Mandelbrot notices that these fractal patterns show up 
+1970s Benoit B. Mandelbrot noticed that these fractal patterns show up 
 EVERYWHERE in nature, and tried to study them seriously
     - As just a few examples:
         - Blood vessel patterns seem VERY similar to space-filling curves

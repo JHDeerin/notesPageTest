@@ -31,7 +31,7 @@
 yay?
 ---------------------------------------------------------------
 
-- Alright, first thing's first, let's talk about OpenGL - "the library that 
+- Alright, first things first, let's talk about OpenGL - "the library that 
 Processing, and many other apps, use to draw things"
     - You'll be creating your own basic implementation of this (and the matrix 
     stack) for project 1 - so pay attention!
@@ -95,7 +95,7 @@ things and work with them in a translated state
             - "You should always have 1 push for each pop - no more, no less. 
             They're like parentheses that way; they have to be balanced."
         - glTranslate(x, y, z) - translates the component
-        - glTranslate(x, y, z) - scales the copmonent
+        - glTranslate(x, y, z) - scales the component
         - glRotate(?) - ...for now, just pretend this rotates by some angle
             - "Each of these 3 commands creates a transformation matrix AND 
             multiplies it on the right-hand side of the CTM"
@@ -133,23 +133,23 @@ things and work with them in a translated state
         - What does the stack actually look like after first calling 
         "pushMatrix" and Translate/Scale, then?
 
-                        -----------------
-        1)    CTM       |Identity Matrix|      =&gt;
+        1)              -----------------
+              CTM       |Identity Matrix|      =&gt;
 
-                        -----------------
+        2)              -----------------
               CTM       |Identity Matrix|
                         -----------------
-        2)              |Identity Matrix|      =&gt;
+                        |Identity Matrix|      =&gt;
 
-                        -----------------
+        3)              -----------------
               CTM       |I * Translate  |
                         -----------------
-        3)              |Identity Matrix|      =&gt;
+                        |Identity Matrix|      =&gt;
 
-                        -----------------
+        4)              -----------------
               CTM       |I*T * Scale    |
                         -----------------
-        4)              |Identity Matrix|
+                        |Identity Matrix|
 
     - "So, push says that we're getting ready to transform things; it creates a 
     fresh copy of the current state for us to work with, so that when we pop, 
@@ -160,7 +160,7 @@ things and work with them in a translated state
 - So, there are 3 big uses for a matrix stack:
     1) Changing the coordinate system we're using
     2) Instantiation (object re-use, basically)
-    3) Heirarchy creation (i.e. objects composed of sub-objects)
+    3) Hierarchy creation (i.e. objects composed of sub-objects)
         - ...this is what our next example illustrates:
         - Let's say we want to draw a stick figure with OpenGL, with a torso, 
         two arms, a hand for each arm, and two fingers for each hand
@@ -186,6 +186,8 @@ things and work with them in a translated state
                     rotate(PI/4.0);
                     scale(1.0, 0.25);
                     translate(1.0, 0.0);
+                    drawBox();
+                    popMatrix();
                 }
 
 - Okay, we'll finish this example (and keep pushing on) on Wednesday.

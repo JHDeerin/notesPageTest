@@ -45,8 +45,8 @@ another, and we draw whatever the line hits
     point, more accurately mimicking how our eyes work
         - "Perspective is much more common for special effects, video games, 
         and so on, but parallel projection is useful for stuff like drafting, 
-        where you're more concerned with howvthings line up"
-        - These are NOT the only 2 projections in the world - there's actually 
+        where you're more concerned with how things line up"
+        - These are NOT the only 2 projections in the world - there're actually 
         quite a few - but most of the other ones are pretty special purpose, 
         and much, much less common
 
@@ -79,9 +79,10 @@ our 2D monitors and eyeballs, but how does it actually work?
                     Y: [bottom, top] ---------&gt; [0, height]
                         y' = (y - bottom) * height/(top - bottom)
                     Z: ...well, this is thrown away in our screen's coordinates
-                        - You might have to deal with clipping for points that 
-                        are too far away, but this is often handled at the 
-                        hardware level nowadays
+                
+                - You might have to deal with clipping for points that are too 
+                far away, but this is often handled at the hardware level 
+                nowadays
         - "Now, I love our textbook, but it wants us to do EVERYTHING in 
         matrices...but I'll just tell you now, parallel projection can be done 
         with this ONE LINE of code to map x/y. It's much easier than dealing 

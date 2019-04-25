@@ -43,7 +43,7 @@
 -------------------------------------------------------------------------
 
 - Alright, we left off yesterday by trying to figure out how raytracing can 
-deal with transparent surfaces, like glass or water
+deal with transparent surfaces, like glass or water (or a glass of water)
     - Part of the ray is reflected, like with specular surfaces, but the other 
     part of it is TRANSMITTED through the surfaces - and due to the speed of 
     light being different in different materials, it'll bend by a certain 
@@ -91,7 +91,7 @@ topic now (HAHAHAHAHA -_-)
     edges
         - This occurs when we have light sources that aren't just infinitesimal 
         points, but have a non-zero area &lt;insert outdated thine-mother joke 
-        here&gt;, like a flourescent tube
+        here&gt;, like a fluorescent tube
         - For these shadows, there'll be an area of darkness where can't see 
         ANY of that light source's parts, known as the UMBRA (total shadow)
             - As we move out from behind the object's shadow, though, part of 
@@ -133,7 +133,8 @@ topic now (HAHAHAHAHA -_-)
                         real-world photos look blurry, Greg!" Well, because it 
                         makes the image look more realistic - perfectly 
                         in-focus images look fake to our object, ESPECIALLY in 
-                        the VFX world where you have to merge CGI with real
+                        the VFX world where you have to merge CGI with real 
+                        footage
 
 - So, which type of shadow is faster to render? HARD SHADOWS, since we only 
 have to shoot one ray to each light source!
@@ -178,6 +179,8 @@ ray tracing to do other effects?
             - Usually, you'll need at least n ~= 20 so the blur effect looks 
             smooth, instead of like a weird ghost-like object hovering over 
             your scene
+
+- That's all the time we've got today, so FLEE!
 
 </pre>
 </article>

@@ -51,7 +51,7 @@ and parametrically
             y += yinc
 
     - So, if we run this code on (say) a 6x6 grid (the smallest monitor in the 
-    world), and we try to draw a line from (1,3) to (3,5):
+    world), and we try to draw a line from (1,3) to (5,5):
         - We end up with the following initial values:
             - dx = 5 - 1 = 4
             - dy = 5 - 3 = 2
@@ -86,7 +86,7 @@ and parametrically
         the objects, but there's no shading, so the image looks pretty flat
         - In the next image, there's some basic shading, and now it looks like 
         the objects have depths!
-            - Still futher on, there are multiple light sources in the scene, 
+            - Still further on, there are multiple light sources in the scene, 
             and then objects casting shadows and having reflections, and then 
             objects having textures and images!
 - "So, that's where we're headed in the not-too-distant future for this class - 
@@ -112,16 +112,16 @@ but for now, let's get back to the present and keep working towards this stuff!"
     something like this:
 
         for (y = ymin; y &lt; ymax; y++):
-            for (x = xmin, x( &lt; xmax, x++):
+            for (x = xmin; x &lt; xmax; x++):
                 gtWritePixel(x, y, color)
 
 - So, doing this with rectangles isn't too difficult - but what about for 
 general polygons?
     - As I'm sure you remember, a POLYGON is just some region of space that's 
     enclosed by a set of straight lines
-        - These can be CONVEX (any infinitely-long line can intersect the shape 
-        at at most 2 points) or CONCAVE (there's a "cave"/inset in the object 
-        where they can be hit multiple times)
+        - These can be CONVEX (i.e. any infinitely-long line can intersect the 
+        shape at at most 2 points) or CONCAVE (there's a "cave"/inset in the 
+        object where they can be hit multiple times)
             - "Concave polygons tend to be the more ugl-...well, I shouldn't 
             say ugly. They're, um, different."
         - Some graphics libraries will let you draw polygons with "features," 
@@ -140,9 +140,9 @@ general polygons?
         pretty standard
     - So, if we had some rotated triangle overlaid on our tiny monitor grid 
     again:
-        - We find all the points in the row where the lines are intersecting 
-        with the pixel grid
-        - Fill in all the pixels in the row that're in-between 
+        - We find the points in the row where the lines are intersecting with 
+        the pixel grid
+        - Fill in all the pixels in the row that're in-between those points
         - Move up to the next row
     - In pseudocode:
 

@@ -26,7 +26,8 @@
 //******************* Fluid Simulation - April 15th, 2019 *******************//
 //**************************************************************************//
 
-- So, fresh from the weekend, let's start off the day by talking about Project 5
+- So, fresh from the weekend, let's start off the day by talking about Project 
+5 (implementing Loop subdivision on a corners-representation model)
     - Going from corners to vertices is EASY - but going from a vertex to a 
     corner? That's harder
         - Why would we EVER want to do this, though? To process all the corners 
@@ -56,8 +57,8 @@ for realistic fluid physics:
     - Medical simulations (e.g. blood flow in the heart)
     - ...and, most importantly, because it's FUN!
 
-- There's is actually a whole field known as COMPUTATIONAL FLUID DYNAMICS, and 
-it borrows quite a bit from engineering and mathematical simulations
+- There's actually a whole field known as COMPUTATIONAL FLUID DYNAMICS, and it 
+borrows quite a bit from engineering and mathematical simulations
     - For graphics applications, we usually prefer a technique known as the 
     "finite differences" method
 
@@ -76,10 +77,10 @@ NAVIER-STOKES EQUATIONS!
 
             - This "u_t" represents the change in velocity of the particle, and 
             has 4 different terms:
-                - The "diffusion term", k*laplacian^2(u)
-                - The "advection term," -(u*gradient)*u
-                - The "pressure term," del*p
-                - The "body force," f
+                - The "Diffusion term", k*laplacian^2(u)
+                - The "Advection term," -(u*gradient)*u
+                - The "Pressure term," del*p
+                - The "Body force," f
 
 - Before we dive into each of these, we need to talk about "Finite Difference 
 grids"
@@ -95,8 +96,8 @@ grids"
 
     - Where c_t is the change in value, and k is the "diffusion rate," saying 
     how fast the material spreads out
-        - What's the "laplacian," though? Well, it's basically just the value 
-        of the cell "t" relative to its neighboring values
+        - What's the "laplacian," though? Well, it's basically just the change 
+        in value of the cell "t" relative to its neighboring values
             - In the finite difference method, we'll approximate this laplacian 
             by getting the values of the 4 cells adjacent to us
     - So, using this equation, for a given cell "cxy," we'll update the cell's 
@@ -107,7 +108,7 @@ grids"
 
         - In other words, we're taking the current value, and (scaled by some 
         amount) adding the differences between our current value and the 
-        neighboring value (i.e. why we're subtracing "ourselves" 4 times)
+        neighboring values (i.e. why we're subtracting "ourselves" 4 times)
     - Interestingly, diffusion is the EXACT same as blurring mathematically 
     (it's actually equivalent to Gaussian blur)
 - What the Navier-Stokes equations say is that we need to diffuse the VELOCITY 
@@ -190,7 +191,7 @@ known as DIVERGENCE!
                         p_new = p * epsilon(del*u - laplacian(p))
 
                     - Basically, we take the old pressure, change it a tiny bit 
-                    (somehow)
+                    (somehow), and 
                     - More mathematically, the new pressure is this:
 
                         p_new(i,j) = p(i,j) + epsilon(del*u(i,j) - laplacian(p))

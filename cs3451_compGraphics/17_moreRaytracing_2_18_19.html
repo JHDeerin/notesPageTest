@@ -183,7 +183,7 @@ might not think about at first: recursion!
             - Sometimes, we might also want to include color/coefficient terms 
             for the 'TRANSMITTED' or REFRACTION ray (we'll talk about this in 
             more detail later, when we talk about transparent surfaces)
-    - This color equation is where the recursion for ray tracing comes is: in 
+    - This color equation is where the recursion for ray tracing comes in: in 
     order to calculate the 'c_refl' color, we need to call the color function 
     again, shooting off a new ray - which might then lead to another ray, which 
     might then require ANOTHER ray, and...
@@ -198,7 +198,7 @@ might not think about at first: recursion!
                 - Practically, most people use the first one, but you can go 
                 either way
 
-- So as we've described this algorithm, ray tracing actually seems BACKWARDS 
+- So, as we've described this algorithm, ray tracing actually seems BACKWARDS 
 from how the real world works: instead of photons bouncing into our eyes, we're 
 shooting rays out of our eyes like a superhero!
     - This REALLY bothers some people, and there are alternative algorithms 

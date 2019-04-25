@@ -23,7 +23,7 @@
 <article>
 <!-- Actual note text goes into 'pre' -->
 <pre class="main-note-text">//****************************************************************************//
-//************** Viewing Transformation - Januray 25th, 2019 ****************//
+//************** Viewing Transformation - January 25th, 2019 ****************//
 //**************************************************************************//
 
 - Okay, people have some questions about project 1A, which is due tonight:
@@ -58,8 +58,8 @@ since we're specifying the EXACT location of our camera
 
     - This means the camera will be positioned at (0,0,8), should look at the 
     point (0,0,0), all with the up direction being straight-up in the Y 
-    direction (I believe?)
-        - In this case, all it does is move the camera to the origin for us
+    direction
+        - In this case, all it does is move the camera to the origin for us (?)
     - This command does the EXACT SAME THING as:
 
         translate(0,0,-8)
@@ -71,7 +71,7 @@ since we're specifying the EXACT location of our camera
 
     - Is equivalent to just saying:
 
-        rotate(90, 0,1,0)
+        rotate(90, 0,1,0)   // rotate on the y-axis
 
 - Mathematically, how does this work, though?
     - Well, let's say we know 3 vectors:
@@ -85,15 +85,15 @@ since we're specifying the EXACT location of our camera
 
             Mview = R*T
 
-        - The translation is pretty straightforward:
+        - The translation to the origin is pretty straightforward:
 
             T = Translate(-ex, -ey, -ez)
 
         - ...but the rotation is a little more complicated:
 
-            w = -g/|g|      - this is the opposite of our view direction
+            w = -g/|g|              - this is the opposite of our view direction
             u = (t x w)/|t x w|     - this is pointing to the LEFT of our eye
-            v = w x u       - this is pointing to the right
+            v = w x u               - this is pointing to the right
 
             - These vertices leave us with 3 perpendicular UNIT vectors, so we 
             now have a basis we can use to rotate, using our arbitrary rotation 
@@ -129,7 +129,7 @@ Turk is going to tell us about output devices
     - This buffer then sends the stored image to the "video controller," which 
     then sends it out to whatever monitor is connected
         - "In graphics, we do something known as DOUBLE-BUFFERING: one buffer 
-        holds the image currently being displayed, while the oher holds the 
+        holds the image currently being displayed, while the other holds the 
         next image that's ready-to-go"
             - Why can't we get away with just using 1 piece of memory? Well, 
             imagine the screen is currently drawing your beautiful image. 
@@ -151,13 +151,13 @@ slightly insane*
     came up with some decades ago that change their conformation in response to 
     pressure, temperature, electric fields, etc.
     - Liquid crystal DISPLAYS use a specific type of liquid crystal that twists 
-    and untwists in reponse to voltage being put through them
-    - In the monitor, a polarizing filter twists all the light so it's pointed 
-    in the exact same direction
-        - If no voltage is being put through them, the crystals don't turn and 
-        allow light to go through them
-        - If there IS voltage applied, the crystals turn, blocking the 
-        polarized light for that pixel!
+    and untwists in response to voltage being put through them
+        - In the monitor, a polarizing filter twists all the light so it's 
+        pointed in the exact same direction
+            - If no voltage is being put through them, the crystals don't turn, 
+            and allow light to go through them
+            - If there IS voltage applied, the crystals turn, blocking the 
+            polarized light for that pixel!
 - "...okay, let me explain the glasses now"
     - The glasses have 2 polarized lenses in them: 1 that's turned 90 degrees, 
     and another turned the opposite way

@@ -164,7 +164,7 @@ then the fragment shader handles the last coloring step
 
 - That brings us to an interesting point in the class: the break between
     - Up until now, we've been assuming we have this interesting geometry 
-    already there on the screen, and then trying to render them
+    already there on the screen, and are then trying to render them
     - But where does this geometry actually come from? How DO we make a 
     polygonal cone, or sphere, or spaceship? That's what we're going to start 
     talking about now!
@@ -181,12 +181,13 @@ then the fragment shader handles the last coloring step
         manifold, since an ant could start in the center and walk in a spiral 
         without issue!
             - If the pizza had 2 slices missing, though, so that one of the 
-            slices only touched the rest of the pizza in the middle, it's not a 
+            slices only touched the rest of the pizza at its tip, it's not a 
             manifold; our ant would "fall off" the pizza now if it tried to 
             reach the "island" piece
                 - Similarly, 2 cones that are only touching at their points 
                 wouldn't count as a manifold
                 - Many algorithms will fail when dealing with non-manifold 
+                things
         - A "manifold edge" is one edge that's entirely inside the manifold, 
         i.e. it's part of the plane (e.g. the diagonal of a square)
             - A BOUNDARY EDGE is an edge on the manifold (e.g. the side of a 
