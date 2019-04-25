@@ -1,0 +1,162 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li><li><a class="is-note-link" href="38_virtualReality_4_17_19.html">38. Virtual Reality</a></li><li><a class="is-note-link" href="39_gameRendering_4_19_19.html">39. Game Rendering</a></li><li class="active-note-page"><a class="is-note-link" href="40_proceduralContent_4_22_19.html">40. Procedural Content Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="39_gameRendering_4_19_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//************ Procedural Content Generation - April 22nd, 2019 *************//
+//**************************************************************************//
+
+- EXAM, THIS FRIDAY, THIS ROOM, 11:20 AM!
+    - Be there, or be square (and receive a fairly large whack in the 
+    GPA-sensitive parts of your body)
+    - Again, BRING YOUR LAPTOP! Most of the exam will be on Canvas; you're 
+    allowed to use electronic notes if you have them, but you may NOT use 
+    online resources
+-----------------------------------------------
+
+- The last lecture, and the last of our topics, is going to be looking at 
+Procedural Content Generation (or: how I learned to stop worrying and make 
+stuff using random numbers)
+    - "If you forget EVERYTHING else from this lecture, remember: random 
+    numbers!"
+    - What is "content," though?
+        - Well, it's the "stuff" inside a video game or film, in particular the 
+        graphics, sound, story, AI, and so on
+            - Traditionally, humans have had to create all of this stuff by 
+            hand, but that can be VERY slow: for graphics in particular, we 
+            need to model every bush, tree, NPC, car, mailbox, toothless newt, 
+            bespectacled wizard, etc.
+    - If we could relieve some of this awful burden from ourselves and put it 
+    onto our computer overlords, that'd be great!
+
+- Procedural generation is used in a BUNCH of stuff, but particularly in games
+    - Minecraft is probably the most famous of these, using 
+    - Simcity ALSO uses procedural generation to algorithmically place trees, 
+    NPCs, etc.
+        - "Simcity sucked me in about a year and a half ago, and I had to quit 
+        it cold-turkey"
+    - Spore uses PCG to generate different kinds of creatures
+
+- So, the goal of PCG is to save time by creating content using algorithms, but 
+what does that look like?
+    - In particular, the algorithm needs to create a VARIETY of objects, with 
+    different shapes, sizes, colors and features- and to do that, we need 
+    random numbers!
+        - One of the most famous techniques for this is PERLIN NOISE, which 
+        lets us get "controlled random" numbers in the range[0, 1] by passing 
+        in a 1D, 2D, or 3D position
+            - If we change our position, though, the random value we get out 
+            changes SLOWLY, as if we were walking down a hill
+                - This makes Perlin noise great for creating textures that 
+                aren't just random "white noise", or for making hills, or 
+                anything where we need the values we get out to be related to 
+                each other
+                - A few more example applications of this noise:
+                    - Using it as a bump map (either as-is or after some 
+                    processing to get different patterns)
+                    - To get "turbulence" by combining different "frequencies" 
+                    of this noise (e.g. to get soap-bubble patterns, or marble 
+                    textures)
+                - Ken Perlin actually received an Academy Award for this 
+                research, since his noise functions are used EVERYWHERE in films
+            - The way this function actually works is (roughly) that we pass in 
+            a seed value, get the numbers we need, and then interpolate between 
+            them
+                - We can use 3D Perlin noise as well, where we interpolate 
+                between 8 points instead of a mere 2
+
+- One common use of PCG, though, is to create terrain for games and movies 
+(mountains, dunes, cliffs, etc.) - "But GREG," you ask, "HOW!?"
+    - 
+        - One thing missing from most of these examples is erosion from water 
+        and wind - but, as it turns out, this has been an area of research as 
+        well
+            - We can simulate water erosion by pretending that our terrain is 
+            on a grid, and that each step "rain" is deposited throughout the 
+            grid
+                - Fast-moving water will "pick up" some of the sediment from 
+                the ground, while slow-moving water will drop it back down, 
+                scooping out valleys and rivulets
+    - We might also want to allow for "user-guided terrain," where we try to 
+    give people some control
+        - Howard Zoo, a former Phd. student here at Tech, did some research on 
+        this topic some years ago, and his results managed to look pretty cool
+
+- But terrain isn't the only thing we want to make - we might also want to make 
+PLANTS!
+    - One well-known way of doing this is using grammars, such as L-Systems 
+    (which are a context-sensitive grammar, if you're familiar with such things)
+        - A GRAMMAR (for computer science purposes) is just a set of rules 
+        where we replace something with another thing
+            - These come up a LOT in compiler design, but we can also use them 
+            for our own nefarious purposes
+        - These are rules that guide how the segments of the plant branch and 
+        grow
+            - We'll start out with a single plant segment, and then have 
+            various "rules" for what we replace each section with and how it's 
+            modified at each step
+        - These L-systems can also communicate information down the system - 
+        "Is a flower blooming? Is a hormone present?" - and so on
+            - How would we create a flower in the first place? Well, flowers 
+            typically have their petals in a spiral pattern, and it turns out 
+            you can get a pretty realistic flower by arranging them in a spiral 
+            with an angle of ~137 degrees (a number related to the golden 
+            ratio), known as the "phyllotaxis" method
+    - Where does the randomness come into grammars, then? Well, we can aside 
+    random probabilities to which rule we use, or for what the results of a 
+    rule will be (e.g. how many )
+
+- Can we do this for human-made objects, like buildings? As one famous builder 
+said, YES WE CAN!
+    - We can use similar grammar systems to the ones people use for plants to 
+    modify building objects, using rules to add windows, floors, various 
+    details, modify the floorplan, etc.
+        - Another group, interested in creating a virtual Pompeii, created a 
+        grammar system that generates city plans for ancient Roman towns
+    - Just like we can make a single building, we can also generate a map of 
+    city streets!
+        - The idea here is that the user provides some information about what's 
+        in the scene: important resources, population centers, rivers and 
+        lakes, etc.
+        - From there, we can apply some grammar rules to figure out a 
+        reasonable layout of streets, fill in the blocks with building models, 
+        and so on
+            - We can allow artists to specify what directions the roads should 
+            go in, where certain buildings should be placed, etc., if we so 
+            choose (e.g. using "tensor design")
+    - If any of you have played "Cities: Skylines," we can control where some 
+    of the roads and building zones are, but the algorithms themselves control 
+    traffic patterns, individual buildings, and so on - you name it!
+
+- (There is an example of No Man's Sky's procedural generation on the screen, 
+but I have chosen to stop taking notes. I apologize for the inconvenience)
+
+- Alright, and that's it for today - and for the class! Come to the final on 
+Friday, but otherwise, live your lives! You're free!
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="40_proceduralContent_4_22_19.html"></a>
+</main>
+</body>
+</html>

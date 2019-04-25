@@ -1,0 +1,281 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Game AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4731Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Game AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_gameVsRegularAI_1_9_19.html">1. Game AI vs Regular AI</a></li><li><a class="is-note-link" href="2_introPathfinding_1_14_19.html">2. Intro to Pathfinding</a></li><li><a class="is-note-link" href="3_pathNetworks_1_16_19.html">3. Path Networks</a></li><li><a class="is-note-link" href="4_morePathNetworks_1_23_19.html">4. Path Networks (cont.)</a></li><li><a class="is-note-link" href="5_pathfindingBasics_1_30_19.html">5. Pathfinding Basics</a></li><li><a class="is-note-link" href="6_pathfindingCont_2_4_19.html">6. Pathfinding (cont.)</a></li><li><a class="is-note-link" href="7_groupsDecisions_2_6_19.html">7. Groups and Decision Making</a></li><li><a class="is-note-link" href="8_moreDecisionMaking_2_11_19.html">8. Decision Making (cont.)</a></li><li><a class="is-note-link" href="9_behaviorTrees_2_13_19.html">9. Behavior Trees</a></li><li><a class="is-note-link" href="10_rulesPlanning_2_18_19.html">10. Rules and Planning</a></li><li><a class="is-note-link" href="11_behaviorPlanning_2_20_19.html">11. Behavior Planning (cont.)</a></li><li><a class="is-note-link" href="12_hierarchicalTaskNetworks_2_27_19.html">12. Hierarchical Task Networks</a></li><li><a class="is-note-link" href="13_introProceduralGen_3_4_19.html">13. Intro. to Procedural Generation</a></li><li><a class="is-note-link" href="14_moreProcGen_3_6_19.html">14. Procedural Generation / Terrain Generation</a></li><li><a class="is-note-link" href="15_optimizationAlgos_3_11_19.html">15. Optimization Algorithms</a></li><li><a class="is-note-link" href="16_geneticAlgos_3_13_19.html">16. Genetic Algorithms (cont.)</a></li><li><a class="is-note-link" href="17_playerModeling_3_26_19.html">17. Player Modeling</a></li><li><a class="is-note-link" href="18_introRL_3_27_19.html">18. Intro. to Reinforcement Learning</a></li><li><a class="is-note-link" href="19_moreQLearning_4_1_19.html">19. Q</a></li><li><a class="is-note-link" href="20_evenMoreRL_4_8_19.html">20. More Q</a></li><li><a class="is-note-link" href="21_deepLearning_4_10_19.html">21. Deep Learning (cont.)</a></li><li><a class="is-note-link" href="22_deepRL_4_15_19.html">22. Deep Reinforcement Learning (cont.)</a></li><li><a class="is-note-link" href="23_contextFreeGrammars_4_17_19.html">23. Context</a></li><li class="active-note-page"><a class="is-note-link" href="24_grammarsStories_4_22_19.html">24. Grammars (cont.) / Story Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="23_contextFreeGrammars_4_17_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre class="main-note-text">//****************************************************************************//
+//********** Grammars (cont.) / Story Generation - April 22nd, 2019 *********//
+//**************************************************************************//
+
+- ...the last lecture, and, appropriately enough as Avengers:Endgame 
+approaches, half of the room appears to have been Thanos'd
+    - ...this reference is going to be ridiculously out of data in a few years 
+- "I know, I know, you're all excited to get rid of me, but afraid to say it"
+    - ...I'm not excited :(
+
+- AS YOU ALSO KNOW, Friday is the final exam for this class
+    - It will be in THIS classroom, April 26th, from 2:40pm to 5:30pm
+        - It'll be 20 questions instead of 10 questions, since it's the final; 
+        half of the questions will be on this last 1/3rd of the course, while 
+        the other half will be cumulative
+    - "I'll try not to mess up any of the questions again, but let's be real: 
+    something'll probably go wrong"
+----------------------------------------------------
+
+- So, in this lastest of last lectures, we're going to wrap up grammars and 
+then talk a little bit about Professor Riedl's research (i.e. AI-created 
+stories)
+
+- What were grammars, again? Well, they're basically a go-between for 
+procedural generation, where we define the rules that govern the system, but 
+the algorithm can do whatever it likes with those rules
+    - We can basically define either long sequences with these things (the 
+    traditional way), or
+        - Remember, a functional L-system lets us replace any token in the 
+        string in PARALLEL, where we call all applicable functions in the 
+        string at once
+            - This also means the functions will get drawn AS we run, instead 
+            of only once we've generated the entire string
+
+- On Friday, we were trying to generate a road system, based off of 5 rules we 
+had, like so:
+
+        Road(delay == 0, start, width) -&gt; Nil # just generate the road, don't 
+        change the grammar
+
+        Road(delay &gt; 0, start, width) == True -&gt; Branch(delay, start, 
+        width-1)Branch(delay, start, width-1)Road(delay, ) # if we successfully 
+        built a road
+
+        Road(delay &gt; 0, start, width) == False -&gt; Nil # if the road-creating 
+        function returns false (i.e. not enough space to build the road), just 
+        stop this segment
+
+        Branch(delay &gt; 0, start, width) --&gt; Branch(delay-1, start, width)
+
+        Branch(delay == 0, start, width) --&gt; Road(delay, start, width)
+
+
+    - The "delay" parameter isn't anything intrinsic to these L systems, but a 
+    way we can use parameters to tell the difference between major and minor 
+    roads
+        - The idea here is that this will make major roads be built first, 
+        since it means any roads that branch off of our current road will need 
+        to wait until delay == 0 for the branches to start growing; this gives 
+        major roads to "right of way" to take the best building locations, and 
+        the minor roads then have to grow around them
+    - So, let's start building a road network from this!
+
+            R(2,2)
+
+        - Assuming this returns true, we'll get:
+
+            B(2,1)B(2,1)R(2,2)
+
+        - Again, since this is is an L-system, we'll process ALL of these 
+        functions simultaneously:
+
+            B(1,1)B(1,1)B(2,1)B(2,1)R(2,2)
+
+        - So, the 2 new B(2,1)'s mean that branches will be built at that 
+        location 2 steps in the future! Let's keep going
+
+            B(0,1)B(0,1)B(1,1)B(1,1)B(2,1)B(2,1)R(2,2)
+            R(0,1)R(0,1)B(0,1)B(0,1)B(1,1)B(1,1)B(2,1)B(2,1)R(2,2)
+
+        - So, the branches finally started growing into roads!
+            - (Professor Riedl just noticed he doesn't have a way for these 
+            newly-created roads to keep growing)
+                - "For those of you who flunk this class, I promise to get it 
+                right next year!"
+    - Which direction do these roads grow in, though? That information isn't in 
+    our L-system!
+        - Well, that's NOT part of the grammar! Instead, we delegate it to the 
+        game engine function we're calling to decide the actual micro-placment 
+        of the road (e.g. making sure it doesn't go straight up mountains, goes 
+        around dangerous areas, etc.)
+
+- That seems pretty good, but we have a problem: these roads only branch, and 
+NEVER create loops or connections! That means we'd end up with neighborhoods 
+composed entirely of cul-de-sacs!
+    - So, how're we gonna create intersections from this tree we're generating? 
+    We'll do post-processing, where we'll connect two roads that seem to be 
+    "running into" each other in the game
+        - Once we've done that, we can identify closed sections between the 
+        roads to find lots, plop buildings down onto those lots as we see fit, 
+        and slowly build up a cit from 
+
+- ...and, as it turns out, that's really as far as we'll go with grammars in 
+this class
+    - Make sure you understand the difference between L-systems and regular 
+    context-free grammars, and that "delay" is just one parameter we happened 
+    to pass to a functional L-system and not something we specifically need to 
+    have
+        - Also, that non-functional grammars really just generate strings 
+        left-to-right, and you then need something separate to actually make 
+        use of them, whereas functional L-systems are constantly making calls 
+        to the game engine itself
+
+- So, with that, let's hear a bit about what Professor Riedl does for a living 
+("I've got 45 minutes and nothing better to talk about, right?")
+    - As it turns out, people have been working on making story-generating 
+    things literally for as long as AIs have been around, even back to the 1930s
+        - Stories are interesting because, however you look at them, they seem 
+        pretty fundamental as a human activity; we tell stories ALL the time
+        - For Professor Riedl, sometimes that means focusing on "entertaining" 
+        stories, while other times it means focusing on day-to-day "functional" 
+        stories ("I went to the restaurant, I saw my old friend Bob, I said Hi 
+        to him, I put my table together with him, we at together, paid 
+        separately, and then left")
+            - Did we arrive at the restaurant together? No - but that 
+            information isn't in the text! How's a robot supposed to figure 
+            things out?
+                - See, all of us have SCHEMAS for how restaurants and basic 
+                social interactions work (well...most of us), so we can fill in 
+                the gaps in this story without even thinking about it - but 
+                robots don't have that context!
+                    - For us, this is "common sense reasoning," but not so for 
+                    Mr. Robot
+        - Early story generation systems in the 1960s were basically Mad Lib 
+        playing systems: just take a grammar and replace the symbols with names
+        - 1970s saw the introduction of rule-based systems for making stories, 
+        and
+            - To get these things to work, though, we needed to provide a BUNCH 
+            of rules to the AI to try and provide the context we humans have 
+            that it lacks, with constraints, goals, subgoals, etc.
+                - For instance, "poison ?noun," "if-has ?noun," "counter 
+                ?verb," etc.
+            - As it turns out, these things were basically the same as 
+            Hierarchical Task Networks - it had a list of tasks it wants to 
+            accomplish, and uses the constraints it knows about to determine 
+            which tasks it can actually do
+                - We could, for instance, view these stories as logic-based 
+                rule systems, where we provide preconditions for actions and 
+                the effect of actions, and then do behavior planning to find a 
+                semi-logical story
+                    - Professor Riedl, for instance, created an AI network that 
+                    tried to work backwards from the goal of "Slay(Aladdin, 
+                    Genie, Castle)," trying to create a logical sequence of 
+                    events where Aladdin ends up killing the Genie inside the 
+                    castle, using the events it knows are possible
+                        - Once we have this sequence of events, instead of 
+                        tying each sequence to events in a game ngine (like in 
+                        behavior planning), we'll generate a piece of text for 
+                        each event
+
+- This works great if we're trying to create a formulaic soap opera, but does 
+it get us into any trouble?
+    - Around 10 years ago, this is what we were doing, but Professor Riedl 
+    wasn't happy; he needed to create an action for EVERY possible thing that 
+    could happen in the story, and very few of these actions were reusable 
+    between stories
+        - What Professor Riedl wanted was OPEN STORY GENERATION: we could ask 
+        this thing to generate a story about ANY topic, and in order to do 
+        that, these knowledge-intensive "micro-world" approaches just didn't 
+        scale
+            - So, what do you do when you have too many things to possibly 
+            write down? You throw machine learning at it!
+        - So, Professor Riedl and several other researchers banded together and 
+        created a crowdsourced story system called Scherezade
+            - The idea here is that the AI takes a request, like "Tell me a 
+            fishing story"
+                - If it knows about fishing, it generates a story from what it 
+                knows
+                - If it DOESN'T know about fishing, it sends out a request to 
+                the public domain saying "Please submit a story about fishing, 
+                and I'll pay you $1"
+                    - ...incidentally, this AI system was hooked up to a bank 
+                    account, which is SUPER scary
+            - Once we have enough of these stories for the same prompt, we'll 
+            create a "plot graph" and try to identify the common elements that 
+            happen in all of the stories we know (for instance, in a 
+            restaurant, it seems like ordering tends to happen before eating)
+                - LOTS of statistics involved in this, but let's ignore that
+    - Now, this model actually generates pretty good results, since we're 
+    dealing with a specialized dataset and relatively small stories
+        - For instance, it learned the "script" for going on a movie date 
+        without ANYONE having to tell it what the events people wrote about 
+        means ("note to the guys: it identified that you hold hands BEFORE you 
+        kiss!")
+            - "...also, this technically means I taught a robot how to get to 
+            first base. I'm sure I'll pay for this later."
+
+- ...BUT, do we want to have 500 people write a story every time we need to 
+learn a new concept? Shouldn't we be able to teach our AI to learn from 
+existing resources, like Wikipedia?
+    - Y'know, the parenting thing: "Here's 5 gigs of data. Have fun, then tell 
+    me stories for my amusement"
+        - In order to do this, we need to use RECURRENT NEURAL NETS, which deal 
+        with things in sequence where the order of stuff matters (e.g. words, 
+        sentences, etc.)
+            - Basically, this is a neural net where the input is all possible 
+            words that could be in our sentence (yes, literally like 100,000 
+            words), there's a bunch of hidden networks in the middle, and then 
+            the output is the word that's supposed to come next in the sentence
+                - Phone autocompletion typically uses a more simplistic Markov 
+                chain model, but it's a similar idea; the difference is that 
+                neural nets can learn more complex relationships
+            - This network is then fed EVERY word in the sentence we're 
+            training on
+                - You might be thinking: "But Mark, a LOT of different words 
+                could come after any given word, right? How do we know which 
+                one is right?" Well, it's complicated, but we can ALSO pass in 
+                all the previous words in our story as inputs to give the 
+                neural net context
+        - Now, these networks do NOT understand the context of what they're 
+        saying; they're pretty terrible when it comes to keeping stories 
+        coherent over times
+        - A different way of using neural nets is to train it on responses to 
+        writing prompts,using "long short-term neural nets", and then go from 
+        there; this tends to be a little bit better at creating stories with 
+        context, but they tend to be a bit vague (since they have a bias 
+        towards writing the most "probable" story)
+    - What Professor Riedl is trying to research right now, then, is if 
+    reinforcement learning can be used to fix some of these problems by giving 
+    better rewards to "more coherent" stories
+        - To figure out which stories make more sense, they try to use REWARD 
+        SHAPING graphs that reward the neural network if it uses terms commonly 
+        associated with the prompt (e.g. a LOT of reward if it uses the word 
+        "discover" in a story about marriage, only a little if it uses the word 
+        "convert" instead)
+
+- So, if there's anything I want you to take away from that tangent, it's:
+    1) You can generate stories!
+    2) We didn't move from grammars to rules to machine learning because ML is 
+    any BETTER, but because it means we can get away with giving less 
+    information to the machine upfront before we can generate a story; it's 
+    another example of giving up control to save ourselves work!
+        - Rule-based systems make very rigidly coherent stories, but they only 
+        say what we give them; ML systems create very diverse stories, but 
+        don't know how to give it structure
+        - This is the SAME problem we've seen come up time and again in this 
+        class: human-generated vs algorithm-generated
+
+- And, with that, I'm now contractually obligated to stop lecturing at you. 
+Thanks for a good semester - and I'll see all of you (hopefully) on Friday!
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="24_grammarsStories_4_22_19.html"></a>
+</main>
+</body>
+</html>
