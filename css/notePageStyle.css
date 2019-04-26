@@ -150,3 +150,18 @@ pre {
         width: 100%;
     }
 }
+
+@media print { 
+    header, footer, nav { display: none; }
+
+    main {
+        padding-top: 0;
+        background: white;
+        color: black;
+    }
+
+    article {
+        background: white;
+        color: black;
+    }
+}
