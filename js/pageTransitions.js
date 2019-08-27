@@ -60,6 +60,7 @@ function changePage(isLinkToAnotherNote) {
     }
 }
 
+// TODO: Doesn't appear to be wrapping correctly on iOS?
 function wrapElementText(element) {
     const currentMaxWidth = main.offsetWidth;
 
@@ -72,7 +73,6 @@ function wrapElementText(element) {
         }
     }
     element.innerText = softWrapTextLines(element.innerText, lineLengthChars);
-    alert(`Current Width: ${currentMaxWidth}px | Chosen Width: ${lineLengthChars} chars (${linePixelWidths[lineLengthChars]}px)`)
 }
 
 function getAllPossibleLineWidths(maxLineWidthInChars) {

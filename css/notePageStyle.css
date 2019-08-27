@@ -129,7 +129,10 @@ article {
 }
 #text-width-ruler {
     visibility: hidden;
-    white-space: nowrap;
+    width: min-content;
+    padding: 0;
+    margin: 0;
+    border: none;
 }
 
 pre {
