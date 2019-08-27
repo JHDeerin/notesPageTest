@@ -3,23 +3,27 @@
  * (original link: https://www.smashingmagazine.com/2016/07/improving-user-flow-through-page-transitions/)
  */
 
-var cache = {};
 const main = document.querySelector('article');
+let maxLineLength = 80; // Max length in characters
+
+let cache = {};
 let newPageLoading = false;
 
-function loadPage(url) {
+// When our 1st page is loaded, wrap its text
+wrapElementText(document.querySelector('.main-note-text'));
+
+async function loadPage(url) {
     if (cache[url]) {
         return new Promise(function(resolve) {
-        resolve(cache[url]);
+            resolve(cache[url]);
         });
     }
 
-    return fetch(url, {
+    const response = await fetch(url, {
         method: 'GET'
-    }).then(function(response) {
-        cache[url] = response.text();
-        return cache[url];
     });
+    cache[url] = response.text();
+    return cache[url];
 }
 
 function changePage(isLinkToAnotherNote) {
@@ -33,8 +37,11 @@ function changePage(isLinkToAnotherNote) {
                 var wrapper = document.createElement('div');
                 wrapper.innerHTML = responseText;
             
-                var oldContent = document.querySelector('pre');
-                var newContent = wrapper.querySelector('pre');
+                var oldContent = document.querySelector('.main-note-text');
+                var newContent = wrapper.querySelector('.main-note-text');
+
+                // Wrap new lines
+                wrapElementText(newContent);
 
                 resetSideLinks(wrapper);
                 changeSelectedNoteLink(wrapper);
@@ -47,6 +54,10 @@ function changePage(isLinkToAnotherNote) {
             window.location.href = url;
         }
     }
+}
+
+function wrapElementText(element) {
+    element.innerText = softWrapTextLines(element.innerText, maxLineLength);
 }
 
 function resetSideLinks(newHtmlWrapper) {
