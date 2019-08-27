@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,126 +23,65 @@
 <a class="side-link is-note-link" href="13_introMultithreading_7_5_18.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //**************** Multithreading (cont.) - July 10th, 2018 *****************//
 //**************************************************************************//
 
 - 10:01, 5 people present...the herd continues to thin
 - 10:07, increases to 9...
-- "The slides we're using today have been updated from what's on T-Square, so 
-there are a few small differences"
+- "The slides we're using today have been updated from what's on T-Square, so there are a few small differences"
 ------------------------------------------------
 
-- So, the notation for a thread in many CS diagrams is a squiggly thread; 
-that's a nice thing to know
+- So, the notation for a thread in many CS diagrams is a squiggly thread; that's a nice thing to know
     - ...not a key thing to focus on, but hey, the more you know...
-- Oftentimes, for shared data, we want parts of the code to be MUTUALLY 
-EXCLUSIVE and only let 1 thread use it at a same time - this is what we use 
-"mutexes" for!
+- Oftentimes, for shared data, we want parts of the code to be MUTUALLY EXCLUSIVE and only let 1 thread use it at a same time - this is what we use "mutexes" for!
     - The block of shared code itself is (again) called a CRITICAL SECTION
-- We know from this class that processes need to save a LOT of metadata in 
-their PCBs to keep running - since threads run within a process, though, it 
-just needs to know its PC, Registers, and stack space; everything else (code, 
-global data, etc.) it shares with the other threads in the process!
+- We know from this class that processes need to save a LOT of metadata in their PCBs to keep running - since threads run within a process, though, it just needs to know its PC, Registers, and stack space; everything else (code, global data, etc.) it shares with the other threads in the process!
     -...annnnnndd that was about where we wrapped up last time 
 
 - So, today, we're going to get more into how we create/use threads
-    - Most operating systems have their own libraries for creating/running 
-    threads
-        - One common such library is POSIX: an interchange standard for 
-        operating systems so that different systems can exchange data, usually 
-        implemented in the "pthreads" library
+    - Most operating systems have their own libraries for creating/running threads
+        - One common such library is POSIX: an interchange standard for operating systems so that different systems can exchange data, usually implemented in the "pthreads" library
     - So, we need to be able to terminate/create threads; that's a given
     - The BIG question, though, is how to get different threads to work together
-        - The order the threads execute in is non-deterministic, so if, say, 
-        we're printing out a value of a variable, how do we ensure the variable 
-        is updated before we print?
-        - One common scheme is the PRODUCER-CONSUMER problem: one thread is a 
-        "producer" putting new data in memory, and a "consumer" thread is using 
-        this data to do something else; how do we keep them in sync?
+        - The order the threads execute in is non-deterministic, so if, say, we're printing out a value of a variable, how do we ensure the variable is updated before we print?
+        - One common scheme is the PRODUCER-CONSUMER problem: one thread is a "producer" putting new data in memory, and a "consumer" thread is using this data to do something else; how do we keep them in sync?
             - Well, the shared data is a CRITICAL SECTION 
-                - Basically, a critical section is any data structure that we 
-                only want one thread to be using/changing at a time
-            - We want to avoid any given critical section from being active in 
-            two threads at the same time; once a thread starts using it, that 
-            critical section CANNOT be interrupted until the thread is done - 
-            "Mutual Exclusion"
-                - In order to accomplish this, as we said, we use MUTEXES: a 
-                "lock" that keeps track of if any threads are using the 
-                critical section
-                    - If any thread that is NOT the "owner" of the mutex tries 
-                    to access that section, it has to wait until the mutex is 
-                    unlocked
+                - Basically, a critical section is any data structure that we only want one thread to be using/changing at a time
+            - We want to avoid any given critical section from being active in two threads at the same time; once a thread starts using it, that critical section CANNOT be interrupted until the thread is done - "Mutual Exclusion"
+                - In order to accomplish this, as we said, we use MUTEXES: a "lock" that keeps track of if any threads are using the critical section
+                    - If any thread that is NOT the "owner" of the mutex tries to access that section, it has to wait until the mutex is unlocked
                 - Now, what's the difference between a semaphore and a mutex?
                     - With a mutex, only 1 thread can "own" the lock at a time
-                    - With a semaphore, it doesn't track which threads "own" 
-                    it; it just has a value that says if it should be 
-                    locked/unlocked (e.g. a counter on the number of threads 
-                    using it)
-                        - With a semaphore, it's all up to the programmer to 
-                        handle the semaphore counting; there's no safeguard 
-                        from, say, another thread that's waiting just 
-                        incrementing the counter to unlock it, or for the wrong 
-                        thread to accidentally increment
-                        - With a mutex, though, only the thread that "owns" the 
-                        lock can unlock it
-                    - Where the mutex's ownership tracking breaks down, 
-                    however, is when dealing with synchronization; for this, we 
-                    need semaphores or, as we'll see later, "condition 
-                    variables"
+                    - With a semaphore, it doesn't track which threads "own" it; it just has a value that says if it should be locked/unlocked (e.g. a counter on the number of threads using it)
+                        - With a semaphore, it's all up to the programmer to handle the semaphore counting; there's no safeguard from, say, another thread that's waiting just incrementing the counter to unlock it, or for the wrong thread to accidentally increment
+                        - With a mutex, though, only the thread that "owns" the lock can unlock it
+                    - Where the mutex's ownership tracking breaks down, however, is when dealing with synchronization; for this, we need semaphores or, as we'll see later, "condition variables"
 
-- Now, let's look at an example of this, based on our camera/tracker/alarm 
-example
+- Now, let's look at an example of this, based on our camera/tracker/alarm example
     - Assume the following code precedes everything:
 
         #define MAX 100
         int bufavail = MAX;
         image_type frame_buf[MAX];
 
-    - Then, the digitizer thread just keeps adding new images to the frame 
-    buffer, and the tracker thread keeps grabbing images from the frame buffer
-        - The digitizer handles the "tail" of where the last image in the array 
-        is, and the tracker keeps track of the "head" 
-            - The digitizer adds new images as long as bufavail is &lt; MAX; the 
-            tracker gets new images if bufavail is &gt; 0
-    - Since bufavail is a shared variable, then, that both threads are trying 
-    to update it
-        - So, we need to add a mutex lock before the section of code in each 
-        thread that checks the value 
-        - The frame buffer is technically also shared, but only one thread is 
-        modifying it - it's a "read-write conflict" (which we'll talk about 
-        later), but should be fine
-    - We could just put everything in the "if (&lt;bufavail check&gt;)" in the 
-    critical section - but some operations (like analyzing the image, etc.) 
-    don't need to be in the critical section and are just slowing down what 
-    we're doing!
-        - "We ALWAYS want to keep our critical section as small as possible, so 
-        long as the code is still correct"
-        - So, we could try just putting locks around the lines of code where 
-        we're checking bufavail/updating bufavail, and unlock immediately 
-        afterwards
-            - The problem here, though, is that we're using the same lock twice 
-            in each thread for updating/checking the variable - but (since the 
-            example uses a while loop instead of an "if" statement to delay the 
-            thread until the condition is met) they could both get stuck 
-            waiting for the variable to change (one in the while loop, the 
-            other waiting for the mutex to free up)
-                - This is referred to as DEADLOCK: when both threads are 
-                waiting for something the other has, and so both end up waiting 
-                for the other's lock
-                - LIVELOCK, though, is when a thread is technically running but 
-                not actually progressing (e.g. just continually checking the 
-                variable's value)
-                    - "Of course, most real-world examples of livelock/deadlock 
-                    are more subtle than this - but hopefully this gets the 
-                    idea across"
-        - So, what if we don't lock when we're checking something - we ONLY 
-        lock when we're updating bufavail
-            - So, leave the while() loops to still wait until there's space to 
-            write/something to read in each thread ("spin lock"), BUT we remove 
-            the locks around that statement
-            - Then, we ONLY have locks around the statement actually writing to 
-            bufavail:
+    - Then, the digitizer thread just keeps adding new images to the frame buffer, and the tracker thread keeps grabbing images from the frame buffer
+        - The digitizer handles the "tail" of where the last image in the array is, and the tracker keeps track of the "head" 
+            - The digitizer adds new images as long as bufavail is &lt; MAX; the tracker gets new images if bufavail is &gt; 0
+    - Since bufavail is a shared variable, then, that both threads are trying to update it
+        - So, we need to add a mutex lock before the section of code in each thread that checks the value 
+        - The frame buffer is technically also shared, but only one thread is modifying it - it's a "read-write conflict" (which we'll talk about later), but should be fine
+    - We could just put everything in the "if (&lt;bufavail check&gt;)" in the critical section - but some operations (like analyzing the image, etc.) don't need to be in the critical section and are just slowing down what we're doing!
+        - "We ALWAYS want to keep our critical section as small as possible, so long as the code is still correct"
+        - So, we could try just putting locks around the lines of code where we're checking bufavail/updating bufavail, and unlock immediately afterwards
+            - The problem here, though, is that we're using the same lock twice in each thread for updating/checking the variable - but (since the example uses a while loop instead of an "if" statement to delay the thread until the condition is met) they could both get stuck waiting for the variable to change (one in the while loop, the other waiting for the mutex to free up)
+                - This is referred to as DEADLOCK: when both threads are waiting for something the other has, and so both end up waiting for the other's lock
+                - LIVELOCK, though, is when a thread is technically running but not actually progressing (e.g. just continually checking the variable's value)
+                    - "Of course, most real-world examples of livelock/deadlock are more subtle than this - but hopefully this gets the idea across"
+        - So, what if we don't lock when we're checking something - we ONLY lock when we're updating bufavail
+            - So, leave the while() loops to still wait until there's space to write/something to read in each thread ("spin lock"), BUT we remove the locks around that statement
+            - Then, we ONLY have locks around the statement actually writing to bufavail:
 
                 thread_mutex_lock(buflock);
                 bufavail -= 1;
@@ -149,22 +89,14 @@ example
 
             - ...does this work? YES!
 
-- So, we can use mutexes for protecting these critical sections of code, but 
-there's potentially a lot of waiting involved - so let's introduce CONDITION 
-VARIABLES
-    - The idea behind condition variables is that if some condition we want 
-    isn't true yet, we can temporarily give up the lock until the variable 
-    we're waiting on becomes true
-        - "This is similar to I/O in a way; spin locks were like polling, and 
-        this is now like interrupts"
-    - For our example problem, let's create 2 new condition variables: 
-    "buf_not_full" and "buf_not_empty":
+- So, we can use mutexes for protecting these critical sections of code, but there's potentially a lot of waiting involved - so let's introduce CONDITION VARIABLES
+    - The idea behind condition variables is that if some condition we want isn't true yet, we can temporarily give up the lock until the variable we're waiting on becomes true
+        - "This is similar to I/O in a way; spin locks were like polling, and this is now like interrupts"
+    - For our example problem, let's create 2 new condition variables: "buf_not_full" and "buf_not_empty":
 
         (...)
         thread_mutex_lock(buflock);
-        while (bufavail == 0) {     //needs to be a while loop, since before we 
-        get the lock back another thread could get the buffer and consume it 
-        while we're on the queue waiting for the mutex
+        while (bufavail == 0) {     //needs to be a while loop, since before we get the lock back another thread could get the buffer and consume it while we're on the queue waiting for the mutex
             thread_cond_wait(buf_not_full, buflock);
         }
         thread_mutex_unlock(buflock);
@@ -176,11 +108,8 @@ VARIABLES
 
         &lt;...similarly for tracker thread...&gt;
 
-    - "A very probable exam question might be to step through a block of code 
-    like this, and explain what's going on and what changes are being made to 
-    the data structure"
-- Now, code like this pops up ALL the time, so we'll usually make a helper 
-function for acquiring/releasing shared resources
+    - "A very probable exam question might be to step through a block of code like this, and explain what's going on and what changes are being made to the data structure"
+- Now, code like this pops up ALL the time, so we'll usually make a helper function for acquiring/releasing shared resources
     - e.g.:
 
         enum state_t {BUSY, NOT_BUSY};
@@ -204,20 +133,10 @@ function for acquiring/releasing shared resources
             thread_mutex_unlock(cs_mutex);
         }
 
-    - So, in this case, T1 owns the mutex, T3 is waitng for it, and T2 is 
-    waiting for the resource to not be busy
-        - T1 will then set its state to "NOT_BUSY," and signals that to the 
-        condition variable; the first element waiting for that variable (in 
-        this case, T2) then progresses and tries to acquire the mutex; T3 
-        already requested it, though, so T2 "gets in line" behind T3 to get the 
-        mutex
-        - When T1 unlocks the mutex, then, T3 gets the mutex and proceeds, 
-        skips the while loop (since it's not busy anymore), and begins running. 
-        T2 is waiting in line patiently for the mutex, and T1 is off 
-        doing...whatever
-- Could we do this with semaphores for the video processing example? Sure; we 
-could have a "buflock" semaphore replace our mutex and 2 semaphores 
-("buf_not_full" and "buf_not_empty") act as our condition variables:
+    - So, in this case, T1 owns the mutex, T3 is waitng for it, and T2 is waiting for the resource to not be busy
+        - T1 will then set its state to "NOT_BUSY," and signals that to the condition variable; the first element waiting for that variable (in this case, T2) then progresses and tries to acquire the mutex; T3 already requested it, though, so T2 "gets in line" behind T3 to get the mutex
+        - When T1 unlocks the mutex, then, T3 gets the mutex and proceeds, skips the while loop (since it's not busy anymore), and begins running. T2 is waiting in line patiently for the mutex, and T1 is off doing...whatever
+- Could we do this with semaphores for the video processing example? Sure; we could have a "buflock" semaphore replace our mutex and 2 semaphores ("buf_not_full" and "buf_not_empty") act as our condition variables:
 
         sem_init(&amp;buflock, 0, 1);
         sem_init(&amp;buf_not_full, 0, MAX);
@@ -233,14 +152,9 @@ could have a "buflock" semaphore replace our mutex and 2 semaphores
             sem_post()
         }
 
-    - "This way, we avoided needing our shared variable by doing this with 
-    synchronization instead! There are usually multiple ways of solving 
-    problems in multithreading."
+    - "This way, we avoided needing our shared variable by doing this with synchronization instead! There are usually multiple ways of solving problems in multithreading."
 
-- Next time, we'll wrap up the last few multithreading concepts in this course 
-and start diving into I/O and stable storage - see you then!
-
-</pre>
+- Next time, we'll wrap up the last few multithreading concepts in this course and start diving into I/O and stable storage - see you then!</pre>
 </article>
 <a class="side-link is-note-link" href="15_diskIO_7_12_18.html"></a>
 </main>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,118 +23,58 @@
 <a class="side-link is-note-link" href="22_deepRL_4_15_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //*************** Context-Free Grammars - April 17th, 2019 ******************//
 //**************************************************************************//
 
 - "Well, it looks like my microphone's died for the day..."
     - Wait, a kindly student is donating his batteries!
-- So, the due date for Homework 8 (BOTH homeworks) has been pushed back to 
-April 25th, since there were a few bugs in the homework that the TAs found 
-after-the-fact
-    - Technically, Professor Riedl isn't allowed to have this due date be 
-    during finals week, but it just so happens that he won't start grading 
-    until the 25th
-        - "If you're annoyed that I'm giving the slackers extra time, well, 
-        turn it in early! You'll be less stressed AND you can feel good about 
-        yourself"
+- So, the due date for Homework 8 (BOTH homeworks) has been pushed back to April 25th, since there were a few bugs in the homework that the TAs found after-the-fact
+    - Technically, Professor Riedl isn't allowed to have this due date be during finals week, but it just so happens that he won't start grading until the 25th
+        - "If you're annoyed that I'm giving the slackers extra time, well, turn it in early! You'll be less stressed AND you can feel good about yourself"
 ------------------------------------------------------------------------------
 
-- So, rapidly running out of semester, we're going to wrap up deep learning 
-today
-    - The deep learning loop we drew last time looks pretty similar to a normal 
-    reinforcement learning loop, but with 2 funny things about it:
-        - Every time we perform an action, we REMEMBER what that action is and 
-        store it our replay memory
-            - As we said, our agent now learns by randomly sampling from its 
-            replay memory instead of by directly 
-                - Practically, we do need a cap on how many memories we can 
-                store; once we reach that cap, we'll start throwing out our 
-                oldest memories
-                    - Ideally we wouldn't throw out anything, but throwing out 
-                    the oldest is the best we can do
-        - Every iteration, we grab a "set" of memories to train our neural net, 
-        and compute the correct answer using Q-update
-            - We then compute our loss (updateDifference - q(s, a | theta), 
-            i.e. minus the current reward)
-    - We talked about minimizing instability with batch learning, etc., but 
-    there are 2 things here that happen to work really well in games that we 
-    can do:
+- So, rapidly running out of semester, we're going to wrap up deep learning today
+    - The deep learning loop we drew last time looks pretty similar to a normal reinforcement learning loop, but with 2 funny things about it:
+        - Every time we perform an action, we REMEMBER what that action is and store it our replay memory
+            - As we said, our agent now learns by randomly sampling from its replay memory instead of by directly 
+                - Practically, we do need a cap on how many memories we can store; once we reach that cap, we'll start throwing out our oldest memories
+                    - Ideally we wouldn't throw out anything, but throwing out the oldest is the best we can do
+        - Every iteration, we grab a "set" of memories to train our neural net, and compute the correct answer using Q-update
+            - We then compute our loss (updateDifference - q(s, a | theta), i.e. minus the current reward)
+    - We talked about minimizing instability with batch learning, etc., but there are 2 things here that happen to work really well in games that we can do:
         - We can take advantage of existing knowledge by doing PRE-TRAINING!
-            - Lots of games have histories of past games, like match records in 
-            chess, or replay files in Call of Duty
-            - What if, instead of trying to start by acting randomly, the AI 
-            instead starts by observing these saved games from actual humans?
-                - So, we'll take these game logs, force the AI to do EXACTLY 
-                what the logs say, but compute the Q-learning/loss functions 
-                like normal!
-                    - This means we can "seed" our agent to start with a 
-                    Q-table already half filled in by (hopefully) expert 
-                    players - cool!
-                        - Hopefully, this means our agent can jump straight to 
-                        a decent answer it otherwise would've had to learn 
-                        randomly
-                    - HOWEVER, this'll only fill in the Q-values for the moves 
-                    the humans do; for the rest of the moves, the Q-table is 
-                    still empty, and'll give us basically random behavior
-                - We'll then continue training with epsilon greedy like normal, 
-                filling in the rest of the table and continuing to get better!
-                    - This is EXACTLY what Google did for AlphaGo; it 
-                    pre-trained its agent based off of famous historical Go 
-                    games, then kept training it like normal - and, since 
-                    humans don't play perfectly, it ended up finding good moves 
-                    that human players had dismissed or never thought of
-                        - Weirdly, some expert Go players are now using the 
-                        strategies this AI created, which is CRAZY!
-        - We can do what's called SELF-PLAY, where we pre-train a bunch of 
-        agents on DIFFERENT historical records (either real-life or from our 
-        AIs)
-            - This means that we'll get a number of different agents, all 
-            starting off in slightly different places
-            - We'll then have the agents all play round-robin tournaments; the 
-            winners of that tournament survive, and are trained on a new set of 
-            historical data
-                - This isn't quite the same thing as a genetic algorithm, but 
-                it IS similar
-            - This means that eventually, we end up with a strongest policy out 
-            of the others
-                - And, as it turns out, this currently leads to the better 
-                results than ANY other training technique (primarily because of 
-                the diversity of opponents)
-                    - It's kind of like how if you play chess by yourself, you 
-                    only learn your own strategy - but if you play against a 
-                    bunch of different people, you need to learn how to deal 
-                    with a BUNCH of different strategies! 
+            - Lots of games have histories of past games, like match records in chess, or replay files in Call of Duty
+            - What if, instead of trying to start by acting randomly, the AI instead starts by observing these saved games from actual humans?
+                - So, we'll take these game logs, force the AI to do EXACTLY what the logs say, but compute the Q-learning/loss functions like normal!
+                    - This means we can "seed" our agent to start with a Q-table already half filled in by (hopefully) expert players - cool!
+                        - Hopefully, this means our agent can jump straight to a decent answer it otherwise would've had to learn randomly
+                    - HOWEVER, this'll only fill in the Q-values for the moves the humans do; for the rest of the moves, the Q-table is still empty, and'll give us basically random behavior
+                - We'll then continue training with epsilon greedy like normal, filling in the rest of the table and continuing to get better!
+                    - This is EXACTLY what Google did for AlphaGo; it pre-trained its agent based off of famous historical Go games, then kept training it like normal - and, since humans don't play perfectly, it ended up finding good moves that human players had dismissed or never thought of
+                        - Weirdly, some expert Go players are now using the strategies this AI created, which is CRAZY!
+        - We can do what's called SELF-PLAY, where we pre-train a bunch of agents on DIFFERENT historical records (either real-life or from our AIs)
+            - This means that we'll get a number of different agents, all starting off in slightly different places
+            - We'll then have the agents all play round-robin tournaments; the winners of that tournament survive, and are trained on a new set of historical data
+                - This isn't quite the same thing as a genetic algorithm, but it IS similar
+            - This means that eventually, we end up with a strongest policy out of the others
+                - And, as it turns out, this currently leads to the better results than ANY other training technique (primarily because of the diversity of opponents)
+                    - It's kind of like how if you play chess by yourself, you only learn your own strategy - but if you play against a bunch of different people, you need to learn how to deal with a BUNCH of different strategies! 
 
-- So, we've looked at tree search, reinforcement learning, deep reinforcement 
-learning, and...that's really it! These are the main techniques that're being 
-used out in the wild
+- So, we've looked at tree search, reinforcement learning, deep reinforcement learning, and...that's really it! These are the main techniques that're being used out in the wild
     - A few things from the student questions:
-        - Multi-agent deep learning schemes (e.g. a team of 5 DOTA agents) 
-        actually DON'T communicate at all; they just learn each other's state 
-        information, and eventually get to the point where they "know" each 
-        other well enough that they don't need to communicate to coordinate (if 
-        coordination is the best strategy)
-            - For DOTA specifically, it's not clear if AI or humans are better; 
-            there is evidence that as humans play more against these agents 
-            they can eventually start exploiting the agent's policy,
-        - Professor Riedl's research involves deep learning on stories, but 
-        it's not Q-learning and weird...we might come back to it, but it's a 
-        complex topic and we don't have much time
+        - Multi-agent deep learning schemes (e.g. a team of 5 DOTA agents) actually DON'T communicate at all; they just learn each other's state information, and eventually get to the point where they "know" each other well enough that they don't need to communicate to coordinate (if coordination is the best strategy)
+            - For DOTA specifically, it's not clear if AI or humans are better; there is evidence that as humans play more against these agents they can eventually start exploiting the agent's policy,
+        - Professor Riedl's research involves deep learning on stories, but it's not Q-learning and weird...we might come back to it, but it's a complex topic and we don't have much time
 
 - So, let's jump BACK to procedural content generation!
-    - We started talking about PCG in general, then jumped straight to the hard 
-    stuff (genetic algorithms)
-    - However, there's an in-between scale of "medium" PCG that we can use for 
-    generation: CONTEXT FREE GRAMMARS!
-        - These are usually used for checking things, like determining the 
-        legitimacy of a string or statement
-            - The standard definition is that it's a set of symbols with rules 
-            for how those symbols relate to each other (often in a tree-like 
-            way), and the canonical example is a compiler
+    - We started talking about PCG in general, then jumped straight to the hard stuff (genetic algorithms)
+    - However, there's an in-between scale of "medium" PCG that we can use for generation: CONTEXT FREE GRAMMARS!
+        - These are usually used for checking things, like determining the legitimacy of a string or statement
+            - The standard definition is that it's a set of symbols with rules for how those symbols relate to each other (often in a tree-like way), and the canonical example is a compiler
                 - For instance, in C, we'll say a compound statement
-    - We can turn this definition on its head, though, to use these for 
-    generation!
+    - We can turn this definition on its head, though, to use these for generation!
         - We'll do this by defining some REWRITE RULES
             - For instance, "every time we see A, replace it with BC"
                 - We could have multiple rules for each thing; for instance:
@@ -152,15 +93,10 @@ used out in the wild
 
                         E -&gt; xAy
 
-                    - A TERMINAL just means that it can't be replaced with 
-                    anything, and we'll represent them here with lowercase 
-                    letters
-                        - Notice that we also have some recursive relationships 
-                        here
-                - Once we've determined what the rules are, all we need to do 
-                is start with a random token and then see
-                    - If multiple rules could apply, we'll just pick randomly 
-                    among the applicaple rules
+                    - A TERMINAL just means that it can't be replaced with anything, and we'll represent them here with lowercase letters
+                        - Notice that we also have some recursive relationships here
+                - Once we've determined what the rules are, all we need to do is start with a random token and then see
+                    - If multiple rules could apply, we'll just pick randomly among the applicaple rules
                     - As an example, if we start with "A":
 
                         A
@@ -172,31 +108,22 @@ used out in the wild
                         zmnxghyC
                         zmnxghypq
             
-            - Why do we care? Well, without context, these symbols are 
-            meaningless - but if we know what these terminal symbols mean, they 
-            can be a specification for generating something!
-                - For instance, we could turn each of these symbols into code, 
-                or 
-                - If you remember genetic algorithms, this could be our DNA 
-                strand that we pass into a level!
+            - Why do we care? Well, without context, these symbols are meaningless - but if we know what these terminal symbols mean, they can be a specification for generating something!
+                - For instance, we could turn each of these symbols into code, or 
+                - If you remember genetic algorithms, this could be our DNA strand that we pass into a level!
 
-- In games, what this is used for REALLY often is quest generation, where the 
-output string is the structure of the quest
+- In games, what this is used for REALLY often is quest generation, where the output string is the structure of the quest
     - So, per Riedl's edificatory right, let's create a simple quest generator
-        - Let's say that "Q" is a quest, "P" is a problem, "C" is a challenge, 
-        and "R" is a reward
-            - Let's say, then, that a quest is composed of an initial problem, 
-            3 challenges, and an ending reward:
+        - Let's say that "Q" is a quest, "P" is a problem, "C" is a challenge, and "R" is a reward
+            - Let's say, then, that a quest is composed of an initial problem, 3 challenges, and an ending reward:
 
                 Q -&gt; PCCCR
 
-            - We'll say a problem is composed of a character, a problem, and a 
-            place:
+            - We'll say a problem is composed of a character, a problem, and a place:
 
                 P -&gt; char, prob, place
 
-            - We'll map each of these to an increasingly ridiculous list of 
-            possible terminals:
+            - We'll map each of these to an increasingly ridiculous list of possible terminals:
 
                 char -&gt; farmer | soldier | merchant | thief | ...
                 problem -&gt; cat_lost | need_gold | gather N animal | ...
@@ -210,27 +137,17 @@ output string is the structure of the quest
 
             - And our challenges:
     - So, this is pretty standard way of handling quest generation; 
-        - This is sorta what you do in Skyrim, but in that game it isn't even 
-        this complicated: it just chooses a place, a time, and a thing for you 
-        to kill or gather! For SKYRIM! That's IT!
+        - This is sorta what you do in Skyrim, but in that game it isn't even this complicated: it just chooses a place, a time, and a thing for you to kill or gather! For SKYRIM! That's IT!
 
 - This sounds great - where are the problems? I'm glad you asked!
-    - The first problem with context free grammars are that they're CONTEXT 
-    FREE - you can get nonsensical combination!
-        - For instance, you can end up with a beggar in New York who'll give 
-        you the English Crown if you eat 3 hot dogs
-            - Similarly, if we applied TOTALLY context-free grammars to 
-            compilers, we'd end up with runnable - but totally uselss - code
-    - To solve this, we could make even MORE rules, but this can quickly lead 
-    to OVERENGINEERING, where we end up with an increasingly unmanageable 
-    tangle of rules with more quests than we could ever write
-        - To prevent the last problem, for example, we could say there are 
-        separate quests for all character types, but that means we have to 
-        write a separate version of EVERY 
+    - The first problem with context free grammars are that they're CONTEXT FREE - you can get nonsensical combination!
+        - For instance, you can end up with a beggar in New York who'll give you the English Crown if you eat 3 hot dogs
+            - Similarly, if we applied TOTALLY context-free grammars to compilers, we'd end up with runnable - but totally uselss - code
+    - To solve this, we could make even MORE rules, but this can quickly lead to OVERENGINEERING, where we end up with an increasingly unmanageable tangle of rules with more quests than we could ever write
+        - To prevent the last problem, for example, we could say there are separate quests for all character types, but that means we have to write a separate version of EVERY 
             - If we're not careful here, the number of combinations can EXPLODE
 - So, we need to strike a balance between over-generation and overengineering
-    - For our previous quests, for instance, we could pair the quest-giver and 
-    reward together:
+    - For our previous quests, for instance, we could pair the quest-giver and reward together:
 
         Q -&gt; P1CCCR1
         Q -&gt; P2CCCR2
@@ -238,63 +155,44 @@ output string is the structure of the quest
     - ...but we need to be careful not to get overzealous here, and create 
 
 - The other place where grammars have been used is for city/plant generation!
-    - Often, games want sophisticate environments that have a structure to them 
-    ("even Atlanta roads have some logic to them, believe it or not")
-        - Plants and cities SEEM like they're 2 really different things, but it 
-        turns out that the techniques we can use to make them are actually 
-        pretty similar
-    - For context-free grammars, we're trying to generate linear strings from 
-    left-to-right - how can we use that to create plants?
+    - Often, games want sophisticate environments that have a structure to them ("even Atlanta roads have some logic to them, believe it or not")
+        - Plants and cities SEEM like they're 2 really different things, but it turns out that the techniques we can use to make them are actually pretty similar
+    - For context-free grammars, we're trying to generate linear strings from left-to-right - how can we use that to create plants?
         - Well, let's say we have the following rules:
 
                 TREE -&gt; TRUNK BRANCH1 BRANCH2
                 BRANCH1 -&gt; BRANCH1 BRANCH1
 
-            - If we apply this now, we're just going to end up with a zig-zag 
-            of lines:
+            - If we apply this now, we're just going to end up with a zig-zag of lines:
 
                 TREE
                 TRUNK BRANCH1 BRANCH2
 
 
     - This doesn't look like a tree, so we're going to introduce 2 new things:
-        - L-SYSTEMS (or "Lindenmeyer Systems"), which are "context-free 
-        grammars with parallel rewrites"
+        - L-SYSTEMS (or "Lindenmeyer Systems"), which are "context-free grammars with parallel rewrites"
             - All this means is that instead of processing the string linearly, 
-        - This still gets us a linear string at the end of the day, so we'll 
-        also use FUNCTIONAL L-SYSTEMS
+        - This still gets us a linear string at the end of the day, so we'll also use FUNCTIONAL L-SYSTEMS
             - This just adds 1 more things: rules can call functions
-                - Specifically, a function will get called every time the 
-                left-hand side of a rule matches a given token
+                - Specifically, a function will get called every time the left-hand side of a rule matches a given token
             - Let's say 
 
                     T -&gt; trunk BRANCH(size=3, args) BRANCH(size=3, args)
 
-                - We'll now add a rule saying whenever we have a BRANCH 
-                function, we'll call it - but if its size is greater than 2, 
-                it'll return the following:
+                - We'll now add a rule saying whenever we have a BRANCH function, we'll call it - but if its size is greater than 2, it'll return the following:
 
-                    BRANCH(size&gt;2, args) -&gt; branch(size, args) BRANCH(size-1, 
-                    args) BRANCH(size-1, args)
+                    BRANCH(size&gt;2, args) -&gt; branch(size, args) BRANCH(size-1, args) BRANCH(size-1, args)
 
-                - This says that we'll replace every branch function with an 
-                actual "branch" primitive, then two smaller branches
-                    - Let's add some final rules just to take care of the rest 
-                    of the cases:
+                - This says that we'll replace every branch function with an actual "branch" primitive, then two smaller branches
+                    - Let's add some final rules just to take care of the rest of the cases:
 
-                        BRANCH(size, args) = false -&gt; branch(size, 
-                        args)leaf(args)
+                        BRANCH(size, args) = false -&gt; branch(size, args)leaf(args)
                         branch(size, args) -&gt; leaf(args)
                         trunk() -&gt; nil
 
-                    - So, if our branch fails to make a tree branch for 
-                    whatever reason (e.g. it collides with a wall, or is too 
-                    small), it'll be replaced with a leaf
-                        - And, if there's ever a trunk, it'll just be drawn 
-                        without returning anything
-            - So, the main idea here is that we're passing information around 
-            and using that information to execute things - we're generating 
-            WHILE we're applying these rules, instead of waiting for the end
+                    - So, if our branch fails to make a tree branch for whatever reason (e.g. it collides with a wall, or is too small), it'll be replaced with a leaf
+                        - And, if there's ever a trunk, it'll just be drawn without returning anything
+            - So, the main idea here is that we're passing information around and using that information to execute things - we're generating WHILE we're applying these rules, instead of waiting for the end
                 - Let's look at our example now:
 
                     T
@@ -302,17 +200,13 @@ output string is the structure of the quest
                     branch(3) BRANCH(2) BRANCH(2) branch(3) BRANCH(2) BRANCH(2)
                     leaf()
 
-    - So, we can pass parameters to add some context to these context-free 
-    grammars, calling functions, and executing things in
-        - If you set up a proper L-system, you can actually get some pretty 
-        realistic tree-looking shapes!
-            - "...assuming you've thought about trees far more than I evidently 
-            have"
+    - So, we can pass parameters to add some context to these context-free grammars, calling functions, and executing things in
+        - If you set up a proper L-system, you can actually get some pretty realistic tree-looking shapes!
+            - "...assuming you've thought about trees far more than I evidently have"
 
 - How can we make cities, then? ROADS!
     - We can use these functional L-systems to create roads!
-        - Here, for instance, is a basic L-system for roads (where "B" is a 
-        branch):
+        - Here, for instance, is a basic L-system for roads (where "B" is a branch):
 
             ROAD(delay=0, attribs) -&gt; nil
             ROAD(delay&gt;0, attribs)=true -&gt; B(...), B(...), R(...)
@@ -321,14 +215,9 @@ output string is the structure of the quest
             B(delay=0, ...) -&gt; R(...)
 
         - So, when ROAD is called, it'll possibly create a road segment
-            - Notice here that cities aren't exactly tree-like, so we'll need 
-            to do some postprocessing to add loops and such to make it look 
-            somewhat like a proper city
+            - Notice here that cities aren't exactly tree-like, so we'll need to do some postprocessing to add loops and such to make it look somewhat like a proper city
 
-- Would you like to see an example of this? Well, we're out of time, so come 
-Monday and we'll do exactly that!
-
-
+- Would you like to see an example of this? Well, we're out of time, so come Monday and we'll do exactly that!
 
 </pre>
 </article>

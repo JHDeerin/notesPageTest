@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,22 +23,18 @@
 <a class="side-link is-note-link" href="27_kthSelectionNotes_3_27_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//************************************************************************//
 //*****************String Searching - March 29th, 2017*******************//
 //**********************************************************************//
 
--If you go to "ta-app," applications to be a TA for CS1332 are now open! GO 
-HITHER YOUNG FOOLS!
+-If you go to "ta-app," applications to be a TA for CS1332 are now open! GO HITHER YOUNG FOOLS!
 ----------------------------------------
 
--So, a string is, of course, a sequence of characters, made up of an "alphabet" 
-of possible characters
--The concept of String Searching (or PATTERN MATCHING) is where we try to find 
-a substring within a larger string
-    -It's a nice problem to teach, since (like sorting) it's a practical 
-    problem with some pretty simple algorithms
-    -We consider the efficiency of these algorithms, like in sorting, by 
-    counting how many comparisons they do
+-So, a string is, of course, a sequence of characters, made up of an "alphabet" of possible characters
+-The concept of String Searching (or PATTERN MATCHING) is where we try to find a substring within a larger string
+    -It's a nice problem to teach, since (like sorting) it's a practical problem with some pretty simple algorithms
+    -We consider the efficiency of these algorithms, like in sorting, by counting how many comparisons they do
 -We will look at four string searches:
     -Brute Force
     -Boyer Moore
@@ -45,23 +42,14 @@ a substring within a larger string
     -Raben-Karp (think I spelled this right?)
 
 -BRUTE FORCE-
-    -The BRUTE FORCE algorithm is, as you'd expect, the simplest sort, and 
-    usually the least efficient
-    1) Take the first letter of the PATTERN (string we're searching for) and 
-    the first letter of the text
-        -If they match, compare the 2nd letter of the pattern w/ the 2nd letter 
-        of the text; if those match, compare the 3rd...
-            -If at any point the characters do NOT match, we stop and move on 
-            to the next letter in the text; there isn't a match
-        -If we go through each character in the pattern, and it matches the 
-        text, we've found a match!
-            -DEPENDING ON OUR IMPLEMENTATION, we might want to identify ALL 
-            occurrences of this pattern in the string, meaning we CAN'T just 
-            stop when we find a match
+    -The BRUTE FORCE algorithm is, as you'd expect, the simplest sort, and usually the least efficient
+    1) Take the first letter of the PATTERN (string we're searching for) and the first letter of the text
+        -If they match, compare the 2nd letter of the pattern w/ the 2nd letter of the text; if those match, compare the 3rd...
+            -If at any point the characters do NOT match, we stop and move on to the next letter in the text; there isn't a match
+        -If we go through each character in the pattern, and it matches the text, we've found a match!
+            -DEPENDING ON OUR IMPLEMENTATION, we might want to identify ALL occurrences of this pattern in the string, meaning we CAN'T just stop when we find a match
     2) We then move on to the next letter in the text, and repeat 1
-    3) Repeat until there are less than "k" letters in the text remaining 
-    (where "k" is the # of letters in the pattern), meaning we've reached the 
-    end of the text
+    3) Repeat until there are less than "k" letters in the text remaining (where "k" is the # of letters in the pattern), meaning we've reached the end of the text
 
     -So, let's say our full text is "ramblin' wreck"
         -THAT APOSTROPHE COUNTS AS A LETTER, CRETIN!
@@ -80,42 +68,25 @@ a substring within a larger string
                   rec  :)
 
     -So, what's the efficiency of Brute Force? O(n)
-        -At worst, we're comparing each character in the string "k" times, 
-        where k is the # of letters in the pattern; at best, we're doing k 
-        comparisons
-        -So, at best, it's O(k) (CHECK THIS??????), but the average/worst case 
-        is O(k*n) = O(n)
+        -At worst, we're comparing each character in the string "k" times, where k is the # of letters in the pattern; at best, we're doing k comparisons
+        -So, at best, it's O(k) (CHECK THIS??????), but the average/worst case is O(k*n) = O(n)
 
 -BOYER-MOORE-
-    -With the BOYER-MOORE algorithm, when we first get a pattern to look for, 
-    we preprocess it by making a LAST OCCURRENCE TABLE, holding the indices of 
-    the last time each character in the text occurs
+    -With the BOYER-MOORE algorithm, when we first get a pattern to look for, we preprocess it by making a LAST OCCURRENCE TABLE, holding the indices of the last time each character in the text occurs
         pattern: abacab    Last occurrence table: {a: 4, b: 5, c: 3, *: -1}
         -"*" means "any character not in the pattern"
 
-    -So, this time around, we start comparing from the LAST letter in the 
-    pattern, and go backward; but STILL, whenever we shift in the text to check 
-    the next potential match, we go FORWARD
-        -This way, if the last letter doesn't match, we immediately know it 
-        doesn't work
-    -If we have a mismatched letter, then we shift the pattern forward to 
-    "align" the LAST occurrence of that letter in the pattern with the 
-    mismatched letter in the string
-        -...UNLESS that means going backward, in which case we shift forward 1 
-        spot
-        -If the mismatched letter doesn't even EXIST in the pattern, then we 
-        can skip all of those letters and slide the first letter of our pattern 
-        to the first letter AFTER that mismatch
-            -This skipping, both when the character exists and especially when 
-            it doesn't in the pattern, is what makes this algorithm efficient
-    -If the pattern completely matches, GREAT! We shift over by 1 and start 
-    again!
+    -So, this time around, we start comparing from the LAST letter in the pattern, and go backward; but STILL, whenever we shift in the text to check the next potential match, we go FORWARD
+        -This way, if the last letter doesn't match, we immediately know it doesn't work
+    -If we have a mismatched letter, then we shift the pattern forward to "align" the LAST occurrence of that letter in the pattern with the mismatched letter in the string
+        -...UNLESS that means going backward, in which case we shift forward 1 spot
+        -If the mismatched letter doesn't even EXIST in the pattern, then we can skip all of those letters and slide the first letter of our pattern to the first letter AFTER that mismatch
+            -This skipping, both when the character exists and especially when it doesn't in the pattern, is what makes this algorithm efficient
+    -If the pattern completely matches, GREAT! We shift over by 1 and start again!
 
     1) Align the pattern with beginning of the text (like in brute force)
-    2) Compare the LAST character in the pattern with the corresponding (k-1) 
-    character in the text
-        -Keep going backwards until you find a mismatch OR until you've gone 
-        through all the letters, and they all match
+    2) Compare the LAST character in the pattern with the corresponding (k-1) character in the text
+        -Keep going backwards until you find a mismatch OR until you've gone through all the letters, and they all match
         -If there is a mismatch, then we shift the pattern
 
     -Here's an example:
@@ -124,16 +95,13 @@ a substring within a larger string
         a b a c b a b a d c a b a c a b a a b b
         a b a c a b    (b != a; X)
           a b a c a b  (c != b; X)
-            -would go backward to line up the last b w/ b, BUT we can't, so we 
-            go 1 forward
+            -would go backward to line up the last b w/ b, BUT we can't, so we go 1 forward
             a b a c a b (b != a; X)
               a b a c a b (b != d X; d isn't in pattern, so we can skip!)
                           a b a c a b (b != a; X)
                             a b a c a b    :)
 
-    -In coding terms, if the mismatch occurs at index "j" of our pattern, then 
-    we shift forward (j - [lastOccurenceTableLookup]) spaces, UNLESS that would 
-    mean shifting by 0/a negative amount, in which case we shift 1 forward
+    -In coding terms, if the mismatch occurs at index "j" of our pattern, then we shift forward (j - [lastOccurenceTableLookup]) spaces, UNLESS that would mean shifting by 0/a negative amount, in which case we shift 1 forward
 
     -Another example;
         -Text: "because im happy"
@@ -145,23 +113,14 @@ a substring within a larger string
                                 h a p p y   (y != p)
                                   h a p p y    :)
 
-    -As you can already tell, this is WAY more efficient than brute force, but 
-    how much?
-        -Well, in the best case, it's O(k) if the first "K" letters match the 
-        pattern, just like in Brute-Force
-        -In the worst case, where the 1st character in the text is always the 
-        mismatching character, Boyer-Moore is sadly also O(k*n)...
-            -Example of this case: the entire text is one repeating character 
-            (AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...)
-        -When we DO find a match, we only shift over 1 SPACE to the right if we 
-        want to continue finding matches
+    -As you can already tell, this is WAY more efficient than brute force, but how much?
+        -Well, in the best case, it's O(k) if the first "K" letters match the pattern, just like in Brute-Force
+        -In the worst case, where the 1st character in the text is always the mismatching character, Boyer-Moore is sadly also O(k*n)...
+            -Example of this case: the entire text is one repeating character (AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...)
+        -When we DO find a match, we only shift over 1 SPACE to the right if we want to continue finding matches
         -But the AVERAGE case is actually O(k + n)
-            -This is also the worst case if the pattern DOESN'T appear at all 
-            in the text
-    -So, it's still O(n) (????), but it's undeniably faster than Brute Force 
-    searching
-
-
+            -This is also the worst case if the pattern DOESN'T appear at all in the text
+    -So, it's still O(n) (????), but it's undeniably faster than Brute Force searching
 </pre>
 </article>
 <a class="side-link is-note-link" href="29_moreStringSearchNotes_3_31_17.html"></a>

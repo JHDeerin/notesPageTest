@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,169 +23,96 @@
 <a class="side-link is-note-link" href="15_colorRaytracing_2_13_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************* Raytracing Intersections - February 15th, 2019 **************//
 //**************************************************************************//
 
-- This is the lull before the wave of work...is that a scientifically correct 
-description?
-    - *One Google search later* Ah, this is truly the trough before the crest 
-    (unless we're talking about my emotional state, in which case reverse the 
-    terms, reader)
-    - Wherefore bringeth such labor much strain and stress upon us mortals? 
-    Soft, what cause moves us to make so much of passing moments, and to heap 
-    our souls on idols of the world?
+- This is the lull before the wave of work...is that a scientifically correct description?
+    - *One Google search later* Ah, this is truly the trough before the crest (unless we're talking about my emotional state, in which case reverse the terms, reader)
+    - Wherefore bringeth such labor much strain and stress upon us mortals? Soft, what cause moves us to make so much of passing moments, and to heap our souls on idols of the world?
         - (...yeah.)
 - THE SCREEN HAS CHANGED. INITIATE PROFESSOR TURK ACTIVATION SEQUENCE.
     - PERFORMING QUESTION ANSWERING SEQUENCE IN 3...2...1...
         - Okay, for homework 2b:
-            - Object instancing just means creating multiple copies of an 
-            object, using the matrix stack to move/position them in different 
-            ways
+            - Object instancing just means creating multiple copies of an object, using the matrix stack to move/position them in different ways
 --------------------------------------------------------------
 
-- Alright, yesterday we started talking about ray tracing, and how it's the 
-favored technique for animators - "but, like, who?"
-    - Blue Sky Animation, who created the Ice Age movies, started using Ray 
-    Tracing alllllll the way back to the first Ice Age movie 
-    - Pixar actually was late to the ray tracing game - they didn't start 
-    predominantly using Ray tracing until "Monsters University" in 2013!
-        - They did use it for small bits in previous films (reflections in 
-        "Cars," etc.), but not predominantly by any means
-    - Literally EVERY special effects company since ~2005 uses ray tracing for 
-    the vast majority of their effects
+- Alright, yesterday we started talking about ray tracing, and how it's the favored technique for animators - "but, like, who?"
+    - Blue Sky Animation, who created the Ice Age movies, started using Ray Tracing alllllll the way back to the first Ice Age movie 
+    - Pixar actually was late to the ray tracing game - they didn't start predominantly using Ray tracing until "Monsters University" in 2013!
+        - They did use it for small bits in previous films (reflections in "Cars," etc.), but not predominantly by any means
+    - Literally EVERY special effects company since ~2005 uses ray tracing for the vast majority of their effects
 
-- We also started talking about how SURFACES are defined in ray-tracing, and 
-how they're usually defined using implicit equations to help us tell when a ray 
-collides with them
-    - For a unit sphere, for instance, we usually define it with the implicit 
-    equation:
+- We also started talking about how SURFACES are defined in ray-tracing, and how they're usually defined using implicit equations to help us tell when a ray collides with them
+    - For a unit sphere, for instance, we usually define it with the implicit equation:
 
             x^2 + y^2 + z^2 = 1
 
-        - If we want to calculate where the ray pointing in direction (dx, dy, 
-        dz) and of length "t" actually intersects the sphere, then we can 
-        change this equation to:
+        - If we want to calculate where the ray pointing in direction (dx, dy, dz) and of length "t" actually intersects the sphere, then we can change this equation to:
 
             (x0 + t*dx)^2 + (y0 + t*dy)^2 + (z0 + t*dz)^2  - 1 = 0 
 
         - Simplifying a bit, we can rewrite this equation as:
 
-            t^2*(dx^2 + dy^2 + dz^2) + 2t*(x0dx + y0dy + z0dz) + x0^2+y0^2+z0^2 
-            - 1 = 0
+            t^2*(dx^2 + dy^2 + dz^2) + 2t*(x0dx + y0dy + z0dz) + x0^2+y0^2+z0^2 - 1 = 0
 
-        - This is a quadratic equation, since x0/y0/z0 are all constants! So, 
-        we can solve for t using the quadratic formula!
+        - This is a quadratic equation, since x0/y0/z0 are all constants! So, we can solve for t using the quadratic formula!
 
                 t = (-b +/- sqrt(b^2 - 4ac)) / 2a
 
-            - This +/- means that there are TWO points where the ray intersects 
-            the sphere's surface: one through the front of the sphere, and the 
-            other out the back!
-                - It's like a severe bullet wound - it goes in, but it must 
-                also come out!
+            - This +/- means that there are TWO points where the ray intersects the sphere's surface: one through the front of the sphere, and the other out the back!
+                - It's like a severe bullet wound - it goes in, but it must also come out!
                     - ...there are probably alternative analogies
-                - (Professor Turk's microphone died; he promptly began 
-                rummaging through his backpack saying "Here battery, battery, 
-                battery...")
+                - (Professor Turk's microphone died; he promptly began rummaging through his backpack saying "Here battery, battery, battery...")
 
-        - ...and finally, for a general sphere of radius "r", centered at (xc, 
-        yc, zc), we'll define it as:
+        - ...and finally, for a general sphere of radius "r", centered at (xc, yc, zc), we'll define it as:
 
                 (x-xc)^2 + (y-yc)^2 + (z-zc)^2 = r^2
                 
-            - Now, graphics programmers don't like calling square roots, since 
-            they're MUCH more computationally intensive then multiplication! 
-            So, we usually just compare the result against r^2 instead of r if 
-            we can get away with it
+            - Now, graphics programmers don't like calling square roots, since they're MUCH more computationally intensive then multiplication! So, we usually just compare the result against r^2 instead of r if we can get away with it
 
-- That's great for a sphere and everything, but how do we figure out where a 
-ray intersects with any polygon in general?
-    - Well, a polygon is a 2D shape, right? So maybe we can simplify this 
-    problem by projecting our ray onto the 2D plane the polygon lies in, and 
-    then figure out the 2D problem of if the point lies within that polygon
+- That's great for a sphere and everything, but how do we figure out where a ray intersects with any polygon in general?
+    - Well, a polygon is a 2D shape, right? So maybe we can simplify this problem by projecting our ray onto the 2D plane the polygon lies in, and then figure out the 2D problem of if the point lies within that polygon
     - So, ONE way of figuring this out is to:
 
-        1) Calculate the ray's intersection with the infinite 2D plane the 
-        polygon lies in
-        2) Project the triangle/polygon and the point of intersection onto that 
-        2D plane
-        3) Figure out if, in 2D, the intersection point is inside the polygon 
-        (the "point-in-polygon" test)
+        1) Calculate the ray's intersection with the infinite 2D plane the polygon lies in
+        2) Project the triangle/polygon and the point of intersection onto that 2D plane
+        3) Figure out if, in 2D, the intersection point is inside the polygon (the "point-in-polygon" test)
 
-- So, that sounds like a plan!...but how do we calculate the intersection of a 
-ray with a 3D plane, anyway?
-    - Sure enough, we can define a plane implicitly in 3D with the following 
-    equation:
+- So, that sounds like a plan!...but how do we calculate the intersection of a ray with a 3D plane, anyway?
+    - Sure enough, we can define a plane implicitly in 3D with the following equation:
 
             ax + by + cz + d = 0
 
-        - Basically, what's going on here is that d is a vector that defines 
-        the position/center point of the plane, and the vector (a,b,c) is a 
-        vector that's normal to the plane
-    - To calculate where the ray INTERSECTS, we'll again factor the ray into 
-    this equation:
+        - Basically, what's going on here is that d is a vector that defines the position/center point of the plane, and the vector (a,b,c) is a vector that's normal to the plane
+    - To calculate where the ray INTERSECTS, we'll again factor the ray into this equation:
 
             a(x0 + t*dx) + b(y0 + t*dy) + c(z0 + t*dz) + d = 0 =&gt;
             t*(a*dx + b*dy + c*dz) + ax0 + by0 + cz0 + d = 0 =&gt;
             t = -(ax0 + by0 + cz0 + d) / (a*dx + b*dy + c*dz)
 
-        - So, we can solve for t - great! HOWEVER, what if the denominator of 
-        this equation ends up being 0? That's not allowed, so how do we prevent 
-        it?
-            - Well, since (a,b,c) is the normal vector to the plane, and 
-            (dx,dy,dz) is the direction of the ray, the denominator is actually 
-            the dot product of those two vectors - and if it's zero, that means 
-            the the ray is perpendicular to the normal and PARALLEL to the 
-            plane, so we can just assume it doesn't hit!
+        - So, we can solve for t - great! HOWEVER, what if the denominator of this equation ends up being 0? That's not allowed, so how do we prevent it?
+            - Well, since (a,b,c) is the normal vector to the plane, and (dx,dy,dz) is the direction of the ray, the denominator is actually the dot product of those two vectors - and if it's zero, that means the the ray is perpendicular to the normal and PARALLEL to the plane, so we can just assume it doesn't hit!
 
-- Alright, that's the intersection figured out, but how do we handle the 2D 
-projection part of this?
-    - So, we know where the intersection point is on our 3D plane (missed the 
-    rest)
+- Alright, that's the intersection figured out, but how do we handle the 2D projection part of this?
+    - So, we know where the intersection point is on our 3D plane (missed the rest)
 
-- And then, finally, we have to figure out if our point is inside the triangle 
-- easy right?
-    - Well, it's pretty easy for us to just look at a point and say "that's 
-    inside something" or "that's outside something" - but when we try to think 
-    about HOW we do this, it isn't obvious! So how do we tell our computer to 
-    do this?
-        - One bad way is the CROSSING test, where you shoot a ray out from the 
-        point and count how many times it intersects a line in the polygon
-            - The idea is that if the point is inside the polygon, it will only 
-            cross the polygon's lines ONCE, but if it's outside it'll either 
-            cross twice (entering one side and leaving the other) or not at all
-            - But this misses an important edge case: if the point's ray is 
-            tangent to the polygon, this method will falsely think it's inside!
-        - A slightly better way is the WINDING METHOD: we draw 3 rays out from 
-        the corners of the triangle (or 4 for a square, etc.), and count up the 
-        angles the rays make with each other while going ONLY IN ONE DIRECTION 
-        (clockwise or counter-clockwise)
-            - If the point is inside the polygon, we can draw all ray-angle 
-            pairs by just moving in a circle, so the angles won't cancel out 
-            and'll be some non-zero value (almost always the sum of the 
-            polygon's internal angles)
-                - HOWEVER, if the point is outside of the polygon, the last 
-                angle/ray pair will have to go backwards in the opposite 
-                direction, which'll cancel out and result in a total angle sum 
-                of 0
-            - This method has problems too, though: what if the point is on a 
-            line? Is it inside or outside? That now becomes inconsistent! And 
-            it's pretty cumbersome, too
+- And then, finally, we have to figure out if our point is inside the triangle - easy right?
+    - Well, it's pretty easy for us to just look at a point and say "that's inside something" or "that's outside something" - but when we try to think about HOW we do this, it isn't obvious! So how do we tell our computer to do this?
+        - One bad way is the CROSSING test, where you shoot a ray out from the point and count how many times it intersects a line in the polygon
+            - The idea is that if the point is inside the polygon, it will only cross the polygon's lines ONCE, but if it's outside it'll either cross twice (entering one side and leaving the other) or not at all
+            - But this misses an important edge case: if the point's ray is tangent to the polygon, this method will falsely think it's inside!
+        - A slightly better way is the WINDING METHOD: we draw 3 rays out from the corners of the triangle (or 4 for a square, etc.), and count up the angles the rays make with each other while going ONLY IN ONE DIRECTION (clockwise or counter-clockwise)
+            - If the point is inside the polygon, we can draw all ray-angle pairs by just moving in a circle, so the angles won't cancel out and'll be some non-zero value (almost always the sum of the polygon's internal angles)
+                - HOWEVER, if the point is outside of the polygon, the last angle/ray pair will have to go backwards in the opposite direction, which'll cancel out and result in a total angle sum of 0
+            - This method has problems too, though: what if the point is on a line? Is it inside or outside? That now becomes inconsistent! And it's pretty cumbersome, too
         - The method Professor Turk recommends, then, is the HALF-PLANE test
-            - Here, we draw a line (our "plane") for EACH side of the triangle, 
-            and say that the point is "positive" if it's to the left of the 
-            line (i.e. towards the inside of the triangle) and "negative" if 
-            it's to the right (i.e. outside the triangle)
-                - If the point is negative for ANY of the lines, then it can't 
-                be inside the polygon
-                - Otherwise, if it's positive for all of them, it must be 
-                inside the triangle!
+            - Here, we draw a line (our "plane") for EACH side of the triangle, and say that the point is "positive" if it's to the left of the line (i.e. towards the inside of the triangle) and "negative" if it's to the right (i.e. outside the triangle)
+                - If the point is negative for ANY of the lines, then it can't be inside the polygon
+                - Otherwise, if it's positive for all of them, it must be inside the triangle!
 
-- On Monday, we'll give the actual equation for doing the half-plane test - 
-keep on until then!
-
-</pre>
+- On Monday, we'll give the actual equation for doing the half-plane test - keep on until then!</pre>
 </article>
 <a class="side-link is-note-link" href="17_moreRaytracing_2_18_19.html"></a>
 </main>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,53 +23,35 @@
 <a class="side-link is-note-link" href="0_introConceptualModels_1_8_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //*********** Introduction / Conceptual Models- January 8th, 2019 ***********//
 //**************************************************************************//
 
-- Okay, there's a lot of people in here for a 65 person class...am I in the 
-wrong room?
+- Okay, there's a lot of people in here for a 65 person class...am I in the wrong room?
 - ...nope, I don't think it's...OH, okay
-    - This class is cross-listed with a graduate ECE course (which, apparently, 
-    every ECE major in the world is taking)
+    - This class is cross-listed with a graduate ECE course (which, apparently, every ECE major in the world is taking)
 ------------------------------------------------------------
 
 - Okay, this class will have not one, but TWO professors!
-    - Professor Richard Vuduc will cover the first part of the course, while 
-    Professor Richard Fujimora will cover most of the last half
-- Today'll be a typical syllabus day: going over what this course'll teach, 
-with any remaining time spent discussing "conceptual models" and some vocab
+    - Professor Richard Vuduc will cover the first part of the course, while Professor Richard Fujimora will cover most of the last half
+- Today'll be a typical syllabus day: going over what this course'll teach, with any remaining time spent discussing "conceptual models" and some vocab
     - So, obviously, we'll start off with the vocab
 
 - So...what's a model?
-    - If you do a Google search, you'll see images of model airplanes, fashion 
-    models, 3D modeling software, etc...
+    - If you do a Google search, you'll see images of model airplanes, fashion models, 3D modeling software, etc...
     - For our purposes, a MODEL is "a simplified representation of a system"
-        - Keywords here - it's a REPRESENTATION of something else (real or 
-        imagined), and it's SIMPLIFIED - if it wasn't, it'd be as complex as 
-        the actual thing!
+        - Keywords here - it's a REPRESENTATION of something else (real or imagined), and it's SIMPLIFIED - if it wasn't, it'd be as complex as the actual thing!
         - These models could be mathematical, verbal, conceptual, physical, etc.
-- Really, you've been creating models in your head all your life - whenever you 
-try to understand how something works, you've created a "mental model" of it in 
-your head!
-    - Similarly, the equations you learned in physics are a model of how things 
-    behave in the physical world, the ideal gas law is a model of how particles 
-    behave, and so on
-- One annoying but very important thing about models, though: you can't *prove* 
-a model is correct
-    - What you CAN do is make observations of how the real thing behaves, and 
-    then see if your model's predictions match up - but this isn't a formal 
-    proof
-        - Even if we ran the model for a hundred years and every prediction it 
-        made matched up with reality, it's still possible that our model is 
-        wrong in some way
-    - You CAN disprove a model, however - if the model's results are wildly 
-    off, it can't possibly be the real thing
+- Really, you've been creating models in your head all your life - whenever you try to understand how something works, you've created a "mental model" of it in your head!
+    - Similarly, the equations you learned in physics are a model of how things behave in the physical world, the ideal gas law is a model of how particles behave, and so on
+- One annoying but very important thing about models, though: you can't *prove* a model is correct
+    - What you CAN do is make observations of how the real thing behaves, and then see if your model's predictions match up - but this isn't a formal proof
+        - Even if we ran the model for a hundred years and every prediction it made matched up with reality, it's still possible that our model is wrong in some way
+    - You CAN disprove a model, however - if the model's results are wildly off, it can't possibly be the real thing
 
-- A COMPUTER SIMULATION, on the other hand, is "a computer program that uses 
-computation to construct a representation of a model's behavior over time"
-    - Based off of some categories in the defense industry, there's a 
-    "simulation quadrant" of different types of simulation:
+- A COMPUTER SIMULATION, on the other hand, is "a computer program that uses computation to construct a representation of a model's behavior over time"
+    - Based off of some categories in the defense industry, there's a "simulation quadrant" of different types of simulation:
 
                         Real Machines       | Simulated Machines
                         -----------------------------------------
@@ -76,197 +59,101 @@ computation to construct a representation of a model's behavior over time"
             Sim. People |         ?            | Constructive Simulation
 
         - "?" could be hardward-in-the-loop systems, automated testing, etc.
-- HOWEVER, these defense-era models are a little awkward for our engineering 
-and research purposes; instead, we have a taxonomy of different simulation 
-types and models
-    - A STOCHASTIC simulation is any simulation with random/probabilistic 
-    elements
-        - e.g. For a Starbucks customer sim, we might have a random probability 
-        distribution for how many customers come in, how long it takes to serve 
-        each, etc.
-        - This could also mean that the output of the simulation is random and 
-        unpredictable - a single run isn't enough to tell us everything (e.g. 
-        you have to flip a coin many times to make inferences about its 
-        probabilities)
-    - DETERMINISTIC simulations, on the other hand, have no random elements - 
-    they always give us the same output if we give them the same inputs
-        - e.g. Simulating a digital circuit (same outputs for any given input), 
-        chemical reaction, etc.
-- "Hang on, professor - if we're modeling the real world, is the universe 
-stochastic or probabilistic?" Welllll...
+- HOWEVER, these defense-era models are a little awkward for our engineering and research purposes; instead, we have a taxonomy of different simulation types and models
+    - A STOCHASTIC simulation is any simulation with random/probabilistic elements
+        - e.g. For a Starbucks customer sim, we might have a random probability distribution for how many customers come in, how long it takes to serve each, etc.
+        - This could also mean that the output of the simulation is random and unpredictable - a single run isn't enough to tell us everything (e.g. you have to flip a coin many times to make inferences about its probabilities)
+    - DETERMINISTIC simulations, on the other hand, have no random elements - they always give us the same output if we give them the same inputs
+        - e.g. Simulating a digital circuit (same outputs for any given input), chemical reaction, etc.
+- "Hang on, professor - if we're modeling the real world, is the universe stochastic or probabilistic?" Welllll...
     - Typical events everyday seem pretty random - just look at a newsfeed!
-    - On the other hand, the laws of physics seem pretty cut-and-dry and 
-    deterministic (although, y'know, they are themselves models...)
-        - Basically, WE DON'T KNOW ("does God play dice?", etc.); this is an 
-        excellent philosophical conundrum
-- Fortunately, we engineers don't have to know the true answer to this question 
-to make useful models - we can choose whichever one seems most relevant to the 
-problem at hand
+    - On the other hand, the laws of physics seem pretty cut-and-dry and deterministic (although, y'know, they are themselves models...)
+        - Basically, WE DON'T KNOW ("does God play dice?", etc.); this is an excellent philosophical conundrum
+- Fortunately, we engineers don't have to know the true answer to this question to make useful models - we can choose whichever one seems most relevant to the problem at hand
     - Some relevant facts to keep in mind, though:
-        - Random individual processes can lead to deterministic outcomes (e.g. 
-        attractors)
-        - Deterministic rules can still lead to almost random-seeming behavior 
-        (e.g. chaos theory)
+        - Random individual processes can lead to deterministic outcomes (e.g. attractors)
+        - Deterministic rules can still lead to almost random-seeming behavior (e.g. chaos theory)
 
 - Another way of categorizing simulations is Continuous vs discrete time
-    - DISCRETE-time systems are ones where we view the state of the system only 
-    at set points - we "jump" from one state to the next, with some transition 
-    event to go between states
-    - CONTINUOUS-time systems are where we view the state as smoothly changing 
-    over time, and try to build the model to reflect this
-        - Note that this is a conceptual distinction - at the computer level, 
-        these both end up running as discrete programs, but the way these two 
-        are implemented can be very different
+    - DISCRETE-time systems are ones where we view the state of the system only at set points - we "jump" from one state to the next, with some transition event to go between states
+    - CONTINUOUS-time systems are where we view the state as smoothly changing over time, and try to build the model to reflect this
+        - Note that this is a conceptual distinction - at the computer level, these both end up running as discrete programs, but the way these two are implemented can be very different
 
 - Another term you'll hear: "Complex/Adaptive systems"
-    - These are systems composed of MANY interacting parts, e.g. stock markets, 
-    flocks of animals, social networks, power grids, etc.
-    - HOWEVER, just having many interacting components doesn't make a system 
-    complex - what DOES is if the system exhibits some non-trivial emergent and 
-    self-organizing behaviors, where they seems to follow some underlying 
-    pattern even though no one's organizing these parts
+    - These are systems composed of MANY interacting parts, e.g. stock markets, flocks of animals, social networks, power grids, etc.
+    - HOWEVER, just having many interacting components doesn't make a system complex - what DOES is if the system exhibits some non-trivial emergent and self-organizing behaviors, where they seems to follow some underlying pattern even though no one's organizing these parts
         - Many of the real world systems we care about fall under this category
 
-- Now, one last point before we go over the syllabus: is this stuff really 
-still relevant? In the age of big data to analyze all this stuff, do we really 
-need to simplify and simulate stuff? Do we really need these intermediate 
-models?
-    - Well, YES! Big data is important, machine learning is a great tool, but 
-    it does NOT replace simulations
-        - One major reason why is that correlation doesn't imply causation; 
-        machine learning and data analysis let us infer correlation and some 
-        likely outcomes for the system, but we don't know what CAUSES the 
-        system to behave that way
-            - Simulations, on the other hand, model the rules governing the 
-            system, and let us examine what might be going on behind all this 
-            data
-        - Furthermore, if we don't have enough data to predict something, or if 
-        we're trying to test new hypothetical scenarios, or if we want a deeper 
-        understanding of the system itself, simple analysis won't do - we need 
-        models
-- To be clear, "big data"/data analysis and simulation aren't enemies - they're 
-friends! They're synergistic, and don't replace each other!
-    - Data analysis lets us characterize the inputs going into our models, and 
-    it also helps us make inferences from our simulation results
+- Now, one last point before we go over the syllabus: is this stuff really still relevant? In the age of big data to analyze all this stuff, do we really need to simplify and simulate stuff? Do we really need these intermediate models?
+    - Well, YES! Big data is important, machine learning is a great tool, but it does NOT replace simulations
+        - One major reason why is that correlation doesn't imply causation; machine learning and data analysis let us infer correlation and some likely outcomes for the system, but we don't know what CAUSES the system to behave that way
+            - Simulations, on the other hand, model the rules governing the system, and let us examine what might be going on behind all this data
+        - Furthermore, if we don't have enough data to predict something, or if we're trying to test new hypothetical scenarios, or if we want a deeper understanding of the system itself, simple analysis won't do - we need models
+- To be clear, "big data"/data analysis and simulation aren't enemies - they're friends! They're synergistic, and don't replace each other!
+    - Data analysis lets us characterize the inputs going into our models, and it also helps us make inferences from our simulation results
 
 - ...okay. With that, let's start going over the syllabus
-    - We forgot to hit publish on Canvas - sorry! That'll be rectified as soon 
-    as this class is over
-- We have 4 beautiful, wonderful people serving as TAs - we'll post office 
-hours so you can start runing their lives shortly
+    - We forgot to hit publish on Canvas - sorry! That'll be rectified as soon as this class is over
+- We have 4 beautiful, wonderful people serving as TAs - we'll post office hours so you can start runing their lives shortly
 - The course itself is really about 2 components:
     - Understanding the elements/methodology of models and simulations
-    - Understanding how to practically build and apply these simulations, run 
-    them in parallel, etc.
+    - Understanding how to practically build and apply these simulations, run them in parallel, etc.
         - Believe us, this stuff is best learned by doing
 - As prerequisites, we assume...
-    - You know how to program in some high-level language, like Python, Java, 
-    C++, etc.
+    - You know how to program in some high-level language, like Python, Java, C++, etc.
         - We'll let you choose which one! We're not picky!
-    - Basic probability, calculus, linear algebra, and so on; we won't get very 
-    complex with these, so if you're a little rusty, you should be able to pick 
-    them back up pretty quick
-- There'll be 3 different textbooks, which you DO NOT need to buy - one is 
-available for free on the web, while the other is provided as an E-Book from 
-the library
-- Schedule-wise, the first half of the course will be focused more on 
-continuous models, modeling approaches, and completing a large, overall project 
-with a small team
-    - "Since not having regular homeworks means most of you won't actually 
-    learn anything, there'll be a midterm to check your knowledge late in 
-    February"
-    - The 2nd half is focused on discrete event simulation and actually 
-    implementing the simulations efficiently and correctly
-- Grading-wise, the 2 projects/project reports will each be worth 25% of your 
-grade, and the 2 exams will be worth 25% of your grade each
+    - Basic probability, calculus, linear algebra, and so on; we won't get very complex with these, so if you're a little rusty, you should be able to pick them back up pretty quick
+- There'll be 3 different textbooks, which you DO NOT need to buy - one is available for free on the web, while the other is provided as an E-Book from the library
+- Schedule-wise, the first half of the course will be focused more on continuous models, modeling approaches, and completing a large, overall project with a small team
+    - "Since not having regular homeworks means most of you won't actually learn anything, there'll be a midterm to check your knowledge late in February"
+    - The 2nd half is focused on discrete event simulation and actually implementing the simulations efficiently and correctly
+- Grading-wise, the 2 projects/project reports will each be worth 25% of your grade, and the 2 exams will be worth 25% of your grade each
     - No final exam, buuuuut...
-- Collaboration-wise, all the code has to be your own team's work - you know 
-the drill by now
+- Collaboration-wise, all the code has to be your own team's work - you know the drill by now
 - And that's the course!
 
-- And with that out of the way, let's dive straight into our first big topic: 
-conceptual models
+- And with that out of the way, let's dive straight into our first big topic: conceptual models
     - First off: why is modeling/simulation hard?
-        - Well, lots of reasons, but one of the hardest things is deciding what 
-        to include in the model - and importantly, what NOT to include
-            - As Einstein said, "Everything should be as simple as possible, 
-            but no simpler" - but alas, it's easier said than done
-    - To figure this out, you have to at least kinda know what you're going to 
-    use the model for
-- To do this, we first need to know what the actual system we're looking at is 
-- the "SYSTEM UNDER INVESTIGATION" (SUI)
+        - Well, lots of reasons, but one of the hardest things is deciding what to include in the model - and importantly, what NOT to include
+            - As Einstein said, "Everything should be as simple as possible, but no simpler" - but alas, it's easier said than done
+    - To figure this out, you have to at least kinda know what you're going to use the model for
+- To do this, we first need to know what the actual system we're looking at is - the "SYSTEM UNDER INVESTIGATION" (SUI)
     - Eventually, we want to end up with the simulation program itself
-    - ...and to get there, we'll create an intermediate CONCEPTUAL MODEL - a 
-    simplified way of looking at the system
+    - ...and to get there, we'll create an intermediate CONCEPTUAL MODEL - a simplified way of looking at the system
 - One example to help illustrate this: traffic!
-    - There's a lot of ways of looking at traffic; for instance, just a few of 
-    the models that people actually use are:
-        - A "fluid flow" model where you view cars and roads like a mass of 
-        water flowing through a pipe
-        - A cellular automata model, where each driver is seen as a box and we 
-        model each driver's behavior 
-        - A queueing model, where we view each lane of the road as a queue that 
-        items are entering and being processed in
+    - There's a lot of ways of looking at traffic; for instance, just a few of the models that people actually use are:
+        - A "fluid flow" model where you view cars and roads like a mass of water flowing through a pipe
+        - A cellular automata model, where each driver is seen as a box and we model each driver's behavior 
+        - A queueing model, where we view each lane of the road as a queue that items are entering and being processed in
     - ALL of these are valid ways of looking at the system
 
-- More concretely: A CONCEPTUAL MODEL is "an abstract representation of the 
-system", specifying what should be included in the model, including:
+- More concretely: A CONCEPTUAL MODEL is "an abstract representation of the system", specifying what should be included in the model, including:
     - Level of detail to include/"granularity"
-    - What other abstractions might be used (queues, differential equations, 
-    etc.)
+    - What other abstractions might be used (queues, differential equations, etc.)
     - Inputs/outputs we'll have, and the metrics they'll use
     - What assumptions/simplifications the model makes
     - What questions/objectives we care about answering with this model
-- In contrast, the SIMUATION MODEL is the actual computer program we'll run at 
-the end as our simulation
-    - To repeat, a conceptual model is NOT the implementation, and is totally 
-    separate from the code
+- In contrast, the SIMUATION MODEL is the actual computer program we'll run at the end as our simulation
+    - To repeat, a conceptual model is NOT the implementation, and is totally separate from the code
 
-- One important question this raises: does a more detailed model lead to a more 
-accurate model?
-    - Well, intuitively, we'd say yes - after all, the more stuff we have in 
-    the simulation, the closer it is to the real deal, right?
-    - HOWEVER, while higher detail might make the model more 
-    credible/plausible, it will result in longer development times, greater 
-    data requirements, and slower performance
-        - ...and while greater detail CAN improve the accuracy, it also leada 
-        to a higher chance of the model being WRONG as we add more detail - 
-        especially if it turns out that some of those details really don't 
-        matter very much for what we're looking at
-        - Furthermore, the simpler the model is, the more likely we can 
-        generalize it to work for other problems, too
-- Basically, as we add more detail, we run into the problem of diminishing 
-returns - we might only get a small increase in accuracy for a massive effort, 
-and a lack of data or mistakes could lead to the model being inaccurate 
-    - e.g. if we don't have data on how many truck drivers are on the road, or 
-    how truck behavior differs from the average Chevy, adding trucks to our 
-    simulation might just give us nonsense results that don't match up with the 
-    real world
+- One important question this raises: does a more detailed model lead to a more accurate model?
+    - Well, intuitively, we'd say yes - after all, the more stuff we have in the simulation, the closer it is to the real deal, right?
+    - HOWEVER, while higher detail might make the model more credible/plausible, it will result in longer development times, greater data requirements, and slower performance
+        - ...and while greater detail CAN improve the accuracy, it also leada to a higher chance of the model being WRONG as we add more detail - especially if it turns out that some of those details really don't matter very much for what we're looking at
+        - Furthermore, the simpler the model is, the more likely we can generalize it to work for other problems, too
+- Basically, as we add more detail, we run into the problem of diminishing returns - we might only get a small increase in accuracy for a massive effort, and a lack of data or mistakes could lead to the model being inaccurate 
+    - e.g. if we don't have data on how many truck drivers are on the road, or how truck behavior differs from the average Chevy, adding trucks to our simulation might just give us nonsense results that don't match up with the real world
 - So, in short: greater detail does NOT simply mean a more accurate model
-    - "This doesn't mean we should never build complex models, of course - it 
-    just means we should only build them if they're absolutely required"
+    - "This doesn't mean we should never build complex models, of course - it just means we should only build them if they're absolutely required"
 
-- With any conceptual model, of course, there're some issues that need to be 
-addressed; in particular, a good conceptual model needs to pass 4 tests:
-    - Is the model VALID? Are its results similar to the real deal, or accurate 
-    enough to tell us what we need?
-    - Is the model CREDIBLE? Is it plausible enough to be believed by the 
-    clients? (even if its predictions are correct, people might not trust a 
-    model that doesn't seem 'convincingly real')
-    - Is the model FEASIBLE? Do we have enough time and data to build it as 
-    specified?
-    - Is the model USEFUL? Is it easy to use, reasonably performant, does it 
-    display data readably, and so on?
-- In short, conceptual models are one of the most important - but also most 
-difficult - parts of making a simulation. It's much more art than science, and 
-it's easy to get wrong without realizing where you screwed up, but the whole 
-rest of the simulation rests upon it.
+- With any conceptual model, of course, there're some issues that need to be addressed; in particular, a good conceptual model needs to pass 4 tests:
+    - Is the model VALID? Are its results similar to the real deal, or accurate enough to tell us what we need?
+    - Is the model CREDIBLE? Is it plausible enough to be believed by the clients? (even if its predictions are correct, people might not trust a model that doesn't seem 'convincingly real')
+    - Is the model FEASIBLE? Do we have enough time and data to build it as specified?
+    - Is the model USEFUL? Is it easy to use, reasonably performant, does it display data readably, and so on?
+- In short, conceptual models are one of the most important - but also most difficult - parts of making a simulation. It's much more art than science, and it's easy to get wrong without realizing where you screwed up, but the whole rest of the simulation rests upon it.
 
-- ...PHEW. So, we covered some basic vocabulary today and started getting into 
-conceptual models. Next lecture, we'll go deeper into conceptual models, start 
-going through specific examples, and more - see you then!
-
-</pre>
+- ...PHEW. So, we covered some basic vocabulary today and started getting into conceptual models. Next lecture, we'll go deeper into conceptual models, start going through specific examples, and more - see you then!</pre>
 </article>
 <a class="side-link is-note-link" href="1_complexSystemBasics_1_10_19.html"></a>
 </main>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,56 +23,34 @@
 <a class="side-link is-note-link" href="4_matrixStackCont_1_16_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //****************** Projection Basics - January 18th, 2019 *****************//
 //**************************************************************************//
 
-- Okay, part A of project 1 has been released on Canvas - go forth, young 
-minions!
+- Okay, part A of project 1 has been released on Canvas - go forth, young minions!
     - Professor Turk also apologizes for his Canvas noobiness, which is nice
-    - "This first part is pretty straightforward, but it never hurts to get 
-    started bright and early"
-- In the textbook right now, you should be in the Vision/Projection sections if 
-you want to read along
+    - "This first part is pretty straightforward, but it never hurts to get started bright and early"
+- In the textbook right now, you should be in the Vision/Projection sections if you want to read along
 -------------------------------------------------
 
-- So, we started talking about "projections" at the end of last class, but what 
-does that even mean?
-    - Well, in geometry, projection is when we move a point/points onto some 
-    subspace (e.g. a 2D line onto the 1D X-axis)
-- In PARALLEL projection, all of the "projector" lines are parallel to one 
-another, and we draw whatever the line hits
-    - ...whereas in PERSPECTIVE projection, all those lines converge to a 
-    point, more accurately mimicking how our eyes work
-        - "Perspective is much more common for special effects, video games, 
-        and so on, but parallel projection is useful for stuff like drafting, 
-        where you're more concerned with how things line up"
-        - These are NOT the only 2 projections in the world - there're actually 
-        quite a few - but most of the other ones are pretty special purpose, 
-        and much, much less common
+- So, we started talking about "projections" at the end of last class, but what does that even mean?
+    - Well, in geometry, projection is when we move a point/points onto some subspace (e.g. a 2D line onto the 1D X-axis)
+- In PARALLEL projection, all of the "projector" lines are parallel to one another, and we draw whatever the line hits
+    - ...whereas in PERSPECTIVE projection, all those lines converge to a point, more accurately mimicking how our eyes work
+        - "Perspective is much more common for special effects, video games, and so on, but parallel projection is useful for stuff like drafting, where you're more concerned with how things line up"
+        - These are NOT the only 2 projections in the world - there're actually quite a few - but most of the other ones are pretty special purpose, and much, much less common
 
-- Projection is SUPER important, since it's how we get our 3D scenes out into 
-our 2D monitors and eyeballs, but how does it actually work?
-    - Let's start with parallel projection; think of it as putting a flat sheet 
-    of glass into the scene, and then us peering in through that window
-    - Pretend that this VIEW PLANE of ours is on the X-Y axes, so that one flat 
-    side is facing +Z and the other's facing -Z, and its bottom axis is at Z=0
-        - Now, all we have to do is project ALL of our points onto this sheet 
-        i.e. onto the Z axis), so that all the points are mapped like this:
+- Projection is SUPER important, since it's how we get our 3D scenes out into our 2D monitors and eyeballs, but how does it actually work?
+    - Let's start with parallel projection; think of it as putting a flat sheet of glass into the scene, and then us peering in through that window
+    - Pretend that this VIEW PLANE of ours is on the X-Y axes, so that one flat side is facing +Z and the other's facing -Z, and its bottom axis is at Z=0
+        - Now, all we have to do is project ALL of our points onto this sheet i.e. onto the Z axis), so that all the points are mapped like this:
 
             P(x, y, z) ----&gt; P(x, y, 0)
 
-        - "Are we done?" Well, not quite - we've mapped ALL the points to our 
-        view plane, but our monitor is only so big - so, we have to do a 
-        VIEWING TRANSFORMATION to figure out which points should actually be 
-        on-screen
-            - Basically, we should have a certain max width/height for our view 
-            plane, and then a maximum range we can see, forming a cube/"viewing 
-            volume" that contains all the points we want to actually draw
-                - So, pretending the origin is at (0,0) in the bottom-left, we 
-                want to map from the points on our view plane within a certain 
-                left/right or top/bottom boundary to our actual screen's WINDOW 
-                with a width/height
+        - "Are we done?" Well, not quite - we've mapped ALL the points to our view plane, but our monitor is only so big - so, we have to do a VIEWING TRANSFORMATION to figure out which points should actually be on-screen
+            - Basically, we should have a certain max width/height for our view plane, and then a maximum range we can see, forming a cube/"viewing volume" that contains all the points we want to actually draw
+                - So, pretending the origin is at (0,0) in the bottom-left, we want to map from the points on our view plane within a certain left/right or top/bottom boundary to our actual screen's WINDOW with a width/height
                 - This is just mapping from one range to another! e.g.
 
                     X: [left, right] ---------&gt; [0, w]
@@ -80,27 +59,15 @@ our 2D monitors and eyeballs, but how does it actually work?
                         y' = (y - bottom) * height/(top - bottom)
                     Z: ...well, this is thrown away in our screen's coordinates
                 
-                - You might have to deal with clipping for points that are too 
-                far away, but this is often handled at the hardware level 
-                nowadays
-        - "Now, I love our textbook, but it wants us to do EVERYTHING in 
-        matrices...but I'll just tell you now, parallel projection can be done 
-        with this ONE LINE of code to map x/y. It's much easier than dealing 
-        with matrix multiplication."
-            - Of course, matrix multiplication is MUCH more efficient, but this 
-            is significantly easier to understand
+                - You might have to deal with clipping for points that are too far away, but this is often handled at the hardware level nowadays
+        - "Now, I love our textbook, but it wants us to do EVERYTHING in matrices...but I'll just tell you now, parallel projection can be done with this ONE LINE of code to map x/y. It's much easier than dealing with matrix multiplication."
+            - Of course, matrix multiplication is MUCH more efficient, but this is significantly easier to understand
 
-- Perspective projection, on the other hand, is all about triangles and angles 
-and all that fun stuff - "remember it from high school geometry 80 years ago?"
-    - So, we'll have our virtual eyeball - the CENTER OF PROJECTION - at some 
-    point in the grid, which we'll say is at (0, 0, -1), pointed straight down 
-    the Z axis, with our view plane still at Z=0 (i.e. a bit ahead of our eye)
-        - Now, if we want to draw some point (x,y,z), how do we get it onto the 
-        view plane?
-        - Well, since our view plane is at Z=0, we know the point is p(z) away 
-        from the view plane
-            - So, there's a BIG triangle from our COP to the point/Z-axis, and 
-            a little triangle from the COP to the view plane
+- Perspective projection, on the other hand, is all about triangles and angles and all that fun stuff - "remember it from high school geometry 80 years ago?"
+    - So, we'll have our virtual eyeball - the CENTER OF PROJECTION - at some point in the grid, which we'll say is at (0, 0, -1), pointed straight down the Z axis, with our view plane still at Z=0 (i.e. a bit ahead of our eye)
+        - Now, if we want to draw some point (x,y,z), how do we get it onto the view plane?
+        - Well, since our view plane is at Z=0, we know the point is p(z) away from the view plane
+            - So, there's a BIG triangle from our COP to the point/Z-axis, and a little triangle from the COP to the view plane
 
                          *
                       | /|
@@ -122,22 +89,14 @@ and all that fun stuff - "remember it from high school geometry 80 years ago?"
 
                 x' = x/|z|
 
-            - "So, this division by Z tells us that things that are farther 
-            away will seem smaller - great!"
-                - Note that this absolute value for Z would mean that anything 
-                behind us would appear in front of us - so we'll need to deal 
-                with that in the "real world"
+            - "So, this division by Z tells us that things that are farther away will seem smaller - great!"
+                - Note that this absolute value for Z would mean that anything behind us would appear in front of us - so we'll need to deal with that in the "real world"
 
-- One thing we need to also decide for this camera is how wide our 
-field-of-view is (FOV) - this'll decide what parts of our view plane are 
-actually visible!
-    - "You can have separate horizontal/vertical FOVs, but for simplicity's 
-    sake assume that we have a square screen right now, so they'll be the same"
-    - Basically, this is the angle theta between the two extreme angles of our 
-    view plane (i.e. the total angle of our view)
+- One thing we need to also decide for this camera is how wide our field-of-view is (FOV) - this'll decide what parts of our view plane are actually visible!
+    - "You can have separate horizontal/vertical FOVs, but for simplicity's sake assume that we have a square screen right now, so they'll be the same"
+    - Basically, this is the angle theta between the two extreme angles of our view plane (i.e. the total angle of our view)
         - So, our triangle would have an angle (at the COP corner) of theta/2
-        - ...which means, by definition, the farthest up/down the Y axis we can 
-        see for a Z-distance of 1 is:
+        - ...which means, by definition, the farthest up/down the Y axis we can see for a Z-distance of 1 is:
 
             maxY (or minY) = tan(theta/2)
 
@@ -151,11 +110,8 @@ actually visible!
 
                 - Adding maxY to y' so that we get rid of negatives
 
-- "So, perspective projection is a little more complicated than parallel, but 
-it basically boils down to 3 equations"
-- In the meantime, enjoy your weekend!
-
-</pre>
+- "So, perspective projection is a little more complicated than parallel, but it basically boils down to 3 equations"
+- In the meantime, enjoy your weekend!</pre>
 </article>
 <a class="side-link is-note-link" href="6_arbitraryRotations_1_23_19.html"></a>
 </main>

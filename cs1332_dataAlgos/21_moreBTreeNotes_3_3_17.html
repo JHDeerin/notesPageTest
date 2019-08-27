@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="20_bTreeNotes_3_1_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//******************************************************************//
 //******************B Trees (cont.) - March 3rd, 2017**************//
 //****************************************************************//
@@ -42,26 +44,18 @@
         19 -- 23 -- 24 -- 38 -- 47 -- 58 -- 76
 
         (I THINK? Answer was not provided, so I could be VERY wrong here)
-        (Also, as always, there are +/- infinity nodes on either side of each 
-        rung)
+        (Also, as always, there are +/- infinity nodes on either side of each rung)
 
 -So, back to B-Trees.
-    -Going through a bunch of examples for adding on the screen right now. Can 
-    do the same thing with Gnarly Trees. Joy.
+    -Going through a bunch of examples for adding on the screen right now. Can do the same thing with Gnarly Trees. Joy.
     -"Adding simpler than remove," blah-blah. So happiness. So cool.
--When promoting a parent node w/ children, then the children less than the 
-promoted node stay on the left side, children greater than it stay on the right 
-side
+-When promoting a parent node w/ children, then the children less than the promoted node stay on the left side, children greater than it stay on the right side
 
 -REMOVAL-
-    -The easiest removal is just removing from a leaf node with more than one 
-    data value inside
-        -We find the appropriate node, go into the list of data values, and 
-        remove the one we want to remove- that's it!
+    -The easiest removal is just removing from a leaf node with more than one data value inside
+        -We find the appropriate node, go into the list of data values, and remove the one we want to remove- that's it!
 
--UNDERFLOW occurs when we remove a data value, and it changes how many nodes 
-exist in the tree (i.e. we have removed all the data from a node, and that node 
-must be deleted)
+-UNDERFLOW occurs when we remove a data value, and it changes how many nodes exist in the tree (i.e. we have removed all the data from a node, and that node must be deleted)
     -OR, we remove a data value that had other node's stored under it!
         -e.g. we remove "12" from:
                     [12, 20]
@@ -69,24 +63,15 @@ must be deleted)
                [2, 5]   [18]  [31]
 
         -In this example, we would want to replace 12 with it's successor: "18"!
-            -HOWEVER, this would mean 18's node would be removed; so INSTEAD, 
-            we first check to see if there are any "sibling" (adjacent) nodes 
-            to 18 that are 3/4 nodes (i.e. they have more than 1 child)?
-                -In this case, [2, 5] IS a 3-4 node! So, we instead take "5" 
-                and replace 12 with it!
+            -HOWEVER, this would mean 18's node would be removed; so INSTEAD, we first check to see if there are any "sibling" (adjacent) nodes to 18 that are 3/4 nodes (i.e. they have more than 1 child)?
+                -In this case, [2, 5] IS a 3-4 node! So, we instead take "5" and replace 12 with it!
         -This is known as node TRANSFER
-    -This is the SIMPLEST removal example involvinhg underflow, because so far, 
-    we've avoided having to actually remove a node. It gets worse.
+    -This is the SIMPLEST removal example involvinhg underflow, because so far, we've avoided having to actually remove a node. It gets worse.
 
-    -Now, let's say in this tree we THEN remove 31 (after 12); none of it's 
-    siblings are 3-4 nodes, so we instead REPLACE "31" with "20"
-        -Now, we have 3 children even though we have only 1 data item in the 
-        parent ("5"); so, we instead MERGE "20" and "18" into a single child 
-        node [18, 20]!
+    -Now, let's say in this tree we THEN remove 31 (after 12); none of it's siblings are 3-4 nodes, so we instead REPLACE "31" with "20"
+        -Now, we have 3 children even though we have only 1 data item in the parent ("5"); so, we instead MERGE "20" and "18" into a single child node [18, 20]!
 
 -And it gets EVEN MORE COMPLICATED...but we'll deal with that on Monday!
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="22_reviewAndSortIntro_3_6_17.html"></a>

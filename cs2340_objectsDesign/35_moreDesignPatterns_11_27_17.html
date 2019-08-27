@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,40 +23,26 @@
 <a class="side-link is-note-link" href="34_metricsDesignPatterns_11_20_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //*************** More Design Patterns - November 27th, 2017 ****************//
 //**************************************************************************//
 
-- This is the LAST lecture on new material; Wednesday will be a review for exam 
-2, Friday will be Exam 2 itself, and then Monday, I'll hand out the take-home 
-finals and explain how they work and how to turn them in...and that's about it! 
-- There'll be a new CATME survey; if it seems like you didn't contribute 
-enough, that WILL affect your grade
+- This is the LAST lecture on new material; Wednesday will be a review for exam 2, Friday will be Exam 2 itself, and then Monday, I'll hand out the take-home finals and explain how they work and how to turn them in...and that's about it! 
+- There'll be a new CATME survey; if it seems like you didn't contribute enough, that WILL affect your grade
 ---------------------------------
 
-- Last time, we covered the FACTORY pattern and the BUILDER pattern (these are 
-"creational patterns"); this time, we'll continue going over a few more of 
-these design patterns
+- Last time, we covered the FACTORY pattern and the BUILDER pattern (these are "creational patterns"); this time, we'll continue going over a few more of these design patterns
 
 - Let's go over a few of the BEHAVIORAL patterns:
 
     - COMMAND Pattern
-        - (this is a personal favorite of Prof. Waters, and he used it for his 
-        PhD. Thesis)
+        - (this is a personal favorite of Prof. Waters, and he used it for his PhD. Thesis)
         - "A BIG use of this pattern is supporting undo/redo functionality"
-            - Let's say we're writing a word processor, and to keep track of 
-            all the actions we take, we record every user action on a stack
-                - ...but what are we ACTUALLY pushing onto the stack? We can't 
-                just put on characters, since we can change more than 1 char at 
-                a time, etc...so we're actually going to be making a stack of 
-                "Command" objects
-                - This "Command" class will be an abstract class with TWO 
-                methods: an "execute()" method that does the action, and an 
-                "undo()" command 
-                    - We can extend this with a "MacroCommand" class that holds 
-                    multiple commands for doing a single action (e.g. 
-                    'deleteParagraph' made up of a bunch of "deleteChar" 
-                    commands), letting us execute/undo all of them at once
+            - Let's say we're writing a word processor, and to keep track of all the actions we take, we record every user action on a stack
+                - ...but what are we ACTUALLY pushing onto the stack? We can't just put on characters, since we can change more than 1 char at a time, etc...so we're actually going to be making a stack of "Command" objects
+                - This "Command" class will be an abstract class with TWO methods: an "execute()" method that does the action, and an "undo()" command 
+                    - We can extend this with a "MacroCommand" class that holds multiple commands for doing a single action (e.g. 'deleteParagraph' made up of a bunch of "deleteChar" commands), letting us execute/undo all of them at once
                 - e.g.
 
                         public class InsertCommand {
@@ -81,22 +68,11 @@ these design patterns
 
     - OBSERVER pattern
         - Used a LOT in UI design, and one of the most popular patterns nowadays
-        - The basic use for this pattern: how can I "listen" for changes on an 
-        object w/o tightly coupling the classes?
-            - Basically, we have a class with an "addListener()" method on it, 
-            a "Listener" interface w/ a single "notify()" method, and the 
-            classes we want to have listen for changes on our class implement 
-            the "Listener" interface
-                - We then use the class' "addListener()" method to add the 
-                bojects that are listening for changes, and every time we 
-                change something on our object (e.g. call the "buttonPress()" 
-                method), we go through the list of "Listeners" and call the 
-                "notify()" method on each of them
-            - This semester, we unfortunately didn't get to cover 
-            networking/multithreading/sockets in Java, but the Listener pattern 
-            is VERY useful for gettig around "blocking calls"
-        - This pattern only couples the INTERFACES of this pattern, rather than 
-        the class functionality themslves
+        - The basic use for this pattern: how can I "listen" for changes on an object w/o tightly coupling the classes?
+            - Basically, we have a class with an "addListener()" method on it, a "Listener" interface w/ a single "notify()" method, and the classes we want to have listen for changes on our class implement the "Listener" interface
+                - We then use the class' "addListener()" method to add the bojects that are listening for changes, and every time we change something on our object (e.g. call the "buttonPress()" method), we go through the list of "Listeners" and call the "notify()" method on each of them
+            - This semester, we unfortunately didn't get to cover networking/multithreading/sockets in Java, but the Listener pattern is VERY useful for gettig around "blocking calls"
+        - This pattern only couples the INTERFACES of this pattern, rather than the class functionality themslves
 
         - Example code:
 
@@ -123,42 +99,21 @@ these design patterns
     - STRATEGY pattern
         - What if we have classes that only differ by 1 algorithm?
             - e.g. HourlyEmployee vs CommisionPayEmployee
-            - Previously, we've told you that INHERITANCE is the way to go for 
-            this...but for small differences like this, we can INSTEAD have the 
-            shared properties be the same, and THEN have the class implement an 
-            "AbstractStrategy" class, w/ different implementations of that 
-            strategy/work
-        - e.g. A couple of years ago, I gave students an "ant farm simulation" 
-        homework where there were WorkerAnts (build nest), soldierAnts (defend 
-        nest), and foragerAnts (gathered food)
-            - When there was an emergency, though (e.g. spider attacked nest 
-            and all soldiers were dead), we wanted ALL the ants to behave as 
-            soliders, etc.
+            - Previously, we've told you that INHERITANCE is the way to go for this...but for small differences like this, we can INSTEAD have the shared properties be the same, and THEN have the class implement an "AbstractStrategy" class, w/ different implementations of that strategy/work
+        - e.g. A couple of years ago, I gave students an "ant farm simulation" homework where there were WorkerAnts (build nest), soldierAnts (defend nest), and foragerAnts (gathered food)
+            - When there was an emergency, though (e.g. spider attacked nest and all soldiers were dead), we wanted ALL the ants to behave as soliders, etc.
 
-            - So, the students wrote an "Ant" class that handled all the shared 
-            behavior of all ants, and they then had a class instance called 
-            "MyWork" that the ant used to see what work it should be doing at a 
-            given time
-                - This "MyWork" instance was an abstract "AntWork" class, which 
-                had 3 inherited concrete implementations - BuildWork, 
-                SoldierWork, ForageWork - w/ different rules on them for when 
-                to change from their "default" state to a temporary "emergency 
-                state" 
+            - So, the students wrote an "Ant" class that handled all the shared behavior of all ants, and they then had a class instance called "MyWork" that the ant used to see what work it should be doing at a given time
+                - This "MyWork" instance was an abstract "AntWork" class, which had 3 inherited concrete implementations - BuildWork, SoldierWork, ForageWork - w/ different rules on them for when to change from their "default" state to a temporary "emergency state" 
 
     - STATE Pattern
-        - Similar to the strategy pattern, but w/ data instead of behavior 
-        varying
+        - Similar to the strategy pattern, but w/ data instead of behavior varying
         - Commonly used to implement state machines
-        - Basically, we encapsulate each state of the machine/changing data in 
-        a class
+        - Basically, we encapsulate each state of the machine/changing data in a class
             - ...out of time to cover the rest of this pattern
-- These are by NO MEANS the only design patterns - just a few of the more 
-commonly used one
+- These are by NO MEANS the only design patterns - just a few of the more commonly used one
 
-- Right, so on Wednesday, we'll be going over the practice Exam 2 test I posted 
-on T-Square...and after that, we're on the fast track to being done!
-
-</pre>
+- Right, so on Wednesday, we'll be going over the practice Exam 2 test I posted on T-Square...and after that, we're on the fast track to being done!</pre>
 </article>
 <a class="side-link is-note-link" href="36_exam2Review_11_29_17.html"></a>
 </main>

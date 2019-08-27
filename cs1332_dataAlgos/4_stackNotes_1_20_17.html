@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="3_linkedListTypes_1_18_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//*****************************************************************//
 //*****************Stacks - January 20th, 2017********************//
 //***************************************************************//
@@ -30,58 +32,38 @@
     -Nope, she just showed up!
 -Also, ON INAUGRATION DAY, they're playing "One Last Time" from "Hamilton"
 
--HB wasn't happy that there was an...*ahem* "unprofessional" exchange on Piazza 
-between a TA and a student
+-HB wasn't happy that there was an...*ahem* "unprofessional" exchange on Piazza between a TA and a student
     -"We're held to a higher standard, here at Tech"
     -a.k.a. : DON'T CURSE OUT THE TAs
--"If this happens again, I WILL shut down Piazza. It's a resource. Not a 
-requirement. You don't need it."
+-"If this happens again, I WILL shut down Piazza. It's a resource. Not a requirement. You don't need it."
 --------------------------------------------
 
 -Arrays have "stack memory" that's allocated at compilation
-    -Depending on the implementation, it could require shifting the memory 
-    given to the array
-        -e.g. like an arrayList, when you add a new element to the front, you 
-        have to shift EVERYTHING down
-    -This memory for the array is CONTIGUOUS and FIXED: it's all next to each 
-    other, and
+    -Depending on the implementation, it could require shifting the memory given to the array
+        -e.g. like an arrayList, when you add a new element to the front, you have to shift EVERYTHING down
+    -This memory for the array is CONTIGUOUS and FIXED: it's all next to each other, and
 
--Linked Lists, on the other hand, have memory that isn't allocated until 
-runtime, and since they're NOT stored contiguously in memory, you have to 
-traverse them sequentially (only way of knowing where the next "node" is is the 
-reference to the "next" node)
+-Linked Lists, on the other hand, have memory that isn't allocated until runtime, and since they're NOT stored contiguously in memory, you have to traverse them sequentially (only way of knowing where the next "node" is is the reference to the "next" node)
 
--A STACK is an "Abstract Data Type" (ADT) that is a "general class" of data 
-structures
-        -Linked Lists, for instance, are NOT ADTs; they're a specific 
-        implementation of the "List" ADT
--It (the stack) is a linear data structure where inserts/deletions follow the 
-LIFO ("Last In, First Out") scheme
-    -Like a Pringles can! 1st chip you add will be on the bottom, take the 
-    longest to get out!
-    -Could be implemented in MULTIPLE ways: with a linked list, an arraylist, 
-    an array, etc.
-        -"Array implementations are pretty simple, but you need to have a 
-        maximum size"
--Using a Stack, you can ONLY access the object at the top of the stack; you 
-CANNOT add to, remove, or read from ANY other point in the stack
+-A STACK is an "Abstract Data Type" (ADT) that is a "general class" of data structures
+        -Linked Lists, for instance, are NOT ADTs; they're a specific implementation of the "List" ADT
+-It (the stack) is a linear data structure where inserts/deletions follow the LIFO ("Last In, First Out") scheme
+    -Like a Pringles can! 1st chip you add will be on the bottom, take the longest to get out!
+    -Could be implemented in MULTIPLE ways: with a linked list, an arraylist, an array, etc.
+        -"Array implementations are pretty simple, but you need to have a maximum size"
+-Using a Stack, you can ONLY access the object at the top of the stack; you CANNOT add to, remove, or read from ANY other point in the stack
 
 -TWO essential operations: push() and pop()
     -"push(object)" inserts an object onto the top of the stack
     -"object pop()" removes and returns the "top" (most recently added) element
--USUALLY has a "top()" method to look at the top object w/o removing it, a 
-"size" variable to know how big the stack is, and an "isEmpty()" check
+-USUALLY has a "top()" method to look at the top object w/o removing it, a "size" variable to know how big the stack is, and an "isEmpty()" check
 
 
 -A nice, simple implementation is with an array
-    -Add elements from right to left, w/ a variable keeping track of the top 
-    element's location (and/or the size of the stack)
-        -could do this either way; use the stack to find the index (top = 
-        size-1), or the index to find the size (size = top + 1)
-    -Once the array fills up (size = capacity), we have to choose whether to 
-    throw an exception when an element is added, or to resize the backing array
-        -This choice is up to us; it is NOT forced on us by the ADT definition 
-        of a stack
+    -Add elements from right to left, w/ a variable keeping track of the top element's location (and/or the size of the stack)
+        -could do this either way; use the stack to find the index (top = size-1), or the index to find the size (size = top + 1)
+    -Once the array fills up (size = capacity), we have to choose whether to throw an exception when an element is added, or to resize the backing array
+        -This choice is up to us; it is NOT forced on us by the ADT definition of a stack
 
 -PSEUDOCODE:
     push(o)
@@ -94,55 +76,40 @@ CANNOT add to, remove, or read from ANY other point in the stack
         arr[size] = null
         return item
 
--HOWEVER, you could ALSO implement a stack via a Linked List as a backing 
-structure
-    -Elements would be removed/added to the same end of the list (usually the 
-    front, as this is O(1) for most linked list implementations)
-    -We don't even need to really keep track of the size for this to work, as 
-    the "top" elements will always be the "head"!
+-HOWEVER, you could ALSO implement a stack via a Linked List as a backing structure
+    -Elements would be removed/added to the same end of the list (usually the front, as this is O(1) for most linked list implementations)
+    -We don't even need to really keep track of the size for this to work, as the "top" elements will always be the "head"!
 
 -STACK PERFORMANCE (where "n" = the # of elements in the stack):
     -The space/memory used is O(n)
-    -EACH of the "normal" operations (push, pop, top, size, and empty) runs in 
-    O(1), which is GREAT!
+    -EACH of the "normal" operations (push, pop, top, size, and empty) runs in O(1), which is GREAT!
 -LIMITATIONS
-    -For array-based implementations, you have to have a max size known 
-    beforehand, OR have to resize the list when "pushing", which is an O(n) 
-    operation ("push" itself is still amortized O(1), though, but the 
-    performance impact still exists)
+    -For array-based implementations, you have to have a max size known beforehand, OR have to resize the list when "pushing", which is an O(n) operation ("push" itself is still amortized O(1), though, but the performance impact still exists)
     -Linked List based structures DON'T have either of these problems, though!
 
 -APPLICATIONS:
     -DIRECT-
     -Page history in a web browser
     -"Undo" sequence in a text editor
-    -In many programming calls, the order of method calls are kept track of in 
-    a stack behind the scenes
+    -In many programming calls, the order of method calls are kept track of in a stack behind the scenes
         e.g. int x = average(getUserInput());
-        -This is sometimes called an "Activation Stack"; it's ESPECIALLY 
-        important during recursion
+        -This is sometimes called an "Activation Stack"; it's ESPECIALLY important during recursion
 
     -INDIRECT-
     -Component of other data structures
     -Used in some algorithms
 
 -Just one example of "stack" usage: Parentheses Matching!
-    -Read through a string; when you find an "open" parentheses, add a "Brace" 
-    object to the stack
+    -Read through a string; when you find an "open" parentheses, add a "Brace" object to the stack
         -when you find a closed brace, pop a Brace object from the stack
-    -This simple technique is how IDE's can tell you have a closed bracket 
-    error!
+    -This simple technique is how IDE's can tell you have a closed bracket error!
 
--Example interview questions from this course (things TA's were asked in job 
-interviews):
+-Example interview questions from this course (things TA's were asked in job interviews):
     -Creating a stack using 2 arrays
     -Implementing a queue using 2 stacks
     -Creating an optimal sorting solution, which involved Radix sort
     -Determine if a tree was a valid BST
-    -Determine information from 2 different arrays; the optimal solution 
-    involved a hash map
-
-
+    -Determine information from 2 different arrays; the optimal solution involved a hash map
 </pre>
 </article>
 <a class="side-link is-note-link" href="5_queueNotes_1_23_17.html"></a>

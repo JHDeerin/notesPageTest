@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,12 +23,12 @@
 <a class="side-link is-note-link" href="4_stackNotes_1_20_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//********************************************************************//
 //***************Queues - January 24rd, 2017 ************************//
 //******************************************************************//
 
--*REALITY CHECK! Implement a "Stack Class" based on the given interface (on 
-website)!*
+-*REALITY CHECK! Implement a "Stack Class" based on the given interface (on website)!*
 
 public class Stack&lt;T&gt; implements StackADT&lt;T&gt; { //almost forgot the &lt;T&gt;'s
     private final int INITIAL_CAPACITY = 100;
@@ -42,15 +43,13 @@ public class Stack&lt;T&gt; implements StackADT&lt;T&gt; { //almost forgot the &
         if (size == backing.length) {
             throw new RuntimeException("Stack backing structure is full");
         }
-        backing[size] = item; //could've used "size++" here to avoid the 2nd 
-        line
+        backing[size] = item; //could've used "size++" here to avoid the 2nd line
         size++;
     }
 
     public T pop() {
         if (isEmpty()) {
-            throw new java.util.EmptyStackException("No objects in stack to 
-            return");
+            throw new java.util.EmptyStackException("No objects in stack to return");
         }
         temp = backing[size];
         size--;
@@ -68,44 +67,29 @@ public class Stack&lt;T&gt; implements StackADT&lt;T&gt; { //almost forgot the &
 
 -"This is more or less how test questions will be phrased" - HB
 -Speaking of which, 1st test will be IN TWO WEEKS!!!
-    -A practice exam will be given, but answer keys will NOT be provided; 
-    you'll have to look up the answer for yourself
+    -A practice exam will be given, but answer keys will NOT be provided; you'll have to look up the answer for yourself
     -Exam is designed to be finished in 50 minutes (*stunned shock*)
 ------------------------------------------------------------
 
--A QUEUE is a FIFO ("first-in, first-out") data structure- the OPPOSITE of a 
-stack
-    -Just like a normal "queue", or waiting in line: the 1st person to wait in 
-    line should be the first to get out!
+-A QUEUE is a FIFO ("first-in, first-out") data structure- the OPPOSITE of a stack
+    -Just like a normal "queue", or waiting in line: the 1st person to wait in line should be the first to get out!
     -Insertions are at the BACK of the queue, removals are from the FRONT
         -You shouldn't be accessing ANY other part of the Queue
     -Like "Stacks", Queues are considered ADTs, and are fundamentally linear
 
 -MAIN OPERATIONS:
     -"enqueue(object)" inserts an element at the end of the queue
-    -"object dequeue" removes and returns the element from the start of the 
-    queue
-        -Usually also has a "first()" method to look at the front without 
-        removing it, as well as a pretty size() / isEmpty() method
+    -"object dequeue" removes and returns the element from the start of the queue
+        -Usually also has a "first()" method to look at the front without removing it, as well as a pretty size() / isEmpty() method
 
 -Using an Array as a backing structure:
     -Use an array of size "n", and WRAP AROUND in a circular way
-        -When the queue has fewer than "n" elements, "back = (front + size) % 
-        n" is the first empty slot past the rear of the queue
-            -Elements are ONLY shifted when "enqueueing"; when you remove front 
-            elements, you instead change WHERE THE FRONT INDEX is, NOT shifting 
-            things
-                -This is why you need the "back = (front+size) % n" operation; 
-                when you have open space in the front of the queue, you instead 
-                add elements to the front of the array and just start the 
-                traversal from the "new" front of the array
-                    -e.g. the word "AWESOME" becomes "SOMEAWE", but we start 
-                    reading from "A" and then wrap around to read; ta-da!
-                -This is great, since in return for this "confusion", we avoid 
-                having to resize the array for additions! It's therefore MUCH 
-                more efficient!
-    -2 variables: "front" keeps track of the front/first element, "size" keeps 
-    track of the size of the queue
+        -When the queue has fewer than "n" elements, "back = (front + size) % n" is the first empty slot past the rear of the queue
+            -Elements are ONLY shifted when "enqueueing"; when you remove front elements, you instead change WHERE THE FRONT INDEX is, NOT shifting things
+                -This is why you need the "back = (front+size) % n" operation; when you have open space in the front of the queue, you instead add elements to the front of the array and just start the traversal from the "new" front of the array
+                    -e.g. the word "AWESOME" becomes "SOMEAWE", but we start reading from "A" and then wrap around to read; ta-da!
+                -This is great, since in return for this "confusion", we avoid having to resize the array for additions! It's therefore MUCH more efficient!
+    -2 variables: "front" keeps track of the front/first element, "size" keeps track of the size of the queue
 
 -PSEUDOCODE:
     void enqueue(o)
@@ -119,8 +103,7 @@ stack
         size--
         return item
 
-        -Now, what would you do if the queue is empty? Throw an error? Return 
-        null? It all depends on what you need...
+        -Now, what would you do if the queue is empty? Throw an error? Return null? It all depends on what you need...
 
 -Linked List Implementation
     -NEEDS a tail variable now to have any sort of efficiency
@@ -130,9 +113,7 @@ stack
     -Time for enqueueing/dequeuing is O(1)
 
     -Limitations:
-        -For array-based implementations, We must either know the initial size 
-        OR have to deal with resizing the array (which is O(n), although 
-        enqueueing is still considered O(1))
+        -For array-based implementations, We must either know the initial size OR have to deal with resizing the array (which is O(n), although enqueueing is still considered O(1))
         -Linked List implementations do NOT have this limitation
 
 -Applications:
@@ -142,8 +123,6 @@ stack
         -Multithreading
 
     -INDIRECT- (on the slides)
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="6_recursionNotes_1_25_17.html"></a>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,249 +23,131 @@
 <a class="side-link is-note-link" href="19_lookaheadSynchronous_4_2_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //*********************** Time Warp - April 4th, 2019 ***********************//
 //**************************************************************************//
 
-- Alright, we've talked about two synchronization algorithms so far: CMB and 
-the YAWNS algorithm
-    - Today, we'll talk about the third and final synchronization algorithm: 
-    TIME WARP!
+- Alright, we've talked about two synchronization algorithms so far: CMB and the YAWNS algorithm
+    - Today, we'll talk about the third and final synchronization algorithm: TIME WARP!
         - (I already feel more like a Power Ranger)
-    - Specifically, there are two parts to the Time Warp algorithm: a "local 
-    control" part and a "global control" part
+    - Specifically, there are two parts to the Time Warp algorithm: a "local control" part and a "global control" part
 
-- So, what're we trying to do again with this "synchronization problem?" We're 
-trying to get each individually-running process to still do all their 
-calculations in time-step order
+- So, what're we trying to do again with this "synchronization problem?" We're trying to get each individually-running process to still do all their calculations in time-step order
     - So far, we've done this by desperately trying to avoid making ANY mistakes
     - Time warp, though, is a little different
 
 - What is TIME WARP (besides a fun thing to scream in a lecture hall)?
-    - Well, back in the CMB world, we had some assumptions that we needed to 
-    get the algorithm to work - but time warp doesn't need most of them!
-        - We still need logical processes with timestamps, but it's perfectly 
-        okay for the network topology to change, new LPs to be created, etc.
-            - We also no longer need messages to be sent in order, and delays 
-            are allowed, too!
-        - The one big thing it DOES assume is that we have reliable delivery: 
-        messages might be delayed or sent out-of-order, but we'll assume they 
-        DO reach their destinations eventually
-            - We'll also assume, for this class, that every event has a UNIQUE 
-            timestamp (there are ways of dealing with timestamps that are 
-            exactly the same, but this'll simplify things)
+    - Well, back in the CMB world, we had some assumptions that we needed to get the algorithm to work - but time warp doesn't need most of them!
+        - We still need logical processes with timestamps, but it's perfectly okay for the network topology to change, new LPs to be created, etc.
+            - We also no longer need messages to be sent in order, and delays are allowed, too!
+        - The one big thing it DOES assume is that we have reliable delivery: messages might be delayed or sent out-of-order, but we'll assume they DO reach their destinations eventually
+            - We'll also assume, for this class, that every event has a UNIQUE timestamp (there are ways of dealing with timestamps that are exactly the same, but this'll simplify things)
     - How does the algorithm actually work, though?
-        - In CMB, if we weren't sure about a message, we blocked and stopped 
-        doing things
-        - INSTEAD, here, we'll just process events as they come in without 
-        worrying about the future!
+        - In CMB, if we weren't sure about a message, we blocked and stopped doing things
+        - INSTEAD, here, we'll just process events as they come in without worrying about the future!
             - ...but, of course, that'll create problems we need to deal with
 
-- To implement one variation of Time Warp, we need a data structure called the 
-LOCAL CONTROL MECHANISM
-    - Basically, we do NOT throw away events after we've processed them: we 
-    instead store all the events in some sort of INPUT QUEUE, keeping track of 
-    which events we've already processed
-        - Then, if we receive a message that SHOULD'VE been processed already 
-        (a STRAGGLER message) we'll ROLLBACK all of our errant changes
-            - To do this, we'll "undo" all the computations we shouldn't have 
-            done yet, process the event, then process the stuff we undid
+- To implement one variation of Time Warp, we need a data structure called the LOCAL CONTROL MECHANISM
+    - Basically, we do NOT throw away events after we've processed them: we instead store all the events in some sort of INPUT QUEUE, keeping track of which events we've already processed
+        - Then, if we receive a message that SHOULD'VE been processed already (a STRAGGLER message) we'll ROLLBACK all of our errant changes
+            - To do this, we'll "undo" all the computations we shouldn't have done yet, process the event, then process the stuff we undid
     - There are two things we need to worry about undoing:
         - Modifications to state variables
-            - This is pretty straightforward! We'll just save the values of all 
-            the relevant variables before we process a new event (a 
-            CHECKPOINT), and save it alongside the processed event in a STATE 
-            QUEUE
-                    - Don't worry about efficiency and how much memory this'll 
-                    take up; those are valid concerns, but there are some 
-                    pretty good solutions to them
-                - Then, when we undo the event, we'll restore the variables to 
-                the checkpoint's state
+            - This is pretty straightforward! We'll just save the values of all the relevant variables before we process a new event (a CHECKPOINT), and save it alongside the processed event in a STATE QUEUE
+                    - Don't worry about efficiency and how much memory this'll take up; those are valid concerns, but there are some pretty good solutions to them
+                - Then, when we undo the event, we'll restore the variables to the checkpoint's state
         - Messages we've already sent
-            - This is a bit more interesting - how do we get back a "wrong" 
-            message we've already sent? The other LP might've already processed 
-            it and gotten a wrong answer, then sent its OWN incorrect message, 
-            and so on - how do we undo all of THAT?
-                - As it turns out, there's a really clever way that Time Warp 
-                handles this: it uses ANTI-MESSAGES
-                    - An anti-message is the EXACT same as the original 
-                    message, but with a flag that says "I'm an anti-message"
-                    - When we realize we've made a mistake, we send an 
-                    anti-message to the process; and if the anti-message 
-                    appears in the same queue as the original message, they 
-                    "annihilate" each other and cancel the original message out
+            - This is a bit more interesting - how do we get back a "wrong" message we've already sent? The other LP might've already processed it and gotten a wrong answer, then sent its OWN incorrect message, and so on - how do we undo all of THAT?
+                - As it turns out, there's a really clever way that Time Warp handles this: it uses ANTI-MESSAGES
+                    - An anti-message is the EXACT same as the original message, but with a flag that says "I'm an anti-message"
+                    - When we realize we've made a mistake, we send an anti-message to the process; and if the anti-message appears in the same queue as the original message, they "annihilate" each other and cancel the original message out
                         - It's like an anti-particle in physics!
-                - So, all we have to do to undo our mistake is to send out the 
-                corresponding anti-message, and then we're good!
-                    - How do we know which anti-messages we need to send when 
-                    we realize we've made a mistake? Well, we'll keep a log of 
-                    any anti-messages we might need to send in an OUTPUT QUEUE, 
-                    linked to the original message
+                - So, all we have to do to undo our mistake is to send out the corresponding anti-message, and then we're good!
+                    - How do we know which anti-messages we need to send when we realize we've made a mistake? Well, we'll keep a log of any anti-messages we might need to send in an OUTPUT QUEUE, linked to the original message
 
 - Alright, what does a rollback actually look like?
     - Well, first, a straggler message comes in, triggering the rollback
-        - We'll then "roll back" the state of the events that shouldn't have 
-        happened yet
+        - We'll then "roll back" the state of the events that shouldn't have happened yet
         - At the same time, we'll send any anti-messages we need to send out
     - And then we can start processing the straggler, and proceed as normal
 
-- What do we do if our process "receives" an anti-message? Well, there are 3 
-cases:
+- What do we do if our process "receives" an anti-message? Well, there are 3 cases:
     - First off, the easy case: the original message hasn't been processed yet!
-        - That's easy! We just find the original message and remove both it and 
-        the anti-message from the queue
-    - The more common case is that the event has already been processed; what 
-    do we do then?
-        - Well, we'll do a roll-back to before we processed the 
-        anti-message's..."message" (by resetting our state to the checkpoint 
-        and sending out any anti-messages of our own), then finally annihilate 
-        the messages like in the first case
-            - Notice that this rollback might send out other anti-messages, 
-            causing a cascade effect that recursively eliminates all the 
-            mistakes we might've caused in the other LPs - which is great!
-    - That seems to cover everything, right? Not quite: there's a 3rd case 
-    where we can get an anti-message and NOT have the corresponding positive 
-    message
-        - This happens because we don't assume the messages come in order - 
-        it's possible for the anti-message to "outrun" the positive message
-            - Fortunately, this isn't too bad to deal with; the LP will just 
-            hold onto the anti-message until the actual message comes, then 
-            annihilate it before it can do any harm
+        - That's easy! We just find the original message and remove both it and the anti-message from the queue
+    - The more common case is that the event has already been processed; what do we do then?
+        - Well, we'll do a roll-back to before we processed the anti-message's..."message" (by resetting our state to the checkpoint and sending out any anti-messages of our own), then finally annihilate the messages like in the first case
+            - Notice that this rollback might send out other anti-messages, causing a cascade effect that recursively eliminates all the mistakes we might've caused in the other LPs - which is great!
+    - That seems to cover everything, right? Not quite: there's a 3rd case where we can get an anti-message and NOT have the corresponding positive message
+        - This happens because we don't assume the messages come in order - it's possible for the anti-message to "outrun" the positive message
+            - Fortunately, this isn't too bad to deal with; the LP will just hold onto the anti-message until the actual message comes, then annihilate it before it can do any harm
 
 - A few things you should notice about Time Warp, now:
-    - In Time Warp, the program execution can be temporarily wrong and do 
-    literally ANYTHING until it's rolled back
-    - Since Time Warp could be rolled back at any point, how do we know how 
-    much "progress" we've made? How do we know our computation right now is 
-    valid? How do we know that we won't just keep resetting forever?
-        - Similarly, can there be a "domino effect" where we get into livelock 
-        and rollback to the beginning of the simulation, then get back to the 
-        same point, then rollback again, etc.?
-- We can try to answer the last two questions using a DEPENDENCE GRAPH, where 
-we keep track of what events are dependant on other events (not part of the 
-algorithm, just used for analysis)
-    - In particular, we say an event could be dependent on another event in 
-    three ways:
-        - STATE DEPENDENCE is when two events are in the same LP; in that case, 
-        any later event is dependent on the earlier event
+    - In Time Warp, the program execution can be temporarily wrong and do literally ANYTHING until it's rolled back
+    - Since Time Warp could be rolled back at any point, how do we know how much "progress" we've made? How do we know our computation right now is valid? How do we know that we won't just keep resetting forever?
+        - Similarly, can there be a "domino effect" where we get into livelock and rollback to the beginning of the simulation, then get back to the same point, then rollback again, etc.?
+- We can try to answer the last two questions using a DEPENDENCE GRAPH, where we keep track of what events are dependant on other events (not part of the algorithm, just used for analysis)
+    - In particular, we say an event could be dependent on another event in three ways:
+        - STATE DEPENDENCE is when two events are in the same LP; in that case, any later event is dependent on the earlier event
         - SCHEDULING DEPENDENCE is where an event was sent by another event
-        - TRANISITVE DEPENDENCE just means that if B depends on A (A-&gt;B), and C 
-        depends on B (B-&gt;C), then C is transitively dependant on A (A-&gt;C)
+        - TRANISITVE DEPENDENCE just means that if B depends on A (A-&gt;B), and C depends on B (B-&gt;C), then C is transitively dependant on A (A-&gt;C)
     - Using this graph, we can prove a few properties about Time Warp
-        - The first is the ROLLBACK PROPERTY: if we rollback a given event, 
-        then ALL events that depend on that event will eventually be rolled 
-        back as well
-            - From this, we can see something important: rollback events ALWAYS 
-            propagate forward into the future from the given event (in 
-            simulation time), which means that we'll never accidentally cancel 
-            out an earlier, valid event by doing a rollback
-                - In other words, "secondary" rollbacks we recursively trigger 
-                will always be from later than the original rollback
-                - This means we'll never go back to the beginning of the 
-                simulation!
-        - The second is the FORWARD PROGRESS PROPERTY: we can guarantee that, 
-        for any given time, the smallest time-stamped event that hasn't been 
-        processed yet won't be rolled back
-            - This is enough to show we'll always be making at least 
-            *some*progress...
-            - ...however, this does NOT guarantee termination; it is possible 
-            to construct a Zeno's Paradox-like case where the algorithm gets 
-            infinitely close to finishing
-                - Practically, though, this requires infinitely-precise 
-                floating-point numbers, so it's not an issue in the real world
+        - The first is the ROLLBACK PROPERTY: if we rollback a given event, then ALL events that depend on that event will eventually be rolled back as well
+            - From this, we can see something important: rollback events ALWAYS propagate forward into the future from the given event (in simulation time), which means that we'll never accidentally cancel out an earlier, valid event by doing a rollback
+                - In other words, "secondary" rollbacks we recursively trigger will always be from later than the original rollback
+                - This means we'll never go back to the beginning of the simulation!
+        - The second is the FORWARD PROGRESS PROPERTY: we can guarantee that, for any given time, the smallest time-stamped event that hasn't been processed yet won't be rolled back
+            - This is enough to show we'll always be making at least *some*progress...
+            - ...however, this does NOT guarantee termination; it is possible to construct a Zeno's Paradox-like case where the algorithm gets infinitely close to finishing
+                - Practically, though, this requires infinitely-precise floating-point numbers, so it's not an issue in the real world
 
-- So, we've talked about the correctness of this algorithm so far - but what 
-about performance?
-    - As it turns out, we can guarantee Time Warp gives the same results as 
-    sequential programs, but we can NOT guarantee it will finish faster, or 
-    even at the same time
-        - The main reason is because of ROLLBACK THRASHING, where we can spend 
-        most of our time just rolling back changes and undoing our work if 
-        we're not careful (or the network hates us)
-    - Fortunately, Time Warp has been around for awhile, and there's a TON of 
-    techniques that've been proposed to solve this
-        - The main one you might want to know is "windowing," where we only 
-        execute events that are in a certain "window" of simulation time ahead 
-        of the current time
+- So, we've talked about the correctness of this algorithm so far - but what about performance?
+    - As it turns out, we can guarantee Time Warp gives the same results as sequential programs, but we can NOT guarantee it will finish faster, or even at the same time
+        - The main reason is because of ROLLBACK THRASHING, where we can spend most of our time just rolling back changes and undoing our work if we're not careful (or the network hates us)
+    - Fortunately, Time Warp has been around for awhile, and there's a TON of techniques that've been proposed to solve this
+        - The main one you might want to know is "windowing," where we only execute events that are in a certain "window" of simulation time ahead of the current time
 
-- Now, this seems like an amazing algorithm, but we're not quite done talking 
-about it; we also need another component called GLOBAL CONTROL
-    - The problem with Time Warp as we've described it so far is that it's 
-    using a LOT of memory: every event is generating a ton of saved events, 
-    anti-messages we need to track, etc.
-        - To deal with this, we need to periodically do FOSSIL COLLECTION: 
-        freeing the old pieces of memory we won't need
-    - We also need to have some way of dealing with events that CAN'T be 
-    reversed, like I/O, or shooting a missile, or something
-- If we could somehow have a lower bound on how far we could roll back into the 
-past, we could solve both of these issues:
-    - We would know which memory is DEFINITELY safe from rollbacks, and thus 
-    isn't needed anymore
-    - I/O operations with a timestamp less than the lower bound could be 
-    performed, since we would know the I/O event would never need to be rolled 
-    back
+- Now, this seems like an amazing algorithm, but we're not quite done talking about it; we also need another component called GLOBAL CONTROL
+    - The problem with Time Warp as we've described it so far is that it's using a LOT of memory: every event is generating a ton of saved events, anti-messages we need to track, etc.
+        - To deal with this, we need to periodically do FOSSIL COLLECTION: freeing the old pieces of memory we won't need
+    - We also need to have some way of dealing with events that CAN'T be reversed, like I/O, or shooting a missile, or something
+- If we could somehow have a lower bound on how far we could roll back into the past, we could solve both of these issues:
+    - We would know which memory is DEFINITELY safe from rollbacks, and thus isn't needed anymore
+    - I/O operations with a timestamp less than the lower bound could be performed, since we would know the I/O event would never need to be rolled back
 - This "lower bound" is known as the GLOBAL VIRTUAL TIME (GVT)
-    - One thing to observe here is that the GVT computation itself won't be 
-    rolled back (I'm assuming this is a "watch the watchman" situation)
+    - One thing to observe here is that the GVT computation itself won't be rolled back (I'm assuming this is a "watch the watchman" situation)
 
-- Wait a second! From our Forward Progress property, that means the GVT is the 
-minimum timestamp of any message/anti-message that has NOT been processed yet 
-at a given (wallclock) time "t"!
-    - How can we actually calculate this? We need to worry about two main 
-    things to do it:
+- Wait a second! From our Forward Progress property, that means the GVT is the minimum timestamp of any message/anti-message that has NOT been processed yet at a given (wallclock) time "t"!
+    - How can we actually calculate this? We need to worry about two main things to do it:
         - Unprocessed positive/anti-messages
-            - That's pretty trivial; we just need to check each LP's input 
-            queue!
-            - Again, notice we're only worried about messages/anti-messages 
-            that HAVEN'T been processed yet
-        - "Transient messages" that are still being sent to other LPs, and 
-        haven't been received yet
-- As a soft "proof" that this definition of the GVT is valid, notice that all 
-rollbacks are caused by receiving a message/anti-message in an LP's past
-    - They can be caused by new OR existing messages, but in all cases, the 
-    timestamp of the rollback will be &gt;= the timestamp of the rollback-causing 
-    message
+            - That's pretty trivial; we just need to check each LP's input queue!
+            - Again, notice we're only worried about messages/anti-messages that HAVEN'T been processed yet
+        - "Transient messages" that are still being sent to other LPs, and haven't been received yet
+- As a soft "proof" that this definition of the GVT is valid, notice that all rollbacks are caused by receiving a message/anti-message in an LP's past
+    - They can be caused by new OR existing messages, but in all cases, the timestamp of the rollback will be &gt;= the timestamp of the rollback-causing message
 
-- Computing the GVT would be dead easy if we had a global snapshot of the whole 
-system; we'd just find the smallest unprocessed event and get its timestamp!
+- Computing the GVT would be dead easy if we had a global snapshot of the whole system; we'd just find the smallest unprocessed event and get its timestamp!
     - Real life isn't so simple, though
     - As it turns out, there are two approaches:
-        - SYNCHRONOUS GVT approaches are where we stop the LPs, compute the 
-        GVT, then resume processing
-        - ASYNCHRONOUS GVT techniques are where the system doesn't need to stop 
-        processing events, which means better performance
-    - Asynchronous ones would be great, right? But it's problematic to find one 
-    that works
+        - SYNCHRONOUS GVT approaches are where we stop the LPs, compute the GVT, then resume processing
+        - ASYNCHRONOUS GVT techniques are where the system doesn't need to stop processing events, which means better performance
+    - Asynchronous ones would be great, right? But it's problematic to find one that works
         - Here, for instance, is a simple GVT algorithm that is WRONG:
 
             1) Have a controller process that broadcasts "compute GVT request"
-            2) Each LP that receives the message computes its local minimum 
-            unprocessed timestamp, and sends it to the controller
+            2) Each LP that receives the message computes its local minimum unprocessed timestamp, and sends it to the controller
             3) The controller computes the GVT and sends it to all the LPs
 
-        - The reason this doesn't work is because of transmission delays - 
-        these delays could be arbitrarily long, and we can't predict them! 
-        Which results in:
-            - The TRANSIENT MESSAGE PROBLEM, where we haven't received a 
-            message "in-flight" yet
-                - This means that the "real" minimum GVT won't be in any LP's 
-                queue, and the transient will cause a rollback EARLIER than the 
-                GVT - not good!
-            - The SIMULTANEOUS REPORTING PROBLEM, where it's possible the LPs 
-            all receive the actual GVT request at slightly different wall-clock 
-            times - meaning that they might all calculate different local GVTs
+        - The reason this doesn't work is because of transmission delays - these delays could be arbitrarily long, and we can't predict them! Which results in:
+            - The TRANSIENT MESSAGE PROBLEM, where we haven't received a message "in-flight" yet
+                - This means that the "real" minimum GVT won't be in any LP's queue, and the transient will cause a rollback EARLIER than the GVT - not good!
+            - The SIMULTANEOUS REPORTING PROBLEM, where it's possible the LPs all receive the actual GVT request at slightly different wall-clock times - meaning that they might all calculate different local GVTs
 
 - How could we solve these two issues?
-    - For the transient message problem, why don't we require that upon 
-    receiving a message, the LP sends an "acknowledgement" back?
-        - Then, when we compute the GVT, we report the minimum of the 
-        unprocessed timestamps AND the timestamp of any as-yet unacknowledged 
-        message!
+    - For the transient message problem, why don't we require that upon receiving a message, the LP sends an "acknowledgement" back?
+        - Then, when we compute the GVT, we report the minimum of the unprocessed timestamps AND the timestamp of any as-yet unacknowledged message!
 
-- That'll work! But how might we deal with the more subtle simultaneous report 
-issue? You'll have to wait until next week to figure out - so COME TO CLASS!
-
-</pre>
+- That'll work! But how might we deal with the more subtle simultaneous report issue? You'll have to wait until next week to figure out - so COME TO CLASS!</pre>
 </article>
 <a class="side-link is-note-link" href="21_timeWarpGlobalControl_4_9_19.html"></a>
 </main>

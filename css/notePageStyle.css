@@ -127,6 +127,10 @@ article {
     border-left: 1px solid #abb2bf26;
     border-right: 1px solid #abb2bf26;
 }
+#text-width-ruler {
+    visibility: hidden;
+    white-space: nowrap;
+}
 
 pre {
     white-space: pre-wrap;

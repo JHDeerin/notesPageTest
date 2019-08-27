@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,109 +23,59 @@
 <a class="side-link is-note-link" href="19_raytracingOptimzation_2_22_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //*************** Rasterization Effects - February 27th, 2019 ***************//
 //**************************************************************************//
 
-- Okay, project 3A has been posted on Canvas; this is a MUCH more difficult 
-project than the previous two, so PLEASE start early; I don't want anyone to 
-start working on this the night it's due and get overwhelmed
+- Okay, project 3A has been posted on Canvas; this is a MUCH more difficult project than the previous two, so PLEASE start early; I don't want anyone to start working on this the night it's due and get overwhelmed
     - Note from the future: it wasn't.
 ---------------------------------------------------------------
 
-- With the midterm past, we're actually all done with raytracing! We spent 
-quite a few lectures on it - so now, let's turn back to rasterization
+- With the midterm past, we're actually all done with raytracing! We spent quite a few lectures on it - so now, let's turn back to rasterization
 
-- Raytracing can handle cool effects like shadows, reflections, etc. pretty 
-easily, but without raytracing, how can we do those things? How, for instance, 
-do most games create shadows?
-    - Well, there are two main techniques for creating raster-style shadows 
-    today: "shadow volumes," and shadow mapping
-        - Shadow volumes are the more confusing technique for most people, but 
-        both methods are about as equally effective
-    - As we noted with raytracing, shadows are all about visibility; if the 
-    light can't "see" a surface, then that surface is in shadow
-        - ...so, what do we have in our bag of rasterization tricks to deal 
-        with visibility, if something is 'hidden'? The Z-Buffer!
-    - Not ALL shadows deal with visibility issues; there are ATTACHED shadows, 
-    where the backside part of an object doesn't face the light (e.g. the dark 
-    side of the moon)
+- Raytracing can handle cool effects like shadows, reflections, etc. pretty easily, but without raytracing, how can we do those things? How, for instance, do most games create shadows?
+    - Well, there are two main techniques for creating raster-style shadows today: "shadow volumes," and shadow mapping
+        - Shadow volumes are the more confusing technique for most people, but both methods are about as equally effective
+    - As we noted with raytracing, shadows are all about visibility; if the light can't "see" a surface, then that surface is in shadow
+        - ...so, what do we have in our bag of rasterization tricks to deal with visibility, if something is 'hidden'? The Z-Buffer!
+    - Not ALL shadows deal with visibility issues; there are ATTACHED shadows, where the backside part of an object doesn't face the light (e.g. the dark side of the moon)
         - Luckily, these are already handled by our shading equation
-    - CAST shadows, though, are when a different object blocks light from 
-    reaching a surface behind it, and definitely do require visibility checks
-        - If an object is concave, it can create a cast shadow on itself; if 
-        it's convex, though, we only need to worry about attached shadows when 
-        considering a single object
+    - CAST shadows, though, are when a different object blocks light from reaching a surface behind it, and definitely do require visibility checks
+        - If an object is concave, it can create a cast shadow on itself; if it's convex, though, we only need to worry about attached shadows when considering a single object
 
-- How do we actually create these shadows? Let's look at the algorithm for 
-SHADOW MAPPING (specifically, the Lance Williams-created 'Two-Pass Z-Buffer' 
-method)
-    - The basic idea here is to first render the scene from the point of view 
-    of the LIGHT SOURCE
+- How do we actually create these shadows? Let's look at the algorithm for SHADOW MAPPING (specifically, the Lance Williams-created 'Two-Pass Z-Buffer' method)
+    - The basic idea here is to first render the scene from the point of view of the LIGHT SOURCE
         - Then, render the scene normally from the eye/camera...
-        - ...and determine what pixels should be in shadow for our camera, 
-        based on which pixels were hidden from our light source
-    - So, we're doing a "light space" render and an "eye space" render, but how 
-    do we map the hidden pixels in our light space to the shadows in our final 
-    render?
-        - Think about how this mapping is working: there's a 3D world space 
-        where the point we actually care about lives. For the first render, 
-        that pixel is getting mapped onto "light space" with the mapping 'L', 
-        while in our 2nd render it's getting rendered to our "camera space" 
-        with a mapping 'V'
+        - ...and determine what pixels should be in shadow for our camera, based on which pixels were hidden from our light source
+    - So, we're doing a "light space" render and an "eye space" render, but how do we map the hidden pixels in our light space to the shadows in our final render?
+        - Think about how this mapping is working: there's a 3D world space where the point we actually care about lives. For the first render, that pixel is getting mapped onto "light space" with the mapping 'L', while in our 2nd render it's getting rendered to our "camera space" with a mapping 'V'
         - So, what we'll do is the following:
-            - Get the pixel we're rendering in our camera view, and use its 
-            ACTUAL position in the world space
-            - Then, test that point's Z-position against the light's Z-buffer 
-            value; if it's less than the Z-buffer, it isn't visible to the 
-            light, so it should be in shadow!
-                - (Me, confused: wouldn't this change with direction, though? 
-                It might not always be the Z-position, right? (although it 
-                should be a pretty simple distance check))
-                - So, in short, with a given pixel 'P,' we map it to the world 
-                space, then to the light space, with the following:
+            - Get the pixel we're rendering in our camera view, and use its ACTUAL position in the world space
+            - Then, test that point's Z-position against the light's Z-buffer value; if it's less than the Z-buffer, it isn't visible to the light, so it should be in shadow!
+                - (Me, confused: wouldn't this change with direction, though? It might not always be the Z-position, right? (although it should be a pretty simple distance check))
+                - So, in short, with a given pixel 'P,' we map it to the world space, then to the light space, with the following:
 
                         P' = L*V^-1*P 
 
-                    - (not sure I understand the details of how you get these 
-                    mappings/reverse them?)
-        - How do we figure out which way to "point" the light's camera? In the 
-        worst-case scenario, we might have to create 6 images (a CUBEMAP) to 
-        have information for every direction; if we know some directions aren't 
-        needed, though, we can fiddle with this
+                    - (not sure I understand the details of how you get these mappings/reverse them?)
+        - How do we figure out which way to "point" the light's camera? In the worst-case scenario, we might have to create 6 images (a CUBEMAP) to have information for every direction; if we know some directions aren't needed, though, we can fiddle with this
         
-- Now, there's a problem here: if we have to render the scene again for EACH 
-light source, that means every light source we add slows us down!
-    - Basically, shadows require visibility checks, and visibility checks are 
-    slow; there's no free lunch for us shadow-drawers
+- Now, there's a problem here: if we have to render the scene again for EACH light source, that means every light source we add slows us down!
+    - Basically, shadows require visibility checks, and visibility checks are slow; there's no free lunch for us shadow-drawers
 
-- With that, let's shift gears to another question: how do we put textures on 
-objects?
-    - This might not seem related, but we have to do a similar thing as with 
-    shadows: we have to map the texture image's coordinates onto a given 
-    "texture space" (with the color defined at different "TEXELS"), and then 
-    render that onto the screen
-        - So, we look at the texture, see it's a white or blue texel or what 
-        have you, and then render it
+- With that, let's shift gears to another question: how do we put textures on objects?
+    - This might not seem related, but we have to do a similar thing as with shadows: we have to map the texture image's coordinates onto a given "texture space" (with the color defined at different "TEXELS"), and then render that onto the screen
+        - So, we look at the texture, see it's a white or blue texel or what have you, and then render it
     - At a high level, the process looks a little like this:
-        1) Map and interpolate the texture's S,T values (basically, the image's 
-        coordinates) across the polygon during rasterization
-            - These S,T coordinates are in the range from [0, 1], and are 
-            sometimes called "UV" coordinates instead
+        1) Map and interpolate the texture's S,T values (basically, the image's coordinates) across the polygon during rasterization
+            - These S,T coordinates are in the range from [0, 1], and are sometimes called "UV" coordinates instead
         2) Find the color from the texture at that point ("texture lookup")
-        3) Color the pixel based on the texture color of the object at that 
-        point (plus all our usual lighting+shading doohickiness)
+        3) Color the pixel based on the texture color of the object at that point (plus all our usual lighting+shading doohickiness)
 
 - Let's try to go through the first sub-stage
-    - Suppose we have a simple triangle polygon, with texture coordinates 
-    (s1,t1), (s2,t2), (s3,t3); VERY similarly to Goraud interpolation, we then 
-    (for a given point during rasterization) interpolate these S-T texture 
-    coordinates across the polygon, in preparation for looking up the actual 
-    color in the next step
-- HOWEVER, there's a hidden gotcha here that has to do with perspective 
-projection...but we can talk about THAT more on Friday.
-
-</pre>
+    - Suppose we have a simple triangle polygon, with texture coordinates (s1,t1), (s2,t2), (s3,t3); VERY similarly to Goraud interpolation, we then (for a given point during rasterization) interpolate these S-T texture coordinates across the polygon, in preparation for looking up the actual color in the next step
+- HOWEVER, there's a hidden gotcha here that has to do with perspective projection...but we can talk about THAT more on Friday.</pre>
 </article>
 <a class="side-link is-note-link" href="21_textureMapping_3_1_19.html"></a>
 </main>

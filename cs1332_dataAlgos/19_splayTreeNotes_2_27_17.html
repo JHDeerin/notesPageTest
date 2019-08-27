@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="18_moreAvlTreeNotes_2_24_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//********************************************************************//
 //****************Splay Trees - February 27th, 2017******************//
 //******************************************************************//
@@ -29,9 +31,7 @@
 -Splay Trees are NOT (something I missed)
 
 -REALITY CHECK! (AVL Trees)-
-1) "Insert the following values into an AVL tree; draw the tree after adding 
-each member, and draw each rotation that happens (show the 2 single rotations 
-if there is a double rotation): {7, 10, 15, 3, 5, 8}"
+1) "Insert the following values into an AVL tree; draw the tree after adding each member, and draw each rotation that happens (show the 2 single rotations if there is a double rotation): {7, 10, 15, 3, 5, 8}"
 (final tree:)
              7
             / \
@@ -39,8 +39,7 @@ if there is a double rotation): {7, 10, 15, 3, 5, 8}"
           /   / \
          3   8   15
 
-2) "Given the following AVL tree, remove 912, then remove 319. Draw the tree 
-after removing each member, and draw each rotation.
+2) "Given the following AVL tree, remove 912, then remove 319. Draw the tree after removing each member, and draw each rotation.
 
                 218
                 / \
@@ -57,32 +56,20 @@ after removing each member, and draw each rotation.
     -In BSTs, we just put thing in
     -In AVLs, we put things in, and we cared about the SHAPE of the trees
     -In Splay Trees, we're concerned with what's most IMPORTANT in the tree!
-        -Basically, if things are more important, then they're rotated closer 
-        to the root! (i.e. the most important element should be at the root)
-        -Often, we'll say something we JUST looked at is "more important," so 
-        we'll move things we recently accessed up towards the root
+        -Basically, if things are more important, then they're rotated closer to the root! (i.e. the most important element should be at the root)
+        -Often, we'll say something we JUST looked at is "more important," so we'll move things we recently accessed up towards the root
 
--So, if we're looking for something we just looked at, then it should be ~ 
-O(1), something we looked at a bit ago should take ~O(log n)
+-So, if we're looking for something we just looked at, then it should be ~ O(1), something we looked at a bit ago should take ~O(log n)
 
 -SPLAY TREES are a type of BST!
--They do rotations after EVERY operation (including searching, adding, 
-removing, etc.) (the operations themselves are done just like a normal BST)
-    -We call this rotation "splay"-ing: we move a node to the root using 
-    rotations
-    -We might have to do "zig-zigs" or "zig-zag" rotations (if we need to move 
-    the node straight up, or around a corner, respectively(???))
-        -HOWEVER, UNLIKE AVL trees, splay trees are NOT guaranteed to be 
-        balanced (their rotations are just to move things upwards, NOT to 
-        optimize the tree as a whole)
+-They do rotations after EVERY operation (including searching, adding, removing, etc.) (the operations themselves are done just like a normal BST)
+    -We call this rotation "splay"-ing: we move a node to the root using rotations
+    -We might have to do "zig-zigs" or "zig-zag" rotations (if we need to move the node straight up, or around a corner, respectively(???))
+        -HOWEVER, UNLIKE AVL trees, splay trees are NOT guaranteed to be balanced (their rotations are just to move things upwards, NOT to optimize the tree as a whole)
 
--"Zig-zag" rotations are, basically, the same things as "double rotations" in 
-AVL trees, where we have to do a left-right / right-left rotation to move the 
-child upward
+-"Zig-zag" rotations are, basically, the same things as "double rotations" in AVL trees, where we have to do a left-right / right-left rotation to move the child upward
 
--"Zig-Zig" rotations are done when we're trying to rotate the node upwards in a 
-single direction (so ALL of the rotations are right rotations / all left 
-rotations)
+-"Zig-Zig" rotations are done when we're trying to rotate the node upwards in a single direction (so ALL of the rotations are right rotations / all left rotations)
 
             Z                  Y             *
            /                  / \             \
@@ -90,13 +77,9 @@ rotations)
          /                                      \
         *                                        Z
 
--For these rotations, pretty much just look at the parent/grandparent, decide 
-if you're doing a zig-zig / zig-zag, do the appropriate rotations, then repeat
+-For these rotations, pretty much just look at the parent/grandparent, decide if you're doing a zig-zig / zig-zag, do the appropriate rotations, then repeat
 
--If you're confused (which you should be!), look at Gnarly trees! It has 
-examples of these operations!
-
-
+-If you're confused (which you should be!), look at Gnarly trees! It has examples of these operations!
 </pre>
 </article>
 <a class="side-link is-note-link" href="20_bTreeNotes_3_1_17.html"></a>

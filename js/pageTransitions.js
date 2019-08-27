@@ -3,23 +3,30 @@
  * (original link: https://www.smashingmagazine.com/2016/07/improving-user-flow-through-page-transitions/)
  */
 
-var cache = {};
 const main = document.querySelector('article');
+const maxLineLength = 80; // Max length in characters
+const linePixelWidths = getAllPossibleLineWidths(maxLineLength);
+
+let currentOriginalText = document.querySelector('.main-note-text').innerText;
+
+let cache = {};
 let newPageLoading = false;
 
-function loadPage(url) {
+// When our 1st page is loaded, wrap its text
+wrapElementText(document.querySelector('.main-note-text'));
+
+async function loadPage(url) {
     if (cache[url]) {
         return new Promise(function(resolve) {
-        resolve(cache[url]);
+            resolve(cache[url]);
         });
     }
 
-    return fetch(url, {
+    const response = await fetch(url, {
         method: 'GET'
-    }).then(function(response) {
-        cache[url] = response.text();
-        return cache[url];
     });
+    cache[url] = response.text();
+    return cache[url];
 }
 
 function changePage(isLinkToAnotherNote) {
@@ -33,8 +40,12 @@ function changePage(isLinkToAnotherNote) {
                 var wrapper = document.createElement('div');
                 wrapper.innerHTML = responseText;
             
-                var oldContent = document.querySelector('pre');
-                var newContent = wrapper.querySelector('pre');
+                var oldContent = document.querySelector('.main-note-text');
+                var newContent = wrapper.querySelector('.main-note-text');
+
+                // Wrap new lines
+                currentOriginalText = newContent.innerText;
+                wrapElementText(newContent);
 
                 resetSideLinks(wrapper);
                 changeSelectedNoteLink(wrapper);
@@ -47,6 +58,36 @@ function changePage(isLinkToAnotherNote) {
             window.location.href = url;
         }
     }
+}
+
+function wrapElementText(element) {
+    const currentMaxWidth = main.offsetWidth;
+
+    let lineLengthChars = 0;
+    // Find the first line width that can fit on-screen
+    for (let numChars = maxLineLength; numChars >= 0; numChars--) {
+        if (linePixelWidths[numChars] <= currentMaxWidth) {
+            lineLengthChars = numChars;
+            break;
+        }
+    }
+    element.innerText = softWrapTextLines(element.innerText, lineLengthChars);
+}
+
+function getAllPossibleLineWidths(maxLineWidthInChars) {
+    const possibleWidths = new Array(maxLineWidthInChars + 1);
+    const ruler = document.getElementById('text-width-ruler')
+
+    possibleWidths[0] = 0.0;
+    let currentString = '';
+    for (let numChars = 1; numChars <= maxLineWidthInChars; numChars++) {
+        currentString += '#';
+        // TODO: Find if there's a way to do this without re-adding entire
+        // string each time?
+        ruler.innerText = currentString;
+        possibleWidths[numChars] = ruler.offsetWidth;
+    }
+    return possibleWidths;
 }
 
 function resetSideLinks(newHtmlWrapper) {
@@ -93,6 +134,10 @@ function animate(oldContent, newContent) {
 }
 
 window.addEventListener('popstate', changePage);
+window.addEventListener('resize', function(){
+    document.querySelector('.main-note-text').innerText = currentOriginalText
+    wrapElementText(document.querySelector('.main-note-text'));
+});
 
 document.addEventListener('click', function(e) {
     var el = e.target;

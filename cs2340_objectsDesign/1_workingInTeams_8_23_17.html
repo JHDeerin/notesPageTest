@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,107 +23,60 @@
 <a class="side-link is-note-link" href="0_firstDay_8_21_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************* Working in Teams- August 23rd, 2017 *************************//
 //**************************************************************************//
 
-- Opening the day with a "Myers-Briggs" test on the screen...this does not bode 
-well for my latent crazy tendencies
-- "Reminder: if you really don't care who you work with, that's fine; you don't 
-have to send me an email or anything, I'll just assume you want to be randomly 
-paired if I don't hear from you."
+- Opening the day with a "Myers-Briggs" test on the screen...this does not bode well for my latent crazy tendencies
+- "Reminder: if you really don't care who you work with, that's fine; you don't have to send me an email or anything, I'll just assume you want to be randomly paired if I don't hear from you."
 ---------------------------------------------
 
-- So, what impacts a succesful software project? A LOT, but there are 4 BIG 
-things:
+- So, what impacts a succesful software project? A LOT, but there are 4 BIG things:
     - Project size (KLOC)
-        - As project size increases, the bigger risk we have for going 
-        over-budget, having to cut features, or actually just getting flat-out 
-        canceled
-        - "Our little 'school projects' are usually under 5000 lines - that's 
-        small enough that you really DON'T have to use any of the design 
-        techniques you learn in this class, you can just bumble along and do 
-        fine. So people come out of this class and think, 'wow, I've NEVER had 
-        to use what I learned in here...' but once you get out into the REAL 
-        WORLD, they become important. They start to actually be the difference 
-        between failed projects and successes."
-        - The "sweet spot" for projects that still have a high success rate but 
-        start NEEDING software engineering / design techniques are so-called 
-        "5x5" projects - where 5 full-time coders work on a project for 5 months
-    - Human factors ("10x" teams that work faster than others, coding speed, 
-    debug speed, defect rate)
+        - As project size increases, the bigger risk we have for going over-budget, having to cut features, or actually just getting flat-out canceled
+        - "Our little 'school projects' are usually under 5000 lines - that's small enough that you really DON'T have to use any of the design techniques you learn in this class, you can just bumble along and do fine. So people come out of this class and think, 'wow, I've NEVER had to use what I learned in here...' but once you get out into the REAL WORLD, they become important. They start to actually be the difference between failed projects and successes."
+        - The "sweet spot" for projects that still have a high success rate but start NEEDING software engineering / design techniques are so-called "5x5" projects - where 5 full-time coders work on a project for 5 months
+    - Human factors ("10x" teams that work faster than others, coding speed, debug speed, defect rate)
     - Defects / bugs
-        - EVERYONE will make some bugs while they're writing their software, 
-        even if they're highly experienced
-        - To have a succesful project, you need a way of keeping those bugs 
-        from getting overwhelming and, more importantly, from getting into your 
-        final software - be it TDD, bug tracking, etc.
+        - EVERYONE will make some bugs while they're writing their software, even if they're highly experienced
+        - To have a succesful project, you need a way of keeping those bugs from getting overwhelming and, more importantly, from getting into your final software - be it TDD, bug tracking, etc.
     - Uncertainty (risk management, unknowns, lack of convergence, etc.)
-        - This class doesn't focus on these as much; CS 3200 - Intro to 
-        Software Engineering (?) picks up on this
+        - This class doesn't focus on these as much; CS 3200 - Intro to Software Engineering (?) picks up on this
 
-- In this class, we have all of the milestones for your project planned out - 
-you already know all the steps you need to complete and have working
-    - When you start doing your junior design project or start working in the 
-    "real world," you need to do this on your own - you need to figure out the 
-    most important steps for your project, but EVEN MORE IMPORTANTLY, you HAVE 
-    to deliver a minimum viable project that the customer can ACTUALLY USE - 
-    not just these individual, important features that you didn't get around to 
-    hooking up
+- In this class, we have all of the milestones for your project planned out - you already know all the steps you need to complete and have working
+    - When you start doing your junior design project or start working in the "real world," you need to do this on your own - you need to figure out the most important steps for your project, but EVEN MORE IMPORTANTLY, you HAVE to deliver a minimum viable project that the customer can ACTUALLY USE - not just these individual, important features that you didn't get around to hooking up
 
-- TEAMWORK - no matter WHAT field you go into, you're going to be working with 
-other people, so learning to start working with others is something we should 
-start doing now
-    - EVERY YEAR, we get teams that complain that they aren't getting along 
-    (usually NOT the random assigned teams, oddly enough)
+- TEAMWORK - no matter WHAT field you go into, you're going to be working with other people, so learning to start working with others is something we should start doing now
+    - EVERY YEAR, we get teams that complain that they aren't getting along (usually NOT the random assigned teams, oddly enough)
     - So, what is a team anyway? Well, a TEAM is a group of people with:
         - A shared vision / goal
-            - "Oh, we want to get an A" is, I guess, a goal (just not a very 
-            good one)
+            - "Oh, we want to get an A" is, I guess, a goal (just not a very good one)
         - A shared commitment to accomplish it
         - A shared identity as PART of the team
             - "My favorite name in this class: 'Rage against the state machine'"
         - Shared responsibilities
         - Standards of conduct for the team
-            - "THIS IS IMPORTANT, so everyone knows what to expect from one 
-            another, who will lead, etc., and so that there are consequences 
-            for not pulling your weight"
-    - Almost all high-perfromance teams reach a state of "gelling" - where the 
-    team just works REALLY WELL together
-        - No one knows the secrets of how to BECOME one of these teams...but 
-        here's how to definitely NOT become one:
+            - "THIS IS IMPORTANT, so everyone knows what to expect from one another, who will lead, etc., and so that there are consequences for not pulling your weight"
+    - Almost all high-perfromance teams reach a state of "gelling" - where the team just works REALLY WELL together
+        - No one knows the secrets of how to BECOME one of these teams...but here's how to definitely NOT become one:
             - Intrusive management ("oh, you can't wear yellow T-shirts!")
             - Physical separation (not being able to meet and talk)
-            - Fragmentation of time (having to work on multiple other teams 
-            DEFINITELY affects your performance)
+            - Fragmentation of time (having to work on multiple other teams DEFINITELY affects your performance)
             - Low Project Quality
-                - "If you ONLY care about doing the bare minimum, the team 
-                won't be excited about working on your project...it'll just be 
-                something they have to do"
+                - "If you ONLY care about doing the bare minimum, the team won't be excited about working on your project...it'll just be something they have to do"
             - "Phony deadlines"
-                - If you tell the team it HAS to be done by Friday, but then 
-                say "that's okay, it was just to motivate your guys; it's 
-                really due on Tuesday," you're going to run into trust problems 
-                real fast (not to mention getting an angry coder on your hands)
+                - If you tell the team it HAS to be done by Friday, but then say "that's okay, it was just to motivate your guys; it's really due on Tuesday," you're going to run into trust problems real fast (not to mention getting an angry coder on your hands)
             - Failure
-                - "Set a bunch of little milestones and goals so that you can 
-                celebrate the little successes...if you work for three weeks 
-                without being able to say 'we did it!', it's going to be 
-                disheartening to the team, and it honestly will kill motivation"
+                - "Set a bunch of little milestones and goals so that you can celebrate the little successes...if you work for three weeks without being able to say 'we did it!', it's going to be disheartening to the team, and it honestly will kill motivation"
         - THE DILBERT RULE OF TEAMS:
-            - "For every good team-building idea, there is an equal and 
-            opposite Dilbert implementation"
-            - You can easily turn these rules into rigid, demotivating 
-            requirements...
+            - "For every good team-building idea, there is an equal and opposite Dilbert implementation"
+            - You can easily turn these rules into rigid, demotivating requirements...
     - Roles
         - Team leader
-            - "Oh, but it's just a school project, we'll just all work as 
-            equals, no leader required, it'll be hunky-dory..."
-            - "Sorry to say it, but holding hands and singing Kumbaya 
-            historically doesn't work too well here. Trust me, assign a team 
-            leader to hold yourselves accountable and on-task. You'll need it."
-        - Now, EVERYONE in this class should be helping out with coding. 
-        Everyone should legitimately be doing an equal amount of work
+            - "Oh, but it's just a school project, we'll just all work as equals, no leader required, it'll be hunky-dory..."
+            - "Sorry to say it, but holding hands and singing Kumbaya historically doesn't work too well here. Trust me, assign a team leader to hold yourselves accountable and on-task. You'll need it."
+        - Now, EVERYONE in this class should be helping out with coding. Everyone should legitimately be doing an equal amount of work
         - Other roles:
             - Tool experts (really knows Git, Android Studio, etc.)
             - Architect (organizes code)
@@ -133,87 +87,43 @@ start doing now
 
 - Complaints about the project from previous class:
     - "The project is too big"
-        - Well, it IS designed to be too big for one person - but I guarantee, 
-        stay on time, work together, and you'll be fine
+        - Well, it IS designed to be too big for one person - but I guarantee, stay on time, work together, and you'll be fine
     - "Waited too late to start"
         - Well...
     - "The PowerPoints are just bullet points"
-        - Well, yeah; they're not designed to reproduce the class, but to 
-        supplement lectures
+        - Well, yeah; they're not designed to reproduce the class, but to supplement lectures
     - "My teammates didn't collaborate"
-        - Work this out in your team; if it REALLY is a problem you can't fix, 
-        go ahead and see the TAs
+        - Work this out in your team; if it REALLY is a problem you can't fix, go ahead and see the TAs
 
 - TWO big kinds of bad teammates:
-    - COUCH POTATOES are on the lazy side and just don't get stuff done, saying 
-    "gee, sorry guys, I forgot; I was busy playing LoL". These people usually 
-    CAN do good work, you just need to supervise them to make sure they do it
-    - HITCHHIKERS just keep coming up with excuses for WHY they ABSOLUTELY 
-    CAN'T help out with the project ("I'm sorry guys, but I have band practice 
-    and soccer and 27 credits and...")
-        - Do NOT enable these people; a LOT of teams just "absorb" the work 
-        they do, cover for them, and let these people get away with it. Don't 
-        do that. If they didn't do the reasonable amount of work they were 
-        assigned, they should be the ones who deserve the consequences.
-- There are DEFINITELY other types of "problem people," but we can ignore them 
-for now
+    - COUCH POTATOES are on the lazy side and just don't get stuff done, saying "gee, sorry guys, I forgot; I was busy playing LoL". These people usually CAN do good work, you just need to supervise them to make sure they do it
+    - HITCHHIKERS just keep coming up with excuses for WHY they ABSOLUTELY CAN'T help out with the project ("I'm sorry guys, but I have band practice and soccer and 27 credits and...")
+        - Do NOT enable these people; a LOT of teams just "absorb" the work they do, cover for them, and let these people get away with it. Don't do that. If they didn't do the reasonable amount of work they were assigned, they should be the ones who deserve the consequences.
+- There are DEFINITELY other types of "problem people," but we can ignore them for now
 
-- "When I was in the army, once you reached a certain rank, they sent you to 
-the leadership school - which we joked about as being sent off to 'charm 
-school'"
-    - "Now, I know a lot of people will say these tricks are more-or-less bunk, 
-    and that the psychology is flimsy, but trust me - my experience is that 
-    these things actually do hold up"
-    - INTROVERTS - introverts don't speak a whole lot, but they reason about 
-    things IN THEIR HEAD; when they speak, they've usually thought through 
-    their answer pretty thoroughly on their own, and they ONLY speak once they 
-    think they have something worth saying
-    - EXTROVERTS, on the other hand, like to think out-loud; they'll talk 
-    through "we could do this...or maybe this...," and ONLY AT THE END will 
-    they have their serious answer
-        - "So, INTROVERTS won't talk right away when you ask them a question. 
-        THAT'S NOT BECAUSE THEY DON'T CARE...it's because they're THINKING"
-        - "Extroverts, on the other hand, when they just start talking, DON'T 
-        TELL THEM TO SHUT UP. That's how THEY'RE thinking this through"
+- "When I was in the army, once you reached a certain rank, they sent you to the leadership school - which we joked about as being sent off to 'charm school'"
+    - "Now, I know a lot of people will say these tricks are more-or-less bunk, and that the psychology is flimsy, but trust me - my experience is that these things actually do hold up"
+    - INTROVERTS - introverts don't speak a whole lot, but they reason about things IN THEIR HEAD; when they speak, they've usually thought through their answer pretty thoroughly on their own, and they ONLY speak once they think they have something worth saying
+    - EXTROVERTS, on the other hand, like to think out-loud; they'll talk through "we could do this...or maybe this...," and ONLY AT THE END will they have their serious answer
+        - "So, INTROVERTS won't talk right away when you ask them a question. THAT'S NOT BECAUSE THEY DON'T CARE...it's because they're THINKING"
+        - "Extroverts, on the other hand, when they just start talking, DON'T TELL THEM TO SHUT UP. That's how THEY'RE thinking this through"
     - J's vs P's - "judgers vs percievers"
         - Judgers tend to be decisive and results-focused
-        - Percievers tend to be process-focued, gather information, and keep 
-        their options open
-            -"P's tend to think that J's are control-freaks who rush to the 
-            first conclusion, while J's feel like P's are indecisive, taking 
-            FORVER to decide on options"
-            - J's tend to be the more sterotypical "businessman"/"leader" 
-            sterotype, taking decisive action; both styles can be succesful, of 
-            course, but try to make sure you're not coming into too much 
-            conflict. Try and find a balance between moving quickly along and 
-            taking time to consider viable alternatives
-    - T's vs P's (), S's vs N's (systematic vs intuitive?) are other 
-    differences, but they're less important for this project
+        - Percievers tend to be process-focued, gather information, and keep their options open
+            -"P's tend to think that J's are control-freaks who rush to the first conclusion, while J's feel like P's are indecisive, taking FORVER to decide on options"
+            - J's tend to be the more sterotypical "businessman"/"leader" sterotype, taking decisive action; both styles can be succesful, of course, but try to make sure you're not coming into too much conflict. Try and find a balance between moving quickly along and taking time to consider viable alternatives
+    - T's vs P's (), S's vs N's (systematic vs intuitive?) are other differences, but they're less important for this project
 
-- A quick preview of the next lecture ("probably will be done on Monday, 
-because of team assignments on Friday")
-    - We USED to predominately use something called the "Waterfall Model" to 
-    design software; we first make a "design" of the WHOLE project based on 
-    what the customers want, then we CODE the whole project up, THEN we test 
-    it, then we finally ship the project
+- A quick preview of the next lecture ("probably will be done on Monday, because of team assignments on Friday")
+    - We USED to predominately use something called the "Waterfall Model" to design software; we first make a "design" of the WHOLE project based on what the customers want, then we CODE the whole project up, THEN we test it, then we finally ship the project
         - This seems reasonable, right? But it has some MAJOR downsides:
-            - Project requirements CHANGE ALL THE TIME ("Bob, remember how I 
-            said it only needed to work with JSON?..."), but with this method 
-            there's no chance to easily revise the design once we've started 
-            coding
-            - There's no feedback loop! We have to code the WHOLE THING before 
-            we can figure out if something is good or not, and THEN we have to 
-            revise it - this is inefficient!
+            - Project requirements CHANGE ALL THE TIME ("Bob, remember how I said it only needed to work with JSON?..."), but with this method there's no chance to easily revise the design once we've started coding
+            - There's no feedback loop! We have to code the WHOLE THING before we can figure out if something is good or not, and THEN we have to revise it - this is inefficient!
             - Other problems...we'll talk about it on Monday
-    - Because of this, the PREDOMINANT model today is called "Agile" 
-    design...which we'll talk about quite a bit next time
+    - Because of this, the PREDOMINANT model today is called "Agile" design...which we'll talk about quite a bit next time
 
-- To codify all this stuff, there's the "Team Contract" on T-Square - take a 
-look at it
-- On FRIDAY, the teams will already be assigned, and we'll be going through an 
-icebreaker activity ("I know, ugh...but trust me, this one's good")
-
-</pre>
+- To codify all this stuff, there's the "Team Contract" on T-Square - take a look at it
+- On FRIDAY, the teams will already be assigned, and we'll be going through an icebreaker activity ("I know, ugh...but trust me, this one's good")</pre>
 </article>
 <a class="side-link is-note-link" href="2_teamExercise_8_25_17.html"></a>
 </main>

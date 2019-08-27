@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,37 +23,26 @@
 <a class="side-link is-note-link" href="2_mathReview_1_15_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************* Stability and Bifurcations - January 17th, 2019 *************//
 //**************************************************************************//
 
-- ...welp, it appears only 3 people joined me at the front, so I'm directly in 
-the line of fire. This terrifies me.
+- ...welp, it appears only 3 people joined me at the front, so I'm directly in the line of fire. This terrifies me.
     - *squirms*
-- "While the projector is warming up, someone mentioned I made a math mistake 
-when modeling the logistic curve last lecture - I've posted some stuff 
-correcting that on Piazza"
+- "While the projector is warming up, someone mentioned I made a math mistake when modeling the logistic curve last lecture - I've posted some stuff correcting that on Piazza"
 ----------------------------------------
 
-- Okay, last time we talked about the logistic curve to wrap up the day, and 
-classifying its stable/unstable points
-    - "If you're looking for ways to practice this stuff, look either in the 
-    Sayama book, or the questions I and the TAs hope to post shortly"
+- Okay, last time we talked about the logistic curve to wrap up the day, and classifying its stable/unstable points
+    - "If you're looking for ways to practice this stuff, look either in the Sayama book, or the questions I and the TAs hope to post shortly"
 
-- As we mentioned, though, this logistic model seems to not work for organisms 
-more complicated than bacteria...so what's this model missing?
-    - Well, animal populations tend to look a little more oscillatory - they go 
-    up and down over time
-        - But the logistic curve's derivative can't produce oscillations - we 
-        need additional state variables so that x can go back and forth over 
-        time! (I think?)
+- As we mentioned, though, this logistic model seems to not work for organisms more complicated than bacteria...so what's this model missing?
+    - Well, animal populations tend to look a little more oscillatory - they go up and down over time
+        - But the logistic curve's derivative can't produce oscillations - we need additional state variables so that x can go back and forth over time! (I think?)
 
-- Our analysis yesterday was largely based on the phase portrait, but there's 
-another mode of analysis called LINEAR STABILITY ANALYSIS
-    - Basically, this is the quickie derivation for the "negative 
-    stable/positive unstable/zero idunno" thing from Differential Equations
-    - This is in the Sayama book (I believe in Chapter 7?), but we'll do a 
-    quick overview here
+- Our analysis yesterday was largely based on the phase portrait, but there's another mode of analysis called LINEAR STABILITY ANALYSIS
+    - Basically, this is the quickie derivation for the "negative stable/positive unstable/zero idunno" thing from Differential Equations
+    - This is in the Sayama book (I believe in Chapter 7?), but we'll do a quick overview here
     - Consider a system like this:
 
             x' = f(x)
@@ -63,15 +53,11 @@ another mode of analysis called LINEAR STABILITY ANALYSIS
 
             x'(t) = n'(t) = f(x* + n) (i.e., their derivatives are the same!)
 
-        - So, since we have the equation in terms of "f(x* + something)," let's 
-        choose n = some-really-small-away-from-x* something, and then we can do 
-        a Taylor expansion to try and understand it better:
+        - So, since we have the equation in terms of "f(x* + something)," let's choose n = some-really-small-away-from-x* something, and then we can do a Taylor expansion to try and understand it better:
 
              = f(x*) + n*f'(x*) + O(n^2) + O(n^3) + ...
 
-        - "Since we know n is a super small value we chose away from our base 
-        point, let's pretend that all the squared terms are small enough to 
-        ignore"
+        - "Since we know n is a super small value we chose away from our base point, let's pretend that all the squared terms are small enough to ignore"
 
             ~= f(x*) + nf'(x*)
 
@@ -83,18 +69,15 @@ another mode of analysis called LINEAR STABILITY ANALYSIS
 
                 n'(t) = n*f'(x*)
 
-        - "What function is equal to its derivative? The exponential!" SO, we 
-        know
+        - "What function is equal to its derivative? The exponential!" SO, we know
 
             n(t) = e^(f'(x*) * t)
 
-        - SO, based on this interpretation, we can see how the derivative 
-        changes based on the value of f'(x*):
+        - SO, based on this interpretation, we can see how the derivative changes based on the value of f'(x*):
             - If it's &lt; 0, the function is decaying
             - If it's &gt; 0, the function is growing
             - If it's 0, we're...uncertain
-- ...basically, we're taking a *little* step to the left or right of our point 
-and seeing if the stability of the function changes as a result
+- ...basically, we're taking a *little* step to the left or right of our point and seeing if the stability of the function changes as a result
 
 - As a more concrete example, let's say we have:
 
@@ -102,98 +85,58 @@ and seeing if the stability of the function changes as a result
 
     - So, we know sin(x) = 0 at x* = k*pi
         - Furthermore, f'(x) = cos(x)
-- (...might need to read the book for this, wasn't 100% sure where he was going 
-unless he just meant that the value of the derivative)
+- (...might need to read the book for this, wasn't 100% sure where he was going unless he just meant that the value of the derivative)
 
-- So, if we have a fixed point we've identified, and we've done this Taylor 
-analysis, then we can hopefully determine the stability of the point!
+- So, if we have a fixed point we've identified, and we've done this Taylor analysis, then we can hopefully determine the stability of the point!
 
-- If this were a math class, we'd have to talk about if solutions exist/if 
-those solutions are unique or not...but for the most part, we'll just assume 
-that solutions do actually exist in this class
+- If this were a math class, we'd have to talk about if solutions exist/if those solutions are unique or not...but for the most part, we'll just assume that solutions do actually exist in this class
     - i.e. just because we computed one solution, there could be others
-    - One useful theory thing to know: the "Sufficient Condition for 
-    Uniqueness" theorem:
-        - If we're given an IVP (i.e. x(0) = x0, x'=f(x)), and both f(x) and 
-        f'(x) are continuous in the interval (a,b), then there exists a time 
-        interval (-t, +t) about t=0 where x(t) has a unique solution
-            - So, we can figure out if a solution definitely exists, but the 
-            range for that solution might be very small
+    - One useful theory thing to know: the "Sufficient Condition for Uniqueness" theorem:
+        - If we're given an IVP (i.e. x(0) = x0, x'=f(x)), and both f(x) and f'(x) are continuous in the interval (a,b), then there exists a time interval (-t, +t) about t=0 where x(t) has a unique solution
+            - So, we can figure out if a solution definitely exists, but the range for that solution might be very small
      - e.g. x' = 1 + x^2, x0 = 0
-        - The solution is x(t) = tan(t), but it only exists in the range 
-        (-pi/2, pi/2) - past those asymptotes, the function blows up!
-- "Again, we won't deal with this stuff very much in our class, but it is a 
-concern for resarchers"
+        - The solution is x(t) = tan(t), but it only exists in the range (-pi/2, pi/2) - past those asymptotes, the function blows up!
+- "Again, we won't deal with this stuff very much in our class, but it is a concern for resarchers"
 
 - Alright, let's now talk about bifurcations
-    - Here's a question we have: as the parameters of a given model change, how 
-    does its stability change?
-        - For instance, if we have a block that's perfectly balanced on a beam, 
-        and we place larger and larger blocks on it, what'll happen? Well, 
-        eventually it'll start to bend, and possibly even break!
-    - So, it was stable while it was straight, but changing the mass eventually 
-    made it (mathematically and literally) unstable
+    - Here's a question we have: as the parameters of a given model change, how does its stability change?
+        - For instance, if we have a block that's perfectly balanced on a beam, and we place larger and larger blocks on it, what'll happen? Well, eventually it'll start to bend, and possibly even break!
+    - So, it was stable while it was straight, but changing the mass eventually made it (mathematically and literally) unstable
 
         x = shape of the beam
         r = mass of block
 
 - In particular, we're interested in SADDLE-NODE BIFURCATIONS
     - Consider the diff. eq. x' = r + x^2
-        - At r = 0, this equation is just a concave-up parabola with one 
-        critical point
-            - By our stability analysis stuff, this is "half stable;" the 
-            derivative is pointing towards the origin on the negative side and 
-            away from it on the positive
-        - If r &lt; 0, the parabola will move DOWN, an we'll now have 2 critical 
-        points (one stable and one unstable)
-        - If r &gt; 0, then the parabola will be above the axis, so there'll be NO 
-        critical points and therefore no stable ones!
-    - So, if we graph the critical points (x*) on the y-axis and the mass (r) 
-    on the x-axis, we'd end up with a sideways parabola open toward the 
-    negative side (w/ the negative points stable, and the positive ones 
-    unstable)
-        - This shows how the critical points change in response to changes in 
-        other parameters, and which of the points are stable/unstable
-        - This particular case, where there are 2 critical points, looks 
-        vaguely like a saddle, and is thus known as a saddle bifurcation
-    - "To be specific, a SADDLE NODE BIFURCATION is the point where 2 critical 
-    points merge into 1 for some value of r, as r changes"
-        - In general, "bowl-shaped" functions like parabolas tend to create 
-        these points
+        - At r = 0, this equation is just a concave-up parabola with one critical point
+            - By our stability analysis stuff, this is "half stable;" the derivative is pointing towards the origin on the negative side and away from it on the positive
+        - If r &lt; 0, the parabola will move DOWN, an we'll now have 2 critical points (one stable and one unstable)
+        - If r &gt; 0, then the parabola will be above the axis, so there'll be NO critical points and therefore no stable ones!
+    - So, if we graph the critical points (x*) on the y-axis and the mass (r) on the x-axis, we'd end up with a sideways parabola open toward the negative side (w/ the negative points stable, and the positive ones unstable)
+        - This shows how the critical points change in response to changes in other parameters, and which of the points are stable/unstable
+        - This particular case, where there are 2 critical points, looks vaguely like a saddle, and is thus known as a saddle bifurcation
+    - "To be specific, a SADDLE NODE BIFURCATION is the point where 2 critical points merge into 1 for some value of r, as r changes"
+        - In general, "bowl-shaped" functions like parabolas tend to create these points
 - As an example, try doing the x*/r plots for "x' = r - x^2"
     - If you do an LSA for this, what'll you find? Well, you'll find that
     
          x* = +- sqrt(r)
 
-    - Which'll mean that the critical points should only exist where r is 
-    positive - which makes sense!
+    - Which'll mean that the critical points should only exist where r is positive - which makes sense!
 - Another one to try: x' = r - x - e^(-x)
-    - "This looks complicated, since it's not easy to find the zeroes, but 
-    geometrically we could try drawing the equivalent r - x = e^(-x) and find 
-    roughly where they intersect"
-    - From there, we can conclude that there are 2 fixed/critical points when r 
-    &gt; 1, exactly 1 point when r = 1 (when the "r-x" line is tangent to e^-x, 
-    i.e. their derivatives are equal), and none when r &lt; 1
+    - "This looks complicated, since it's not easy to find the zeroes, but geometrically we could try drawing the equivalent r - x = e^(-x) and find roughly where they intersect"
+    - From there, we can conclude that there are 2 fixed/critical points when r &gt; 1, exactly 1 point when r = 1 (when the "r-x" line is tangent to e^-x, i.e. their derivatives are equal), and none when r &lt; 1
         - In this example, r=1 is the "critical r" where the bifuraction occurs
-- "If you do a Taylor expansion of e^-x, you should see some x^2-like 'bowlish' 
-functions begin appearing, and that's partly why it has a saddle bifurcation"
-    - There's a whole system of theory called "normal forms" that defines what 
-    bifurcations can appear for different types of curves, and x^2 is the 
-    demesne of the saddle
+- "If you do a Taylor expansion of e^-x, you should see some x^2-like 'bowlish' functions begin appearing, and that's partly why it has a saddle bifurcation"
+    - There's a whole system of theory called "normal forms" that defines what bifurcations can appear for different types of curves, and x^2 is the demesne of the saddle
 
 - *20 minutes left*..."Hmmm, should I do the complicated one or the easy one..."
-    - Also, scary notification noise! "New assignment: for the next week of 
-    your life, just count how many times something beeps"
+    - Also, scary notification noise! "New assignment: for the next week of your life, just count how many times something beeps"
 - (ended up doing more examples)
 
-- So, we'll probably spend at least 1 more class going over analyzing this 
-nonlinear ODE dynamics stuff before we start getting into discrete modeling
-    - "We're...um...some sports analogy away from getting the random teams out 
-    to you guys, so be on the lookout for those sometime this weekend."
-- In the meantime, have a good weekend, see you Tuesday, and hopefully I didn't 
-hurt your brain too much!
-
-</pre>
+- So, we'll probably spend at least 1 more class going over analyzing this nonlinear ODE dynamics stuff before we start getting into discrete modeling
+    - "We're...um...some sports analogy away from getting the random teams out to you guys, so be on the lookout for those sometime this weekend."
+- In the meantime, have a good weekend, see you Tuesday, and hopefully I didn't hurt your brain too much!</pre>
 </article>
 <a class="side-link is-note-link" href="4_1dBifurcations_1_22_19.html"></a>
 </main>

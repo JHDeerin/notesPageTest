@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="7_viewingTransform_1_25_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //**************** Displays and Lines - January 28th, 2019 ******************//
 //**************************************************************************//
@@ -33,99 +35,46 @@
 - There is homework due next Monday. This is less than noteworthy.
 -------------------------------------------------------------------
 
-- On Friday, we began to learn about LCD displays - specifically, the kind that 
-use "twisted nematic liquid crystals" (the most common type in LCD monitors)
-    - So, light passes through when there's no voltage, and is blocked when 
-    there is voltage
-    - Intermediate amounts, of course, can just partially twist the crystals, 
-    letting us control the brightness
-        - To turn a pixel on or off, a full LCD screen uses "thin film 
-        transistors" - transistors so thin, they're actually translucent enough 
-        to put on the glass itself, letting us activate a given column/row to 
-        activate the pixel we want
-- But how do we get colors with our LCD screen, though? Well, in each pixel 
-there're 3 sub-pixels arranged next to each other corresponding to red, green, 
-and blue - each one is its own light, and by mixing them we can control the 
-color of the pixel itself
-    - So, there're actually 3 separate lights we have to control per pixel - 
-    "I'm sorry, I was fibbing a little last time!"
+- On Friday, we began to learn about LCD displays - specifically, the kind that use "twisted nematic liquid crystals" (the most common type in LCD monitors)
+    - So, light passes through when there's no voltage, and is blocked when there is voltage
+    - Intermediate amounts, of course, can just partially twist the crystals, letting us control the brightness
+        - To turn a pixel on or off, a full LCD screen uses "thin film transistors" - transistors so thin, they're actually translucent enough to put on the glass itself, letting us activate a given column/row to activate the pixel we want
+- But how do we get colors with our LCD screen, though? Well, in each pixel there're 3 sub-pixels arranged next to each other corresponding to red, green, and blue - each one is its own light, and by mixing them we can control the color of the pixel itself
+    - So, there're actually 3 separate lights we have to control per pixel - "I'm sorry, I was fibbing a little last time!"
 
-- Now, let's consider a very different kind of display - E-INK (or, sometimes, 
-"e-paper")
-    - This was a kind of display technology invented wayyyyyyyy back in the day 
-    by Xerox, and it's a display that ONLY reflects light, rather than 
-    producing it - just like traditional paper and canvas!
-        - To do this, the display contains pigment particles - some of them 
-        light, some of them dark - in micro-capsules right beneath the screen 
-        (a single pixel might contain dozens of microcapsules).
-            - The black particles are positively charged, while the white ones 
-            are negatively charged
-            - This means when the electric field is negatively charged on the 
-            bottom of the display, the black particles move towards the bottom 
-            and only the white particles become visible, and vice-versa
-                - Zooming in on e-ink displays looks kind of weird - you can 
-                see the microcapsules making up each pixel, like pebbles or 
-                bubbles
-    - What pros and cons do we get from this sort of display? Why not just use 
-    an LCD for everything?
+- Now, let's consider a very different kind of display - E-INK (or, sometimes, "e-paper")
+    - This was a kind of display technology invented wayyyyyyyy back in the day by Xerox, and it's a display that ONLY reflects light, rather than producing it - just like traditional paper and canvas!
+        - To do this, the display contains pigment particles - some of them light, some of them dark - in micro-capsules right beneath the screen (a single pixel might contain dozens of microcapsules).
+            - The black particles are positively charged, while the white ones are negatively charged
+            - This means when the electric field is negatively charged on the bottom of the display, the black particles move towards the bottom and only the white particles become visible, and vice-versa
+                - Zooming in on e-ink displays looks kind of weird - you can see the microcapsules making up each pixel, like pebbles or bubbles
+    - What pros and cons do we get from this sort of display? Why not just use an LCD for everything?
         - Well, on the pro side:
-            - Being a reflective display means we can read this in bright 
-            sunlight, no issues at all
-            - It takes very little energy to run, compared to the LCD needing 
-            to power a strong light!
-        - Unfortunately, though, the refresh rate is considerably slower than 
-        other display techniques. It's getting better, but these sorts of 
-        displays are still impractical for video
-            - Color e-ink is still in its infancy, too - they've started to 
-            appear in watches, but for awhile they've stayed in the lab, and 
-            color e-ink displays tend to still be much less vibrant than 
-            traditional displays
+            - Being a reflective display means we can read this in bright sunlight, no issues at all
+            - It takes very little energy to run, compared to the LCD needing to power a strong light!
+        - Unfortunately, though, the refresh rate is considerably slower than other display techniques. It's getting better, but these sorts of displays are still impractical for video
+            - Color e-ink is still in its infancy, too - they've started to appear in watches, but for awhile they've stayed in the lab, and color e-ink displays tend to still be much less vibrant than traditional displays
 
-- Computer display technologies have come and gone through the years, of course 
-- cathode ray tube monitors were the hot stuff for years and have since gone 
-the way of the dodo, and E-Ink and LCDs are hardly the only kinds of 
-technologies out these days. So what're some candidate display technologies of 
-the future on our horizon?
-    - TMI (?) has a patent on "mirror display technology," where each pixel is 
-    a mirror that reflects light - this is common in projectors and virtual 
-    reality devices
-        - Currently, most VR devices and head-mounted displays are just LCDs 
-        that use special lenses
-    - Various labs have been looking into holography and digital fluorescent 
-    crystal techniques to try and get true 3D holographic displays
-        - This is one of the holy grails of display technology, but we haven't 
-        cracked the code for it yet. You won't find this stuff outside of 
-        semi-functional prototypes in the lab
-            - Professor Turk saw a demonstration that tried to heat up air 
-            molecules with a laser, creating sparks in midair, and it was 
-            interesting - and apparently very loud
-        - Slightly more pragmatic approaches are partially-transparent LCD 
-        layers that try to have different layers of displays, letting you 
-        display "slices" of a 3D scene, but these haven't really caught on
-        - You can also do the classic two-image 3D fakery, but this is "weak 
-        3D" - only one person can see the effect
-    - Researchers have looked into putting images into people's eyes directly, 
-    drawing the image on the back of your retina with a laser beam ("which is 
-    kind of a scary way to put it")
-    - A common, end-of-the-road sci-fi possibility is hooking up some 
-    electronic gizmo directly to your visual cortex to skip your eyes entirely 
-    - but this is wayyyyyy out there stuff (and Professor Turk has declared he 
-    probably won't be volunteering as a test subject)
+- Computer display technologies have come and gone through the years, of course - cathode ray tube monitors were the hot stuff for years and have since gone the way of the dodo, and E-Ink and LCDs are hardly the only kinds of technologies out these days. So what're some candidate display technologies of the future on our horizon?
+    - TMI (?) has a patent on "mirror display technology," where each pixel is a mirror that reflects light - this is common in projectors and virtual reality devices
+        - Currently, most VR devices and head-mounted displays are just LCDs that use special lenses
+    - Various labs have been looking into holography and digital fluorescent crystal techniques to try and get true 3D holographic displays
+        - This is one of the holy grails of display technology, but we haven't cracked the code for it yet. You won't find this stuff outside of semi-functional prototypes in the lab
+            - Professor Turk saw a demonstration that tried to heat up air molecules with a laser, creating sparks in midair, and it was interesting - and apparently very loud
+        - Slightly more pragmatic approaches are partially-transparent LCD layers that try to have different layers of displays, letting you display "slices" of a 3D scene, but these haven't really caught on
+        - You can also do the classic two-image 3D fakery, but this is "weak 3D" - only one person can see the effect
+    - Researchers have looked into putting images into people's eyes directly, drawing the image on the back of your retina with a laser beam ("which is kind of a scary way to put it")
+    - A common, end-of-the-road sci-fi possibility is hooking up some electronic gizmo directly to your visual cortex to skip your eyes entirely - but this is wayyyyyy out there stuff (and Professor Turk has declared he probably won't be volunteering as a test subject)
 
-- So, those are some of the display technologies we may have to worry about one 
-day - but back in the present, how do we draw simple things? How do we draw the 
-MOST simple thing: a line?
-    - There are two common equations for defining a line: the PARAMETRIC and 
-    IMPLICIT ways
+- So, those are some of the display technologies we may have to worry about one day - but back in the present, how do we draw simple things? How do we draw the MOST simple thing: a line?
+    - There are two common equations for defining a line: the PARAMETRIC and IMPLICIT ways
     - For parametric:
 
            P1                       P2
             *-------Q(t)------------*
 
-        - This is where we have some parameter "t" that defines how far we've 
-        "slid" along a given line between points p1 and p2
-            - To do this, we'll have an equation for the X-coordinate on the 
-            line, and another for the Y-coordinate:
+        - This is where we have some parameter "t" that defines how far we've "slid" along a given line between points p1 and p2
+            - To do this, we'll have an equation for the X-coordinate on the line, and another for the Y-coordinate:
 
                 x(t) = x1 + t*(x2-x1) = x1 + t*dx
                 y(t) = y1 + t*(y2-y1) = y1 + t*dy
@@ -135,59 +84,35 @@ MOST simple thing: a line?
                 Q(t) = (x(t), y(t)) = P1 + t*(P2-P1)
 
             - Here, we're multiplying the vector "P2-P1" by a scalar
-                - "There's another way of writing this that's useful for 
-                curves, but that's for another day"
+                - "There's another way of writing this that's useful for curves, but that's for another day"
         - What happens if t is greater than 1 or less than 0, though?
-            - Well, if it's greater than one, we'll start extrapolating past 
-            the end of P2 - and if it's less than 0, it will extrapolate 
-            backwards behind P1!
-                - "So, we haven't just defined a line segment, but a whole 
-                line! For convenience, the line segment is just the part 
-                between t=0 and t=1!"
+            - Well, if it's greater than one, we'll start extrapolating past the end of P2 - and if it's less than 0, it will extrapolate backwards behind P1!
+                - "So, we haven't just defined a line segment, but a whole line! For convenience, the line segment is just the part between t=0 and t=1!"
     - For implicit lines:
-        - "At first, this seems a bit more unusual than the parametric way, but 
-        hopefully I can give a little sense to it"
-        - Implicit lines are kind of like a guessing game: we're given a point 
-        (x,y), and then we say that point is "on the line" if f(x,y) = 0, and 
-        off the line for any other value
-            - So, we need a function that equals 0 for all the points on the 
-            line, and ONLY for those points!
-        - How can we come up with such a function? Well, let's think of the 
-        format this equation would have to take:
+        - "At first, this seems a bit more unusual than the parametric way, but hopefully I can give a little sense to it"
+        - Implicit lines are kind of like a guessing game: we're given a point (x,y), and then we say that point is "on the line" if f(x,y) = 0, and off the line for any other value
+            - So, we need a function that equals 0 for all the points on the line, and ONLY for those points!
+        - How can we come up with such a function? Well, let's think of the format this equation would have to take:
 
                 f(x,y) = a*x + b*y + c
 
-            - We just need to figure out the coefficients a, b, and c that'll 
-            give us the line we want!
-                - Notice that if we multiply the equation by a scalar constant, 
-                all the values would be scaled by the same amount, so the 
-                points on the line wouldn't change
+            - We just need to figure out the coefficients a, b, and c that'll give us the line we want!
+                - Notice that if we multiply the equation by a scalar constant, all the values would be scaled by the same amount, so the points on the line wouldn't change
             - As an example, if (A=1, B=-1, C=0), we'd have the line:
 
                     f(x,y) = x - y
 
-                - This is the equation for a 45-degree angle line going through 
-                the origin!
-                    - Sure enough, f(0,0) = 0, f(1,1) = 0, f(-2,-2)=0, but 
-                    f(-2,1) = -3; NOT 0!
-                    - Anything below the line will be positive, anything above 
-                    it will be negative, but ONLY the stuff right on the line 
-                    will exactly be 0!
-                        - Furthermore, any points on a line parallel to the one 
-                        defined by our equation will have the same value for 
-                        f(x,y) - "just to give you some intuition for this"
-        - As it turns out, you've seen this equation before in a different 
-        costume. Remember the line equation from grade school?
+                - This is the equation for a 45-degree angle line going through the origin!
+                    - Sure enough, f(0,0) = 0, f(1,1) = 0, f(-2,-2)=0, but f(-2,1) = -3; NOT 0!
+                    - Anything below the line will be positive, anything above it will be negative, but ONLY the stuff right on the line will exactly be 0!
+                        - Furthermore, any points on a line parallel to the one defined by our equation will have the same value for f(x,y) - "just to give you some intuition for this"
+        - As it turns out, you've seen this equation before in a different costume. Remember the line equation from grade school?
 
                 y = m*x + b
 
             - This was an implicit line equation all along!
 
-- We'll finish going over these line equations on Wednesday, and then we'll see 
-how we can use them to start drawing the lines themselves on our screens - tune 
-in then!
-
-</pre>
+- We'll finish going over these line equations on Wednesday, and then we'll see how we can use them to start drawing the lines themselves on our screens - tune in then!</pre>
 </article>
 <a class="side-link is-note-link" href="9_introRasterization_1_30_19.html"></a>
 </main>

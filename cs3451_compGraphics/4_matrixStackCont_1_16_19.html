@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,18 +23,16 @@
 <a class="side-link is-note-link" href="3_matrixStack_1_14_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************** Matrix Stack (cont.) - January 16th, 2019 ******************//
 //**************************************************************************//
 
-- Project 1, where art thou? Whence hast thy form fled from the sullen coves of 
-earth?
+- Project 1, where art thou? Whence hast thy form fled from the sullen coves of earth?
 ------------------------------------------------
 
-- Alright - last class, in our Frankensteinien hubris, we were creating a 
-person - a tiny homunculus within our digital light-flashy boxes
-    - As discussed, we can use the matrix stack to persistently transform the 
-    stuff we're drawing - but we only got around to creating a lonely hand
+- Alright - last class, in our Frankensteinien hubris, we were creating a person - a tiny homunculus within our digital light-flashy boxes
+    - As discussed, we can use the matrix stack to persistently transform the stuff we're drawing - but we only got around to creating a lonely hand
     - Today, let's continue right along with our arm-drawing method
 
             void drawArm() {
@@ -59,65 +58,43 @@ person - a tiny homunculus within our digital light-flashy boxes
                 pop();
 
                 push();
-                translate(4, 4.5); //move the arm from the origin to the 
-                top-right of the torso
+                translate(4, 4.5); //move the arm from the origin to the top-right of the torso
                 arm();
                 pop();
 
                 push();
-                scale(-1, 1); //flip the x-direction, to draw the arm the other 
-                way
+                scale(-1, 1); //flip the x-direction, to draw the arm the other way
                 translate(-4, 4.5);
                 arm();
                 pop();
             }
 
-    - Notice that, as we were writing this, we didn't have to think too hard 
-    about what was inside the arm() method - we could just let the matrix stack 
-    and our previous transformations handle that for us!
-        - Each "matrix push" is like going level down the dependency tree for 
-        these objects, and each pop is like going a level back
-        - As we go downwards, we keep "accumulating" more transformations on 
-        our matrix stack, adding each transformation to the right of our 
-        equation (i.e. most recently added is the first one to be performed)
-            - Then, when we draw an object, ALL the transformations on the top 
-            of the matrix stack are applied to it!
-    - This is the reason why the matrix stack behaves the way it does: it 
-    handles this hierarchy of commands for us as a linear set of stuff, which 
-    is great!
-        - It seems unnecessarily complicated at first, but in the long run, 
-        this matrix stack saves us a ton of work
+    - Notice that, as we were writing this, we didn't have to think too hard about what was inside the arm() method - we could just let the matrix stack and our previous transformations handle that for us!
+        - Each "matrix push" is like going level down the dependency tree for these objects, and each pop is like going a level back
+        - As we go downwards, we keep "accumulating" more transformations on our matrix stack, adding each transformation to the right of our equation (i.e. most recently added is the first one to be performed)
+            - Then, when we draw an object, ALL the transformations on the top of the matrix stack are applied to it!
+    - This is the reason why the matrix stack behaves the way it does: it handles this hierarchy of commands for us as a linear set of stuff, which is great!
+        - It seems unnecessarily complicated at first, but in the long run, this matrix stack saves us a ton of work
 
-- "If you can understand this example code I gave you, draw the matrix stack 
-for it, and understand why it works the way it does, you should be in excellent 
-shape with this"
+- "If you can understand this example code I gave you, draw the matrix stack for it, and understand why it works the way it does, you should be in excellent shape with this"
     - ...and again, Professor Turk loves giving matrix stack traces on exams
 
-- So, that's the matrix stack, but we're still stuck in Flatland. Let's try to 
-break into the world of three dimensions
-    - Let's add our 'z' coordinate, coming out of the page toward us, with the 
-    y axis still going up and the x coordinates going right
-        - This is a RIGHT-HANDED COORDINATE system, probably coming from the 
-        right-hand rule, with the thumb on the x-axis and your index finger on 
-        the y-axis
-            - It's perfectly okay to have the z-coordinate going into the page, 
-            of course - but that's a left-handed system
-- Now, for our 3D vectors, we'll need to actually add a 1 to the bottom to make 
-it homogenous, just like we did in the 2D case. For instance:
+- So, that's the matrix stack, but we're still stuck in Flatland. Let's try to break into the world of three dimensions
+    - Let's add our 'z' coordinate, coming out of the page toward us, with the y axis still going up and the x coordinates going right
+        - This is a RIGHT-HANDED COORDINATE system, probably coming from the right-hand rule, with the thumb on the x-axis and your index finger on the y-axis
+            - It's perfectly okay to have the z-coordinate going into the page, of course - but that's a left-handed system
+- Now, for our 3D vectors, we'll need to actually add a 1 to the bottom to make it homogenous, just like we did in the 2D case. For instance:
 
         P = [x, y, z, 1]
 
-    - Similarly, to make our transformation matrices homogenous, they have to 
-    be 4x4:
+    - Similarly, to make our transformation matrices homogenous, they have to be 4x4:
 
         [1 0 0 dx]
         [0 1 0 dy]
         [0 0 1 dz]
         [0 0 0 1 ]
 
-- The final bit of weirdness comes from rotating in 3D. Trying to rotate just 
-around one of the axes is normal - for instance, to rotate counter-clockwise 
-around the Z-axis (looking from the direction toward the origin):
+- The final bit of weirdness comes from rotating in 3D. Trying to rotate just around one of the axes is normal - for instance, to rotate counter-clockwise around the Z-axis (looking from the direction toward the origin):
 
         Rz =    [cos  -sin  0  0]
                 [sin  cos   0  0]
@@ -136,35 +113,18 @@ around the Z-axis (looking from the direction toward the origin):
                 [-sin 0  cos  0]
                 [0    0   0   1]
 
-        - "Ry probably looks weird, but the reason is because its 2x2 rotation 
-        columns are SWAPPED compared with the other matrices - think of it that 
-        way, and it makes more sense"
-    - "Remember, you're going to be implementing these in project 1 - so if 
-    you've got questions, fire away"
-- Trying to rotate around an arbitrary axis, on the other hand, is a little 
-weirder...but we'll get to that
+        - "Ry probably looks weird, but the reason is because its 2x2 rotation columns are SWAPPED compared with the other matrices - think of it that way, and it makes more sense"
+    - "Remember, you're going to be implementing these in project 1 - so if you've got questions, fire away"
+- Trying to rotate around an arbitrary axis, on the other hand, is a little weirder...but we'll get to that
 
-- So, that's 3D, but we have a problem: all of our display devices are flat 2D 
-panels! So, we need to somehow squash our 3D objects into a sensible 2D 
-representation
-    - To do this, we need to "project" our objects onto the screen, and there 
-    are 2 common ways of doing it:
-        - PARALLEL PROJECTION (or "ORTHOGRAPHIC" projection) is where we 
-        pretend we have a rectangular "view plane" grid of pixels, representing 
-        the screen, and each of the pixels sends out a parallel "projector 
-        line" straight ahead - and then it draws whatever it hits first
-            - This is nice and convenient - but it's NOT how our eyes work, 
-            sadly
-        - PERSPECTIVE PROJECTION means that instead of shooting all the rays 
-        straight ahead, we instead shoot them out at an angle, emanating out 
-        from some point called the "center of projection"
-            - Realistically, what this means is that objects that are farther 
-            away seem smaller - which is great!
+- So, that's 3D, but we have a problem: all of our display devices are flat 2D panels! So, we need to somehow squash our 3D objects into a sensible 2D representation
+    - To do this, we need to "project" our objects onto the screen, and there are 2 common ways of doing it:
+        - PARALLEL PROJECTION (or "ORTHOGRAPHIC" projection) is where we pretend we have a rectangular "view plane" grid of pixels, representing the screen, and each of the pixels sends out a parallel "projector line" straight ahead - and then it draws whatever it hits first
+            - This is nice and convenient - but it's NOT how our eyes work, sadly
+        - PERSPECTIVE PROJECTION means that instead of shooting all the rays straight ahead, we instead shoot them out at an angle, emanating out from some point called the "center of projection"
+            - Realistically, what this means is that objects that are farther away seem smaller - which is great!
 
-- On Friday, we'll dig into the math behind how we can do these projections - 
-stay well till then!
-
-</pre>
+- On Friday, we'll dig into the math behind how we can do these projections - stay well till then!</pre>
 </article>
 <a class="side-link is-note-link" href="5_projectionBasics_1_18_19.html"></a>
 </main>

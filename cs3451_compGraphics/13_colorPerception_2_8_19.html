@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,136 +23,70 @@
 <a class="side-link is-note-link" href="12_basicShadingCont_2_6_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //****************** Color Perception - February 8th, 2019 ******************//
 //**************************************************************************//
 
-- Two hours of trying to read up on seismic displacement theory later, I can 
-officially confirm I do not like reading math from classes I haven't taken yet 
-(PDEs literally look like actual Greek to me)
+- Two hours of trying to read up on seismic displacement theory later, I can officially confirm I do not like reading math from classes I haven't taken yet (PDEs literally look like actual Greek to me)
 ----------------------------------------------------
 
-- Alright, we didn't *quite* wrap up Gouraud interpolation on Wednesday, so 
-let's do that now!
-    - We calculate the normal vector for each vertex, then apply our color 
-    equation to figure out the color at that vertex
-        - The normal is sometimes calculated by averaging the normal vectors of 
-        the polygons touching the vertex - which technically isn't correct, but 
-        hey, the mathematicians aren't looking
-    - Then, for a given point on the polygon we're drawing, we decide its color 
-    by interpolating between all the points, like this:
-        - If the point is on the polygon's edge between vertices 1 and 2, the 
-        color will just be linearly interpolated:
+- Alright, we didn't *quite* wrap up Gouraud interpolation on Wednesday, so let's do that now!
+    - We calculate the normal vector for each vertex, then apply our color equation to figure out the color at that vertex
+        - The normal is sometimes calculated by averaging the normal vectors of the polygons touching the vertex - which technically isn't correct, but hey, the mathematicians aren't looking
+    - Then, for a given point on the polygon we're drawing, we decide its color by interpolating between all the points, like this:
+        - If the point is on the polygon's edge between vertices 1 and 2, the color will just be linearly interpolated:
 
                 C = C1 + ((y - y1)/(y2 - y1)) * (C2 - C1)
 
             - "Y", here, is the distance from vertex 1
-        - For a point somewhere in the middle of the polygon, then, we'll first 
-        draw a horizontal line through the point (i.e. either side of the 
-        scanline), then take the colors at the polygon edges Ca and Cb; we'll 
-        then linearly interpolate BETWEEN those two points:
+        - For a point somewhere in the middle of the polygon, then, we'll first draw a horizontal line through the point (i.e. either side of the scanline), then take the colors at the polygon edges Ca and Cb; we'll then linearly interpolate BETWEEN those two points:
 
                 C = Ca + (y - ya)/(yb - ya) * (Cb - Ca)
 
-    - All this interpolation tends to soften the edges and make them look 
-    pretty blurry, which is often what we want, but not always
+    - All this interpolation tends to soften the edges and make them look pretty blurry, which is often what we want, but not always
 
 - Finally, for PHONG INTERPOLATION, we're going to do per-pixel shading
-    - Here, instead of interpolating the colors at each pixel, we're going to 
-    interpolate the SURFACE NORMALS across the polygon for each pixel and then 
-    calculate the color separately for each pixel using that interpolated 
-    normal vector!
-        - Here, we calculate the normal vector for each vertex again (doing 
-        what we did for Gouraud shading), and then linearly interpolate those 
-        normals on the edges (just like we did for Gouraud shading), and THEN 
-        use the edge normals and our position in the scanline to calculate the 
-        normal for that pixel!
+    - Here, instead of interpolating the colors at each pixel, we're going to interpolate the SURFACE NORMALS across the polygon for each pixel and then calculate the color separately for each pixel using that interpolated normal vector!
+        - Here, we calculate the normal vector for each vertex again (doing what we did for Gouraud shading), and then linearly interpolate those normals on the edges (just like we did for Gouraud shading), and THEN use the edge normals and our position in the scanline to calculate the normal for that pixel!
         - Then, at last, we calculate the color for the pixel itself
-- Why do all this extra work? Because it leads to smoother shading than Gouraud 
-interpolation, especially for surfaces with not enough polygons and ESPECIALLY 
-for specular highlights
-    - If we're supposed to have a highlight just in the middle of a polygon, 
-    for instance, and we use Gouraud interpolation, it'll just average the 
-    color at the corners - it'll completely miss that highlight, or at least 
-    make it look less sharp than it should
-    - And it IS extra work - we need to do a shading calculation for each pixel 
-    AND take a square root for each pixel
-        - Why the square root? Because we need to normalize each normal vector 
-        to unit length, which requires calculating the magnitude of each
+- Why do all this extra work? Because it leads to smoother shading than Gouraud interpolation, especially for surfaces with not enough polygons and ESPECIALLY for specular highlights
+    - If we're supposed to have a highlight just in the middle of a polygon, for instance, and we use Gouraud interpolation, it'll just average the color at the corners - it'll completely miss that highlight, or at least make it look less sharp than it should
+    - And it IS extra work - we need to do a shading calculation for each pixel AND take a square root for each pixel
+        - Why the square root? Because we need to normalize each normal vector to unit length, which requires calculating the magnitude of each
 
-- Now, us humans can only see "visible light" (i.e. wavelengths between 
-~380nm-700nm, which is similar to the most abundant radiation released by the 
-sun)
-    - Violet is near the 300nm side of the spectrum, red is near the 700nm, and 
-    blue-cyan-green-yellow-orange fill in the gaps between
-    - With shorter wavelengths, we've got high energy ultraviolet waves, and 
-    then even more dangerous x-rays and gamma rays
-    - With longer wavelengths, we've got infrared and radio waves, which are a 
-    bit tamer
+- Now, us humans can only see "visible light" (i.e. wavelengths between ~380nm-700nm, which is similar to the most abundant radiation released by the sun)
+    - Violet is near the 300nm side of the spectrum, red is near the 700nm, and blue-cyan-green-yellow-orange fill in the gaps between
+    - With shorter wavelengths, we've got high energy ultraviolet waves, and then even more dangerous x-rays and gamma rays
+    - With longer wavelengths, we've got infrared and radio waves, which are a bit tamer
 
-- "Now, this here is a drawing of an eyeball - this is the back, which we never 
-see...because it's embedded in our skull"
-    - The primary purpose of the eye, as we all know, is to be squishy and 
-    painful when pressed
-    - The secondary purpose of it is to be stared into romantically on choice 
-    occasions
-        - (please don't write the above two on a test unless you're feeling 
-        exceptionally awesome)
-    - The tertiary purpose is (rather unintuitively) to let us see - and 
-    particularly, to see color!
-        - In the front of the eye, we've got the LENS (which focuses light into 
-        the back our eyes), the CORNEA (the thick covering in the front) and 
-        the IRIS (which controls how much light gets in)
-        - In the back of the eye, there's the RETINA, which has a bunch of 
-        photoreceptors that take this visible radiation and turn it into sweet, 
-        delicious electronically encoded images
-            - There are two kinds of photoreceptors: RODS (which are only 
-            sensitive to brightness, work better in the dark), and CONES (for 
-            color vision, of which there are three types: short, medium, and 
-            long)
-                - "It's tempting to say these are red, green, and blue cones, 
-                but I don't think that's quite right"
-                - Why are they called rods and cones? Well, because cones 
-                actually are a little pointed, and rods aren't!
-            - In the center of our retina is the FOVEA, a small area where the 
-            density of the photoreceptors is much higher, and where most of our 
-            color-sensitive cones live
-                - Because our optic nerve needs to go somewhere, there's a 
-                little spot in the retina where our nerves come through and 
-                there aren't any rods or cones - our "blind spot," where our 
-                brain just kind of fills in what's supposed to go there
+- "Now, this here is a drawing of an eyeball - this is the back, which we never see...because it's embedded in our skull"
+    - The primary purpose of the eye, as we all know, is to be squishy and painful when pressed
+    - The secondary purpose of it is to be stared into romantically on choice occasions
+        - (please don't write the above two on a test unless you're feeling exceptionally awesome)
+    - The tertiary purpose is (rather unintuitively) to let us see - and particularly, to see color!
+        - In the front of the eye, we've got the LENS (which focuses light into the back our eyes), the CORNEA (the thick covering in the front) and the IRIS (which controls how much light gets in)
+        - In the back of the eye, there's the RETINA, which has a bunch of photoreceptors that take this visible radiation and turn it into sweet, delicious electronically encoded images
+            - There are two kinds of photoreceptors: RODS (which are only sensitive to brightness, work better in the dark), and CONES (for color vision, of which there are three types: short, medium, and long)
+                - "It's tempting to say these are red, green, and blue cones, but I don't think that's quite right"
+                - Why are they called rods and cones? Well, because cones actually are a little pointed, and rods aren't!
+            - In the center of our retina is the FOVEA, a small area where the density of the photoreceptors is much higher, and where most of our color-sensitive cones live
+                - Because our optic nerve needs to go somewhere, there's a little spot in the retina where our nerves come through and there aren't any rods or cones - our "blind spot," where our brain just kind of fills in what's supposed to go there
         - What're the three types of cones? Let's break it down:
-            - The SHORT cones are mostly sensitive to light in the ~400nm range 
-            (sensitivity drops off like a normal distribution), which 
-            corresponds to blue light!
-            - The MEDIUM cones are sensitive in the green/~500nm range; these 
-            are the most abundant cones in our eye
+            - The SHORT cones are mostly sensitive to light in the ~400nm range (sensitivity drops off like a normal distribution), which corresponds to blue light!
+            - The MEDIUM cones are sensitive in the green/~500nm range; these are the most abundant cones in our eye
             - The LONG cones are sensitive in the red/~600nm range
-                - There is some overlap between all of these, but the 
-                predominant sensitivity range of each is different
+                - There is some overlap between all of these, but the predominant sensitivity range of each is different
 
-- Luckily, our eyes seem to mostly be sensitive to the three colors red, green, 
-and blue (and their combinations). It could've been something else entirely, 
-but luckily, it's not - and that means we can get away with still using 3D 
-matrices for color!
-    - Some animals, for instance, can only see two types of colors, while 
-    others (like the 11-dimensional color seeing Mantis Shrimp) can see far more
-    - Not everyone has the same color vision, even in humans; color blindness 
-    is a very real thing (and fairly common in men), and there are also 
-    "tetrachromatic" people who can see a slightly wider range of colors than 
-    normal
-- What colors can we see? That's usually given by the "CIE Chromoticity 
-diagram," which tries to diagram the types of light most people can see
-    - Now, there's no such thing as a "magenta photon" or a "magenta cone" - 
-    many of the colors we can see are mixes of the three fundamental colors, 
-    and don't correspond exactly to a particular wavelength
+- Luckily, our eyes seem to mostly be sensitive to the three colors red, green, and blue (and their combinations). It could've been something else entirely, but luckily, it's not - and that means we can get away with still using 3D matrices for color!
+    - Some animals, for instance, can only see two types of colors, while others (like the 11-dimensional color seeing Mantis Shrimp) can see far more
+    - Not everyone has the same color vision, even in humans; color blindness is a very real thing (and fairly common in men), and there are also "tetrachromatic" people who can see a slightly wider range of colors than normal
+- What colors can we see? That's usually given by the "CIE Chromoticity diagram," which tries to diagram the types of light most people can see
+    - Now, there's no such thing as a "magenta photon" or a "magenta cone" - many of the colors we can see are mixes of the three fundamental colors, and don't correspond exactly to a particular wavelength
 
-- As a reward for your patience, here's a picture of a Mantis Shrimp (please 
-provide your own picture of a Mantis Shrimp)
+- As a reward for your patience, here's a picture of a Mantis Shrimp (please provide your own picture of a Mantis Shrimp)
 
-- ...annnnnnnd that's all we wrote!
-
-</pre>
+- ...annnnnnnd that's all we wrote!</pre>
 </article>
 <a class="side-link is-note-link" href="14_colorSpaces_2_11_19.html"></a>
 </main>

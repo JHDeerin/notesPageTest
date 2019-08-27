@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="16_avlTreeNotes_2_20_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//*****************************************************************//
 //***********Random Reality Check - February 22nd, 2017***********//
 //***************************************************************//
@@ -31,9 +33,7 @@ HEAPS REALITY CHECK (cont.) (Oh Joy!)
 Me: O(log n)
 Them: Same! Have to re-heapify the tree after removal
 
-8) Write the instance method "add" for a min-heap implementation that uses an 
-array (assuming we start at 1); assume the array only holds ints; if the array 
-is full, throw an unchecked exception:
+8) Write the instance method "add" for a min-heap implementation that uses an array (assuming we start at 1); assume the array only holds ints; if the array is full, throw an unchecked exception:
 
 public class minHeap {
     int size;
@@ -57,32 +57,25 @@ public class minHeap {
 }
 
 HASHING REALITY CHECK (FURTHER JOY *__*)
-FIRST: If you need help w/ hash maps, read chapter 10 in the book. Chapter 10 
-is great.
+FIRST: If you need help w/ hash maps, read chapter 10 in the book. Chapter 10 is great.
     -Assume hashcode() just returns the int passed in
     -Compression function = hashcode() % tableSize
     -tableSize = 7
     -DEL = delete marker
 
-1) External chaining: add (8, 1, 15, 5, 2) to the list, then remove 8 and 
-calculate the load factor
+1) External chaining: add (8, 1, 15, 5, 2) to the list, then remove 8 and calculate the load factor
 ME:  Final List: [{1, DEL, 15}, {2}, {5}]
     Load factor: 4.0 / 7
 
 2) Linear probing: add (8, 1, 15, 5, 2), then remove 15
 
-3) Quadratic Probing: add (8, 1, 15, 5, 2), remove 15, then search for 22 and 
-calculate LF
+3) Quadratic Probing: add (8, 1, 15, 5, 2), remove 15, then search for 22 and calculate LF
 CLASS SOLUTION: [null, 8, 1, 2, null, DEL, 5]
-    -For adding, index = (hashCode() + h^2) % length; h starts at 0, goes up by 
-    1 until we find an open spot
+    -For adding, index = (hashCode() + h^2) % length; h starts at 0, goes up by 1 until we find an open spot
     -Removing 15 checks indices 1, 2, 5 (then removes it)
     -Searching for 22 will search indices 1, 2, 5, 3, 3, 5, 2
-        -At this point, we've searched 7 times - aka, the length of the array - 
-        so we'll terminate at this point and assume 22 is not in the list
+        -At this point, we've searched 7 times - aka, the length of the array - so we'll terminate at this point and assume 22 is not in the list
     -Load factor = 4.0 / 7
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="18_moreAvlTreeNotes_2_24_17.html"></a>

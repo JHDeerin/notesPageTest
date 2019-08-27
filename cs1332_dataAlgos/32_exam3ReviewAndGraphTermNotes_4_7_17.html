@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,13 +23,13 @@
 <a class="side-link is-note-link" href="31_theLastStringSearchNotes_4_5_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//**********************************************************************//
 /***********Exam 3 Review / Graphs Vocab - April 7th, 2017*************//
 //********************************************************************//
 
 -REALITY CHECK!
-    1) Given the following code which starts the Radix Sort algorithm, complete 
-    the code for Radix Sort (LSD):
+    1) Given the following code which starts the Radix Sort algorithm, complete the code for Radix Sort (LSD):
         "public static int[] radixSort(int[] arr) {
             if (arr == null) {
                 throw new IllegalArgumentException("Null args illegal");
@@ -50,8 +51,7 @@
         (...)
         while (cont) {
             for (int i = 0; i &lt; arr.length; i++) {
-                int digit = (arr[i] / dev) % mod + (mod - 1) //last part, "mod 
-                - 1", handles negatives (e.g. 1 goes in the 10th bucket)
+                int digit = (arr[i] / dev) % mod + (mod - 1) //last part, "mod - 1", handles negatives (e.g. 1 goes in the 10th bucket)
                 counter[digit].add(arr[i]);
             }
             int nextIndex = 0;
@@ -61,14 +61,12 @@
                 }
             }
             dev *= 10;
-            if (Integer.MAX_VALUE / mod = dev) { //MISSED THIS PART, but says 
-            when to stop the sort
+            if (Integer.MAX_VALUE / mod = dev) { //MISSED THIS PART, but says when to stop the sort
                 cont = false;
             }
         }
 
-    2) Write the code for the merge sort "Merge" method given the description 
-    below:
+    2) Write the code for the merge sort "Merge" method given the description below:
         "/**
         /* This is a private helper message that will merge the elements
         /* into a sorted list
@@ -99,8 +97,7 @@
         int i = 0;
         while (i &lt; arr.length) {
             if (i &gt;= arr.length) {
-                //...basically, they did everything inside a single while loop; 
-                way that I did it (above) was perfectly fine as well
+                //...basically, they did everything inside a single while loop; way that I did it (above) was perfectly fine as well
             }
         }
 
@@ -124,9 +121,7 @@
 
                 return newRoot;
             }
-                -Was mostly good, but I forgot to include the "updateHeight" 
-                portion until after the TA example; currently, this code 
-                matches the TAs example
+                -Was mostly good, but I forgot to include the "updateHeight" portion until after the TA example; currently, this code matches the TAs example
 
             private AVLNode&lt;T&gt; rightRotation(AVLNode&lt;T&gt; node) {
                 AVLNode&lt;T&gt; newRoot = node.getLeft();
@@ -154,43 +149,32 @@
                 return node.height;
             }"
 
--On Monday, we'll start talking about Graphs: some common terminology, graph 
-modeling, searching algorithms for graphs,
+-On Monday, we'll start talking about Graphs: some common terminology, graph modeling, searching algorithms for graphs,
 -A few quick things for right now (NOT on the exam):
-    -A GRAPH is a set of "nodes" (or VERTICES) and a collection of EDGES (or 
-    "arcs") that connect pairs of vertices
+    -A GRAPH is a set of "nodes" (or VERTICES) and a collection of EDGES (or "arcs") that connect pairs of vertices
     -The ORDER of a graph is the # of vertices; the SIZE is the # of edges
-    -The DEGREE of a vertex is the # of edges connected (or "incident") to that 
-    vertex
-        -If all the vertices have the same degree, then we say that the whole 
-        graph has that degree
+    -The DEGREE of a vertex is the # of edges connected (or "incident") to that vertex
+        -If all the vertices have the same degree, then we say that the whole graph has that degree
     -A PATH is a set of edges that can be followed to connect 2 nodes
 
     -Graphs CAN have vertices that aren't connected to any edges
     -Graphs can be DIRECTED, where their edges only go in one direction
-        -One vertex is the origin, another is the destination; can ONLY go from 
-        the origin to the destination
-        -Usually written as an ordered pair (u, v), where "u" is the origin and 
-        "v" is the other
+        -One vertex is the origin, another is the destination; can ONLY go from the origin to the destination
+        -Usually written as an ordered pair (u, v), where "u" is the origin and "v" is the other
     -Graphs can also be UNDIRECTED, where edges can go in both directions
-    -Graphs can be WEIGHTED, where there are "weights" or "costs" associated 
-    with each edge
+    -Graphs can be WEIGHTED, where there are "weights" or "costs" associated with each edge
 
     -A SELF-LOOP is an edge connecting a vertex to itself
     -Two edges are "parallel" if they connect the same pair of vertices
         -i.e. you can have MULTIPLE edges between 2 vertices
     -We say vertices are ADJACENT if an edge connects two vertices to each other
-    -As we said, a PATH is a sequence of vertices connected by edges to get 
-    from one vertex to another
-        -A SIMPLE PATH is one with no repeated vertices (we only visit each 
-        vertex in the path once)
+    -As we said, a PATH is a sequence of vertices connected by edges to get from one vertex to another
+        -A SIMPLE PATH is one with no repeated vertices (we only visit each vertex in the path once)
 
     -The 2 most common graph implementations:
         -ADJACENCY MATRIX
         -ADJACENCY LIST
     -We'll go over these on Monday
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="33_introGraphTheoryNotes_4_10_17.html"></a>

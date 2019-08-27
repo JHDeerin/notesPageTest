@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="15_hashedNotes_11_7_16.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************//
 //*********JavaFX Notes - November 9th, 2016*********//
 //**************************************************//
@@ -30,23 +32,14 @@
     -Also, Prof. Simpkins was sick, so it's a Taylor day!
 -----------------------------------------------------------
 
--Anyway, JavaFX is basically Java's "apps" frontend so that we don't have to do 
-everything from the command line - BUT first, PREFACE!
+-Anyway, JavaFX is basically Java's "apps" frontend so that we don't have to do everything from the command line - BUT first, PREFACE!
 
--So, FOR CS PURPOSES: A GRAPH is a data structure where the information is 
-stored in "Nodes" and connected to other nodes by "edges"
-    -A tree is just a type of graph, where the root is at the top (because CS 
-    majors are rebels at heart) and the branches extend downward from that root 
-    (are "children"/subnodes of the root)
+-So, FOR CS PURPOSES: A GRAPH is a data structure where the information is stored in "Nodes" and connected to other nodes by "edges"
+    -A tree is just a type of graph, where the root is at the top (because CS majors are rebels at heart) and the branches extend downward from that root (are "children"/subnodes of the root)
 
--With JavaFX, rather than the usual class hierarchy we're used to, it has a 
-structure of a "SCENE GRAPH"
-    -Kind of like a tree, where the top node is the STAGE (Stage.java), under 
-    that is a SCENE node (Scene.java), attached to that Scene is a ROOT node 
-    (Node.java) (confusingly-named), and then there are subnodes branching off 
-    of that Root node (from "Parent.java" nodes).
-        -Probably won't have to actually touch Node.java / Parent.java until 
-        2340.
+-With JavaFX, rather than the usual class hierarchy we're used to, it has a structure of a "SCENE GRAPH"
+    -Kind of like a tree, where the top node is the STAGE (Stage.java), under that is a SCENE node (Scene.java), attached to that Scene is a ROOT node (Node.java) (confusingly-named), and then there are subnodes branching off of that Root node (from "Parent.java" nodes).
+        -Probably won't have to actually touch Node.java / Parent.java until 2340.
 
                                 STAGE
                                  ||
@@ -56,13 +49,9 @@ structure of a "SCENE GRAPH"
                                 /||\
                         (...starts branching out)
 
--So, now we're going to make an app that has text that says "Hello World" (Go 
-over there!)
+-So, now we're going to make an app that has text that says "Hello World" (Go over there!)
 -(...coding interlude...)
--Right, anyway, this is just a bare-bones intro to JavaFX; we'll get into some 
-more complex (and cooler) examples on Friday!
-
-
+-Right, anyway, this is just a bare-bones intro to JavaFX; we'll get into some more complex (and cooler) examples on Friday!
 </pre>
 </article>
 <a class="side-link is-note-link" href="17_JavaFXNotes_11_11_16.html"></a>

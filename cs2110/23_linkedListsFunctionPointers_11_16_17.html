@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //********* Linked Lists &amp; Function Pointers - November 16th, 2017 **********//
 //**************************************************************************//
@@ -29,8 +31,7 @@
 - So, end of the semester, so much work, yadda yadda - welcome to Fall!
 ----------------------------------------------------
 
-- So, we were talking about linked lists yesterday - but one thing that we 
-didn't cover was what we should do if malloc() returns NULL
+- So, we were talking about linked lists yesterday - but one thing that we didn't cover was what we should do if malloc() returns NULL
 
         int addToFront(...) {
             (...)
@@ -40,33 +41,19 @@ didn't cover was what we should do if malloc() returns NULL
             }
         }
 
-    - Well, we could have a status code like "2 = malloc_fail", and return THAT 
-    once we're done!
-        - Then, when we're calling the method, we could surround the function 
-        call in a macro like IF_MALLOC_FAIL_PRINT_ERROR, or something
-        - NOTE: There's something called "Hungarian Notation" that says that 
-        for a pointer to a type, you put a "p" in the variable anme (e.g. 
-        "pObject"); if it's a pointer to a pointer, you put TWO p's 
-        ("ppObject"); it's kind of fallen out of favor, but if you like it, 
-        feel free to use it
-            - "A tip if you're a teacher: NEVER name a variable for a linked 
-            list 'ppHead'"
+    - Well, we could have a status code like "2 = malloc_fail", and return THAT once we're done!
+        - Then, when we're calling the method, we could surround the function call in a macro like IF_MALLOC_FAIL_PRINT_ERROR, or something
+        - NOTE: There's something called "Hungarian Notation" that says that for a pointer to a type, you put a "p" in the variable anme (e.g. "pObject"); if it's a pointer to a pointer, you put TWO p's ("ppObject"); it's kind of fallen out of favor, but if you like it, feel free to use it
+            - "A tip if you're a teacher: NEVER name a variable for a linked list 'ppHead'"
 
-- Now, to REMOVE the head, you first check that head != null; if it doesn't, 
-you then get the data in "head", set the actual head to "head.next", and free 
-the old head 
+- Now, to REMOVE the head, you first check that head != null; if it doesn't, you then get the data in "head", set the actual head to "head.next", and free the old head 
 
-- So, once we're done with that, what can we do with our linked list? Well, we 
-could create a STACK really easily!
-- We could also create a QUEUE, but there's an issue with that; we need to add 
-node's to the back, but in order to do that, we have to reach the last node, 
-which is an O(N) operation!
+- So, once we're done with that, what can we do with our linked list? Well, we could create a STACK really easily!
+- We could also create a QUEUE, but there's an issue with that; we need to add node's to the back, but in order to do that, we have to reach the last node, which is an O(N) operation!
     - To make this easier, we'll create a TAIL pointer as well!
-        - When we add the 1st node to the list, we point the tail to the HEAD 
-        node; after that, we leave the tail as-is until it gets to the end
+        - When we add the 1st node to the list, we point the tail to the HEAD node; after that, we leave the tail as-is until it gets to the end
 
-- Now, to FREE the list, unlike in Java, we can't just set our Head pointer to 
-null; we have to actually go through all the items and free them:
+- Now, to FREE the list, unlike in Java, we can't just set our Head pointer to null; we have to actually go through all the items and free them:
 
         void freeList(LIST *lst) {
             NODE *cur = lst-&gt;head;
@@ -80,33 +67,16 @@ null; we have to actually go through all the items and free them:
             lst-&gt;tail = NULL;
         }
 
-    - NOTE: You should ONLY ever free data that YOU malloc()'d (do NOT try to 
-    free() something on the stack), which can make things tricky when you have 
-    a struct w/ pointers to non-malloc'd data. What should you do?...well, 
-    disappointingly, it depends. In general, if you malloc'd it yourself and 
-    you're only using it here, free it; otherwise, things get complicated, and 
-    YOU have to make the choice of what to do.
+    - NOTE: You should ONLY ever free data that YOU malloc()'d (do NOT try to free() something on the stack), which can make things tricky when you have a struct w/ pointers to non-malloc'd data. What should you do?...well, disappointingly, it depends. In general, if you malloc'd it yourself and you're only using it here, free it; otherwise, things get complicated, and YOU have to make the choice of what to do.
 
-- To make the linked-list generic, we change the "data" variable's datatype 
-from int* to void*, making it a void pointer instead
-    - Remember, void pointers ONLY hold the address, and CANNOT be dereferenced 
-    w/o being cast to a new pointer type
+- To make the linked-list generic, we change the "data" variable's datatype from int* to void*, making it a void pointer instead
+    - Remember, void pointers ONLY hold the address, and CANNOT be dereferenced w/o being cast to a new pointer type
 - Now, let's take a quick detour to look at function pointers
-    - Let's say you work for a company that's making a new GameBoy game for 
-    kids ("which is a TERRIBLE idea, you know, but they're paying you bags of 
-    money so you kinda just shrug and accept it"), and it's a game that lets 
-    kids draw things. One day, your boss comes in and tells you it's getting 
-    better: they're gonna use Mode 4 to let kids ANIMATE their movies!
-        - A quick thing about MODE 4: it's a mode in the GameBoy that lets you 
-        draw animations via page-flipping; it's faster, but requires some 
-        special techniques
-    - So, you start making 175 new MODE4-versions of your existing MODE3 
-    functions...but that's a lot of copy-paste
-    - You think of making an if-statement in each existing function to check if 
-    it's MODE3 or MODE4...but all those extra "if" statements are slowing down 
-    the game
-    - ...you know what, screw examples, let's just get to the meat of what 
-    function pointers ARE:
+    - Let's say you work for a company that's making a new GameBoy game for kids ("which is a TERRIBLE idea, you know, but they're paying you bags of money so you kinda just shrug and accept it"), and it's a game that lets kids draw things. One day, your boss comes in and tells you it's getting better: they're gonna use Mode 4 to let kids ANIMATE their movies!
+        - A quick thing about MODE 4: it's a mode in the GameBoy that lets you draw animations via page-flipping; it's faster, but requires some special techniques
+    - So, you start making 175 new MODE4-versions of your existing MODE3 functions...but that's a lot of copy-paste
+    - You think of making an if-statement in each existing function to check if it's MODE3 or MODE4...but all those extra "if" statements are slowing down the game
+    - ...you know what, screw examples, let's just get to the meat of what function pointers ARE:
         - This is a function prototype:
 
                 int f1(int, int);
@@ -121,28 +91,17 @@ from int* to void*, making it a void pointer instead
 
         - This is function pointer:
 
-                void *fp(int, int, u16);   //Wait, the compiler will think 
-                that's a protoype! This won't work!
-                void (*fp)(int, int, u16);  //Phew! NOW the compiler knows "fp" 
-                is a pointer to a void _____(int, int, u16) function!
+                void *fp(int, int, u16);   //Wait, the compiler will think that's a protoype! This won't work!
+                void (*fp)(int, int, u16);  //Phew! NOW the compiler knows "fp" is a pointer to a void _____(int, int, u16) function!
                 fp = setPixel;              //Sets fp to the function address!
-                (*fp)(3, 4, BLUE);          //dereferences the pointer, then 
-                calls the function w/ those arguments!
+                (*fp)(3, 4, BLUE);          //dereferences the pointer, then calls the function w/ those arguments!
 
-        - ...BUT WAIT, THERE'S MORE! As syntactic sugar, C only requires us to 
-        write THIS to call a function in a function pointer:
+        - ...BUT WAIT, THERE'S MORE! As syntactic sugar, C only requires us to write THIS to call a function in a function pointer:
 
                 fp(3, 4, blue);     //this'll work just fine!
 
-            - Some people prefer this, since it's writing less; other people 
-            say you should EXPLICITLY de-reference the function pointer with 
-            the asterisk first to make it clear what you're doing
-                - "I actually wrote Kernighan (who now teaches at Princeton) a 
-                note to see if he prefers the star or the syntactic sugar, and 
-                he wrote back! Basically, he said 'well, I prefer the star, but 
-                you can do whatever the heck you want'" 
-
-</pre>
+            - Some people prefer this, since it's writing less; other people say you should EXPLICITLY de-reference the function pointer with the asterisk first to make it clear what you're doing
+                - "I actually wrote Kernighan (who now teaches at Princeton) a note to see if he prefers the star or the syntactic sugar, and he wrote back! Basically, he said 'well, I prefer the star, but you can do whatever the heck you want'" </pre>
 </article>
 <a class="side-link is-note-link" href="24_interrupts_11_21_17.html"></a>
 </main>

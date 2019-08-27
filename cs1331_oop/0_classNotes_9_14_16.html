@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,110 +23,70 @@
 <a class="side-link is-note-link" href="0_classNotes_9_14_16.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//***************************************************//
 //********Classes - September 14th, 2016************//
 //*************************************************//
 
 ================================================================================
-- WARNING: The first few notes I took for this class were on paper and have 
-since been lost; my apologies for the inconvenience. That being said, when I 
-took this class in 2016 it was almost identical to the content of AP Computer 
-Science (i.e. an introduction to Object-Oriented Programming, using the Java 
-programming language). If you're okay with missing some good advice from 
-Professor Chris Simpkins, there are many excellent resources online already 
-covering this topic (as there are for, well, basically all my other notes); if 
-you'd like to start from the beginning, here's an example of a quality online 
-course on the same material:
+- WARNING: The first few notes I took for this class were on paper and have since been lost; my apologies for the inconvenience. That being said, when I took this class in 2016 it was almost identical to the content of AP Computer Science (i.e. an introduction to Object-Oriented Programming, using the Java programming language). If you're okay with missing some good advice from Professor Chris Simpkins, there are many excellent resources online already covering this topic (as there are for, well, basically all my other notes); if you'd like to start from the beginning, here's an example of a quality online course on the same material:
 
     https://www.udemy.com/decoding-ap-computer-science-a/
 
-- If you'd prefer a text-based resource, Oracle's own Java tutorial is a decent 
-one:
+- If you'd prefer a text-based resource, Oracle's own Java tutorial is a decent one:
 
     https://docs.oracle.com/javase/tutorial/
 
-- Some of my notes here are a bit on the shaky end of the quality spectrum. My 
-apologies in advance.
+- Some of my notes here are a bit on the shaky end of the quality spectrum. My apologies in advance.
 ================================================================================
 
--By the end of this example, you should be able to write the "playing card" 
-class on your own
+-By the end of this example, you should be able to write the "playing card" class on your own
 -We'll use a running example, using GitHub (/cs1331/card)
     -git clone (html)
 
 -How to represent a card? Start w/ 2 properties- "rank" and "suit"
--Get it by typing "git checkout v0.0" to get the first version of the card 
-program
+-Get it by typing "git checkout v0.0" to get the first version of the card program
 
 So, EVERY instance of card has its own copy of the instance variables "rank"
     and "suit"
 
 -Could add a main method, perhaps for testing
 -Currently, class has a "no arg" default constructor
--can run it now, but it just prints the hash code address of the object in 
-memory (in hexadecimal)
+-can run it now, but it just prints the hash code address of the object in memory (in hexadecimal)
 
 -So, that's not nice, so we'll add a "public String toString()" method
 
--Great, it prints out right, but we can assign invalid cards ("Jack of All 
-Trades")
--So we'll make the instance variables private (by default, certain rules for 
-whether variable is defined public or private), ENCAPSULATING the variables
-    -Class assigning this can still give values to (cardObject).rank, since the 
-    main method is inside the Card class! So private variables can still be 
-    accessed inside the class- WHICH WE DO NOT WANT
+-Great, it prints out right, but we can assign invalid cards ("Jack of All Trades")
+-So we'll make the instance variables private (by default, certain rules for whether variable is defined public or private), ENCAPSULATING the variables
+    -Class assigning this can still give values to (cardObject).rank, since the main method is inside the Card class! So private variables can still be accessed inside the class- WHICH WE DO NOT WANT
 -So, we'll move the main method to a "Dealer" class
-    -Now, we get the error that we're trying to access "a private member of the 
-    class"
+    -Now, we get the error that we're trying to access "a private member of the class"
 -Instead, we'll use "getter" and "setter" methods
-    -in this case, they are "mutator" methods, as they alter the state of the 
-    class (side effects) that the method is being called on
+    -in this case, they are "mutator" methods, as they alter the state of the class (side effects) that the method is being called on
     -Default java setter method is "setX"
 -However, we get a "null of null" printed out; why
-    -The method variables had the same name as the class variables! Therefore, 
-    since the method vars had a smaller scope, they "overshadowed" the class 
-    variables; we were assigning the method names to themselves!
+    -The method variables had the same name as the class variables! Therefore, since the method vars had a smaller scope, they "overshadowed" the class variables; we were assigning the method names to themselves!
 -We'll fix this by assigning "this.rank = rank";
     -"this" refers to the current class instance on which the method is called!
-    -e.g. "(cardClass) superCard.setRank("someName")", "this" will refer to the 
-    "superCard" object, and "this.rank" will refer to the class variable in the 
-    "superCard" object ONLY- no other Card instance will be affected
+    -e.g. "(cardClass) superCard.setRank("someName")", "this" will refer to the "superCard" object, and "this.rank" will refer to the class variable in the "superCard" object ONLY- no other Card instance will be affected
 -Alternatively, we COULD have just changed a name- which is also pretty common.
-    -You'll find that "this.variable" and "differentVariableName" is used with 
-    regularity
+    -You'll find that "this.variable" and "differentVariableName" is used with regularity
     
--THIS ERROR WILL BE ON THE TEST- SHADOWING CLASS VARIABLES IS A MASSIVELY, 
-MASSIVELY HUGE BUG THAT YOU NEED TO KNOW!!!!!
+-THIS ERROR WILL BE ON THE TEST- SHADOWING CLASS VARIABLES IS A MASSIVELY, MASSIVELY HUGE BUG THAT YOU NEED TO KNOW!!!!!
 
--So, now let's define some class invariants- "A condition that must hold for 
-all class instances in order for the instance to be valid"
-    -So, we'll declare a string array containing all the valid ranks &amp; suits 
-    the card can have WITHIN the class as a "final" variable- something that 
-    can be ASSIGNED ONLY ONCE; if it's not one of those,
+-So, now let's define some class invariants- "A condition that must hold for all class instances in order for the instance to be valid"
+    -So, we'll declare a string array containing all the valid ranks &amp; suits the card can have WITHIN the class as a "final" variable- something that can be ASSIGNED ONLY ONCE; if it's not one of those,
     then the card won't accept that value and the program will exit
-        -NOTE that right now, each instance of the class has its own array, in 
-        a separate memory address, taking up space...even though they're all 
-        the exact same. We'll fix this very shortly (static?)
-        -Also a little crude to use string[], right? If only we knew about 
-        enumerations...
--Types are ALWAYS a constraint on what sort of values can be contained (can't 
-assign string to int, etc.), but for our purposes, "string" wasn't tight 
-enough; this is one of the FUNDAMENTAL points of encapsulation, to limit what 
-we can do
+        -NOTE that right now, each instance of the class has its own array, in a separate memory address, taking up space...even though they're all the exact same. We'll fix this very shortly (static?)
+        -Also a little crude to use string[], right? If only we knew about enumerations...
+-Types are ALWAYS a constraint on what sort of values can be contained (can't assign string to int, etc.), but for our purposes, "string" wasn't tight enough; this is one of the FUNDAMENTAL points of encapsulation, to limit what we can do
 
--So, card now ensures we can't create nonsensical cards; but we can still do 
-some nonsensical things, like declare a blank card ("Card x = new Card();") 
-that will print out "null of nulls" until we assign a suit;
-    -Right now, we have to remember to declare a card, then call the the 
-    setRank() method, before anything else, making it possible to screw up. We 
-    can do better
--So, we'll instead use a CONSTRUCTOR to make sure we don't have to memorize the 
-procedure; we literally CAN'T create an invalid card
+-So, card now ensures we can't create nonsensical cards; but we can still do some nonsensical things, like declare a blank card ("Card x = new Card();") that will print out "null of nulls" until we assign a suit;
+    -Right now, we have to remember to declare a card, then call the the setRank() method, before anything else, making it possible to screw up. We can do better
+-So, we'll instead use a CONSTRUCTOR to make sure we don't have to memorize the procedure; we literally CAN'T create an invalid card
     -example: "public Card(String rank, String suit)"
     -MUST share name of class
 -Now, we HAVE to do things correctly- which is great!
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="1_moreClassNotes_9_16_16.html"></a>

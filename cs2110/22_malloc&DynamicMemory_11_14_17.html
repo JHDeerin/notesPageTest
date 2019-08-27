@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,39 +23,23 @@
 <a class="side-link is-note-link" href="21_CArrays_11_9_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************* Malloc &amp; Dynamic Memory - November 14th, 2017 ***************//
 //**************************************************************************//
 
-- So, today we'll be talking about dynamic memory allocation in C...which 
-should eventually lead into dynamic data structures
-    - "MANY times in programming, you'll need to make space for something, but 
-    you won't know HOW MUCH space you need until runtime. Java, Python - all 
-    these languages have dynamic allocation, but they handle the details for 
-    you. C...well, it sort of bares it all."
+- So, today we'll be talking about dynamic memory allocation in C...which should eventually lead into dynamic data structures
+    - "MANY times in programming, you'll need to make space for something, but you won't know HOW MUCH space you need until runtime. Java, Python - all these languages have dynamic allocation, but they handle the details for you. C...well, it sort of bares it all."
 
-- Let's imagine that the College of Computing has just set aside some offices 
-for ANYONE to use - you can just check in at the CoC, ask for an office, and 
-they'll give you one if it's available
-    - So, you want an office; so you go to the CoC, ask if there's an office 
-    available, and they tell you "hmmmm...yes, room 237 is open"
-        - They do NOT go upstairs and bring room 237 to you; they give you 
-        permission to use 237!
-        - So, you use 237 for a little while, just by yourself, and then you 
-        check out of the room so the next person can use it
-    - The next day, you go to room 329, use it, then leave, but halfway home 
-    YOU REALIZE you left your backpack there! So you check the room back out 
-    RIGHT AWAY, go to the room...and your backpack's still there!
-    - Finally, you go back for a 3rd day and get room 289, you work for a 
-    little bit, and then leave; but the NEXT DAY, 24 hours later, you realize 
-    you left your golf clubs there! So you go back to the CoC, ask if 289 is 
-    available, they say yes, you get the keys...but it's gone. Someone else was 
-    using the room, and they took your golf clubs.
-- ...believe it or not, this is actually a decent model of how dynamic memory 
-allocation works in C
+- Let's imagine that the College of Computing has just set aside some offices for ANYONE to use - you can just check in at the CoC, ask for an office, and they'll give you one if it's available
+    - So, you want an office; so you go to the CoC, ask if there's an office available, and they tell you "hmmmm...yes, room 237 is open"
+        - They do NOT go upstairs and bring room 237 to you; they give you permission to use 237!
+        - So, you use 237 for a little while, just by yourself, and then you check out of the room so the next person can use it
+    - The next day, you go to room 329, use it, then leave, but halfway home YOU REALIZE you left your backpack there! So you check the room back out RIGHT AWAY, go to the room...and your backpack's still there!
+    - Finally, you go back for a 3rd day and get room 289, you work for a little bit, and then leave; but the NEXT DAY, 24 hours later, you realize you left your golf clubs there! So you go back to the CoC, ask if 289 is available, they say yes, you get the keys...but it's gone. Someone else was using the room, and they took your golf clubs.
+- ...believe it or not, this is actually a decent model of how dynamic memory allocation works in C
 
-- C gives us a set of functions for dealing with memory, and the first one it 
-gives us is malloc!
+- C gives us a set of functions for dealing with memory, and the first one it gives us is malloc!
 
         void* malloc(size_t size);     //size_t is just an unsigned int datatype
 
@@ -62,25 +47,15 @@ gives us is malloc!
 
         int *addr = (*int) malloc(8);
 
-    - This will tell malloc to get us 8 bytes of contiguous memory, and return 
-    the address of the 1st byte as a VOID POINTER (remember, that's just a 
-    generic address without a type, so we have to cast it)
-        - If malloc CANNOT find enough space in memory to allocate 8 bytes, 
-        then it'll return NULL (which is just a pointer w/ address 0)
-        - "If we're being honest, this only happens in THIS class when YOU - 
-        the programmer - screw up. You'd be shocked at how fast an infinite 
-        loop can eat up 16 gigs of ram."
-            - When you DO start doing stuff where you might run out of memory, 
-            though (like having multiple images open), this NULL is important 
-            for handling errors; you don't want to just shut down the program 
-            and lose all of your user's work!
-- Let's say we want to allocate space for "n" integers; we'd do something like 
-this:
+    - This will tell malloc to get us 8 bytes of contiguous memory, and return the address of the 1st byte as a VOID POINTER (remember, that's just a generic address without a type, so we have to cast it)
+        - If malloc CANNOT find enough space in memory to allocate 8 bytes, then it'll return NULL (which is just a pointer w/ address 0)
+        - "If we're being honest, this only happens in THIS class when YOU - the programmer - screw up. You'd be shocked at how fast an infinite loop can eat up 16 gigs of ram."
+            - When you DO start doing stuff where you might run out of memory, though (like having multiple images open), this NULL is important for handling errors; you don't want to just shut down the program and lose all of your user's work!
+- Let's say we want to allocate space for "n" integers; we'd do something like this:
 
         int *p = malloc(n * sizeof(int));
         if (p == NULL) {
-            //do something more useful than printing "****, out of memory, 
-            sorry"
+            //do something more useful than printing "****, out of memory, sorry"
         }
         for (int i = 0; i &lt; n; i++) {
             p[i] = 0;
@@ -90,41 +65,24 @@ this:
 
         void free(void *ptr);
 
-    - This does NOT automatically delete the values in the memory you used - it 
-    just makes them available for other malloc calls to check out 
-    - "How does free() know how much space it needs to free up if we're just 
-    passing in a pointer? Well, the CoC methaphor returns!"
-        - Let's say that the CoC is too poor to buy paper for the secretary 
-        (awwwww). So, you ask her "Well, how do you know what room is free?" 
-        "Oh, that's easy - I just memorize one room that's free - right now, 
-        it's 127." So they take you up into 127...and on the whiteboard is this:
+    - This does NOT automatically delete the values in the memory you used - it just makes them available for other malloc calls to check out 
+    - "How does free() know how much space it needs to free up if we're just passing in a pointer? Well, the CoC methaphor returns!"
+        - Let's say that the CoC is too poor to buy paper for the secretary (awwwww). So, you ask her "Well, how do you know what room is free?" "Oh, that's easy - I just memorize one room that's free - right now, it's 127." So they take you up into 127...and on the whiteboard is this:
             "NEXT FREE ROOM: 489"
         - It's a linked list!
     - Similarly, for Malloc/Free, each free block of memory has 3 parts:
 
         [size of block | block address pointer | BIG block of memmory ...     ]
 
-    - So, when we call MALLOC, it'll have a pointer by default to the next big 
-    block of free memory (CHECK THIS!!!); when we pass in the address of that 
-    block to free, it'll check what the size of that block is, and then free it
-        - "Don't worry if you didn't understand some of this; there's a 
-        homework for you to get nice and cozy with these functions. In fact, 
-        you'll have to write malloc yourself!"
-        - Yup, for the rest of your life, you can walk into bars and say "I 
-        wrote malloc once", and people'll start buying you drinks
+    - So, when we call MALLOC, it'll have a pointer by default to the next big block of free memory (CHECK THIS!!!); when we pass in the address of that block to free, it'll check what the size of that block is, and then free it
+        - "Don't worry if you didn't understand some of this; there's a homework for you to get nice and cozy with these functions. In fact, you'll have to write malloc yourself!"
+        - Yup, for the rest of your life, you can walk into bars and say "I wrote malloc once", and people'll start buying you drinks
 
-- Now, if you lose the pointer to a piece of code that you allocated w/ malloc, 
-then you have NO WAY of freeing that memory, and it's GONE - you won't be able 
-to use it, and nothing else in the computer can use that memory either. This is 
-called a MEMORY LEAK...and if you keep adding memory leaks, you can literally 
-run out of usable memory, causing the program to crash.
-    - Now, modern operating systems are smart enough that when a program exits, 
-    it'll free all of the memory that program requested...but not until your 
-    program is finished. 
+- Now, if you lose the pointer to a piece of code that you allocated w/ malloc, then you have NO WAY of freeing that memory, and it's GONE - you won't be able to use it, and nothing else in the computer can use that memory either. This is called a MEMORY LEAK...and if you keep adding memory leaks, you can literally run out of usable memory, causing the program to crash.
+    - Now, modern operating systems are smart enough that when a program exits, it'll free all of the memory that program requested...but not until your program is finished. 
 
 - A third method to worry about: REALLOC
-    - "Technically, you can do everything you need to with free() and malloc(), 
-    but realloc() makes things a bit easier"
+    - "Technically, you can do everything you need to with free() and malloc(), but realloc() makes things a bit easier"
 
         void* realloc(void *ptr, size_t newSize);
 
@@ -132,40 +90,19 @@ run out of usable memory, causing the program to crash.
 
         ptr = realloc(ptr, newSize);
 
-    - Now, you're looking at this function, and you're asking yourself 
-    "hmmmmm...what does the world need more than anything else? What new 
-    software does it need?"
+    - Now, you're looking at this function, and you're asking yourself "hmmmmm...what does the world need more than anything else? What new software does it need?"
         - ...a word processor!
-    - So, you decide to make it happen. You sit down at your computer and start 
-    planning out this revolutionary new MS Word killer, and the way word 
-    processors work is that they have a BIG chunk of memory that holds the 
-    current text; when you need more memory to hold the extra words, it grows 
-    the chunk of memory it points to. 
-    - So, you're ready to start selling the thing, and the first person who 
-    buys your Word Processor is a kinda stupid lookin' guy named Herman 
-    Melville, who swears he's going to write the best novel ever written. He 
-    gets on a greyhound bus, he rents out a sailing cottage in Massachussetts, 
-    and he writes and writes this beautiful incredible novel about a white 
-    whale or something. For 6 months, he works on it, and you know what he 
-    doesn't do? He NEVER saves...and as he's writing the final, ultimate lines 
-    of the novel: "T-H-E- -E-N-" - the buffer runs out of space, like it has a 
-    bunch of other times. SO, it calls "realloc" to get more space for the last 
-    letter - and then realloc says "Sorry, we're out of space" and returns 
-    NULL. 
-    - So, now, because you were saving the returned address from "realloc" in 
-    your existing ptr, you've lost your only pointer to the novel...and it's 
-    gone.  
-        - "There's a moral to this story: that piece of code that shows up in 
-        the textbook? It's AWFUL. DON'T DO THIS!"
+    - So, you decide to make it happen. You sit down at your computer and start planning out this revolutionary new MS Word killer, and the way word processors work is that they have a BIG chunk of memory that holds the current text; when you need more memory to hold the extra words, it grows the chunk of memory it points to. 
+    - So, you're ready to start selling the thing, and the first person who buys your Word Processor is a kinda stupid lookin' guy named Herman Melville, who swears he's going to write the best novel ever written. He gets on a greyhound bus, he rents out a sailing cottage in Massachussetts, and he writes and writes this beautiful incredible novel about a white whale or something. For 6 months, he works on it, and you know what he doesn't do? He NEVER saves...and as he's writing the final, ultimate lines of the novel: "T-H-E- -E-N-" - the buffer runs out of space, like it has a bunch of other times. SO, it calls "realloc" to get more space for the last letter - and then realloc says "Sorry, we're out of space" and returns NULL. 
+    - So, now, because you were saving the returned address from "realloc" in your existing ptr, you've lost your only pointer to the novel...and it's gone.  
+        - "There's a moral to this story: that piece of code that shows up in the textbook? It's AWFUL. DON'T DO THIS!"
         - *Leahy rant over*
 
-- Now, I'm assuming everyone's seen a linked list before, right? Well, the way 
-that we'd make a linked list in C is something like this:
+- Now, I'm assuming everyone's seen a linked list before, right? Well, the way that we'd make a linked list in C is something like this:
 
         typedef struct node {
             int data;
-            struct node *next;  //can't say NODE*, since that typename isn't 
-            defined until the next line
+            struct node *next;  //can't say NODE*, since that typename isn't defined until the next line
         } NODE;
 
     - That's our node struct; we then need a pointer to our head:
@@ -186,17 +123,12 @@ that we'd make a linked list in C is something like this:
         }
 
         - GREAT! There's just one problem: this doesn't work!
-            - in our "addFront" variable, head is a LOCAL pointer, so it 
-            doesn't change our actual "head" pointer! Let's fix that; we could 
-            do it in a few ways:
+            - in our "addFront" variable, head is a LOCAL pointer, so it doesn't change our actual "head" pointer! Let's fix that; we could do it in a few ways:
                 - Return our temp pointer, then assign it to head back in main()
                 - Accept a pointer to the head pointer instead (**head)
 
         - Now, let's verify that this works:
-            - "Anytime you're dealing with dynamic data structures, I'd 
-            recommend you work on it piecemeal: write the simplest possible way 
-            of doing things, verify that it works, then make it more 
-            complicated; then, when it's working, move on to the next piece"
+            - "Anytime you're dealing with dynamic data structures, I'd recommend you work on it piecemeal: write the simplest possible way of doing things, verify that it works, then make it more complicated; then, when it's working, move on to the next piece"
 
             void traverse(NODE *head) {
                 while (head != null) {
@@ -207,8 +139,6 @@ that we'd make a linked list in C is something like this:
             }
             
         
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html"></a>

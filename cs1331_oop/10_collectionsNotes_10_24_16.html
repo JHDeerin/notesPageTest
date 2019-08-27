@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,106 +23,69 @@
 <a class="side-link is-note-link" href="9_moreExceptionNotes_10_21_16.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//**********************************************************//
 //*********Java Collections - October 24th, 2016***********//
 //********************************************************//
 
--Something you apparently learn in the Air Force: we have "predator eyes" 
-specially adapted to detect movement, even if we only see it in the corner of 
-our sight, and focus our attention on moving things if we see them; the moral? 
-TURN OFF YOUR DISTRACTING DOODADS
--"I love all blocks of this course equally- but this one's my favorite" -Prof. 
-Simpkins 2016
+-Something you apparently learn in the Air Force: we have "predator eyes" specially adapted to detect movement, even if we only see it in the corner of our sight, and focus our attention on moving things if we see them; the moral? TURN OFF YOUR DISTRACTING DOODADS
+-"I love all blocks of this course equally- but this one's my favorite" -Prof. Simpkins 2016
 -----------------------------------------
 
--We're getting to finally start putting the pieces together and answer the 
-question: what is all this OOP for?
--Example: Exceptions are ENTIRELY defined in the standard library using the 
-concepts we already learned
--The objects framework is no different; HEAVILY reliant on polymorphism, as we 
-will see
+-We're getting to finally start putting the pieces together and answer the question: what is all this OOP for?
+-Example: Exceptions are ENTIRELY defined in the standard library using the concepts we already learned
+-The objects framework is no different; HEAVILY reliant on polymorphism, as we will see
 
 -A COLLECTION is just an object that represents a collection of other objects
     -Our previous classes were AGRAGATIONS; collections are COMPOSITIONS
--By default, the "Collection" class is actually an interface, with 
-sub-interfaces extending that interface (e.g. "interface Set extends 
-Collection")
+-By default, the "Collection" class is actually an interface, with sub-interfaces extending that interface (e.g. "interface Set extends Collection")
 
 -The Java Collections Framework consists of:
     -Collection interfaces representing types of collections
     -CONCRETE, general purpose implementations of those interfaces
-    -Abstract implementations meant to be built upon by the user (yet another 
-    real-world example of interfaces/abstract being useful)
-    -A set of algorithms that are defined as "utility methods" to be called on 
-    collections
-    -"Infrastructure Interfaces", like Comparable or Iterator, that support all 
-    of these
+    -Abstract implementations meant to be built upon by the user (yet another real-world example of interfaces/abstract being useful)
+    -A set of algorithms that are defined as "utility methods" to be called on collections
+    -"Infrastructure Interfaces", like Comparable or Iterator, that support all of these
 
--Collection interface itself contains basic operations, e.g. "add, contains, 
-etc."
--LIST interface extends Collection to represent a SEQUENTIAL, ORDERED 
-collection of objects (fundamental property of lists)
-    -Three IMPORTANT implementations: "ArrayList" (our go-to class), 
-    "LinkedList" (get to it later), and "Vector" (slowly being phased out)
+-Collection interface itself contains basic operations, e.g. "add, contains, etc."
+-LIST interface extends Collection to represent a SEQUENTIAL, ORDERED collection of objects (fundamental property of lists)
+    -Three IMPORTANT implementations: "ArrayList" (our go-to class), "LinkedList" (get to it later), and "Vector" (slowly being phased out)
     -Contains some additional methods, e.g. Sublist
 
--Remember, an ArrayList can be declared like any other class, elements added 
-via .add(), and accessed via "indexed access" (i.e. the array [n] syntax)
+-Remember, an ArrayList can be declared like any other class, elements added via .add(), and accessed via "indexed access" (i.e. the array [n] syntax)
 
--RAW LIST; when the ArrayList is NOT given a type upon being instantiated; this 
-will make the compiler throw a warning
-    -Will get the "unsafe operations" or "unchecked operations" warning, since 
-    they're "technically" typechecked, but only as Object
-    -ALL of the objects in the array will be of type "Object"; means we have to 
-    cast the object EVERY time we want to use a non-Object method on it
-    -Means we CANNOT put primitives into an ArrayList (unless you use a Wrapper 
-    class... which we'll get to)
--This is dangerous, because we can add multiple types of wildly different 
-objects to our list
+-RAW LIST; when the ArrayList is NOT given a type upon being instantiated; this will make the compiler throw a warning
+    -Will get the "unsafe operations" or "unchecked operations" warning, since they're "technically" typechecked, but only as Object
+    -ALL of the objects in the array will be of type "Object"; means we have to cast the object EVERY time we want to use a non-Object method on it
+    -Means we CANNOT put primitives into an ArrayList (unless you use a Wrapper class... which we'll get to)
+-This is dangerous, because we can add multiple types of wildly different objects to our list
     -Not only is this disorganized, but can result in casting exceptions, etc.
 
--Before Java 1.5, we handled this just by casting everything; there wasn't a 
-better way!
+-Before Java 1.5, we handled this just by casting everything; there wasn't a better way!
     -Like we said, this is REALLY, REALLY error prone!!!
 
--Instead, we now can declare "List&lt;E&gt; =", where &lt;E&gt; is a TYPE PARAMETER that 
-will limit what we can put in (just like an array!)
-    -Java does this using something called GENERICS, where the "E" means that 
-    any type that inherits from object can go there
+-Instead, we now can declare "List&lt;E&gt; =", where &lt;E&gt; is a TYPE PARAMETER that will limit what we can put in (just like an array!)
+    -Java does this using something called GENERICS, where the "E" means that any type that inherits from object can go there
 
-example: "ArrayList&lt;Strings&gt; strings = new ArrayList&lt;&gt;();" //java will infer 
-what type goes in the angle brackets if you leave them blank in the 2nd one 
-ONLY; can still put the type in and it will compile just fine, though
+example: "ArrayList&lt;Strings&gt; strings = new ArrayList&lt;&gt;();" //java will infer what type goes in the angle brackets if you leave them blank in the 2nd one ONLY; can still put the type in and it will compile just fine, though
     -Works because Java doesn't jave "Reified type checking"
 
--Now, what if we want to use primitives though? Well, we have to "wrap" (or 
-"box") the primitive in a WRAPPER class that will contain the primitives and 
-let them be used with generics; e.g.:
+-Now, what if we want to use primitives though? Well, we have to "wrap" (or "box") the primitive in a WRAPPER class that will contain the primitives and let them be used with generics; e.g.:
     -ArrayList&lt;Integer&gt; ints = new Arraylist&lt;&gt;();
 
--So, when we ADD a integer primitive, Java will "autobox" the integer and 
-convert it into a Integer
-    -HOWEVER, this means we can't just say "int i = ints[0]", since all of the 
-    entries ARE NOT "int"s; they're "Integer" objects!...
+-So, when we ADD a integer primitive, Java will "autobox" the integer and convert it into a Integer
+    -HOWEVER, this means we can't just say "int i = ints[0]", since all of the entries ARE NOT "int"s; they're "Integer" objects!...
     -...IF the array is UNTYPED;
-    -If the array IS typed with an &lt;Integer&gt;, then Java 7+ became smart enough 
-    to handle autounboxing; hurrah!
+    -If the array IS typed with an &lt;Integer&gt;, then Java 7+ became smart enough to handle autounboxing; hurrah!
 
--Another collection is a SET; the essential property of a set is that there are 
-NO DUPLICATES (e.g. {a a a a a b b b} = {a b}), ANd that the Set doesn't have 
-to be in a set order
+-Another collection is a SET; the essential property of a set is that there are NO DUPLICATES (e.g. {a a a a a b b b} = {a b}), ANd that the Set doesn't have to be in a set order
 
--A "Map&lt;k, v&gt;" (also known as a "dictionary" in Python) is an object htat maps 
-"keys" (the V) to a particular, unique value (v)
+-A "Map&lt;k, v&gt;" (also known as a "dictionary" in Python) is an object htat maps "keys" (the V) to a particular, unique value (v)
     -added via "put", retrieved via "get()"
 
--ASSIGNMENT: Write a class "WordCount" that takes in a String "fileName" as a 
-constructor and counts how many times a certain word appears in the file
-    -File supplied is on the GitHub for the class, but you can use any file 
-    you'd like
+-ASSIGNMENT: Write a class "WordCount" that takes in a String "fileName" as a constructor and counts how many times a certain word appears in the file
+    -File supplied is on the GitHub for the class, but you can use any file you'd like
     -What do you think you'll use? ...if you said a "Map", good! :D
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="11_moreCollectionNotes_10_26_16.html"></a>

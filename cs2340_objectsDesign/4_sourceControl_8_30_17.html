@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,121 +23,64 @@
 <a class="side-link is-note-link" href="3_introToAgile_8_28_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //*********** Intro to Git/Version Control - August 30th, 2017 **************//
 //**************************************************************************//
 
-- So, for M1, someone'll need to create your GitHub site, and then create a 
-repository for the project
-- For ZENHUB, should get the extension for your browser and create the 
-milestones listed in the homework
-    - For issues, do NOT just make 4 issues called "m1", "m2", "m3", "m4"; LOOK 
-    at what you need to do for those milestones and put in the specific stuff 
-    to implement - "create team charter," "add user registration", etc., with 
-    them ordered by priority (priority should be based on time when they're all 
-    due) 
+- So, for M1, someone'll need to create your GitHub site, and then create a repository for the project
+- For ZENHUB, should get the extension for your browser and create the milestones listed in the homework
+    - For issues, do NOT just make 4 issues called "m1", "m2", "m3", "m4"; LOOK at what you need to do for those milestones and put in the specific stuff to implement - "create team charter," "add user registration", etc., with them ordered by priority (priority should be based on time when they're all due) 
         - Then, create a sprint, assign your issues/milestones, etc.
 ---------------------------------------------------------------------
 
-- So, source/version control is a CS-specific type of engineering practice 
-called "configuration management", which lets us keep track of our project and 
-what we're doing
-    - We're not going to go through all the specifics of configuration 
-    management as a discipline; we'll just be focusing on one, specific aspect: 
-    CONTROL
+- So, source/version control is a CS-specific type of engineering practice called "configuration management", which lets us keep track of our project and what we're doing
+    - We're not going to go through all the specifics of configuration management as a discipline; we'll just be focusing on one, specific aspect: CONTROL
 
 - Problem: how can multiple people work on the same code at the SAME TIME?
-    - This used to be a REALLY big problem, and so you'd have techniques like 
-    "one person - one file", copying files from a shared directory, token-based 
-    "coke can" models (only 1 person can work on the same piece of code at the 
-    same time), etc.
-        - NOW, this problem has been WAYYYYYYYYY simplified with source 
-        control, which automatically keeps track of ALL our changes and can 
-        coordinate them!
-        - Initially, this class started out with CVS, then switched to 
-        Subversion, and now, we're currently using Git
+    - This used to be a REALLY big problem, and so you'd have techniques like "one person - one file", copying files from a shared directory, token-based "coke can" models (only 1 person can work on the same piece of code at the same time), etc.
+        - NOW, this problem has been WAYYYYYYYYY simplified with source control, which automatically keeps track of ALL our changes and can coordinate them!
+        - Initially, this class started out with CVS, then switched to Subversion, and now, we're currently using Git
 
-- "Source control is a pain in the neck when you start learning to use it, but 
-trust me, it'll be a MASSIVE help once you get used to it"
+- "Source control is a pain in the neck when you start learning to use it, but trust me, it'll be a MASSIVE help once you get used to it"
 
-- Now, some decisions that we have to make as configuration managers is "what 
-should we control?", "When do we control it?", "How do we stay in sync?", etc.
-    - Git really only helps with the last part, but for this class, that's all 
-    we really need; the rest of this is software engineering stuff that you 
-    just have to decide for yourself
+- Now, some decisions that we have to make as configuration managers is "what should we control?", "When do we control it?", "How do we stay in sync?", etc.
+    - Git really only helps with the last part, but for this class, that's all we really need; the rest of this is software engineering stuff that you just have to decide for yourself
 
 - So, let's cover the high-level theory of how version control works
-    - In a CENTRALIZED system (like CVS, although Git has a mode that works 
-    like this), there's a server on the internet called the "repository"
-        - When Bob wants to look at the code, he "checks out" the code from the 
-        repository, downloading it to his machine
-        -Then, Bob works on the file(s) he downloaded LOCALLY; the 
-        version-control system doesn't know anything has changed
-        - Then, when Bob's done, he "commits" the file to the version-control 
-        system. The repository updates the repository number to "version 2" or 
-        something like that
+    - In a CENTRALIZED system (like CVS, although Git has a mode that works like this), there's a server on the internet called the "repository"
+        - When Bob wants to look at the code, he "checks out" the code from the repository, downloading it to his machine
+        -Then, Bob works on the file(s) he downloaded LOCALLY; the version-control system doesn't know anything has changed
+        - Then, when Bob's done, he "commits" the file to the version-control system. The repository updates the repository number to "version 2" or something like that
         - Then, Sally wants to work on a file, so she checks it out...etc.
-    - Now, what if you're BOTH working at the same time? And you both check out 
-    "Version 37" or something...
-        - Well, the FIRST person to commit will just have it smoothly update 
-        the repo as normal
-        - The SECOND person, though, who tries to commit from that same 
-        codebase ("changes were also based on v.37") will have the repo tell 
-        them that they'll need to "MERGE" their code to get it working
-            - So, the 2nd person would actually have to "fetch" the changes the 
-            1st person made, add their changes locally, then send a new update 
-            to the repo
-            - In  some cases, the software will be clever enough to 
-            automatically merge (e.g. if we edited the same file but only added 
-            things, didn't delete anything); if we changed the SAME LINES, 
-            though, then the software isn't sure who's changes should take 
-            precedence, and we'll have to manually resolve these merge 
-            conflicts"
+    - Now, what if you're BOTH working at the same time? And you both check out "Version 37" or something...
+        - Well, the FIRST person to commit will just have it smoothly update the repo as normal
+        - The SECOND person, though, who tries to commit from that same codebase ("changes were also based on v.37") will have the repo tell them that they'll need to "MERGE" their code to get it working
+            - So, the 2nd person would actually have to "fetch" the changes the 1st person made, add their changes locally, then send a new update to the repo
+            - In  some cases, the software will be clever enough to automatically merge (e.g. if we edited the same file but only added things, didn't delete anything); if we changed the SAME LINES, though, then the software isn't sure who's changes should take precedence, and we'll have to manually resolve these merge conflicts"
 
-- So, GIT developed out of Linus Torvald's annoyance with centralized 
-version-control system; he decided to modify this version-control model to use 
-a DISTRIBUTED model
-    - With Git, you can push changes to a LOCAL, no-internet-required 
-    repository by "cloning" the whole online repository to your local machine, 
-    and enjoy local version control; THEN, you can push from your local 
-    repository to the online "master" repository!
+- So, GIT developed out of Linus Torvald's annoyance with centralized version-control system; he decided to modify this version-control model to use a DISTRIBUTED model
+    - With Git, you can push changes to a LOCAL, no-internet-required repository by "cloning" the whole online repository to your local machine, and enjoy local version control; THEN, you can push from your local repository to the online "master" repository!
 
-- To create a new LOCAL repo with Git (after you've downloaded it, set up 
-paths, etc.), you navigate to the folder you want to make a repo (in the 
-command line) and say "git init"
+- To create a new LOCAL repo with Git (after you've downloaded it, set up paths, etc.), you navigate to the folder you want to make a repo (in the command line) and say "git init"
     - This will create a ".git" file that keeps track of your changes
-- To add files from the folder to the list of "tracked" files in your repo, 
-type "git add &lt;filename(s)&gt;"
-    - You need to do this after EVERY TIME you update the file; if you want to 
-    add ALL changed files, you use "git add *"
-- "git status" will tell you if there are any files that have changed / aren't 
-being tracked / etc.
+- To add files from the folder to the list of "tracked" files in your repo, type "git add &lt;filename(s)&gt;"
+    - You need to do this after EVERY TIME you update the file; if you want to add ALL changed files, you use "git add *"
+- "git status" will tell you if there are any files that have changed / aren't being tracked / etc.
 - Then, you say "git commit" to "stage" those changes
-    - Git will then prompt you for a "commit message" describing your changes; 
-    you can type "git commit -m '...' " as a shortcut for this
-        - PLEASE, PLEASE, PLEASE write decent messages that actually describe 
-        what you did
+    - Git will then prompt you for a "commit message" describing your changes; you can type "git commit -m '...' " as a shortcut for this
+        - PLEASE, PLEASE, PLEASE write decent messages that actually describe what you did
     - This JUST commits changes to your LOCAL repo
-- NOTE: If you want to see the list of all previous commits, you can use the 
-"git log" command 
+- NOTE: If you want to see the list of all previous commits, you can use the "git log" command 
 
-- Now, to "clone" an existing GitHub repository, you use "git clone &lt;online 
-repo url&gt;"
+- Now, to "clone" an existing GitHub repository, you use "git clone &lt;online repo url&gt;"
     - You can get the url by hitting the "clone" button on GitHub's website
-    - This will bring in all the files from that online repository onto your 
-    repo
-- So, after you've made your changes, and are ready to push them online, say 
-"git push origin master"
+    - This will bring in all the files from that online repository onto your repo
+- So, after you've made your changes, and are ready to push them online, say "git push origin master"
     - The branch can be named anything, and the "origin" name can be changed
-    - WARNING: If you go on "GitHub", there's a "pencil" icon that lets you 
-    edit the file DIRECTLY on the master repository. DO NOT USE THIS. IT WILL 
-    LEAD TO CRAZY, WILD, STUPID MERGE CONFLICTS. If you need to edit something 
-    REALLY unimportant, like the readme file, that's okay; but do NOT edit code 
-    files except through the actual "add/commit/push" process
+    - WARNING: If you go on "GitHub", there's a "pencil" icon that lets you edit the file DIRECTLY on the master repository. DO NOT USE THIS. IT WILL LEAD TO CRAZY, WILD, STUPID MERGE CONFLICTS. If you need to edit something REALLY unimportant, like the readme file, that's okay; but do NOT edit code files except through the actual "add/commit/push" process
 
-    
-
-</pre>
+    </pre>
 </article>
 <a class="side-link is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html"></a>
 </main>

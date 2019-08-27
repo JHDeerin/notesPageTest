@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="2_linkedListNotes_1_13_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//*************************************************************//
 //************Linked List Types - January 18th, 2017**********//
 //***********************************************************//
@@ -31,23 +33,15 @@
 -SINGLY LINKED LIST HOMEWORK - this is due on Monday!!!
 ---------------------------------------------
 
--So, LinkedLists vs ArrayLists - we start off with them because it's a very 
-clear example of making a trade-off decision; both are unordered (by default), 
-etc., but one is fast to ACCESS, the other is fast to MODIFY
-    -EACH data structure has strengths and weaknesses; we'll try to teach you 
-    how to figure out which ones are appropriate for your specific situation
+-So, LinkedLists vs ArrayLists - we start off with them because it's a very clear example of making a trade-off decision; both are unordered (by default), etc., but one is fast to ACCESS, the other is fast to MODIFY
+    -EACH data structure has strengths and weaknesses; we'll try to teach you how to figure out which ones are appropriate for your specific situation
 
--e.g. ArrayLists - can access indexes RIGHT away, but whenever we add/remove an 
-element (except from the back), we have to shift ALL of the indices
-    -In contrast, LinkedLists can be "written" (modified) very quickly, but are 
-    slow to "read" (access), since you have to go through EACH node in the list 
-    to go forward
+-e.g. ArrayLists - can access indexes RIGHT away, but whenever we add/remove an element (except from the back), we have to shift ALL of the indices
+    -In contrast, LinkedLists can be "written" (modified) very quickly, but are slow to "read" (access), since you have to go through EACH node in the list to go forward
 
--Doubly Linked-Lists: an LL where each node has a pointer to the "next" node 
-AND the "previous" node
+-Doubly Linked-Lists: an LL where each node has a pointer to the "next" node AND the "previous" node
     -Time-Cost to create a new node: O(1), CONSTANT TIME
-        -Yes, takes *slightly* more time to create than a singly linked-list 
-        node, but it's still constant-time
+        -Yes, takes *slightly* more time to create than a singly linked-list node, but it's still constant-time
 
     "public class DoublylinkedList&lt;T&gt; {
         public class Node&lt;T&gt;() {
@@ -74,27 +68,21 @@ AND the "previous" node
     4) Set the "prev" pointer of the node.next to the new node
 
 -Removing a new node (between 2 nodes) is done by
-    1) Have "node.prev"'s next pointer to point to "node.next" ("skipping over" 
-    the node you want to remove)
+    1) Have "node.prev"'s next pointer to point to "node.next" ("skipping over" the node you want to remove)
 
 -Linked Lists are dynamic, and can store primitives OR objects
 -Searching a linkedList / accessing it is a cost of O(m)
 -Adding/removing from the front is O(1)
--So, linkedLists are VERY useful for situations where the data is being 
-constantly manipulated
+-So, linkedLists are VERY useful for situations where the data is being constantly manipulated
     -RFID scans, app wizards, video game levels
 -Doubly Linked List examples:
     -Browser history, scroll bars, forward / back buttons
 
 -Another Linked-List Type: A CIRCULAR Linked list!!!
-    -The "tail.next" (or last node, if you don't have a tail) is NOT null, but 
-    instead points to the HEAD variable, making a cycle!
+    -The "tail.next" (or last node, if you don't have a tail) is NOT null, but instead points to the HEAD variable, making a cycle!
     -Could be EITHER singly or doubly linked
-        -Adding / removing is the exact same as for a singly/doubly linked list 
-        (doesn't change just for circular type)
+        -Adding / removing is the exact same as for a singly/doubly linked list (doesn't change just for circular type)
     -Applications: GIFs, music playlists, round-robin CPU schedules
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="4_stackNotes_1_20_17.html"></a>

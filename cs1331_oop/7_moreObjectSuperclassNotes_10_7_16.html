@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,71 +23,50 @@
 <a class="side-link is-note-link" href="6_objectSuperclassNotes_10_5_16.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//************************************************************//
 //*******Object Superclass (cont.) - October 7th, 2016*******//
 //**********************************************************//
 
 -(for real this time)
--Every class you write in java is part of a class hierarchy/ framework, and ALL 
-classes inherit from a class called "Object"
-    -Stored in java.lang.Object; since it's in java.lang, is automatically 
-    imported wherever it is
+-Every class you write in java is part of a class hierarchy/ framework, and ALL classes inherit from a class called "Object"
+    -Stored in java.lang.Object; since it's in java.lang, is automatically imported wherever it is
 
--Object HAS some default methods, but many of them are meant to be overridden 
-(e.g. toString, equals, hashCode, etc.)
-    -Java will automatically call toString whenever we try to print an object; 
-    how does it know every class has a toString method? Because EVERY class 
-    inherits from object, which has a toString method.
+-Object HAS some default methods, but many of them are meant to be overridden (e.g. toString, equals, hashCode, etc.)
+    -Java will automatically call toString whenever we try to print an object; how does it know every class has a toString method? Because EVERY class inherits from object, which has a toString method.
         -Clone() method exists, but should NEVER be used (read Joshua Block)
-        -Finalize() is helpful in some scenarios (runs code before destroying 
-        object), but is only used very rarely, so we won't go over it
+        -Finalize() is helpful in some scenarios (runs code before destroying object), but is only used very rarely, so we won't go over it
 
--So, we have a class "Animal" that "is-a" Object, and a class "Mammal" which 
-is-a Object
+-So, we have a class "Animal" that "is-a" Object, and a class "Mammal" which is-a Object
 
--By default, the .equals() method checks for identity equality, or "ALIASING"- 
-Java checks to see if two objects have the same memory address
+-By default, the .equals() method checks for identity equality, or "ALIASING"- Java checks to see if two objects have the same memory address
 -When should a class override this method?
-    -When logical equality, or VALUE EQUALITY, is needed (e.g. checking if 2 
-    dates stored in different objects are the same)
-    -When classes don't use "instance control" (class checks that there's only 
-    one instance of a class (like a singleton))
+    -When logical equality, or VALUE EQUALITY, is needed (e.g. checking if 2 dates stored in different objects are the same)
+    -When classes don't use "instance control" (class checks that there's only one instance of a class (like a singleton))
     -When the equals method for the superclass isn't suitable
     -In this class: ALMOST ALWAYS need to override the .equals().
 
 -More importantly, we need to know not just "when", but HOW to override this
-    -SIDE NOTE: ALWAYS use .equals(), unless you're testing for identity 
-    equality or working with primitives (otherwise, you can be making a 
-    dangerous assumption about how the equality )
-    -SIDE NOTE 2: KNOW OPERATOR PRECEDENCE! print("truth value : " + n == q ) 
-    will just print "false", since the == operator has precedence and will 
-    operate at the end
-    -SIDE NOTE 3: When initializing a string with the same text as a 
-    pre-existing string, Java will just make the new string an alias of the old 
-    one, unless instantiated via String n = new String("coolString");
+    -SIDE NOTE: ALWAYS use .equals(), unless you're testing for identity equality or working with primitives (otherwise, you can be making a dangerous assumption about how the equality )
+    -SIDE NOTE 2: KNOW OPERATOR PRECEDENCE! print("truth value : " + n == q ) will just print "false", since the == operator has precedence and will operate at the end
+    -SIDE NOTE 3: When initializing a string with the same text as a pre-existing string, Java will just make the new string an alias of the old one, unless instantiated via String n = new String("coolString");
 
     -For Comparable interface: we'll get to it later, but don't use it for now
 
-    -In the Java documentation, the .equals(Object n) method should define "an 
-    equivalence relationship", which satisfies the properties:
+    -In the Java documentation, the .equals(Object n) method should define "an equivalence relationship", which satisfies the properties:
         -Reflexivity: every object is equal to itself
         -Symmetry: A = B is the same as B = C
         -Transitive: A = C and B = C, then A = C
-        -Consistent: If A and B don't change, then the same result should be 
-        given
-        - a.equals(null) should ALWAYS return false (as otherwise, a is null 
-        and doesn't have an equals method)
+        -Consistent: If A and B don't change, then the same result should be given
+        - a.equals(null) should ALWAYS return false (as otherwise, a is null and doesn't have an equals method)
 
     -e.g. we have a "Person" class, and we follow the recipe of:
         -Check object is not null
         -Check if we're comparing the object to itself
-        -Check that the object is an "instanceof" the class we're using (return 
-        false if not true)
-            -BE AWARE that this will return true if the object is a subclass of 
-            the current class
+        -Check that the object is an "instanceof" the class we're using (return false if not true)
+            -BE AWARE that this will return true if the object is a subclass of the current class
         -Cast the object to the type we want
-        -Check the "significant" fields for the other object to determine if 
-        the two objects are equivalent
+        -Check the "significant" fields for the other object to determine if the two objects are equivalent
 
         -We follow this for ALL of our equals methods (for now...)
 
@@ -102,53 +82,37 @@ Java checks to see if two objects have the same memory address
 
 -Arrays are fixed collections of a fixed size and single type
 -ArrayLists are dynamically-allocated, and automatically resizes to fit objects
-    -Uses multiple arrays behind the scenes, but we can just use it as a 
-    resizeable list
+    -Uses multiple arrays behind the scenes, but we can just use it as a resizeable list
 
     e.g. ArrayList tasks = new ArrayList();
         tasks.add("Eat");
 
--The "contains()" method in collections (not just ArrayLists) uses the "equals" 
-method in the stored object to find if an object is in the list; the default 
-implementation rarely works right off the bat for this
-    -Note that ArrayList is a "generic" typed collection; by default, we can 
-    use it, but it will throw a warning if we don't give the ArrayList a 
-    specific type (by default, uses the "Object" type)
+-The "contains()" method in collections (not just ArrayLists) uses the "equals" method in the stored object to find if an object is in the list; the default implementation rarely works right off the bat for this
+    -Note that ArrayList is a "generic" typed collection; by default, we can use it, but it will throw a warning if we don't give the ArrayList a specific type (by default, uses the "Object" type)
 
 -Override equivalence:
-    -You want to override a method in a subclass; the method MUST have the 
-    EXACT same name, EXACT SAME parameter list, and a covariant return type
+    -You want to override a method in a subclass; the method MUST have the EXACT same name, EXACT SAME parameter list, and a covariant return type
 
 -"Covariant return type? Gee, what's that?"
-    -Means that it has to return either the same class OR a subclass of the 
-    return type as the original class
+    -Means that it has to return either the same class OR a subclass of the return type as the original class
     -"Return type of equal or lesser hierarchy to the original return type"
         -Practically, returning subclass is rare, but occasionally useful
-    -If EVERYTHING ELSE is the same except the return type/method body, then it 
-    won't compile (even as overloading)
-        -Overloading is only when the parameter list is the only thing that has 
-        changed
+    -If EVERYTHING ELSE is the same except the return type/method body, then it won't compile (even as overloading)
+        -Overloading is only when the parameter list is the only thing that has changed
 
--Trying to override method in same class as the original method freaks the 
-compiler out (WHICH ONE IS REAL AGGGGHHHHHH), so don't do it
--Make sure to use @Override, as it is easy to OVERLOAD a method instead of 
-actually overriding it
+-Trying to override method in same class as the original method freaks the compiler out (WHICH ONE IS REAL AGGGGHHHHHH), so don't do it
+-Make sure to use @Override, as it is easy to OVERLOAD a method instead of actually overriding it
 
--Static abstract classes: can call the static methods on the class directly w/o 
-instantiation, but really, no one actually does this
+-Static abstract classes: can call the static methods on the class directly w/o instantiation, but really, no one actually does this
     -Can we instantiate a static class? WHO KNOWS! (Taylor didn't know)
 
 -Won't be questions on exceptions (even if they're on the practice test)
 
--Enums: can do some crazzzzzzy stuff with them (enum constructors, methods, 
-etc.), but for this class, they're just numbers w/ names
+-Enums: can do some crazzzzzzy stuff with them (enum constructors, methods, etc.), but for this class, they're just numbers w/ names
     -Values given in order (0, 1, 2, 3, ..., n)
     -If more interested, Oracle has a great tutorial on Enums
 
-(...I got bored and went on a really awful poetry tangent in the margins of a 
-paper I'll probably need later)
-
-
+(...I got bored and went on a really awful poetry tangent in the margins of a paper I'll probably need later)
 </pre>
 </article>
 <a class="side-link is-note-link" href="8_exceptionNotes_10_19_16.html"></a>

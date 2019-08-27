@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,193 +23,127 @@
 <a class="side-link is-note-link" href="5_2dDiffEqs_1_24_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************* 2D Linear System Stability - January 31st, 2019 *************//
 //**************************************************************************//
 
-- So, the snow day has now put us even farther behind, so we've got some ground 
-to cover
+- So, the snow day has now put us even farther behind, so we've got some ground to cover
 --------------------------------------------------
 
-- We spend a lot of time on 1D systems asking the basic questions: what are 
-fixed points? How do fixed points change in response to parameters?, etc.
+- We spend a lot of time on 1D systems asking the basic questions: what are fixed points? How do fixed points change in response to parameters?, etc.
 - Last time, we began getting into 2D systems
     - We started off with linear systems
-    - Then, we talked about the special case of a DIAGONAL system, where the 
-    axes are basically independent of one another
-        - This means they essentially boil down to analyzing two 1D systems, 
-        but because it's still a 2D system, it can exhibit some more 
-        interesting behavior
-    - If the matrix isn't diagonal, we can try to DIAGONALIZE it by finding its 
-    eigenvectors and using those to "decouple" the variables; from there, the 
-    analysis is just like analyzing a diagonal matrix (except for a 'rotated' 
-    system)!
+    - Then, we talked about the special case of a DIAGONAL system, where the axes are basically independent of one another
+        - This means they essentially boil down to analyzing two 1D systems, but because it's still a 2D system, it can exhibit some more interesting behavior
+    - If the matrix isn't diagonal, we can try to DIAGONALIZE it by finding its eigenvectors and using those to "decouple" the variables; from there, the analysis is just like analyzing a diagonal matrix (except for a 'rotated' system)!
 
-- So, we left off on the harmonic oscillator problem (which Professor Vuduc 
-HIGHLY recommends we do as a practice exercise)
+- So, we left off on the harmonic oscillator problem (which Professor Vuduc HIGHLY recommends we do as a practice exercise)
     - ...I did not :(
-- You can compute the eigenvalues/eigenvectors of this system, and you'll end 
-up with complex eigenvalues
+- You can compute the eigenvalues/eigenvectors of this system, and you'll end up with complex eigenvalues
 
-- We want to eventually start looking at non-linear systems, which are much 
-harder to analyze (we'll have to only look in the neighborhood of certain 
-points), but are where most interesting problems in the real world lie
+- We want to eventually start looking at non-linear systems, which are much harder to analyze (we'll have to only look in the neighborhood of certain points), but are where most interesting problems in the real world lie
 
 - Now, how do we classify critical points for a 2x2 matrix?
-    - Let's say we know the determinant (product of the eigenvalues = lam1 * 
-    lam2) and trace (sum of the eigenvalues/diagonals = lam1 + lam2) of the 
-    matrix
+    - Let's say we know the determinant (product of the eigenvalues = lam1 * lam2) and trace (sum of the eigenvalues/diagonals = lam1 + lam2) of the matrix
     - So, what do the following cases mean?
         1) determinant &lt; 0:
             - This means that at least 1 eigenvalue is less than 0
-            - This means we've got a point that is stable along one 
-            direction/eigenvector, but unstable from another (since the other 
-            eigenvalue is &gt; 0); so, it's a SADDLE POINT!
+            - This means we've got a point that is stable along one direction/eigenvector, but unstable from another (since the other eigenvalue is &gt; 0); so, it's a SADDLE POINT!
         2)  determinant &gt; 0 AND trace &lt; 0 (attracting case)
             - If the eigenvalues are both real numbers:
-                - This means that both eigenvalues must be negative (positive 
-                product but negative sum, so they can't both be positive), so 
-                this point is STABLE, and the curves will converge along both 
-                eigenvectors
-                    - The eigenvector with the greater absolute value will be 
-                    the one where the curves decay "faster" towards the point
+                - This means that both eigenvalues must be negative (positive product but negative sum, so they can't both be positive), so this point is STABLE, and the curves will converge along both eigenvectors
+                    - The eigenvector with the greater absolute value will be the one where the curves decay "faster" towards the point
             - If the eigenvalues are complex:
-                - Since the trace/product are real, this means the eigenvalues 
-                are complex conjugates of one another
+                - Since the trace/product are real, this means the eigenvalues are complex conjugates of one another
                 - Because of Euler's identity, e.g.:
 
                         e-value = e^(r +- ic) = e^r * (cos(c) +- i*sin(c))
 
-                - ...this'll result in a curve that SPIRALS either towards/away 
-                from the origin
+                - ...this'll result in a curve that SPIRALS either towards/away from the origin
                     - If r &lt; 0, then it'll spiral towards it, and be stable
-                - How do we know if the spiral is clockwise/counter-clockwise? 
-                Well, since we have the equation for the derivative vector, we 
-                can just plug in some values close to the point and see which 
-                way they point
+                - How do we know if the spiral is clockwise/counter-clockwise? Well, since we have the equation for the derivative vector, we can just plug in some values close to the point and see which way they point
     3) determinant &lt; 0 AND trace &gt; 0 (repelling case)
-        - This'll be unstable, since we must have one positive and one negative 
-        eigenvalue
+        - This'll be unstable, since we must have one positive and one negative eigenvalue
     4) determinant &gt; 0, trace = 0 (centers)
-        - In this case, it means the eigenvalues must be pure imaginary (to end 
-        up with a trace of 0)
-        - This'll result in perfect circles/ellipses going aroung the fixed 
-        point; it's Lyapunov stable, but'll never reach the point itself
+        - In this case, it means the eigenvalues must be pure imaginary (to end up with a trace of 0)
+        - This'll result in perfect circles/ellipses going aroung the fixed point; it's Lyapunov stable, but'll never reach the point itself
             - "Again, this is a bit of a degenerate case"
     5) determinant = 0 (line of critical points)
-        - This means one of the eigenvalues must be 0, so along that 
-        eigenvalue's eigenvector there'll just be a line of critical points
+        - This means one of the eigenvalues must be 0, so along that eigenvalue's eigenvector there'll just be a line of critical points
 
-- "So, hopefully those basic cases for linear systems make sense - now, here's 
-a nice picture of them for you to put on your cheat sheets"
-    - (apparently the picture is in Sayama's textbook somewhere; here, you'll 
-    have to settle for a word picture instead)
+- "So, hopefully those basic cases for linear systems make sense - now, here's a nice picture of them for you to put on your cheat sheets"
+    - (apparently the picture is in Sayama's textbook somewhere; here, you'll have to settle for a word picture instead)
     - On a graph w/ the determinant on the x-axis and the trace on the y:
-        - The Region of Saddles lies to the left of the Y-axis (wherever det. 
-        is negative)
+        - The Region of Saddles lies to the left of the Y-axis (wherever det. is negative)
             - ...it literally covers the whole left half of the graph
-        - The Curve of Spirals lies along the sideways parabola "trace^2 - 
-        4*determinant = 0"
+        - The Curve of Spirals lies along the sideways parabola "trace^2 - 4*determinant = 0"
             - Stable Spirals live where the trace is negative
             - Unstable Spirals live where the trace is positive
-        - The Vale of Stability lies beneath the curve of spirals, wherever the 
-        determinant is negative
-        - The Line of Critical Pointiness is on the Y-axis, where the 
-        determinant = 0 exactly
-        - The Line of Centers is on the X-axis, where the trace = 0 (i.e. 
-        ellipses/circles around the origin that don't actually go towards/away)
+        - The Vale of Stability lies beneath the curve of spirals, wherever the determinant is negative
+        - The Line of Critical Pointiness is on the Y-axis, where the determinant = 0 exactly
+        - The Line of Centers is on the X-axis, where the trace = 0 (i.e. ellipses/circles around the origin that don't actually go towards/away)
         - The Sky of Instability lies above the curve of spirals
 
-- "Okay, so does this feel doable? If you had to sit down and come up with this 
-plot, would you feel kind-of okay knowing why? Could you use this plot if you 
-had to?"
+- "Okay, so does this feel doable? If you had to sit down and come up with this plot, would you feel kind-of okay knowing why? Could you use this plot if you had to?"
     - As an example, let's consider this system:
 
             x0' = x0 + e^(-x1)
             x1' = -x1
 
-        - This'll have a fixed point when x0 = -1 and x1 = 0; "that's the only 
-        one I see"
-        - Is this a stable point? Well, skipping the eigenvalue-solving 
-        exactness and just trying to guestimate...
-            - Since x1's derivative includes itself, x1 must look something 
-            like "x1 = e^-t"
+        - This'll have a fixed point when x0 = -1 and x1 = 0; "that's the only one I see"
+        - Is this a stable point? Well, skipping the eigenvalue-solving exactness and just trying to guestimate...
+            - Since x1's derivative includes itself, x1 must look something like "x1 = e^-t"
             - So, as x1-&gt;INFINITY, x0' will get closer and closer to:
 
                     x0' ~= x0 + 0
 
-                - So, we can guess that x0 will probably look something like 
-                "x0 = e^t"
+                - So, we can guess that x0 will probably look something like "x0 = e^t"
             - Therefore, in all probability, this is NOT stable (why????)
-                - Possibly because they're both e^t, so they'd both just 
-                exponentially increase without anything to "bring them back" to 
-                the point? Is that it?
-        - Something else we can do is graph the curves where each PART'S 
-        derivative is 0 (i.e. where that variable isn't changing), e.g.:
+                - Possibly because they're both e^t, so they'd both just exponentially increase without anything to "bring them back" to the point? Is that it?
+        - Something else we can do is graph the curves where each PART'S derivative is 0 (i.e. where that variable isn't changing), e.g.:
 
             x0' = 0 =&gt; x0 = -e^(-x1)
             x1' = 0 =&gt; x1 = 0
 
-        - These are known as the NULLCLINES of the graph, and they'll help us 
-        decide the different regions of behavior for this system
-            - On a phase plane where x0 is the x-axis and x1 is the y, this 
-            means a horizontal line on the x-axis whose directions are pointing 
-            away from the fixed point, and an e^x-ish curve that points towards 
-            the fixed point (to the left of the point) and away from it (to the 
-            right of the point)
-    - "This stuff is ALL repeated in Sayama (I believe chapter 7), so please 
-    look there if any of this seems fuzzy"
-        - (Generally makes sense to me, I'm just not quite sure why we 
-        immediately could say the point wasn't stable)
+        - These are known as the NULLCLINES of the graph, and they'll help us decide the different regions of behavior for this system
+            - On a phase plane where x0 is the x-axis and x1 is the y, this means a horizontal line on the x-axis whose directions are pointing away from the fixed point, and an e^x-ish curve that points towards the fixed point (to the left of the point) and away from it (to the right of the point)
+    - "This stuff is ALL repeated in Sayama (I believe chapter 7), so please look there if any of this seems fuzzy"
+        - (Generally makes sense to me, I'm just not quite sure why we immediately could say the point wasn't stable)
 
-- So, that's linear systems - but now we're ready. Let's start getting into the 
-scary, hairy, exciting world of NONLINEAR SYSTEMS! (*evil cackle, followed by 
-wheezing*) *ill-timed thunder*
+- So, that's linear systems - but now we're ready. Let's start getting into the scary, hairy, exciting world of NONLINEAR SYSTEMS! (*evil cackle, followed by wheezing*) *ill-timed thunder*
     - In general, a 2nd-order nonlinear system would look something like this:
 
         d/dt[x0(t), x1(t)] = [f0(xv), f1(xv)] = [f0(x0, x1), f1(x0, x1)]
 
-    - Suppose we've got a fixed point x* = [x0*, x1*]; if we want to study the 
-    behavior near our fixed point, we could...?
+    - Suppose we've got a fixed point x* = [x0*, x1*]; if we want to study the behavior near our fixed point, we could...?
         - "I'm sorry, I lost you guys...where did I lose you?"
-    - Well, the simplest thing we can do is plug in for "f(x* + u)," where u is 
-    some pretty small value that gets us a coordinate 'near' x*, and see how 
-    the values change
-        - Earlier, we used a Taylor series to calculate what this value should 
-        be; now, since this is a nonlinear system, that won't work, so we've 
-        gotta do something a little different
+    - Well, the simplest thing we can do is plug in for "f(x* + u)," where u is some pretty small value that gets us a coordinate 'near' x*, and see how the values change
+        - Earlier, we used a Taylor series to calculate what this value should be; now, since this is a nonlinear system, that won't work, so we've gotta do something a little different
         - To make this work in multiple dimensions, let's do this instead:
 
-                f0(x0* + u0, x1* + u1) = f0(x0*, x1*) + u0*df0/dx0 + u1*df0/dx1 
-                + (...)
+                f0(x0* + u0, x1* + u1) = f0(x0*, x1*) + u0*df0/dx0 + u1*df0/dx1 + (...)
 
             - "These are partial derivatives, by the way, evaluated at x*"
         - Since we're assuming u is small, let's:
-            - 1) Ignore higher-order terms here, so we don't have to figure out 
-            df0^2/dx0^2, etc.
-            - 2) Plug in f0(x0*, x1*) = 0 (since it's a critical point, the 
-            slope is 0)
+            - 1) Ignore higher-order terms here, so we don't have to figure out df0^2/dx0^2, etc.
+            - 2) Plug in f0(x0*, x1*) = 0 (since it's a critical point, the slope is 0)
 
         - So, we end up with something like:
 
             f0(...) ~= u0*df0/dx0 + u1*df0/dx1
             f1(...) ~= u0*df1/dx0 + u1*df1/dx1
 
-        - What does this look like? A matrix times the vector u, you say? Hot 
-        dog! Let's put that in writing!
+        - What does this look like? A matrix times the vector u, you say? Hot dog! Let's put that in writing!
 
             [f0, f1] = A * u, where:
 
                 A = [df0/dx0    df0/dx1]
                     [df1/dx0    df1/dx1]
 
-            - "In fact, this particular matrix A has a name - the JACOBIAN, 
-            which hopefully you remember way back from multivariable calculus!"
-        - So, if we know the function, we can construct the Jacobian, find the 
-        fixed points of it, and then use the Jacobian as an 
-        approximately-linear approximation of the actual function
-            - ...which means we can use our SAME diagram to analyze the system, 
-            at least for the neighborhood around the critical points!
+            - "In fact, this particular matrix A has a name - the JACOBIAN, which hopefully you remember way back from multivariable calculus!"
+        - So, if we know the function, we can construct the Jacobian, find the fixed points of it, and then use the Jacobian as an approximately-linear approximation of the actual function
+            - ...which means we can use our SAME diagram to analyze the system, at least for the neighborhood around the critical points!
 
 - Here's an example to try at home, when you've got time:
 
@@ -227,15 +162,9 @@ wheezing*) *ill-timed thunder*
         - What's A(x*)? (i.e. multiplying the fixed point by the Jacobian)
         - Can you classify the stability of each fixed point?
 
-- "Alright, hopefully you're remembering math right now. I highly recommend you 
-try doing some example problems - we're basically just reviewing differential 
-equations at this point, so understanding that'll put you ahead of the game"
+- "Alright, hopefully you're remembering math right now. I highly recommend you try doing some example problems - we're basically just reviewing differential equations at this point, so understanding that'll put you ahead of the game"
 
-- Next week, we'll start looking at a specific, famous example system to try 
-and analyze this, and then start looking at what 2D bifurcations look like - 
-see you there!
-
-</pre>
+- Next week, we'll start looking at a specific, famous example system to try and analyze this, and then start looking at what 2D bifurcations look like - see you there!</pre>
 </article>
 <a class="side-link is-note-link" href="7_2dBifurcations_2_5_19.html"></a>
 </main>

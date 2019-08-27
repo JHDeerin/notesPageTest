@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="1_2dTransformations_1_9_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************ Composing 2D Transformations- January 11th, 2019 *************//
 //**************************************************************************//
@@ -29,31 +31,21 @@
 - The 4th row in a class...it is a thing
 ---------------------------------------
 
-- Okay, so on Wednesday we talked about the 3 major types of transformations: 
-translation, scaling, and rotation
-    - Translation, sadly, worked out to adding 2 vectors instead of multiplying 
-    matrices...but then we found out that we COULD express it as a matrix 
-    multiplication using "homogenous coordinates!"
-        - "This is how graphic libraries handle transformations internally, as 
-        matrix multiplications"
+- Okay, so on Wednesday we talked about the 3 major types of transformations: translation, scaling, and rotation
+    - Translation, sadly, worked out to adding 2 vectors instead of multiplying matrices...but then we found out that we COULD express it as a matrix multiplication using "homogenous coordinates!"
+        - "This is how graphic libraries handle transformations internally, as matrix multiplications"
 
-- Now, let's suppose we have the following problem: we have a little picture of 
-a house (represented by Mr. Pentagon), and we want to rotate our home by 90 
-degrees
+- Now, let's suppose we have the following problem: we have a little picture of a house (represented by Mr. Pentagon), and we want to rotate our home by 90 degrees
     - If we just apply our rotation operation, we'd rotate about the origin
-- But what if we want to rotate IN PLACE, so that we're rotating around the 
-center of our object?
-    - As it turns out, OpenGL has NO idea what we mean by the "center" of our 
-    object - so how do we do this?
-    - Well, if WE know where our house's center is, we can do it by moving our 
-    house to the origin, rotating it, and then moving it back
+- But what if we want to rotate IN PLACE, so that we're rotating around the center of our object?
+    - As it turns out, OpenGL has NO idea what we mean by the "center" of our object - so how do we do this?
+    - Well, if WE know where our house's center is, we can do it by moving our house to the origin, rotating it, and then moving it back
         - i.e., we're TRANSLATING it!
 - So, the process would look like:
     1) Translating our house so the center is at the origin (T1)
     2) Rotating our house however we want (R)
     3) Translating the house back to its original position (T2)
-        - So, in matrix form, rotating our house around a point (a,b) by 90 
-        degrees would look like:
+        - So, in matrix form, rotating our house around a point (a,b) by 90 degrees would look like:
 
             translate(-a,-b) -&gt; rotate(pi/2) -&gt; translate(a,b)
 
@@ -61,46 +53,34 @@ center of our object?
                  [0 1 -b]         [1  0 0]         [0 1 b]
                  [0 0  1]         [0  0 1]         [0 0 1]
 
-- However, REMEMBER that matrix multiplications happen right-to-left - so, we 
-have to put the first operations at the END of the matrix multiplication
-    - "Think of these as functions, and the idea of function composition - the 
-    innermost function will get called first!"
+- However, REMEMBER that matrix multiplications happen right-to-left - so, we have to put the first operations at the END of the matrix multiplication
+    - "Think of these as functions, and the idea of function composition - the innermost function will get called first!"
     - Therefore, to rotate our point P to its new home:
 
         P' = T2( R( T1(P) ) ) = (T2*R*T1)*P
 
-        - "DON'T FORGET THIS; you should always read the matrix operations 
-        right-to-left, from the vector backwards"
+        - "DON'T FORGET THIS; you should always read the matrix operations right-to-left, from the vector backwards"
 
-- Notice here, though, that our matrix multiplications are associative - and, 
-therefore, we can combine ALL of our operations into a single matrix just by 
-multiplying them together!
-    - "So, if we have a polygon with 5 million points or something, we don't 
-    have to do 3 separate intense calculations to rotate it - we can just do 3 
-    quick matrix operations to combine our transformations, then do it once!"
+- Notice here, though, that our matrix multiplications are associative - and, therefore, we can combine ALL of our operations into a single matrix just by multiplying them together!
+    - "So, if we have a polygon with 5 million points or something, we don't have to do 3 separate intense calculations to rotate it - we can just do 3 quick matrix operations to combine our transformations, then do it once!"
 - So, the key points to remember:
     1) Operation order matters
-        - If we rotated before translating, we'd end up with a completely 
-        different result!
+        - If we rotated before translating, we'd end up with a completely different result!
     2) We can combine/compose multiple operations into one
 
-- So, going back to our triangle from yesteryear, how would we translate it 2 
-units to the left, and then double it in size? Well, it's a translation and a 
-scaling - SO, writing out the handy-dandy matrices for these:
+- So, going back to our triangle from yesteryear, how would we translate it 2 units to the left, and then double it in size? Well, it's a translation and a scaling - SO, writing out the handy-dandy matrices for these:
 
         T = [1 0 -2]      S = [2 0 0]
             [0 1  0]          [0 2 0]
             [0 0  1]          [0 0 1]
 
-    - Combining them (don't forget to reverse the order, so translate happens 
-    first!),
+    - Combining them (don't forget to reverse the order, so translate happens first!),
 
         ST = [2 0 0] * [1 0 -2] = [2 0 -4]
              [0 2 0]   [0 1  0]   [0 2  0]
              [0 0 1]   [0 0  1]   [0 0  1]
 
-    - Great! Now, let's apply our combined translation-scaling operation to 
-    each point in the tri-angled figure:
+    - Great! Now, let's apply our combined translation-scaling operation to each point in the tri-angled figure:
 
         [2 0 -4] * |  1| = | -2|
         [0 2  0]   |  1|   |  2|
@@ -108,8 +88,7 @@ scaling - SO, writing out the handy-dandy matrices for these:
 
         (...do for the other 2 points...)
 
-        - *had to add the 3rd coordinate to the vector to work w/ homogenous 
-        coordinates
+        - *had to add the 3rd coordinate to the vector to work w/ homogenous coordinates
 
 - Doing this in the OpenGL API would look something like this:
 
@@ -117,34 +96,20 @@ scaling - SO, writing out the handy-dandy matrices for these:
         glTranslate(-2.0, 0.0);
         draw_triangle()
 
-    - "This looks backwards, because we have to call our functions in the SAME 
-    order as the matrix multiplications!" (i.e., the last-called operation is 
-    done first!)
-        - Why doesn't the library just handle this re-ordering for us? We'll 
-        see an example on Monday where having control over this is useful
+    - "This looks backwards, because we have to call our functions in the SAME order as the matrix multiplications!" (i.e., the last-called operation is done first!)
+        - Why doesn't the library just handle this re-ordering for us? We'll see an example on Monday where having control over this is useful
 
-- Okay, we've established that in general, operations aren't commutative - but 
-are ANY operations commutative with each other?
-    - Well, translations DO commute with other translations (it's the same 
-    thing as commuting additions)
-        - ...but translations don't commute with rotations, uniform scaling, or 
-        non-uniform scaling
-            - all of these apply vice-versa as well (e.g. since translations 
-            don't commute with rotations, rotations obviously also don't 
-            commute with translations!)
+- Okay, we've established that in general, operations aren't commutative - but are ANY operations commutative with each other?
+    - Well, translations DO commute with other translations (it's the same thing as commuting additions)
+        - ...but translations don't commute with rotations, uniform scaling, or non-uniform scaling
+            - all of these apply vice-versa as well (e.g. since translations don't commute with rotations, rotations obviously also don't commute with translations!)
     - Rotations commute with one another in 2D, and with uniform scaling!
-        - ...but not with non-uniform scaling, and 3D rotations DON'T commute 
-        with one another!
-            - Why doesn't it work in 3D? Imagine rotating 90 degrees around X, 
-            then Y, and vice versa - it just doesn't get you the same answer
-    - Uniform scaling is really just multiplication, so it's commutative with 
-    itself AND non-uniform scaling
+        - ...but not with non-uniform scaling, and 3D rotations DON'T commute with one another!
+            - Why doesn't it work in 3D? Imagine rotating 90 degrees around X, then Y, and vice versa - it just doesn't get you the same answer
+    - Uniform scaling is really just multiplication, so it's commutative with itself AND non-uniform scaling
         - ...but not with the other stuff
 
-- On Monday, we'll start exploring the "matrix stack" and getting a little bit 
-into OpenGL - until then, have a great weekend!
-
-</pre>
+- On Monday, we'll start exploring the "matrix stack" and getting a little bit into OpenGL - until then, have a great weekend!</pre>
 </article>
 <a class="side-link is-note-link" href="3_matrixStack_1_14_19.html"></a>
 </main>

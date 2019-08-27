@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,34 +23,25 @@
 <a class="side-link is-note-link" href="23_basicSortingAlgoNotes_3_10_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//***********************************************************************//
 //************* Sorting Algorithms (cont.)- March 13th, 2017************//
 //*********************************************************************//
 
 -HB is out this week to attend a conference
--Annnnnnnnd the TA's are currently discussing whether or not to teach us Radix 
-sort before Quick sort. Yay.
--Also, EXAM GRADES: they're out! Regrade requests must be submitted by Friday, 
-of which the TA's have already gotten a nutty amount
+-Annnnnnnnd the TA's are currently discussing whether or not to teach us Radix sort before Quick sort. Yay.
+-Also, EXAM GRADES: they're out! Regrade requests must be submitted by Friday, of which the TA's have already gotten a nutty amount
 ---------------------------------------
 
--So, on Friday, we covered all of the "basic" sorts; aka, the "naive" sorts 
-which really aren't that complicated, but don't run all that well, making 
-O(n^2) comparisons
-    -We ALWAYS start the algorithms section with sorting because it's a very 
-    well-known (and more-or-less solved) problem, with a clear progression from 
-    "obvious" sorts to those that are less intuitive, but run far better
+-So, on Friday, we covered all of the "basic" sorts; aka, the "naive" sorts which really aren't that complicated, but don't run all that well, making O(n^2) comparisons
+    -We ALWAYS start the algorithms section with sorting because it's a very well-known (and more-or-less solved) problem, with a clear progression from "obvious" sorts to those that are less intuitive, but run far better
 
 -The first "advanced" sort we're going to talk about is "Merge Sort"
 
--MERGE SORT is a "divide-and-conquer" algorithm (i.e. one that breaks a problem 
-into multiple parts that can each be handled more efficiently)
-    -The way it works is, basically, it breaks an array in half; then it breaks 
-    each of THOSE arrays in half, and so on...until we've broken the array down 
-    into a bunch of single-element arrays
+-MERGE SORT is a "divide-and-conquer" algorithm (i.e. one that breaks a problem into multiple parts that can each be handled more efficiently)
+    -The way it works is, basically, it breaks an array in half; then it breaks each of THOSE arrays in half, and so on...until we've broken the array down into a bunch of single-element arrays
         -Hey, this kinda sounds like a job for recursion, doesn't it?
-    -THEN, once we've broken the array down completely, we re-combine these 
-    elements
+    -THEN, once we've broken the array down completely, we re-combine these elements
 
     -e.g.
     [13, 92, 71, 36a, 45, 84, 36b, 23, 9]
@@ -57,74 +49,41 @@ into multiple parts that can each be handled more efficiently)
     [13, 92, 71]|[36a, 45]   [84, 36b]|[23, 9]
     [13, 92]|[71]   [36a]|[45]   [84]|[36b]  [23]|[9]
     [13]|[92] [71] [36a] [45] [84] [36b] [23] [9]
-        -NOW, we start merging them back together into 2-element array, where 
-        we put the smaller element first (so we do 1 comparison per 2 elements)
-            -We do this by having an "i" pointer at the beginning of the 1st 
-            sub-array, and a "j" pointer at the beginning of the second 
-            sub-array; when we add to the new "merged" array, we add the 
-            SMALLER of the 2 elements i and j FIRST; we then increment whatever 
-            index we used (either i or j), and compare the next element, add 
-            the smaller...and repeat until we reach the end of the array
+        -NOW, we start merging them back together into 2-element array, where we put the smaller element first (so we do 1 comparison per 2 elements)
+            -We do this by having an "i" pointer at the beginning of the 1st sub-array, and a "j" pointer at the beginning of the second sub-array; when we add to the new "merged" array, we add the SMALLER of the 2 elements i and j FIRST; we then increment whatever index we used (either i or j), and compare the next element, add the smaller...and repeat until we reach the end of the array
     [13, 92] [71] [36a, 45] [36b, 84] [9, 23]
-        -NOTE: 71 was skipped because the 2 element arrays are "re-merged" when 
-        going back UP from our recursive calls; therefore, the arrays get 
-        merged in the same order that we broke them
+        -NOTE: 71 was skipped because the 2 element arrays are "re-merged" when going back UP from our recursive calls; therefore, the arrays get merged in the same order that we broke them
     [13, 71, 92]    [36a, 45]     [9, 23, 36b, 84]
     [13, 36a, 45, 71, 92]         [9, 23, 36b, 84]
     [9, 13, 23, 36a, 36b, 45, 71, 84, 92]
     -DONE!
-        -NOTE: In this example, we sorted both sides of the array in parallel; 
-        more often in a recursive implementation, we split the array, then 
-        focus only on the right/left branch until we're done with that part
+        -NOTE: In this example, we sorted both sides of the array in parallel; more often in a recursive implementation, we split the array, then focus only on the right/left branch until we're done with that part
 
-    -This sort IS STABLE if we say that we'll always add the element from the 
-    left (i.e. first) array FIRST if 2 elements are equal
-    -So, what's the SPEED for this algorithm? O(nlogn), in best, average, AND 
-    worst case!
-        -This is AWESOME! In fact, technically, this is the fastest speed for 
-        (comparison) sorting that's been discovered! (although a hard proof on 
-        this limit HASN'T been found yet, to the TA's knowledge)
+    -This sort IS STABLE if we say that we'll always add the element from the left (i.e. first) array FIRST if 2 elements are equal
+    -So, what's the SPEED for this algorithm? O(nlogn), in best, average, AND worst case!
+        -This is AWESOME! In fact, technically, this is the fastest speed for (comparison) sorting that's been discovered! (although a hard proof on this limit HASN'T been found yet, to the TA's knowledge)
     -However, there are a few disadvantages:
-        -The algorithm ISN'T adaptive (i.e. it doesn't run any faster when the 
-        input is sorted)
+        -The algorithm ISN'T adaptive (i.e. it doesn't run any faster when the input is sorted)
         -It is also OUT-OF-PLACE, creating extra arrays for the sort
-            -As a consequence, it uses more memory / space than other sorting 
-            algorithms
-                -There IS a variant of Merge Sort that's in-place, but we don't 
-                cover that in this course
+            -As a consequence, it uses more memory / space than other sorting algorithms
+                -There IS a variant of Merge Sort that's in-place, but we don't cover that in this course
 
--QUICK SORT (which, TA fact, is Deja's favorite algorithm) is another O(nlogn), 
-divide-and-conquer sorting algorithm, but it's a bit more complicated
-    -Like Merge Sort, it's a recursive divide-and-conquer sort that involves 
-    splitting the array and merging it back together
-        -NOTE: There are a TON of variations of Quick Sort, so Googling it 
-        might just end up confusing you; the one we'll use in class is an 
-        in-place version that is NOT stable
+-QUICK SORT (which, TA fact, is Deja's favorite algorithm) is another O(nlogn), divide-and-conquer sorting algorithm, but it's a bit more complicated
+    -Like Merge Sort, it's a recursive divide-and-conquer sort that involves splitting the array and merging it back together
+        -NOTE: There are a TON of variations of Quick Sort, so Googling it might just end up confusing you; the one we'll use in class is an in-place version that is NOT stable
             -There are variants that are stable, that are out-of-place, etc.
-    -Now, INSTEAD of always dividing the array down the middle, we divide it 
-    into two parts around a PIVOT so that, if we do it right, everything in the 
-    LEFT part of the array is smaller than the right part
-        -In other words, the splitting IS the sorting! We don't have to do 
-        comparisons when we're re-merging!
+    -Now, INSTEAD of always dividing the array down the middle, we divide it into two parts around a PIVOT so that, if we do it right, everything in the LEFT part of the array is smaller than the right part
+        -In other words, the splitting IS the sorting! We don't have to do comparisons when we're re-merging!
     -So, in pseuduocode(ish):
         if (array length is 1 or 0)
             do nothing; this is our base case!
         else
-            1) (Randomly) choose a "pivot" element in the array; IDEALLY, this 
-            is the "middle" element of the array
-            2) Put every element SMALLER than the pivot to the left and every 
-            larger element to its right
-            3) THEN, we choose a new pivot for each of the left/right branches 
-            and repeat!
-    -In theory, this means that after splitting the array, we don't need to do 
-    anything special; we're done!
+            1) (Randomly) choose a "pivot" element in the array; IDEALLY, this is the "middle" element of the array
+            2) Put every element SMALLER than the pivot to the left and every larger element to its right
+            3) THEN, we choose a new pivot for each of the left/right branches and repeat!
+    -In theory, this means that after splitting the array, we don't need to do anything special; we're done!
 -So, ON AVERAGE, Quick Sort has O(nlogn) performance - the same as Merge Sort
-    -HOWEVER, if we keep choosing a pivot that is the smallest/largest element, 
-    then we end up with O(n^2) since we're shifting ALL the elements to the 
-    left/right, then repeating; in other words, Quick Sort acts identically to 
-    selection sort!
-
-
+    -HOWEVER, if we keep choosing a pivot that is the smallest/largest element, then we end up with O(n^2) since we're shifting ALL the elements to the left/right, then repeating; in other words, Quick Sort acts identically to selection sort!
 </pre>
 </article>
 <a class="side-link is-note-link" href="25_evenMoreSortingAlgoNotes_3_15_17.html"></a>

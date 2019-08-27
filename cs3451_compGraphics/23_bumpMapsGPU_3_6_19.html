@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,141 +23,66 @@
 <a class="side-link is-note-link" href="22_environmentMaps_3_4_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //**************** Bump Maps and GPUs - March 6th, 2019 *********************//
 //**************************************************************************//
 
-- On Monday, we were talking about bump mapping: using an image to make a 
-surface look bumpy without adding any polygons, by using the image to "wiggle" 
-our normals
-    - Using bilinear interpolation, we'll have a function "f(u, v)" that gets 
-    us the slope of the "surface" the image is representing; we'll then be able 
-    to calculate a normal using that slope
-        - If the function is 1D, we can do this based on subtracting it from a 
-        straight-up default normal vector N' and having a tangent vector T = 
-        (1, 0):
+- On Monday, we were talking about bump mapping: using an image to make a surface look bumpy without adding any polygons, by using the image to "wiggle" our normals
+    - Using bilinear interpolation, we'll have a function "f(u, v)" that gets us the slope of the "surface" the image is representing; we'll then be able to calculate a normal using that slope
+        - If the function is 1D, we can do this based on subtracting it from a straight-up default normal vector N' and having a tangent vector T = (1, 0):
 
                 N = N' - f(x)*T
 
-        - The bump map image itself will be a grayscale image, where dark 
-        colors mean that pixel is lowered and light colors mean that pixel is 
-        raised
-    - For the 2D case, we'll have two different derivatives, one in the "up" or 
-    "v" direction Bv, and another in the "right" or "u" direction Bu
-        - We'll say that "B" is the height of our surface at a given point, 
-        meaning the slopes are:
+        - The bump map image itself will be a grayscale image, where dark colors mean that pixel is lowered and light colors mean that pixel is raised
+    - For the 2D case, we'll have two different derivatives, one in the "up" or "v" direction Bv, and another in the "right" or "u" direction Bu
+        - We'll say that "B" is the height of our surface at a given point, meaning the slopes are:
 
                 Bv = dB/dv
                 Bu = dB/du
 
-        - To calculate our normals now, we'll say our normal vector is based on 
-        subtracting from the straight-up "default normal" N' vector, like so:
+        - To calculate our normals now, we'll say our normal vector is based on subtracting from the straight-up "default normal" N' vector, like so:
 
                 N = N' - (Bu*Ps + Bv*Pt)
 
-            - Where Ps is the tangent vector in the u/s direction, and Pt is 
-            the tangent vector in the v/t direction (actually calculating these 
-            vectors will vary, based on the surface)
-                - How do we calculate the derivatives "Bu" and "Bv" in the 
-                first place? We can do something called a "finite difference 
-                calculation," where we literally just take the slope between 
-                one pixel and the next one
-                - We're leaving a few details out here, so be aware this isn't 
-                a be-all end-all discussion of bump mapping
-    - Now, because we're not changing the actual polygons of the object, the 
-    silhouette of our object will NOT change; the appearance of the surface 
-    will, but the outline will just look the same
+            - Where Ps is the tangent vector in the u/s direction, and Pt is the tangent vector in the v/t direction (actually calculating these vectors will vary, based on the surface)
+                - How do we calculate the derivatives "Bu" and "Bv" in the first place? We can do something called a "finite difference calculation," where we literally just take the slope between one pixel and the next one
+                - We're leaving a few details out here, so be aware this isn't a be-all end-all discussion of bump mapping
+    - Now, because we're not changing the actual polygons of the object, the silhouette of our object will NOT change; the appearance of the surface will, but the outline will just look the same
 
-- Now, the BIG advantage of raster graphics over raytracing right now is that 
-they can be computed on the GPU much more easily - but how does the GPU work? 
-What IS a "graphic processing unit"?
-    - Well, when the host CPU of our computer wants to draw something, it'll 
-    send the primitives it wants to draw on-screen to the GPU
-        - When that information gets there, the GPU will first feed them 
-        through a VERTEX PROCESSOR, which handles any 3D transformations, 
-        projections from 3D to 2D, etc.
-            - Project 1 in this class was similar to the jobs a vertex 
-            processor handles
-        - That output of screen-space primitives then gets fed into the 
-        RASTERIZER, which turns the primitives into FRAGMENTS
-            - Fragments are "almost-pixel" versions of these images, but not 
-            quite - they're "per-pixel data" instead (e.g. color data, texture 
-            coordinates, depth, normals, etc.)
-                - Pixels themselves are just the final output color, while 
-                fragments hold the information we need to calculate the color 
-                for that pixel
-            - Rasterizers are the least accessible part of the GPU; most GPU 
-            drivers let us write programs for the vertex processors and 
-            fragment processors, but rasterizers are pretty off limits
-        - Finally, those fragments all go into a FRAGMENT PROCESSOR, which 
-        turns those fragments into actual output pixels and handles any 
-        shading, texture mapping, etc.
-            - Where does all that texture information come from? It comes from 
-            a piece of "texture mapping" memory in the GPU, which holds that 
-            data
+- Now, the BIG advantage of raster graphics over raytracing right now is that they can be computed on the GPU much more easily - but how does the GPU work? What IS a "graphic processing unit"?
+    - Well, when the host CPU of our computer wants to draw something, it'll send the primitives it wants to draw on-screen to the GPU
+        - When that information gets there, the GPU will first feed them through a VERTEX PROCESSOR, which handles any 3D transformations, projections from 3D to 2D, etc.
+            - Project 1 in this class was similar to the jobs a vertex processor handles
+        - That output of screen-space primitives then gets fed into the RASTERIZER, which turns the primitives into FRAGMENTS
+            - Fragments are "almost-pixel" versions of these images, but not quite - they're "per-pixel data" instead (e.g. color data, texture coordinates, depth, normals, etc.)
+                - Pixels themselves are just the final output color, while fragments hold the information we need to calculate the color for that pixel
+            - Rasterizers are the least accessible part of the GPU; most GPU drivers let us write programs for the vertex processors and fragment processors, but rasterizers are pretty off limits
+        - Finally, those fragments all go into a FRAGMENT PROCESSOR, which turns those fragments into actual output pixels and handles any shading, texture mapping, etc.
+            - Where does all that texture information come from? It comes from a piece of "texture mapping" memory in the GPU, which holds that data
 
-- Now, the GPU doesn't have a single monolithic "vertex processor," "fragment 
-processor," etc. that everything has to go through at once; instead, GPUs 
-really shine by allowing us to do processing in PARALLEL, so they'll have 
-multiple of each of these components
-    - As an example, let's look at the older NVIDIA GeForce 6800 graphics card 
-    from 2004:
-        - This card had 6 vertex processors that could handle 3D 
-        transformations, per-vertex shading (i.e. Goraud shading), 4 
-        multiplications/additions for each of its 4 "vector units", and do 
-        basic mathematical operations like square root, sine, cosine, etc.
-            - Each of these vertex processors operated completely independently 
-            from one another, known as "Multi-Instruction Multiple-Data" 
-            processing (MIMD)
-        - It had 16 fragment processors, each of which could do per-fragment 
-        shading, texture mapping, and had 2 vector units (each of which could 
-        do 4 multiplications/additions)
-            - Importantly, however, all of these processors acted in LOCK STEP; 
-            each one would handle a different fragment, but they still did the 
-            same step at the same time
-                - This is known as "Single-Instruction Multiple-Data" (SIMD) 
-                processing
-                - Why were these operations locked together? Basically, it took 
-                time to get separate instructions for each individual 
-                processor, so to cut down on this the instruction was just 
-                fetched ONCE and then fed to all the processors
-        - Finally, it had a single rasterizer, which handled interpolation 
-        across the polygon (colors, surface normals, etc.) and generated 
-        fragments for each polygon (per-pixel data)
-            - Modern cards usually do have multiple rasterizers, but not as 
-            many of them as we do for the other components
-    - More modern GPU architectures, however, noticed that many of the 
-    operations on the vertex/fragment shaders were quite similar (e.g. 
-    multiplying, adding, etc.), and tried to combine them in a "Unified 
-    Graphics Architecture"
-        - In these sorts of cards, there's NO distinction between vertex and 
-        fragment processors (although the rasterizer remained separate)
+- Now, the GPU doesn't have a single monolithic "vertex processor," "fragment processor," etc. that everything has to go through at once; instead, GPUs really shine by allowing us to do processing in PARALLEL, so they'll have multiple of each of these components
+    - As an example, let's look at the older NVIDIA GeForce 6800 graphics card from 2004:
+        - This card had 6 vertex processors that could handle 3D transformations, per-vertex shading (i.e. Goraud shading), 4 multiplications/additions for each of its 4 "vector units", and do basic mathematical operations like square root, sine, cosine, etc.
+            - Each of these vertex processors operated completely independently from one another, known as "Multi-Instruction Multiple-Data" processing (MIMD)
+        - It had 16 fragment processors, each of which could do per-fragment shading, texture mapping, and had 2 vector units (each of which could do 4 multiplications/additions)
+            - Importantly, however, all of these processors acted in LOCK STEP; each one would handle a different fragment, but they still did the same step at the same time
+                - This is known as "Single-Instruction Multiple-Data" (SIMD) processing
+                - Why were these operations locked together? Basically, it took time to get separate instructions for each individual processor, so to cut down on this the instruction was just fetched ONCE and then fed to all the processors
+        - Finally, it had a single rasterizer, which handled interpolation across the polygon (colors, surface normals, etc.) and generated fragments for each polygon (per-pixel data)
+            - Modern cards usually do have multiple rasterizers, but not as many of them as we do for the other components
+    - More modern GPU architectures, however, noticed that many of the operations on the vertex/fragment shaders were quite similar (e.g. multiplying, adding, etc.), and tried to combine them in a "Unified Graphics Architecture"
+        - In these sorts of cards, there's NO distinction between vertex and fragment processors (although the rasterizer remained separate)
         - The first card to really do this was the GeForce 8800 (circa 2008)
-            - It had 128 "streaming processor cores" (often just called 
-            "cores"), which mostly do adds/multiplies, floating point 
-            operations, etc.
-                - Here, instead of locking all the cores together in SIMD 
-                operation, they were grouped into 16 sets of "streaming 
-                multiprocessors" (each containing 8 SP cores and 2 "special 
-                function units") that could each operate independently, with 
-                different instructions
-                    - The "special instruction" units handled the less common 
-                    operations that used to be on the vertex processors, e.g. 
-                    sine, cosine, logarithms, etc.
-        - In NVIDIA's 2018 "Turing" architecture (circa 2018), there were 72 
-        SMP units like this, with several separate "tensor cores" for 
-        optimizing AI processing and a special block for handling raytracing
-            - What part of raytracing, particularly? It optimizes the "spatial 
-            partitioning" step, which is what lets us build those bounding 
-            hierarchies we talked about efficiently
+            - It had 128 "streaming processor cores" (often just called "cores"), which mostly do adds/multiplies, floating point operations, etc.
+                - Here, instead of locking all the cores together in SIMD operation, they were grouped into 16 sets of "streaming multiprocessors" (each containing 8 SP cores and 2 "special function units") that could each operate independently, with different instructions
+                    - The "special instruction" units handled the less common operations that used to be on the vertex processors, e.g. sine, cosine, logarithms, etc.
+        - In NVIDIA's 2018 "Turing" architecture (circa 2018), there were 72 SMP units like this, with several separate "tensor cores" for optimizing AI processing and a special block for handling raytracing
+            - What part of raytracing, particularly? It optimizes the "spatial partitioning" step, which is what lets us build those bounding hierarchies we talked about efficiently
 
-- Alright, that's a LOT of information dumped on you all at once, but here're 
-the big takeaways:
-    - GPUs really emphasize parallel processing; the individual cores don't do 
-    a whole lot, but there's a LOT of them, letting us do a lot at once
-    - (...that's really the biggest one)
-
-</pre>
+- Alright, that's a LOT of information dumped on you all at once, but here're the big takeaways:
+    - GPUs really emphasize parallel processing; the individual cores don't do a whole lot, but there's a LOT of them, letting us do a lot at once
+    - (...that's really the biggest one)</pre>
 </article>
 <a class="side-link is-note-link" href="24_introGLSLShaders_3_8_19.html"></a>
 </main>

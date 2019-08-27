@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,115 +23,71 @@
 <a class="side-link is-note-link" href="10_iteratorNotes_2_3_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//********************************************************************//
 //******************** Heaps - February 6th, 2017**************************//
 //******************************************************************//
 
--TA's are having a "King Lear" discussion, but because of the blaring music the 
-ignorant denizens of the class (including myself) have sent in, I can't tell 
-exactly WHAT they're discussing
+-TA's are having a "King Lear" discussion, but because of the blaring music the ignorant denizens of the class (including myself) have sent in, I can't tell exactly WHAT they're discussing
 -Oh yeah, the Falcons lost the Super Bowl...which is bad, I guess
--DON'T FORGET: THE EXAM IS IN-CLASS ON WEDNESDAY!!! Study hard! Do the 
-wroksheets, the practice test, etc.; put in the effort, and you're going to do 
-great!
+-DON'T FORGET: THE EXAM IS IN-CLASS ON WEDNESDAY!!! Study hard! Do the wroksheets, the practice test, etc.; put in the effort, and you're going to do great!
 -(*^*)-
 --------------------------------------------------------
 
--So, so far, we've talked about binary trees and ESPECIALLY BST's...but there 
-are, of course, many other types of trees
--BUT FIRST! We have to remind you ignorant sods about "Comparable" and 
-"Comparator"!
+-So, so far, we've talked about binary trees and ESPECIALLY BST's...but there are, of course, many other types of trees
+-BUT FIRST! We have to remind you ignorant sods about "Comparable" and "Comparator"!
 
--COMPARABLE&lt;T&gt; is an interface that's implemented by a class in order to 
-compare objects of the class with some other objects, creating a "natural 
-ordering" in the objects
-    -Has a single method "compareTo(Obj x)", which returns a positive int, 
-    negative int, or zero to say if the "x" object is less, greater, or equal 
-    to the current object, respectively
+-COMPARABLE&lt;T&gt; is an interface that's implemented by a class in order to compare objects of the class with some other objects, creating a "natural ordering" in the objects
+    -Has a single method "compareTo(Obj x)", which returns a positive int, negative int, or zero to say if the "x" object is less, greater, or equal to the current object, respectively
 
--COMPARATOR is another interface that lets you compare two object with each 
-other, rather than one object with itself
-    -Single method called "compare(Obj 1, Obj 2)" that returns a positive int 
-    (obj1 is greater), 0 (they're equal) or a negative int (obj2 is greater)
+-COMPARATOR is another interface that lets you compare two object with each other, rather than one object with itself
+    -Single method called "compare(Obj 1, Obj 2)" that returns a positive int (obj1 is greater), 0 (they're equal) or a negative int (obj2 is greater)
     -It MUST be imported (java.util.Comparator)
 
 -...well, now that those notes are out of the way, let's get back to the trees!
 -Specifically, we're going to talk about something called a "heap"!
 
--A HEAP is a type of tree where either the minimum or the maximum is ALWAYS at 
-the top of the tree, with the other values greater / smaller
-    -Does NOT mean left/right children are greater/smaller than each other; the 
-    children have NO relation to their sibling nodes, only to the parent node
-        -Speaking of which, we're going to be dealing with BINARY heaps, where 
-        there are only two children
+-A HEAP is a type of tree where either the minimum or the maximum is ALWAYS at the top of the tree, with the other values greater / smaller
+    -Does NOT mean left/right children are greater/smaller than each other; the children have NO relation to their sibling nodes, only to the parent node
+        -Speaking of which, we're going to be dealing with BINARY heaps, where there are only two children
     -These two types are known as "Min-Heaps" and "Max-Heaps"
 
 -Heaps have two properties:
-    -The ORDER property is that the parent node is always larger (in maxheaps) 
-    or smaller (in minheaps) than its children; there is NO relationsnhip 
-    between the children
-    -The SHAPE property is that the heap is always a complete tree; there are 
-    NO gaps in the tree, and the tree is filled from left to right
-        -You also CANNOT search through a heap; instead, you can ONLY access 
-        the root (largest/smallest item) of the heap
+    -The ORDER property is that the parent node is always larger (in maxheaps) or smaller (in minheaps) than its children; there is NO relationsnhip between the children
+    -The SHAPE property is that the heap is always a complete tree; there are NO gaps in the tree, and the tree is filled from left to right
+        -You also CANNOT search through a heap; instead, you can ONLY access the root (largest/smallest item) of the heap
 
--Why is this useful? Because it means we have a set of items in either 
-ascneding/descending order, and since it's a tree, it can be manipulated much 
-faster than a list
+-Why is this useful? Because it means we have a set of items in either ascneding/descending order, and since it's a tree, it can be manipulated much faster than a list
 
 -You CAN implement heaps as an array
     -START AT INDEX 1, as it just makes the math easier
     -For a binary heap (the kind we make in class):
-        -The left child at an index "i" would be at index "2*i", and the right 
-        child would be at index "2*i + 1"
-            -Therefore, the parent of an item @ index i would be at i/2 
-            (assuming integer division that floors)
-        -To add a new element, just add the node to the next open index; 
-        because of the properties set above, this will fill the tree naturally 
-        from left to right
-            -HOWEVER, this may break the order of the nodes, as we might've 
-            added a smaller/larger node as a child
-            -To fix this, we compare the item to its parent; if the nodes are 
-            out of order (i.e. the new child is larger/smaller than its 
-            parent), we swap the child/parent
-                -This is known as "HEAPIFYING" a node, because CS people are 
-                just as good at naming things as the average historian
-                -We do this recursively until we find the order to be 
-                maintained (i.e. no swap needed), or if we find we're at the 
-                root, meaning we've moved the node as far as we can (and, thus, 
-                have done our job)
+        -The left child at an index "i" would be at index "2*i", and the right child would be at index "2*i + 1"
+            -Therefore, the parent of an item @ index i would be at i/2 (assuming integer division that floors)
+        -To add a new element, just add the node to the next open index; because of the properties set above, this will fill the tree naturally from left to right
+            -HOWEVER, this may break the order of the nodes, as we might've added a smaller/larger node as a child
+            -To fix this, we compare the item to its parent; if the nodes are out of order (i.e. the new child is larger/smaller than its parent), we swap the child/parent
+                -This is known as "HEAPIFYING" a node, because CS people are just as good at naming things as the average historian
+                -We do this recursively until we find the order to be maintained (i.e. no swap needed), or if we find we're at the root, meaning we've moved the node as far as we can (and, thus, have done our job)
                 -This process is the EXACT SAME FOR A NORMAL HEAP
         -So, adding is actually at worst an O(log n) operation
 
 -So, adding is easy, right? Well, removing isn't as nice
     -Because you can only access the root, YOU CAN ONLY REMOVE THE ROOT
-        -Therefore, we remove the root node and replace it with the last 
-        element in the heap (bottom-right node). This will probably screw up 
-        the order, but since it's much easier to fix the order than fill in 
-        gaps in the tree (maintain the "shape" property), that's okay
-        -THEN, we "heapify" the node in reverse: we look at both the children, 
-        and replace it with the larger/smaller child (depending on if it's a 
-        maxheap/minheap)
-            -We continue to do this until it is larger/smaller than both of its 
-            children (depending on implementation), or it becomes a leaf w/ no 
-            children
+        -Therefore, we remove the root node and replace it with the last element in the heap (bottom-right node). This will probably screw up the order, but since it's much easier to fix the order than fill in gaps in the tree (maintain the "shape" property), that's okay
+        -THEN, we "heapify" the node in reverse: we look at both the children, and replace it with the larger/smaller child (depending on if it's a maxheap/minheap)
+            -We continue to do this until it is larger/smaller than both of its children (depending on implementation), or it becomes a leaf w/ no children
     -So, all told, removal is still an O(log n) operation
 
 -So, for operations:
     -Adding: O(log n) in worst case, O(1) in best case
-    -Removal: O(log n) in worst case, STILL O(log n) in best case, since it'll 
-    always be an out-of-order node that you add to the top
+    -Removal: O(log n) in worst case, STILL O(log n) in best case, since it'll always be an out-of-order node that you add to the top
 
 -Another structure to consider is a "PRIORITY QUEUE"
--A "PRIORITY QUEUE" is a data structure that, when given some items, returns 
-them in ascending/descending order
-    -Called a "priority cue" because this order is usually from most-important 
-    to least-important
-    -Examples of these are CPU schedules, flight-boarding lines, bandwidth 
-    management for networks, etc.
+-A "PRIORITY QUEUE" is a data structure that, when given some items, returns them in ascending/descending order
+    -Called a "priority cue" because this order is usually from most-important to least-important
+    -Examples of these are CPU schedules, flight-boarding lines, bandwidth management for networks, etc.
 -We'll go over these in more detail on Friday
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="12_moreHeapNotes_2_10_17.html"></a>

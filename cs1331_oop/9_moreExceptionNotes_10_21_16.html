@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,36 +23,25 @@
 <a class="side-link is-note-link" href="8_exceptionNotes_10_19_16.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//************************************************//
 //***Exceptions (cont.) - October 21st, 2016*****//
 //**********************************************//
 
-- (cont.) So, to reiterate, runtime exceptions are "unchecked exceptions" that 
-the compiler can't catch, whereas "checked exceptions" are checked before while 
-compiling
-    -Exceptions themselves do NOT actually happen at compile time; think of it 
-    as return types, where it just checks to see if the return types match up
-    -e.g. if we write a that method that throws an exception, even though 
-    nothing went wrong, the compiler will freak out (?)
+- (cont.) So, to reiterate, runtime exceptions are "unchecked exceptions" that the compiler can't catch, whereas "checked exceptions" are checked before while compiling
+    -Exceptions themselves do NOT actually happen at compile time; think of it as return types, where it just checks to see if the return types match up
+    -e.g. if we write a that method that throws an exception, even though nothing went wrong, the compiler will freak out (?)
 
--Main way to handle exceptions is the "try {...} catch (Exception x) {...}" 
-block
+-Main way to handle exceptions is the "try {...} catch (Exception x) {...}" block
     -CAN HAVE MULTIPLE CATCH BLOCKS to catch multiple types of exceptions
 
--adding "throws [ExceptionTypeX]" to end of method header lets it throw 
-exceptions
-    -Once thrown, checks to see if the local method can handle it; otherwise, 
-    it throws it up to whatever called the method, and the process continues 
-    until the exception is either handled, or there's nothing else to go up to, 
-    at which point the program crashes.
-    -WILL NOT COMPILE if the program does not either handle or throw the 
-    exception (if it's a checked exception)
+-adding "throws [ExceptionTypeX]" to end of method header lets it throw exceptions
+    -Once thrown, checks to see if the local method can handle it; otherwise, it throws it up to whatever called the method, and the process continues until the exception is either handled, or there's nothing else to go up to, at which point the program crashes.
+    -WILL NOT COMPILE if the program does not either handle or throw the exception (if it's a checked exception)
 
 -Good method to know: printStackTrace()
 
--If the code is handled, then the program won't crash without being explicitly 
-told to; it will continue to run (might exit the current method? Goes to catch 
-statement and resumes control from the end of that, I think?)
+-If the code is handled, then the program won't crash without being explicitly told to; it will continue to run (might exit the current method? Goes to catch statement and resumes control from the end of that, I think?)
 
 public class Wee {
     static void bar() throws Throwable {
@@ -73,42 +63,24 @@ public class Wee {
     }
 }
 
--This code will print out "wee! Still running!", since foo() immediately calls 
-bar(), which throws an exception; since it can't handle it, it throws it up to 
-foo (where it was called from), and then foo throws it up to main, which then 
-moves control to the 'catch' statement; the catch statement prints the 
-Throwable's message (which happens to be "wee!"), and the program then picks up 
-from the end of the catch statement and print 'Still running!';
-    -If we have an exception IN the main method (not just a method called in 
-    main), then there's nowhere to throw it, so the program will crash
+-This code will print out "wee! Still running!", since foo() immediately calls bar(), which throws an exception; since it can't handle it, it throws it up to foo (where it was called from), and then foo throws it up to main, which then moves control to the 'catch' statement; the catch statement prints the Throwable's message (which happens to be "wee!"), and the program then picks up from the end of the catch statement and print 'Still running!';
+    -If we have an exception IN the main method (not just a method called in main), then there's nowhere to throw it, so the program will crash
 
--We don't have to write "catch" statements for unchecked/runtime exceptions in 
-order for the program to compile; HOWEVER, we CAN write "try...catch" blocks 
-for them in THE EXACT SAME WAY!!!
-    -EXTREMELY useful for checking user input; theoretically, everything else 
-    should be already written fine by you, but the compiler won't stop you from 
-    checking for exceptions elsewhere
+-We don't have to write "catch" statements for unchecked/runtime exceptions in order for the program to compile; HOWEVER, we CAN write "try...catch" blocks for them in THE EXACT SAME WAY!!!
+    -EXTREMELY useful for checking user input; theoretically, everything else should be already written fine by you, but the compiler won't stop you from checking for exceptions elsewhere
 
 -Important things when writing more than 1 catch statement:
     -The exception type in a catch clause matches up w/ the subclass
-    -The first catch clause to match the thrown exception should be the only 
-    one to execute
+    -The first catch clause to match the thrown exception should be the only one to execute
 -So, basically, should go from most-to-least specific as you go down
 
 -You can write your own exceptions my extending the "Exception" class
-    -Don't do this unless you really need to, though; the Java library is HUGE, 
-    and 99.9% of the errors you would want to check for have already been 
-    written by some experts who've done the heavy lifting for you
+    -Don't do this unless you really need to, though; the Java library is HUGE, and 99.9% of the errors you would want to check for have already been written by some experts who've done the heavy lifting for you
 
--Don't use too many exceptions; if you have to use them all over the place, it 
-means you probably are writing sloppy code
--You should only REALLY use exceptions when you're dealing with data that you 
-can't control, like user input
+-Don't use too many exceptions; if you have to use them all over the place, it means you probably are writing sloppy code
+-You should only REALLY use exceptions when you're dealing with data that you can't control, like user input
 
--It's helpful to go through and see what compiles and what causes errors; 
-that's really the best way to understand how these things work
-
-
+-It's helpful to go through and see what compiles and what causes errors; that's really the best way to understand how these things work
 </pre>
 </article>
 <a class="side-link is-note-link" href="10_collectionsNotes_10_24_16.html"></a>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="19_splayTreeNotes_2_27_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//***************************************************************//
 //*****************B Trees - March 1st, 2017********************//
 //*************************************************************//
@@ -34,47 +36,35 @@
     -...2-4 trees WILL be on the exam!
 --------------------------------------------------
 
--B trees are similar to BSTs, but with one HUGE difference: each node can hold 
-MULTIPLE DATA ITEMS
--The "order" of the B-Tree describes how many data items/children the node can 
-have
-    -e.g. If the "order" of the B-tree is 5, that means each node can have up 
-    to 5 children, and each node can have 4 (5-1 = 4) data items
+-B trees are similar to BSTs, but with one HUGE difference: each node can hold MULTIPLE DATA ITEMS
+-The "order" of the B-Tree describes how many data items/children the node can have
+    -e.g. If the "order" of the B-tree is 5, that means each node can have up to 5 children, and each node can have 4 (5-1 = 4) data items
         -Order is based on # of children
         -THE AMOUNT OF DATA EACH NODE CAN HOLD IS (Order - 1)
     -Data in children will be ordered "least to most"
 -B-Trees DO have balancing, but it's different from AVL balancing
 
--We will be focusing on 2-4 TREES; these are a subtype of B-Trees that have an 
-order of 4
+-We will be focusing on 2-4 TREES; these are a subtype of B-Trees that have an order of 4
     -i.e., each node can hold up to 3 pieces of data, w/ up to 4 children
--The data items WITHIN each node are stored in ASCENDING order (least -&gt; 
-greatest)
--The first child is less than the first data item, the 2nd child is between the 
-first/second data item, the third child between the 2nd data/3rd data, etc.
+-The data items WITHIN each node are stored in ASCENDING order (least -&gt; greatest)
+-The first child is less than the first data item, the 2nd child is between the first/second data item, the third child between the 2nd data/3rd data, etc.
 
                         [x y z]
                        /  / \  \
                       A   B   C  D
 
-    -All data items in node A are less than X, everything in B is between X and 
-    Y, everything in C is between Y and Z, and everything in D is greater than Z
+    -All data items in node A are less than X, everything in B is between X and Y, everything in C is between Y and Z, and everything in D is greater than Z
     -"[]" is the node, "x y z" are the data elements in "[]"
 
 -In a B-Tree, the depth of ALL leaf nodes is the same
--If there are "n" data items in a node, then there must be either 0 OR "n+1" 
-children
-    -BECAUSE of these rules, a B-Tree will ALWAYS be balanced, and 
-    searching/adding/removing from a B-Tree will ALWAYS be O(log n)
+-If there are "n" data items in a node, then there must be either 0 OR "n+1" children
+    -BECAUSE of these rules, a B-Tree will ALWAYS be balanced, and searching/adding/removing from a B-Tree will ALWAYS be O(log n)
 
 -SEARCHING is done by
     -Starting at the root
     -Compare the first data item in the node w/ what you're searching for
-        -If the data you're looking for is LESS THAN that 1st data in the node, 
-        then go to the "nth" child, where "n" is the position of the data in 
-        the node
-        -If the data is equal, hey, you've found the node! Exit and give 
-        yourself a cookie
+        -If the data you're looking for is LESS THAN that 1st data in the node, then go to the "nth" child, where "n" is the position of the data in the node
+        -If the data is equal, hey, you've found the node! Exit and give yourself a cookie
 
 -PSEUDOCODE-
     search (data, node)
@@ -89,35 +79,16 @@ children
                     return search(data, child)
 
 
--When ADDING to a B-Tree, the new data item is ALWAYS added to a leaf node, not 
-to an internal node
--We follow the same steps as searching until we find the data in the tree, or 
-reach a leaf node...
--Then, if the data is NOT in the tree (i.e. we're at a leaf), then we add the 
-data to that leaf node
-    -If the data IS in the tree, then we can do a few different things 
-    depending on implementation. We might do nothing, we might replace the 
-    existing data, we might panic and trigger an emergency disco sequence, etc.
--OVERFLOW- after the data is added to a leaf, the node might have too many data 
-items for the type of tree (e.g. for a 2-4 tree, we can only have a max of 3 
-data items, but after adding we might have 4)
-    -If this is the case, the MIDDLE item (in a 2-4 tree, either the 2nd or 3rd 
-    node) is "promoted" to be the parent of the existing node; then, we SPLIT 
-    the existing node into a left half (the data values less than the 
-    "promoted" one) and a "right half" (the data values greater than the 
-    promoted node)
-    -HOWEVER: If the parent node ALREADY exists and has room for another data 
-    item, we instead move the "middle" data item to the existing parent instead 
-    of creating a new one
+-When ADDING to a B-Tree, the new data item is ALWAYS added to a leaf node, not to an internal node
+-We follow the same steps as searching until we find the data in the tree, or reach a leaf node...
+-Then, if the data is NOT in the tree (i.e. we're at a leaf), then we add the data to that leaf node
+    -If the data IS in the tree, then we can do a few different things depending on implementation. We might do nothing, we might replace the existing data, we might panic and trigger an emergency disco sequence, etc.
+-OVERFLOW- after the data is added to a leaf, the node might have too many data items for the type of tree (e.g. for a 2-4 tree, we can only have a max of 3 data items, but after adding we might have 4)
+    -If this is the case, the MIDDLE item (in a 2-4 tree, either the 2nd or 3rd node) is "promoted" to be the parent of the existing node; then, we SPLIT the existing node into a left half (the data values less than the "promoted" one) and a "right half" (the data values greater than the promoted node)
+    -HOWEVER: If the parent node ALREADY exists and has room for another data item, we instead move the "middle" data item to the existing parent instead of creating a new one
         -WE STILL SPLIT THE CHILDREN IN THE SAME WAY, however
-    -If the parent node DOESN'T have room for another element, WE STILL MOVE 
-    THE MIDDLE ITEM TO THE PARENT, then recursively call "Overflow()" on the 
-    (now-overflowing) parent!
-        -Sometimes when doing this, we end up with a node with 5+ children 
-        (i.e. more children than we're allowed), meaning we have to split up 
-        the children again, with all of the nodes less than the removed 
-        "middle" node becoming children of the left child, and all of the node 
-        greater than it becoming children of the right child...
+    -If the parent node DOESN'T have room for another element, WE STILL MOVE THE MIDDLE ITEM TO THE PARENT, then recursively call "Overflow()" on the (now-overflowing) parent!
+        -Sometimes when doing this, we end up with a node with 5+ children (i.e. more children than we're allowed), meaning we have to split up the children again, with all of the nodes less than the removed "middle" node becoming children of the left child, and all of the node greater than it becoming children of the right child...
 
 -PSEUDOCODE-
     add(data, node)
@@ -141,10 +112,7 @@ data items, but after adding we might have 4)
             else
                 add "data" to last spot in this node
 
--With REMOVING, it actually gets even messier...but we'll get to that on 
-Friday. READ SAIKRISHNA SLIDES TO PREPARE
-
-
+-With REMOVING, it actually gets even messier...but we'll get to that on Friday. READ SAIKRISHNA SLIDES TO PREPARE
 </pre>
 </article>
 <a class="side-link is-note-link" href="21_moreBTreeNotes_3_3_17.html"></a>
