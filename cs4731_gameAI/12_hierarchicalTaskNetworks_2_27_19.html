@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,127 +23,62 @@
 <a class="side-link is-note-link" href="11_behaviorPlanning_2_20_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************ Hierarchical Task Networks - February 27th, 2019 *************//
 //**************************************************************************//
 
 - "Sorry about the exam, guys - it's a thing I'm required to do."
-- Seems most people did pretty well on it, but we haven't finished grading all 
-of them
-- Homework 5 is due on Friday (hopefully you've started on that!), and was all 
-about the tactics your minions were going to use
+- Seems most people did pretty well on it, but we haven't finished grading all of them
+- Homework 5 is due on Friday (hopefully you've started on that!), and was all about the tactics your minions were going to use
     - Homework 6, though, starts to throw STRATEGY into the mix
-        - Instead of killing bases, we now throw a powerful hero character into 
-        the mix (deals more damage, has an area-of-effect attack w/ cooldown, 
-        can dodge in certain directions, can heal at base, levels up if they 
-        kill ANY other agent, etc.); because of all of these options, we now 
-        need to plan a little bit more in advance (should we farm minions? 
-        Should we go straight for the enemy hero, or level up first? When 
-        should we use the AOE attack?)
-        - There are 3 baseline heroes to test our solution against (just runs 
-        and shoot, same but tries to heal, and tries to farm first and gain 
-        power); for this homework, we have to:
-            - Complete a partially-implemented behavior tree we'll be provided 
-            with
+        - Instead of killing bases, we now throw a powerful hero character into the mix (deals more damage, has an area-of-effect attack w/ cooldown, can dodge in certain directions, can heal at base, levels up if they kill ANY other agent, etc.); because of all of these options, we now need to plan a little bit more in advance (should we farm minions? Should we go straight for the enemy hero, or level up first? When should we use the AOE attack?)
+        - There are 3 baseline heroes to test our solution against (just runs and shoot, same but tries to heal, and tries to farm first and gain power); for this homework, we have to:
+            - Complete a partially-implemented behavior tree we'll be provided with
             - Add some certain behaviors to our hero
-            - Consistently "defeat" baselines 1, 2, and 3 by dealing 100 damage 
-            to the agent, within 5000 ticks (HINT: none of the baseline agents 
-            use dodging, or "lead" their shots (all the agents have the same 
-            set movement velocity))
-                - For extra credit, you can try defeating Professor Riedl's 
-                solution, which DOES use dodging/leading (but might not use the 
-                area-of-effect attack?)
-            - Behavior trees are a little more complex than FSMs, but they're 
-            pretty fun to play around with
-        - Later this year, we'll have a tournament where we pit EVERYONE'S 
-        heros/minions against each other, which'll be for extra credit
+            - Consistently "defeat" baselines 1, 2, and 3 by dealing 100 damage to the agent, within 5000 ticks (HINT: none of the baseline agents use dodging, or "lead" their shots (all the agents have the same set movement velocity))
+                - For extra credit, you can try defeating Professor Riedl's solution, which DOES use dodging/leading (but might not use the area-of-effect attack?)
+            - Behavior trees are a little more complex than FSMs, but they're pretty fun to play around with
+        - Later this year, we'll have a tournament where we pit EVERYONE'S heros/minions against each other, which'll be for extra credit
 ------------------------------------------------------------------------
 
-- At this point, we're about halfway through the semester and about to start 
-transitioning to procedural generation, but there's one more thing we want to 
-cover first...
+- At this point, we're about halfway through the semester and about to start transitioning to procedural generation, but there's one more thing we want to cover first...
 
-- With behavior planning, we've seen A* being used to let our agent make plans; 
-as it turns out, there's an important variation of this called HIERARCHICAL 
-TASK NETWORK PLANNING
+- With behavior planning, we've seen A* being used to let our agent make plans; as it turns out, there's an important variation of this called HIERARCHICAL TASK NETWORK PLANNING
     - This really only started popping up in games ~10 years ago
-    - See, when us people make plans, we often think in terms of several layers 
-    of abstraction; we plan to go home for the evening, which involves planning 
-    how to "pathfind" our way out the doors of this classroom and into our car, 
-    which involves planning our muscle contractions in a coordinated fashion...
-        - BUT, since we've gone home 8 gazillion times, we already know how to 
-        drive home, so we don't think about all that; we can just store that 
-        information and re-use it
-        - HOWEVER, if someone is blocking the classroom door, we might need to 
-        "edit" that chunk of plan on the fly to get us around the person
-    - High-level plans break down into mid-level plans, which break down into 
-    low-level plans...
-        - So, the idea here is that we describe each of our tasks as being 
-        composed of smaller sub-tasks
-        - PRACTICALLY, this has the advantage of us not needing to A* our way 
-        through everything; we can re-use pieces of our plan, and we only need 
-        to calculate one chunk of the plan at a time (e.g. don't need to worry 
-        if we're going into our house through the front/back door when we're 
-        still on the highway)
-            - "Everyone know what Transformers is? It's the part of my 
-            childhood that Michael Bay destroyed"
-                - Recently, there was a Transformers game that used HTN 
-                planning techniques because there were too many possible move 
-                combinations, and HTNs allowed them to manage the plan's 
-                complexity
+    - See, when us people make plans, we often think in terms of several layers of abstraction; we plan to go home for the evening, which involves planning how to "pathfind" our way out the doors of this classroom and into our car, which involves planning our muscle contractions in a coordinated fashion...
+        - BUT, since we've gone home 8 gazillion times, we already know how to drive home, so we don't think about all that; we can just store that information and re-use it
+        - HOWEVER, if someone is blocking the classroom door, we might need to "edit" that chunk of plan on the fly to get us around the person
+    - High-level plans break down into mid-level plans, which break down into low-level plans...
+        - So, the idea here is that we describe each of our tasks as being composed of smaller sub-tasks
+        - PRACTICALLY, this has the advantage of us not needing to A* our way through everything; we can re-use pieces of our plan, and we only need to calculate one chunk of the plan at a time (e.g. don't need to worry if we're going into our house through the front/back door when we're still on the highway)
+            - "Everyone know what Transformers is? It's the part of my childhood that Michael Bay destroyed"
+                - Recently, there was a Transformers game that used HTN planning techniques because there were too many possible move combinations, and HTNs allowed them to manage the plan's complexity
 
-- As an example of this, let's think of a task where we want to travel to a 
-distant city
-    - A TASK is a thing we want to do (like a goal, but...not quite; more like 
-    a step in a plan), and METHODS are the various ways we can accomplish a task
-        - For instance, if we want to complete a "Travel(x,y)" task, we can do 
-        that in two ways:
-            - If we're between 2 and 20 miles, we can use the "taxi" method (or 
-            "Uber" for you young'uns out there)
-                - This'd be composed of some sub-tasks, like "get-taxi," 
-                "ride(x,y)," and "pay-driver", in the order 1-&gt;2, 2-&gt;3
-            - If we're more than 10 miles away, we can do the "air-travel(x,y)" 
-            method, composed of some sub-tasks like "get-ticket," "travel(x, 
-            airport)", and "board-plane"
-                - Notice that we're recursively using the "travel" task here - 
-                that's allowed!
-                - We might have some ordering restrictions on these sub-tasks, 
-                too (e.g. 1-&gt;3 means we have to buy a ticket before we get on 
-                the plane, but we're allowed to either buy our tickets 
-                beforehand or buy our tickets at the airport)
-        - At a certain point, we have "task primitives," which are tasks that 
-        don't have any alternate methods/sub-tasks - "we have to stop at some 
-        point and just accept there's one way of doing something that we can 
-        use, for sanity's sake"
-            - Each task will have some preconditions that must be met before we 
-            use it
-            - ONLY primitives have postconditions, since they're where our 
-            actions actually get carried out
-    - So, if we're at the University of Maryland and want to travel to 
-    Toulouse, France, we'd call "travel(UMD, Toulouse)"
-        - Since Toulouse is more than 10 miles away, we'll try to use the 
-        air-travel method
-        - We'll then try to "get-ticket(BWI, TLS)," but it turns out that BWI 
-        airport doesn't have that ticket! Our sub-task fails!
-            - So, what other methods can we use to get to Toulouse? We can try 
-            "get-ticket" for another airport (like the purgatory that is Dulles 
-            International - "I have literally watched my airplane take off 
-            without me - multiple times - from that stupid terminal bus")
-            - So, we do that, get our ticket successfully, travel to the 
-            airport, and get on the plane - done!
+- As an example of this, let's think of a task where we want to travel to a distant city
+    - A TASK is a thing we want to do (like a goal, but...not quite; more like a step in a plan), and METHODS are the various ways we can accomplish a task
+        - For instance, if we want to complete a "Travel(x,y)" task, we can do that in two ways:
+            - If we're between 2 and 20 miles, we can use the "taxi" method (or "Uber" for you young'uns out there)
+                - This'd be composed of some sub-tasks, like "get-taxi," "ride(x,y)," and "pay-driver", in the order 1-&gt;2, 2-&gt;3
+            - If we're more than 10 miles away, we can do the "air-travel(x,y)" method, composed of some sub-tasks like "get-ticket," "travel(x, airport)", and "board-plane"
+                - Notice that we're recursively using the "travel" task here - that's allowed!
+                - We might have some ordering restrictions on these sub-tasks, too (e.g. 1-&gt;3 means we have to buy a ticket before we get on the plane, but we're allowed to either buy our tickets beforehand or buy our tickets at the airport)
+        - At a certain point, we have "task primitives," which are tasks that don't have any alternate methods/sub-tasks - "we have to stop at some point and just accept there's one way of doing something that we can use, for sanity's sake"
+            - Each task will have some preconditions that must be met before we use it
+            - ONLY primitives have postconditions, since they're where our actions actually get carried out
+    - So, if we're at the University of Maryland and want to travel to Toulouse, France, we'd call "travel(UMD, Toulouse)"
+        - Since Toulouse is more than 10 miles away, we'll try to use the air-travel method
+        - We'll then try to "get-ticket(BWI, TLS)," but it turns out that BWI airport doesn't have that ticket! Our sub-task fails!
+            - So, what other methods can we use to get to Toulouse? We can try "get-ticket" for another airport (like the purgatory that is Dulles International - "I have literally watched my airplane take off without me - multiple times - from that stupid terminal bus")
+            - So, we do that, get our ticket successfully, travel to the airport, and get on the plane - done!
 
-- What does the planning algorithm itself look like? Something along these 
-lines:
+- What does the planning algorithm itself look like? Something along these lines:
     - Given a task:
-        - Pick a method w/ preconditions that match the current world state 
-        (either randomly, first available, etc.)
+        - Pick a method w/ preconditions that match the current world state (either randomly, first available, etc.)
         - Planning process (get to a primitive, do it, update world state)
-            - Importantly, we only need to create a partial plan for every 
-            given step; we don't need to pre-compute everything ahead of time
-        - REPLANNING (if our plan breaks, we can backtrack and figure out what 
-        we need to do next)
-- A specific implementation of this is the SHOP2 planning algorithm; here's 
-some pseudocode from the slides (I ASSUME this is SHOP2, but I'm not sure?):
+            - Importantly, we only need to create a partial plan for every given step; we don't need to pre-compute everything ahead of time
+        - REPLANNING (if our plan breaks, we can backtrack and figure out what we need to do next)
+- A specific implementation of this is the SHOP2 planning algorithm; here's some pseudocode from the slides (I ASSUME this is SHOP2, but I'm not sure?):
 
     htnPlanner(State s, Tasks T, Domain d):
         p = empty plan
@@ -159,72 +95,41 @@ some pseudocode from the slides (I ASSUME this is SHOP2, but I'm not sure?):
                 m = a method for subtask w/ true preconditions in state s
                 if m is empty:
                     return fail
-                modify T by removing task, add subtasks of m w/ ordering 
-                constraints
+                modify T by removing task, add subtasks of m w/ ordering constraints
                 if m has subtasks:
                     t0 = some subtask of m w/ constraints met
                 else:
                     t0 = some task in T w/ constraints met
 
-    - Like A*, this actually isn't that complicated of an algorithm; what makes 
-    it work REALLY well for games, though, is that the plans it produces are as 
-    good or as bad as the methods us designers write
-        - The methods can be as simple or as complicated as we write them, 
-        which gives us designers MORE control over the agent compared with 
-        behavior planning
-        - "We don't care WHEN the agent does these things, but we control the 
-        chunks of action themselves; the AI just gets to decide the order of 
-        them"
+    - Like A*, this actually isn't that complicated of an algorithm; what makes it work REALLY well for games, though, is that the plans it produces are as good or as bad as the methods us designers write
+        - The methods can be as simple or as complicated as we write them, which gives us designers MORE control over the agent compared with behavior planning
+        - "We don't care WHEN the agent does these things, but we control the chunks of action themselves; the AI just gets to decide the order of them"
 
-- Speaking of A*, what're the pros and cons of HTN planning versus 
-"traditional" Behavior Planning with A*?
+- Speaking of A*, what're the pros and cons of HTN planning versus "traditional" Behavior Planning with A*?
     - First up, the good:
-        - HTNs let us exploit the designer's knowledge - if we know what a good 
-        order of tasks is, we can include that in the constraints!
-        - This also means it can run faster than A*, since we don't have to 
-        re-compute every ordering of these plans
-        - Can delay thinking through all the details of the plan for later 
-        (e.g. don't need to worry about taxis in Toulouse until we get there)
-        - Since we've pre-made these chunks of action, agents will still have 
-        patterns of behavior - which is often GOOD for gameplay purposes!
-            - In contrast, A* just puts things in whatever order "makes sense," 
-            often at the cost of predictability; sometimes that's what we want, 
-            but oftentimes it's detrimental
+        - HTNs let us exploit the designer's knowledge - if we know what a good order of tasks is, we can include that in the constraints!
+        - This also means it can run faster than A*, since we don't have to re-compute every ordering of these plans
+        - Can delay thinking through all the details of the plan for later (e.g. don't need to worry about taxis in Toulouse until we get there)
+        - Since we've pre-made these chunks of action, agents will still have patterns of behavior - which is often GOOD for gameplay purposes!
+            - In contrast, A* just puts things in whatever order "makes sense," often at the cost of predictability; sometimes that's what we want, but oftentimes it's detrimental
     - ...and then, the bad:
-        - HTN plans are NOT guaranteed to be optimal, unlike A*; we can't add 
-        or remove extra steps in the middle of things, even if the world 
-        changes (e.g. if there's a No Ticket Required day, the plan still has 
-        that "buy airport ticket" step!)
-        - It's less "creative" than A*-based Behavior Planning, since there is 
-        a set order to things (i.e. there's less of a chance for novel behavior)
-- So, we're basically choosing between speed and optimality, along with whether 
-we need our actions to be predictable
+        - HTN plans are NOT guaranteed to be optimal, unlike A*; we can't add or remove extra steps in the middle of things, even if the world changes (e.g. if there's a No Ticket Required day, the plan still has that "buy airport ticket" step!)
+        - It's less "creative" than A*-based Behavior Planning, since there is a set order to things (i.e. there's less of a chance for novel behavior)
+- So, we're basically choosing between speed and optimality, along with whether we need our actions to be predictable
 
 - ...and with that, we're done with behavior planning!
 
-- "Now, let's move on to a Powerpoint presentation that hasn't synced with my 
-computer yet - PROCEDURAL CONTENT GENERATION"
-    - A LOT of the techniques we've talked about so far "best practices" 
-    that're more or less solved problems in the CS world; no one's publishing 
-    papers on A*, for instance
-    - In contrast, procedural content generation is still wide open as an 
-    anything-goes field right now - we haven't figured out a "right way" to do 
-    things yet, which is scary, but also really exciting!
-- So, when we talk about generating content, what do we mean by "content?" 
-Well, just about anything!
+- "Now, let's move on to a Powerpoint presentation that hasn't synced with my computer yet - PROCEDURAL CONTENT GENERATION"
+    - A LOT of the techniques we've talked about so far "best practices" that're more or less solved problems in the CS world; no one's publishing papers on A*, for instance
+    - In contrast, procedural content generation is still wide open as an anything-goes field right now - we haven't figured out a "right way" to do things yet, which is scary, but also really exciting!
+- So, when we talk about generating content, what do we mean by "content?" Well, just about anything!
     - Game assets (sprites, 3D models, music, textures, etc.)
     - Game parameters (weapon stats, NPC behaviors, )
     - Anything else your little hearts can fit on this slide!
-- What, then, is PROCEDURAL CONTENT GENERATION (PCG) itself? It's using 
-computation to help us produce these elements of gameplay
-    - We're using this to help lighten the load on game developers, and let the 
-    game do some of the design work for us...
+- What, then, is PROCEDURAL CONTENT GENERATION (PCG) itself? It's using computation to help us produce these elements of gameplay
+    - We're using this to help lighten the load on game developers, and let the game do some of the design work for us...
 
-- But what sorts of games? What sorts of design work, and what problems does 
-this raise? These are EXCELLENT questions, and we'll do a fantastically bad job 
-of answering them next week! See ya!
-
-</pre>
+- But what sorts of games? What sorts of design work, and what problems does this raise? These are EXCELLENT questions, and we'll do a fantastically bad job of answering them next week! See ya!</pre>
 </article>
 <a class="side-link is-note-link" href="13_introProceduralGen_3_4_19.html"></a>
 </main>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,26 +23,19 @@
 <a class="side-link is-note-link" href="31_moreEvaluatingDesigns_11_13_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //*************** UI Design Principles - November 15th, 2017 ****************//
 //**************************************************************************//
 
-- So, we were talking about "affordances" at the end of yesterday: things we 
-can do to give our users hints on what to do
-    - One thing we have to watch out for are FALSE AFFORDANCES: things that 
-    make the user THINK they're supposed to do something, when they're actually 
-    supposed to do something else
+- So, we were talking about "affordances" at the end of yesterday: things we can do to give our users hints on what to do
+    - One thing we have to watch out for are FALSE AFFORDANCES: things that make the user THINK they're supposed to do something, when they're actually supposed to do something else
 
-- Another UX principle is CONSTRAINTS, where we convey what the app can/can't 
-do in the app
-    - A SUPER common example: graying out buttons until it's time to perform an 
-    action
-    - "If you're making something for international use, make sure that these 
-    aren't just cultural conventions (e.g. that green and red mean the same 
-    thing in all the countries you're releasing in)"
+- Another UX principle is CONSTRAINTS, where we convey what the app can/can't do in the app
+    - A SUPER common example: graying out buttons until it's time to perform an action
+    - "If you're making something for international use, make sure that these aren't just cultural conventions (e.g. that green and red mean the same thing in all the countries you're releasing in)"
 
-- ACCESSIBILITY - watch out for red/green color blindness, allowing for screen 
-readers, text enlargement for visually impaired people, etc.
+- ACCESSIBILITY - watch out for red/green color blindness, allowing for screen readers, text enlargement for visually impaired people, etc.
 
 - Finally, a few general rules for UI design:
     - The UI should assist the user, not become another task to learn
@@ -52,81 +46,48 @@ readers, text enlargement for visually impaired people, etc.
     - Allows for user control and freedom
     - Be consistent and follow standards
     - The UI should help prevent errors
-    - Recognition rather than recall (UNIX is very recall-dependent; you just 
-    have to remember all the bash commands)
-        - "UNIX is actually user-friendly...it's just picky about who its users 
-        are"
+    - Recognition rather than recall (UNIX is very recall-dependent; you just have to remember all the bash commands)
+        - "UNIX is actually user-friendly...it's just picky about who its users are"
     - Flexibility and efficiency of use
     - Fitting and non-distracting aesthetic design
     - Help users recognize, diagnose, and recover from errors
     - Provide help and documentation through design
-    - Avoid modal windows when possible (i.e. windows that don't let you click 
-    on another window)
+    - Avoid modal windows when possible (i.e. windows that don't let you click on another window)
     - Eventual vs immediate honesty
-        - Immediate honesty means that you show the user if something worked 
-        IMMEDIATELY, right away (e.g. a window pops up saying "Failed to add 
-        new report")
+        - Immediate honesty means that you show the user if something worked IMMEDIATELY, right away (e.g. a window pops up saying "Failed to add new report")
             - This is the one we usually prefer
-        - Eventual honesty means that there's a way to see if something worked, 
-        but you have to do some extra steps (e.g. going back to the "Files" 
-        page to see if your file was added)
+        - Eventual honesty means that there's a way to see if something worked, but you have to do some extra steps (e.g. going back to the "Files" page to see if your file was added)
 
-- So, those are things we should be thinking about for designing a UI...but how 
-do we actually evaluate if one UI design is better than another?
-    - Usually, you'd do this stuff for homework in M11, but we cut that for 
-    time due to the hurricane
-        - The three parts for this homework: Plan, execute review, report 
-        changes you think should be made
+- So, those are things we should be thinking about for designing a UI...but how do we actually evaluate if one UI design is better than another?
+    - Usually, you'd do this stuff for homework in M11, but we cut that for time due to the hurricane
+        - The three parts for this homework: Plan, execute review, report changes you think should be made
 - Now, once we have multiple designs, there are a few techniques we can use:
     - formative vs summative
     - with or without end-user testing
     - using a variety of prototypes
-        - Specifically, three techniques we'll look at: heuristic evaluation, 
-        cognitive walkthrough, think-aloud observation
-            - "These are designed to evaluate different things, so we can 
-            happily use all of these"
-- Remember: we're evaluating the DESIGN of the app in this stage, NOT the 
-functionality!
+        - Specifically, three techniques we'll look at: heuristic evaluation, cognitive walkthrough, think-aloud observation
+            - "These are designed to evaluate different things, so we can happily use all of these"
+- Remember: we're evaluating the DESIGN of the app in this stage, NOT the functionality!
 
 - HEURISTIC EVALUATION:
-    - Have a small set of evaluators independently examine an interface, and 
-    judge it based on the general rules-of-thumb that exist for UI
-        - If you go to "Usability Stuff" folder on T-Square, there's a toolkit 
-        for what to be looking for during a UI test, and specifically an "HE 
-        Checklist"
-    - This is mainly formative and qualitative; has the advantage that you do 
-    NOT need a fully working prototype to evaluate individual screens, 
-    relatively straightforward ("Heck, you could use some paper printouts to 
-    evaluate it")
+    - Have a small set of evaluators independently examine an interface, and judge it based on the general rules-of-thumb that exist for UI
+        - If you go to "Usability Stuff" folder on T-Square, there's a toolkit for what to be looking for during a UI test, and specifically an "HE Checklist"
+    - This is mainly formative and qualitative; has the advantage that you do NOT need a fully working prototype to evaluate individual screens, relatively straightforward ("Heck, you could use some paper printouts to evaluate it")
     - The procedure (created by Jakob Nielsen):
         1) Gather inputs (screens/scenarios you want to test)
         2) Independent evaluation
-            - INDEPENDENT! This isn't a code review where you should be filling 
-            this out with your team; do it on your own!
-            - How many evaluators should there be? Well, there's diminishing 
-            returns here; 5 people are enough to catch about 75% of the errors, 
-            and after 15 people you have to add a LOT more people to get better 
-            results
-            - What counts as a usability bug? Whatever you think it is! A 
-            confusing button, a color you don't like, etc.
+            - INDEPENDENT! This isn't a code review where you should be filling this out with your team; do it on your own!
+            - How many evaluators should there be? Well, there's diminishing returns here; 5 people are enough to catch about 75% of the errors, and after 15 people you have to add a LOT more people to get better results
+            - What counts as a usability bug? Whatever you think it is! A confusing button, a color you don't like, etc.
         3) Debriefing/collection (get the reports from the evaluators)
         4) Severity rating (how well did the app fare?)
-            - How often did a problem come up? Does the problem have a mjor 
-            impact on users, or is it just a nusiance? Would it affect the 
-            market impact of the app? Is it a persistent issue or just a 
-            learning curve?
-            - Severity ranking: from 0 (this isn't even a problem) to 4 
-            (catastrophic, makes the app almost unusable)
+            - How often did a problem come up? Does the problem have a mjor impact on users, or is it just a nusiance? Would it affect the market impact of the app? Is it a persistent issue or just a learning curve?
+            - Severity ranking: from 0 (this isn't even a problem) to 4 (catastrophic, makes the app almost unusable)
 - COGNITIVE WALKTHROUGH:
-    - Basically, this technique is saying "as a novice, how well can I use this 
-    app if I know nothing about it?"
-    - What a "novice user" means is different from app-to-app; a professional 
-    movie-editing app will have different users than a grandma-friendly pet 
-    shop website
+    - Basically, this technique is saying "as a novice, how well can I use this app if I know nothing about it?"
+    - What a "novice user" means is different from app-to-app; a professional movie-editing app will have different users than a grandma-friendly pet shop website
 
-- We'll finish going over this next time
-
-</pre>
+- We'll finish going over this next time</pre>
 </article>
 <a class="side-link is-note-link" href="33_packages_11_17_17.html"></a>
 </main>

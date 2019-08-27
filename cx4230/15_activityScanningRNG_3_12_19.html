@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,276 +23,150 @@
 <a class="side-link is-note-link" href="14_processSchedulingImpl_3_7_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //***** Activity Scanning / Random Number Generation - March 12th, 2019 *****//
 //**************************************************************************//
 
-- Some people have already started asking about the 2nd exam, which is WAYYYYY 
-out at the end of the semester; the hope is that your project will cover all 
-the "simulation lifecycle" stuff we're going over now, but NOT the parallel 
-stuff we'll start covering after Spring break; we'll talk about details when we 
-get to them
-    - The second exam will EMPHASIZE parallel processing stuff because of that, 
-    but there *might* still be a question or two on this lifecycle stuff...
+- Some people have already started asking about the 2nd exam, which is WAYYYYY out at the end of the semester; the hope is that your project will cover all the "simulation lifecycle" stuff we're going over now, but NOT the parallel stuff we'll start covering after Spring break; we'll talk about details when we get to them
+    - The second exam will EMPHASIZE parallel processing stuff because of that, but there *might* still be a question or two on this lifecycle stuff...
 ----------------------------------------------------------------------------
 
-- Okay, we started talking about activity-scanning simulations last week; let's 
-try going over it in more detail
+- Okay, we started talking about activity-scanning simulations last week; let's try going over it in more detail
     - For activities, we need to worry about 2 different categories of events:
         - CONDITIONAL (or "C") events occurs when a condition is met
         - BOUND (or "B") events occur when we're at a particular timestep
     - There are 3 main types of activities we'll be worried about in this class:
-        - A regular ACTIVITY is started by a condition and runs for a certain 
-        amount of time
-            - So, for instance, an airplane activity might be started when the 
-            runway is free (a C-type event), and then end after 5 minutes of 
-            landing procedures (a B-type event) 
-        - A TRIGGERED activity starts at a certain time after being created by 
-        an event, and runs for a certain amount of time
-            - For instance, the "docking" activity might be started as soon as 
-            we're done with landing, and then take a certain amount of time
-        - ACTION SEQUENCES are where one event schedules another event in 
-        sequence
-    - "Again, the main point isn't the specific terminology here, but the 
-    concepts"
+        - A regular ACTIVITY is started by a condition and runs for a certain amount of time
+            - So, for instance, an airplane activity might be started when the runway is free (a C-type event), and then end after 5 minutes of landing procedures (a B-type event) 
+        - A TRIGGERED activity starts at a certain time after being created by an event, and runs for a certain amount of time
+            - For instance, the "docking" activity might be started as soon as we're done with landing, and then take a certain amount of time
+        - ACTION SEQUENCES are where one event schedules another event in sequence
+    - "Again, the main point isn't the specific terminology here, but the concepts"
 
 - How is this kind of simulation actually run, though?
-    - Well, we'll have a list of "current activities," with new activities 
-    being created throughout the simulation and old ones being deleted when 
-    they're completed
-        - Each activity here has a "trigger" that tells us when it should start 
-        running
-- The simulation time will be discretized into different "time steps," and for 
-each time step, we'll scan through the whole list of current activities
+    - Well, we'll have a list of "current activities," with new activities being created throughout the simulation and old ones being deleted when they're completed
+        - Each activity here has a "trigger" that tells us when it should start running
+- The simulation time will be discretized into different "time steps," and for each time step, we'll scan through the whole list of current activities
     - If it's a B-type event, and it's time for it to start, we execute it!
     - If it's a C-type event, and their condition is true, we execute it!
-        - We continue doing this for the timestep until no more events are 
-        executed
-            - Keep in mind that events can create new events, INCLUDING more 
-            events for the current time, so we need to check if any of those 
-            were added!
+        - We continue doing this for the timestep until no more events are executed
+            - Keep in mind that events can create new events, INCLUDING more events for the current time, so we need to check if any of those were added!
         - After that, we'll advance to the next step
 
-- This scanning approach is pretty simple, but it's not the most efficient - 
-it's okay for small projects, but we end up scanning the entire list EVERY 
-timestep, even if we don't have any events that need to be run right now!
-    - To speed this up, remember that conditions change in the simulation ONLY 
-    when an event occurs - so, no new C-type events can fire until a B-type 
-    event triggers their condition!
-        - That means that we can maintain a "future event list" priority queue 
-        and get the smallest timestep B-type event, along with any others w/ 
-        the same timestep
-        - We'll then execute those events, and any of the conditional events 
-        that're now true; we'll then get the next smallest timestamp from the 
-        FEL
-            - This means that we can skip a BUNCH of timesteps when nothing is 
-            happening, greatly improving performance
+- This scanning approach is pretty simple, but it's not the most efficient - it's okay for small projects, but we end up scanning the entire list EVERY timestep, even if we don't have any events that need to be run right now!
+    - To speed this up, remember that conditions change in the simulation ONLY when an event occurs - so, no new C-type events can fire until a B-type event triggers their condition!
+        - That means that we can maintain a "future event list" priority queue and get the smallest timestep B-type event, along with any others w/ the same timestep
+        - We'll then execute those events, and any of the conditional events that're now true; we'll then get the next smallest timestamp from the FEL
+            - This means that we can skip a BUNCH of timesteps when nothing is happening, greatly improving performance
 
-- So, in summary, there are 3 "worldviews" we can take when building our 
-simulation model, and they all have different trade-offs
-    - Event-oriented approaches are straightforward and efficient, but they can 
-    have a complexity issue when scaling up for large problems
-    - Process-oriented simulations are probably the most widely used, since 
-    they simplify model maintenance and organization
-        - However, this requires threading, and handling those threads can 
-        incur some overhead and complexity of its own
-    - Activity-scanning approaches make more sense for some applications; they 
-    can have inefficiency problems, but many of these can be mitigated
+- So, in summary, there are 3 "worldviews" we can take when building our simulation model, and they all have different trade-offs
+    - Event-oriented approaches are straightforward and efficient, but they can have a complexity issue when scaling up for large problems
+    - Process-oriented simulations are probably the most widely used, since they simplify model maintenance and organization
+        - However, this requires threading, and handling those threads can incur some overhead and complexity of its own
+    - Activity-scanning approaches make more sense for some applications; they can have inefficiency problems, but many of these can be mitigated
 
-- Shifting gears, one of the most common things we need when simulating stuff 
-is randomness - so how do we add that in? We use RANDOM NUMBER GENERATORS!
-    - This is a MASSIVE topic, so we're just going to go through the 10,000 
-    foot high version
+- Shifting gears, one of the most common things we need when simulating stuff is randomness - so how do we add that in? We use RANDOM NUMBER GENERATORS!
+    - This is a MASSIVE topic, so we're just going to go through the 10,000 foot high version
     - To be clear, we're generating PSEUDO-random numbers
-        - Ignoring the whole "deterministic" vs "random" philosophical debate, 
-        "truly random" numbers can be generated with certain hardware (e.g. 
-        measuring radioactive decay from uranium, or white noise in electronic 
-        circuits)
-            - The problem with these "truly random" approaches is that it makes 
-            debugging harder for us - since the numbers aren't repeatable, we 
-            can't reproduce a case that gives us trouble and investigate it!
-                - It also mans we can't reproduce results if someone else needs 
-                to see them - "when the IRS calls, they'll want to verify your 
-                accounting simulation for themselves"
-    - Instead, 99.9% of the time, we'll use pseudo-random numbers that generate 
-    numbers using a deterministic formula
+        - Ignoring the whole "deterministic" vs "random" philosophical debate, "truly random" numbers can be generated with certain hardware (e.g. measuring radioactive decay from uranium, or white noise in electronic circuits)
+            - The problem with these "truly random" approaches is that it makes debugging harder for us - since the numbers aren't repeatable, we can't reproduce a case that gives us trouble and investigate it!
+                - It also mans we can't reproduce results if someone else needs to see them - "when the IRS calls, they'll want to verify your accounting simulation for themselves"
+    - Instead, 99.9% of the time, we'll use pseudo-random numbers that generate numbers using a deterministic formula
 
-- What properties does this function need to have? Well, we'd like to have the 
-following:
-    - Should produce numbers over the (0, 1) range without any obvious pattern 
-    or correlation between the inputs (satisfies "statistical tests of 
-    randomness")
+- What properties does this function need to have? Well, we'd like to have the following:
+    - Should produce numbers over the (0, 1) range without any obvious pattern or correlation between the inputs (satisfies "statistical tests of randomness")
     - Should be repeatable, as we've discussed 
     - Should be "portable" and work on a variety of hardware
     - Needs to be reasonably efficient
-    - Needs to be usable with multiple data streams at a time (i.e. 
-    parallelizable)
+    - Needs to be usable with multiple data streams at a time (i.e. parallelizable)
     - Should be well-documented and understood
 - With that in mind, we want a function like this:
 
         u = random();
 
-    - That returns a floating-point number between 0 and 1, with any number 
-    between 0 and 1 equally likely to occur
-        - Ideally, we start with a "seed" value for this function, but after 
-        every call it'll jump to a new state, where the valid range of states 
-        (for our purposes) will be the set of integers {1, 2, ..., m-1}
-        - There'll be a function "g()" that maps one number in our state to 
-        another
-            - Notice that since there's a finite number of states, this 
-            function will eventually get back to a state we've been to 
-            previously after at MOST "M" calls; once we reach that, the 
-            function will start repeating its sequence
-                - The length of this loop is called the PERIOD of the 
-                generator, which should preferably be as long as possible (For 
-                a "k"-bit integer, it should be as close to 2^k as we can get 
-                it)
-                - With a well-designed generator, the "build-up" period to 
-                first reach a number in this loop should also be small or 
-                non-existent
-        - ...and an "output function" h() that can map our current state to an 
-        output number in the (0, 1) range
+    - That returns a floating-point number between 0 and 1, with any number between 0 and 1 equally likely to occur
+        - Ideally, we start with a "seed" value for this function, but after every call it'll jump to a new state, where the valid range of states (for our purposes) will be the set of integers {1, 2, ..., m-1}
+        - There'll be a function "g()" that maps one number in our state to another
+            - Notice that since there's a finite number of states, this function will eventually get back to a state we've been to previously after at MOST "M" calls; once we reach that, the function will start repeating its sequence
+                - The length of this loop is called the PERIOD of the generator, which should preferably be as long as possible (For a "k"-bit integer, it should be as close to 2^k as we can get it)
+                - With a well-designed generator, the "build-up" period to first reach a number in this loop should also be small or non-existent
+        - ...and an "output function" h() that can map our current state to an output number in the (0, 1) range
             - For our purposes, "h(xi) = xi / m" should be sufficient
 
-- With those pieces, we'll talk about probably the most common RNG technique, 
-known as LEHMER'S ALGORITHM (pronounced like the monkey-like creature)
-    - Here, we start with our seed value in our set of states, and then have 
-    the following state-mapping function:
+- With those pieces, we'll talk about probably the most common RNG technique, known as LEHMER'S ALGORITHM (pronounced like the monkey-like creature)
+    - Here, we start with our seed value in our set of states, and then have the following state-mapping function:
 
             g(x) = (a*x_i-1) % m
 
-        - Where "%" is the modulus operator, i.e. the remainder (or, more 
-        precisely, u%v = u - v*floor(u/v))
-        - This is a generalized form of the "linear congruential generator," 
-        without a constant-value being added
-            - Because of this, Lehmer's algorithm is sometimes known as the 
-            "multiplicative LCG"
-    - Intuitively, this algorithm is like taking a "pebble" (the current 
-    state's number), throwing it HARD down a tiled floor, and then measuring 
-    how far into a given tile our pebble landed to get the next value
+        - Where "%" is the modulus operator, i.e. the remainder (or, more precisely, u%v = u - v*floor(u/v))
+        - This is a generalized form of the "linear congruential generator," without a constant-value being added
+            - Because of this, Lehmer's algorithm is sometimes known as the "multiplicative LCG"
+    - Intuitively, this algorithm is like taking a "pebble" (the current state's number), throwing it HARD down a tiled floor, and then measuring how far into a given tile our pebble landed to get the next value
         - If we analyze this function, we see the following:
-            - If our state is ever 0, then the function gets "stuck" at 0 - 
-            yikes! We don't want that!
-                - Luckily, it turns out that this will never happen if we 
-                choose a prime number for "m" - great!
-            - Due to our modulus operator, if m &lt; "M", then the next number 
-            will always be in our state space
-            - Since we're going through numbers in our "period," it actually 
-            means our values ARE dependent on the previous numbers!
-                - However, if our number of draws is significantly less than M, 
-                this is still a "good-enough" approximation of true randomness
-    - What should "a" and "m" be, though? Well, that's the tricky part - in 
-    fact, the choice of those 2 numbers is the crucial difference between a 
-    good generator and a bad one!
-        - It turns out to be pretty complicated to work this out, and 
-        intimately related to number theory, but the basic idea is that we want 
-        m as close to a "full-period sequencer" (i.e to M-1) as possible, so 
-        we're not wasting any states
-            -  We also want to avoid the "burn-up" period to our cyclical part 
-            - which, as it turns out, is eliminated if we pick "m" to be a 
-            prime number
-            - That doesn't help us with the full-period sequencer, though, and 
-            calculating this is much more difficult
-                - Some people also argue using powers of 2 for M to allow for 
-                faster computation, but that isn't crucial
-        - Large periods of m are NOT sufficient to guarantee randomness (since 
-        the numbers could all be clustered together), so we need to find a 
-        value of "a" that will make this work
-            - There are a few suggested values for this, but Lehmer suggested a 
-            number ~= 48271
-            - For m, it turns out that 2^31-1 is prime, so that's often used to 
-            maximize our periods for 32-bit integers
-    - Notice here that we're also multiplying a by x_i-1 before dividing, so we 
-    need to deal with integer overflow in our implementation
-- Overall, Lehmer's is commonly used because it's simple to implement, 
-straightforward to parallelize, and it requires a pretty small state, but the 
-limited period size is a major drawback that scares some people off
-    - There are more sophisticated algorithms that overcome that, like the 
-    Mersenne Twister, but we won't go into the details of those
+            - If our state is ever 0, then the function gets "stuck" at 0 - yikes! We don't want that!
+                - Luckily, it turns out that this will never happen if we choose a prime number for "m" - great!
+            - Due to our modulus operator, if m &lt; "M", then the next number will always be in our state space
+            - Since we're going through numbers in our "period," it actually means our values ARE dependent on the previous numbers!
+                - However, if our number of draws is significantly less than M, this is still a "good-enough" approximation of true randomness
+    - What should "a" and "m" be, though? Well, that's the tricky part - in fact, the choice of those 2 numbers is the crucial difference between a good generator and a bad one!
+        - It turns out to be pretty complicated to work this out, and intimately related to number theory, but the basic idea is that we want m as close to a "full-period sequencer" (i.e to M-1) as possible, so we're not wasting any states
+            -  We also want to avoid the "burn-up" period to our cyclical part - which, as it turns out, is eliminated if we pick "m" to be a prime number
+            - That doesn't help us with the full-period sequencer, though, and calculating this is much more difficult
+                - Some people also argue using powers of 2 for M to allow for faster computation, but that isn't crucial
+        - Large periods of m are NOT sufficient to guarantee randomness (since the numbers could all be clustered together), so we need to find a value of "a" that will make this work
+            - There are a few suggested values for this, but Lehmer suggested a number ~= 48271
+            - For m, it turns out that 2^31-1 is prime, so that's often used to maximize our periods for 32-bit integers
+    - Notice here that we're also multiplying a by x_i-1 before dividing, so we need to deal with integer overflow in our implementation
+- Overall, Lehmer's is commonly used because it's simple to implement, straightforward to parallelize, and it requires a pretty small state, but the limited period size is a major drawback that scares some people off
+    - There are more sophisticated algorithms that overcome that, like the Mersenne Twister, but we won't go into the details of those
 
-- Alright, that's enough to get us a uniform random distribution - but how can 
-we use this to get other distributions, like, say, the normal distribution?
+- Alright, that's enough to get us a uniform random distribution - but how can we use this to get other distributions, like, say, the normal distribution?
     - To start off, let's remind ourselves about discrete random variables:
-        - A RANDOM VARIABLE is just a variable that's "random," and has 
-        different values each time we look at it
-            - We say its current value is "x," and the possible values it can 
-            take are in the state space "chi"
+        - A RANDOM VARIABLE is just a variable that's "random," and has different values each time we look at it
+            - We say its current value is "x," and the possible values it can take are in the state space "chi"
                 - "Chi" is pronounced "kai" (it's statistics, not tea)! 
-            - The probability of a given value "x" occurring is given by the 
-            PROBABILITY DENSITY FUNCTION (PDF)
-            - The probability of getting a value &lt;= x is given by the 
-            CUMULATIVE distribution function, the CDF
-        - A RANDOM VARIATE is an algorithmically-generated version of a random 
-        variable with a given PDF "p"
+            - The probability of a given value "x" occurring is given by the PROBABILITY DENSITY FUNCTION (PDF)
+            - The probability of getting a value &lt;= x is given by the CUMULATIVE distribution function, the CDF
+        - A RANDOM VARIATE is an algorithmically-generated version of a random variable with a given PDF "p"
     - This leads us into the topic of EMPIRICAL DISTRIBUTIONS
-        - As an example, suppose we're running a fine Italian restaurant, and 
-        we want to figure out the average size of the groups that come into our 
-        restaurant
-        - Being fancy Georgia Tech students, we collect this sort of data on 
-        all of our customers, and from that data we can create an "empirical 
-        distribution" of the group size
-            - You'll need to do something similar using your traffic simulation 
-            data in project 2
-        - To do this, we'll have integer states from {1, ..., k}, where "k" is 
-        the size of the largest group
-            - We'll then record how many groups of each size came into our 
-            restaurant...
-            - ...and calculate the PDF (i.e. the probability of each group 
-            size) by just dividing the number of groups of that size by the 
-            total number of groups, e.g.:
+        - As an example, suppose we're running a fine Italian restaurant, and we want to figure out the average size of the groups that come into our restaurant
+        - Being fancy Georgia Tech students, we collect this sort of data on all of our customers, and from that data we can create an "empirical distribution" of the group size
+            - You'll need to do something similar using your traffic simulation data in project 2
+        - To do this, we'll have integer states from {1, ..., k}, where "k" is the size of the largest group
+            - We'll then record how many groups of each size came into our restaurant...
+            - ...and calculate the PDF (i.e. the probability of each group size) by just dividing the number of groups of that size by the total number of groups, e.g.:
 
                     P(group size x) = (# of groups of x) / total # of groups
 
-                - We can then generate a staircase-like CDF by just 
-                successively adding each of these probabilities up to 1
-    - Once we have an empirical distribution, we can use the 
-    INVERSE-DISTRIBUTION method to generate our random variate like this:
+                - We can then generate a staircase-like CDF by just successively adding each of these probabilities up to 1
+    - Once we have an empirical distribution, we can use the INVERSE-DISTRIBUTION method to generate our random variate like this:
         - Select a random number "u" between (0, 1)
-        - Compute F*(u), the INVERSE of our CDF (search for the smallest CDF(x) 
-        greater than u): we plug in our "probability" u, and get the "x" value 
-        that has that range
+        - Compute F*(u), the INVERSE of our CDF (search for the smallest CDF(x) greater than u): we plug in our "probability" u, and get the "x" value that has that range
             - That's it! It works for a TON of stuff!
-            - People have derived the formulas for "classical" distributions 
-            using this method, like:
+            - People have derived the formulas for "classical" distributions using this method, like:
                 - Equilikely(a,b) = a + (u * (b - a + 1))
                 - Geometric(p) = (log(1.0 - u)) / log(p)
                 - (a ton more)
 
-- Similarly, these techniques hold for continuous functions; the main 
-difference is that the PDF and CDF are now actual functions, so we need the 
-actual inverse CDF function "f-1(i)"
+- Similarly, these techniques hold for continuous functions; the main difference is that the PDF and CDF are now actual functions, so we need the actual inverse CDF function "f-1(i)"
     - A commonly-used example of this is the exponential distribution
-    - "For a number of distributions, though, finding this inverse isn't 
-    straightforward at all"
+    - "For a number of distributions, though, finding this inverse isn't straightforward at all"
 
-- This is great, but occasionally, if we can't compute the inverse 
-distribution, we can try to instead use the REJECTION-ACCEPTANCE METHOD
-    - Basically, if we have a range of x values (a, b) we want a value between, 
-    and a curve for our PDF, we'll throw darts at a box with base (a, b) and 
-    height equal to the highest value of the PDF
-        - We'll compute x/y values for our random "dart," where u1 and u2 are 
-        random numbers in the range (0,1):
+- This is great, but occasionally, if we can't compute the inverse distribution, we can try to instead use the REJECTION-ACCEPTANCE METHOD
+    - Basically, if we have a range of x values (a, b) we want a value between, and a curve for our PDF, we'll throw darts at a box with base (a, b) and height equal to the highest value of the PDF
+        - We'll compute x/y values for our random "dart," where u1 and u2 are random numbers in the range (0,1):
         
                 x' = a + u1*(b - a)
                 y' = highestPDFVal * u2
 
-            - If y' is under the curve (i.e. y' &lt; PDF(x')), then we can take x' 
-            as a valid sample! Otherwise, we'll just regenerate these numbers 
-            and try again
-    - There's a slight catch here, though: how many times do we need to try 
-    this before we get a value underneath the curve?
-        - Since the total area under the curve is 1, the probability a given 
-        dart will be accepted is "1 / (highestPDFVal * (b - a))", which is 
-        usually fairly reasonable
+            - If y' is under the curve (i.e. y' &lt; PDF(x')), then we can take x' as a valid sample! Otherwise, we'll just regenerate these numbers and try again
+    - There's a slight catch here, though: how many times do we need to try this before we get a value underneath the curve?
+        - Since the total area under the curve is 1, the probability a given dart will be accepted is "1 / (highestPDFVal * (b - a))", which is usually fairly reasonable
 
-- In general, you'll want to use the inverse distribution method, with the 
-rejection-acceptance method as a backup if you have trouble calculating the 
-inverse CDF
+- In general, you'll want to use the inverse distribution method, with the rejection-acceptance method as a backup if you have trouble calculating the inverse CDF
 
-- OKAY - that was moving a little fast, but there you go! We'll keep going on 
-this journey come Thursday!
-
-
+- OKAY - that was moving a little fast, but there you go! We'll keep going on this journey come Thursday!
 </pre>
 </article>
 <a class="side-link is-note-link" href="16_inputAnalysis_3_14_19.html"></a>

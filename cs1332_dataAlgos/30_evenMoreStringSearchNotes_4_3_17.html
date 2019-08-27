@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,13 +23,12 @@
 <a class="side-link is-note-link" href="29_moreStringSearchNotes_3_31_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//************************************************************************//
 //************KMP String Searching (cont.) - April 3rd, 2017*************//
 //**********************************************************************//
 
--SIDE-NOTE: Some implementations of MSD Radix sort are unstable; if you add to 
-the front of the bucket, it will be unstable, if you add to the back (aka, 
-normally, using queues), it WILL be stable
+-SIDE-NOTE: Some implementations of MSD Radix sort are unstable; if you add to the front of the bucket, it will be unstable, if you add to the back (aka, normally, using queues), it WILL be stable
     -LSD Radix should ALWAYS be stable, though
 ----------------------------------------
 
@@ -39,85 +39,57 @@ normally, using queues), it WILL be stable
     pattern: a t t a t c a
              i           j
              0,0,0,1,2,0,1
-        -Yup! This isn't a bad example, though; expect something a bit more 
-        involved on the test
+        -Yup! This isn't a bad example, though; expect something a bit more involved on the test
 
 -So, once we have the failure table, how do we use it?
-    -Align the pattern w/ the beginning of the text (like in the other string 
-    searches)
-    -Compare the first character of the pattern w/ the first character in the 
-    text
-        -If they match, keep incrementing the index until we reach the end of 
-        the pattern, meaning we have a match
+    -Align the pattern w/ the beginning of the text (like in the other string searches)
+    -Compare the first character of the pattern w/ the first character in the text
+        -If they match, keep incrementing the index until we reach the end of the pattern, meaning we have a match
         -If they DON'T match:
-            1) If the mismatch is on the pattern's FIRST letter, then shift the 
-            pattern to the right by one, and restart comparing the 1st letter 
-            of the pattern and the current index of the text
-            2) If the mismatch is NOT on the pattern's first letter, use the 
-            failure table to determine how much to shift the pattern to the 
-            right
-                -How? Let's say the mismatch was on index "j" of the pattern; 
-                then we look at failureTable[j - 1]; the value there tells us 
-                the next alignment of the pattern w/ the text, where we
+            1) If the mismatch is on the pattern's FIRST letter, then shift the pattern to the right by one, and restart comparing the 1st letter of the pattern and the current index of the text
+            2) If the mismatch is NOT on the pattern's first letter, use the failure table to determine how much to shift the pattern to the right
+                -How? Let's say the mismatch was on index "j" of the pattern; then we look at failureTable[j - 1]; the value there tells us the next alignment of the pattern w/ the text, where we
 
     -More numerically:
         1) if pattern[j] == text[k], and j &lt; pattern.length &amp;&amp; k &lt; text.length,
             then j++, k++
-        2) If / when pattern[j] != text[k], and j == 0 (1st char of pattern), 
-        then k++
+        2) If / when pattern[j] != text[k], and j == 0 (1st char of pattern), then k++
         3) If pattern[j] != text[k], &amp;&amp; j != 0, then j = fT[j - 1]
 
-    -e.g. let's say we have this pattern, with the failure table already 
-    generated:
+    -e.g. let's say we have this pattern, with the failure table already generated:
         pattern: t h e a t h a
         fT:      0,0,0,0,1,2,0
     -And this text:
         "the theatha theatheathar"
-    -We want to highlight ALL matches, so we'll highlight whenever we have a 
-    match
+    -We want to highlight ALL matches, so we'll highlight whenever we have a match
     -We start like this:
         t h e   t h e a t h   t h e a t h e a t h a r
         t h e a t h a
-    -j=1, j=2, j=3...then we hit a non-match (the first space)! So, we shift 
-    the pattern to spot "k" (which also equals 3) - fT[j - 1] = fT[2] = 0; 3 - 
-    0 = 3, reset j to 0, and start again
+    -j=1, j=2, j=3...then we hit a non-match (the first space)! So, we shift the pattern to spot "k" (which also equals 3) - fT[j - 1] = fT[2] = 0; 3 - 0 = 3, reset j to 0, and start again
         t h e   t h e a t h   t h e a t h e a t h a r
               t h e a t h a
-    -The first letters (j = 0 &amp;&amp; k = 3) mismatch right away! We shift the 
-    pattern right 1 spot
+    -The first letters (j = 0 &amp;&amp; k = 3) mismatch right away! We shift the pattern right 1 spot
         t h e   t h e a t h   t h e a t h e a t h a r
                 t h e a t h a
-    -So, we go ALL the way to the end of the string, then have a mismatch when 
-    j = 6; fT[6 - 1] = fT[5] = 2 tells us to shift right 6 - 2 = 4 spaces 
-    right, ending up with this
+    -So, we go ALL the way to the end of the string, then have a mismatch when j = 6; fT[6 - 1] = fT[5] = 2 tells us to shift right 6 - 2 = 4 spaces right, ending up with this
         t h e   t h e a t h   t h e a t h e a t h a r
                         t h e a t h a
-    -So, we'll start looking at "e" (j = 2), since we know from the failure 
-    table that the first 2 characters match, meaning we IMMEDIATELY have a 
-    mismatch; j = 2, so we shift right 2 - fT[1] = 2 - 0 = 2 spaces
+    -So, we'll start looking at "e" (j = 2), since we know from the failure table that the first 2 characters match, meaning we IMMEDIATELY have a mismatch; j = 2, so we shift right 2 - fT[1] = 2 - 0 = 2 spaces
         t h e   t h e a t h   t h e a t h e a t h a r
                             t h e a t h a
-    -From the start, we have a mismatch immediately, so we move right 1 spot 
-    (k++) and reset j to 0
+    -From the start, we have a mismatch immediately, so we move right 1 spot (k++) and reset j to 0
         t h e   t h e a t h   t h e a t h e a t h a r
                               t h e a t h a
-    -We have a mismatch when we get to "a" in the pattern, so once again, we 
-    shift j - fT[j - 1] = 6 - fT[5] = 6 - 2 = 4 spaces right, and we'll reset j 
-    to fT[j - 1] = 2, so we'll start looking at "e" in the pattern
+    -We have a mismatch when we get to "a" in the pattern, so once again, we shift j - fT[j - 1] = 6 - fT[5] = 6 - 2 = 4 spaces right, and we'll reset j to fT[j - 1] = 2, so we'll start looking at "e" in the pattern
         t h e   t h e a t h   t h e a t h e a t h a r
                                       t h e a t h a
-    -We get all the way to the end with a match! Let's highlight that match and 
-    move the pattern past the match
+    -We get all the way to the end with a match! Let's highlight that match and move the pattern past the match
         t h e   t h e a t h   t h e a t h e a t h a r
                                       * * * * * * * t h e a t h a
     -We're past the end of the table, so we're done!
 
--So, hopefully that example helped to clarify the rules; there are a TON of 
-other examples available if you need them
--We'll briefly go over Raben-Kaarp (??) next time, then head into the last unit 
-of the year: Graphs!
-
-
+-So, hopefully that example helped to clarify the rules; there are a TON of other examples available if you need them
+-We'll briefly go over Raben-Kaarp (??) next time, then head into the last unit of the year: Graphs!
 </pre>
 </article>
 <a class="side-link is-note-link" href="31_theLastStringSearchNotes_4_5_17.html"></a>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,42 +23,29 @@
 <a class="side-link is-note-link" href="11_heapNotes_2_6_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//*****************************************************************//
 //**************Heaps (cont.) - February 10th, 2017********//
 //***************************************************************//
 
 -Another lecture, another late HB...wait, no, she's here today! :D
--SIDE NOTE: upcoming exams are fairly distracting when you're trying to pay 
-attention in class (boo-hoo, multi)
+-SIDE NOTE: upcoming exams are fairly distracting when you're trying to pay attention in class (boo-hoo, multi)
     - I need to write "Ode to Sleep Deprivation (poor realtime edition)"
--A single, dejected paper lays upon the floor beside the podium...and on top of 
-the podium, a stack. Of similar - but not identical - paper. The color seems 
-off, and the stack has a sticky note upon it. The paper has not fallen from the 
-stack; no, it has not. It is alone. It will forever be alone. And when the time 
-is come for the cleaning, it will, in its loneliness, die.
+-A single, dejected paper lays upon the floor beside the podium...and on top of the podium, a stack. Of similar - but not identical - paper. The color seems off, and the stack has a sticky note upon it. The paper has not fallen from the stack; no, it has not. It is alone. It will forever be alone. And when the time is come for the cleaning, it will, in its loneliness, die.
     -...wow, I'm even worse off than I thought.
--Also, TESTS! We have to view them through something called "Gradescope," which 
-is the program the TA's use to grade the exams
+-Also, TESTS! We have to view them through something called "Gradescope," which is the program the TA's use to grade the exams
     -So far, the median score is an 83% - not too bad!
-    -If you have an issue with the grade, you have 1 week from the time of 
-    receiving your test to file a regrade request
--Just a word of warning: test 2 has traditionally been the hardest (AVL trees 
-give kids a wallop), so don't get too cozy
+    -If you have an issue with the grade, you have 1 week from the time of receiving your test to file a regrade request
+-Just a word of warning: test 2 has traditionally been the hardest (AVL trees give kids a wallop), so don't get too cozy
 ----------------------------------------------------
 
--So, with first building a heap from a set of data, we don't want to bother 
-sorting the data before we put it into the heap; we just throw it in and 
-"heapify" it as we go!
-    -Just "make" the tree, THEN start at index "size/2" (which should be the 
-    right-most node of the SECOND-TO-LAST level) and use the "heapify" function 
-    from size/2 to 0
+-So, with first building a heap from a set of data, we don't want to bother sorting the data before we put it into the heap; we just throw it in and "heapify" it as we go!
+    -Just "make" the tree, THEN start at index "size/2" (which should be the right-most node of the SECOND-TO-LAST level) and use the "heapify" function from size/2 to 0
         -The cost of building the heap: O(nlog(n)) (???CHECK THIS)
-            -Best case is O(log(n)), if you magically make an in-order tree 
-            before sorting things
+            -Best case is O(log(n)), if you magically make an in-order tree before sorting things
 
 -REALITY CHECK #5-
-    1) Add the following the an empty BST in the left-to-right order: 100, 200, 
-    50, 70, 75, 300, 25, 2, 20
+    1) Add the following the an empty BST in the left-to-right order: 100, 200, 50, 70, 75, 300, 25, 2, 20
         My tree:
                             100
                 50                  200
@@ -65,13 +53,11 @@ sorting the data before we put it into the heap; we just throw it in and
         2                75
             20
 
-    2) BRIEFLY, explain how to delete a value from a BST if the node has 1 
-    child:
+    2) BRIEFLY, explain how to delete a value from a BST if the node has 1 child:
         -Just sawp the node w/ it's child
     3) What is the Big-O of searching in a BST?
         O(log n)
-    4) Given the BST class, write the code for a printInOrder method; use only 
-    5 lines of code max:
+    4) Given the BST class, write the code for a printInOrder method; use only 5 lines of code max:
         GIVEN: public class BST {
             Node head;
             private class Node{
@@ -84,12 +70,9 @@ sorting the data before we put it into the heap; we just throw it in and
             }
             private String printInOrder(Node node) {
                 if(node == null) {return "";}
-                System.out.print(printInOrder(node.left) + this.data + 
-                printInOrder(node.right));
+                System.out.print(printInOrder(node.left) + this.data + printInOrder(node.right));
             }
         }
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="13_hashMapNotes_2_13_17.html"></a>

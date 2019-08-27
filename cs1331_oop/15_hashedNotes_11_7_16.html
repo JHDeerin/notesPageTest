@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,15 +23,12 @@
 <a class="side-link is-note-link" href="14_lambdaNotes_11_4_16.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//**************************************************//
 //******Hashed Collections - November 7th, 2016****//
 //************************************************//
 
--Simpkins' Advice: One essential skill you need to learn not just for 
-programming, but for life: how to set yourself on fire. I'm going to use 
-hashSets, etc., stuff that you won't know about. How can you learn about it? 
-Use Google! Use the "man" page in the console! Learn how to feed yourself and 
-keep learning on your own - and get into the habit of doing it early.
+-Simpkins' Advice: One essential skill you need to learn not just for programming, but for life: how to set yourself on fire. I'm going to use hashSets, etc., stuff that you won't know about. How can you learn about it? Use Google! Use the "man" page in the console! Learn how to feed yourself and keep learning on your own - and get into the habit of doing it early.
 -A few helpful commands:
     -grep
     -man
@@ -39,96 +37,58 @@ keep learning on your own - and get into the habit of doing it early.
 -etc.; don't think that you need me to learn these! Be proactive. Go ahead! :)
 -----------------------------------------------------------------------------
 
--Will learn a LOT more about these in 1332, but every Java programmer needs at 
-least a basic knowledge of hashtables
+-Will learn a LOT more about these in 1332, but every Java programmer needs at least a basic knowledge of hashtables
 
 -ANY TIME YOU OVERRIDE EQUALS, you should ALSO override hashcode()
 
--by default, .equals checks if two objects are "aliases", i.e., sharing the 
-same address
+-by default, .equals checks if two objects are "aliases", i.e., sharing the same address
     -since we can just check via ==, this isn't very useful
--So, when implementing Collections, you should ALWAYS override equals to 
-actually compare two things
-    -implementing ".equals()", along with ".compareTo()", is something you 
-    should always do if you plan on using the Collections framework algorithms
+-So, when implementing Collections, you should ALWAYS override equals to actually compare two things
+    -implementing ".equals()", along with ".compareTo()", is something you should always do if you plan on using the Collections framework algorithms
 
--Hash functions are one-way functions that take an output and turn it into a 
-(NOT NECESSARILY UNIQUE) identifier
-    -Most of the time, you can't go backwards and get the original input from 
-    the output
--By using a hashtable, we can MAP objects to a given ID, taking them from a 
-very LARGE space (all of the possible object values) to a smaller space (i.e., 
-a range of identifying integers)
+-Hash functions are one-way functions that take an output and turn it into a (NOT NECESSARILY UNIQUE) identifier
+    -Most of the time, you can't go backwards and get the original input from the output
+-By using a hashtable, we can MAP objects to a given ID, taking them from a very LARGE space (all of the possible object values) to a smaller space (i.e., a range of identifying integers)
     -This allows us to find objects in constant time!
 
--If two objects are equal according to their .equals method, they MUST return 
-the same hashcode
-    -HOWEVER, if two objects aren't the same, they may still have the same 
-    hashcode
-        -Ideally, they'd have unique identifiers, but practically it's VERY 
-        difficult to guarantee a unique (or "perfect") hash function
+-If two objects are equal according to their .equals method, they MUST return the same hashcode
+    -HOWEVER, if two objects aren't the same, they may still have the same hashcode
+        -Ideally, they'd have unique identifiers, but practically it's VERY difficult to guarantee a unique (or "perfect") hash function
 
--Think of hash tables as storing elements in "buckets" that are each given an 
-index/address (usually with ints); an object's "hashcode()" method determines 
-which bucket it ends up in
-    -A perfect hash function would have each element have its own bucket; 
-    practically, as discussed above, this is difficult to do
--Each bucket can be reached in constant time, which is theoretically as fast as 
-we can get; ESSENTIAL for large groups of data!
-    -If there are multiple elements that share the same hashcode / "bucket", it 
-    is known as a HASH COLLISION; we then have to search through these, but 
-    it's still usually much faster than just searching through the list
+-Think of hash tables as storing elements in "buckets" that are each given an index/address (usually with ints); an object's "hashcode()" method determines which bucket it ends up in
+    -A perfect hash function would have each element have its own bucket; practically, as discussed above, this is difficult to do
+-Each bucket can be reached in constant time, which is theoretically as fast as we can get; ESSENTIAL for large groups of data!
+    -If there are multiple elements that share the same hashcode / "bucket", it is known as a HASH COLLISION; we then have to search through these, but it's still usually much faster than just searching through the list
 
 -An example of a poor, but technically correct hash function:
         "public int hashCode() {return 1};"
-    -This "works", but it degrades into a linked list where everything ends up 
-    in the same bucket; it fits the *technical* definition of a hash function, 
-    but really isn't very useful at all
+    -This "works", but it degrades into a linked list where everything ends up in the same bucket; it fits the *technical* definition of a hash function, but really isn't very useful at all
 
--Why is it important to have the .equals method implemented alongside your 
-hashCode()? Because of how objects are found
-    -Java uses the hashCode function to find the right "bucket" in the 
-    hashTable when finding an element, but if there's a collision, then it 
-    NEEDS to use the .equals method to find the object
-    -In contrast, if we implemented .equals but NOT the hashFunction, then Java 
-    uses the object's memory address as it's bucket, which is essentially 
-    random; this mean we can't find the original object via our hash function 
-    unless we're specifically looking for the original object instance, which 
-    we CANNOT rely on!
+-Why is it important to have the .equals method implemented alongside your hashCode()? Because of how objects are found
+    -Java uses the hashCode function to find the right "bucket" in the hashTable when finding an element, but if there's a collision, then it NEEDS to use the .equals method to find the object
+    -In contrast, if we implemented .equals but NOT the hashFunction, then Java uses the object's memory address as it's bucket, which is essentially random; this mean we can't find the original object via our hash function unless we're specifically looking for the original object instance, which we CANNOT rely on!
 
--So, in order to have a "well-behaved" Java object when we're using hashing 
-collections, we need to implement equals and hashCode side-by-side
+-So, in order to have a "well-behaved" Java object when we're using hashing collections, we need to implement equals and hashCode side-by-side
 
--Side Note: Joshua Bloch wrote most of Java's standard library; we're following 
-HIS advice on how to write a proper hashFunction
-    -basically boils down to using ALL of the object's "significant fields" 
-    (i.e. used in determining if it's .equal(), for hashing purposes) in the 
-    calculations (this essential principle of using significant fields you WILL 
-    HAVE TO KNOW FOR THE TEST)
+-Side Note: Joshua Bloch wrote most of Java's standard library; we're following HIS advice on how to write a proper hashFunction
+    -basically boils down to using ALL of the object's "significant fields" (i.e. used in determining if it's .equal(), for hashing purposes) in the calculations (this essential principle of using significant fields you WILL HAVE TO KNOW FOR THE TEST)
 
     THE BLOCH HASHING RECIPE:
-    1) Have some constant nonzero value (e.g. 17) in a variable; should be 
-    consistent across all hashCode() functions for the objects
+    1) Have some constant nonzero value (e.g. 17) in a variable; should be consistent across all hashCode() functions for the objects
     2) For each significant field (WILL NOT have to remember this on tests):
         -if boolean, F = 0, T = 1
         -If byte/char/short/int: value = (int)variable
         -if long: value = (int) ()
 
-    2a) Simpkins: While Bloch recommends bitshifting, etc. to save performance, 
-    casting stuff to an int should be sufficient for purposes
+    2a) Simpkins: While Bloch recommends bitshifting, etc. to save performance, casting stuff to an int should be sufficient for purposes
 
 -An example of how not implementing hashCode can lead to failure (and tears):
         "Set&lt;Trooper&gt; troops = HashSet&lt;&gt;();
          troops.add(new Trooper("Mac", true));
             ...
-         System.out.println("troops.contains:(new Trooper("Mac", true)) =)" + 
-         troops.contains(new Trooper("Mac", true));"
-    -Since Java will just use the address, we will get duplicate instances of 
-    the "Mac" trooper in the set
-    -ADDITIONALLY, since every Trooper has its own address, searching for "(new 
-    Trooper(...))" will result in Java not being able to find it!
-
-
+         System.out.println("troops.contains:(new Trooper("Mac", true)) =)" + troops.contains(new Trooper("Mac", true));"
+    -Since Java will just use the address, we will get duplicate instances of the "Mac" trooper in the set
+    -ADDITIONALLY, since every Trooper has its own address, searching for "(new Trooper(...))" will result in Java not being able to find it!
 </pre>
 </article>
 <a class="side-link is-note-link" href="16_javafxNotes_11_9_16.html"></a>

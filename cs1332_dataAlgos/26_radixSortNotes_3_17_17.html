@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,81 +23,60 @@
 <a class="side-link is-note-link" href="25_evenMoreSortingAlgoNotes_3_15_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//**********************************************************************//
 //*******************Radix Sort - March 17th 2017**********************//
 //********************************************************************//
 
--Waiting for the TAs, waiting to work on my English paper, waiting for my quiz 
-in calc, waiting for my lunch and waiting for the plane, waiting for the 
-weekend...today is just one massive transitional period of awaiting future times
-    -...not to mention a heck of a lot of work; STILL, I WILL (hopefully) 
-    CONQUER (read: survive)!
+-Waiting for the TAs, waiting to work on my English paper, waiting for my quiz in calc, waiting for my lunch and waiting for the plane, waiting for the weekend...today is just one massive transitional period of awaiting future times
+    -...not to mention a heck of a lot of work; STILL, I WILL (hopefully) CONQUER (read: survive)!
 -Also, it's St. Patrick's Day! Happy hangover, world!
 ----------------------------------------
 
 -So, we're going to *try* to wrap up sorting today
 
--We briefly mentioned RADIX SORT: Unlike the other sorts, Radix sort doesn't 
-perform ANY comparisons, which is great, since those are usually by FAR the 
-most computationally-intensive parts of the algorithm
+-We briefly mentioned RADIX SORT: Unlike the other sorts, Radix sort doesn't perform ANY comparisons, which is great, since those are usually by FAR the most computationally-intensive parts of the algorithm
     -The downside, though, is that Radix sort ONLY works with integers
 -The procedure is, roughly, like this:
-    1) Go through the array, and sort the elements into BUCKETS based on their 
-    digit
-        -The buckets themselves are usually a queue or some sort of other 
-        linear data structure
+    1) Go through the array, and sort the elements into BUCKETS based on their digit
+        -The buckets themselves are usually a queue or some sort of other linear data structure
     2) Go through these buckets and put them back into the array
     3) Move onto the next digit
-        -This is the step that varies, depending on if we start with 
-        "most-significant digit"
+        -This is the step that varies, depending on if we start with "most-significant digit"
 
 -More specifically, for "least-significant digit" Radix Sort:
     -We start with our array:
         [5, 12, 11, 42, 75, 109, 1002, 650]
     -We generate 10 buckets: 1 for each digit "0 through 9"
         [0] [1] [2] [3] [4] [5] [6] [7] [8] [9]
-    -THEN, we go through the array and (in this LSD implementation) start with 
-    the ONES digit, putting the elements in the bucket that matches their unit 
-    digit
-    [0| 650] [1| 11] [2| 12, 42, 1002] [3|] [4|] [5| 5, 75] [6|] [7|] [8|] [9| 
-    109]
+    -THEN, we go through the array and (in this LSD implementation) start with the ONES digit, putting the elements in the bucket that matches their unit digit
+    [0| 650] [1| 11] [2| 12, 42, 1002] [3|] [4|] [5| 5, 75] [6|] [7|] [8|] [9| 109]
     -We then put these back into the array in that order:
         [650, 11, 12, 42, 1002, 5, 75, 109]
     -After this, we repeat the process, but for the TENS digit
-        -If an element happens to be &lt; 10, then we just add it to the zero 
-        buckets
+        -If an element happens to be &lt; 10, then we just add it to the zero buckets
     [0| 1002, 105]
-    -We keep doing this, with the hundred, thousands, ten-thousand, etc. digit, 
-    until ALL of the numbers are smaller than that digit
+    -We keep doing this, with the hundred, thousands, ten-thousand, etc. digit, until ALL of the numbers are smaller than that digit
 
 -So, what's the efficiency of Radix Sort?
     -Believe it or not, it's O(n); HOWEVER, it has an important caveat:
-        -The ACTUAL runtime is ALWAYS O(k*n), where "k" is the # of digits of 
-        the largest number in the array
+        -The ACTUAL runtime is ALWAYS O(k*n), where "k" is the # of digits of the largest number in the array
 -Radix Sort is also stable; otherwise, it wouldn't work with successive sorts!
 -It is OUT OF PLACE because we need to create the buckets for the array
 
-    -Now, for "most-significant digit" Radix sort, the process is similar, but 
-    we NEED to use recursion now
+    -Now, for "most-significant digit" Radix sort, the process is similar, but we NEED to use recursion now
         -We call the recursive function on the buckets themselves
-        -The base case of the recursion is when the bucket has only 1 element, 
-        implying that that bucket is sorted
+        -The base case of the recursion is when the bucket has only 1 element, implying that that bucket is sorted
     (...missed the process, but not too dissimilar)
 
--"There's basically no reason to use MSD Radix sort; we teach it for 
-completeness' sake, but it has no performance advantage and is usually more 
-complicated to program"
+-"There's basically no reason to use MSD Radix sort; we teach it for completeness' sake, but it has no performance advantage and is usually more complicated to program"
     -BUT, you're still expected to know it for the test!
         -...so I'll need to get
 
--Annnnnnndddd...that's it! That's pretty much all you need to know about 
-sorting algorithms
-    -"99% of the time, you'll be using one of these algorithms; it's very rare 
-    that "
+-Annnnnnndddd...that's it! That's pretty much all you need to know about sorting algorithms
+    -"99% of the time, you'll be using one of these algorithms; it's very rare that "
 
 -Also: BOGO SORT IS BEST SORT!
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="27_kthSelectionNotes_3_27_17.html"></a>

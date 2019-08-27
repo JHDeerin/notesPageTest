@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,37 +23,30 @@
 <a class="side-link is-note-link" href="0_firstDay_1_7_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //*************** Basic 2D Transformations - January 9th, 2019 **************//
 //**************************************************************************//
 
-- Well, I've been evicted from my original seat (kids these days have no 
-respect for 1-day spontaneous claims of ownership)
-    - ...annnnnd it looks like I'll have to figure out how to type matrices 
-    pretty quickly
-- In other news, Professor Turk's office hours'll be on Wednesday/ Thursday, 
-1:10-2:10, somewhere in Clough
+- Well, I've been evicted from my original seat (kids these days have no respect for 1-day spontaneous claims of ownership)
+    - ...annnnnd it looks like I'll have to figure out how to type matrices pretty quickly
+- In other news, Professor Turk's office hours'll be on Wednesday/ Thursday, 1:10-2:10, somewhere in Clough
     - The TA office hours are still being sorted out
 -----------------------------------------------------
 
-- Okay, today we're going to start getting into some VERY basic linear algebra 
-review
-    - "I know we've all taken a class in this, but if you're like me, you need 
-    some refreshers on this stuff from time to time"
+- Okay, today we're going to start getting into some VERY basic linear algebra review
+    - "I know we've all taken a class in this, but if you're like me, you need some refreshers on this stuff from time to time"
 
 - So, let's start with matrix multiplication
     - Let's say we've got two 2x2 matrices A and B; how do we multiply them?
-        - Well, we multiply the respective row from the 1st matrix with the 
-        column from the 2nd! For instance,
+        - Well, we multiply the respective row from the 1st matrix with the column from the 2nd! For instance,
 
                 [3 -1] X [1 2] = [(3*1 + -1*2) (3*2 + -1*0)] = [1 6]
                 [2  1]   [2 0]   [(2*1 + 1*2)   (2*2 + 1*0)]   [4 4]
 
     - Great! But what if we switch the order, so it's BxA?
-        - Well, it'll be different! AB does NOT equal BA in linear algebra; 
-        matrix multiplication isn't commutative!
-            - "SOME special matrices, like the identity matrix, do commute - 
-            but in general, don't count on it"
+        - Well, it'll be different! AB does NOT equal BA in linear algebra; matrix multiplication isn't commutative!
+            - "SOME special matrices, like the identity matrix, do commute - but in general, don't count on it"
 
 - What about vectors?
     - Well, let's start with the dot product between 2 vectors "v1" and "v2":
@@ -60,85 +54,60 @@ review
             [2 1] * |2| = 2*2 + 1*3 = 4 + 3 = 7
                     |3|
 
-        - "I'll often write the two vectors this way, as a row and column 
-        vector, since it's closer to how we do matrix multiplication"
-    - Now, as you might recall, a dot product of 0 means the two vectors are 
-    orthogonal/perpendicular to each other, e.g.
+        - "I'll often write the two vectors this way, as a row and column vector, since it's closer to how we do matrix multiplication"
+    - Now, as you might recall, a dot product of 0 means the two vectors are orthogonal/perpendicular to each other, e.g.
 
             [2 1] * |-2| = 0
                     | 4|
 
-        - "The dot product comes up a TON in computer graphics = it's used to 
-        determine how much light falls on a surface, how rotations work, etc."
+        - "The dot product comes up a TON in computer graphics = it's used to determine how much light falls on a surface, how rotations work, etc."
 
-- Now, why do we care about these? Well, matrix operations are at the heart of 
-3 VERY common transformations we'll do on images:
+- Now, why do we care about these? Well, matrix operations are at the heart of 3 VERY common transformations we'll do on images:
     - Translations
     - Rotations
     - Scaling
-        - "The textbook readings you should do for this section are in the 
-        Matrices/Transformations chapter, by the way"
+        - "The textbook readings you should do for this section are in the Matrices/Transformations chapter, by the way"
 
-- So, first up is TRANSLATION: simply changing the position of an object and 
-nothing else
-    - Typically in CG, we'll have a set of points in a coordinate system that 
-    we'll use to create what we want
-    - For instance, let's say we have 3 points defining a triangle at (1,1), 
-    (2,3), and (3,1) - how do we move this triangle to the right?
-        - More specifically, let's say we want to move the triangle 3 units to 
-        the right and 1 unit up
-        - To do this, it's simple, right? We just add 3 to all the X 
-        coordinates and 1 to all the y coordinates!
+- So, first up is TRANSLATION: simply changing the position of an object and nothing else
+    - Typically in CG, we'll have a set of points in a coordinate system that we'll use to create what we want
+    - For instance, let's say we have 3 points defining a triangle at (1,1), (2,3), and (3,1) - how do we move this triangle to the right?
+        - More specifically, let's say we want to move the triangle 3 units to the right and 1 unit up
+        - To do this, it's simple, right? We just add 3 to all the X coordinates and 1 to all the y coordinates!
 
                 x' = x + dx
                 y' = y + dy
 
         - So, we end up with the new coordinates (4,2), (5,4), (6,2)
-            - In general, assuming a bottom-left origin at (0,0), adding to X 
-            moves things right, subtracting X moves things left, adding Y moves 
-            things up and subtracting moves things down
+            - In general, assuming a bottom-left origin at (0,0), adding to X moves things right, subtracting X moves things left, adding Y moves things up and subtracting moves things down
 - Now, let's write this same thing in terms of vectors
     - We have 2 coordinates, so we'll have a vector 2 units long
-    - Let's have 2 vectors: P, for the original point, and T for the 
-    displacement amount
+    - Let's have 2 vectors: P, for the original point, and T for the displacement amount
         - Using this, the new position "P'" will be:
 
             P' = P + T = |x| + |dx|
                          |y|   |dy|
 
 - Now, SCALING means that we're changing the size of the objects
-    - Let's say we have the same triangle and we want to double it in size - 
-    what'll we do?
-        - Well, we'll just multiply the coordinates! (specifically, this is 
-        "uniform scaling", since we're scaling all the dimensions by the same 
-        amount)
+    - Let's say we have the same triangle and we want to double it in size - what'll we do?
+        - Well, we'll just multiply the coordinates! (specifically, this is "uniform scaling", since we're scaling all the dimensions by the same amount)
 
                 x' = sx*x = 2*x
                 y' = sy*y = 2*y
             
-        - However, this'll scale relative to the ORIGIN at 0,0, so be aware of 
-        that - the triangle will also be scooted over away from the origin a bit
-            - How would we fix that? Well, we could move the triangle over to 
-            the origin before we scale it...in other words, we could TRANSLATE 
-            it...
-                - Keep that thought, of combining operations, in the back of 
-                your mind
+        - However, this'll scale relative to the ORIGIN at 0,0, so be aware of that - the triangle will also be scooted over away from the origin a bit
+            - How would we fix that? Well, we could move the triangle over to the origin before we scale it...in other words, we could TRANSLATE it...
+                - Keep that thought, of combining operations, in the back of your mind
 - So, expressing this in terms of vectors and matrices:
-    - We'll have a 2x2 matrix "S" that has our scaling factors, AND we'd have 
-    the original point in the "P" vector
+    - We'll have a 2x2 matrix "S" that has our scaling factors, AND we'd have the original point in the "P" vector
     - With that, our new point "P'" is:
 
             P' = SP = [sx 0] * |x| = |sx*x|
                       [0 sy]   |y|   |sy*y|
 
-- And finally, ROTATION means that we're...well, rotating the point about the 
-origin
-    - "Rotating things isn't hard, it just seems a bit more quirky than the 
-    others since we're dealing with sines and cosines"
-        - Also, REMEMBER: by default, we'll be rotating things 
-        counter-clockwise (because of how the trig functions work)
-    - So, if we rotate a point by some angle "theta" about the origin, we'll 
-    get:
+- And finally, ROTATION means that we're...well, rotating the point about the origin
+    - "Rotating things isn't hard, it just seems a bit more quirky than the others since we're dealing with sines and cosines"
+        - Also, REMEMBER: by default, we'll be rotating things counter-clockwise (because of how the trig functions work)
+    - So, if we rotate a point by some angle "theta" about the origin, we'll get:
 
             x' = x*cos(theta) - y*sin(theta)
             y' = x*sin(theta) + y*cos(theta)
@@ -156,17 +125,11 @@ origin
         P' = RP = [cos -sin] * |x| = |x*cos - x*sin|
                   [sin  cos]   |y|   |x*sin + y*cos|
 
-- Again, maybe there'll be times you don't want to rotate about the 
-origin...and for those times, we'll be shifting our object so that the origin 
-is where we want to rotate around
+- Again, maybe there'll be times you don't want to rotate about the origin...and for those times, we'll be shifting our object so that the origin is where we want to rotate around
 
-- So, rotation and scaling are both done by multiplying an NxN matrix by an 
-N-order vector, but translation is done by adding 2 vectors - it's the odd one 
-out!
-    - How do we fix this and get them all to play nice together? We'll use 
-    something called HOMOGENOUS COORDINATES:
-        - Instead of writing our 2D points as 2D vectors, let's add a 1 to the 
-        bottom, like this:
+- So, rotation and scaling are both done by multiplying an NxN matrix by an N-order vector, but translation is done by adding 2 vectors - it's the odd one out!
+    - How do we fix this and get them all to play nice together? We'll use something called HOMOGENOUS COORDINATES:
+        - Instead of writing our 2D points as 2D vectors, let's add a 1 to the bottom, like this:
 
             P(x,y) = [x, y, 1]
 
@@ -177,39 +140,22 @@ out!
                     [      1]
 
         - Similarly, we can do the same thing for our rotation matrix...
-        - ...BUT, importantly, we can NOW express our translation operation as 
-        a matrix like this:
+        - ...BUT, importantly, we can NOW express our translation operation as a matrix like this:
 
                 T = [1 0 dx]
                     [0 1 dy]
                     [0 0  1]
 
-            - "2x2 matrices weren't enough to get us there (since then our 
-            translation amount would've been scaled by the x/y coordinates), 
-            but by adding that extra coordinate, we can express our translation 
-            matrix nicely!"
-                - What we'll find is that, even though matrix multiplication 
-                isn't commutative, it IS associative - and by having ALL of our 
-                operations as matrix operations, we can combine ALL of our 
-                operations into a single matrix
-                    - The reason why this is important should get a little 
-                    clearer on Friday
-            - Also, note that if dx and dy are 0, we end up with the identity 
-            matrix - which is what we want!
-                - In fact, ALL the matrix operations have a way of "doing 
-                nothing" by plugging in values that turn them into the identity 
-                matrix
-- "Get to know these 3 matrices - we'll use them time and time again during 
-this semester"
+            - "2x2 matrices weren't enough to get us there (since then our translation amount would've been scaled by the x/y coordinates), but by adding that extra coordinate, we can express our translation matrix nicely!"
+                - What we'll find is that, even though matrix multiplication isn't commutative, it IS associative - and by having ALL of our operations as matrix operations, we can combine ALL of our operations into a single matrix
+                    - The reason why this is important should get a little clearer on Friday
+            - Also, note that if dx and dy are 0, we end up with the identity matrix - which is what we want!
+                - In fact, ALL the matrix operations have a way of "doing nothing" by plugging in values that turn them into the identity matrix
+- "Get to know these 3 matrices - we'll use them time and time again during this semester"
 
-- Other than the big 3, there are a few less common transformations it'd be 
-good to know about:
-    - SHEAR is an operation that "bends"/shifts an object's coordinates, but 
-    only in one direction - "Imagine you have a square made of toothpicks or 
-    something, and it starts tipping over"
-        - "Practically, this doesn't come up very often - probably the most 
-        common time it comes up is when you're calculating the view plane of a 
-        camera"
+- Other than the big 3, there are a few less common transformations it'd be good to know about:
+    - SHEAR is an operation that "bends"/shifts an object's coordinates, but only in one direction - "Imagine you have a square made of toothpicks or something, and it starts tipping over"
+        - "Practically, this doesn't come up very often - probably the most common time it comes up is when you're calculating the view plane of a camera"
         - Mathematically, it looks something like this for an 'x-shear':
 
                 x' = x + ay
@@ -221,18 +167,13 @@ good to know about:
                 y' = y + by
 
     - REFLECTION is when we're flipping a set of points about some line
-        - As it turns out, though, this is just a special case of scaling - it 
-        works out to be the same thing as scaling by a negative value!
-            - e.g., reflecting about the Y-axis (i.e. reflecting the 
-            x-coordinates) would be:
+        - As it turns out, though, this is just a special case of scaling - it works out to be the same thing as scaling by a negative value!
+            - e.g., reflecting about the Y-axis (i.e. reflecting the x-coordinates) would be:
 
                 x' = -x
                 y' = y
 
-- And with that said, we'll keep diving into 2D transformations on Friday - see 
-you then!
-
-</pre>
+- And with that said, we'll keep diving into 2D transformations on Friday - see you then!</pre>
 </article>
 <a class="side-link is-note-link" href="2_composingTransformations_1_11_19.html"></a>
 </main>

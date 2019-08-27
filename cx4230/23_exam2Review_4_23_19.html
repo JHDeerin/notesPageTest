@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,97 +23,48 @@
 <a class="side-link is-note-link" href="22_hla_4_11_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //******************* Exam 2 Review - April 23rd, 2019 **********************//
 //**************************************************************************//
 
-- ...there's a rather small percentage of the class that actually decided to 
-come today
-    - Also, holy cow, trying to hand out the tests in alphabetical order is 
-    QUITE slow
+- ...there's a rather small percentage of the class that actually decided to come today
+    - Also, holy cow, trying to hand out the tests in alphabetical order is QUITE slow
 -------------------------------------------------------
 
-- Well, with what time we have, let's go and review the answers from the 2nd 
-exam:
+- Well, with what time we have, let's go and review the answers from the 2nd exam:
     - The true/false questions
-        - Event-oriented programs should be faster than process-oriented 
-        programs, so TRUE, an activity-scanning simulation with an FEL should 
-        be faster than a process-oriented simulation
-        - It is FALSE that the seed doesn't effect the period of a random 
-        number generator
-        - It is FALSE the the inverse distribution method for RNG always works 
-        (there are functions we can't calculate inverses for)
-        - It is TRUE that more samples will reduce the size of confidence 
-        intervals
-        - It is TRUE that, if we don't have data, it is valid to compare the 
-        results to a different simulation
-        - The length of transient period may indeed be different for different 
-        metrics, even if they're from the same simulation, so it's TRUE
+        - Event-oriented programs should be faster than process-oriented programs, so TRUE, an activity-scanning simulation with an FEL should be faster than a process-oriented simulation
+        - It is FALSE that the seed doesn't effect the period of a random number generator
+        - It is FALSE the the inverse distribution method for RNG always works (there are functions we can't calculate inverses for)
+        - It is TRUE that more samples will reduce the size of confidence intervals
+        - It is TRUE that, if we don't have data, it is valid to compare the results to a different simulation
+        - The length of transient period may indeed be different for different metrics, even if they're from the same simulation, so it's TRUE
             - If you looked carefully at the tanker example from the slides, 
-        - The butterfly algorithm CAN be used to solve the transient message 
-        issue in YAWNS, so that's TRUE!
-        - Ladder queue isn't a good fit for Time Warp's event list because it's 
-        strictly a priority queue, whereas processed event lists need to be 
-        searched through ENTIRELY for rollback, so it is FALSE that it's a good 
-        choice
-        - In HLA, the RTI is analogous to the role of a simulation engine, so 
-        it's TRUE that you can use it to create a parallel discrete program
+        - The butterfly algorithm CAN be used to solve the transient message issue in YAWNS, so that's TRUE!
+        - Ladder queue isn't a good fit for Time Warp's event list because it's strictly a priority queue, whereas processed event lists need to be searched through ENTIRELY for rollback, so it is FALSE that it's a good choice
+        - In HLA, the RTI is analogous to the role of a simulation engine, so it's TRUE that you can use it to create a parallel discrete program
     - The Parallel Simulation section
-        - The first part of this presents us a graph, and you had to find the 
-        longest critical path through the graph, which ended up being 6 (need 
-        to process at least 6 events sequentially, no matter how you 
-        parallelize something)
-        - With the YAWNS algorithm, we start off by only having events A, B, E, 
-        and J
-            - We'll then do the usual YAWNS thing of calculating the LBTS, 
-            processing all of the events under that timestamp, and then adding 
-            any new events that were created by that processing
-                - Notice that this is STRICTLY less than (not less than or 
-                equal)
-            - Also notice that, for sequential events on the same thread that 
-            fall within the LBTS, we do NOT recalculate our LBTS for each of 
-            those events we process
-                - Instead, if 2 events on the same thread both fall within the 
-                LBTS, we'll process them both sequentially, THEN recalculate 
-                the LBTS from whatever is left over
-                - This is processing all of the events only within the same 
-                "epoch"
-        - Then, with time warp, this was an interesting case: there were 
-        actually no rollbacks!
-            - Time warp achieved the minimum possible execution time, actually, 
-            which is pretty common for time warp if it doesn't have any 
-            overhead it needs to deal with
-    - The 3rd question - "yes, this was intended to be a little more 
-    challenging" - where we had to make up a new synchronization problem 
-        - The main thing he was looking for was the recognition that a BIG part 
-        of synchronization was deadlock, and that you need to address that 
-            - If you have an acyclic topology, then you won't have any cycles, 
-            so the deadlock issue actually goes away! Unlike with CMB, you 
-            won't have any 0-time cycles, so you're good!
-                - In fact, the "simple conservative algorithm" we first talked 
-                about in this class and dismissed will actually work here, 
-                because LPs are only waiting for "upstream" messages, so LPs 
-                will never be waiting on one another!
-                - This simple algorithm is also SUPER efficient; there's no 
-                overhead at all!
-                    - A LOT of the example algorithms people gave were just 
-                    variations on CMB or Time Warp, which isn't nearly as 
-                    efficient
-            - The assumptions you need are basically what we had with CMB (and 
-            ESPECIALLY that events reliably arrive in order)
-            - For termination, you basically have each source send a 
-            termination message to all its downstream LPs when it's out of 
-            messages, and each LP forwards a new termination event when all of 
-            its queues have a termination message
+        - The first part of this presents us a graph, and you had to find the longest critical path through the graph, which ended up being 6 (need to process at least 6 events sequentially, no matter how you parallelize something)
+        - With the YAWNS algorithm, we start off by only having events A, B, E, and J
+            - We'll then do the usual YAWNS thing of calculating the LBTS, processing all of the events under that timestamp, and then adding any new events that were created by that processing
+                - Notice that this is STRICTLY less than (not less than or equal)
+            - Also notice that, for sequential events on the same thread that fall within the LBTS, we do NOT recalculate our LBTS for each of those events we process
+                - Instead, if 2 events on the same thread both fall within the LBTS, we'll process them both sequentially, THEN recalculate the LBTS from whatever is left over
+                - This is processing all of the events only within the same "epoch"
+        - Then, with time warp, this was an interesting case: there were actually no rollbacks!
+            - Time warp achieved the minimum possible execution time, actually, which is pretty common for time warp if it doesn't have any overhead it needs to deal with
+    - The 3rd question - "yes, this was intended to be a little more challenging" - where we had to make up a new synchronization problem 
+        - The main thing he was looking for was the recognition that a BIG part of synchronization was deadlock, and that you need to address that 
+            - If you have an acyclic topology, then you won't have any cycles, so the deadlock issue actually goes away! Unlike with CMB, you won't have any 0-time cycles, so you're good!
+                - In fact, the "simple conservative algorithm" we first talked about in this class and dismissed will actually work here, because LPs are only waiting for "upstream" messages, so LPs will never be waiting on one another!
+                - This simple algorithm is also SUPER efficient; there's no overhead at all!
+                    - A LOT of the example algorithms people gave were just variations on CMB or Time Warp, which isn't nearly as efficient
+            - The assumptions you need are basically what we had with CMB (and ESPECIALLY that events reliably arrive in order)
+            - For termination, you basically have each source send a termination message to all its downstream LPs when it's out of messages, and each LP forwards a new termination event when all of its queues have a termination message
 
-- ...and, really, that's it! Statistics for Exam 2 have been posted online 
-(average raw score was ~19/30), and there HAS been a curve applied. A lot of 
-people thought this was a hard exam, so we did try to be generous when it came 
-to grading
-    - Until then, work hard on your projects (due TONIGHT!), and have a good 
-    summer!
-
-</pre>
+- ...and, really, that's it! Statistics for Exam 2 have been posted online (average raw score was ~19/30), and there HAS been a curve applied. A lot of people thought this was a hard exam, so we did try to be generous when it came to grading
+    - Until then, work hard on your projects (due TONIGHT!), and have a good summer!</pre>
 </article>
 <a class="side-link is-note-link" href="23_exam2Review_4_23_19.html"></a>
 </main>

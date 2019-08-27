@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,55 +23,42 @@
 <a class="side-link is-note-link" href="4_1dBifurcations_1_22_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************* 2D Differential Equations - January 24th, 2019 **************//
 //**************************************************************************//
 
-- Quick note from Professor Vuduc: "There's a Nobel-prize winning economist 
-coming to give a talk next week...when I'm teaching this class...and I kind of 
-want to go to it..."
-    - Anyway, later tonight Professor Vuduc'll post a poll seeing how many 
-    people want to go, and he might cancel class if enough people are going
+- Quick note from Professor Vuduc: "There's a Nobel-prize winning economist coming to give a talk next week...when I'm teaching this class...and I kind of want to go to it..."
+    - Anyway, later tonight Professor Vuduc'll post a poll seeing how many people want to go, and he might cancel class if enough people are going
         - Keep in mind that we're already behind, though
 ---------------------------------------------------------
 
-- Alright, we've been dealing with a 1D-world so far, and it's been great. But 
-1D systems can only exhibit so much complexity - so today, we're going to 
-upgrade from scalar equations to vector equations, and look at stuff in the 2nd 
-dimension!
+- Alright, we've been dealing with a 1D-world so far, and it's been great. But 1D systems can only exhibit so much complexity - so today, we're going to upgrade from scalar equations to vector equations, and look at stuff in the 2nd dimension!
 
         x(t) = [x0(t)]
                [x1(t)]
 
-- "These'll behave similarly to what we've seen before, but with some extra, 
-richer behaviors thrown in"
+- "These'll behave similarly to what we've seen before, but with some extra, richer behaviors thrown in"
     - This stuff should be covered in Strogatz chapters 5 and 6.0
 - Again, we're assuming uniqueness/continuity - but let's start diving in!
 
-- So, we're in 2D - this means that (as shown above) our functions are now 
-vector functions!
+- So, we're in 2D - this means that (as shown above) our functions are now vector functions!
     - So, the derivative of X now looks like:
 
         x' = F(x) = [f0(x)]
                     [f1(x)]
 
-    - So, we'll now have a curve in the x0/x1 plane (the PHASE PLANE), where t 
-    determines the x0/x1 coordinates of the curve!
-- We'll make the same simplifying assumptions as in 1D: that x/F(x) are 
-continuous functions, differentiable everywhere, and have unique solutions
-    - A consequence of this is that there are NO crossing trajectories (i.e. 
-    the curve can't go through itself (I think?))
-    - It'll also mean that there can be cycles/circles that partition the plane 
-    into different regions (this will NOT hold true when we move to 3D, i.e. R3)
-- A final point of change before we REALLY jump in: the fixed/critical points 
-now occur when BOTH x0'(t) AND x1'(t) equal 0:
+    - So, we'll now have a curve in the x0/x1 plane (the PHASE PLANE), where t determines the x0/x1 coordinates of the curve!
+- We'll make the same simplifying assumptions as in 1D: that x/F(x) are continuous functions, differentiable everywhere, and have unique solutions
+    - A consequence of this is that there are NO crossing trajectories (i.e. the curve can't go through itself (I think?))
+    - It'll also mean that there can be cycles/circles that partition the plane into different regions (this will NOT hold true when we move to 3D, i.e. R3)
+- A final point of change before we REALLY jump in: the fixed/critical points now occur when BOTH x0'(t) AND x1'(t) equal 0:
 
         x* = [x0(t) = 0]
              [x1(t) = 0]
 
 - Let's start with the simplest case: a "linear" 2D system
-    - Since x is now a vector, we'll need to multiply it against a matrix "A", 
-    e.g.
+    - Since x is now a vector, we'll need to multiply it against a matrix "A", e.g.
 
         x = A*x,  where A = [a00 a01]
                             [a10 a11]
@@ -85,8 +73,7 @@ now occur when BOTH x0'(t) AND x1'(t) equal 0:
             A = [-a 0]
                 [0 -1]
 
-        - ...which implies (since the functions are included in their own 
-        derivatives):
+        - ...which implies (since the functions are included in their own derivatives):
 
             x0(t) = x0(0) * e^(at)
             x1(t) = x1(t) * e^(-t)
@@ -96,126 +83,82 @@ now occur when BOTH x0'(t) AND x1'(t) equal 0:
             x(t) = [e^(at)  0] * x(0)
                    [0  e^(-t)]
     
-    - This is the "simplest" form for 2D, but frequently we'll try to get 
-    systems back down to this form so we can analyze them
+    - This is the "simplest" form for 2D, but frequently we'll try to get systems back down to this form so we can analyze them
     - For this case, a critical point exists at [0, 0]
 
-- What does this actually mean for our trajectories, though? Well, there are a 
-few different cases; let's look at them
+- What does this actually mean for our trajectories, though? Well, there are a few different cases; let's look at them
     - If "a = -1":
-        - Then the flows of both x1/x0 go towards the critical point; it'll be 
-        a stable attractor (ALL THE ARROWS POINT TOWARDS ME, MUHAHAHAHA!)
+        - Then the flows of both x1/x0 go towards the critical point; it'll be a stable attractor (ALL THE ARROWS POINT TOWARDS ME, MUHAHAHAHA!)
         - So: the point is STABLE!
-            - This kind of point is called a "star node," because it has all 
-            these lines going straight into it
-            - How do we know the lines are straight? Well, if we divide the two 
-            equations (x0 and x1) then the exponentials cancel out, and we're 
-            just left with a slope (x0/x1)
+            - This kind of point is called a "star node," because it has all these lines going straight into it
+            - How do we know the lines are straight? Well, if we divide the two equations (x0 and x1) then the exponentials cancel out, and we're just left with a slope (x0/x1)
     - If "a &lt; -1":
-        - In this case, the trajectories will decay even faster than in the 
-        a=-1 case
-            - This means that all the trajectories still move towards this 
-            point, but since some will move faster than others, so some of the 
-            lines will be curved!
-                - If you think of dividing the equations again, we end up with 
-                a rough slope of "e^(-1-a)*t", which means the slope'll get 
-                sharper as time changes
+        - In this case, the trajectories will decay even faster than in the a=-1 case
+            - This means that all the trajectories still move towards this point, but since some will move faster than others, so some of the lines will be curved!
+                - If you think of dividing the equations again, we end up with a rough slope of "e^(-1-a)*t", which means the slope'll get sharper as time changes
         - ...this is still a stable node, of course!
     - If "a = 0":
-        - This means that there'll be a line of infinitely many fixed points 
-        along the x0 axis, with a bunch of vertical lines going into them from 
-        x1
+        - This means that there'll be a line of infinitely many fixed points along the x0 axis, with a bunch of vertical lines going into them from x1
             - "This is a bit of a degenerate case"
             - x0 will have 0 slope in this case, so it can't change
     - If "0 &gt; a &gt; -1":
-        - a is still negative, so we're still going to see decay, but now the 
-        decay is faster along the x1 direction
+        - a is still negative, so we're still going to see decay, but now the decay is faster along the x1 direction
         - So, still stable, but curved
     - If "a &gt; 0":
-        - This means that x0 (which is proportional to e^at) will grow 
-        exponentially; it'll be stable along the x1 axis, but unstable along 
-        the x0 axis
-        - This means that the critical point'll be UNSTABLE as a saddle point, 
-        where the "x0" direction is the "unstable manifold," and the x1 
-        direction is the "stable manifold"
+        - This means that x0 (which is proportional to e^at) will grow exponentially; it'll be stable along the x1 axis, but unstable along the x0 axis
+        - This means that the critical point'll be UNSTABLE as a saddle point, where the "x0" direction is the "unstable manifold," and the x1 direction is the "stable manifold"
             - Again: saddle node, but the node itself is unstable
 
-- Now, we've classified nodes so far into "stable" and "unstable" nodes, but 
-there are actually 2 types of stability for us to know about:
-    - ATTRACTORS are nodes where all "nearby" trajectories converge to it as 
-    t-&gt;infinity
-        - This means that the a=0 case isn't an attractor, since if we move a 
-        point a little to the right, it'll just go straight down to a new point 
-        on the axis
+- Now, we've classified nodes so far into "stable" and "unstable" nodes, but there are actually 2 types of stability for us to know about:
+    - ATTRACTORS are nodes where all "nearby" trajectories converge to it as t-&gt;infinity
+        - This means that the a=0 case isn't an attractor, since if we move a point a little to the right, it'll just go straight down to a new point on the axis
             - Basically, a &lt; 0 are attractors, a = 0 are NOT attractors
-    - LYAPUNOV STABLE nodes means that all "nearby" trajectories stay "close" 
-    to that node as t-&gt;infinity
+    - LYAPUNOV STABLE nodes means that all "nearby" trajectories stay "close" to that node as t-&gt;infinity
         - Can you be Lyapunov but not an attractor? Yup - the a=0 case!
-        - Can you be an attractor but not Lyapunov? YES - if the path wanders 
-        away from the node for a long time, but then comes back
-            - A classic example of this in engineering is the 1D system where 
-            some angle's derivative is, say:
+        - Can you be an attractor but not Lyapunov? YES - if the path wanders away from the node for a long time, but then comes back
+            - A classic example of this in engineering is the 1D system where some angle's derivative is, say:
 
-                theta' = f(theta) = 1 - cos(theta), s.t. f(theta) = f(theta + 
-                2*pi)
+                theta' = f(theta) = 1 - cos(theta), s.t. f(theta) = f(theta + 2*pi)
 
-            - This means that the circle representing theta will keep going 
-            around and around; it'll keep hitting the same point, but it can 
-            wander far away from that point, so it's not "Lypanov stable"
+            - This means that the circle representing theta will keep going around and around; it'll keep hitting the same point, but it can wander far away from that point, so it's not "Lypanov stable"
     - Of course, a point can be both of these - when a &lt; 0, for instance
 - "These are informal definitions, folks, just to give you the gist of things"
 
-- ...and for clarity's sake, a point is unstable if it's neither an attractor 
-nor Lyapunov stable
+- ...and for clarity's sake, a point is unstable if it's neither an attractor nor Lyapunov stable
 
-- So, the previous case was linear because one of the derivatives was fixed to 
-a constant "-x1," and the other was just a straight line
-    - But what do we do in the generic case where we're just given a matrix? We 
-    need to diagonalize it!
-        - Suppose that we're guessing x(t) has a simple solution of the form 
-        "x(t) = e^(lambda*t)*v", where lambda's a constant scalar and v is 
-        constant vector
-        - Therefore, since this has to be equivalent to some sort of matrix 
-        multiplication:
+- So, the previous case was linear because one of the derivatives was fixed to a constant "-x1," and the other was just a straight line
+    - But what do we do in the generic case where we're just given a matrix? We need to diagonalize it!
+        - Suppose that we're guessing x(t) has a simple solution of the form "x(t) = e^(lambda*t)*v", where lambda's a constant scalar and v is constant vector
+        - Therefore, since this has to be equivalent to some sort of matrix multiplication:
 
             lambda*v = A*v
 
             A*x(t) = e^(lambda*t) * A * v
 
-        - This mean's lambda's an eigenvalue, and the eigenvalue/vector v are 
-        referred to as a "vector pair"
+        - This mean's lambda's an eigenvalue, and the eigenvalue/vector v are referred to as a "vector pair"
 - In the 2x2 case, there'll be two eigenpairs (i.e. up to 2 vectors)
-    - "If we imagine the lines that run along those eignvectors, the solutions 
-    along them will either decay or grow exponentially"
-        - So, if lambda1 &gt; 0, its vector would point AWAY from the origin (i.e. 
-        unstable), and if lambda &lt; 0, then it's stable!
+    - "If we imagine the lines that run along those eignvectors, the solutions along them will either decay or grow exponentially"
+        - So, if lambda1 &gt; 0, its vector would point AWAY from the origin (i.e. unstable), and if lambda &lt; 0, then it's stable!
             - Google "setosa eigenvector" for a cool visualization of this 
 - A few related remarks on this:
-    - If you want to actually solve this system, then we can express the matrix 
-    A as:
+    - If you want to actually solve this system, then we can express the matrix A as:
 
             A*V = V*lam
 
-        - Where "V" is the matrix of the eigenvectors, and "lam" is the 
-        identity matrix with lambda0/lamda1/... on the diagonals
+        - Where "V" is the matrix of the eigenvectors, and "lam" is the identity matrix with lambda0/lamda1/... on the diagonals
         - So, from that, we know:
 
             x(t) = V*z(t)
 
-            - ...where z(t) is some new function we have to solve for (I 
-            think?), and where
+            - ...where z(t) is some new function we have to solve for (I think?), and where
 
                 V*z(t)' = A*(V*z(t)) = V*lam(z(t))
                 z(t)' = lam*z(t)
 
-- IMPRTANT: These eigenvalues might be complex values, EVEN IF everything else 
-in the system is real
-    - Prototypical example (and a good exercise if you want to review linear 
-    algebra): harmonic oscillators!
-        - So, you know the drill: there's a spring, it obeys Hooke's law, the 
-        block goes back-and-forth from its equilibrium point, etc.
-            - So, if we pull the mass some distance "l" from the resting point, 
-            the position of the mass'd be governed by this diff. eq:
+- IMPRTANT: These eigenvalues might be complex values, EVEN IF everything else in the system is real
+    - Prototypical example (and a good exercise if you want to review linear algebra): harmonic oscillators!
+        - So, you know the drill: there's a spring, it obeys Hooke's law, the block goes back-and-forth from its equilibrium point, etc.
+            - So, if we pull the mass some distance "l" from the resting point, the position of the mass'd be governed by this diff. eq:
 
                 l'' + l*w^2 = 0     (where w=sqrt(k/m))
 
@@ -233,11 +176,8 @@ in the system is real
 
                 e^(ic) = cos(c) + i*sin(c)
 
-        - So, you'll have to remember how to solve for the 
-        eigenvalues/eigenvectors in a system; this is for the 2x2 case, but it 
-        generalizes
-            - You find the eigenvalues by solving the "determinant-istic 
-            equation:"
+        - So, you'll have to remember how to solve for the eigenvalues/eigenvectors in a system; this is for the 2x2 case, but it generalizes
+            - You find the eigenvalues by solving the "determinant-istic equation:"
 
                 det(A - lamda*I) = 0
 
@@ -246,16 +186,12 @@ in the system is real
                 det(A) = lambda0 * lamda1 = a00*a11 - a01*a10
                 trace(a) = lamda0 + lambda1 = a00 + a11
 
-            - ...and the eigenvalues can be found by solving the quadratic 
-            formula:
+            - ...and the eigenvalues can be found by solving the quadratic formula:
 
                 lamda0 = (trace(A) + sqrt(trace(a)^2 - 4*det(a)))/2
                 lambda1 = (trace(A) - sqrt(trace(a)^2 - 4*det(a)))/2
 
-- "So, hopefully this Nobel-talk-thingy'll give you plenty of time to review 
-all this stuff, so...I'll see you next week"
-
-</pre>
+- "So, hopefully this Nobel-talk-thingy'll give you plenty of time to review all this stuff, so...I'll see you next week"</pre>
 </article>
 <a class="side-link is-note-link" href="6_2dLinearStability_1_31_19.html"></a>
 </main>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,106 +23,54 @@
 <a class="side-link is-note-link" href="24_interrupts_11_21_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //******************** C Odds &amp; Ends - November 28th, 2017 ******************//
 //**************************************************************************//
 
 - Alright, so let's talk just a little bit about function pointers
-    - A lot of people who take this class, they take a look at function 
-    pointers, play with them a bit, don't get the hang of them, and say "eh, 
-    it's not that important, when will I ever need this, I won't worry about 
-    them, etc."
-        - ...let's not get into all the ways this shows laziness and an 
-        unwillingness to learn the language and a lack of ability to grasp new 
-        concepts about programming capabilities, etc.
-    - Let's think about this scenario, though, that I've more-or-less heard the 
-    gist of from a few students who took this class:
-        - You're working at your company post-graduation, and because you're 
-        from Georgia Tech and they figured you're pretty darn smart, they put 
-        you on the C team. It's going great, life's fun, and then your manager 
-        calls: that massive array of 1 billion stock profiles? He needs you to 
-        sort them by tonight - Qsort makes the most sense, of course, but 
-        whatever works - and then leaves you to it, confident in your 
-        function-pointer-calling ability.
-        - So, you need to sort those numbers, you can't remember what to do, 
-        you sold all your textbooks, you don't remember how to do it, so you do 
-        what most intelligent people in your situation do: you panic, forget 
-        everything you've ever learned, and write good ol' fashioned O(n^2) 
-        Bubble Sort
-            - ...when you realize that, with a 6 GHz processor, this will take 
-            16 years to finish sorting, this does not make your boss happy
-        - Merge sort uses way too much memory to handle this effectively, and 
-        radix won't work because we're not sorting numbers. Quicksort, though, 
-        let's see - O(n logn) of 1 billion will take 30 second, so that's nice 
-        - so yes! We'll do quicksort!
-            - ...but, what are we forgetting about quicksort? If the array is 
-            nearly sorted already, and you're choosing the 1st element as a 
-            pivot, then Quicksort devolves into O(n^2)...and you need to handle 
-            all the special cases for when it might do this, select an 
-            appropriate pivot, etc...
-                - "Oh, I'll just figure it out." Really? Tonight, look up the 
-                source code for Qsort...trust me, with all your Georgia Tech 
-                brains, you will have no idea what the h***'s going on
-    - Instead, imagine how much better off you'd be if you weren't so afraid of 
-    function pointers that you couldn't use parts of the C language
+    - A lot of people who take this class, they take a look at function pointers, play with them a bit, don't get the hang of them, and say "eh, it's not that important, when will I ever need this, I won't worry about them, etc."
+        - ...let's not get into all the ways this shows laziness and an unwillingness to learn the language and a lack of ability to grasp new concepts about programming capabilities, etc.
+    - Let's think about this scenario, though, that I've more-or-less heard the gist of from a few students who took this class:
+        - You're working at your company post-graduation, and because you're from Georgia Tech and they figured you're pretty darn smart, they put you on the C team. It's going great, life's fun, and then your manager calls: that massive array of 1 billion stock profiles? He needs you to sort them by tonight - Qsort makes the most sense, of course, but whatever works - and then leaves you to it, confident in your function-pointer-calling ability.
+        - So, you need to sort those numbers, you can't remember what to do, you sold all your textbooks, you don't remember how to do it, so you do what most intelligent people in your situation do: you panic, forget everything you've ever learned, and write good ol' fashioned O(n^2) Bubble Sort
+            - ...when you realize that, with a 6 GHz processor, this will take 16 years to finish sorting, this does not make your boss happy
+        - Merge sort uses way too much memory to handle this effectively, and radix won't work because we're not sorting numbers. Quicksort, though, let's see - O(n logn) of 1 billion will take 30 second, so that's nice - so yes! We'll do quicksort!
+            - ...but, what are we forgetting about quicksort? If the array is nearly sorted already, and you're choosing the 1st element as a pivot, then Quicksort devolves into O(n^2)...and you need to handle all the special cases for when it might do this, select an appropriate pivot, etc...
+                - "Oh, I'll just figure it out." Really? Tonight, look up the source code for Qsort...trust me, with all your Georgia Tech brains, you will have no idea what the h***'s going on
+    - Instead, imagine how much better off you'd be if you weren't so afraid of function pointers that you couldn't use parts of the C language
 
-- "Now, the whole time I said that, you all just stared at me...like you're 
-very somber...like you're not having any fun with your life. I mean, it's 
-Georgia Tech, so that's a possibility, but c'mon. You're all just staring at me 
-like it's village-of-the-damned in here."
-    - So, to cheer you up, let's take a field trip - a mental field trip, 
-    because I'm cheap - to the Atlanta Zoo.
-    - When we get there, they'll give us a paper map of the place - crumple 
-    that up, don't let the Man tell you what to do, and let's write our own 
-    list of animals that we want to see.
+- "Now, the whole time I said that, you all just stared at me...like you're very somber...like you're not having any fun with your life. I mean, it's Georgia Tech, so that's a possibility, but c'mon. You're all just staring at me like it's village-of-the-damned in here."
+    - So, to cheer you up, let's take a field trip - a mental field trip, because I'm cheap - to the Atlanta Zoo.
+    - When we get there, they'll give us a paper map of the place - crumple that up, don't let the Man tell you what to do, and let's write our own list of animals that we want to see.
         - *the class begins shouting out animals*
-        - Our list: Giraffe, Ocelot, Zebra, Penguin, Elephant, Flamingos, 
-        Thompson's Gazelle, Ants, Anteaters ("you can't have ants without 
-        anteaters, folks"), Alligator, Red Panda, Real Panda...eh, that's good 
-        enough 
-    - Now, this is a wonderful list, but it has a very serious defect: it's not 
-    alphabetically sorted!
+        - Our list: Giraffe, Ocelot, Zebra, Penguin, Elephant, Flamingos, Thompson's Gazelle, Ants, Anteaters ("you can't have ants without anteaters, folks"), Alligator, Red Panda, Real Panda...eh, that's good enough 
+    - Now, this is a wonderful list, but it has a very serious defect: it's not alphabetically sorted!
     - So, let's instead write a C variable to hold our list:
 
-            char list[10][20];   //10 chars long so we can have 10-char words, 
-            20 long for a word; C does support multidimensional arrays like 
-            this, so we're good
+            char list[10][20];   //10 chars long so we can have 10-char words, 20 long for a word; C does support multidimensional arrays like this, so we're good
 
         - STOP! This'll work, but we're WASTING SPACE! 
-            - All the words that're less than 10 characters long will just have 
-            empty space until the next word; that's inefficient!
-        - So, instead, let's store the beginning of each string in a char* 
-        array:
+            - All the words that're less than 10 characters long will just have empty space until the next word; that's inefficient!
+        - So, instead, let's store the beginning of each string in a char* array:
 
                 char *animalList[20];
                 (...)
 
-        - Now, to sort this using Qsort, we have to provide a comparison 
-        function...how long will it take us to write a string comparison 
-        function?
-            - ...5 minutes? 6 hours? WRONG! We use the strcmp() function the C 
-            library gives us!
-                - "You will NOT get paid for writing code that someone's 
-                already written, so when they're giving this to us for free, 
-                use it!"
+        - Now, to sort this using Qsort, we have to provide a comparison function...how long will it take us to write a string comparison function?
+            - ...5 minutes? 6 hours? WRONG! We use the strcmp() function the C library gives us!
+                - "You will NOT get paid for writing code that someone's already written, so when they're giving this to us for free, use it!"
         - So, we'll write our comparison function like this:
 
                 int compareAnimals(char *a, char *b) {
 
                 } 
 
-    - Now, what's the best job in the world? I know I told you it was a 
-    supervillain...but I lied.
-        - It's ACTUALLY working for the National Oceanic Air Administration, 
-        working as a Striped Bass researcher in Cape Cod, Massachussetts. All 
-        you do - all day - is fish for Striped Bass in Cape Cod Bay.
-            - "Think about it: what 80% of the old men in the world dream of 
-            doing in retirement, you're doing RIGHT NOW!"
-        - But, lo and behold, they discover that you're a computer scientist 
-        from Georgia Tech, and they ask you to help analyze the fish while 
-        you're out there. Sigh. Your perfect life, ruined.
-        - But, still, a job's a job, so you create a struct to hold the data 
-        for the fish:
+    - Now, what's the best job in the world? I know I told you it was a supervillain...but I lied.
+        - It's ACTUALLY working for the National Oceanic Air Administration, working as a Striped Bass researcher in Cape Cod, Massachussetts. All you do - all day - is fish for Striped Bass in Cape Cod Bay.
+            - "Think about it: what 80% of the old men in the world dream of doing in retirement, you're doing RIGHT NOW!"
+        - But, lo and behold, they discover that you're a computer scientist from Georgia Tech, and they ask you to help analyze the fish while you're out there. Sigh. Your perfect life, ruined.
+        - But, still, a job's a job, so you create a struct to hold the data for the fish:
 
                 typedef struct {
                     float weight;
@@ -130,19 +79,13 @@ like it's village-of-the-damned in here."
                     char *name;     //yes, we must name our fish
                 } BASS;
 
-        - So, you write that struct, and then store the fish in an array. You 
-        figure you'll never catch 100 fish a day, so you say:
+        - So, you write that struct, and then store the fish in an array. You figure you'll never catch 100 fish a day, so you say:
 
                 BASS myFish[100];
 
-            - Now, in the real world, you probably wouldn't have a simple array 
-            of BASS structures since it would require you to copy the entire 
-            structure over every time you swapped something; instead, you'd 
-            have an array of BASS pointers, and use malloc() to create new 
-            fish; that way, you only have to swap the pointers of your array.
+            - Now, in the real world, you probably wouldn't have a simple array of BASS structures since it would require you to copy the entire structure over every time you swapped something; instead, you'd have an array of BASS pointers, and use malloc() to create new fish; that way, you only have to swap the pointers of your array.
 
-        - Then, because your boss said he wanted your fish to be sortable by 
-        weight, you write your "compare weight" function:
+        - Then, because your boss said he wanted your fish to be sortable by weight, you write your "compare weight" function:
 
             int compareBassWeight(BASS *a, BASS *b) {
                 return a-&gt;weight - b-&gt;weight;
@@ -158,54 +101,39 @@ like it's village-of-the-damned in here."
             - "ptr" points to the start of the array of data we want to write
             - "size" is the size in bytes of ONE element of our datatype
             - "nmemb" is how many elements we're writing
-            - "stream" is a "FILE POINTER"; as it says, it's a pointer to a 
-            file in the OS
+            - "stream" is a "FILE POINTER"; as it says, it's a pointer to a file in the OS
                 - You'll learn more about these in CS 2200
 
     - To read, we'd use:
 
         size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 
-    - To actually write something and use this function, we'd say something 
-    like:
+    - To actually write something and use this function, we'd say something like:
 
         int arr[1000];
         FILE *arrFile;
         arrFile = fopen("TEST.dat", "wb");
         fwrite(arr, sizeof(int), 1000, arrfile);
 
-            - "Be careful with fopen(); unlike the rest of the C library, it 
-            returns NULL when it can't find a file, instead of an error code"
+            - "Be careful with fopen(); unlike the rest of the C library, it returns NULL when it can't find a file, instead of an error code"
 
-- Random thing: printing out a comma separated list in C (on the powerpoint 
-slide):
+- Random thing: printing out a comma separated list in C (on the powerpoint slide):
 
         const (missed the rest of it)
 
-- A note: C DOES have a goto statement, but we don't recommend using it. Just 
-be aware that A) It does exist B) It only works inside of a function, not for 
-jumping anywhere in the code C) There is a standard library function called 
-"longjmp" that DOES let you jump anywhere in your code...but again, this isn't 
-recommended.
+- A note: C DOES have a goto statement, but we don't recommend using it. Just be aware that A) It does exist B) It only works inside of a function, not for jumping anywhere in the code C) There is a standard library function called "longjmp" that DOES let you jump anywhere in your code...but again, this isn't recommended.
 
-- Something else we didn't REALLY cover in this class: main() is a function 
-that CAN take arguments; specifically, it has the function header:
+- Something else we didn't REALLY cover in this class: main() is a function that CAN take arguments; specifically, it has the function header:
 
         int main(int argc, char *argv[]);
 
             - "argc" is the # of arguments to the main function
-            - "argv[]" is an array of the arguments passed into main (almost 
-            always, options that were typed into the console)
-            - The return value of main is an error code; "0" means 
-            "everything's find", anything else means "something went wrong, 
-            check error code X for details"
-                - In Unix, typing "echo $?" will tell you the most recently 
-                output error code in the OS
-        - "You can do TRIPPY stuff with this, like recursively calling main() 
-        to print out the arguments you passed in; it's not special in any way"
+            - "argv[]" is an array of the arguments passed into main (almost always, options that were typed into the console)
+            - The return value of main is an error code; "0" means "everything's find", anything else means "something went wrong, check error code X for details"
+                - In Unix, typing "echo $?" will tell you the most recently output error code in the OS
+        - "You can do TRIPPY stuff with this, like recursively calling main() to print out the arguments you passed in; it's not special in any way"
 
-- Redirection - technically this exists in Java, too, but it's almost never 
-covered in 1331. We won't cover the details AT A:
+- Redirection - technically this exists in Java, too, but it's almost never covered in 1331. We won't cover the details AT A:
 
 - Two constants in C:
     - FOPEN_MAX is the max # of files the OS can have open at a time
@@ -214,21 +142,15 @@ covered in 1331. We won't cover the details AT A:
 - Buffering - on the slides, but basically, memory isn't cleared right away.
 
 - A few random perfromance tips:
-    - Counter-intuitive, but i++ and i-- are sometimes FASTER than "i = i + 1" 
-    or "i = i - 1", since some ISAs have an assembly command for 
-    incrementing/decrementing built-in
+    - Counter-intuitive, but i++ and i-- are sometimes FASTER than "i = i + 1" or "i = i - 1", since some ISAs have an assembly command for incrementing/decrementing built-in
         - This is almost ALWAYS only as a post-incrment, though, so 
-    - If you can use shifting instead of multiplying/dividing; it's always 
-    faster, ESPECIALLY for division/modulo operations
+    - If you can use shifting instead of multiplying/dividing; it's always faster, ESPECIALLY for division/modulo operations
     - You can force a function to be inlined with the "inlined" keyword
-    - Don't do computations in a loop if you don't have to; the compiler often 
-    gets confused about what you're trying to do, and does things inefficiently 
+    - Don't do computations in a loop if you don't have to; the compiler often gets confused about what you're trying to do, and does things inefficiently 
 
 
     
     
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="26_ioAndSecurity_11_30_17.html"></a>

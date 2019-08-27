@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="14_moreHashMapNotes_2_15_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//*******************************************************************//
 //****************Skip Lists - February 17th, 2017******************//
 //*****************************************************************//
@@ -42,62 +44,47 @@
 
         hashIndex = (hash + probeCounter) % A.length
 
-        while (probeCounter &lt; capacity &amp;&amp; A[hashIndex] != null) //start of main 
-        loop; finds the first open spot
+        while (probeCounter &lt; capacity &amp;&amp; A[hashIndex] != null) //start of main loop; finds the first open spot
             hashIndex = (hash + probeCounter) % A.length
 
-            if (A[hashIndex].deleted == true &amp;&amp; deleted == -1) //check if cell 
-            is marked deleted
+            if (A[hashIndex].deleted == true &amp;&amp; deleted == -1) //check if cell is marked deleted
                 deleted = probeCounter
-            else if (A[hashIndex].key == key) //if you have a duplicate key, 
-            overwrite it with the new value
+            else if (A[hashIndex].key == key) //if you have a duplicate key, overwrite it with the new value
                 oldValue = A[hashIndex].value
                 A[hashIndex].value = value
                 return oldValue
 
             probeCounter++
 
-        if (deleted == -1) //if nothing was deleted, add to the first open 
-        spot; else, overwrite the deleted spot
+        if (deleted == -1) //if nothing was deleted, add to the first open spot; else, overwrite the deleted spot
             A[hashIndex] = new (key, value);
         else
             A[deleted] = new (key, value)
 
 -SKIP LISTS- (???? I'll NEED to look these up again, description confused me)
-    So, a Linked List can be used to store items quickly, but searching is 
-    still usually O(n)
-    -We can reduce this by having some items be in another list, and just 
-    searching for
+    So, a Linked List can be used to store items quickly, but searching is still usually O(n)
+    -We can reduce this by having some items be in another list, and just searching for
 
 -A SKIP LIST is similar to a linked list, but it has MULTIPLE LEVELS
-    -The bottom level contains ALL of the elements in the list; the above 
-    levels contain progressively less nodes until there's only a single node(?)
+    -The bottom level contains ALL of the elements in the list; the above levels contain progressively less nodes until there's only a single node(?)
         -Each "level" is its own linked list
 
--Nodes in a skip list still have next/prev pointers, but they ALSO have 
-above/below pointers to access the above/below levels
+-Nodes in a skip list still have next/prev pointers, but they ALSO have above/below pointers to access the above/below levels
 
--When adding a new node, we have a "coin flipper" that randomly decides whether 
-or not a node is going to be "promoted" to the next level
+-When adding a new node, we have a "coin flipper" that randomly decides whether or not a node is going to be "promoted" to the next level
 
 -Skip Lists have "phantom nodes" / "dummy nodes"
 
--To SEARCH in a Skip List, start at the top-left "phantom node," then keep 
-going right in the level until the node to the right is greater than the node 
-we're looking for; THEN, we go down a level, and repeat the process until we 
-find the node
-    -If we reach the bottom level and still haven't found it, then the item 
-    must not be in the list
+-To SEARCH in a Skip List, start at the top-left "phantom node," then keep going right in the level until the node to the right is greater than the node we're looking for; THEN, we go down a level, and repeat the process until we find the node
+    -If we reach the bottom level and still haven't found it, then the item must not be in the list
 
 -To ADD to a Skip List, we start at the top level,
 
 -To REMOVE, you follow the same steps as searching
 
--So, the space complexity of the list is O(n) in BEST-CASE, O(nlogn) in the 
-worst-case
+-So, the space complexity of the list is O(n) in BEST-CASE, O(nlogn) in the worst-case
     -
--In the BEST-CASE, skip-lists are O(log(n)) for adding/searching/removing in 
-the best case, O(n) in the worst case
+-In the BEST-CASE, skip-lists are O(log(n)) for adding/searching/removing in the best case, O(n) in the worst case
 
 REALITY CHECK
 
@@ -108,8 +95,6 @@ REALITY CHECK
 4) 120
 5) O(log n)
 6) O(1)
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="16_avlTreeNotes_2_20_17.html"></a>

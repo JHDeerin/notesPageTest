@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,25 +23,20 @@
 <a class="side-link is-note-link" href="5_queueNotes_1_23_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************//
 //**************Recursion - January 25th, 2017*******************//
 //**************************************************************//
 
--AV difficulties, as per usual...well, okay, not THAT usual, but Tech and AV 
-problems go together like planes and turbulence
--Go to the career fair! It's good for you! Eat your social-economic fruits and 
-veggies!
+-AV difficulties, as per usual...well, okay, not THAT usual, but Tech and AV problems go together like planes and turbulence
+-Go to the career fair! It's good for you! Eat your social-economic fruits and veggies!
 ---------------------------------------------------
--So, the next data structures we'll be talking about are TREES! BUT, before we 
-go into those, we need to have a solid grasp of...
+-So, the next data structures we'll be talking about are TREES! BUT, before we go into those, we need to have a solid grasp of...
 
--RECURSION: a programming process where, most basically, a method calls itself 
-REPEATEDLY until a defined end point
-    -A failure to exit will cause an infinite loop, which will cause a crash, 
-    which will cause tears
+-RECURSION: a programming process where, most basically, a method calls itself REPEATEDLY until a defined end point
+    -A failure to exit will cause an infinite loop, which will cause a crash, which will cause tears
 
--Probably the most classic "pedagogical example" of recursion, in 
-Math/CS/Advanced Cookery classes, is with factorials
+-Probably the most classic "pedagogical example" of recursion, in Math/CS/Advanced Cookery classes, is with factorials
     -"n = 1*2*3*...*n"
     -Recursive definition:
         f(n) = 1) 1, if n == 0
@@ -54,27 +50,16 @@ Math/CS/Advanced Cookery classes, is with factorials
                 }
             }
 
--Side Note: Computers now handle infinite loops MUCH more gracefully. In the 
-paper-punch days, an infinite recursive loop would...well...it wasn't pretty 
-(especially since you had to pay for operations by the minute, and they tended 
-to run for a WHILE)
+-Side Note: Computers now handle infinite loops MUCH more gracefully. In the paper-punch days, an infinite recursive loop would...well...it wasn't pretty (especially since you had to pay for operations by the minute, and they tended to run for a WHILE)
 
--EVERY recursive method has to have a way of eventually reaching a terminating 
-condition, no matter the input
-    -this "terminating condition" is also called the "BASE CASE"; when it is 
-    reached, the method does NOT call itself again, but returns control to the 
-    previous method call (i.e. whatever called it)
-        -There can be multiple base cases in a method, or multiple ways of 
-        reaching it, as long as it meets the criteria that it WILL END 
-        eventually (w/o catastrophic failure, like a memory crash, the computer 
-        rusting away, wild axe attacks, etc.)
-        -Also, while you usually do, you do not HAVE to return something in a 
-        recursive method
+-EVERY recursive method has to have a way of eventually reaching a terminating condition, no matter the input
+    -this "terminating condition" is also called the "BASE CASE"; when it is reached, the method does NOT call itself again, but returns control to the previous method call (i.e. whatever called it)
+        -There can be multiple base cases in a method, or multiple ways of reaching it, as long as it meets the criteria that it WILL END eventually (w/o catastrophic failure, like a memory crash, the computer rusting away, wild axe attacks, etc.)
+        -Also, while you usually do, you do not HAVE to return something in a recursive method
 -Behind the scenes, recursive calls are kept track of using a stack
 
 -Another example of a recursive method: BINARY SEARCH
-    -It searches an ORDERED LIST for an element by cutting the list in half 
-    over and over to find it
+    -It searches an ORDERED LIST for an element by cutting the list in half over and over to find it
         -Initially, low = 0, high = length - 1
     -PSEUDOCODE (for searching integers):
         binarySearch(dataset, targetObj, low, high) {
@@ -85,8 +70,7 @@ condition, no matter the input
                 if (targetObj == data[mid])
                     return true
                 else if (target &lt; data[mid])
-                    return binarySearch(data, targetObj, low, mid-1) //could 
-                    floor/ceiling, doesn't matter if done properly
+                    return binarySearch(data, targetObj, low, mid-1) //could floor/ceiling, doesn't matter if done properly
                 else
                     return binarySearch(data, targetObj, mid+1, high)
         }
@@ -96,14 +80,11 @@ condition, no matter the input
             1   2   3   4   |5|
             1   2   3   4   5||
             return false
-        -2 terminators: if the low/high indices pass each other (have searched 
-        the entire list), OR if we find the target
+        -2 terminators: if the low/high indices pass each other (have searched the entire list), OR if we find the target
         -Runs in O(log n) time, which is MUCH better than a linear search
-            -Initially searching area in list of size "high - low + 1", which 
-            is cut in half each times
+            -Initially searching area in list of size "high - low + 1", which is cut in half each times
 
--Another function that can be defined recursively is exponentiation, i.e. the 
-"power" function
+-Another function that can be defined recursively is exponentiation, i.e. the "power" function
     - P(a, n) = a^n
     -Recursively: P(a, n) = 1) 1, if n == 0
                             2) a * P(a, n-1), otherwise
@@ -134,26 +115,17 @@ condition, no matter the input
             }
 
 -There's also a special form of recursion called "Tail Recursion"
-    -Tail recursion is when EVERY recursive method call is the VERY LAST STEP 
-    before returning from the method
-        -This helps with optimization, as it means that methods aren't left 
-        "hanging" in the call stack waiting to receive something else before 
-        they continue
-            -Java does NOT optimize for tail recursions; many languages do when 
-            compiling, however
+    -Tail recursion is when EVERY recursive method call is the VERY LAST STEP before returning from the method
+        -This helps with optimization, as it means that methods aren't left "hanging" in the call stack waiting to receive something else before they continue
+            -Java does NOT optimize for tail recursions; many languages do when compiling, however
 
--QUICK EXERCISE: Write a recursive method for determining if a string is a 
-palindrome ("race car", "wow", "1331", "a man a plan a canal panama")
-    //My idea: check repeatedly if the first/last letters match (possibly after 
-    removing spaces), then do a recursive call with the first/last letters 
-    lopped off (via the substring method)
+-QUICK EXERCISE: Write a recursive method for determining if a string is a palindrome ("race car", "wow", "1331", "a man a plan a canal panama")
+    //My idea: check repeatedly if the first/last letters match (possibly after removing spaces), then do a recursive call with the first/last letters lopped off (via the substring method)
     public boolean isPalindrome(String s) {
         if (s.length == 1) {
             return true;
         }
     }
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="7_introTreeNotes_1_27_17.html"></a>

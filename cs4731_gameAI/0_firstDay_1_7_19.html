@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,191 +23,98 @@
 <a class="side-link is-note-link" href="0_firstDay_1_7_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //******************* First Day - January 7th, 2017 *************************//
 //**************************************************************************//
 
 - 2:52pm: A wild Riedl has appeared!
-    - The screens have been lowered, Canvas is being opened, annnnnnnd...the CS 
-    4731 course page has been launched!
-- "You know, I taught in this room last semester and never realized that those 
-things were windows..."
+    - The screens have been lowered, Canvas is being opened, annnnnnnd...the CS 4731 course page has been launched!
+- "You know, I taught in this room last semester and never realized that those things were windows..."
 --------------------------------------------
 
-- Okay, this class is split between two courses: the graduate 7632 course and 
-undergraduate 4731...
+- Okay, this class is split between two courses: the graduate 7632 course and undergraduate 4731...
     - ...WHICH, as I hope you know, is the code for GAME AI!
 
-- Professor Mark Riedl, of the College of Computing, will be our guide through 
-this journey, and today will be telling us why this course exists, what we'll 
-be learning, and some syllabus stuff
-    - "One thing you should realize pretty quickly here is that your first 
-    intro AI course only gave you half the story, with optimality and 
-    rationality and theory and the like. In this course, we're going to start 
-    seeing the OTHER half: the 'human' side of AI, and how AI is used in 
-    industry and gaming and there isn't a strict right answer for how to do 
-    things"
-    - "...another thing you'll quickly realize: my experience with games ended 
-    about 10 years ago, when I got a research job. So I'm waaaayyyyyyyy behind 
-    the times"
+- Professor Mark Riedl, of the College of Computing, will be our guide through this journey, and today will be telling us why this course exists, what we'll be learning, and some syllabus stuff
+    - "One thing you should realize pretty quickly here is that your first intro AI course only gave you half the story, with optimality and rationality and theory and the like. In this course, we're going to start seeing the OTHER half: the 'human' side of AI, and how AI is used in industry and gaming and there isn't a strict right answer for how to do things"
+    - "...another thing you'll quickly realize: my experience with games ended about 10 years ago, when I got a research job. So I'm waaaayyyyyyyy behind the times"
 
 - Actually, I LIED! This is THREE courses in one:
     - An industry game AI course
-        - How/why do game companies use AI? How does this differ from 
-        "academic" or "traditional" AI?
+        - How/why do game companies use AI? How does this differ from "academic" or "traditional" AI?
     - A procedural content generation course
-        - Game development involves a lot of design work; how can we use AI to 
-        help lighten that load, both as it's used today and how it could be 
-        used in the future?
+        - Game development involves a lot of design work; how can we use AI to help lighten that load, both as it's used today and how it could be used in the future?
     - An AI game playing course
-        - How can we create AIs that play games effectively, both by "cheating" 
-        (the traditional way) and ONLY using the player's information (mostly 
-        an academic research thing)?
+        - How can we create AIs that play games effectively, both by "cheating" (the traditional way) and ONLY using the player's information (mostly an academic research thing)?
 
-- So, you're probably here because you saw the words "GAME" and "AI" in a class 
-title together - great! But why should we *actually* care?
-    - Well, you can think of this as an "AI in application" class - how AI is 
-    actually used in the "real world"
-    - Games have almost always had some kind of AI, be it enemies, obstacles, 
-    NPCs, etc.
-        - "Human players don't like being the bad guys - if you ask your friend 
-        to be the ghost in Pacman, you're not going to have a great afternoon - 
-        so the first few AIs cropped up to play these roles"
-    - These algorithms are often tightly coupled with the game's design, so 
-    that the algorithm becomes an integral part of the gameplay, art, and 
-    overall experience
-    - However, these algorithms aren't often state of the art - there isn't too 
-    much machine learning or Markov chain matrix stuff going on in games now. 
-        - So why study it? Because it's a place where AI is applied intimately 
-        with design problems
+- So, you're probably here because you saw the words "GAME" and "AI" in a class title together - great! But why should we *actually* care?
+    - Well, you can think of this as an "AI in application" class - how AI is actually used in the "real world"
+    - Games have almost always had some kind of AI, be it enemies, obstacles, NPCs, etc.
+        - "Human players don't like being the bad guys - if you ask your friend to be the ghost in Pacman, you're not going to have a great afternoon - so the first few AIs cropped up to play these roles"
+    - These algorithms are often tightly coupled with the game's design, so that the algorithm becomes an integral part of the gameplay, art, and overall experience
+    - However, these algorithms aren't often state of the art - there isn't too much machine learning or Markov chain matrix stuff going on in games now. 
+        - So why study it? Because it's a place where AI is applied intimately with design problems
 
-- Ever heard of No Man's Sky? It promised 18 billion BILLION unique planets, 
-all different. No designer could (or would) sit down to do that, so they had to 
-come up with the algorithms to handle that load. We'll be looking at some 
-similar techniques in this class
+- Ever heard of No Man's Sky? It promised 18 billion BILLION unique planets, all different. No designer could (or would) sit down to do that, so they had to come up with the algorithms to handle that load. We'll be looking at some similar techniques in this class
 
-- Finally, there's a strong case for games being an ideal environment to test 
-more advanced AI techniques - they're a good middle ground between completely 
-known toy environments and the complex messiness of the real world
-    - A lot of the skills we take for granted as humans - planning ahead, 
-    puzzle solving, visual processing, etc. - turn out to be really difficult 
-    for AIs to figure out
-    - (cue video of OpenAI playing Montezuma's Revenge, an Atari games - this 
-    algorithm works just by looking at the pixels on the screen, without other 
-    knowledge of the game)
-    - Right now, state of the art game AIs are better or on par with the best 
-    Poker, Go, and DOTA 2 players - but many games are still difficult for AIs 
-    to play well.
+- Finally, there's a strong case for games being an ideal environment to test more advanced AI techniques - they're a good middle ground between completely known toy environments and the complex messiness of the real world
+    - A lot of the skills we take for granted as humans - planning ahead, puzzle solving, visual processing, etc. - turn out to be really difficult for AIs to figure out
+    - (cue video of OpenAI playing Montezuma's Revenge, an Atari games - this algorithm works just by looking at the pixels on the screen, without other knowledge of the game)
+    - Right now, state of the art game AIs are better or on par with the best Poker, Go, and DOTA 2 players - but many games are still difficult for AIs to play well.
 
 - And now: onto the syllabus stuff
-    - I assume you've taken some sort of introductory AI class before, like CS 
-    3600 or a course at another university
-        - Specifically, I'll assume you know about A*, local/optimization 
-        search, and maybe a little reinforcement learning
-        - You should also have some Python and Java experience (at least enough 
-        to get by)
+    - I assume you've taken some sort of introductory AI class before, like CS 3600 or a course at another university
+        - Specifically, I'll assume you know about A*, local/optimization search, and maybe a little reinforcement learning
+        - You should also have some Python and Java experience (at least enough to get by)
     - This is considered a "programming intensive course"
         - There are 7 programming assignments, some in Python and some in Java
         - There'll be an assignment due every 1-2 weeks
-            - The first 5 assignments are all in Python, and directly build off 
-            of each other - we'll start out moving QUICK
-                - "I built this engine myself - so, of course, I'll apologize 
-                in advance"
-                - At the end of those assignments, you should have a basic AI 
-                that can play a MOBA (with an optional in-class AI tournament)
+            - The first 5 assignments are all in Python, and directly build off of each other - we'll start out moving QUICK
+                - "I built this engine myself - so, of course, I'll apologize in advance"
+                - At the end of those assignments, you should have a basic AI that can play a MOBA (with an optional in-class AI tournament)
             - After that, we'll slow down a bit for the last few assignments
-                - The last 2 assignments will be a genetic algorithm-based 
-                level generator for Super Mario Bros. (in Java), and a tabular 
-                reinforcement learning project on Gridworld
-                    - The grad students will be doing a more advanced project 
-                    where they have to do "deep reinforcement learning" - 
-                    undergrads, feel free to try this if you're up for it!
-        - The first assignment - cleverly named "Homework 2" (because typing) - 
-        will be due on January 16th
+                - The last 2 assignments will be a genetic algorithm-based level generator for Super Mario Bros. (in Java), and a tabular reinforcement learning project on Gridworld
+                    - The grad students will be doing a more advanced project where they have to do "deep reinforcement learning" - undergrads, feel free to try this if you're up for it!
+        - The first assignment - cleverly named "Homework 2" (because typing) - will be due on January 16th
             - Nevermind, I lied - it's actually the 18th!
             - "Two whole extra days - you guys are already doing great!"
-    - After each "unit", there'll be an exam - and just like that, presto, 
-    we've got 3 exams in this course, roughly equally spaced!
-        - Exams will mostly be conceptual in nature and won't have any 
-        programming - basically, they're designed so if you show up to class, 
-        you should be fine. Believe it or not, I don't want these to be 
-        stressful
+    - After each "unit", there'll be an exam - and just like that, presto, we've got 3 exams in this course, roughly equally spaced!
+        - Exams will mostly be conceptual in nature and won't have any programming - basically, they're designed so if you show up to class, you should be fine. Believe it or not, I don't want these to be stressful
     - Grading-wise, the breakdown looks like:
         - 60% from homework assignments (2 5% smaller projects, rest worth 10%)
-        - 40% from the exams (10% for the 2 midterms, 20% for the 3rd/final 
-        exam)
-    - All programming assignments have to be done individually - "we've got a 
-    plagiarism detector going as a research project, and congratulations - 
-    you've all just become data!"
-        - The usual "high-level discussion good, copying source code bad" 
-        policy applies
-        - Because of this, if you're using GitHub, PLEASE put it in a 
-        password-protected repository
-        - Similarly, any code-related questions on Piazza should be marked TA 
-        only
-    - No textbook for this course - there are some decent reference books for 
-    the first 2/3 of it, but nothing I'd require
+        - 40% from the exams (10% for the 2 midterms, 20% for the 3rd/final exam)
+    - All programming assignments have to be done individually - "we've got a plagiarism detector going as a research project, and congratulations - you've all just become data!"
+        - The usual "high-level discussion good, copying source code bad" policy applies
+        - Because of this, if you're using GitHub, PLEASE put it in a password-protected repository
+        - Similarly, any code-related questions on Piazza should be marked TA only
+    - No textbook for this course - there are some decent reference books for the first 2/3 of it, but nothing I'd require
 
 - Alright, with 20 minutes to go - let's talk about artificial intelligence
-    - There're a few definitions of AI floating around, but a good broad one is 
-    that an AI is "an entity that performs a behavior a 'reasonable person' 
-    would believe requires intelligence"
-        - "Quick side-note: there'll be a lot of references to killing things 
-        in this class. All references are to simulated violence only...which, 
-        hopefully, I don't have to tell you"
-    - Remember the "4 quadrants" of AI research? Almost no one cares right now 
-    about "Thinks like a human" or "thinks rationally" - and in this class, we 
-    care about "acts like a human" and "acts rationally"
-        - Acting rationally means that the AI's behavior maximizes some 
-        performance measure using the information available - this is the 
-        standard goal for AIs today
-            - For some games, this is what we want - an AI that can play the 
-            game perfectly, like in chess or tic-tac-toes, where difficult 
-            opponents are the most fun
-            - This is also where testing academic game-playing AI falls - we 
-            don't care about the human's enjoyment, we just want our AI to do 
-            as well as possible
-        - Acting like a human is the Turing test - our AI behaves in a manner 
-        that is believably like a human, i.e. "suspension of disbelief"
-            - This is where most game industry AIs actually fall under - we 
-            don't want the most perfect FPS-playing enemy, but the most 
-            entertaining one
-            - This is also the field that most current AI research doesn't care 
-            about - self driving car researchers don't care if the car's 
-            driving seems human as long as it gets where it needs to go
-                - "See, you really NEVER got to think about this stuff in your 
-                first AI class - it's only here where it'll start to crop up"
+    - There're a few definitions of AI floating around, but a good broad one is that an AI is "an entity that performs a behavior a 'reasonable person' would believe requires intelligence"
+        - "Quick side-note: there'll be a lot of references to killing things in this class. All references are to simulated violence only...which, hopefully, I don't have to tell you"
+    - Remember the "4 quadrants" of AI research? Almost no one cares right now about "Thinks like a human" or "thinks rationally" - and in this class, we care about "acts like a human" and "acts rationally"
+        - Acting rationally means that the AI's behavior maximizes some performance measure using the information available - this is the standard goal for AIs today
+            - For some games, this is what we want - an AI that can play the game perfectly, like in chess or tic-tac-toes, where difficult opponents are the most fun
+            - This is also where testing academic game-playing AI falls - we don't care about the human's enjoyment, we just want our AI to do as well as possible
+        - Acting like a human is the Turing test - our AI behaves in a manner that is believably like a human, i.e. "suspension of disbelief"
+            - This is where most game industry AIs actually fall under - we don't want the most perfect FPS-playing enemy, but the most entertaining one
+            - This is also the field that most current AI research doesn't care about - self driving car researchers don't care if the car's driving seems human as long as it gets where it needs to go
+                - "See, you really NEVER got to think about this stuff in your first AI class - it's only here where it'll start to crop up"
 
 - Now, what does game AI in industry look like?
-    - Almost always, it isn't AI that plays the game from the human perspective 
-    - instead, they view AI as the set of algorithms, representations, and 
-    tools that support creating the game and managing the real-time experiences
-    - From their perspective, "good AI" means convincing artifical behavior 
-    that helps suspend disbelief, or eases the cost of development, or adapting 
-    to the player's individual play
-        - In all, the worth of the AI from a developer's perspective boils down 
-        to this: "does it make the user's experience more fun?"
+    - Almost always, it isn't AI that plays the game from the human perspective - instead, they view AI as the set of algorithms, representations, and tools that support creating the game and managing the real-time experiences
+    - From their perspective, "good AI" means convincing artifical behavior that helps suspend disbelief, or eases the cost of development, or adapting to the player's individual play
+        - In all, the worth of the AI from a developer's perspective boils down to this: "does it make the user's experience more fun?"
 
 - So, for Game AI vs "Standard AI"...
-    - The goal of normal, "standard" AI research is to behave optimally and 
-    rationally; the goal of game AI, however, is to enhance the player's 
-    experience
-    - Game AI has to integrate with the rest of the game's design, as well as 
-    environmental constraints like CPU/GPU processing, etc.
-        - "95% of the time, 95% of the game's processing power goes to graphics 
-        processing, and us AI programmers get the leftover scraps"
-    - Basically, game AI is just considered "intelligent" if it can fool the 
-    player into thinking it's intelligent, whether it's a deep neural net or a 
-    finite state machine
-        - "By the way, FSMs are turing complete - there's no reason we 
-        *couldn't* build a human-level AI in an FSM, it's just that it takes 
-        way more manual labor"
+    - The goal of normal, "standard" AI research is to behave optimally and rationally; the goal of game AI, however, is to enhance the player's experience
+    - Game AI has to integrate with the rest of the game's design, as well as environmental constraints like CPU/GPU processing, etc.
+        - "95% of the time, 95% of the game's processing power goes to graphics processing, and us AI programmers get the leftover scraps"
+    - Basically, game AI is just considered "intelligent" if it can fool the player into thinking it's intelligent, whether it's a deep neural net or a finite state machine
+        - "By the way, FSMs are turing complete - there's no reason we *couldn't* build a human-level AI in an FSM, it's just that it takes way more manual labor"
 
-- Alright, on Wednesday we'll give a short "game introduction" for the 
-non-gamers here, pick back up on what we need to know for industry development, 
-and start talking about your first programming assignment - see you then!
-
-</pre>
+- Alright, on Wednesday we'll give a short "game introduction" for the non-gamers here, pick back up on what we need to know for industry development, and start talking about your first programming assignment - see you then!</pre>
 </article>
 <a class="side-link is-note-link" href="1_gameVsRegularAI_1_9_19.html"></a>
 </main>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,78 +23,47 @@
 <a class="side-link is-note-link" href="3_stabilityBifurcations_1_17_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************** 1D Bifurcations (cont.) - January 22nd, 2019 ***************//
 //**************************************************************************//
 
 - ...okay, back to numerical methods in disguise
-    - Why are these 2 classes so distressing to me? Almost certainly because 
-    they're the classes with content that I look at and don't immediately 
-    understand - and I put too much weight on having to understand them, on 
-    having to get the A. Not enough on serving humbly.
+    - Why are these 2 classes so distressing to me? Almost certainly because they're the classes with content that I look at and don't immediately understand - and I put too much weight on having to understand them, on having to get the A. Not enough on serving humbly.
 -------------------------------------------------------
 
-- Alright, last time we were looking at differential equation models, and we 
-wanted to understand how the behaviors of the models change as their parameters 
-change
-    - We looked at a very typical example of something called a "Saddle Node 
-    Bifurcation," where we had a "bowl-like" differential equation:
+- Alright, last time we were looking at differential equation models, and we wanted to understand how the behaviors of the models change as their parameters change
+    - We looked at a very typical example of something called a "Saddle Node Bifurcation," where we had a "bowl-like" differential equation:
 
             x' = r + x^2
 
-        - With 3 scenarios: r &lt; 0 (where there's 1 stable and 1 unstable 
-        critical point), r = 0 (where the 2 points merge into 1 half-stable 
-        point - the so-called "saddle node"), and r &gt; 0
-        - "To repeat, a saddle node bifurcation just means a differential 
-        equation where 2 critical points merge together"
+        - With 3 scenarios: r &lt; 0 (where there's 1 stable and 1 unstable critical point), r = 0 (where the 2 points merge into 1 half-stable point - the so-called "saddle node"), and r &gt; 0
+        - "To repeat, a saddle node bifurcation just means a differential equation where 2 critical points merge together"
 
-- That's the gist of the saddle node bifurcation analysis - but now let's look 
-at a practical example of when we'd use this
-    - This case study comes from section 3.7 of the Strogatz book - "the wormy 
-    lookin' thing in the picture is a spruce budworm"
-    - Budworms feed on the leaves of certain trees in Northern Canada, and if 
-    their population gets too high then they can kill off a large number of 
-    trees. So, let's put on our entomology hats and pretend we're interested in 
-    the population of these suckers
-        - As it turns out, a certain Dr. Ludwig and his team came up with a 
-        potential model for the budworm population in 1978:
+- That's the gist of the saddle node bifurcation analysis - but now let's look at a practical example of when we'd use this
+    - This case study comes from section 3.7 of the Strogatz book - "the wormy lookin' thing in the picture is a spruce budworm"
+    - Budworms feed on the leaves of certain trees in Northern Canada, and if their population gets too high then they can kill off a large number of trees. So, let's put on our entomology hats and pretend we're interested in the population of these suckers
+        - As it turns out, a certain Dr. Ludwig and his team came up with a potential model for the budworm population in 1978:
 
                 x' = r*x(1 - x/c) - p(x)
 
-            - "So, this first part is just the logistic model - r is the growth 
-            rate, and c is the carrying capacity"
-            - The weird part is the p(x) term - the "predation term," which is 
-            a function that tells us how many budworms are eaten by things like 
-            songbirds (the natural enemy of the budworm!) - but, of course, the 
-            number of budworms eaten also depends on their own population 'x'!
-                - For this function, Ludwig figured there had to be some 
-                maximum number of budworms the birds could eat - which he 
-                called "b" (the maximum rate of predation)
-                - He also figured there would be an inflection point "a" for 
-                the population, where after the budworm population grew larger 
-                than "a" the birds would be pretty filled up, and p(x) would 
-                asymptotically go to b
+            - "So, this first part is just the logistic model - r is the growth rate, and c is the carrying capacity"
+            - The weird part is the p(x) term - the "predation term," which is a function that tells us how many budworms are eaten by things like songbirds (the natural enemy of the budworm!) - but, of course, the number of budworms eaten also depends on their own population 'x'!
+                - For this function, Ludwig figured there had to be some maximum number of budworms the birds could eat - which he called "b" (the maximum rate of predation)
+                - He also figured there would be an inflection point "a" for the population, where after the budworm population grew larger than "a" the birds would be pretty filled up, and p(x) would asymptotically go to b
                 - The equation he picked to do this was:
 
                     p(x) = b*x^2 / (a^2 + x^2)
 
-- "The Sayama book has a section (I believe 7.3?) where he says that models 
-with lots of parameters are a good start, but that you should rescale it to 
-minimize the parameters if possible"
-        - If you're confused by this section, look for the "Variable Rescaling" 
-        section in Sayama!
-- So, let's try to rescale this problem to try and eliminate some of the 
-variables - "If you're from an engineering background, there's a thing called 
-the pi theorem that's similar to this, but I won't expect you to know it"
-    - So, looking at this equation, it seems like a and c are both given in 
-    terms of x; so, let's try substituting to combine them (this might take 
-    some trial and error):
+- "The Sayama book has a section (I believe 7.3?) where he says that models with lots of parameters are a good start, but that you should rescale it to minimize the parameters if possible"
+        - If you're confused by this section, look for the "Variable Rescaling" section in Sayama!
+- So, let's try to rescale this problem to try and eliminate some of the variables - "If you're from an engineering background, there's a thing called the pi theorem that's similar to this, but I won't expect you to know it"
+    - So, looking at this equation, it seems like a and c are both given in terms of x; so, let's try substituting to combine them (this might take some trial and error):
 
         X = x/a
         dx/dt = a * dX/dt = r*a*X(1 - aX/c) - ba^2*X^2/(a^2 + a^2*X^2)
 
-    - This is now a "transformed" system; let's now try diving both sides of 
-    this by b (what happened to the a's on the right?):
+    - This is now a "transformed" system; let's now try diving both sides of this by b (what happened to the a's on the right?):
 
         (a/b) * dX/dt = r*a/b*X(1-aX/c) - X^2/(1+X^2)
 
@@ -104,13 +74,10 @@ the pi theorem that's similar to this, but I won't expect you to know it"
 
         =&gt; dX/dT = R*X(1 - X/C) - X^2/(1 + X^2)
 
-    - Okay, now, through a series of semi-arbitrary choices, we've gotten down 
-    to an equation defined by only 2 parameters! (how???)
-        - "The key heuristics are looking for things with the same units, and 
-        then replacing them with non-dimensionalized versions"
+    - Okay, now, through a series of semi-arbitrary choices, we've gotten down to an equation defined by only 2 parameters! (how???)
+        - "The key heuristics are looking for things with the same units, and then replacing them with non-dimensionalized versions"
         - This usually takes some amount of trial-and-error to get right
-- "On an exam question, usually we'll give you an equation, the final form of 
-it, and tell you to derive how to get from A to B"
+- "On an exam question, usually we'll give you an equation, the final form of it, and tell you to derive how to get from A to B"
 
 - Using the final, rescaled version, we end up with:
 
@@ -118,108 +85,65 @@ it, and tell you to derive how to get from A to B"
 
 - Let's start our analysis by looking for some fixed points
     - One easy one: X* = 0
-        - This is *probably* unstable (since insect populations tend to grow), 
-        but we haven't confirmed that
+        - This is *probably* unstable (since insect populations tend to grow), but we haven't confirmed that
     - Setting X' = 0, we also can solve for:
 
             R*X(1 - X/C) = X^2/(1 + X^2)
 
-        - So, since it isn't obvious how to solve this, let's instead plot both 
-        sides of the equation and try to figure out where they intersect
-            - Since we're not interested in X = 0, we're allowed to divide by X 
-            for both sides:
+        - So, since it isn't obvious how to solve this, let's instead plot both sides of the equation and try to figure out where they intersect
+            - Since we're not interested in X = 0, we're allowed to divide by X for both sides:
 
                 R(1 - X/C) = X/(1 + X^2)
 
-            - Since C is a constant, this means we have a line w/ negative 
-            slope on the left and y-intercept of R, and a hill-ish curve on the 
-            right (since it starts at 0, goes up, and then decays at 0)
-                - This means there could potentially be up to THREE critical 
-                points here:
+            - Since C is a constant, this means we have a line w/ negative slope on the left and y-intercept of R, and a hill-ish curve on the right (since it starts at 0, goes up, and then decays at 0)
+                - This means there could potentially be up to THREE critical points here:
                     - One where the line initially goes "through the hill"
                     - One that comes out the other side of the hill
-                    - One that goes through the "ground" of the curve again 
-                    after passing through the hill
+                    - One that goes through the "ground" of the curve again after passing through the hill
                         - "I got these via a terrible, terrible picture I drew"
-                - We can clearly see a bifurcation here: if the slope of the 
-                line is high enough, it'll be tangent to the hill (one critical 
-                point), but split into 2 points as the slope lowers!
-        - So, this'd get us 3 potential non-zero critical points, laid out on a 
-        first-derivative line like this:
+                - We can clearly see a bifurcation here: if the slope of the line is high enough, it'll be tangent to the hill (one critical point), but split into 2 points as the slope lowers!
+        - So, this'd get us 3 potential non-zero critical points, laid out on a first-derivative line like this:
 
                 ---&gt;--q0--&lt;--q1--&gt;--q2--&lt;--
 
         - So, what does this actually MEAN? Why do us clever entomologists care?
-            - Well, q1 appears to be an unstable point in the budworm 
-            population - that means that if the population dips just a little 
-            bit below q1, it'll almost certianly decrease to q0 (not a 
-            problem). BUT, if the population goes just a tiny bit above q1, 
-            it'll likely EXPLODE until it reaches q2 - and that's a problem for 
-            the trees!
+            - Well, q1 appears to be an unstable point in the budworm population - that means that if the population dips just a little bit below q1, it'll almost certianly decrease to q0 (not a problem). BUT, if the population goes just a tiny bit above q1, it'll likely EXPLODE until it reaches q2 - and that's a problem for the trees!
                 - ...ESPECIALLY since it's possible q2 is FAR away to the right!
-                - So, if we were researchers, we'd want to try and find that 
-                point exactly
-                    - As an exercise, try to determine the values of R and C 
-                    that get you this situation
+                - So, if we were researchers, we'd want to try and find that point exactly
+                    - As an exercise, try to determine the values of R and C that get you this situation
                     - To do this, you'd say
 
                         Rc = 2x^3/(1+x^2)^2, Cc = 2x^3/(x^2-1)
 
-                    - These are the curves on an R-C plot that represent the 
-                    boundaries of the stability "zones" for the critical points
-                        - "These equations for Rc and Cc come from taking the 
-                        derivative (missed this)"
+                    - These are the curves on an R-C plot that represent the boundaries of the stability "zones" for the critical points
+                        - "These equations for Rc and Cc come from taking the derivative (missed this)"
 
-- Alright, now EVERYTHING we've done so far have just been in the 1D case - but 
-before we move on from there, let's talk about 2 more kinds of bifurcations you 
-might see in 1D systems
-    - A TRANS-CRITICAL bifurcation usually appears when we're dealing with 
-    equations of the form "x' = rx - x^2"
+- Alright, now EVERYTHING we've done so far have just been in the 1D case - but before we move on from there, let's talk about 2 more kinds of bifurcations you might see in 1D systems
+    - A TRANS-CRITICAL bifurcation usually appears when we're dealing with equations of the form "x' = rx - x^2"
         - The three cases here are:
-            - When r &lt; 0, the curve will intersect at 2 points (1 stable, 1 
-            unstable)
+            - When r &lt; 0, the curve will intersect at 2 points (1 stable, 1 unstable)
             - When r = 0, it'll just touch at 1 half-stable point
-            - When r &gt; 0, there'll also be 2 critical points, 1 stable and 1 
-            unstable
-        - So, as r increased to 0, the 2 points merged into one, but after r 
-        got greater it split again
-        - The reason it's trans-critical is because there's a fixed point whose 
-        STABILITY changes in response to r
-- Another thing to know about are "bifurcation diagrams," where we plot the 
-critical points of the function and color them according to if the points are 
-stable/unstable
+            - When r &gt; 0, there'll also be 2 critical points, 1 stable and 1 unstable
+        - So, as r increased to 0, the 2 points merged into one, but after r got greater it split again
+        - The reason it's trans-critical is because there's a fixed point whose STABILITY changes in response to r
+- Another thing to know about are "bifurcation diagrams," where we plot the critical points of the function and color them according to if the points are stable/unstable
     - A PITCHFORK bifurcation usually has the form "x' = rx - x^3"
-        - This is similar to the saddle node case except that there's some 
-        symmetry here
-            - Think back to our rock-on-a-pole example - a pitchfork 
-            bifurcation is where the system gets unstable past a certain 
-            weight, but it could bend to either the left/right
-        - Its bifurcation diagram would look like...well...a pitchfork, where 
-        the critical points are stable up until a certain point, then they 
-        split into 2 stable "prongs" and 1 unstable "prong"
+        - This is similar to the saddle node case except that there's some symmetry here
+            - Think back to our rock-on-a-pole example - a pitchfork bifurcation is where the system gets unstable past a certain weight, but it could bend to either the left/right
+        - Its bifurcation diagram would look like...well...a pitchfork, where the critical points are stable up until a certain point, then they split into 2 stable "prongs" and 1 unstable "prong"
             - e.g. "x' = rx + x^3 - x^5"
-            - This bifurcation graph is stable for r &lt; 0 until we reach 0; from 
-            there, there are 2 "prongs" that split off and are unstable until r 
-            reaches a certain point, where they become stable again
-                - This is pretty weird - you have to "skip" over the unstable 
-                part
+            - This bifurcation graph is stable for r &lt; 0 until we reach 0; from there, there are 2 "prongs" that split off and are unstable until r reaches a certain point, where they become stable again
+                - This is pretty weird - you have to "skip" over the unstable part
             - This is so weird, it even has a weird name: "Hystoriesis"
-- Exam problems in this section: "are there bifurcations in the model? What's 
-the type of bifurcation? Are there critical points? Can you find them?"
+- Exam problems in this section: "are there bifurcations in the model? What's the type of bifurcation? Are there critical points? Can you find them?"
     - An example:
 
             x' = x(1-x^2) - a(1 - e^(-bx))
 
-        - "Show x* = 0 is a critical point and a trans-critical bifurcation, 
-        and estimate "
+        - "Show x* = 0 is a critical point and a trans-critical bifurcation, and estimate "
             - (The solution to this'll probably be posted online eventually)
 
-- Okay, so today we talked through this case study of bifurcations, then talked 
-about 2 other kinds of bifurcations you should know about (trans-critical and 
-pitchfork). Next time, we'll start moving out of this 1D-world into the 
-exciting Flatland of the 2nd dimension - hope to see you there!
-
-</pre>
+- Okay, so today we talked through this case study of bifurcations, then talked about 2 other kinds of bifurcations you should know about (trans-critical and pitchfork). Next time, we'll start moving out of this 1D-world into the exciting Flatland of the 2nd dimension - hope to see you there!</pre>
 </article>
 <a class="side-link is-note-link" href="5_2dDiffEqs_1_24_19.html"></a>
 </main>

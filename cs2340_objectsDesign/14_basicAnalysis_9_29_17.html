@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,55 +23,32 @@
 <a class="side-link is-note-link" href="13_googleCleanCode_9_25_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //****************** Basic Analysis - September 29th, 2017 ******************//
 //**************************************************************************//
 
 - So, CSV files - just short for "Comma Separated Files"
-    - In your homework, you'll have to read in a file w/ all the rat data from 
-    New York since 2005(?)
+    - In your homework, you'll have to read in a file w/ all the rat data from New York since 2005(?)
     - The file should start with a header that lists the properties of the file:
         "Name, ID, Email, Fruit
         Bob Waters,4322,bob@bob.com,Apple"
-            - If you're designing this for a database, you'd only want to load 
-            in the data ONE TIME, not every time the app is opened; for the 
-            rest of us not doing that for extra credit, just load it in every 
-            time when the app starts up
-    - You should have a POJO model object that holds all the data needed for 
-    ONE entry
-    - Then, for actually reading/parsing the file, we use an InputStream, and 
-    call "getResources().openRawResource(R.raw.&lt;data name&gt;)"; then, create a 
-    BufferedReader to hold the file, like "BufferedReader br = new 
-    BufferedReader(new InputStream(&lt;previously Gotten Input Stream&gt;, 
-    StandardCharset.UTF-8))"
-    - We then use "br.readLine()" to skip the header line; we don't care about 
-    that, we've already hardcoded the property in (if you wanted to be more 
-    robust, you could have it parse the header to find the possibilities)
-    - Then, while "line = br.readLine()", we get all the info on the line 
-    (using the 'line = br.readLine()' test), use Java's built-in methods to 
-    turn the line into an array of Strings (separated via commas), 
-        - NOTE: When you're using "setText()" to print the data to Android, 
-        make sure you're converting it to a String; otherwise, things might go 
-        wrong
-- Again, if you got this to work another way, I DON'T CARE - as long as it 
-works, great! I just think this is an easy way to do it.
+            - If you're designing this for a database, you'd only want to load in the data ONE TIME, not every time the app is opened; for the rest of us not doing that for extra credit, just load it in every time when the app starts up
+    - You should have a POJO model object that holds all the data needed for ONE entry
+    - Then, for actually reading/parsing the file, we use an InputStream, and call "getResources().openRawResource(R.raw.&lt;data name&gt;)"; then, create a BufferedReader to hold the file, like "BufferedReader br = new BufferedReader(new InputStream(&lt;previously Gotten Input Stream&gt;, StandardCharset.UTF-8))"
+    - We then use "br.readLine()" to skip the header line; we don't care about that, we've already hardcoded the property in (if you wanted to be more robust, you could have it parse the header to find the possibilities)
+    - Then, while "line = br.readLine()", we get all the info on the line (using the 'line = br.readLine()' test), use Java's built-in methods to turn the line into an array of Strings (separated via commas), 
+        - NOTE: When you're using "setText()" to print the data to Android, make sure you're converting it to a String; otherwise, things might go wrong
+- Again, if you got this to work another way, I DON'T CARE - as long as it works, great! I just think this is an easy way to do it.
 ---------------------------------------------------------
 
-- So, we were wrapping up domain models before the Google talks; now, we're 
-going to move on a bit to analysis
-- We know what the external actors are from our context diagram, know what our 
-program needs to model from our domain models, but NOW, we need to verify that 
-our domain model makes sense with our user stories
+- So, we were wrapping up domain models before the Google talks; now, we're going to move on a bit to analysis
+- We know what the external actors are from our context diagram, know what our program needs to model from our domain models, but NOW, we need to verify that our domain model makes sense with our user stories
     - One way of doing this is ROBUSTNESS DIAGRAMS
     - These have 3 types of classes:
-        - BOUNDARY CLASSES are user interfaces / API interfaces to external 
-        input, to allow outside data to be used in our program
-            - So, all outside data MUST come through our boundary class; it 
-            CAN'T be directly used by our program, it must go through this 
-            class first
-            - Boundary classes shouldn't talk to each other; they should just 
-            be an interface between the data and the Controllers that will use 
-            the data
+        - BOUNDARY CLASSES are user interfaces / API interfaces to external input, to allow outside data to be used in our program
+            - So, all outside data MUST come through our boundary class; it CAN'T be directly used by our program, it must go through this class first
+            - Boundary classes shouldn't talk to each other; they should just be an interface between the data and the Controllers that will use the data
             - Have this symbol:
                 |
                 |-----(circle)
@@ -80,40 +58,21 @@ our domain model makes sense with our user stories
             - Have this symbol:
                     (circle)
                 ----------------
-        - CONTROLLER CLASSES are classes that represent "business logic" in our 
-        app
-            - These coordinate between our Boundary Classes, Entities, and 
-            other controllers
+        - CONTROLLER CLASSES are classes that represent "business logic" in our app
+            - These coordinate between our Boundary Classes, Entities, and other controllers
             - Have this symbol:
-                - (can't draw it, but a circle with an arrow pointing around 
-                it, lie an ouroboros)
-        - There's also a "stick figure" symbol, representing an ACTOR/AGENT, 
-        but that's the same as from context diagrams
+                - (can't draw it, but a circle with an arrow pointing around it, lie an ouroboros)
+        - There's also a "stick figure" symbol, representing an ACTOR/AGENT, but that's the same as from context diagrams
 
-- Now, Boundary Classes can represent potential screens we need for the UI; so, 
-based on this diagram, the UI designers can create prototypes for the UI, and 
-create a UI FLOW DIAGRAM that represents the different screens and how the user 
-trnasitions from one screen to another
-    - Basically, this flow diagram is an FSM diagram for all the major screens 
-    in your application, w/ the different "states" and the arrows representing 
-    transitions between them
-    - "A word of caution to UI people: I know the UI deisgners can 
-    be...ah...extremely creative, at times. MAKE SURE that your design can 
-    actually be done by your programmers. If you overpromise, and then the 
-    programmers say 'yeah, we can't actually implement this', your customers 
-    are gonna be disappointed."
-        - One tool to quickly create actual UI prototypes: FluidUI. This is 
-        paid, but there is a (limited) free version
+- Now, Boundary Classes can represent potential screens we need for the UI; so, based on this diagram, the UI designers can create prototypes for the UI, and create a UI FLOW DIAGRAM that represents the different screens and how the user trnasitions from one screen to another
+    - Basically, this flow diagram is an FSM diagram for all the major screens in your application, w/ the different "states" and the arrows representing transitions between them
+    - "A word of caution to UI people: I know the UI deisgners can be...ah...extremely creative, at times. MAKE SURE that your design can actually be done by your programmers. If you overpromise, and then the programmers say 'yeah, we can't actually implement this', your customers are gonna be disappointed."
+        - One tool to quickly create actual UI prototypes: FluidUI. This is paid, but there is a (limited) free version
 
 - So, that's the analysis phase of our project.
-    - In REAL LIFE, we'd be doing this analysis WHILE we were making the 
-    project; it's not step-by-step, but simultaneous with the other parts of 
-    the project
+    - In REAL LIFE, we'd be doing this analysis WHILE we were making the project; it's not step-by-step, but simultaneous with the other parts of the project
 
-- On Monday, we'll start talking about how we actually DESIGN the software 
-itself. 
-
-</pre>
+- On Monday, we'll start talking about how we actually DESIGN the software itself. </pre>
 </article>
 <a class="side-link is-note-link" href="15_introToArchitecture_10_2_17.html"></a>
 </main>

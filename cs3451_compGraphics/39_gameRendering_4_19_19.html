@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,172 +23,89 @@
 <a class="side-link is-note-link" href="38_virtualReality_4_17_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //******************* Game Rendering - April 19th, 2019 *********************//
 //**************************************************************************//
 
 - Alright, the final exam is in ONE WEEK, in this room, from 11:30 AM to 2:10 PM
-    - The exam IS cumulative, so stuff like 3D transformations, etc. are fair 
-    game, but the exam will focus more on the 2nd half of this course
-    - BRING A LAPTOP! Most of the exam'll be on canvas (there's a chance 
-    there'll be a paper portion, but Professor Turk hasn't made up his mind)
-        - The exam will be open-book/open-notes again, you just can't look 
-        stuff up on the internet
+    - The exam IS cumulative, so stuff like 3D transformations, etc. are fair game, but the exam will focus more on the 2nd half of this course
+    - BRING A LAPTOP! Most of the exam'll be on canvas (there's a chance there'll be a paper portion, but Professor Turk hasn't made up his mind)
+        - The exam will be open-book/open-notes again, you just can't look stuff up on the internet
 -------------------------------------------------
 
 - So today, per your request, we're gonna be talking about GAME ENGINES!
-    - Games have a lot of different components (collision detection, physics, 
-    animation, sound, etc.), but we're particularly concerned with game 
-    rendering techniques
-        - Games need to run FAST (at least 30fps), so efficiency is a huge 
-        priority
-        - There are a variety of popular game engines: Unity, Unreal, 
-        Cryengine, Source, etc. (many of which are free for educational use - 
-        they wanna get you hooked as a student)
+    - Games have a lot of different components (collision detection, physics, animation, sound, etc.), but we're particularly concerned with game rendering techniques
+        - Games need to run FAST (at least 30fps), so efficiency is a huge priority
+        - There are a variety of popular game engines: Unity, Unreal, Cryengine, Source, etc. (many of which are free for educational use - they wanna get you hooked as a student)
 
-- The key 300-point font headline here is REAL-TIME RENDERING: we need to 
-balance having a high-quality image with fast render speeds, and those goals 
-are directly opposed to one another
+- The key 300-point font headline here is REAL-TIME RENDERING: we need to balance having a high-quality image with fast render speeds, and those goals are directly opposed to one another
     - Different games prioritize these differently
     - There are two kinds of rendering in games:
-        - IMMEDIATE-MODE RENDERING is when the CPU sends polygons to the GPU 
-        one-by-one, which lets us change object position per frame
-            - This is great for dynamic stuff that's moving, but it can be SLOW 
-            since the CPU has to send stuff to the GPU every frame
+        - IMMEDIATE-MODE RENDERING is when the CPU sends polygons to the GPU one-by-one, which lets us change object position per frame
+            - This is great for dynamic stuff that's moving, but it can be SLOW since the CPU has to send stuff to the GPU every frame
                 - This is what Processing uses
-        - RETAINED-MODE RENDERING is where we send polygons to the GPU just 
-        ONCE, and then render that
-            - This collection of polygons on the GPU is stored in the "vertex 
-            buffer object" (VBO); the CPU will ask the GPU to render it when 
-            needed, and because all of it's already on the GPU, no 
-            communication between the two is needed! That mean it's FAST!
-    - Almost all games use retained-mode graphics because of its dramatic speed 
-    boost - but, alas, it makes it harder to have a bunch of moving stuff 
-    on-screen at once
+        - RETAINED-MODE RENDERING is where we send polygons to the GPU just ONCE, and then render that
+            - This collection of polygons on the GPU is stored in the "vertex buffer object" (VBO); the CPU will ask the GPU to render it when needed, and because all of it's already on the GPU, no communication between the two is needed! That mean it's FAST!
+    - Almost all games use retained-mode graphics because of its dramatic speed boost - but, alas, it makes it harder to have a bunch of moving stuff on-screen at once
 
 - So, a different strategy of speeding things up: DRAW FEWER POLYGONS!
-    - This seems REALLY obvious, but it's important, and a ton of effort has 
-    gone into making this work!
+    - This seems REALLY obvious, but it's important, and a ton of effort has gone into making this work!
     - One way is by using POTENTIALLY VISIBLE SETS
-        - This is where, for indoor scenes, we pre-calculate what parts of the 
-        scene are visible from a given room
-            - If the player is inside of that room, then, we know what rooms we 
-            don't need to draw! So we just ignore those rooms, which can lead 
-            to a BUNCH of saved time
-        - An alternate technique for doing this is the PORTALS method, where 
-        we'll define a bunch of invisible "portals" in bottlenecks of the 
-        rooms, like doors and windows
-            - If we can see the portal, we need to draw everything behind it - 
-            but if we can't, we can ignore everything behind the portal!
+        - This is where, for indoor scenes, we pre-calculate what parts of the scene are visible from a given room
+            - If the player is inside of that room, then, we know what rooms we don't need to draw! So we just ignore those rooms, which can lead to a BUNCH of saved time
+        - An alternate technique for doing this is the PORTALS method, where we'll define a bunch of invisible "portals" in bottlenecks of the rooms, like doors and windows
+            - If we can see the portal, we need to draw everything behind it - but if we can't, we can ignore everything behind the portal!
     - Another common way of doing this is LEVEL-OF-DETAIL meshes
-        - The idea here is that each 3D model has several different versions of 
-        different complexity (either auto-generated or handmade by an artist)
-            - When the player is far enough away, they can't notice the higher 
-            detail anyway, so we'll use the less-expensive, low-quality model
-                - Interestingly, we can also go in the opposite direction with 
-                TESSELLATION, where we add more polygons to the model in a 
-                subdivision-like process if the player gets too close
-                    - This alone will often make characters look too smooth, 
-                    though, so we'll often combine this with a DISPLACEMENT MAP
-                    - Because this can happen on the GPU natively, it's 
-                    actually surprisingly fast
+        - The idea here is that each 3D model has several different versions of different complexity (either auto-generated or handmade by an artist)
+            - When the player is far enough away, they can't notice the higher detail anyway, so we'll use the less-expensive, low-quality model
+                - Interestingly, we can also go in the opposite direction with TESSELLATION, where we add more polygons to the model in a subdivision-like process if the player gets too close
+                    - This alone will often make characters look too smooth, though, so we'll often combine this with a DISPLACEMENT MAP
+                    - Because this can happen on the GPU natively, it's actually surprisingly fast
 
-- Since lighting calculations (shadows, etc.) are expensive, what can we do to 
-speed them up here?
-    - One technique is BURNED-IN LIGHTING, where instead of actually 
-    calculating the lighting, we'll cheat!
-        - Instead, we'll pre-compute the lighting ahead of time, store it in a 
-        LIGHTMAP texture, and then just use that texture without any light 
-        computations at all!
-        - HOWEVER, this doesn't work for reflective surfaces, or if the object 
-        is going to move
-    - Another lighting technique that's NOT for efficiency - but instead for 
-    higher quality - is AMBIENT OCCLUSION
-        - This is basically us trying to estimate how much "sky" or indirect 
-        light is visible at a point, mimicking light on a cloudy day
-            - This'll result in deep creases in the object looking darker, 
-            giving it depth, and it's generally great for realistic shading 
-            (ESPECIALLY outdoor shading)
-        - This is often done offline and baked into the textures, but various 
-        techniques have emerged to calculate this in real-time instead
-            - How can we do this without ray-tracing? You can try to fake it 
-            with Z-buffers, but Professor Turk isn't familiar with the 
-            state-of-the-art techniques here
+- Since lighting calculations (shadows, etc.) are expensive, what can we do to speed them up here?
+    - One technique is BURNED-IN LIGHTING, where instead of actually calculating the lighting, we'll cheat!
+        - Instead, we'll pre-compute the lighting ahead of time, store it in a LIGHTMAP texture, and then just use that texture without any light computations at all!
+        - HOWEVER, this doesn't work for reflective surfaces, or if the object is going to move
+    - Another lighting technique that's NOT for efficiency - but instead for higher quality - is AMBIENT OCCLUSION
+        - This is basically us trying to estimate how much "sky" or indirect light is visible at a point, mimicking light on a cloudy day
+            - This'll result in deep creases in the object looking darker, giving it depth, and it's generally great for realistic shading (ESPECIALLY outdoor shading)
+        - This is often done offline and baked into the textures, but various techniques have emerged to calculate this in real-time instead
+            - How can we do this without ray-tracing? You can try to fake it with Z-buffers, but Professor Turk isn't familiar with the state-of-the-art techniques here
 
 - Another common things games do: POST-PROCESSING!
-    - The idea here is that we'll calculate the image of a scene, then use 
-    pixel shaders on the GPU to modify the image AFTER it's rendered
-        - We'll usually consider the original scene as a texture, but we might 
-        consider separate objects as separate images and recombine them later 
-        (such as in G-Buffers)
-    - We can use these to get motion blur/depth-of-field effects, vignettes, 
-    bloom, lens flares, etc. - let's go through these!
-        - MOTION BLUR is where we pretend that a camera shudder is open for a 
-        non-instant amount of time; in real life, this makes moving objects 
-        appear "streaked" and blurry, so 
-            - To actually create it, we'll save the depth map of the image 
-            (e.g. the Z-buffer); the depth, combined with the X/Y position, can 
-            give us the 3D position of each pixel, which we can use to figure 
-            out how far each pixel moves between frames
-            - We'll then apply a blur to each pixel, based on the direction 
-            it's moving and how far it's moved
-        - DEPTH-OF-FIELD means that not all objects should be perfectly in 
-        focus, with other objects (near or far) being blurred
-            - To do this, we'll again render the image and save the depth map, 
-            then blur the parts of the scene that 
-                - We DON'T want to blur silhouettes, though, so we'll often 
-                just blur the "far" layer and keep objects closer than the 
-                "focal plane" in focus
+    - The idea here is that we'll calculate the image of a scene, then use pixel shaders on the GPU to modify the image AFTER it's rendered
+        - We'll usually consider the original scene as a texture, but we might consider separate objects as separate images and recombine them later (such as in G-Buffers)
+    - We can use these to get motion blur/depth-of-field effects, vignettes, bloom, lens flares, etc. - let's go through these!
+        - MOTION BLUR is where we pretend that a camera shudder is open for a non-instant amount of time; in real life, this makes moving objects appear "streaked" and blurry, so 
+            - To actually create it, we'll save the depth map of the image (e.g. the Z-buffer); the depth, combined with the X/Y position, can give us the 3D position of each pixel, which we can use to figure out how far each pixel moves between frames
+            - We'll then apply a blur to each pixel, based on the direction it's moving and how far it's moved
+        - DEPTH-OF-FIELD means that not all objects should be perfectly in focus, with other objects (near or far) being blurred
+            - To do this, we'll again render the image and save the depth map, then blur the parts of the scene that 
+                - We DON'T want to blur silhouettes, though, so we'll often just blur the "far" layer and keep objects closer than the "focal plane" in focus
         - VIGNETTES are where the corners of our view are darkened
-            - In a game, this is EASY to do; we'll just color the pixel based 
-            on how far away it is from the center of a screen!
-        - FOG/HAZE is when particles in the air, like dust or rain, scatter the 
-        light, especially for distant objects, making far-away objects look 
-        washed out
-            - This is actually really easy; we'll render the image, save the 
-            depth/Z-buffer, and then blend it with the fog color based on depth
-                - We could combine this with particles having a fog texture to 
-                get some more dynamic smoke effects
-            - A more difficult affect are LIGHT SHAFTS (or GOD RAYS) through 
-            fog, where the light passes through some "participating media" and 
-            scatters the light in 3D
-                - This is often done by using voxels to store how much fog/haze 
-                is in each 3D position, then stepping through the voxels to see 
-                how much light has been scattered
-                - This is computationally tricky to do fast, but techniques 
-                exist to do this in real time
+            - In a game, this is EASY to do; we'll just color the pixel based on how far away it is from the center of a screen!
+        - FOG/HAZE is when particles in the air, like dust or rain, scatter the light, especially for distant objects, making far-away objects look washed out
+            - This is actually really easy; we'll render the image, save the depth/Z-buffer, and then blend it with the fog color based on depth
+                - We could combine this with particles having a fog texture to get some more dynamic smoke effects
+            - A more difficult affect are LIGHT SHAFTS (or GOD RAYS) through fog, where the light passes through some "participating media" and scatters the light in 3D
+                - This is often done by using voxels to store how much fog/haze is in each 3D position, then stepping through the voxels to see how much light has been scattered
+                - This is computationally tricky to do fast, but techniques exist to do this in real time
                     - (cue "Book of the Dead" demo from Unity3D)
-        - BLOOM is the idea that bright lights seem to "glow" in the region 
-        around them
-            - We can do this in post by rendering an image ONLY with the 
-            lights, blurring that image, and then re-compositing it with the 
-            rest of the image
-        - LENS FLARES are "echos" of bright lights bouncing around inside of 
-        the camera
-            - We can do this by identifying bright pixels near the center of 
-            the screen, copying them radially, blurring them/increasing their 
-            size, and adding them to the image
+        - BLOOM is the idea that bright lights seem to "glow" in the region around them
+            - We can do this in post by rendering an image ONLY with the lights, blurring that image, and then re-compositing it with the rest of the image
+        - LENS FLARES are "echos" of bright lights bouncing around inside of the camera
+            - We can do this by identifying bright pixels near the center of the screen, copying them radially, blurring them/increasing their size, and adding them to the image
 
 - Let's now talk about something VERY recent: real-time ray tracing in games!
-    - As we know, there are effects that we can do far more realistically with 
-    ray tracing than through rasterization: global illumination (i.e. bounce 
-    lighting), correct reflections, better depth-of-field, faster ambient 
-    occlusion, soft shadows, etc.
-        - For now, these are largely done as "mixed" effects, where most of the 
-        scene is still rendered with raster techniques, and then ray tracing is 
-        added on 
+    - As we know, there are effects that we can do far more realistically with ray tracing than through rasterization: global illumination (i.e. bounce lighting), correct reflections, better depth-of-field, faster ambient occlusion, soft shadows, etc.
+        - For now, these are largely done as "mixed" effects, where most of the scene is still rendered with raster techniques, and then ray tracing is added on 
             - (cue demo video for "Pika Pika")
-        - You'll notice this demo also talked about real-time self-learning 
-        agents, since Nvidia's raytracing cards also had hardware to help with 
-        neural nets
+        - You'll notice this demo also talked about real-time self-learning agents, since Nvidia's raytracing cards also had hardware to help with neural nets
 
-- Many of these techniques (and many, MANY more) are gone over in SIGGRAPH'S 
-2018 course on game rendering
+- Many of these techniques (and many, MANY more) are gone over in SIGGRAPH'S 2018 course on game rendering
 
-- Alright, we'll have our last lecture on Monday - come to hear about 
-procedural content, and possibly to say goodbye!
-
-</pre>
+- Alright, we'll have our last lecture on Monday - come to hear about procedural content, and possibly to say goodbye!</pre>
 </article>
 <a class="side-link is-note-link" href="40_proceduralContent_4_22_19.html"></a>
 </main>

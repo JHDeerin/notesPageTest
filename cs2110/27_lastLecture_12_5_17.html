@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,118 +23,60 @@
 <a class="side-link is-note-link" href="26_ioAndSecurity_11_30_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //********************* Last Lecture - December 5th, 2017 *******************//
 //**************************************************************************//
 
-- The last lecture of William "Bill" Leahy...well, for the semester, at least. 
-I'm sure something will drag him out of retirement, superdetective-style.
+- The last lecture of William "Bill" Leahy...well, for the semester, at least. I'm sure something will drag him out of retirement, superdetective-style.
 - "Fill out the CIOS form," echo all of my classes at once...
 - 3:01, we have not begun...wait, nevermind.
 - So, what we're doing today: ARM ISA, and general course-wrappin'-up stuff
 ------------------------------------------------------------------------
 
-- Now, we teach the LC-3 to give you guys an introduction to the basics of how 
-computers operate, assembly, etc., but every year a few people complain that 
-we're only teaching them "fake computers." Well...
-    - Assembly is basically the same; the instructions change, but the concepts 
-    remain standard
+- Now, we teach the LC-3 to give you guys an introduction to the basics of how computers operate, assembly, etc., but every year a few people complain that we're only teaching them "fake computers." Well...
+    - Assembly is basically the same; the instructions change, but the concepts remain standard
 
-- So, to remind you, ISA is an "Instruction Set Architecture" - assembly 
-instructions that the computer is built to support
+- So, to remind you, ISA is an "Instruction Set Architecture" - assembly instructions that the computer is built to support
 
-- ARM was, originally, a small company in the U.K. called "Acorn" who happened 
-to land a deal with the BBC to design a computer for their instructional TV 
-show.
-    - Over time, the "Acorn Risc Machine" became increasingly popular, and the 
-    now-named ARM company has produced 30 billion chips to date...it's slightly 
-    popular
-    - There are 2 relevant numbers for ARM processors: the ISA # (ARMv4, v5, 
-    etc.) that defines what assembly commands the computer has, and the serial 
-    number for the chip itself
+- ARM was, originally, a small company in the U.K. called "Acorn" who happened to land a deal with the BBC to design a computer for their instructional TV show.
+    - Over time, the "Acorn Risc Machine" became increasingly popular, and the now-named ARM company has produced 30 billion chips to date...it's slightly popular
+    - There are 2 relevant numbers for ARM processors: the ISA # (ARMv4, v5, etc.) that defines what assembly commands the computer has, and the serial number for the chip itself
         - So, what's the same between ARM and the LC-3? Well, quite a lot!
-            - They both have "load-store" architectures, where values are 
-            stored in registers, then into memory
+            - They both have "load-store" architectures, where values are stored in registers, then into memory
             - Both have "fixed memory" addresses (?)
             - (some other stuff I didn't catch)
         - So, then, the differences:
-            - ARM processors have a 32-bit address space, instead of the LC-3's 
-            16 bits
-            - ARM processors have multiple "special" modes: User, FIQ, IRQ, 
-            Supervisor, etc., which it goes into based on interrupts, etc.
-            - ARM *technically* has 16 registers, although there are actually 
-            more
-                - Registers R8-R14 can automatically accept user inputs when 
-                interrupts happen (I think?)
-            - They have shifters ("Here's a number, I want to shift it X bits 
-            left or right") that are on the ALU
-                - CLEVERLY, this is IN FRONT of the ALU - which lets us do 
-                pointer arithmetic more quickly than normal!
-                    - e.g. If we're trying to do pointer arithmetic with an int 
-                    pointer, then we can shift by 3 bits to multiply the 
-                    address by 8, add our address offset, then shift it back - 
-                    this is a LOT more efficient than running it though the ALU 
-                    multiple times!
-            - Instead of "BR" for conditional branching, ARM architectures use 
-            a "CPSR" ("Conditional Program Status Register" ?) to determine 
-            branching.
-                - Can prepend commands with "B" letter for condition 
-                codes...not sure how exactly it's used
-            - MANY more instructions...~200; this is harder to learn, as you 
-            can imagine, but shortcuts a lot of the things we had to do with 
-            our assembly earlier this semester
-                - Still a lot similar to what we did - e.g. ARM's version of 
-                "JSR" is the "BL" command, etc.
+            - ARM processors have a 32-bit address space, instead of the LC-3's 16 bits
+            - ARM processors have multiple "special" modes: User, FIQ, IRQ, Supervisor, etc., which it goes into based on interrupts, etc.
+            - ARM *technically* has 16 registers, although there are actually more
+                - Registers R8-R14 can automatically accept user inputs when interrupts happen (I think?)
+            - They have shifters ("Here's a number, I want to shift it X bits left or right") that are on the ALU
+                - CLEVERLY, this is IN FRONT of the ALU - which lets us do pointer arithmetic more quickly than normal!
+                    - e.g. If we're trying to do pointer arithmetic with an int pointer, then we can shift by 3 bits to multiply the address by 8, add our address offset, then shift it back - this is a LOT more efficient than running it though the ALU multiple times!
+            - Instead of "BR" for conditional branching, ARM architectures use a "CPSR" ("Conditional Program Status Register" ?) to determine branching.
+                - Can prepend commands with "B" letter for condition codes...not sure how exactly it's used
+            - MANY more instructions...~200; this is harder to learn, as you can imagine, but shortcuts a lot of the things we had to do with our assembly earlier this semester
+                - Still a lot similar to what we did - e.g. ARM's version of "JSR" is the "BL" command, etc.
             - In assembly, different calling conventions
-            - "Thumb" instruction set - this is a 16-bit subset of the full ARM 
-            ISA, designed for ultra-cheap computers; these instructions are 
-            simpler, it takes longer to write, but the programs themselves are 
-            smaller (since 16-bit vs 32-bit)
-    - ...remember where we've seen ARM processors before? That's right, the 
-    GameBoy!
-        - Remember how we told you during the GBA homework to NOT use 
-        floating-point operations? Well, that was because the ARMv7 chip the 
-        GameBoy used didn't have any instructions for dealing with 
-        floating-point numbers; more modern ARM architectures, though, 
-        definitely do!
-- ...so, there's a TON to learn about ARM, but this is only 1 lecture, so 
-consider this an appetizer for what's to come.
+            - "Thumb" instruction set - this is a 16-bit subset of the full ARM ISA, designed for ultra-cheap computers; these instructions are simpler, it takes longer to write, but the programs themselves are smaller (since 16-bit vs 32-bit)
+    - ...remember where we've seen ARM processors before? That's right, the GameBoy!
+        - Remember how we told you during the GBA homework to NOT use floating-point operations? Well, that was because the ARMv7 chip the GameBoy used didn't have any instructions for dealing with floating-point numbers; more modern ARM architectures, though, definitely do!
+- ...so, there's a TON to learn about ARM, but this is only 1 lecture, so consider this an appetizer for what's to come.
 
 - Wrap-Up
-    - FINAL EXAM: It is in THIS ROOM, on Dec. 14th, 11:30am to 2:20pm. DO NOT 
-    MISS IT!
-        - "I HATE having to give someone a 0 because they slept in or forgot to 
-        take this..."
-        - Practice test for Spring is still valid for this semester; whatever's 
-        on the practice test will be the SAME TOPICS, but NOT the same 
-        question. Don't memorize the practice test - we're gonna change the 
-        questions to different scenarios - but the topics will be the same. We 
-        might not have a QSort question, but we'll DEFINITELY have a function 
-        pointer question. We won't have surprise questions on assembly or 
-        anything; it'll be on the practice test sections.
+    - FINAL EXAM: It is in THIS ROOM, on Dec. 14th, 11:30am to 2:20pm. DO NOT MISS IT!
+        - "I HATE having to give someone a 0 because they slept in or forgot to take this..."
+        - Practice test for Spring is still valid for this semester; whatever's on the practice test will be the SAME TOPICS, but NOT the same question. Don't memorize the practice test - we're gonna change the questions to different scenarios - but the topics will be the same. We might not have a QSort question, but we'll DEFINITELY have a function pointer question. We won't have surprise questions on assembly or anything; it'll be on the practice test sections.
         - To review for this, 4 things I'd recommend:
-            1) Look over your old homeworks and quizzes; understand everything 
-            you got wrong.
+            1) Look over your old homeworks and quizzes; understand everything you got wrong.
             2) Look over your notes from class.
-            3) Read the Kernighan and Ritchie book! Not every single obscure 
-            section, but the chapters on Structs? Pointers? definitely helpful!
-            4) Do some practice coding! Write some code! The exercises in the C 
-            book wouldn't be a bad place to start!
+            3) Read the Kernighan and Ritchie book! Not every single obscure section, but the chapters on Structs? Pointers? definitely helpful!
+            4) Do some practice coding! Write some code! The exercises in the C book wouldn't be a bad place to start!
     - CIOS NOTE:
         - ...just do it.
-            - "When Zvi Galil became dean of the CoC, he suddenly decided that 
-            we would be a college that cared about teaching: a SHOCKING notion 
-            to everyone except, well, me and Charles Isbell. So he took the 
-            CIOS - which, honestly, we kinda forgot existed - and started 
-            pushing it big-time. He started rating teachers by both what the 
-            CIOS responses were, AND the response rate. Do it for me, do it for 
-            the TAs, do it for Zvi...but most of all, PLEASE do it for me!"
-    - So, the 1st day of the class, I went over the purpose of the class...and 
-    it probably meant nothing to you. NOW, let me re-show you the learning 
-    outcomes for this course: do they look familiar? Do you know them? 
-    Hopefully you do! And may they serve you well into the future!
-
-
+            - "When Zvi Galil became dean of the CoC, he suddenly decided that we would be a college that cared about teaching: a SHOCKING notion to everyone except, well, me and Charles Isbell. So he took the CIOS - which, honestly, we kinda forgot existed - and started pushing it big-time. He started rating teachers by both what the CIOS responses were, AND the response rate. Do it for me, do it for the TAs, do it for Zvi...but most of all, PLEASE do it for me!"
+    - So, the 1st day of the class, I went over the purpose of the class...and it probably meant nothing to you. NOW, let me re-show you the learning outcomes for this course: do they look familiar? Do you know them? Hopefully you do! And may they serve you well into the future!
 
 </pre>
 </article>

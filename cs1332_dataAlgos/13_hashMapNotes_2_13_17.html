@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="12_moreHeapNotes_2_10_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//***************************************************************//
 //********Intro. to Hashmaps - February 13th, 2017**************//
 //*************************************************************//
@@ -32,139 +34,72 @@
 ----------------------------------------------------------
 
 -So, we've talked about queues, lists, stacks, trees, heaps...
-    -Some of these don't really compete with each other (e.g. heaps are VERY 
-    specialized); others have various trade-offs with each other
+    -Some of these don't really compete with each other (e.g. heaps are VERY specialized); others have various trade-offs with each other
 
 -We've had LISTS
-    -LINKED LISTS are great for rapidly adding stuff, but are poor at random 
-    retrieval
-    -In contrast, ARRAYLISTS are awesome at random retrieval, but can be slow 
-    to add stuff to
+    -LINKED LISTS are great for rapidly adding stuff, but are poor at random retrieval
+    -In contrast, ARRAYLISTS are awesome at random retrieval, but can be slow to add stuff to
 
--We've had TREES (which we'll come back to, since there's a metric ton of these 
-things)
+-We've had TREES (which we'll come back to, since there's a metric ton of these things)
 
 -A "SET" is a collection of unique objects
-    -Technically, your BST homework fits this definition, since we didn't allow 
-    duplicates to be created
--A "MAP" is a type of set where every item (the "key") is pointing to a unique 
-value ("value")
-    -This "key-value" pairing is quite useful; ALL of the keys are unique in a 
-    map, but values don't necessarily have to
+    -Technically, your BST homework fits this definition, since we didn't allow duplicates to be created
+-A "MAP" is a type of set where every item (the "key") is pointing to a unique value ("value")
+    -This "key-value" pairing is quite useful; ALL of the keys are unique in a map, but values don't necessarily have to
     -examples:
 
 -Today, we'll be talking about a special type of map: the HASHMAP
-    -This is NOT an ADT; a "Map" is an ADT, but the HASHMAP is a specific 
-    implementation of a map
+    -This is NOT an ADT; a "Map" is an ADT, but the HASHMAP is a specific implementation of a map
 
--A HASHMAP is AWESOME because you get O(1) runtimes for almost EVERYTHING: 
-adding, searching, etc.,
-    -"Wow, that sounds amazing! How do we do this, and why don't we use this 
-    all the time?" Well, we'll answer both questions...
--So, in an array, we can access anything INSTANTLY in O(1) time IF we know the 
-item's index (i.e. it's memory address); a "Hashmap" takes this idea and runs 
-with it
-    -In Java, EVERY OBJECT has a "hashCode()" method that returns an integer 
-    that "should" be unique to that object
-    -A "Hashmap" basically uses this unique numbering for the object to put the 
-    object in a giant array, where we put it in it's "hashCode" index; we then 
-    use the "hashcode" calculation to find it's index again and access it!
-        -Of course, you would need to have enough information to recalculate 
-        the "hashcode" anyway, but that's a practical implementation problem, 
-        and we're just teaching the basics
+-A HASHMAP is AWESOME because you get O(1) runtimes for almost EVERYTHING: adding, searching, etc.,
+    -"Wow, that sounds amazing! How do we do this, and why don't we use this all the time?" Well, we'll answer both questions...
+-So, in an array, we can access anything INSTANTLY in O(1) time IF we know the item's index (i.e. it's memory address); a "Hashmap" takes this idea and runs with it
+    -In Java, EVERY OBJECT has a "hashCode()" method that returns an integer that "should" be unique to that object
+    -A "Hashmap" basically uses this unique numbering for the object to put the object in a giant array, where we put it in it's "hashCode" index; we then use the "hashcode" calculation to find it's index again and access it!
+        -Of course, you would need to have enough information to recalculate the "hashcode" anyway, but that's a practical implementation problem, and we're just teaching the basics
 
--EXAMPLE: for a "Person" object, we could have a hashCode where we "return 
-personAge;", and store each person at the index equal to their age
+-EXAMPLE: for a "Person" object, we could have a hashCode where we "return personAge;", and store each person at the index equal to their age
 
--Now, there are some problems with this; for instance, let's say our "Hashmap" 
-only has a length of 10, and we're trying to add something with a hashcode of 
-11; what can we do?
-    -Well, we could use a COMPRESSION FUNCTION to fit the hashcode into our 
-    backing array; for instance, we could (and usually do) just use modulus to 
-    make sure the hashcode is ALWAYS a valid index
+-Now, there are some problems with this; for instance, let's say our "Hashmap" only has a length of 10, and we're trying to add something with a hashcode of 11; what can we do?
+    -Well, we could use a COMPRESSION FUNCTION to fit the hashcode into our backing array; for instance, we could (and usually do) just use modulus to make sure the hashcode is ALWAYS a valid index
         -e.g. index = hashcode % arraySize;
 
--What if 2 objects share the same hashCode, or if the "compression function" 
-tries to store 2 objects in the same array index? This is known as a COLLISION, 
-and it's the most common problem with a hashMap
-    -One thing we COULD do is have the backing array be an array of 
-    linkedLists; this way, if we try to add 2 things to the same index, we just 
-    end up with a LinkedList of size 2 at that index; then, when we search at 
-    that index, we just have to search through the (probably very small) 
-    LinkedList to get the object
-        -This is known as EXTERNAL CHAINING, and a lot of the time, it works 
-        just fine!
-        -The PROBLEM with this, of course, is that if we end up with a BUNCH of 
-        collisions, then we could theoretically end up with a search time of 
-        O(n) (if everything gets stored in the same index, because you're inept 
-        at making hashCodes or something)
-            -You don't HAVE to use linked lists, by the way (Java's 
-            implementation uses AVL trees, for example)
-    -So, the efficiency of a hashMap is VERY dependent on the quality of it's 
-    hashCode
-        -by "quality" here, we mean the ability for the hashcode function to 
-        create UNIQUE, non-colliding hashCodes for each object
+-What if 2 objects share the same hashCode, or if the "compression function" tries to store 2 objects in the same array index? This is known as a COLLISION, and it's the most common problem with a hashMap
+    -One thing we COULD do is have the backing array be an array of linkedLists; this way, if we try to add 2 things to the same index, we just end up with a LinkedList of size 2 at that index; then, when we search at that index, we just have to search through the (probably very small) LinkedList to get the object
+        -This is known as EXTERNAL CHAINING, and a lot of the time, it works just fine!
+        -The PROBLEM with this, of course, is that if we end up with a BUNCH of collisions, then we could theoretically end up with a search time of O(n) (if everything gets stored in the same index, because you're inept at making hashCodes or something)
+            -You don't HAVE to use linked lists, by the way (Java's implementation uses AVL trees, for example)
+    -So, the efficiency of a hashMap is VERY dependent on the quality of it's hashCode
+        -by "quality" here, we mean the ability for the hashcode function to create UNIQUE, non-colliding hashCodes for each object
 
-    -Another technique we could try is LINEAR PROBING, where when we have a 
-    collision, we move forward "i" spots until we find an open index
-        -Now when you're doing this, you have to be VERY careful with 
-        retrieval, because it means that when you access an index you can't 
-        automatically assume it's the object you're searching for; you have to 
-        keep moving forward and checking for your object until you find it
-            -This technique is actually pretty similar to "external chaining;" 
-            we're just storing the extra collisions in the hashMap itself 
-            instead of an external list
-        -The PROBLEM with this technique, though, is that the more collisions 
-        we have, the more open spots we fill up, which makes collisions MORE 
-        likely to happen over time; i.e., "Probing" has the problem of making 
-        hashmaps get WORSE performance over time
-            -Chaining isn't a whole lot better, but it does keep things more 
-            contained, which means that if one index gets a lot of collisions 
-            it doesn't screw up other parts of the hashmap
--Basically, Chaining vs. Probing is a question of runtime efficiency (chaining) 
-vs. less space/memory usage (Probing)
+    -Another technique we could try is LINEAR PROBING, where when we have a collision, we move forward "i" spots until we find an open index
+        -Now when you're doing this, you have to be VERY careful with retrieval, because it means that when you access an index you can't automatically assume it's the object you're searching for; you have to keep moving forward and checking for your object until you find it
+            -This technique is actually pretty similar to "external chaining;" we're just storing the extra collisions in the hashMap itself instead of an external list
+        -The PROBLEM with this technique, though, is that the more collisions we have, the more open spots we fill up, which makes collisions MORE likely to happen over time; i.e., "Probing" has the problem of making hashmaps get WORSE performance over time
+            -Chaining isn't a whole lot better, but it does keep things more contained, which means that if one index gets a lot of collisions it doesn't screw up other parts of the hashmap
+-Basically, Chaining vs. Probing is a question of runtime efficiency (chaining) vs. less space/memory usage (Probing)
 
--Is there a better way to do this? Well, like with an ArrayList, one thing we 
-could just do instead is to GROW THE BACKING ARRAY
-    -To do this, we set some threshold, e.g. "67%"; when more than "67%" (or 
-    whatever %) of the spaces in the backing array are filled, then we resize 
-    the backing array
+-Is there a better way to do this? Well, like with an ArrayList, one thing we could just do instead is to GROW THE BACKING ARRAY
+    -To do this, we set some threshold, e.g. "67%"; when more than "67%" (or whatever %) of the spaces in the backing array are filled, then we resize the backing array
         -This threshold is known as the LOAD FACTOR of the hashMap
         -In this class, we tend to resize to 2n + 1, just because
-        -You STILL RESIZE when using chaining, since this still affects 
-        performance
-    -Now, unlike in a normal ArrayList, we have an issue here: how do we copy 
-    the data over? If we just copy over all of the data over, then the 
-    COMPRESSION function will mean that some items are at the wrong index!
-        -e.g. If our old array's capacity was 10 and we added something with 
-        hashCode "11," then the compression function would've put it at index 1 
-        in our old array
-    -So, when we're copying everything over to the new, larger array, we have 
-    to RE-HASH EVERYTHING to make sure it ends up in the right spot!
+        -You STILL RESIZE when using chaining, since this still affects performance
+    -Now, unlike in a normal ArrayList, we have an issue here: how do we copy the data over? If we just copy over all of the data over, then the COMPRESSION function will mean that some items are at the wrong index!
+        -e.g. If our old array's capacity was 10 and we added something with hashCode "11," then the compression function would've put it at index 1 in our old array
+    -So, when we're copying everything over to the new, larger array, we have to RE-HASH EVERYTHING to make sure it ends up in the right spot!
 
--So, the thing about hashMaps is that even though you "theoretically" have O(1) 
-performance for everything, there's a LOT that complicates this: the quality of 
-your hash function, the size of your backing array, etc.
-    -Realistically, in real-world scenarios with fairly large sets of data, you 
-    [CLIFFHANGER *DUN DUN DUN*]
+-So, the thing about hashMaps is that even though you "theoretically" have O(1) performance for everything, there's a LOT that complicates this: the quality of your hash function, the size of your backing array, etc.
+    -Realistically, in real-world scenarios with fairly large sets of data, you [CLIFFHANGER *DUN DUN DUN*]
 
 So, performance-wise for hashMaps:
 
--The WORST-CASE scenario for adding/removing/searching/accessing is O(n), if we 
-end up ALWAYS colliding (because we're idiots) and end up having to search 
-through everything
+-The WORST-CASE scenario for adding/removing/searching/accessing is O(n), if we end up ALWAYS colliding (because we're idiots) and end up having to search through everything
     -This is the same for linear probing AND chaining
 
--Now, there's another type of "resolution strategy" for collisions that we can 
-try: QUADRATIC PROBING
-    -In this technique, after finding the first open space "i" spaces away, we 
-    SQUARE i first, then add the item to index "[hashcode] + i^2"
-        -Why does this help? It SPREADS OUT THE COLLIDING OBJECTS, which means 
-        that we're not as likely to "bunch up" objects
-        -Overall, it has a similar performance as the other strategies, but 
-        degrades the performance a LOT less over time than normal probing
-
-
+-Now, there's another type of "resolution strategy" for collisions that we can try: QUADRATIC PROBING
+    -In this technique, after finding the first open space "i" spaces away, we SQUARE i first, then add the item to index "[hashcode] + i^2"
+        -Why does this help? It SPREADS OUT THE COLLIDING OBJECTS, which means that we're not as likely to "bunch up" objects
+        -Overall, it has a similar performance as the other strategies, but degrades the performance a LOT less over time than normal probing
 </pre>
 </article>
 <a class="side-link is-note-link" href="14_moreHashMapNotes_2_15_17.html"></a>

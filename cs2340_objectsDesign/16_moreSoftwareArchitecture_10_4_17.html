@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,109 +23,64 @@
 <a class="side-link is-note-link" href="15_introToArchitecture_10_2_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //*********** Software Architecture (cont.) - October 4th, 2017 *************//
 //**************************************************************************//
 
-- "The first thing you should do when you're adding a new technology to your 
-app, e.g. Firebase, is to Google something like 'android firebase architecture 
-best practices', to make sure you're organizing things in the best way possible"
+- "The first thing you should do when you're adding a new technology to your app, e.g. Firebase, is to Google something like 'android firebase architecture best practices', to make sure you're organizing things in the best way possible"
     
 - Some more architectural styles:
     - Layered Architecture
-        - We have a bunch of layers, like "Presentation", "Application 
-        Control", "Business Services," "Technical Services", etc., and each of 
-        our domain objects goes into one of the layers; each layer can only 
-        communicate with the layer immediately above and below it,
-        - This makes it really easy to change out things; if we want to change 
-        the UI, we only need to change the UI layer, and nothing else!
-            - "There's a LOT of different ways to setup the layers, depending 
-            on your needs"
-            - Example: WinZip, the Windows program that handles 
-            zipping/unzipping files, uses this architecture
+        - We have a bunch of layers, like "Presentation", "Application Control", "Business Services," "Technical Services", etc., and each of our domain objects goes into one of the layers; each layer can only communicate with the layer immediately above and below it,
+        - This makes it really easy to change out things; if we want to change the UI, we only need to change the UI layer, and nothing else!
+            - "There's a LOT of different ways to setup the layers, depending on your needs"
+            - Example: WinZip, the Windows program that handles zipping/unzipping files, uses this architecture
     - Enterprise Architecture
-        - When you work on software for HUGE companies like IBM, Coca-Cola, 
-        etc., in the old days, we would build a bunch of small "stovepipe" 
-        systems that were all independent of each other, e.g. Flight Operations 
-        would have a program to log pilot hours, developed independently of 
-        Maintenance's time-logging program, which was made separately from 
-        Flight Management's flight scheduling system...
-            - "Wouldn't it be nice if we could just enter in the same data 
-            ONCE, and then have all of these systems TALK to one another?"
-            - "EAA" is a good book on converting these "stovepipe" systems to 
-            share data, but...
-        - ENTERPRISE ARCHITECTURE is where we try and design from the ground-up 
-        for this kind of interconnectivity. Until about 3-4 years ago, 
-        service-oriented architecture was THE way to do this
-            - The problem, though, is that this wasn't really a good fit for 
-            Agile development, combining all of these massive pieces together
-        - So, nowadays, the new buzz is around MICROSERVICES, where we have a 
-        bunch of tiny operations (counting customers, etc.) and then tie them 
-        together
-            - "You don't need to know the details for this course, but just be 
-            aware that Enterprise architecture is a huge thing out there in the 
-            real world"
+        - When you work on software for HUGE companies like IBM, Coca-Cola, etc., in the old days, we would build a bunch of small "stovepipe" systems that were all independent of each other, e.g. Flight Operations would have a program to log pilot hours, developed independently of Maintenance's time-logging program, which was made separately from Flight Management's flight scheduling system...
+            - "Wouldn't it be nice if we could just enter in the same data ONCE, and then have all of these systems TALK to one another?"
+            - "EAA" is a good book on converting these "stovepipe" systems to share data, but...
+        - ENTERPRISE ARCHITECTURE is where we try and design from the ground-up for this kind of interconnectivity. Until about 3-4 years ago, service-oriented architecture was THE way to do this
+            - The problem, though, is that this wasn't really a good fit for Agile development, combining all of these massive pieces together
+        - So, nowadays, the new buzz is around MICROSERVICES, where we have a bunch of tiny operations (counting customers, etc.) and then tie them together
+            - "You don't need to know the details for this course, but just be aware that Enterprise architecture is a huge thing out there in the real world"
 
-- If we were developing this app for the "real world", it'd probably use a 
-combination of Client-Server architecture, MVC, and Layered architecture on the 
-back-end; if we were tying it into NYC's larger sanitation program network, we 
-might even bring in some Enterprise architecture techniques
+- If we were developing this app for the "real world", it'd probably use a combination of Client-Server architecture, MVC, and Layered architecture on the back-end; if we were tying it into NYC's larger sanitation program network, we might even bring in some Enterprise architecture techniques
 
 - Control styles
-    - "Now, this is less relevant for you guys, since Android kind of forces a 
-    control style on you"
+    - "Now, this is less relevant for you guys, since Android kind of forces a control style on you"
     - Generally, there are 3 big kinds:
         - Centralized
-            - A few objects make all the decisions, and then direct the rest of 
-            the objects to do those specific tasks
-            - Generally, this is easier to debug, since problems are most 
-            likely to pop up in the few coordinator objects, limiting what we 
-            need to check
+            - A few objects make all the decisions, and then direct the rest of the objects to do those specific tasks
+            - Generally, this is easier to debug, since problems are most likely to pop up in the few coordinator objects, limiting what we need to check
         - Dispersed
             - Objects work independently without any central direction
         - Delegated
-            - This is a hybrid approach, where there are a couple coordinator 
-            objects which each locally direct just a few objects underneath them
-            - "This is more-or-less what Android forces on us, where we have a 
-            controller class for each screen"
+            - This is a hybrid approach, where there are a couple coordinator objects which each locally direct just a few objects underneath them
+            - "This is more-or-less what Android forces on us, where we have a controller class for each screen"
 
-- So, how do we know if we've chosen a good architecture? How do we know it's a 
-good fix? This is what we deal with in "Architectural Evaluation"
+- So, how do we know if we've chosen a good architecture? How do we know it's a good fix? This is what we deal with in "Architectural Evaluation"
     - Some common techniques:
         - SAAM (what we will probably teach in this course)
         - ATAM (older, developed at CMU Software Engineering Institute)
 
-- "Trust Boundary" is an overloaded term; in security, it means what we allow 
-customers to use and access, etc...
-    - That is NOT what we mean when we talk about "Trust Boundaries" in 
-    architecture
-    - Instead, TRUST BOUNDARY refers to what data we've ensured is validated 
-    and is what it's supposed to be, e.g. making sure a "String" input is a 
-    valid username, etc.
-        - This relates to the idea of "defensive programming", where we're 
-        writing code to protect from errors
-    - e.g. In MVC, we might say "Alright, anything that comes from the 
-    database, I'm going to assume is good and valid; BUT, anything that comes 
-    from textboxes in the UI, I'm going to assume is SUSPECT, and needs to be 
-    validated for SQL Injection, spelling errors, etc."
-        - For these "untrusted collaborators", we usually need to take extra 
-        precautions, like
+- "Trust Boundary" is an overloaded term; in security, it means what we allow customers to use and access, etc...
+    - That is NOT what we mean when we talk about "Trust Boundaries" in architecture
+    - Instead, TRUST BOUNDARY refers to what data we've ensured is validated and is what it's supposed to be, e.g. making sure a "String" input is a valid username, etc.
+        - This relates to the idea of "defensive programming", where we're writing code to protect from errors
+    - e.g. In MVC, we might say "Alright, anything that comes from the database, I'm going to assume is good and valid; BUT, anything that comes from textboxes in the UI, I'm going to assume is SUSPECT, and needs to be validated for SQL Injection, spelling errors, etc."
+        - For these "untrusted collaborators", we usually need to take extra precautions, like
             - Only passing along necessary data
-            - Passing a COPY of a list, so if that list gets corrupted, our 
-            database is still safe
+            - Passing a COPY of a list, so if that list gets corrupted, our database is still safe
             - Checking validation conditions 
             - Making objects read-only so they can't be broken
             - etc.
 
 - Now, to represent the architecture, we'll be using UML Package Diagrams
     - We represent each compoenent of our architecture as a "file folder" icon
-    - We'll show connections between each package using "dependency relations" 
-    (other ways, but that's what we're using in this class)
-        - "By dependency, we mean that a package uses methods or interfaces 
-        defined in a different package"
-    - You can read more about this in Chpt. 13 of the Larman book
-
-</pre>
+    - We'll show connections between each package using "dependency relations" (other ways, but that's what we're using in this class)
+        - "By dependency, we mean that a package uses methods or interfaces defined in a different package"
+    - You can read more about this in Chpt. 13 of the Larman book</pre>
 </article>
 <a class="side-link is-note-link" href="17_umlDiagrams_10_6_17.html"></a>
 </main>

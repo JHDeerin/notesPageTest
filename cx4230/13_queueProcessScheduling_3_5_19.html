@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,202 +23,113 @@
 <a class="side-link is-note-link" href="12_discreteEventSim_2_28_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************ Queuing and Process Scheduling - March 5th, 2019 *************//
 //**************************************************************************//
 
 - Day 2 of the Fujimora dynasty begins NOW!
 - Currently, the project 2 description is still being written by the TAs
-    - You'll be working in teams of either 2 or 3 people, can work with your 
-    current team if you want, the usual thing
+    - You'll be working in teams of either 2 or 3 people, can work with your current team if you want, the usual thing
 --------------------------------------------------------------
 
-- Last lecture, we went over an example of a discrete-event simulation modeling 
-an airport
-    - This, in particular, was an example of a "queuing network," a 
-    particularly common type of conceptual model
-    - We'll talk about those queuing models a little today, then backtrack a 
-    bit and talk about the elements of conceptual models again (specifically 
-    some terminology you'll need to know), and end by learning about some 
-    "worldviews" we can take when building our software
+- Last lecture, we went over an example of a discrete-event simulation modeling an airport
+    - This, in particular, was an example of a "queuing network," a particularly common type of conceptual model
+    - We'll talk about those queuing models a little today, then backtrack a bit and talk about the elements of conceptual models again (specifically some terminology you'll need to know), and end by learning about some "worldviews" we can take when building our software
 
-- Now, QUEUING MODELS come up a LOT in the real world ("Just ask an industrial 
-engineer")
-    - What are they? A queueing model is a way of looking at a system where 
-    things are competing for limited resources, and they must wait (or "queue") 
-    to use said resource
-        - Remember, ALL conceptual models are abstractions; queues just happen 
-        to be a convenient one for many different situations (basically 
-        anything where customers are waiting for results)
+- Now, QUEUING MODELS come up a LOT in the real world ("Just ask an industrial engineer")
+    - What are they? A queueing model is a way of looking at a system where things are competing for limited resources, and they must wait (or "queue") to use said resource
+        - Remember, ALL conceptual models are abstractions; queues just happen to be a convenient one for many different situations (basically anything where customers are waiting for results)
         - A few example applications are:
             - Manufacturing/supply chains
             - Transportation networks
-            - Service centers (e.g. retail stores, hospitals, call centers, 
-            etc.)
+            - Service centers (e.g. retail stores, hospitals, call centers, etc.)
             - Internet networks (routers queue their packets, folks!)
     - Specifically, most queuing models have the following elements:
-        - A SERVER(s), which is a reusable resource (e.g. a runway at an 
-        airport, counter at a restaurant) that can only be used by a limited 
-        number of things at a time
-            - Oftentimes, we need to specify how long it takes to use the 
-            server (usually modeled with a probability distribution)
-            - To make the calculations more simple, we'll assume that each 
-            "service" is independent (e.g. a waiter won't start "speeding up" 
-            because his last few services were slow)
+        - A SERVER(s), which is a reusable resource (e.g. a runway at an airport, counter at a restaurant) that can only be used by a limited number of things at a time
+            - Oftentimes, we need to specify how long it takes to use the server (usually modeled with a probability distribution)
+            - To make the calculations more simple, we'll assume that each "service" is independent (e.g. a waiter won't start "speeding up" because his last few services were slow)
         - The CUSTOMERS, which use resources/servers
-            - The arrival time of each of these customers must be specified 
-            (again, usually using a probability distribution), and we usually 
-            assume independence for their arrivals
-                - ...the statistical kind of independence (not them walking 
-                into a room Patrick Henry-style, chanting 'MURICA, or something)
+            - The arrival time of each of these customers must be specified (again, usually using a probability distribution), and we usually assume independence for their arrivals
+                - ...the statistical kind of independence (not them walking into a room Patrick Henry-style, chanting 'MURICA, or something)
         - The QUEUE itself, which holds the customers waiting to use the server
-            - Depending on the model, this queue might be unlimited or have a 
-            maximum number of things it can hold
-            - We also have to figure out the ordering for this queue (is it 
-            first-come first-serve? Shortest-job first? etc.)
+            - Depending on the model, this queue might be unlimited or have a maximum number of things it can hold
+            - We also have to figure out the ordering for this queue (is it first-come first-serve? Shortest-job first? etc.)
 
 - Right away, we see that our airport example fit this model!
     - The "queue" is a first-come first-serve waiting for landing
-    - There's a distribution for the arrival time of the airplanes, and for the 
-    "service time" it takes to use the runway
+    - There's a distribution for the arrival time of the airplanes, and for the "service time" it takes to use the runway
         - ...admittedly one with only one point, but hey!
 
-- Luckily queueing models themselves are pretty simple, so this should all make 
-sense
+- Luckily queueing models themselves are pretty simple, so this should all make sense
 
-- Alright, let's now start explaining some elements of conceptual models we'll 
-be using for the rest of the course
+- Alright, let's now start explaining some elements of conceptual models we'll be using for the rest of the course
     - At the highest level, every conceptual model has two parts:
         - The STRUCTURE of the model (i.e. the components making up the model)
-            - The structure is largely defined by the various ENTITIES of the 
-            model, each of which have their own attributes
+            - The structure is largely defined by the various ENTITIES of the model, each of which have their own attributes
         - The BEHAVIOR of those structural components over time
-            - The behavior is defined by various ACTIVITIES ("the atomic unit 
-            of behavior") and EVENTS (an action that takes place at a 
-            particular time in the simulation)
-- Let's dive a little more deeply into each of these, starting off with the 
-structural parts
-    - When modeling things, we make a distinction between EXOGENOUS entities 
-    that are outside the model we're making (e.g. weather), and ENDOGENOUS 
-    entities
-        - Exogenous entities might still have an effect on our model, but 
-        they're not directly represented
+            - The behavior is defined by various ACTIVITIES ("the atomic unit of behavior") and EVENTS (an action that takes place at a particular time in the simulation)
+- Let's dive a little more deeply into each of these, starting off with the structural parts
+    - When modeling things, we make a distinction between EXOGENOUS entities that are outside the model we're making (e.g. weather), and ENDOGENOUS entities
+        - Exogenous entities might still have an effect on our model, but they're not directly represented
     - As for the entities themselves, they can come in 4 broad types:
-        - RESOURCES are entities that provide a service (e.g. the airport 
-        landing strip)
-        - CONSUMERS are entities that seek out services (e.g. jobs in a queue, 
-        aircraft in an airport)
+        - RESOURCES are entities that provide a service (e.g. the airport landing strip)
+        - CONSUMERS are entities that seek out services (e.g. jobs in a queue, aircraft in an airport)
         - QUEUES are an ordered collection of other entities (e.g. a to-do list)
-        - GROUPS are an unordered collection of any other type of entities 
-        (e.g. a pool of jobs waiting to be run on a computer, or balls in a 
-        bouncy pit)
+        - GROUPS are an unordered collection of any other type of entities (e.g. a pool of jobs waiting to be run on a computer, or balls in a bouncy pit)
 - What about the behavior side, though?
-    - Well, when it comes to behaviors involving these entities, an EVENT is an 
-    instantaneous action occurring in ONE instant in time that results in 
-    changes to the model
+    - Well, when it comes to behaviors involving these entities, an EVENT is an instantaneous action occurring in ONE instant in time that results in changes to the model
     - In contrast, an ACTIVITY spans a certain amount of simulation time
-        - We say activities are "atomic," meaning we can't split an activity 
-        into multiple sub-activities
+        - We say activities are "atomic," meaning we can't split an activity into multiple sub-activities
         - There are two types of activities:
-            - SCHEDULED activities start when some scheduled event occurs (e.g. 
-            we're "onGround" after the landing event occurs)
-            - CONDITIONAL activities begin when some condition in the model 
-            becomes true (e.g. landing occurs whenever the runway becomes free)
-                - These are indirectly started when some event changes the 
-                model, but they're not tied to a specific event
+            - SCHEDULED activities start when some scheduled event occurs (e.g. we're "onGround" after the landing event occurs)
+            - CONDITIONAL activities begin when some condition in the model becomes true (e.g. landing occurs whenever the runway becomes free)
+                - These are indirectly started when some event changes the model, but they're not tied to a specific event
 - So, in our aircraft model, we have:
     - 4 entities (aircraft, queue/InTheAir, Runway/RunwayFree, and the terminal)
     - 3 Events (arrival, landed, depart)
     - 2 activities (Landing, On_Ground)
 
-- The textbook spells all this out in EXCRUCIATING detail (they call it the 
-"ABC" model), but we won't get that formal here; the important thing is that 
-you get the gist of these very general concepts
+- The textbook spells all this out in EXCRUCIATING detail (they call it the "ABC" model), but we won't get that formal here; the important thing is that you get the gist of these very general concepts
 
-- Once we have all this conceptual model stuff worked out, we'll need to take a 
-certain WORLDVIEW to build the simulation program itself
-    - In discrete-event simulations, there are basically 3 schools of thought 
-    on how to build a conceptual model, each of which is deemed as a 
-    "worldview":
+- Once we have all this conceptual model stuff worked out, we'll need to take a certain WORLDVIEW to build the simulation program itself
+    - In discrete-event simulations, there are basically 3 schools of thought on how to build a conceptual model, each of which is deemed as a "worldview":
         - Event-oriented
         - Process-oriented
         - Activity scanning
-            - "Each one of these basically defines how you approach building 
-            out your model"
-    - Again, these world views are just different ways of "viewing" your system 
-    so you can build it
-        - EVENT-ORIENTED approaches tend to be lower-level and detail-oriented; 
-        we'll talk about why that might cause problems further on
-        - The PROCESS-ORIENTED view is where we focus on the consumer entities 
-        - "what does an aircraft do?" - and write a number of "processes" (a 
-        series of activities) to handle them
-            - This is VERY popular as a middle-ground approach, particularly in 
-            the U.S.
-        - Finally, ACTIVITY-SCANNING is where we don't focus on the processes 
-        themselves, but instead the activities in our model (i.e. the "stages" 
-        of the simulation)
-            - The simplest example is probably time-stepping, although more 
-            complex examples might also use a future event list
-            - This is a more popular approach in European labs right now, but 
-            comes up over here from time to time
+            - "Each one of these basically defines how you approach building out your model"
+    - Again, these world views are just different ways of "viewing" your system so you can build it
+        - EVENT-ORIENTED approaches tend to be lower-level and detail-oriented; we'll talk about why that might cause problems further on
+        - The PROCESS-ORIENTED view is where we focus on the consumer entities - "what does an aircraft do?" - and write a number of "processes" (a series of activities) to handle them
+            - This is VERY popular as a middle-ground approach, particularly in the U.S.
+        - Finally, ACTIVITY-SCANNING is where we don't focus on the processes themselves, but instead the activities in our model (i.e. the "stages" of the simulation)
+            - The simplest example is probably time-stepping, although more complex examples might also use a future event list
+            - This is a more popular approach in European labs right now, but comes up over here from time to time
 
-- As an example, let's talk about department stores (before Amazon makes this 
-example obsolete)
-    - So, customers come into the store, look around for a little while, grab 
-    what they want, go to a cashier line, wait until they're at the front, pay, 
-    and then leave
-        - In other words, each customer has a few activities they could be 
-        doing: browsing, waiting, service-using (i.e. paying the cashier), 
-        etc., with some events possibly going on simultaneously (e.g. multiple 
-        customers can be browsing, but only 1 person can use the cashier at a 
-        time)
-            - These activities are common to ALL worldviews, and'll need to be 
-            handled no matter how we build the system
-    - In an event-oriented approach, we'd probably have "Arrival," "Finish 
-    Browsing," and "Finish Payment" events, and build our simulation out of 
-    scheduling and handling each of these events when they happen
+- As an example, let's talk about department stores (before Amazon makes this example obsolete)
+    - So, customers come into the store, look around for a little while, grab what they want, go to a cashier line, wait until they're at the front, pay, and then leave
+        - In other words, each customer has a few activities they could be doing: browsing, waiting, service-using (i.e. paying the cashier), etc., with some events possibly going on simultaneously (e.g. multiple customers can be browsing, but only 1 person can use the cashier at a time)
+            - These activities are common to ALL worldviews, and'll need to be handled no matter how we build the system
+    - In an event-oriented approach, we'd probably have "Arrival," "Finish Browsing," and "Finish Payment" events, and build our simulation out of scheduling and handling each of these events when they happen
     - In a process-oriented view, we'd instead focus in on each customer
-        - What do customers do? Well, first they arrive, then they browse, then 
-        they pay and decide if they're going to leave (OR if they're going to 
-        keep shopping)
-        - Each of the customers then tries to carry out this sequence of 
-        actions separately
-    - In activity-scanning, we focus on the activities: arriving, browsing, and 
-    paying, each of which contains the events for starting/ending those 
-    activity "periods"
+        - What do customers do? Well, first they arrive, then they browse, then they pay and decide if they're going to leave (OR if they're going to keep shopping)
+        - Each of the customers then tries to carry out this sequence of actions separately
+    - In activity-scanning, we focus on the activities: arriving, browsing, and paying, each of which contains the events for starting/ending those activity "periods"
         - We'll handle each of these activities on their own as they occur
 
-- We've already talked about event-oriented simulations, so what's special 
-about the process-oriented view?
-    - In our event-based airport simulation, a departure event was scheduled 
-    when the airplane landed, arrival events put an airplane in the queue for a 
-    landed event, etc. - what's wrong with that? It's straightforward!
-        - The problem is that because event-handling requires us to add in all 
-        these events, it can quickly become VERY complex if all these events 
-        need to interact with one another
-        - Similarly, how do we write all these different events for all the 
-        different agent types (e.g. what does "landing" look like for 
-        helicopters vs airplanes)? If we just add an "if" statement to handle 
-        it, the code defining helicopter behavior is scattered across all the 
-        different events, which makes it hard to manage
-            - Because of this, event-oriented solutions tend not to scale well 
-            for large simulations
-- Process-oriented simulations, on the other hand, start by focusing on the 
-consumer entities:
-    - We'll define the attributes (i.e. state variables) each entity needs, 
-    then describe how it behaves in a "process" OVER TIME
-        - Remember, events just happen once in time, and activities are fixed 
-        and always happen in the same way; processes, then, are more flexible, 
-        and often consist of multiple activities
+- We've already talked about event-oriented simulations, so what's special about the process-oriented view?
+    - In our event-based airport simulation, a departure event was scheduled when the airplane landed, arrival events put an airplane in the queue for a landed event, etc. - what's wrong with that? It's straightforward!
+        - The problem is that because event-handling requires us to add in all these events, it can quickly become VERY complex if all these events need to interact with one another
+        - Similarly, how do we write all these different events for all the different agent types (e.g. what does "landing" look like for helicopters vs airplanes)? If we just add an "if" statement to handle it, the code defining helicopter behavior is scattered across all the different events, which makes it hard to manage
+            - Because of this, event-oriented solutions tend not to scale well for large simulations
+- Process-oriented simulations, on the other hand, start by focusing on the consumer entities:
+    - We'll define the attributes (i.e. state variables) each entity needs, then describe how it behaves in a "process" OVER TIME
+        - Remember, events just happen once in time, and activities are fixed and always happen in the same way; processes, then, are more flexible, and often consist of multiple activities
 
 - How would our aircraft example look in a process-oriented context?
-    - Well, we'd have an "Aircraft" object that'd have attributes stating if it 
-    was on the runway, in the air, on the ground, etc., 
-    - The entity behaves by running its sequences of activities, each with a 
-    certain duration
-        - In an event-oriented context, all we could do was schedule new 
-        activities; for this worldview, we'll have an "AdvanceTime" primitive 
-        that models the duration things take, e.g.:
+    - Well, we'd have an "Aircraft" object that'd have attributes stating if it was on the runway, in the air, on the ground, etc., 
+    - The entity behaves by running its sequences of activities, each with a certain duration
+        - In an event-oriented context, all we could do was schedule new activities; for this worldview, we'll have an "AdvanceTime" primitive that models the duration things take, e.g.:
 
             (...)
             (do start event)
@@ -225,14 +137,10 @@ consumer entities:
             (do end event)
             (...)
     
-    - To initialize activities, remember that there are "scheduled" and 
-    "conditional" activities
-        - Scheduled activities are just placed after the code of whichever 
-        activity happened before them
+    - To initialize activities, remember that there are "scheduled" and "conditional" activities
+        - Scheduled activities are just placed after the code of whichever activity happened before them
         - How do we handle conditional activities, though?
-            - We don't know how long we'll need to wait until a condition 
-            becomes true, so instead of using "AdvanceTime," we'll have a 
-            "WaitUntil(x is true)" primitive instead
+            - We don't know how long we'll need to wait until a condition becomes true, so instead of using "AdvanceTime," we'll have a "WaitUntil(x is true)" primitive instead
             - e.g.
 
                 (...)
@@ -241,20 +149,11 @@ consumer entities:
                 (code for landing)
                 (...)
 
-    - So, with those two primitives, we can have our entities basically 
-    schedule themselves instead of having an explicit scheduler, letting us 
-    just put all the code on the object - great!
-        - The only other primitive we might have is a "waitUntil(p, T)" 
-        command, where T is the maximum amount of time to wait; this is useful 
-        for modeling interrupts in some cases
-        - Note that simulation time ONLY advances when one of these primitives 
-        is called
+    - So, with those two primitives, we can have our entities basically schedule themselves instead of having an explicit scheduler, letting us just put all the code on the object - great!
+        - The only other primitive we might have is a "waitUntil(p, T)" command, where T is the maximum amount of time to wait; this is useful for modeling interrupts in some cases
+        - Note that simulation time ONLY advances when one of these primitives is called
 
-- Next lecture, we're going to go over how to actually implement a 
-process-oriented simulation (hint: it involves threads!) and start looking at 
-what the heck activity scheduling is - cool!
-
-</pre>
+- Next lecture, we're going to go over how to actually implement a process-oriented simulation (hint: it involves threads!) and start looking at what the heck activity scheduling is - cool!</pre>
 </article>
 <a class="side-link is-note-link" href="14_processSchedulingImpl_3_7_19.html"></a>
 </main>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="12_introToIO_10_5_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //****************** Stacks and Recursion - October 12th, 2017 **************//
 //**************************************************************************//
@@ -40,62 +42,38 @@
         .end
 
     -...what would happen if I ran this? 
-        - Well, it'd work! This code is "position independent"; we do NOT need 
-        this program to be loaded in a particular point in memory; we can put 
-        it ANYWHERE, and the code would still work!
-        - "This is SUPER important for writing robust programs; can you imagine 
-        having to install every program in a specific folder structure? Or if 2 
-        programs NEED to use the same piece of memory? It'd be nuts!"
+        - Well, it'd work! This code is "position independent"; we do NOT need this program to be loaded in a particular point in memory; we can put it ANYWHERE, and the code would still work!
+        - "This is SUPER important for writing robust programs; can you imagine having to install every program in a specific folder structure? Or if 2 programs NEED to use the same piece of memory? It'd be nuts!"
 ----------------------------------------------------------------------
 
-- So, for those who haven't taken CS 1332, a STACK is an ADT that's first-in, 
-first-out, with push/pop methods
-    - "To use a super-common analogy, it's like a Pringles can, where we put 
-    things down in some order and then pick them up in reverse-order"
-    - Other analogies: Pancake stacks, plates, tennis ball tubes, PEZ 
-    dispenser, etc.
+- So, for those who haven't taken CS 1332, a STACK is an ADT that's first-in, first-out, with push/pop methods
+    - "To use a super-common analogy, it's like a Pringles can, where we put things down in some order and then pick them up in reverse-order"
+    - Other analogies: Pancake stacks, plates, tennis ball tubes, PEZ dispenser, etc.
         - *actually pulls out PEZ dispenser, proceeds to eat multiple PEZ*
-        - "Technically, the PEZ dispenser is a bad example, since we don't HAVE 
-        to shift all the elements when we add/remove an object (in fact, this 
-        makes it less efficient since we're doing extra work!)"
-            - "It's also a cause of tooth decay, which is less than ideal for a 
-            data structure"
+        - "Technically, the PEZ dispenser is a bad example, since we don't HAVE to shift all the elements when we add/remove an object (in fact, this makes it less efficient since we're doing extra work!)"
+            - "It's also a cause of tooth decay, which is less than ideal for a data structure"
     - Can implement the stack as either an array or a linked list
-        - "In this class, we'll designate a block of memory to hold our stack 
-        elements, and then hold the starting address of the block in a register"
+        - "In this class, we'll designate a block of memory to hold our stack elements, and then hold the starting address of the block in a register"
             - Let's say we allocate a block of memory from x5000 to x5FFF
-            - We'll put the address in R6, since R7 can sometimes get cleared; 
-            this'll be known as the STACK POINTER
-                - In this class, we'll say the stack pointer is the location of 
-                the topmost element currently on the stack
-                - "Of course, we could also say the pointer is the next open 
-                spot in the stack, etc.; this is implementation-dependent"
-            - We'll also arbitrarily say that we start adding things from the 
-            END of the memory address (x5FFF), and work our way to the START 
-            (x5000)
-                - "In this class, we won't require you to check for stack 
-                overflow/underflow; in fact, this is often checked by the 
-                hardware in modern computers, so it isn't really required"
+            - We'll put the address in R6, since R7 can sometimes get cleared; this'll be known as the STACK POINTER
+                - In this class, we'll say the stack pointer is the location of the topmost element currently on the stack
+                - "Of course, we could also say the pointer is the next open spot in the stack, etc.; this is implementation-dependent"
+            - We'll also arbitrarily say that we start adding things from the END of the memory address (x5FFF), and work our way to the START (x5000)
+                - "In this class, we won't require you to check for stack overflow/underflow; in fact, this is often checked by the hardware in modern computers, so it isn't really required"
         - So, our initialization code looks something like this:
 
                     LD      R6, STKINIT
-            STKINIT .FILL   x6000   ;Start at x6000, 1 past the end of our 
-            stack; this'll represent that our stack is empty
+            STKINIT .FILL   x6000   ;Start at x6000, 1 past the end of our stack; this'll represent that our stack is empty
 
-        - Now, assume we have a value in R0 we want to push to the stack; how 
-        do we PUSH?
+        - Now, assume we have a value in R0 we want to push to the stack; how do we PUSH?
 
-            PUSH    ADD     R6, R6, -1  ;Decrement our pointer (since we're 
-            going from the END to the start); this adds room on the stack for 1 
-            new element
-                    STR     R0, R6, 0   ;Store our element at R6 (current 
-                    location of the SP)
+            PUSH    ADD     R6, R6, -1  ;Decrement our pointer (since we're going from the END to the start); this adds room on the stack for 1 new element
+                    STR     R0, R6, 0   ;Store our element at R6 (current location of the SP)
 
         - Then, to POP from our stack into the R0 register:
 
             POP     LDR     R0, R6, 0   ;Load the current element
-                    ADD     R6, R6, 1   ;Since we're done, increase our pointer 
-                    to the element "below" the one we popped
+                    ADD     R6, R6, 1   ;Since we're done, increase our pointer to the element "below" the one we popped
 
 - Assume we have this subroutine:
 
@@ -114,23 +92,17 @@ first-out, with push/pop methods
     R2Save  .fill 0
     R3Save  .fill 0
 
--So, this should use the R1, R2, and R3 registers, but should save those values 
-for the user, right? So our user keeps their values and stays happy!
-    - ...but what could go wrong with this? What could cause this function to 
-    fail?
-        - ...RECURSION! If this function recursively calls itself, it'll 
-        overwrite the stored values in memory!
+-So, this should use the R1, R2, and R3 registers, but should save those values for the user, right? So our user keeps their values and stays happy!
+    - ...but what could go wrong with this? What could cause this function to fail?
+        - ...RECURSION! If this function recursively calls itself, it'll overwrite the stored values in memory!
     - There are 2 ways to solve this problem:
         - Disallow recursion in your programming language
             - ...FORTRAN actually did this...
         - Use a STACK to store the memory we're using! 
-            - We "fill up" the stack as we're doing more recursive calls, then 
-            "clean up" the stack as we finish, w/ each recursive call removing 
-            the values it used from the stack
+            - We "fill up" the stack as we're doing more recursive calls, then "clean up" the stack as we finish, w/ each recursive call removing the values it used from the stack
             - So, a BETTER way to store R1, R2, and R3 would be:
 
-                ADD R6, R6, -1      ;Increase our pointer to make room for 1 
-                more element on the stack
+                ADD R6, R6, -1      ;Increase our pointer to make room for 1 more element on the stack
                 STR R1, R6, 0       ;Store our value there
                 ADD R6, R6, -1      ;Increase again, to avoid overwriting...
                 STR R2, R6, 0
@@ -144,12 +116,7 @@ for the user, right? So our user keeps their values and stays happy!
                 LDR R1, R6, 0
                 ADD R6, R6, 1
 
-            - "...now, if you show this code to an actual, honest-to-God 
-            Assembly programmer, they'd fall on the floor laughing over this 
-            code because of how slow it is. Assembly programmers are, well, 
-            Assembly programmers because they're obsessed with efficieny (and 
-            most of them are crazy enough to think they're better than the 
-            compiler)"
+            - "...now, if you show this code to an actual, honest-to-God Assembly programmer, they'd fall on the floor laughing over this code because of how slow it is. Assembly programmers are, well, Assembly programmers because they're obsessed with efficieny (and most of them are crazy enough to think they're better than the compiler)"
                 - They'd probably write something like this instead:
 
                     ADD R6, R6, -3
@@ -162,13 +129,9 @@ for the user, right? So our user keeps their values and stays happy!
                     LDR R1, R6, 2
                     ADD R6, R6, 3
 
-                 - "This avoids having to add 3 times; we replace our 3 adds 
-                 with just 1!"
+                 - "This avoids having to add 3 times; we replace our 3 adds with just 1!"
                     - We can use this same trick to save R7 from being destroyed
-                - "A tip for when you're actually coding this: draw a stack 
-                diagram to keep track of where you are in memory. It's easy to 
-                get off-by-1 errors, skip locations, etc.; drawing it out will 
-                help you think through what you're doing"
+                - "A tip for when you're actually coding this: draw a stack diagram to keep track of where you are in memory. It's easy to get off-by-1 errors, skip locations, etc.; drawing it out will help you think through what you're doing"
 
 - Let's say we have this Java code:
 
@@ -186,47 +149,19 @@ for the user, right? So our user keeps their values and stays happy!
     int w;
     w = foo(a, b+2, c);
     
-    -THIS bit of code is sometimes called the "CALLER"; the actual method 
-    definition would be the "CALLEE"
-        - The "Caller" has the responsibility of providing these parameters to 
-        the callee; these parameters are put on the Stack, with the stack 
-        pointer pointing to the LAST parameter added to the stack ("a")
+    -THIS bit of code is sometimes called the "CALLER"; the actual method definition would be the "CALLEE"
+        - The "Caller" has the responsibility of providing these parameters to the callee; these parameters are put on the Stack, with the stack pointer pointing to the LAST parameter added to the stack ("a")
         - The SP then points to the Return VALUE, then the return ADDRESS
-            - "When we're writing the Java code, we don't know what these 
-            addresses are, or what the Stack Pointer currently is. We just know 
-            the position of our parameters relative to the Stack Pointer (e.g. 
-            "a" would be at SP + 2 when we're pointing at the return address)"
-                - Keeping track of a dynamic Stack Pointer is HARD, so some 
-                years ago, some people got together and said, "What if we put 
-                the address we want stuff to be relative to, put it in another 
-                register, and get addresses relative to that?"
-                - This is known as the FRAME POINTER; we store it in R5, and 
-                it's great; we don't have to deal with the SP jumping all over 
-                the place. We just use our addresses relative to the FP
-                    - This means that, during recursive calls, we ALSO have to 
-                    save R5 (as well as local variables that wouldn't be saved 
-                    between recursive calls), to save the old frame pointer for 
-                    that call  
-                - Then, as we go backwards through our old calls, we assign the 
-                return address/value for the current call, get rid of the local 
-                variables, restore the FP...
-    -...ALL of that is just to deal with the logic for the function call. 
-    Literally, with 1 line of code.
+            - "When we're writing the Java code, we don't know what these addresses are, or what the Stack Pointer currently is. We just know the position of our parameters relative to the Stack Pointer (e.g. "a" would be at SP + 2 when we're pointing at the return address)"
+                - Keeping track of a dynamic Stack Pointer is HARD, so some years ago, some people got together and said, "What if we put the address we want stuff to be relative to, put it in another register, and get addresses relative to that?"
+                - This is known as the FRAME POINTER; we store it in R5, and it's great; we don't have to deal with the SP jumping all over the place. We just use our addresses relative to the FP
+                    - This means that, during recursive calls, we ALSO have to save R5 (as well as local variables that wouldn't be saved between recursive calls), to save the old frame pointer for that call  
+                - Then, as we go backwards through our old calls, we assign the return address/value for the current call, get rid of the local variables, restore the FP...
+    -...ALL of that is just to deal with the logic for the function call. Literally, with 1 line of code.
         -...got pretty confused about here, so double-check all this
-            - Hi, slightly future Jake here. On the REFERENCE_SHEET.pdf we get 
-            for quizzes, there's a stack diagram on the bottom-right that shows 
-            you the order you should be saving things on the stack. The basic 
-            idea is just that, when we call a method, assembly code has to save 
-            all the current registers and stack frame in a consistent order 
-            BEFORE calling the method again; when the method is done, we then 
-            tear down that "layer" of saved stuff we needed for our method call 
-            and change it to whatever it was before
-            - Look at the example in the next notes; it should make more sense. 
-            If the example is meaningless, try coding it up.
-    - On Tuesday, we'll actually code an example of this, and hopefully make it 
-    more concrete
-
-</pre>
+            - Hi, slightly future Jake here. On the REFERENCE_SHEET.pdf we get for quizzes, there's a stack diagram on the bottom-right that shows you the order you should be saving things on the stack. The basic idea is just that, when we call a method, assembly code has to save all the current registers and stack frame in a consistent order BEFORE calling the method again; when the method is done, we then tear down that "layer" of saved stuff we needed for our method call and change it to whatever it was before
+            - Look at the example in the next notes; it should make more sense. If the example is meaningless, try coding it up.
+    - On Tuesday, we'll actually code an example of this, and hopefully make it more concrete</pre>
 </article>
 <a class="side-link is-note-link" href="14_recursionCoding_10_17_17.html"></a>
 </main>

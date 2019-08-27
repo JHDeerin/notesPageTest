@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,113 +23,65 @@
 <a class="side-link is-note-link" href="20_evenMoreRL_4_8_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************** Deep Learning (cont.) - April 10th, 2019 *******************//
 //**************************************************************************//
 
 - AGH! Professor Riedl isn't here!
-    - Instead, we'll be learning today from Prithviraj, a Phd. student working 
-    with Mark
-- ***WARNING***: I was extremely confused throughout this section (he went 
-through the content a bit too rapidly for me to process)
+    - Instead, we'll be learning today from Prithviraj, a Phd. student working with Mark
+- ***WARNING***: I was extremely confused throughout this section (he went through the content a bit too rapidly for me to process)
 -------------------------------------------------
 
-- We've talked about reinforcement learning, which is VERY useful when we're 
-not able to label all the data (*cough* video games *cough*), making supervised 
-learning difficult
-    - As we've also talked about, reinforcement learning is fundamentally a 
-    Markov Decision Process
-        - To speed this up, we'll usually make the slightly-dodgy MARKOV 
-        ASSUMPTION, where we assume that the current state ALONE tells us 
-        everything about the future state of the game
-            - This usually isn't completely true (previous states can affect 
-            the game, etc.), but for many purposes it's good enough
+- We've talked about reinforcement learning, which is VERY useful when we're not able to label all the data (*cough* video games *cough*), making supervised learning difficult
+    - As we've also talked about, reinforcement learning is fundamentally a Markov Decision Process
+        - To speed this up, we'll usually make the slightly-dodgy MARKOV ASSUMPTION, where we assume that the current state ALONE tells us everything about the future state of the game
+            - This usually isn't completely true (previous states can affect the game, etc.), but for many purposes it's good enough
 
-- For our "Coin Run"-playing assignment, we want to figure out pieces of the 
-game state (agent's position, number of coins, location of enemies, etc.) so 
-that we can play the game - but we don't have access to the game's API!
-    - Because of that, we're going to need to figure out that state from the 
-    raw pixel data on the screen; that's all we have to go off of
-    - Once we've figured out the current game's state (as best we can), we want 
-    to do some sort of Q-learning to figure out the best action for that state
-        - If we just consider the game's state as "all possible pixel" 
-        combinations, though, that's WAY too many states - our Q-table would 
-        take up too much memory to ever be practically solvable!
+- For our "Coin Run"-playing assignment, we want to figure out pieces of the game state (agent's position, number of coins, location of enemies, etc.) so that we can play the game - but we don't have access to the game's API!
+    - Because of that, we're going to need to figure out that state from the raw pixel data on the screen; that's all we have to go off of
+    - Once we've figured out the current game's state (as best we can), we want to do some sort of Q-learning to figure out the best action for that state
+        - If we just consider the game's state as "all possible pixel" combinations, though, that's WAY too many states - our Q-table would take up too much memory to ever be practically solvable!
             - To get around this, we'll be using a deep neural net to figure 
-    - There's a problem with this unsupervised learning, though, that we'll get 
-    to, where we're "chasing a moving target"
-        - (something about deep learning based on Q-value, but Q-value based on 
-        deep learning results?)
+    - There's a problem with this unsupervised learning, though, that we'll get to, where we're "chasing a moving target"
+        - (something about deep learning based on Q-value, but Q-value based on deep learning results?)
 
 - First up, how do we actually parse the pixel data?
-    - As we briefly talked about yesterday, we can use convolutional neural 
-    nets to handle this data
-        - For our assignment, this is made a LOT easier because we have the 
-        current velocity on the screen, meaning the Markov assumption holds - 
-        the current frame has everything we need!
-            - If this wasn't the case, we'd have to estimate the agent's 
-            velocity by comparing the current frame with the previous frame - 
-            and that can be HARD
+    - As we briefly talked about yesterday, we can use convolutional neural nets to handle this data
+        - For our assignment, this is made a LOT easier because we have the current velocity on the screen, meaning the Markov assumption holds - the current frame has everything we need!
+            - If this wasn't the case, we'd have to estimate the agent's velocity by comparing the current frame with the previous frame - and that can be HARD
 
-- With that gist out of the way, let's go through a brief crash-course on how 
-to use PyTorch in "Pytorch_Primer.ipnyb" (might need to look at this: 
-https://colab.research.google.com/drive/1DgkVmi6GksWOByhYVQpyUB4Rk3PUq0Cp)
-    - I know, undergrads don't HAVE to do this, but PyTorch is still a really 
-    nice tool to learn about
-    - Let's suppose we're trying to train a basic self-driving car to know when 
-    to do 2 things: turn, and accelerate
-        - For our neural net, we need to define the shape of the neural net 
-        (how many layers it has, etc.), and a forward function ()
-            - We can define a layer using the "Linear(numNeurons, 
-            numNeuronsInNextLayer)", and the activation function for the 
-            neurons in that layer
-        - That gets us a basic neural network, which is enough for us to 
-        calculate our loss function - we'll use an "optimization function" (?) 
-        to calculate what we need to do to improve our estimates based on that 
-        loss
-            - When we backpropagate, our optimizer will use the loss function 
-            to adjust all the weights for neruons in the current layer
-            - If we want, we can check the new parameters/graidents that were 
-            computed as a sanity check (just to make sure the weights are 
-            actually being updated, and there isn't a silly bug hiding 
-            somewhere)
+- With that gist out of the way, let's go through a brief crash-course on how to use PyTorch in "Pytorch_Primer.ipnyb" (might need to look at this: https://colab.research.google.com/drive/1DgkVmi6GksWOByhYVQpyUB4Rk3PUq0Cp)
+    - I know, undergrads don't HAVE to do this, but PyTorch is still a really nice tool to learn about
+    - Let's suppose we're trying to train a basic self-driving car to know when to do 2 things: turn, and accelerate
+        - For our neural net, we need to define the shape of the neural net (how many layers it has, etc.), and a forward function ()
+            - We can define a layer using the "Linear(numNeurons, numNeuronsInNextLayer)", and the activation function for the neurons in that layer
+        - That gets us a basic neural network, which is enough for us to calculate our loss function - we'll use an "optimization function" (?) to calculate what we need to do to improve our estimates based on that loss
+            - When we backpropagate, our optimizer will use the loss function to adjust all the weights for neruons in the current layer
+            - If we want, we can check the new parameters/graidents that were computed as a sanity check (just to make sure the weights are actually being updated, and there isn't a silly bug hiding somewhere)
 
-- So, that's PyTorch in general, but what we're trying to do for THIS project 
-is use 2D Convolutional Neural Networks (CNN - already, a promising start t our 
-data collections effort) to figure out our images
-    - See here for the assignment/background (had trouble following the 
-    TA)(https://github.com/markriedl/coinrun-game-ai-assignment)
+- So, that's PyTorch in general, but what we're trying to do for THIS project is use 2D Convolutional Neural Networks (CNN - already, a promising start t our data collections effort) to figure out our images
+    - See here for the assignment/background (had trouble following the TA)(https://github.com/markriedl/coinrun-game-ai-assignment)
     - 
 
 - From that, we need to actually train our Q-network using EXPERIENCE REPLAY
-    - See, just learning from consecutive samples of actions is pretty slow; we 
-    can end up with bad feedback loops, slowing us down
-        - To address this, EXPERIENCE REPLAY is where we continually update a 
-        "replay memory" of transitions we've learned by playing the game (?)
-            - This is implemented using a RING BUFFER, where we store 
-            experiences in a circular buffer; when the buffer is full, it'll 
-            start overwriting the earliest experiences we've stored (this way, 
-            we don't just take up all of our memory)
+    - See, just learning from consecutive samples of actions is pretty slow; we can end up with bad feedback loops, slowing us down
+        - To address this, EXPERIENCE REPLAY is where we continually update a "replay memory" of transitions we've learned by playing the game (?)
+            - This is implemented using a RING BUFFER, where we store experiences in a circular buffer; when the buffer is full, it'll start overwriting the earliest experiences we've stored (this way, we don't just take up all of our memory)
     - 
 
-- So, with all of these individual steps described, let's see what the 
-algorithm looks like when we put them all together (???):
+- So, with all of these individual steps described, let's see what the algorithm looks like when we put them all together (???):
 
         Initialize replay memory to capacity N
         Initialize action-value function Q w/ random weights
-        Initialize target action-value function Q* w/ equal weights #we refresh 
-        this w/ weights from the other function regularly?
+        Initialize target action-value function Q* w/ equal weights #we refresh this w/ weights from the other function regularly?
         for M runs:
-            Initialize sequence s1={x1} and preprocessed sequence theta1 = 
-            theta(s1)
+            Initialize sequence s1={x1} and preprocessed sequence theta1 = theta(s1)
             for T steps:
-                select a random action w/ some probability (otherwise, choose 
-                the best action for theta(st))
+                select a random action w/ some probability (otherwise, choose the best action for theta(st))
                 execute action and observe reward and "image(?)" x_t+1
-                Set s_t+1 = s_t,a_t,x_t+1 and preprocess theta_t+1 = 
-                theta(s_t+1)
-                store transition(theta_t, a_t, reward_t, theta_t+1) in replay 
-                memory
+                Set s_t+1 = s_t,a_t,x_t+1 and preprocess theta_t+1 = theta(s_t+1)
+                store transition(theta_t, a_t, reward_t, theta_t+1) in replay memory
                 sample random "minibatch" of transitions from memory
                 if (, if terminating state)
                     yj = reward
@@ -137,13 +90,9 @@ algorithm looks like when we put them all together (???):
                 perform gradient descent step w/ respect to network parameters
                 Every C steps, reset Q*=Q
 
-- "...okay, that was probably a lot to digest, and you look confused, but trust 
-me that it'll make more sense when you start writing the code"
+- "...okay, that was probably a lot to digest, and you look confused, but trust me that it'll make more sense when you start writing the code"
     
-- Professor Riedl will go into this in more depth on Monday, so you're being 
-set free 15 minutes early - hurrah! GO FORTH!
-
-</pre>
+- Professor Riedl will go into this in more depth on Monday, so you're being set free 15 minutes early - hurrah! GO FORTH!</pre>
 </article>
 <a class="side-link is-note-link" href="22_deepRL_4_15_19.html"></a>
 </main>

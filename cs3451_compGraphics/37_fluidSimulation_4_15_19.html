@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,154 +23,102 @@
 <a class="side-link is-note-link" href="36_moreVolumeRendering_4_12_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //******************* Fluid Simulation - April 15th, 2019 *******************//
 //**************************************************************************//
 
-- So, fresh from the weekend, let's start off the day by talking about Project 
-5 (implementing Loop subdivision on a corners-representation model)
-    - Going from corners to vertices is EASY - but going from a vertex to a 
-    corner? That's harder
-        - Why would we EVER want to do this, though? To process all the corners 
-        around a vertex, the easiest way is to get a corner near the vertex and 
-        then use the swing operator!
-        - The "vanilla" corners representation doesn't let us do this, but we 
-        can still do this efficiently with some extra information:
-            - For each vertex, just store an arbitrary adjacent corner along 
-            with it; then, you can start at that corner and work your way 
-            around!
-    - Another issue you might've encountered is that, when subdividing, we need 
-    to make a new vertex for each edge - in other words, a vertex for each pair 
-    of opposite corners!
-        - That means we need to make sure we only create ONE vertex for each 
-        pair, instead of two; you need to think of some way to handle this
+- So, fresh from the weekend, let's start off the day by talking about Project 5 (implementing Loop subdivision on a corners-representation model)
+    - Going from corners to vertices is EASY - but going from a vertex to a corner? That's harder
+        - Why would we EVER want to do this, though? To process all the corners around a vertex, the easiest way is to get a corner near the vertex and then use the swing operator!
+        - The "vanilla" corners representation doesn't let us do this, but we can still do this efficiently with some extra information:
+            - For each vertex, just store an arbitrary adjacent corner along with it; then, you can start at that corner and work your way around!
+    - Another issue you might've encountered is that, when subdividing, we need to make a new vertex for each edge - in other words, a vertex for each pair of opposite corners!
+        - That means we need to make sure we only create ONE vertex for each pair, instead of two; you need to think of some way to handle this
 -----------------------------------------------------------------------------
 
-- Today, we're going to cover another topic you voted to hear about: fluid 
-simulation for animation!
-    - As it turns out, Professor Turk is pretty familiar with this; he's had 
-    graduate students do research on this for theses he's overseen before
+- Today, we're going to cover another topic you voted to hear about: fluid simulation for animation!
+    - As it turns out, Professor Turk is pretty familiar with this; he's had graduate students do research on this for theses he's overseen before
 
-- Why simulate fluids, though? Well, because there're a BUNCH of applications 
-for realistic fluid physics:
+- Why simulate fluids, though? Well, because there're a BUNCH of applications for realistic fluid physics:
     - Animated movies
     - Computer games
     - Medical simulations (e.g. blood flow in the heart)
     - ...and, most importantly, because it's FUN!
 
-- There's actually a whole field known as COMPUTATIONAL FLUID DYNAMICS, and it 
-borrows quite a bit from engineering and mathematical simulations
-    - For graphics applications, we usually prefer a technique known as the 
-    "finite differences" method
+- There's actually a whole field known as COMPUTATIONAL FLUID DYNAMICS, and it borrows quite a bit from engineering and mathematical simulations
+    - For graphics applications, we usually prefer a technique known as the "finite differences" method
 
-- Now, here's a very scary slide you might not understand at first: the 
-NAVIER-STOKES EQUATIONS!
-    - These look AWFUL, like a bunch of nonsense greek letters, but don't worry 
-    - we'll go through it!
+- Now, here's a very scary slide you might not understand at first: the NAVIER-STOKES EQUATIONS!
+    - These look AWFUL, like a bunch of nonsense greek letters, but don't worry - we'll go through it!
         - There are two of these equations:
 
                 laplacian*u = 0
 
-            - This is the INCOMPRESSIBILITY equation, and basically says the 
-            change in 
+            - This is the INCOMPRESSIBILITY equation, and basically says the change in 
 
                 u_t = k*laplacian(u) - (u*gradient)*u - del*p + f
 
-            - This "u_t" represents the change in velocity of the particle, and 
-            has 4 different terms:
+            - This "u_t" represents the change in velocity of the particle, and has 4 different terms:
                 - The "Diffusion term", k*laplacian^2(u)
                 - The "Advection term," -(u*gradient)*u
                 - The "Pressure term," del*p
                 - The "Body force," f
 
-- Before we dive into each of these, we need to talk about "Finite Difference 
-grids"
-    - Here, we say that all of the values in our simulation live on regular 
-    square grids, which gives us:
-        - A SCALAR FIELD, representing how much "material" is in each cell 
-        (e.g. smoke or dye that'll be pushed around by the liquid)
+- Before we dive into each of these, we need to talk about "Finite Difference grids"
+    - Here, we say that all of the values in our simulation live on regular square grids, which gives us:
+        - A SCALAR FIELD, representing how much "material" is in each cell (e.g. smoke or dye that'll be pushed around by the liquid)
         - A VECTOR FIELD, representing the fluid velocities at that grid point
 
 - The DIFFUSION TERM looks like this:
 
         c_t = k*laplacian(c_t)
 
-    - Where c_t is the change in value, and k is the "diffusion rate," saying 
-    how fast the material spreads out
-        - What's the "laplacian," though? Well, it's basically just the change 
-        in value of the cell "t" relative to its neighboring values
-            - In the finite difference method, we'll approximate this laplacian 
-            by getting the values of the 4 cells adjacent to us
-    - So, using this equation, for a given cell "cxy," we'll update the cell's 
-    value via diffusion like this:
+    - Where c_t is the change in value, and k is the "diffusion rate," saying how fast the material spreads out
+        - What's the "laplacian," though? Well, it's basically just the change in value of the cell "t" relative to its neighboring values
+            - In the finite difference method, we'll approximate this laplacian by getting the values of the 4 cells adjacent to us
+    - So, using this equation, for a given cell "cxy," we'll update the cell's value via diffusion like this:
 
-            c_xy = c_xy + k*dt*(c_(x-1, y) + c(x+1, y) + c_(x, y-1) + c_(x, 
-            y+1) + 4*c_xy)
+            c_xy = c_xy + k*dt*(c_(x-1, y) + c(x+1, y) + c_(x, y-1) + c_(x, y+1) + 4*c_xy)
 
-        - In other words, we're taking the current value, and (scaled by some 
-        amount) adding the differences between our current value and the 
-        neighboring values (i.e. why we're subtracting "ourselves" 4 times)
-    - Interestingly, diffusion is the EXACT same as blurring mathematically 
-    (it's actually equivalent to Gaussian blur)
-- What the Navier-Stokes equations say is that we need to diffuse the VELOCITY 
-of our fluid, so let's do it!
+        - In other words, we're taking the current value, and (scaled by some amount) adding the differences between our current value and the neighboring values (i.e. why we're subtracting "ourselves" 4 times)
+    - Interestingly, diffusion is the EXACT same as blurring mathematically (it's actually equivalent to Gaussian blur)
+- What the Navier-Stokes equations say is that we need to diffuse the VELOCITY of our fluid, so let's do it!
     - We'll represent the velocity of a given cell "ij" as
 
         u_ij = (xVel = u_ij^x, yVel = u_ij^y)
 
-    - In the context of these equations, "k" is equal to the VISCOSITY of the 
-    fluid
-        - Interestingly, viscosity does NOT have to be constant throughout the 
-        simulation; it can vary by position, by temperature, etc.
-            - (Video of a simulated bunny candle melting; "no bunnies were 
-            harmed in the making of this film")
-    - We'll then separately diffuse the x/y velocities (the xVel has NO effect 
-    on the yVel, and vice-versa), like so:
+    - In the context of these equations, "k" is equal to the VISCOSITY of the fluid
+        - Interestingly, viscosity does NOT have to be constant throughout the simulation; it can vary by position, by temperature, etc.
+            - (Video of a simulated bunny candle melting; "no bunnies were harmed in the making of this film")
+    - We'll then separately diffuse the x/y velocities (the xVel has NO effect on the yVel, and vice-versa), like so:
 
         u_ij_xVel = k * laplacian(u_ij_xVel)
         u_ij_yVel = k * laplacian(u_ij_yVel)
 
 - The second term is the ADVECTION TERM, which is all about pushing stuff around
-    - Specifically, we're doing something a bit backwards known as 
-    "semi-lagrangian advection," where we choose a place for the cell values to 
-    end up and calculate how much material actually moves to that destination
+    - Specifically, we're doing something a bit backwards known as "semi-lagrangian advection," where we choose a place for the cell values to end up and calculate how much material actually moves to that destination
         - The equation looks like this:
 
                 u_t = -(u*gradient)*u
 
-            - Where, again, u_t is the change in value, u*gradient is a CRAZY 
-            notation for the gradient of u, and u is the current value of 
-            whatever we're updating
+            - Where, again, u_t is the change in value, u*gradient is a CRAZY notation for the gradient of u, and u is the current value of whatever we're updating
         - Again, we'll calculate this separately for the X/Y cases
-    - Advection is relatively easy to code, and it's stable even at large 
-    timesteps
+    - Advection is relatively easy to code, and it's stable even at large timesteps
 
-- The PRESSURE TERM is related very closely to incompressibility by something 
-known as DIVERGENCE!
-    - A high-divergence vector field is where we have a little bit of material 
-    moving into something and a LOT of stuff coming out; low divergence is the 
-    opposite, where we have a lot of stuff going into a space by little coming 
-    out
-        - Both of these are unrealistic! For incompressible fluids like water, 
-        we'd expect ZERO divergence, meaning the amount of stuff going in is 
-        EXACTLY balanced by however much is getting pushed out
-    - To enforce this incompressibility, we'll first do our velocity/advection 
-    calculations
-        - We'll then find the "closest" possible vector field to our current 
-        state that's divergence free, calculate the divergence, and then 
-        calculate the pressure
-            - How do we measure divergence? The symbol for it is a dot product, 
-            like this:
+- The PRESSURE TERM is related very closely to incompressibility by something known as DIVERGENCE!
+    - A high-divergence vector field is where we have a little bit of material moving into something and a LOT of stuff coming out; low divergence is the opposite, where we have a lot of stuff going into a space by little coming out
+        - Both of these are unrealistic! For incompressible fluids like water, we'd expect ZERO divergence, meaning the amount of stuff going in is EXACTLY balanced by however much is getting pushed out
+    - To enforce this incompressibility, we'll first do our velocity/advection calculations
+        - We'll then find the "closest" possible vector field to our current state that's divergence free, calculate the divergence, and then calculate the pressure
+            - How do we measure divergence? The symbol for it is a dot product, like this:
 
                         divergence(u) = del*u_ij
 
-                - Using the finite-differences method on a grid, we'll do this 
-                by basically asking "how much material is coming into the cell 
-                from one side, and leaving it on the opposite side?"
+                - Using the finite-differences method on a grid, we'll do this by basically asking "how much material is coming into the cell from one side, and leaving it on the opposite side?"
             - Equation wise, that looks like:
 
-                divergence(u(i,j)) = (u_x(i+1, j) - u_x(i-1, j)) + (u_y(i, j+1) 
-                - u_y(i, j-1))
+                divergence(u(i,j)) = (u_x(i+1, j) - u_x(i-1, j)) + (u_y(i, j+1) - u_y(i, j-1))
 
         - To calculate our pressure, we'll start off with this:
 
@@ -179,34 +128,27 @@ known as DIVERGENCE!
 
                     del*u_new = del*u - del*(del*p)
 
-            - Which, since the divergence on the left-hand side should be 0, 
-            gets us this:
+            - Which, since the divergence on the left-hand side should be 0, gets us this:
 
                     del*u = laplacian(p)
 
-                - We already know del*u from our equation above, but we DON'T 
-                know what the laplacian of p is
+                - We already know del*u from our equation above, but we DON'T know what the laplacian of p is
                 - We can say the new value of p is:
 
                         p_new = p * epsilon(del*u - laplacian(p))
 
-                    - Basically, we take the old pressure, change it a tiny bit 
-                    (somehow), and 
+                    - Basically, we take the old pressure, change it a tiny bit (somehow), and 
                     - More mathematically, the new pressure is this:
 
                         p_new(i,j) = p(i,j) + epsilon(del*u(i,j) - laplacian(p))
 
-                - Which, at last, we can use to get our divergence-free 
-                velocity (I think?):
+                - Which, at last, we can use to get our divergence-free velocity (I think?):
 
                         u_new = u - del(p)
 
-        - So, this gets us the "nearest" vector field from our original that's 
-        divergence free!
+        - So, this gets us the "nearest" vector field from our original that's divergence free!
 
-- Okay, this is a LOT - I don't expect you to follow every little step, but I 
-want you to see that every individual step isn't that hard. You really could 
-code this up on your own if you wanted to!
+- Okay, this is a LOT - I don't expect you to follow every little step, but I want you to see that every individual step isn't that hard. You really could code this up on your own if you wanted to!
 
 - So, putting this all together, how do we actually simulate a fluid?
 
@@ -214,34 +156,19 @@ code this up on your own if you wanted to!
     2) We'll then advect those velocities
     3) ...and then add in any body forces (e.g. gravity)
     4) We'll then do pressure projection (i.e. calculate the pressures)
-    5) Then diffuse the scalar VALUES for the fluid (the amount of 
-    smoke/dye/etc. inside the fluid)
+    5) Then diffuse the scalar VALUES for the fluid (the amount of smoke/dye/etc. inside the fluid)
     6) Finally, we'll advect those scalar values, and repeat from step #1
-        - If you want to see a concrete example of this stuff, here's an 
-        article that discusses implementing this specifically for games: 
-        http://www.dgp.toronto.edu/people/stam/reality/Research/pdf/GDC03.pdf
+        - If you want to see a concrete example of this stuff, here's an article that discusses implementing this specifically for games: http://www.dgp.toronto.edu/people/stam/reality/Research/pdf/GDC03.pdf
 
-- To model objects INSIDE of the fluid, we can do rigid-body simulations using 
-effects very similar to our pressure projection calculations
-    - Basically, we'd solve our Navier-Stokes equations as if the objects were 
-    a fluid, calculate the forces on those rigid-body cells from 
-    collisions/densities, and then enforce rigid motion for all of those cells
+- To model objects INSIDE of the fluid, we can do rigid-body simulations using effects very similar to our pressure projection calculations
+    - Basically, we'd solve our Navier-Stokes equations as if the objects were a fluid, calculate the forces on those rigid-body cells from collisions/densities, and then enforce rigid motion for all of those cells
 
-- What about different sizes of fluids? What's the difference between 
-simulating a lake, a puddle, and a droplet?
-    - Well, at small scales (centimeter-sizes), surface tension effects become 
-    FAR more important, whereas they're negligible for surfaces much larger 
-    than that
-        - The idea here is that drops of water will be convex, drawn together 
-        by surface tension
-            - On hydrophilic surfaces, the drop tends to spread out more; if 
-            it's hydrophobic, though, the water drop will bead up and become 
-            more spherical
+- What about different sizes of fluids? What's the difference between simulating a lake, a puddle, and a droplet?
+    - Well, at small scales (centimeter-sizes), surface tension effects become FAR more important, whereas they're negligible for surfaces much larger than that
+        - The idea here is that drops of water will be convex, drawn together by surface tension
+            - On hydrophilic surfaces, the drop tends to spread out more; if it's hydrophobic, though, the water drop will bead up and become more spherical
 
-- ...and, a messy conglomeration of note-taking later, that's it for today! 
-Come open the next goody-box of topics on Wednesday; 'til then, adio!
-
-</pre>
+- ...and, a messy conglomeration of note-taking later, that's it for today! Come open the next goody-box of topics on Wednesday; 'til then, adio!</pre>
 </article>
 <a class="side-link is-note-link" href="38_virtualReality_4_17_19.html"></a>
 </main>

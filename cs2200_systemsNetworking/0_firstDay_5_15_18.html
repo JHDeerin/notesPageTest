@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="0_firstDay_5_15_18.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //**************** CS 2200 First Day - May 15th, 2018 ***********************//
 //**************************************************************************//
@@ -32,176 +34,90 @@
 ---------------------------------------------------------------------------
 
 - Mark Moss, lecturer for DCI ("Digital Computing Instruction"?) here at GT
-    - Army officer for 25 years: "In the government, you WILL use Windows and 
-    you WILL like it!"
-        - ...except in the photo lab. For some reason, the Army's photo labs 
-        always seem to use Apple products
-    - Worked in US Cyber Command, at JACWC - the "Joint Advanced Cyber Warfare 
-    Course", where he'd instruct people in cyber security
+    - Army officer for 25 years: "In the government, you WILL use Windows and you WILL like it!"
+        - ...except in the photo lab. For some reason, the Army's photo labs always seem to use Apple products
+    - Worked in US Cyber Command, at JACWC - the "Joint Advanced Cyber Warfare Course", where he'd instruct people in cyber security
     - Worked for ~3 years as a researcher at John Hopkins
 - TAs are John, Shannon, and Mitchell
     - ...actually Jack, but hey, it's his first day
 
-- "So, right now, we're still gonna be on T-Square as we prepare to transition 
-to Canvas in the fall"
-- Obviously, 2 hours is a LONG time to just sit in lecture, so I'll try to make 
-this interactive, give you small breaks here and there, etc.
+- "So, right now, we're still gonna be on T-Square as we prepare to transition to Canvas in the fall"
+- Obviously, 2 hours is a LONG time to just sit in lecture, so I'll try to make this interactive, give you small breaks here and there, etc.
 
 - To quickly hit a few highlights from the syllabus:
-    - TA office is in CoC 103, apparently next to the pizza location (wait, we 
-    have one of those?)
+    - TA office is in CoC 103, apparently next to the pizza location (wait, we have one of those?)
         - TA office hours will be posted shortly
-    - Official office hours are in CoC 134b (back-right), from 9am - 12pm on 
-    Mondays, but feel free to drop by if the door is open
-    - Do NOT email me unless it's honestly an emergency; any general questions 
-    should be posted on Piazza
-    - We WILL actually use the textbook, so please get a copy! It's important! 
-    And written by Bill Leahy!
+    - Official office hours are in CoC 134b (back-right), from 9am - 12pm on Mondays, but feel free to drop by if the door is open
+    - Do NOT email me unless it's honestly an emergency; any general questions should be posted on Piazza
+    - We WILL actually use the textbook, so please get a copy! It's important! And written by Bill Leahy!
 
-- "The construction of this course is...um, unique, compared to other colleges. 
-I personally really like it, but let's walk through how it's structured."
-    - So, what have you heard about this course? "2110 on steroids", intro to 
-    how operating systems work, more hardware-focused than 2110...(annnnnnd 
-    then the class got shy)
-        - "Those are all pretty fair comments, and yes, we'll get to ALL of 
-        them!" 
-        - Remember the LC-3 from 2110? That's a functional processor, but it's 
-        still a far cry from how ACTUAL modern computers work; in this class, 
-        we'll be going over the "enduring principles" behind modern processor 
-        design, the trade-offs designers face, etc.
+- "The construction of this course is...um, unique, compared to other colleges. I personally really like it, but let's walk through how it's structured."
+    - So, what have you heard about this course? "2110 on steroids", intro to how operating systems work, more hardware-focused than 2110...(annnnnnd then the class got shy)
+        - "Those are all pretty fair comments, and yes, we'll get to ALL of them!" 
+        - Remember the LC-3 from 2110? That's a functional processor, but it's still a far cry from how ACTUAL modern computers work; in this class, we'll be going over the "enduring principles" behind modern processor design, the trade-offs designers face, etc.
 
-- So, most of you brought computers, right? Let's try having a little scavenger 
-hunt of things you SHOULD be able to find on your computer:
+- So, most of you brought computers, right? Let's try having a little scavenger hunt of things you SHOULD be able to find on your computer:
     - What CPU does your computer have? (Intel 2.6ghz i7-6700HQ)
-        - "The LC-3 had just 1 core, but I'd guess most of your laptops have at 
-        least 2, maybe 4...unless you're a gamer. Then it goes up."
+        - "The LC-3 had just 1 core, but I'd guess most of your laptops have at least 2, maybe 4...unless you're a gamer. Then it goes up."
         - How do we coordinate those cores? How do we keep them in sync?
     - How much RAM? (16gb, currently using 7.4gb)
-        - The LC-3 had a LOAD-STORE architecture, where we have to take 
-        information from memory and put it into registers, where we actually 
-        operate on it; but conceptually, we could ALSO directly operate on 
-        information in memory
+        - The LC-3 had a LOAD-STORE architecture, where we have to take information from memory and put it into registers, where we actually operate on it; but conceptually, we could ALSO directly operate on information in memory
     - What types/kinds of devices are on your system?
-        - Keyboards, microphones, camera, display, mouse, USB ports, hard 
-        drives...
+        - Keyboards, microphones, camera, display, mouse, USB ports, hard drives...
         - More fundamentally: 
-            -For storage, we've got registers, caches, disk I/O, etc; does the 
-            order we handle these in matter? How do we schedule 
-            retrieving/adding information? Can we do things in parallel?
-            - For processing, we've got multiple cores; how are they wired 
-            together?
+            -For storage, we've got registers, caches, disk I/O, etc; does the order we handle these in matter? How do we schedule retrieving/adding information? Can we do things in parallel?
+            - For processing, we've got multiple cores; how are they wired together?
             - For I/O, we might have FireWire, USB, etc.
-            - Then, we have networking cards that let us reach out and connect 
-            to other devices; this dramatically increases the power of our 
-            SYSTEMS, since we're now not dealing with an isolated machine, but 
-            a group of them
-        - "The processor doesn't just run in a vacuum; it has to reach out and 
-        touch all of these actual, physical devices"
-    - How are these controlled by the OS? What are the "drivers" for all of 
-    these?
-    - How many applications/processes are running on your system? (Task 
-    Manager, go! 7 apps and 115 processes)
-        - What's the difference between a program and a process? "A 
-        PROGRAM/application is what a standard user sees and interacts with, 
-        and the computer code instructions that comprise it; to run it, you 
-        then need to create PROCESSES that will actually take that code, 
-        allocate memory for it, and execute it"
-- "The operating system has to know ALL of this information because it plays so 
-many roles; it has to do a bunch of things at once to make the computer work 
-smoothly in a modern way"
+            - Then, we have networking cards that let us reach out and connect to other devices; this dramatically increases the power of our SYSTEMS, since we're now not dealing with an isolated machine, but a group of them
+        - "The processor doesn't just run in a vacuum; it has to reach out and touch all of these actual, physical devices"
+    - How are these controlled by the OS? What are the "drivers" for all of these?
+    - How many applications/processes are running on your system? (Task Manager, go! 7 apps and 115 processes)
+        - What's the difference between a program and a process? "A PROGRAM/application is what a standard user sees and interacts with, and the computer code instructions that comprise it; to run it, you then need to create PROCESSES that will actually take that code, allocate memory for it, and execute it"
+- "The operating system has to know ALL of this information because it plays so many roles; it has to do a bunch of things at once to make the computer work smoothly in a modern way"
 
-- The GOAL of this course is NOT to just teach you a bunch of vocab terms, but 
-to teach you the CONCEPT behind theses systems and why they are the way they are
-    - "We don't want to just say, 'this is pipelining, learn it, go!'; but to 
-    also ask those questions like 'why didn't we stop at the LC-3? What was 
-    their motivation?'"
-        - e.g. "load-store" architectures (using registers instead of just 
-        memory) originated because it was an order of magnitude faster than 
-        trying to load everything from memory; we can take something out of 
-        memory, do a BUNCH of calculations with it, and then put it back. 
-            - "The old way was like taking a book out of the library, writing 
-            one sentence down, putting it back, THEN getting the same book for 
-            the next sentence and putting it back AGAIN, and so on...instead of 
-            just keeping the book"
-    - We'll learn about how the OS operates as an accountant, a manager, and 
-    even an "illusionist" in a sense (with virtual memory) in order to squeeze 
-    the most potential out of all of its resources
-        - How can multiple processes run at the same time? How can they run 
-        without corrupting one another? 
-            - On old Apple II computers, this just DIDN'T WORK - it was like a 
-            kindergarten teacher saying "play nice!" to a bunch of kids and 
-            leaving the room - but NOW, in modern computers, each process can 
-            pretend it's the only one running on the computer ("I'm king of the 
-            CPU!"), and the OS manages to keep all of them running fine. 
+- The GOAL of this course is NOT to just teach you a bunch of vocab terms, but to teach you the CONCEPT behind theses systems and why they are the way they are
+    - "We don't want to just say, 'this is pipelining, learn it, go!'; but to also ask those questions like 'why didn't we stop at the LC-3? What was their motivation?'"
+        - e.g. "load-store" architectures (using registers instead of just memory) originated because it was an order of magnitude faster than trying to load everything from memory; we can take something out of memory, do a BUNCH of calculations with it, and then put it back. 
+            - "The old way was like taking a book out of the library, writing one sentence down, putting it back, THEN getting the same book for the next sentence and putting it back AGAIN, and so on...instead of just keeping the book"
+    - We'll learn about how the OS operates as an accountant, a manager, and even an "illusionist" in a sense (with virtual memory) in order to squeeze the most potential out of all of its resources
+        - How can multiple processes run at the same time? How can they run without corrupting one another? 
+            - On old Apple II computers, this just DIDN'T WORK - it was like a kindergarten teacher saying "play nice!" to a bunch of kids and leaving the room - but NOW, in modern computers, each process can pretend it's the only one running on the computer ("I'm king of the CPU!"), and the OS manages to keep all of them running fine. 
                 - ...how? Well, we'll learn that in this course!
-    - Furthermore, we'll learn about networking (how different computers share 
-    information)
+    - Furthermore, we'll learn about networking (how different computers share information)
 
-- Alright, let's take a step back now - we talked about the course's purpose as 
-"a broad exposure to computer system structure," we did the crazy scavenger 
-hunt, and I KNOW, from experience, we have a tendency to compartmentalize what 
-we learn: "I am now studying processors. I am now studying OS design..." but 
-SYSTEMS are made up of multiple components all INTERACTING; we have to connect 
-all of these concepts, not just put them in their own neat little boxes!
-    - "Because of that, I'm going to largely focus on the BREADTH of these 
-    topics and how they interrelate; although we'll certainly try to not ignore 
-    depth, it'll be a change in focus"
+- Alright, let's take a step back now - we talked about the course's purpose as "a broad exposure to computer system structure," we did the crazy scavenger hunt, and I KNOW, from experience, we have a tendency to compartmentalize what we learn: "I am now studying processors. I am now studying OS design..." but SYSTEMS are made up of multiple components all INTERACTING; we have to connect all of these concepts, not just put them in their own neat little boxes!
+    - "Because of that, I'm going to largely focus on the BREADTH of these topics and how they interrelate; although we'll certainly try to not ignore depth, it'll be a change in focus"
 - Some of the topics we'll hit:
     - How the processor is organized
-    - Memory hierarchy - volatile vs non-volatile memory, virtual memory, how 
-    does memory interact with storage, etc.
-    - Parallel processing - How pipelining and scheduling improve performance 
-    and allow for programs to run at the same time
+    - Memory hierarchy - volatile vs non-volatile memory, virtual memory, how does memory interact with storage, etc.
+    - Parallel processing - How pipelining and scheduling improve performance and allow for programs to run at the same time
     - Networking protocols - how do we trade data between machines?
     - Software abstractions that OS's use, ESPECIALLY the process paradigm
-- "We don't have time to cover ALL of these in-depth, but we'll touch on all of 
-them, and, hopefully, tie them together with how these parts form modern 
-systems. Breadth over depth."
+- "We don't have time to cover ALL of these in-depth, but we'll touch on all of them, and, hopefully, tie them together with how these parts form modern systems. Breadth over depth."
 
-- Most projects will have demos, where you have to explain your work to the 
-TAs, just like in 2110. Once you sign up for a demo, if you miss it without 
-rescheduling ahead of time, it counts as a 0%
-    - The HOMEWORKS are distinct from the projects, and aren't meant to be 
-    super-tough impossible stuff, but instead as checks to make sure you get 
-    the concepts we've covered in-class
+- Most projects will have demos, where you have to explain your work to the TAs, just like in 2110. Once you sign up for a demo, if you miss it without rescheduling ahead of time, it counts as a 0%
+    - The HOMEWORKS are distinct from the projects, and aren't meant to be super-tough impossible stuff, but instead as checks to make sure you get the concepts we've covered in-class
         - "Using the homeworks as exam prep might be a good idea"
-    - Projects are a little more intense, but should still be reasonable; 
-    still, PLEASE start early on them
+    - Projects are a little more intense, but should still be reasonable; still, PLEASE start early on them
 - We'll have 2 EXAMS in-class, along with a final
-    - Once you've gotten an exam back, you'll have a week to submit a regrade 
-    request - read the feedback, say WHY a higher grade is justified, etc. etc.
-- Late-work policy is currently being revised, but shouldn't be too different 
-from what we have now. Turn in stuff on-time, and you'll be fine.
-- If an honest emergency comes up, and you feel like it'll affect your ability 
-to work in this course, PLEASE reach out to Student Services immediately. Don't 
-hide it; we'll work with you.
-- Plagiarism: "I've got no illusions that I'm the only way for you to learn, 
-and if you can learn better from other students or other resources, GREAT! BUT, 
-if you're sharing source code, you've gone too far. A few dozen students every 
-semester get nailed for this, and please, don't be one of them. You won't learn 
-and you'll just get in trouble."
+    - Once you've gotten an exam back, you'll have a week to submit a regrade request - read the feedback, say WHY a higher grade is justified, etc. etc.
+- Late-work policy is currently being revised, but shouldn't be too different from what we have now. Turn in stuff on-time, and you'll be fine.
+- If an honest emergency comes up, and you feel like it'll affect your ability to work in this course, PLEASE reach out to Student Services immediately. Don't hide it; we'll work with you.
+- Plagiarism: "I've got no illusions that I'm the only way for you to learn, and if you can learn better from other students or other resources, GREAT! BUT, if you're sharing source code, you've gone too far. A few dozen students every semester get nailed for this, and please, don't be one of them. You won't learn and you'll just get in trouble."
 
-- You WILL be graded on Piazza participation, so please try to answer one 
-another's questions!
-    - What we're looking for: NOT based on pure # of messages posted, but based 
-    on if you're trying to give good answers
-- 25% of the grade will come from projects, 10% from the homeworks, and each 
-test (the 2 exams + the final) will be worth 20% each
+- You WILL be graded on Piazza participation, so please try to answer one another's questions!
+    - What we're looking for: NOT based on pure # of messages posted, but based on if you're trying to give good answers
+- 25% of the grade will come from projects, 10% from the homeworks, and each test (the 2 exams + the final) will be worth 20% each
     - The final will NOT be cumulative, but should just be another exam
-    - CURRENT date for the final is August 1st, 8-11am in this room (Mason 
-    1133), but that is subject to change
+    - CURRENT date for the final is August 1st, 8-11am in this room (Mason 1133), but that is subject to change
 - The projects:
-    - Datapath: Similar to the LC-3 datatapth you made in 2110, but a more 
-    realistic view of how a processor works
+    - Datapath: Similar to the LC-3 datatapth you made in 2110, but a more realistic view of how a processor works
     - Pipelining: We'll be taking the datapath we built and improving its design
     - Virtual Memory: (missed this)
     - Caching: What's caching, and how does it improve our performance
     - Multithreading: how do we get multiple threads to work together?
 
-- ...aaaaannnnnnnndddd that's day 1! We'll hit the ground running with 
-processors and the datapath on Thursday!
-
-</pre>
+- ...aaaaannnnnnnndddd that's day 1! We'll hit the ground running with processors and the datapath on Thursday!</pre>
 </article>
 <a class="side-link is-note-link" href="1_processorBasics&amp;Stack_5_17_18.html"></a>
 </main>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,72 +23,35 @@
 <a class="side-link is-note-link" href="18_classDiagrams_10_11_17.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************** Sequence Diagrams - October 13th, 2017 *********************//
 //**************************************************************************//
 
-- So, we just started going over SEQUENCE DIAGRAMS, where we draw a bunch of 
-boxes with dashed lines going down from them
-    - "The ORDER of the boxes does NOT matter; we want to minimize line 
-    crossings, but the left-to-right order itself doesn't mean anything"
-        - The METHOD CALL LINES, though, need to be arranged in order of TIME 
-        (from top to bottom, w/ top being most recent)
-    - Class boxes are boxes w/ a colon before the classname (e.g. 
-    ":LoginManager")
-    - We start with a TRIGGER EVENT on the far left of the diagram, e.g. 
-    "OnLogClick", that points to the "lifeline" (dashed line) underneath the 
-    1st class that recieves it/starts the application
-        - Lifeline is just a place to draw interactions w/ that object, and to 
-        show how long the object exists (most objects will be alive the whole 
-        time, but not always)
-    - We then draw an arrow from that 1st class's line TO another class's line; 
-    this arrow represents a method that we're calling ON THE CLASS THE ARROW IS 
-    POINTING TO, e.g. "doLogin(user, pWord)", w/ the method signature written 
-    above the line
-        - If we need to show that the method ITSELF needs to call a method on 
-        another class, then we draw another line lower-down FROM the end of the 
-        method-call arrow to the class we're calling the method on
+- So, we just started going over SEQUENCE DIAGRAMS, where we draw a bunch of boxes with dashed lines going down from them
+    - "The ORDER of the boxes does NOT matter; we want to minimize line crossings, but the left-to-right order itself doesn't mean anything"
+        - The METHOD CALL LINES, though, need to be arranged in order of TIME (from top to bottom, w/ top being most recent)
+    - Class boxes are boxes w/ a colon before the classname (e.g. ":LoginManager")
+    - We start with a TRIGGER EVENT on the far left of the diagram, e.g. "OnLogClick", that points to the "lifeline" (dashed line) underneath the 1st class that recieves it/starts the application
+        - Lifeline is just a place to draw interactions w/ that object, and to show how long the object exists (most objects will be alive the whole time, but not always)
+    - We then draw an arrow from that 1st class's line TO another class's line; this arrow represents a method that we're calling ON THE CLASS THE ARROW IS POINTING TO, e.g. "doLogin(user, pWord)", w/ the method signature written above the line
+        - If we need to show that the method ITSELF needs to call a method on another class, then we draw another line lower-down FROM the end of the method-call arrow to the class we're calling the method on
     - To show looping/conditionals, we use "Context Boxes" 
-        - Basically, we draw a box around the lines representing method calls 
-        we're looping/"if"-statement-ing, and in the corner we write LOOP (if 
-        it's a loop), OPT (if it's just an if statment), or ALT (if it's an 
-        if-else statement or a switch statement)
-            - If it's an "if" statement, then we split the box into the 
-            different possible branches with HORIZONTALLY dashed lines; at the 
-            top of each partition, the condition that the thing is called on 
-            (the GUARD CONDITION) is put in brackets like [] (e.g [else], 
-            [b=10], [isValidUser] etc.)
-    - To show that we're CREATING a new Object, we draw a dashed arrow from the 
-    method we called with "new" written over it; at the end of the arrow, we 
-    draw a new class box (e.g. ":User") being pointed to by the arrow, w/ it's 
-    own lifeline
+        - Basically, we draw a box around the lines representing method calls we're looping/"if"-statement-ing, and in the corner we write LOOP (if it's a loop), OPT (if it's just an if statment), or ALT (if it's an if-else statement or a switch statement)
+            - If it's an "if" statement, then we split the box into the different possible branches with HORIZONTALLY dashed lines; at the top of each partition, the condition that the thing is called on (the GUARD CONDITION) is put in brackets like [] (e.g [else], [b=10], [isValidUser] etc.)
+    - To show that we're CREATING a new Object, we draw a dashed arrow from the method we called with "new" written over it; at the end of the arrow, we draw a new class box (e.g. ":User") being pointed to by the arrow, w/ it's own lifeline
 -...and that's about it!
-- "There's really not much to them, but students always seem to have the 
-hardest time thinking about Sequence Diagrams. Just look at some examples, work 
-through some logic, and memorize the few rules we've talked about; they're 
-really not too bad."
+- "There's really not much to them, but students always seem to have the hardest time thinking about Sequence Diagrams. Just look at some examples, work through some logic, and memorize the few rules we've talked about; they're really not too bad."
 
--...kind of hard to describe these Sequence Diagrams without images, so look up 
-plenty of examples to see what I mean
+-...kind of hard to describe these Sequence Diagrams without images, so look up plenty of examples to see what I mean
 
-- So, most of us here are "novice designers", and there are 2 REALLY COMMON 
-mistakes novice designers do:
-    - Just jumping on the first design they think of - "I think we should do 
-    MVC!" - without really thinking through alternatives, or if it's the best 
-    way of doing things
-    - Concerns about error handling; most novice designers think they can add 
-    in validation/error handling at the end of the project, when really, you 
-    NEED to be worried about handling errors all throughout the process
-- To try and improve reliability (i.e. it does what it's supposed to do, and 
-NOTHING MORE, and handles errors as acceptably as possible), we use CONTRACTS: 
-an explicit list of what a "Client" can request from a "Server"
-    - For contracts, we say our "Server" is whatever provides the method, and 
-    the "client" is whatever uses the server's methods
-        - "So it's more of a restaurant analogy, instead of a computer-y 
-        server-type thing"
-- We'll talk more about what contracts are, and why they're used, on Monday
-
-</pre>
+- So, most of us here are "novice designers", and there are 2 REALLY COMMON mistakes novice designers do:
+    - Just jumping on the first design they think of - "I think we should do MVC!" - without really thinking through alternatives, or if it's the best way of doing things
+    - Concerns about error handling; most novice designers think they can add in validation/error handling at the end of the project, when really, you NEED to be worried about handling errors all throughout the process
+- To try and improve reliability (i.e. it does what it's supposed to do, and NOTHING MORE, and handles errors as acceptably as possible), we use CONTRACTS: an explicit list of what a "Client" can request from a "Server"
+    - For contracts, we say our "Server" is whatever provides the method, and the "client" is whatever uses the server's methods
+        - "So it's more of a restaurant analogy, instead of a computer-y server-type thing"
+- We'll talk more about what contracts are, and why they're used, on Monday</pre>
 </article>
 <a class="side-link is-note-link" href="20_mapsAndPersistence_10_16_17.html"></a>
 </main>

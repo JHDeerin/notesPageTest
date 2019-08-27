@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,54 +23,39 @@
 <a class="side-link is-note-link" href="6_2dLinearStability_1_31_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //**************** 2D Bifurcations - February 5th, 2019 *********************//
 //**************************************************************************//
 
 - Well, pray and hope and pray, I suppose
-- (in other news, the projector clock is extremely confused and thinks it's 
-Monday. No, projector clock! You have been lied to - by yourself!)
+- (in other news, the projector clock is extremely confused and thinks it's Monday. No, projector clock! You have been lied to - by yourself!)
 - What we're going to do today:
     - Go through an example of this 2D analysis
     - Talk about bifurcations in 2D
-- IMPORTANT ANNOUNCEMENT: We don't have class on Thursday (since Professor 
-Vuduc will be out of town), so instead, work on your projects during that time 
-- a TA will be having office hours instead of class. Keep working!
+- IMPORTANT ANNOUNCEMENT: We don't have class on Thursday (since Professor Vuduc will be out of town), so instead, work on your projects during that time - a TA will be having office hours instead of class. Keep working!
 -------------------------------------------------------------------
 
-- So, last time, we left the comfortable world of 1D linear systems and began 
-looking at 2D linear systems - and then briefly say how we can use the Jacobian 
-to at least kind of guesstimate the behavior of systems around their fixed point
-    - Essentially, the Jacobian does this by linearizing the equation 
-    components to get us an approximation for points near the critical point 
-    we're looking at
+- So, last time, we left the comfortable world of 1D linear systems and began looking at 2D linear systems - and then briefly say how we can use the Jacobian to at least kind of guesstimate the behavior of systems around their fixed point
+    - Essentially, the Jacobian does this by linearizing the equation components to get us an approximation for points near the critical point we're looking at
 - To restate our 2nd-order stability cases:
     - Real part (lam0), real part(lam1) &gt; 0 =&gt; Repeller
     - Re(lam0), Re(lam1) &lt; 0 =&gt; Attractor
 
-- "If you didn't do the exercise from last time on your own, you should do it, 
-just to make sure you do know how to do it"
+- "If you didn't do the exercise from last time on your own, you should do it, just to make sure you do know how to do it"
 
-- So: example time. Let's say we have a field (a big, beautiful, grass-green 
-field), and within the field are two mutual enemies locked in a struggle for 
-survival: sheep and rabbits!
-    - By the way, this is the Lotka-Volterra population model for competing 
-    species, taken from Strogatz chapter 6.4
-- So, rabbits produce faster than sheep, but the sheep are bullies: they can 
-push the rabbits away to get the grass all by themselves
-    - To model this population, we'll basically use a "logistic - competition 
-    factor" equation
+- So: example time. Let's say we have a field (a big, beautiful, grass-green field), and within the field are two mutual enemies locked in a struggle for survival: sheep and rabbits!
+    - By the way, this is the Lotka-Volterra population model for competing species, taken from Strogatz chapter 6.4
+- So, rabbits produce faster than sheep, but the sheep are bullies: they can push the rabbits away to get the grass all by themselves
+    - To model this population, we'll basically use a "logistic - competition factor" equation
     - For the sake of time, let's say that we know the coefficients in advance:
 
             drabbits/dt = rabbits*(3 - rabbits - 2*sheep)
             dsheep/dt = sheep*(2 - sheep - rabbits)
 
-        - So, the higher either population is, the lower the growth rate of 
-        either one (in equation form, the multiplication of sheep*rabbits shows 
-        this competition-style relationship)
+        - So, the higher either population is, the lower the growth rate of either one (in equation form, the multiplication of sheep*rabbits shows this competition-style relationship)
     - So, to analyze this system, we need to 1) Find the fixed points 2)
-        - There are 4 fixed points for this particular system; to save time, 
-        let's just give them here:
+        - There are 4 fixed points for this particular system; to save time, let's just give them here:
 
             [0,0], [0,2], [3,0], [1,1]
 
@@ -83,46 +69,28 @@ push the rabbits away to get the grass all by themselves
                 A(0, 0) =  [3  0]
                            [0  2]
         
-            - This gets us a trace of 5 and a determinant of 6, which suggest 
-            the point is UNSTABLE
-        - Continuing to do this for the rest of the points, we see that [0,2] 
-        and [3,0] are stable, and [1,1] is a saddle
-    - Because this is a nonlinear system, we can NOT draw the whole graph, 
-    since we only know the local behavior immediately next to the critical 
-    points - so instead, we can only label the likely field immediately next to 
-    the critical points
-        - However, things probably still flow smoothly, so we can *tentatively* 
-        connect those lines to suggest the most probable behavior of the system
-    - What we can infer from this drawing, though, is that there's not a single 
-    fixed point where the population stays for any given region (?)
-        - Instead, there are 2 "basins of attraction" around the stable points 
-        where solutions are likely to drift
+            - This gets us a trace of 5 and a determinant of 6, which suggest the point is UNSTABLE
+        - Continuing to do this for the rest of the points, we see that [0,2] and [3,0] are stable, and [1,1] is a saddle
+    - Because this is a nonlinear system, we can NOT draw the whole graph, since we only know the local behavior immediately next to the critical points - so instead, we can only label the likely field immediately next to the critical points
+        - However, things probably still flow smoothly, so we can *tentatively* connect those lines to suggest the most probable behavior of the system
+    - What we can infer from this drawing, though, is that there's not a single fixed point where the population stays for any given region (?)
+        - Instead, there are 2 "basins of attraction" around the stable points where solutions are likely to drift
 
-- Now, onto the "fun" stuff - 2D bifurcations! (this sentence was said by the 
-Professor entirely without irony)
-    - As you remember, in 1D, a saddle node bifurcation was where a single 
-    fixed point split into 2 (or vice-versa) as the model's parameters changed
-    - In 2D, the "normal form" for a saddle node bifuraction is something like 
-    this:
+- Now, onto the "fun" stuff - 2D bifurcations! (this sentence was said by the Professor entirely without irony)
+    - As you remember, in 1D, a saddle node bifurcation was where a single fixed point split into 2 (or vice-versa) as the model's parameters changed
+    - In 2D, the "normal form" for a saddle node bifuraction is something like this:
 
             x0' = u - x0^2
             x1' = -x1
 
-        - This system is already decoupled (the two equations aren't related), 
-        so it should be pretty clear that x0' is just a 1D saddle-node 
-        bifurcation waiting to happen
+        - This system is already decoupled (the two equations aren't related), so it should be pretty clear that x0' is just a 1D saddle-node bifurcation waiting to happen
         - In this 2D system, the critical points will be of the form:
 
             x* = [+-sqrt(u), 0]
 
-        - So, u &gt; 0 has 2 critical points (one is stable, one is unstable), u = 
-        0 will only have one semi-stable critical point, and u &lt; 0 will have 
-        none (solutions drift to the left everywhere)
+        - So, u &gt; 0 has 2 critical points (one is stable, one is unstable), u = 0 will only have one semi-stable critical point, and u &lt; 0 will have none (solutions drift to the left everywhere)
 
-- As an example, let's steal an exercise from Strogatz Chapter 8 (Griffith '71 
-model) and look at a model of gene control, where there's a liquid containing 
-some quantity of protein and a gene that "codes" to that protein, creating more 
-of it in exchange for itself (thereby changing the concentration) (I think?)
+- As an example, let's steal an exercise from Strogatz Chapter 8 (Griffith '71 model) and look at a model of gene control, where there's a liquid containing some quantity of protein and a gene that "codes" to that protein, creating more of it in exchange for itself (thereby changing the concentration) (I think?)
     - The model itself looks like:
 
         x0(t) = protein concentration
@@ -137,27 +105,18 @@ of it in exchange for itself (thereby changing the concentration) (I think?)
         f0' = 0 =&gt; x1 = ax
         f1' = 0 =&gt; x1 = (1/b) * x^2/(1 + x^2)
 
-        - So, f0's null cline is just a linear slope through the origin, while 
-        f1 is a sort of logistic-y curve
-        - The two functions can have up to 3 intersection points (at the 
-        origin, and then twice more), which means we can have up to 3 critical 
-        points for this system
-        - In general, this model will be a stable point at the origin, a saddle 
-        in the middle, and then another stable point farther off, meaning that 
-        the best chance we have of keeping both genes and proteins around is to 
-        have a high concentration of each
+        - So, f0's null cline is just a linear slope through the origin, while f1 is a sort of logistic-y curve
+        - The two functions can have up to 3 intersection points (at the origin, and then twice more), which means we can have up to 3 critical points for this system
+        - In general, this model will be a stable point at the origin, a saddle in the middle, and then another stable point farther off, meaning that the best chance we have of keeping both genes and proteins around is to have a high concentration of each
 
-- There were two other bifurcations we talked about in the 1D case 
-(transcritical and pitchfork); here're their 2D normal forms:
+- There were two other bifurcations we talked about in the 1D case (transcritical and pitchfork); here're their 2D normal forms:
     - For transcritical:
 
         x0' = u*x0 - x0^2
         x1' = -x1
 
-    - For pitchforks, there are 2 forms (in this form, the bisection point for 
-    both is at u=0):
-        - The 'supercritical' form (where 1 stable point turns into an unstable 
-        point w/ 2 new stable points to the side when u &gt; 0):
+    - For pitchforks, there are 2 forms (in this form, the bisection point for both is at u=0):
+        - The 'supercritical' form (where 1 stable point turns into an unstable point w/ 2 new stable points to the side when u &gt; 0):
 
             x0' = ux0 - x0^3
 
@@ -170,14 +129,9 @@ of it in exchange for itself (thereby changing the concentration) (I think?)
         x0' = ux0 + x1 + sin(x0)
         x1' = x0 - x1
 
-    - To show that this bifurcation exists, and finding the 'u' value where the 
-    bifurcation happens, is pretty hard without some hints, (hint: Taylor 
-    expansion for the sine of x is 'x - x^3/3! + ...', and approximate it with 
-    just these first 2 terms)
+    - To show that this bifurcation exists, and finding the 'u' value where the bifurcation happens, is pretty hard without some hints, (hint: Taylor expansion for the sine of x is 'x - x^3/3! + ...', and approximate it with just these first 2 terms)
 
-- ...so, um, yeah. Class just sort of ends here. Bye.
-
-</pre>
+- ...so, um, yeah. Class just sort of ends here. Bye.</pre>
 </article>
 <a class="side-link is-note-link" href="8_hopfBifurcations_2_12_19.html"></a>
 </main>

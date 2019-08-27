@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,188 +23,100 @@
 <a class="side-link is-note-link" href="18_FELIntroParallel_3_28_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //********* Lookahead and Synchronous Algorithms - April 2nd, 2019 **********//
 //**************************************************************************//
 
 - The checkpoint is DONE! I am FREE! (...until tomorrow, when a test comes up)
-- Alright! Hopefully, a good chunk of your simulator should be up-and-running, 
-so what's left for you to do to finish your project?
-    - Well, the stuff we've been talking about in class: input/output analysis, 
-    verification and validation, and experiments
-        - A checklist for this stuff should be up on the file in Canvas; it's 
-        not necessarily exhaustive, but it lists the major things we'll be 
-        looking for
-            - For conceptual model, what're your simplifications? What're your 
-            justifications for this?
-            - For your input analysis, what data did you get? Did you use the 
-            NGSIM dataset to estimate a distribution for the arrival time 
-            between cars? 
-                - Note that an empirical distribution has NO parameters in it, 
-                and just "is" - but we're expecting you to have different 
-                traffic rates for "light traffic," etc. - how will you do this? 
-                Why is what you're doing reasonable?
-            - What did you do to verify it - did you have unit tests? Did you 
-            just run it and check that the output seemed reasonable? Did you 
-            vary any parameters and make sure the results seemed okay?
-                - For validation, what if your simulator doesn't seem very 
-                valid, and you can't fix it? Well, then explain to us WHY it 
-                isn't agreeing with the actual data in as much detail as 
-                possible, to show you understand your model, its assumptions, 
-                and its limitations
+- Alright! Hopefully, a good chunk of your simulator should be up-and-running, so what's left for you to do to finish your project?
+    - Well, the stuff we've been talking about in class: input/output analysis, verification and validation, and experiments
+        - A checklist for this stuff should be up on the file in Canvas; it's not necessarily exhaustive, but it lists the major things we'll be looking for
+            - For conceptual model, what're your simplifications? What're your justifications for this?
+            - For your input analysis, what data did you get? Did you use the NGSIM dataset to estimate a distribution for the arrival time between cars? 
+                - Note that an empirical distribution has NO parameters in it, and just "is" - but we're expecting you to have different traffic rates for "light traffic," etc. - how will you do this? Why is what you're doing reasonable?
+            - What did you do to verify it - did you have unit tests? Did you just run it and check that the output seemed reasonable? Did you vary any parameters and make sure the results seemed okay?
+                - For validation, what if your simulator doesn't seem very valid, and you can't fix it? Well, then explain to us WHY it isn't agreeing with the actual data in as much detail as possible, to show you understand your model, its assumptions, and its limitations
             - What're your experiments?
-                - Did you generate confidence intervals for your results (not 
-                just averages)? How many simulations did you run, and how did 
-                you come up with that number of runs (i.e. what did you 
-                consider a "reasonable confidence interval size" - the sample 
-                mean +/- 5%? 10%?)
-                - How did you handle the warm-up period? you probably started 
-                with an empty road network, but what did you do to not include 
-                this skewed data in your report?
-                - How did you compare the results of the different simulators? 
-                There should at least be some discussion about the differences 
-                and similarities, and the likely sources of those differences
-        - Don't forget, these are team projects - if someone's having 
-        difficulty, help them! It's a team effort!
+                - Did you generate confidence intervals for your results (not just averages)? How many simulations did you run, and how did you come up with that number of runs (i.e. what did you consider a "reasonable confidence interval size" - the sample mean +/- 5%? 10%?)
+                - How did you handle the warm-up period? you probably started with an empty road network, but what did you do to not include this skewed data in your report?
+                - How did you compare the results of the different simulators? There should at least be some discussion about the differences and similarities, and the likely sources of those differences
+        - Don't forget, these are team projects - if someone's having difficulty, help them! It's a team effort!
 --------------------------------------------------------------------------------
 
-- Alright, we were talking about running parallel simulations on a computer - 
-and before we go on, let's talk about time
-    - Time is a common source of confusion in this field, because there're 
-    actually THREE types of time we might need to worry about:
-        - PHYSICAL TIME is the actual time in the real world we want to model, 
-        e.g. the time an airplane is taking off, or the transition from 
-        December 31st, 1999 to January 1st, 2000
+- Alright, we were talking about running parallel simulations on a computer - and before we go on, let's talk about time
+    - Time is a common source of confusion in this field, because there're actually THREE types of time we might need to worry about:
+        - PHYSICAL TIME is the actual time in the real world we want to model, e.g. the time an airplane is taking off, or the transition from December 31st, 1999 to January 1st, 2000
             - If you don't remember the Y2K hubub, feel relieved
-        - SIMULATION TIME is the representation of physical time within the 
-        simulation (e.g. floating point values)
-        - WALL-CLOCK TIME is the time in the present-day real world as the 
-        system is running, e.g. 4:32pm on April 2nd, 2019
-            - Keep in mind that wall-clock time and simulation time are NOT the 
-            same thing!
+        - SIMULATION TIME is the representation of physical time within the simulation (e.g. floating point values)
+        - WALL-CLOCK TIME is the time in the present-day real world as the system is running, e.g. 4:32pm on April 2nd, 2019
+            - Keep in mind that wall-clock time and simulation time are NOT the same thing!
 
-- Last time, we were trying to figure out some way of processing these parallel 
-messages in timestep order so we didn't violate the space-time continuum and 
-such
-    - We came up with the CMB algorithm, which depends on sending "null 
-    messages" to avoid deadlock
-        - Note, for now, that this involves "looking ahead" in some way to 
-        figure out how long it'll be until the next message arrives
+- Last time, we were trying to figure out some way of processing these parallel messages in timestep order so we didn't violate the space-time continuum and such
+    - We came up with the CMB algorithm, which depends on sending "null messages" to avoid deadlock
+        - Note, for now, that this involves "looking ahead" in some way to figure out how long it'll be until the next message arrives
     - The "null message algorithm" looks like this:
 
             while simulation still running:
                 wait until each FIFO contains at least 1 message
                 remove and process smallest time-stamped event
-                send null message to connected LPs w/ lower bound on the next 
-                future event that could be sent
+                send null message to connected LPs w/ lower bound on the next future event that could be sent
 
-        - Notice here that if a null message has a lower timestamp, then it'll 
-        be processed first!
-            - In practice, many systems can get away with only sending null 
-            messages when the LP blocks
+        - Notice here that if a null message has a lower timestamp, then it'll be processed first!
+            - In practice, many systems can get away with only sending null messages when the LP blocks
 
-- HOWEVER, there's a technical problem that comes up with this scheme: TIME 
-CREEP!
-    - Last time, we supposed that our delayed airport process had a minimum 
-    next time of at least 3 seconds - but what if it was 0.5 seconds? Or 0.05 
-    seconds?
-        - Well, then our airport is waiting on the delayed airport, and the 3rd 
-        airport is waiting on our own airport, so:
-            - Our airport will send a 0.5 null message to the 3rd airport, 
-            which'll then send a 0.5 null message back to the ORIGINAL airport 
-            saying that it can't do anything for 0.5 seconds, which'll then 
-            send ANOTHER 0.5 second null message, which'll then cause our 
-            airport to finally send another 0.5 second null message - at which 
-            point the 3rd airport, with null messages, totaling up past its 
-            smallest event, will process its event
+- HOWEVER, there's a technical problem that comes up with this scheme: TIME CREEP!
+    - Last time, we supposed that our delayed airport process had a minimum next time of at least 3 seconds - but what if it was 0.5 seconds? Or 0.05 seconds?
+        - Well, then our airport is waiting on the delayed airport, and the 3rd airport is waiting on our own airport, so:
+            - Our airport will send a 0.5 null message to the 3rd airport, which'll then send a 0.5 null message back to the ORIGINAL airport saying that it can't do anything for 0.5 seconds, which'll then send ANOTHER 0.5 second null message, which'll then cause our airport to finally send another 0.5 second null message - at which point the 3rd airport, with null messages, totaling up past its smallest event, will process its event
                 - 5 null messages for ONE processed event - that's a lot!
-    - The problem here isn't a correctness issue, but a performance one - we 
-    have to send a LOT of null messages when the minimum delay is short, and 
-    that can quickly become very expensive!
-        - But it gets worse! Suppose that the minimum time is 0 - meaning the 
-        airport can send a message with NO warning whatsoever!
-        - What'll happen then? There'll be an unending cycle of null messages 
-        saying I'M WAITING ON YOU that're being sent - in other words, the 
-        system will go into LIVELOCK!
-- The CMB researchers were aware of this livelock issue, and so they said that 
-their scheme assumes that there are no "network cycles" with a total lookahead 
-time of 0
+    - The problem here isn't a correctness issue, but a performance one - we have to send a LOT of null messages when the minimum delay is short, and that can quickly become very expensive!
+        - But it gets worse! Suppose that the minimum time is 0 - meaning the airport can send a message with NO warning whatsoever!
+        - What'll happen then? There'll be an unending cycle of null messages saying I'M WAITING ON YOU that're being sent - in other words, the system will go into LIVELOCK!
+- The CMB researchers were aware of this livelock issue, and so they said that their scheme assumes that there are no "network cycles" with a total lookahead time of 0
 
-- How do we actually get this "no messages for 3 more seconds" number anyhow, 
-though? Well, it's an ability known as LOOKAHEAD!
-    - The idea here is that "lookahead" is a constraint on the timestamp of the 
-    next new message we can send, and there are two types we're worried about:
-        - LINK LOOKAHEAD is where each connection w/ other processes will have 
-        its own lookahead value
-            - i.e. Each message sent on that link will have a timestamp of at 
-            least "current + link's lookahead"
-        - LP LOOKAHEAD is where the LP itself has a lookahead time it adds to 
-        each message that it sends from itself
-    - The exact values for these lookaheads will be VERY different from 
-    application to application - think about the minimum time it'll take to 
-    build an airplane vs the minimum time it takes to send a packet on the 
-    internet, for instance
-- Why are lookahead values so important? Because they have a HUGE impact on our 
-simulation's performance!
-    - The WORST thing our process could do is send a new event with a timestamp 
-    equal to the exact current time
-        - If we can do this, it means ALL the other processes need to wait 
-        until the current time is &gt;= their message's lowest timestamp
-            - So, if we have no lookahead constraints on our events, then we 
-            can only have at most 2 events that happen at the EXACT same time 
-            running in the system at any given moment
+- How do we actually get this "no messages for 3 more seconds" number anyhow, though? Well, it's an ability known as LOOKAHEAD!
+    - The idea here is that "lookahead" is a constraint on the timestamp of the next new message we can send, and there are two types we're worried about:
+        - LINK LOOKAHEAD is where each connection w/ other processes will have its own lookahead value
+            - i.e. Each message sent on that link will have a timestamp of at least "current + link's lookahead"
+        - LP LOOKAHEAD is where the LP itself has a lookahead time it adds to each message that it sends from itself
+    - The exact values for these lookaheads will be VERY different from application to application - think about the minimum time it'll take to build an airplane vs the minimum time it takes to send a packet on the internet, for instance
+- Why are lookahead values so important? Because they have a HUGE impact on our simulation's performance!
+    - The WORST thing our process could do is send a new event with a timestamp equal to the exact current time
+        - If we can do this, it means ALL the other processes need to wait until the current time is &gt;= their message's lowest timestamp
+            - So, if we have no lookahead constraints on our events, then we can only have at most 2 events that happen at the EXACT same time running in the system at any given moment
     - If we have a lookahead time of at least "L," though, then that's great!
-        - This means that the event won't come until at least "Now + L", so the 
-        other processes can start handling ANY events they have with timestamp 
-        &lt;= Now + L
-- Because of this lookahead times are ESSENTIAL for efficiency in the CMB 
-algorithm - and, as it turns out, for any conservative algorithm at all
-    - Time creep, on the other hand, is specific ONLY to the CMB algorithm, and 
-    there are other conservative algorithms that avoid it
+        - This means that the event won't come until at least "Now + L", so the other processes can start handling ANY events they have with timestamp &lt;= Now + L
+- Because of this lookahead times are ESSENTIAL for efficiency in the CMB algorithm - and, as it turns out, for any conservative algorithm at all
+    - Time creep, on the other hand, is specific ONLY to the CMB algorithm, and there are other conservative algorithms that avoid it
 
-- Now, in sequential simulations, we don't need to worry about time creep at 
-all because we can just immediately go to the next event in the future event 
-list
-    - In parallel, if we knew what the smallest timestamp in the whole system 
-    was, we could just jump to that and run it
-        - If we know the time of the GLOBALLY smallest timestamp, we could 
-        avoid lookahead creep!
+- Now, in sequential simulations, we don't need to worry about time creep at all because we can just immediately go to the next event in the future event list
+    - In parallel, if we knew what the smallest timestamp in the whole system was, we could just jump to that and run it
+        - If we know the time of the GLOBALLY smallest timestamp, we could avoid lookahead creep!
 
 - So, to sum up this introductory parallel stuff:
-    - Parallel discrete event simulations are a collection of sequential LPs 
-    running in parallel and exchanging messages with one another
-    - The CMB algorithm uses null messsages w/ a lower bound on future 
-    timestamps to prevent deadlock
+    - Parallel discrete event simulations are a collection of sequential LPs running in parallel and exchanging messages with one another
+    - The CMB algorithm uses null messsages w/ a lower bound on future timestamps to prevent deadlock
     - Lookahead has a large effect on performance for conservative algorithms
     - We can use the time of the next event to avoid time creep
 
-- As it turns out, the CMB algorithm is ASYNCHRONOUS - each logical process is 
-operating totally independently, without any waiting on any global constraint
+- As it turns out, the CMB algorithm is ASYNCHRONOUS - each logical process is operating totally independently, without any waiting on any global constraint
     - SYNCHRONOUS ALGORITHMS, on the other hand, have GLOBAL synchronizations
-        - One of the most common examples of this are BARRIER SYNCHRONIZATIONS, 
-        where there's a "Barrier" condition that processes will stop at when 
-        they reach it; no process will start again until all other processes 
-        have reached the barrier
-            - This is kind of like being on a field trip, waiting for the bus 
-            to start: the bus can't leave until everyone's gotten back on!
-    - REMEMBER: Our core goal here is to make sure all of our LP processes are 
-    handling events in time-step order
+        - One of the most common examples of this are BARRIER SYNCHRONIZATIONS, where there's a "Barrier" condition that processes will stop at when they reach it; no process will start again until all other processes have reached the barrier
+            - This is kind of like being on a field trip, waiting for the bus to start: the bus can't leave until everyone's gotten back on!
+    - REMEMBER: Our core goal here is to make sure all of our LP processes are handling events in time-step order
         - The simplest way we can do this is as follows:
-            - Compute a "Lower Bound on the Time Stamp" (LBTS) - that is, the 
-            lower bound on ANY event the LP might receive
+            - Compute a "Lower Bound on the Time Stamp" (LBTS) - that is, the lower bound on ANY event the LP might receive
             - Process any events with a timestep &lt;= LBTS
             - Send messages
             - Repeat (forever (until heat death of the universe))
 
-- Specifically, there's an algorithm called YAWNS that uses this very idea! How 
-convenient for it to pop up just as we were discussing this!
+- Specifically, there's an algorithm called YAWNS that uses this very idea! How convenient for it to pop up just as we were discussing this!
     - To use this, we'll only need to assume 2 things:
         - Any process can communicate with any other process
         - Timestamp messages are INSTANTLY received and transmitted
-            - This isn't realistic at ALL, but let's not worry about message 
-            delays just yet (it complicates things)
-            - Notice here that (unlike CMB) we don't need to assume a fixed 
-            network topology OR that messages arrive in order!
+            - This isn't realistic at ALL, but let's not worry about message delays just yet (it complicates things)
+            - Notice here that (unlike CMB) we don't need to assume a fixed network topology OR that messages arrive in order!
         - Then, we'll do the following:
 
                 n_i = time of next unprocessed event in LP_i
@@ -215,55 +128,31 @@ convenient for it to pop up just as we were discussing this!
                     process all events with timestamp &lt;= LBTS
                     &lt;barrier synchronization&gt;
 
-            - So, every iteration, we process all the events until the next 
-            possible NEW event could occur, get all the new events, figure out 
-            when the next possible new events could occur, and repeat
-        - YAWNS and CMB are both pretty popular algorithms (probably because 
-        they're not very complicated!)
+            - So, every iteration, we process all the events until the next possible NEW event could occur, get all the new events, figure out when the next possible new events could occur, and repeat
+        - YAWNS and CMB are both pretty popular algorithms (probably because they're not very complicated!)
 
-- In order to implement these things, though, we need to answer 2 more 
-questions:
+- In order to implement these things, though, we need to answer 2 more questions:
     - How do we create Barrier Synchronizations in the first place?
     - How is the LBTS actually computed?
-        - As it turns out, we can use barriers to help figure this out, but the 
-        "instantaneous message" requirement complicates things - so we'll come 
-        back to that at a later date
+        - As it turns out, we can use barriers to help figure this out, but the "instantaneous message" requirement complicates things - so we'll come back to that at a later date
 
 - One way we can implement barriers is by using a CENTRAL CONTROLLER
-    - The idea here is that you designate one process to be the "controller 
-    process" for the barrier
-        - When a process reaches the barrier, it sends a message to that 
-        controller and waits for a reply
-        - The controller, on the other hand, waits until ALL other processes 
-        have reached that barrier, then sends an "all-clear" message to every 
-        other process
-    - Performance-wise, message passing can be pretty expensive - this scheme 
-    sends 2*N messages, making it O(n) (since the messages need to be processed 
-    sequentially)
-        - This also means the single controller process becomes a bottleneck 
-        for the barrier if there's a ton of messages, which we'd like to avoid
-- An alternative to this is the BROADCAST BARRIER, where we do away with a 
-controller process
-    - Here, when a process reaches the barrier, it'll send a message to every 
-    other process, then wait until it's heard back from every other process
-    - This'll send N*(N-1) messages, which isn't great - we wouldn't want to 
-    use this scheme!
-        - However, there's one case where this is actually just fine: a 
-        PAIRWISE BARRIER, where there's only 2 processes we care about
-            - This means that each process only sends one message, and each 
-            process only has a single "receive" processing step - that's SUPER 
-            efficient!
-                - How can we extend this to larger schemes, then? Let's keep 
-                thinking...
+    - The idea here is that you designate one process to be the "controller process" for the barrier
+        - When a process reaches the barrier, it sends a message to that controller and waits for a reply
+        - The controller, on the other hand, waits until ALL other processes have reached that barrier, then sends an "all-clear" message to every other process
+    - Performance-wise, message passing can be pretty expensive - this scheme sends 2*N messages, making it O(n) (since the messages need to be processed sequentially)
+        - This also means the single controller process becomes a bottleneck for the barrier if there's a ton of messages, which we'd like to avoid
+- An alternative to this is the BROADCAST BARRIER, where we do away with a controller process
+    - Here, when a process reaches the barrier, it'll send a message to every other process, then wait until it's heard back from every other process
+    - This'll send N*(N-1) messages, which isn't great - we wouldn't want to use this scheme!
+        - However, there's one case where this is actually just fine: a PAIRWISE BARRIER, where there's only 2 processes we care about
+            - This means that each process only sends one message, and each process only has a single "receive" processing step - that's SUPER efficient!
+                - How can we extend this to larger schemes, then? Let's keep thinking...
 
-- We're computer scientists, but we haven't brought trees into this yet - let's 
-change this with a TREE BARRIER!
-    - Here, we'll organize the processes into a binary tree as they reach the 
-    barrier
-        - For instance, if we have processes 0-7, we'll say that 0 is waiting 
-        on Process 1, 2 on process 3, 4 on 5, and 6 on 7
-        - We'll then say that 0 is waiting on 2 (and therefore indirectly on 
-        3), and 4 on 6
+- We're computer scientists, but we haven't brought trees into this yet - let's change this with a TREE BARRIER!
+    - Here, we'll organize the processes into a binary tree as they reach the barrier
+        - For instance, if we have processes 0-7, we'll say that 0 is waiting on Process 1, 2 on process 3, 4 on 5, and 6 on 7
+        - We'll then say that 0 is waiting on 2 (and therefore indirectly on 3), and 4 on 6
         - And - finally, that 0 is waiting on 4
 
                                 0
@@ -274,76 +163,38 @@ change this with a TREE BARRIER!
                             |   |     |
                             1   3     7
 
-                - (note that the three 0's here are all the same instance, and 
-                are just shown 3 times for tree-drawing purposes)
-            - Therefore, when 0 has heard all of the messages it's waiting on, 
-            the barrier has been achieved! It'll then send a message down the 
-            rest of the tree that this is done
-    - So, this'll generate 2*(N-1) messages, since each process is sending a 
-    message to/from its parent, and will take 2*log(N) steps (since we're 
-    traversing the tree twice)
+                - (note that the three 0's here are all the same instance, and are just shown 3 times for tree-drawing purposes)
+            - Therefore, when 0 has heard all of the messages it's waiting on, the barrier has been achieved! It'll then send a message down the rest of the tree that this is done
+    - So, this'll generate 2*(N-1) messages, since each process is sending a message to/from its parent, and will take 2*log(N) steps (since we're traversing the tree twice)
 
 - Can we do better than this? Yup! We can use the BUTTERFLY BARRIER
-    - The idea here is that we'll be using a sequence of log(n) pairwise 
-    barriers...
-        - ...but who do we pair with? Well, it's WEIRD - we'll base it off of 
-        our binary ID!
-            - Basically, we'll pair with all of our binary ID(s) but with each 
-            bit TOGGLED!
-                - e.g. Process 3 will have pairwise barriers with 3 DIFFERENT 
-                LPs that it will RECEIVE messages from:
+    - The idea here is that we'll be using a sequence of log(n) pairwise barriers...
+        - ...but who do we pair with? Well, it's WEIRD - we'll base it off of our binary ID!
+            - Basically, we'll pair with all of our binary ID(s) but with each bit TOGGLED!
+                - e.g. Process 3 will have pairwise barriers with 3 DIFFERENT LPs that it will RECEIVE messages from:
                     3 = 011 =&gt; 010 = pair with process 2 (first bit flipped)
                         011 =&gt; 001 = pair with process 1 (2nd bit flipped)
                         011 =&gt; 111 - pair with process 7 (3rd bit flipped)
-                - Basically, for a given binary number ID with "k" bits, 
-                there'll be "k-1" pairwise barriers
-    - This seems like it comes out of nowhere, but it's based on the binary 
-    tree from the last scheme!
-        - Basically, we can view an "N" node Butterfly scheme as N different 
-        tree barriers all hooked up together, where each node is hooked up to 
-        log(n)-1 nodes
-            - Because of how the pairings work out, there'll be log(n) 
-            "rounds"/steps for the algorithm before we know the barrier's been 
-            reached
-                - For process 3, in the first step it'll receive a message from 
-                LP 2, so we know 2 is done
-                - In the 2nd step, it'll receive a message from process 1 - 
-                which will ONLY happen when process 0 (1's partner) has 
-                finished, so we know 0, 1, 2, and 3 have all reached the barrier
-                    - (I *THINK* that in the 1st step all the processes will 
-                    send their messages to their 1st "target partner," then 
-                    they'll wait to send their 2nd step messages until they've 
-                    received a message from their 1st partner, then wait to 
-                    send their 3rd step messages until they've heard from their 
-                    2nd, etc.)
-                - Finally, in the 3rd step, 3 will receive a message from 7, 
-                meaning all of 7's "children" must have finished, and that, 
-                therefore, ALL of the processes have reached the barrier!
+                - Basically, for a given binary number ID with "k" bits, there'll be "k-1" pairwise barriers
+    - This seems like it comes out of nowhere, but it's based on the binary tree from the last scheme!
+        - Basically, we can view an "N" node Butterfly scheme as N different tree barriers all hooked up together, where each node is hooked up to log(n)-1 nodes
+            - Because of how the pairings work out, there'll be log(n) "rounds"/steps for the algorithm before we know the barrier's been reached
+                - For process 3, in the first step it'll receive a message from LP 2, so we know 2 is done
+                - In the 2nd step, it'll receive a message from process 1 - which will ONLY happen when process 0 (1's partner) has finished, so we know 0, 1, 2, and 3 have all reached the barrier
+                    - (I *THINK* that in the 1st step all the processes will send their messages to their 1st "target partner," then they'll wait to send their 2nd step messages until they've received a message from their 1st partner, then wait to send their 3rd step messages until they've heard from their 2nd, etc.)
+                - Finally, in the 3rd step, 3 will receive a message from 7, meaning all of 7's "children" must have finished, and that, therefore, ALL of the processes have reached the barrier!
                     - That means 3 is done, and can now resume running!
-            - The same thing is going on for ALL the processes - for each step, 
-            they have a process they're sending a message to and a process 
-            they're receiving from!
-    - Why is this better? Like the tree barrier, we still need log(n) steps to 
-    figure out when we're done - but unlike the tree barrier, once we've done 
-    that, we're done! We don't need to tell everyone the barrier's finished!
-        - So, performance-wise, this'll send N*log(N) messages (since at every 
-        step of the tree "N" messages are sent, and for the final step "N" 
-        messages need to be sent saying we reached the barrier (I think?)) and 
-        there's log(n) steps
+            - The same thing is going on for ALL the processes - for each step, they have a process they're sending a message to and a process they're receiving from!
+    - Why is this better? Like the tree barrier, we still need log(n) steps to figure out when we're done - but unlike the tree barrier, once we've done that, we're done! We don't need to tell everyone the barrier's finished!
+        - So, performance-wise, this'll send N*log(N) messages (since at every step of the tree "N" messages are sent, and for the final step "N" messages need to be sent saying we reached the barrier (I think?)) and there's log(n) steps
 
-- So, that's the basics of pretty efficient Barrier Synchronization - here's a 
-quick summary of this synchronous stuff:
-    - Synchronous algorithms use global barriers as their way of guaranteeing 
-    the LCC
-    - Algorithm uses knowledge of the next event in each LP, letting them 
-    sidestep lookahead creep
+- So, that's the basics of pretty efficient Barrier Synchronization - here's a quick summary of this synchronous stuff:
+    - Synchronous algorithms use global barriers as their way of guaranteeing the LCC
+    - Algorithm uses knowledge of the next event in each LP, letting them sidestep lookahead creep
     - Barrier can be implemented efficiently using the butterfly pattern
     - There are sticky issues that come up when we deal with message delay
 
-- What kind of goopy, sticky stuff arises? Well, we'll need to talk about THAT 
-on Thursday!
-
-</pre>
+- What kind of goopy, sticky stuff arises? Well, we'll need to talk about THAT on Thursday!</pre>
 </article>
 <a class="side-link is-note-link" href="20_timeWarp_4_4_19.html"></a>
 </main>

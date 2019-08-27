@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,136 +23,78 @@
 <a class="side-link is-note-link" href="17_introNeuralNets_7_19_18.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //******************** Backpropagation - July 24th, 2018 ********************//
 //**************************************************************************//
 
 - It's the final lecture *duh-duh-duh-duh-dun*
-    - ...ah, yes, the reign of terror for these cheesy jokes is almost at an 
-    end - a shining future of Dad jokes and blissful slumber draws near
-- 2:34 - Will Professor Byrd arrive in time? Will the student population 
-increase? Will we ever know if CS majors can find true love? Tune in next 
-minute to find out on...INTRO A.I.!
+    - ...ah, yes, the reign of terror for these cheesy jokes is almost at an end - a shining future of Dad jokes and blissful slumber draws near
+- 2:34 - Will Professor Byrd arrive in time? Will the student population increase? Will we ever know if CS majors can find true love? Tune in next minute to find out on...INTRO A.I.!
 - 2:36 - ...No. Also no. And meh.
 - 2:42 - AND HE'S ARRIVED!
 
 - Dashed onto the white plane for the last time, the marker's felt point leaves:
     - "Backpropagation
     - Final Review"
-- (Off to the right side of the board, the small 5-neuron example from 
-previously on 3600 returns)
+- (Off to the right side of the board, the small 5-neuron example from previously on 3600 returns)
 
-- "We simply can't get into convolutional neural nets, partially observable 
-MDPs, and so many more exciting AI topics...but that's okay. This class was 
-always meant to be an introduction."
+- "We simply can't get into convolutional neural nets, partially observable MDPs, and so many more exciting AI topics...but that's okay. This class was always meant to be an introduction."
 
-- The final will be in THIS ROOM, at 2:20pm on THIS THURSDAY (i.e. in 2 days); 
-like the midterm, it'll be closed notes, closed book, and you SHOULD bring a 
-calculator
-    - Stuff that you coded yourself I WILL expect you to know the algorithm for 
-    pretty perfectly; everything else you should be able to do calculations 
-    for, but exact algorithms...probably not
+- The final will be in THIS ROOM, at 2:20pm on THIS THURSDAY (i.e. in 2 days); like the midterm, it'll be closed notes, closed book, and you SHOULD bring a calculator
+    - Stuff that you coded yourself I WILL expect you to know the algorithm for pretty perfectly; everything else you should be able to do calculations for, but exact algorithms...probably not
         - "The example "
-    - Stuff that was on the midterm probably won't have detailed questions, but 
-    conceptual grab-bag questions and SIMPLE calculation problems (e.g. 1-step 
-    probabilities) are fair game
-    - "I've attempted to make the test the same length as the midterm, but I'm 
-    apparently not the greatest judge of difficulty, so we'll see"
+    - Stuff that was on the midterm probably won't have detailed questions, but conceptual grab-bag questions and SIMPLE calculation problems (e.g. 1-step probabilities) are fair game
+    - "I've attempted to make the test the same length as the midterm, but I'm apparently not the greatest judge of difficulty, so we'll see"
 --------------------------------------------------
 
-- "Alright, backpropagation is a little bit complicated, but hopefully not too 
-bad, and if you understand it now it can make your future machine-learning life 
-quite a bit easier"
-    - In other words, pay attention - NOT because it'll be on the final, but 
-    because this is stuff that you'll ACTUALLY USE
+- "Alright, backpropagation is a little bit complicated, but hopefully not too bad, and if you understand it now it can make your future machine-learning life quite a bit easier"
+    - In other words, pay attention - NOT because it'll be on the final, but because this is stuff that you'll ACTUALLY USE
 
 - So, last time we were looking at a fully-connected 5 neuron example network
-    - "You CAN have partially/locally connected networks, e.g. convolutional 
-    neural nets, where not all the nodes in one layer are connected to all the 
-    nodes in the next layer...but that's a bit beyond where we're going in this 
-    course"
-        - The reason this partial connection works well in some problems is 
-        because it creates a "neighborhood" of connections, which for some 
-        problems (e.g. computer vision) can give your neural net a "hint" that 
-        the neuron only affects certain other neighbors (e.g. a pixel is only 
-        related to its immediate neighbors, not to pixels on the other side of 
-        the screen)
-            -"...apologies for the long aside, but CNNs are really popular 
-            right now, and a lot of times they're described as these crazy 
-            complicated things when they're really only a few steps up from 
-            normal neural nets"
+    - "You CAN have partially/locally connected networks, e.g. convolutional neural nets, where not all the nodes in one layer are connected to all the nodes in the next layer...but that's a bit beyond where we're going in this course"
+        - The reason this partial connection works well in some problems is because it creates a "neighborhood" of connections, which for some problems (e.g. computer vision) can give your neural net a "hint" that the neuron only affects certain other neighbors (e.g. a pixel is only related to its immediate neighbors, not to pixels on the other side of the screen)
+            -"...apologies for the long aside, but CNNs are really popular right now, and a lot of times they're described as these crazy complicated things when they're really only a few steps up from normal neural nets"
 
-- Back to the example, though, we showed our network is really just a fancy way 
-of showing our output is a function combining the inputs of the other neurons - 
-so what're the problems?
-    - Well, it seems reasonable to put all of our weights in a 2D matrix with 
-    coordinates (i,j) mapping to a weight "Wij"
-        - Given that, training our neural net means locally searching through 
-        the space of possible "W" weight matrices to improve our loss function, 
-        until we eventually find a locally optimal matrix
+- Back to the example, though, we showed our network is really just a fancy way of showing our output is a function combining the inputs of the other neurons - so what're the problems?
+    - Well, it seems reasonable to put all of our weights in a 2D matrix with coordinates (i,j) mapping to a weight "Wij"
+        - Given that, training our neural net means locally searching through the space of possible "W" weight matrices to improve our loss function, until we eventually find a locally optimal matrix
     - ...so, how do we ACTUALLY train this?
-        - Well, if we just have a single neuron (say "a5") with inputs a3, a4, 
-        and a0, and we have an experience data point tuple (x1, x2, y), we can 
-        just plug in x1 for a3, x2 for a4, and then compare the result against 
-        our prediction "y"
+        - Well, if we just have a single neuron (say "a5") with inputs a3, a4, and a0, and we have an experience data point tuple (x1, x2, y), we can just plug in x1 for a3, x2 for a4, and then compare the result against our prediction "y"
 
                 a5 = -a0 + w35*a3 + w45*a4
                 
-            - We can get the gradients to use for our gradient descent using 
-            our loss function:
+            - We can get the gradients to use for our gradient descent using our loss function:
 
                 dLoss/dw35 , dLoss/dW45 , dLoss/da0
 
-            - "Note that these gradients are in terms of the parameters we can 
-            change, NOT the inputs"
-            - With that, we have a gradient vector, so we know what direction 
-            to tweak our weights in - great!
-        - ...and for a single-depth neural network (i.e. just one layer), that 
-        gradient descent training is sufficient for an optimal answer!
+            - "Note that these gradients are in terms of the parameters we can change, NOT the inputs"
+            - With that, we have a gradient vector, so we know what direction to tweak our weights in - great!
+        - ...and for a single-depth neural network (i.e. just one layer), that gradient descent training is sufficient for an optimal answer!
     - With deeper neural nets, though, we have an issue:
-        - We can go forward to get our estimate, and calculate the loss 
-        function, and we can then calculate the gradient for our last/output 
-        layer - but it will NOT work for our hidden layers beyond our output
-            - Why? Because while we know what our overall output should be, we 
-            DON'T know what our intermediate, hidden layer outputs should've 
-            been - that information isn't in our training tuple!
-                - Because of that, we don't have enough information to 
-                calculate a loss function for our hidden layers, so we can't 
-                use gradient descent for them!
-                - "In other words, you can't train hidden layers correctly 
-                without the backpropagation algorithm"
+        - We can go forward to get our estimate, and calculate the loss function, and we can then calculate the gradient for our last/output layer - but it will NOT work for our hidden layers beyond our output
+            - Why? Because while we know what our overall output should be, we DON'T know what our intermediate, hidden layer outputs should've been - that information isn't in our training tuple!
+                - Because of that, we don't have enough information to calculate a loss function for our hidden layers, so we can't use gradient descent for them!
+                - "In other words, you can't train hidden layers correctly without the backpropagation algorithm"
 
-- How do we train these intermediate layers, then? A nifty little algorithm 
-called BACKPROPAGATION!
-    - At a high level, how does this work? We do our forward estimate 
-    calculation like normal, get our known error/loss function for the output 
-    layer, and then propagate that error BACKWARDS through the network layers 
-    to estimate the error for each hidden layer
-        - Overall, we're going to say that each hidden node is responsible for 
-        some portion of the overall error
-            - How much is it responsible? We'll say it's responsibility is 
-            proportional to the weight connecting that hidden neuron to the next
-                - i.e. "The more heavily we were weighting a neuron's input - 
-                how closesly we were 'listening' to it - the more we assume 
-                it's guilty of the error"
-    - Alright, that's the handwavy, high-level idea of backpropagation - let's 
-    get down to details
+- How do we train these intermediate layers, then? A nifty little algorithm called BACKPROPAGATION!
+    - At a high level, how does this work? We do our forward estimate calculation like normal, get our known error/loss function for the output layer, and then propagate that error BACKWARDS through the network layers to estimate the error for each hidden layer
+        - Overall, we're going to say that each hidden node is responsible for some portion of the overall error
+            - How much is it responsible? We'll say it's responsibility is proportional to the weight connecting that hidden neuron to the next
+                - i.e. "The more heavily we were weighting a neuron's input - how closesly we were 'listening' to it - the more we assume it's guilty of the error"
+    - Alright, that's the handwavy, high-level idea of backpropagation - let's get down to details
         - Here's the math for how we derive this; let's assume we have:
-            - "k" output nodes (i.e. we'll have a system of "k" total output 
-            equations)
+            - "k" output nodes (i.e. we'll have a system of "k" total output equations)
             - Some loss function for our output nodes
-                - To be specific, let's assume it's the sum of squared errors 
-                for ALL of our output nodes:
+                - To be specific, let's assume it's the sum of squared errors for ALL of our output nodes:
 
                         loss(W) = {(estimatek - actualk)^2, k}
 
-        - Let's take the derivative of our loss function with respect to ALL of 
-        the weights:
+        - Let's take the derivative of our loss function with respect to ALL of the weights:
 
                 dLoss/dW
 
-            - "If we could do this in 1 step, that'd be it; this IS 
-            backpropagation!...but we need to do it for all the neurons"
+            - "If we could do this in 1 step, that'd be it; this IS backpropagation!...but we need to do it for all the neurons"
 
                     = d/dW {(estimatek - actualk)^2, k} 
                     = {d/dW (estimatek - actualk)^2, k}
@@ -163,98 +106,67 @@ called BACKPROPAGATION!
                     = {2*(estimatek - actualk) * -1*d/dW(actualk), k}
                     = {-2*(estimatek - actualk) * d/dW g(ink), k}
 
-                - "Remember: g(ink) is the activation function of the given 
-                neuron k"
+                - "Remember: g(ink) is the activation function of the given neuron k"
 
                     = {-2*(estimatek - actualk) * g'(ink) * d/dW(ink), k}
 
-                - "g'(ink) is just whatever the derivative for that neuron's 
-                activation equation is"
-                - Plugging in for "INk" - which is just ALL the inputs for the 
-                given neuron - we end up at last with:
+                - "g'(ink) is just whatever the derivative for that neuron's activation equation is"
+                - Plugging in for "INk" - which is just ALL the inputs for the given neuron - we end up at last with:
 
                     = {-2(estimatek - actualk) * g'(ink) * d/dW({wjk*aj, j}), k}
 
                 - Parts of this equation:
-                    - "-2(estimatek - actualk) * g'(ink)" is the error estimate 
-                    for the current neuron "k"
+                    - "-2(estimatek - actualk) * g'(ink)" is the error estimate for the current neuron "k"
                     - 
 
-- Okay, for those of us who aren't mathematicians, it's kinda confusing to look 
-at a theoretically correct math equation like this and turn it into code - so 
-let's write down an actual algorithm for backpropagation:
+- Okay, for those of us who aren't mathematicians, it's kinda confusing to look at a theoretically correct math equation like this and turn it into code - so let's write down an actual algorithm for backpropagation:
     1) Initialize all of our weights W to small, random numbers
-        - "A LOT of different options here, but it's the same idea of 'priors' 
-        we've been using since Bayes' Nets"
-    2) Given a single experience tuple (X, y), run the network forward (i.e. 
-    just plug in X) and get the network's prediction
+        - "A LOT of different options here, but it's the same idea of 'priors' we've been using since Bayes' Nets"
+    2) Given a single experience tuple (X, y), run the network forward (i.e. just plug in X) and get the network's prediction
     3) Propagate the error backward:
         
         for node j in output_layer L:
             errorJ = (estimatek - actualk) * g'(inj) 
-                # this will vary slightly depending on your loss function - 
-                basically, just replace "estimatek - actualk" with your actual 
-                loss
-        for each other layer l (L-1 to 1, going backwards): #for all the hidden 
-        layers
+                # this will vary slightly depending on your loss function - basically, just replace "estimatek - actualk" with your actual loss
+        for each other layer l (L-1 to 1, going backwards): #for all the hidden layers
             for each node i in layer l:
                 errorI = g'(ini) * {wij * errorJ, j}
-                # This is going one step backwards, where we sum over every 
-                node "j" in the next layer FORWARD that was connected to us 
-                (i.e. "i", the current node) as an input (i.e. J is one layer 
-                closer to the output than i)
+                # This is going one step backwards, where we sum over every node "j" in the next layer FORWARD that was connected to us (i.e. "i", the current node) as an input (i.e. J is one layer closer to the output than i)
         for each weight "wij" in network:
             wij += a * ai * errorJ 
             # "a" is our learning rate
             #NOTE TO SELF: double-check what "errorJ" is
 
-    - "Each time we pass through ALL of our training data (i.e. have run 
-    backpropagation for ALL of our training tuples), we call it an EPOCH - 
-    typically, after each epoch is when we ask if we've reached our stopping 
-    point (usually the error rate less than epsilon)"
-        - If we checked our stopping condition after EVERY single 
-        backpropagation tuple, it might slow us down a bit too much to be worth 
-        it
-- "After you've programmed this whole thing by yourself once, and you 
-understand how it works - then you've got my full permission to use TensorFlow 
-or Piano or whatever library you want"
+    - "Each time we pass through ALL of our training data (i.e. have run backpropagation for ALL of our training tuples), we call it an EPOCH - typically, after each epoch is when we ask if we've reached our stopping point (usually the error rate less than epsilon)"
+        - If we checked our stopping condition after EVERY single backpropagation tuple, it might slow us down a bit too much to be worth it
+- "After you've programmed this whole thing by yourself once, and you understand how it works - then you've got my full permission to use TensorFlow or Piano or whatever library you want"
 
 --------------------------------------------------------------------------------
 
 - Okay, let's run through a few example problems for the final:
 
 - First off, the Decision Theory, expected utility "gameshow" problem
-    - "These are simple-but-good problems" - it's similar to the Monty Hall 
-    problem, although that's not quite what this is
-    c) There are k doors, C total prize dollars behind ONE of those doors - how 
-    much should we be willing to pay to look at just the first door?
+    - "These are simple-but-good problems" - it's similar to the Monty Hall problem, although that's not quite what this is
+    c) There are k doors, C total prize dollars behind ONE of those doors - how much should we be willing to pay to look at just the first door?
         - Well, the expected utility for NOT peeking is:
 
             EU(not peeking) = P(win) * C + P(lose) * 0
                     = 1/k * C + (k-1)/k * 0 = C/k
 
-        - If we peek, and we SEE the prize, then we'll definitely choose that 
-        door and win the money; if it didn't reveal the prize, we WON'T choose 
-        that door, so:
+        - If we peek, and we SEE the prize, then we'll definitely choose that door and win the money; if it didn't reveal the prize, we WON'T choose that door, so:
 
-            EU(peeking) = P(sawPrize) * C + P(didn'tSeePrize) * (new expected 
-            utility)
+            EU(peeking) = P(sawPrize) * C + P(didn'tSeePrize) * (new expected utility)
                 = 1/k * C + (k-1)/k * (1/k-1 * C + k-2/k-1 * 0)
                 = C/k + C/k = 2C/k
 
-        - So, peeking will add "C/k" value to our utility - so paying anything 
-        less than C/k is worth it!
+        - So, peeking will add "C/k" value to our utility - so paying anything less than C/k is worth it!
         - Therefore, our answer should be "i" - C/k
 
-    d) You would NOT want to buy two peeks at once, instead of paying for two 
-    separately, since if we saw the prize on our 1st peek there's no reason to 
-    pay for a second
+    d) You would NOT want to buy two peeks at once, instead of paying for two separately, since if we saw the prize on our 1st peek there's no reason to pay for a second
 
-- Alright, now the Neural Net "decision list disjunction" problem (a 
-semi-ancient problem from UC Berkeley)
+- Alright, now the Neural Net "decision list disjunction" problem (a semi-ancient problem from UC Berkeley)
     a) Disjunction just means a standard "or" of these
-        - We'll add a1 - if it's true, we already have true and can stop! 
-        Otherwise, we need to check a2 - if that's false, we need to check a3:
+        - We'll add a1 - if it's true, we already have true and can stop! Otherwise, we need to check a2 - if that's false, we need to check a3:
 
                                 a1
                                / \
@@ -264,43 +176,30 @@ semi-ancient problem from UC Berkeley)
                                     / \
                                    T   F
 
-    b) Drawing a perceptron, we have 4 inputs - the bias (a0) and the three 
-    inputs a1, a2, a3, each with an associated weight, with the bias fixed at -1
-        - Since we want an "OR" perceptron, we want all the inputs to matter 
-        equally - so let's just give them all a weight of 1
-        - Now, for an OR gate, we want the perceptron to ONLY output 0 if all 3 
-        are false and to be true for everything else
-            - So, let's say the bias weight is -2 (i.e. adding 2 to the 
-            equation) - this way, the activation equation will only be negative 
-            if all inputs are -1 (false)
+    b) Drawing a perceptron, we have 4 inputs - the bias (a0) and the three inputs a1, a2, a3, each with an associated weight, with the bias fixed at -1
+        - Since we want an "OR" perceptron, we want all the inputs to matter equally - so let's just give them all a weight of 1
+        - Now, for an OR gate, we want the perceptron to ONLY output 0 if all 3 are false and to be true for everything else
+            - So, let's say the bias weight is -2 (i.e. adding 2 to the equation) - this way, the activation equation will only be negative if all inputs are -1 (false)
         - (CHECK THIS ANSWER - I might've missed details)
     c) Matching which decision trees/perceptrons do the same thing
         - C and 1 go together
-        - A and 3 go together, since in both of them true inputs lead to false 
-        outputs
+        - A and 3 go together, since in both of them true inputs lead to false outputs
         - ...and B and 2 go otgether by process of elimination
 
 - Policy iteration
-    - "Policy iteration is actually quite a bit easier than value iteration, 
-    you just haven't done quite as much with it"
-    - We've got two states (S and not S) and two actions: "a" stays, "b" 
-    switches
-    - We have an inital policy to ALWAYS stay in the same state (always choose 
-    "a")
-        - Let's calculate the utility of this for each state (Berkeley uses "V" 
-        for "value" instead of u for utility):
+    - "Policy iteration is actually quite a bit easier than value iteration, you just haven't done quite as much with it"
+    - We've got two states (S and not S) and two actions: "a" stays, "b" switches
+    - We have an inital policy to ALWAYS stay in the same state (always choose "a")
+        - Let's calculate the utility of this for each state (Berkeley uses "V" for "value" instead of u for utility):
 
             Vpi0(s) = R(s) + g*(T(s,a,s) * Vpi0(s) + T(s,a,not s) * Vpi0(not s))
-            Vpi0(not s) = R(not s) + g*(T(not s,a,s) * Vpi0(s) + T(not s,a,not 
-            s) * Vpi0(not s))
+            Vpi0(not s) = R(not s) + g*(T(not s,a,s) * Vpi0(s) + T(not s,a,not s) * Vpi0(not s))
 
             =&gt; Vpi0(s) = 3 + 0.5*(1*(Vpi0(s)) + 0 * (Vpi0(s)))
                         = 3 + 0.5 * Vpi0(s)
                Vpi0(not s) = 2 + 0.5 * Vpi0(not s)
 
-                - "Yes, these have their own answers in the equation - that 
-                means we have to use some basic algebra to solve what the 
-                answer is supposed to be!"
+                - "Yes, these have their own answers in the equation - that means we have to use some basic algebra to solve what the answer is supposed to be!"
                     - Rewriting this as X and Y makes this really obvious:
 
                 X = 3 + 0.5X =&gt; X = 6
@@ -313,12 +212,7 @@ semi-ancient problem from UC Berkeley)
                 = argmax(a: 1 * 4 + 0 * 6, b: 1*6 + 0*4)
                 = b
 
-            - "Okay, our policy changed, so we have to do the utility 
-            calculations again for Vpi1 - when we then calculate the policy, we 
-            find it'll still be a if we're in s, b if we're in not s, so then 
-            we're done"
-
-</pre>
+            - "Okay, our policy changed, so we have to do the utility calculations again for Vpi1 - when we then calculate the policy, we find it'll still be a if we're in s, b if we're in not s, so then we're done"</pre>
 </article>
 <a class="side-link is-note-link" href="18_backpropagation_7_24_18.html"></a>
 </main>

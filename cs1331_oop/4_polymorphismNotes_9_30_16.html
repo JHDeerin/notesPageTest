@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,86 +23,48 @@
 <a class="side-link is-note-link" href="3_moreInheritanceNotes_9_28_16.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//**************************************************************//
 //**********Polymorphism - September 30th, 2016****************//
 //************************************************************//
 
--Class getting out 20 minutes early! ("This is definitely not so I can have 
-pizza" - Prof. Simpkins)
--Some of the exams are...on the rougher side; if the class AVERAGE is extremely 
-low (under ~70%), the grades will be curved upwards to reflect that; NO ONE'S 
-GRADE will go down as a result of the curve
--Tracing code is essential, which is why it is so heavily tested; you have to 
-be able to think through how a program will run and operate in order to 
-effectively debug, design, or understand the code you write.
--BRIEF OOP DEFINITION: If you have encapsulation, abstraction, inheritance, and 
-polymorphism, congratulations, you're an OOP language!
--In an imperative program, the "state" of the program is just the values held 
-within all of the containers (imperative languages basically just deal with 
-straight-up values and little else)
+-Class getting out 20 minutes early! ("This is definitely not so I can have pizza" - Prof. Simpkins)
+-Some of the exams are...on the rougher side; if the class AVERAGE is extremely low (under ~70%), the grades will be curved upwards to reflect that; NO ONE'S GRADE will go down as a result of the curve
+-Tracing code is essential, which is why it is so heavily tested; you have to be able to think through how a program will run and operate in order to effectively debug, design, or understand the code you write.
+-BRIEF OOP DEFINITION: If you have encapsulation, abstraction, inheritance, and polymorphism, congratulations, you're an OOP language!
+-In an imperative program, the "state" of the program is just the values held within all of the containers (imperative languages basically just deal with straight-up values and little else)
 -Can trace recursive programs via "substitution method"; THE FUTURE IS WAITING!
 -----------------------------------
 
--So, we know how to derive classes from other class definitions, derive 
-interface definitions, etc.; but we're missing the KEY, BEATING HEART of OOP...
--OOP requires data abstraction via classes (encapsulation), inheritance, and 
-"Dynamic method binding" - the last is what allows for POLYMORPHISM,
+-So, we know how to derive classes from other class definitions, derive interface definitions, etc.; but we're missing the KEY, BEATING HEART of OOP...
+-OOP requires data abstraction via classes (encapsulation), inheritance, and "Dynamic method binding" - the last is what allows for POLYMORPHISM,
     -Remember: static = "done at compile time," dynamic = "handled at runtime"
 
--Class hierarchies represented via UML diagram, w/ arrows pointing towards 
-parent class; higher you go, in general, the more general the concept is (i.e. 
-"Human" &lt;- "Employee" &lt;- "Plumber" &lt;- "Italian Plumber" &lt;- "Mario")
+-Class hierarchies represented via UML diagram, w/ arrows pointing towards parent class; higher you go, in general, the more general the concept is (i.e. "Human" &lt;- "Employee" &lt;- "Plumber" &lt;- "Italian Plumber" &lt;- "Mario")
 -Polymorphism gives us some specialization
 
--Let's say we have "HourlyEmployee" and "SalariedEmployee," which both contain 
-a "payOnTheHour" method not found in employee; these methods are EXACTLY the 
-same, and even share the same name
-    -This is NOT polymorphic, as the parent "Employee" class does NOT have a 
-    "payOnTheHour" method
+-Let's say we have "HourlyEmployee" and "SalariedEmployee," which both contain a "payOnTheHour" method not found in employee; these methods are EXACTLY the same, and even share the same name
+    -This is NOT polymorphic, as the parent "Employee" class does NOT have a "payOnTheHour" method
 
--Why is this useful? Let's say we need to make a list of employees to keep 
-track of for the company
-    -Right now, we need to have a separate array for "HourlyEmployee" and 
-    "SalariedEmployee" objects; for instance, if we want to pay them 
-    "payOnTheHour," we'd need 2 loops
-    -That's not awful...but what if we want to add a new type of employee? What 
-    about a "PayOnCommissionEmployee" that is paid differently? We'd need a new 
-    for loop and have to fix a lot of code, just to add 1 more employee
-    -...so what if we could have a single list? And just call a "pay" method? 
-    It would be cleaner, easier to debug, etc.
+-Why is this useful? Let's say we need to make a list of employees to keep track of for the company
+    -Right now, we need to have a separate array for "HourlyEmployee" and "SalariedEmployee" objects; for instance, if we want to pay them "payOnTheHour," we'd need 2 loops
+    -That's not awful...but what if we want to add a new type of employee? What about a "PayOnCommissionEmployee" that is paid differently? We'd need a new for loop and have to fix a lot of code, just to add 1 more employee
+    -...so what if we could have a single list? And just call a "pay" method? It would be cleaner, easier to debug, etc.
     -This is what polymorphism lets us do
 
--We can make the list be a list of "Employee" objects, which is a superclass 
-ALL of these objects inherit from, and add an abstract method "pay" to the 
-"Employee" class
- (so that ALL of the subclasses have to implement their own "pay" method; 
- otherwise, an error could occur if we call pay)
+-We can make the list be a list of "Employee" objects, which is a superclass ALL of these objects inherit from, and add an abstract method "pay" to the "Employee" class
+ (so that ALL of the subclasses have to implement their own "pay" method; otherwise, an error could occur if we call pay)
     -Abstract classes:
         -Cannot be instantiated
         -May contain none, 1, or more abstract methods
-        -Subclasses MUST provide an implementation for the class, UNLESS they 
-        are ALSO ABSTRACT
-    -Could've used an interface instead; but, what we gain with an abstract 
-    class is that we can have methods that are pre-defined and take advantage 
-    of instance variables (interfaces *can* have pre-implemented methods, but 
-    they aren't allowed to use variables, as there's no guarantee that the 
-    class implementing it will have those variables); ALSO, we can guarantee 
-    that each subclass has a certain structure
-        -Interfaces still useful, as you can use multiple interfaces; 
-        interfaces are also much more flexible, which makes them better suited 
-        for rapid prototyping, with inheritance being added once you have a 
-        stable structure established
-    -So, "Employee" defines the broad features, and then subclasses fill in the 
-    details specific to them
+        -Subclasses MUST provide an implementation for the class, UNLESS they are ALSO ABSTRACT
+    -Could've used an interface instead; but, what we gain with an abstract class is that we can have methods that are pre-defined and take advantage of instance variables (interfaces *can* have pre-implemented methods, but they aren't allowed to use variables, as there's no guarantee that the class implementing it will have those variables); ALSO, we can guarantee that each subclass has a certain structure
+        -Interfaces still useful, as you can use multiple interfaces; interfaces are also much more flexible, which makes them better suited for rapid prototyping, with inheritance being added once you have a stable structure established
+    -So, "Employee" defines the broad features, and then subclasses fill in the details specific to them
 
--So, now, when the method is invoked on objects in the "Employee"-type array, 
-the method of the dynamic(run-time) type is used (i.e. the subclasses), even 
-though the static(compiled) type is "Employee"
+-So, now, when the method is invoked on objects in the "Employee"-type array, the method of the dynamic(run-time) type is used (i.e. the subclasses), even though the static(compiled) type is "Employee"
 
--Polymorphism is used ALL OVER the place in industry, and is one of the most 
-useful aspects of OOP programming since it allows for easy reuse of code
-
-
+-Polymorphism is used ALL OVER the place in industry, and is one of the most useful aspects of OOP programming since it allows for easy reuse of code
 </pre>
 </article>
 <a class="side-link is-note-link" href="5_morePolymorphismNotes_10_3_16.html"></a>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,109 +23,51 @@
 <a class="side-link is-note-link" href="13_queueProcessScheduling_3_5_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //*********** Process-Scheduling Implementation - March 7th, 2019 ***********//
 //**************************************************************************//
 
-- Okay, the project 2 description has been finished, and is now out in the wild 
-for your viewing pleasure!
-    - There's 3 main checkpoints, like for project 1: a "list your team 
-    members" checkpoint (this Tuesday), a "making sure you've done something" 
-    checkpoint (on April 1st...really!), and the final report date (on April 
-    23rd)
-        - The first checkpoint, on April 1st, should be a "halfway" mark 
-        instead of a "getting started" checkpoint; you should have your 
-        conceptual model done and your software up and running ("it should be 
-        about half of your final report")
-    - The main focus of the project is on going through all the steps in the 
-    modeling/simulation lifecycle and getting familiar with the PROCESS, with 
-    the secondary goal of exploring several discrete modeling techniques
-        - You'll be trying to model traffic on Peachtree street, with each team 
-        member developing their own model and discussing the differences 
-        between their results
-            - For your data analysis, you can use whatever tools you want, but 
-            your simulator itself MUST be entirely your own work (bar standard 
-            libraries for your chosen programming language)
-            - We won't give you all the ground truth information you need to 
-            build this, so you might need to find your own data or make 
-            "reasonable guesses" (i.e. just make stuff up)
-        - Let's step through each of the major steps of the project that your 
-        team should be going through:
-            - A conceptual model of the system, including any assumptions 
-            you're making, limitations of your model, etc.
+- Okay, the project 2 description has been finished, and is now out in the wild for your viewing pleasure!
+    - There's 3 main checkpoints, like for project 1: a "list your team members" checkpoint (this Tuesday), a "making sure you've done something" checkpoint (on April 1st...really!), and the final report date (on April 23rd)
+        - The first checkpoint, on April 1st, should be a "halfway" mark instead of a "getting started" checkpoint; you should have your conceptual model done and your software up and running ("it should be about half of your final report")
+    - The main focus of the project is on going through all the steps in the modeling/simulation lifecycle and getting familiar with the PROCESS, with the secondary goal of exploring several discrete modeling techniques
+        - You'll be trying to model traffic on Peachtree street, with each team member developing their own model and discussing the differences between their results
+            - For your data analysis, you can use whatever tools you want, but your simulator itself MUST be entirely your own work (bar standard libraries for your chosen programming language)
+            - We won't give you all the ground truth information you need to build this, so you might need to find your own data or make "reasonable guesses" (i.e. just make stuff up)
+        - Let's step through each of the major steps of the project that your team should be going through:
+            - A conceptual model of the system, including any assumptions you're making, limitations of your model, etc.
             - Then, some "input analysis"
-                - The reason you're simulating Peachtree street is because we 
-                DO have a dataset containing some arrival times for certain 
-                vehicles; you'll need to take a portion of that dataset, and 
-                construct some sort of probability distribution for vehicle 
-                arrival times into the street (which you can use to adjust how 
-                much traffic is coming in)
+                - The reason you're simulating Peachtree street is because we DO have a dataset containing some arrival times for certain vehicles; you'll need to take a portion of that dataset, and construct some sort of probability distribution for vehicle arrival times into the street (which you can use to adjust how much traffic is coming in)
             - Every team member will then build their own INDIVIDUAL model
-                - If you happened to, say, already build a cellular automata 
-                traffic model for your first project, you'll need to augment it 
-                in some significant way (no "self-plagiarism")
-                - At least one of the models must be a queueing network, like 
-                we talked about yesterday
-                - The third choice is either an activity-scanning OR a 
-                process-oriented simulation
-                    - Process-oriented techniques require threads, so that 
-                    option isn't recommended if you're a novice programmer
-                - Each of these simulations need to be well-documented, run on 
-                the TAs computers, etc.
-            - You'll then need to verify/validate in a "reasonable way" 
-            (defined by you, but make sure it's actually convincing for your 
-            purposes) that your simulation works
-                - There's two parts for the validation: using part of the 
-                traffic data that you DIDN'T use for calibration to check your 
-                model against, then comparing your results with your other 
-                teammates simulators
-            - You'll then design the "experiments" you'll use to get data from 
-            your simulation, give the details of what you did, and 
-            - You'll then report all of your results that you got from your 
-            experiments, and an explanation of what they mean
-                - To be clear, these will NOT be graded based on how thick they 
-                are: just be precise and clear about what you actually did, and 
-                the results you got
-    - If you got through all these steps steps exactly, that's probably a "B" 
-    project - what we're looking for to get an "A" is that you've done 
-    something beyond the basic requirements (looking for "depth" rather than 
-    "breadth" here - handing in a 4th model for traffic simulation wouldn't 
-    impress us as much as 2 very sophisticated models with )
+                - If you happened to, say, already build a cellular automata traffic model for your first project, you'll need to augment it in some significant way (no "self-plagiarism")
+                - At least one of the models must be a queueing network, like we talked about yesterday
+                - The third choice is either an activity-scanning OR a process-oriented simulation
+                    - Process-oriented techniques require threads, so that option isn't recommended if you're a novice programmer
+                - Each of these simulations need to be well-documented, run on the TAs computers, etc.
+            - You'll then need to verify/validate in a "reasonable way" (defined by you, but make sure it's actually convincing for your purposes) that your simulation works
+                - There's two parts for the validation: using part of the traffic data that you DIDN'T use for calibration to check your model against, then comparing your results with your other teammates simulators
+            - You'll then design the "experiments" you'll use to get data from your simulation, give the details of what you did, and 
+            - You'll then report all of your results that you got from your experiments, and an explanation of what they mean
+                - To be clear, these will NOT be graded based on how thick they are: just be precise and clear about what you actually did, and the results you got
+    - If you got through all these steps steps exactly, that's probably a "B" project - what we're looking for to get an "A" is that you've done something beyond the basic requirements (looking for "depth" rather than "breadth" here - handing in a 4th model for traffic simulation wouldn't impress us as much as 2 very sophisticated models with )
 ---------------------------------------------------------------
 
-- Alright, we'll use the rest of our time today to talk about actually 
-implementing process-oriented simulations, activity scanning, and maybe a bit 
-of random number generation
+- Alright, we'll use the rest of our time today to talk about actually implementing process-oriented simulations, activity scanning, and maybe a bit of random number generation
 
-- As we mentioned, process-oriented simulations require two main new 
-primitives: the "AdvanceTime" and "WaitUntil" conditions (although there's also 
-the third "waitUntil(condition, Time)" for handling interruptible stuff)
+- As we mentioned, process-oriented simulations require two main new primitives: the "AdvanceTime" and "WaitUntil" conditions (although there's also the third "waitUntil(condition, Time)" for handling interruptible stuff)
     - There are 3 key ideas here, really:
         - Implementing each process as a THREAD/co-routine
         - Building process-oriented stuff over event-oriented mechanisms
-            - It's NOT a replacement for event-oriented stuff, but an addition 
-            onto it
-        - Each event computation should start/end with a call to one of these 
-        primitives - that's the ONLY way time advances in the simulation, with 
-        the other stuff happening simultaneously in the context of the model
+            - It's NOT a replacement for event-oriented stuff, but an addition onto it
+        - Each event computation should start/end with a call to one of these primitives - that's the ONLY way time advances in the simulation, with the other stuff happening simultaneously in the context of the model
     - So, what're threads?
-        - A THREAD is a stream of control that can execute its instructions 
-        independently; it's like a function call, but the thread can be 
-        stopped, resumed, or terminated at any point
-            - This means threads can "transfer" control to another thread 
-            halfway through running
-            - For now, we'll assume that these threads aren't actually running 
-            concurrently, but are just being used for organizational purposes 
-            (we'll get to concurrency later)
-        - Event-oriented simulations are all based on procedure calls, where we 
-        call a function, wait for it to finish, check its results, and then 
-        call the next procedure
-            - In contrast, process threads have EVERYTHING happening at once 
-            for the most part, with just occasional pauses when one thread 
-            needs to get information from another, or when part of another 
-            thread needs to run, etc.
-    - As we said, though, this is NOT replacing the event-scheduling loop, but 
-    adding onto it!
+        - A THREAD is a stream of control that can execute its instructions independently; it's like a function call, but the thread can be stopped, resumed, or terminated at any point
+            - This means threads can "transfer" control to another thread halfway through running
+            - For now, we'll assume that these threads aren't actually running concurrently, but are just being used for organizational purposes (we'll get to concurrency later)
+        - Event-oriented simulations are all based on procedure calls, where we call a function, wait for it to finish, check its results, and then call the next procedure
+            - In contrast, process threads have EVERYTHING happening at once for the most part, with just occasional pauses when one thread needs to get information from another, or when part of another thread needs to run, etc.
+    - As we said, though, this is NOT replacing the event-scheduling loop, but adding onto it!
         - Right now, our loop looks like this:
 
             - Call an event
@@ -141,41 +84,20 @@ the third "waitUntil(condition, Time)" for handling interruptible stuff)
             - Suspend C
             - ...
 
-    - Finally, instead of the whole simulation waiting for each event to finish 
-    before moving onto the next, we now need to use our primitives to manage 
-    time between each process
-        - That means that at each moment in time, we're now doing EVERYTHING 
-        that needs to get done in that moment before advancing time
-        - So, for our airplane example, the "main" scheduler thread will call 
-        the thread for the first airplane, it'll run until it gets to the 
-        "waitUntil(runwayFree)" part, it'll check that, return, change any 
-        further variables, and then "AdvanceTime(4)" method, which'll pause our 
-        thread until T=4 (at which point a callback we've scheduled on the 
-        event list will wake the thread back up)
-            - After that "AdvanceTime" call pauses thread 1, we'll get the next 
-            "event" in our list (i.e. the 2nd airplane) and it'll do its own 
-            thing, then do its own "waitUntil(runwayFree)" check
-                - But oh no - this time, the runway's NOT free, since the first 
-                airplane claimed it! We don't know when it'll be free, so we 
-                can't add the wake-up to our scheduler yet - instead, we'll 
-                just put the thread to sleep and move onto the next event until 
-                runwayFree = True
-                - The first airplane thread'll then wake up, free the runway, 
-                do its thing, then reach the "AdvanceTime(6)" part and put 
-                itself to sleep
-                    - Since the runway is now free, the thread for the 2nd 
-                    airplane will now wake up, land, claim the runway (so 
-                    runwayFree = False), and advance time again
-                - The next scheduled "event" is then waking up the first thread 
-                at T=10
+    - Finally, instead of the whole simulation waiting for each event to finish before moving onto the next, we now need to use our primitives to manage time between each process
+        - That means that at each moment in time, we're now doing EVERYTHING that needs to get done in that moment before advancing time
+        - So, for our airplane example, the "main" scheduler thread will call the thread for the first airplane, it'll run until it gets to the "waitUntil(runwayFree)" part, it'll check that, return, change any further variables, and then "AdvanceTime(4)" method, which'll pause our thread until T=4 (at which point a callback we've scheduled on the event list will wake the thread back up)
+            - After that "AdvanceTime" call pauses thread 1, we'll get the next "event" in our list (i.e. the 2nd airplane) and it'll do its own thing, then do its own "waitUntil(runwayFree)" check
+                - But oh no - this time, the runway's NOT free, since the first airplane claimed it! We don't know when it'll be free, so we can't add the wake-up to our scheduler yet - instead, we'll just put the thread to sleep and move onto the next event until runwayFree = True
+                - The first airplane thread'll then wake up, free the runway, do its thing, then reach the "AdvanceTime(6)" part and put itself to sleep
+                    - Since the runway is now free, the thread for the 2nd airplane will now wake up, land, claim the runway (so runwayFree = False), and advance time again
+                - The next scheduled "event" is then waking up the first thread at T=10
 
-- Okay, that might sound a little complicated, but what would the pseudocode 
-look like?
+- Okay, that might sound a little complicated, but what would the pseudocode look like?
     - To implement AdvanceTime(t), when the function is called we'll need to:
         - Schedule a "ResumeThread" event at time "Now + t"
             - This event just restarts the thread AdvanceTime was called from
-        - Suspend execution of the current thread and pass control back to the 
-        main/scheduler thread
+        - Suspend execution of the current thread and pass control back to the main/scheduler thread
     - So, the Scheduler thread'll just look something like this:
 
         while (still_running):
@@ -194,55 +116,33 @@ look like?
             Return to thread
 
     - For "waitUntil(condition)," we'll need to:
-        - Transfer execution back to the scheduler, waiting for the condition 
-        to become true (by adding our suspended thread to a "suspended" list)
-        - THEN, in the main scheduler loop, we'll check if execution can resume 
-        for each of our suspended processes, with some priority rule if 
-        multiple threads can be restarted at the same time (FCFS, etc.)
+        - Transfer execution back to the scheduler, waiting for the condition to become true (by adding our suspended thread to a "suspended" list)
+        - THEN, in the main scheduler loop, we'll check if execution can resume for each of our suspended processes, with some priority rule if multiple threads can be restarted at the same time (FCFS, etc.)
             - So, it'll look like this:
 
                 WaitUntil(p):
                     Add current thread to the suspended list
                     Return to scheduler thread
 
-- Now, theoretically, process-oriented simulations and event-oriented 
-simulations are formally equivalent
-    - However, event-based simulations are slightly faster (since the CPU 
-    doesn't need to manage the stack for each thread, or deal w/ "scheduler" 
-    events)
-    - The advantage, of course, is that process-oriented techniques let us more 
-    cleanly separate the events from one another and write cleaner code
-- What if we need to handle "interrupts," e.g. an aircraft breaking down on the 
-runway and needing to have its events removed? There's plenty of info on how to 
-do this if you're interested, but we're not too concerned about that right now
-    - Basically, though, we'll use the waitUntil(p, t) method to suspend the 
-    thread; if the condition becomes true, we'll REMOVE that thread's events
+- Now, theoretically, process-oriented simulations and event-oriented simulations are formally equivalent
+    - However, event-based simulations are slightly faster (since the CPU doesn't need to manage the stack for each thread, or deal w/ "scheduler" events)
+    - The advantage, of course, is that process-oriented techniques let us more cleanly separate the events from one another and write cleaner code
+- What if we need to handle "interrupts," e.g. an aircraft breaking down on the runway and needing to have its events removed? There's plenty of info on how to do this if you're interested, but we're not too concerned about that right now
+    - Basically, though, we'll use the waitUntil(p, t) method to suspend the thread; if the condition becomes true, we'll REMOVE that thread's events
 
 - Okay, with 7 minutes left, let's start tackling activity scanning
-    - Remember how an activity takes place over some amount of time? There are 
-    two ways an activity can start:
+    - Remember how an activity takes place over some amount of time? There are two ways an activity can start:
         - At a specific timestep (BOUND activities)
         - When some specific condition is met (CONDITIONAL activities)
-            - Each activity has a start time/start condition, the behavior for 
-            when it starts/ends, and its duration
-    - In ACTIVITY SCANNING, we'll represent EVERY event that can happen as an 
-    activity, and then steadily move forward in time; at every step, we'll 
-    iterate through each activity and perform the ones who's preconditions are 
-    met for this step
+            - Each activity has a start time/start condition, the behavior for when it starts/ends, and its duration
+    - In ACTIVITY SCANNING, we'll represent EVERY event that can happen as an activity, and then steadily move forward in time; at every step, we'll iterate through each activity and perform the ones who's preconditions are met for this step
         - There are a few different types of activities we need to worry about:
-            - Your garden-variety "activity," where it starts when some 
-            condition is met, does something, waits for some duration, then 
-            ends with some behavior
-            - TRIGGERED activities, which are created by another activity and 
-            IMMEDIATELY activate
-                - So, the first is conditionally started, while the second is 
-                started at a specific time (I think?)
-            - ACTION SEQUENCES are where multiple activities create each other 
-            (e.g. A1 creates A2, A2 creates A3, etc.)
+            - Your garden-variety "activity," where it starts when some condition is met, does something, waits for some duration, then ends with some behavior
+            - TRIGGERED activities, which are created by another activity and IMMEDIATELY activate
+                - So, the first is conditionally started, while the second is started at a specific time (I think?)
+            - ACTION SEQUENCES are where multiple activities create each other (e.g. A1 creates A2, A2 creates A3, etc.)
 
 - We'll finish up activity scanning next week, so, 'til then!
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="15_activityScanningRNG_3_12_19.html"></a>

@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,90 +23,52 @@
 <a class="side-link is-note-link" href="16_inputAnalysis_3_14_19.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //************* Output Analysis / Validation - March 26th, 2019 *************//
 //**************************************************************************//
 
 - Alright - the 2nd project checkpoint is due next week on MONDAY, April 1st
-    - Hopefully, you're all wrapping up the initial document stuff and working 
-    very hard to get your simulator working
-        - Your initial simulator should just be as simple as possible (even 
-        dumb simple) to verify that it runs; from there, you can improve the 
-        quality of the simulator as much as you need until you're happy with it
-            - For the checkpoint, we want to see that you have SOMETHING that 
-            actually runs and is usable, even if it's very simple - it'll make 
-            the analysis portion of the project far easier
+    - Hopefully, you're all wrapping up the initial document stuff and working very hard to get your simulator working
+        - Your initial simulator should just be as simple as possible (even dumb simple) to verify that it runs; from there, you can improve the quality of the simulator as much as you need until you're happy with it
+            - For the checkpoint, we want to see that you have SOMETHING that actually runs and is usable, even if it's very simple - it'll make the analysis portion of the project far easier
 
 -----------------------------------------------------------------------
 
-- Alright, we're almost done with the "lifecycle" part of discrete simulations, 
-but there're 2 important parts left for us to cover:
+- Alright, we're almost done with the "lifecycle" part of discrete simulations, but there're 2 important parts left for us to cover:
     - Output analysis
     - Verification/Validation
 - Hopefully, we'll have both of these wrapped up after today
-    - If you're following along in the textbook, you should be reading 
-    Birta-Arbez Chapter 6 for today
+    - If you're following along in the textbook, you should be reading Birta-Arbez Chapter 6 for today
 
-- Now, most simulations you'll be dealing with are stochastic, and that means 
-that a single simulation run won't do; instead, you'll need to take the outputs 
-from many runs and aggregate them
-    - In general, we'll try to take this data and create a confidence interval 
-    for the outputs we care about
+- Now, most simulations you'll be dealing with are stochastic, and that means that a single simulation run won't do; instead, you'll need to take the outputs from many runs and aggregate them
+    - In general, we'll try to take this data and create a confidence interval for the outputs we care about
     - There are two broad types of studies we can do on this sort of output:
-        - BOUNDED HORIZON studies are where we know the end-time of the system 
-        (e.g. traffic data between 12-1pm), and try to get some statistics from 
-        that
-            - How many runs do we need before we're confident in our results, 
-            though?
-        - STEADY STATE studies are where we want to know the behavior of the 
-        system over a long period of time, i.e. after the "warm up" period of 
-        the simulation has finished
-            - This "warm-up" time might be relevant for bounded horizon 
-            studies, too - for your traffic simulations, you'll probably want 
-            to wait until the roads have filled up before you start collecting 
-            data
-            - How do we know when the warm up period is finished, then? And how 
-            long should we run the simulation for?
+        - BOUNDED HORIZON studies are where we know the end-time of the system (e.g. traffic data between 12-1pm), and try to get some statistics from that
+            - How many runs do we need before we're confident in our results, though?
+        - STEADY STATE studies are where we want to know the behavior of the system over a long period of time, i.e. after the "warm up" period of the simulation has finished
+            - This "warm-up" time might be relevant for bounded horizon studies, too - for your traffic simulations, you'll probably want to wait until the roads have filled up before you start collecting data
+            - How do we know when the warm up period is finished, then? And how long should we run the simulation for?
 
 - So, some vocabulary to be aware of for this topic:
-    - A POINT SET OUTPUT VARIABLE (PSOV) just means a single measurement of 
-    whatever we're interested in (e.g. the time it takes for a specific car to 
-    get through our simulation)
-    - A DERIVED SCALAR OUTPUT VARIABLE (DSOV) is some value we get based on a 
-    bunch of PSOVs (e.g. the average wait time of a bunch of cars)
-        - Typically, we're much more interested in the average behavior of a 
-        bunch of things, so DSOVs are what we're usually interested in
-        - Since our output numbers are all random variables, the DSOV from a 
-        given run is just a single sample for one of those variables
+    - A POINT SET OUTPUT VARIABLE (PSOV) just means a single measurement of whatever we're interested in (e.g. the time it takes for a specific car to get through our simulation)
+    - A DERIVED SCALAR OUTPUT VARIABLE (DSOV) is some value we get based on a bunch of PSOVs (e.g. the average wait time of a bunch of cars)
+        - Typically, we're much more interested in the average behavior of a bunch of things, so DSOVs are what we're usually interested in
+        - Since our output numbers are all random variables, the DSOV from a given run is just a single sample for one of those variables
 
-- For Bounded Horizon studies, there are two things we're particularly 
-interested in:
-    - A POINT ESTIMATE of the data, especially the mean of all the DSOV outputs 
-    from each run
-        - But once we get this value, how confident should we be that it's 
-        correct?  
+- For Bounded Horizon studies, there are two things we're particularly interested in:
+    - A POINT ESTIMATE of the data, especially the mean of all the DSOV outputs from each run
+        - But once we get this value, how confident should we be that it's correct?  
     - An "Interval Estimate" of the confidence interval for our point estimates
-        - To get this confidence interval, we need to know the distribution of 
-        our sample mean, which we can find using the CENTRAL LIMIT THEOREM!
-            - If it's been awhile, the CLT says that any sample mean for any 
-            random variable's outputs is normally distributed about some mean u 
-            with variance var^2/n, REGARDLESS of the distribution of the 
-            variable itself
-                - That's great...but how do we figure out the mean and variance 
-                of our data points?
-                - Furthermore, this means that n has to be large in order for 
-                us to have a high confidence - but that's not good! We don't 
-                want to run our simulation a million times!
+        - To get this confidence interval, we need to know the distribution of our sample mean, which we can find using the CENTRAL LIMIT THEOREM!
+            - If it's been awhile, the CLT says that any sample mean for any random variable's outputs is normally distributed about some mean u with variance var^2/n, REGARDLESS of the distribution of the variable itself
+                - That's great...but how do we figure out the mean and variance of our data points?
+                - Furthermore, this means that n has to be large in order for us to have a high confidence - but that's not good! We don't want to run our simulation a million times!
 
-- So, if we don't have that many samples to work with, we can use the 
-T-DISTRIBUTION instead!
-    - Famously, this distribution was discovered by an engineer working at 
-    Guinness (pour one out)
-    - How does it work? Let's say that Y1, Y2, ..., Yn are n random variables 
-    that are normally distributed w/ mean u and variance var, and "y1, ..., yn" 
-    are random samples from those variables
-        - We can calculate the sample mean and sample variance from these data 
-        points in the usual way:
+- So, if we don't have that many samples to work with, we can use the T-DISTRIBUTION instead!
+    - Famously, this distribution was discovered by an engineer working at Guinness (pour one out)
+    - How does it work? Let's say that Y1, Y2, ..., Yn are n random variables that are normally distributed w/ mean u and variance var, and "y1, ..., yn" are random samples from those variables
+        - We can calculate the sample mean and sample variance from these data points in the usual way:
 
                 mean_y(n) = 1/n * sum(yi)
                 var_y(n) = (sum(yi - mean_y(n))^2) / (n-1)
@@ -114,20 +77,13 @@ T-DISTRIBUTION instead!
 
                     x = (mean_y(n) - u) / (sqrt(var_y(n)) / sqrt(n))
 
-                - ...has a "Student's T-Distribution" with n-1 degrees of 
-                freedom
-        - A BIG caveat here is that Yi NEEDS to be normally distributed, which 
-        doesn't always hold true
-        - Also, notice that we're using the SAMPLE mean/variance here, with 
-        "n-1"
-    - The great thing about this is that n doesn't have to be big - we can have 
-    a small number of samples and still figure out this distribution!
-        - The T-distribution itself looks like a squashed version of the normal 
-        distribution, giving us wider confidence intervals
+                - ...has a "Student's T-Distribution" with n-1 degrees of freedom
+        - A BIG caveat here is that Yi NEEDS to be normally distributed, which doesn't always hold true
+        - Also, notice that we're using the SAMPLE mean/variance here, with "n-1"
+    - The great thing about this is that n doesn't have to be big - we can have a small number of samples and still figure out this distribution!
+        - The T-distribution itself looks like a squashed version of the normal distribution, giving us wider confidence intervals
 
-- Once we've got that T distribution, we can calculate the bounds of our 
-confidence interval as the sample mean plus some offset "zeta" (representing 
-the size of one side/half of the confidence interval):
+- Once we've got that T distribution, we can calculate the bounds of our confidence interval as the sample mean plus some offset "zeta" (representing the size of one side/half of the confidence interval):
 
         CI = (mean - zeta, mean + zeta)
 
@@ -135,161 +91,77 @@ the size of one side/half of the confidence interval):
 
         zeta = (t_n-1(a) * s(n) / sqrt(n))
 
-    - Where "a" is the confidence level we care about (e.g. a = 0.05 means a 
-    90% confidence interval, a = 0.1 means an 80% confidence interval, etc.), 
-    and t_n-1(a) is the corresponding value for the T-distribution (we'll just 
-    look this up in a table)
-        - For your final project, we do NOT just want to see an average output; 
-        we want to see these kind of confidence intervals for your estimates!
-- Now, as you can tell from this equation, more runs still get us a more 
-precise, useful confidence interval - so, the number of runs we need is usually 
-based off of however many is needed to achieve our target accuracy
-    - A good starting point is to get the confidence interval smaller than 10% 
-    of the sample mean, but what's acceptable will vary from application to 
-    application
-        - If the confidence interval isn't within this 10% range, then do a 
-        larger number of simulations until you get within this range
+    - Where "a" is the confidence level we care about (e.g. a = 0.05 means a 90% confidence interval, a = 0.1 means an 80% confidence interval, etc.), and t_n-1(a) is the corresponding value for the T-distribution (we'll just look this up in a table)
+        - For your final project, we do NOT just want to see an average output; we want to see these kind of confidence intervals for your estimates!
+- Now, as you can tell from this equation, more runs still get us a more precise, useful confidence interval - so, the number of runs we need is usually based off of however many is needed to achieve our target accuracy
+    - A good starting point is to get the confidence interval smaller than 10% of the sample mean, but what's acceptable will vary from application to application
+        - If the confidence interval isn't within this 10% range, then do a larger number of simulations until you get within this range
 
 - So, to sum up the important stuff for bounded horizon studies:
-    - The values produced by a stochastic simulation should just be viewed as 
-    samples from the underlying random variable
-        - To figure out information about that underlying variable, then, we 
-        need multiple samples - i.e. multiple simulation runs!
-    - Confidence intervals let us characterize the range of likely outputs we 
-    can expect from our model (and hopefully, therefore, the actual system)
-    - Increasing the number of runs lets us shrink the confidence interval down 
-    to the size we need
+    - The values produced by a stochastic simulation should just be viewed as samples from the underlying random variable
+        - To figure out information about that underlying variable, then, we need multiple samples - i.e. multiple simulation runs!
+    - Confidence intervals let us characterize the range of likely outputs we can expect from our model (and hopefully, therefore, the actual system)
+    - Increasing the number of runs lets us shrink the confidence interval down to the size we need
 
-- Now, let's talk a bit about Steady State simulations and their all-important 
-WARM-UP periods
-    - The warm up period is just "the transient period from initialization 
-    until the system reaches a steady state," like the time it takes for an 
-    initially empty traffic simulation to fill up with cars
-        - Typically, we don't collect any data from the simulation until the 
-        warm-up period is over - but when does THAT happen?
-    - Figuring out when the warm-up period ends can be tricky, so to help 
-    figure it out we'll use WELCH'S METHOD (or "Welch's moving average method")
-        - To smooth out the data, first divide the time scale into cells large 
-        enough to each contain multiple data points (e.g. into 1-week long 
-        cells for a data set spanning months)
-            - The value for each time cell will then be the average of all the 
-            runs inside that cell
-        - Then, let's define a "replication size" of how many cells we'll use 
-        to compute an average, e.g. the average of 5 cells
-            - The window size "w" will be the number of additional samples we 
-            take on EITHER SIDE of our current cell (e.g. w = 3 means current 
-            cell + 3 to the left + 3 to the right = average of 7 total cells)
-            - Finally comes the "moving average" part of this procedure: take 
-            the average of cells [current - replicationSize, current + 
-            replicationSize] and plot that average; then take the average of 
-            [1, replicationSize+1] and plot that, etc., sliding our average 
-            "window" to the right until we reach the end of our cells
-                - If our window is too big for the current sample, then shrink 
-                the window's width until it fits inside the data
-    - This might seem arbitrary, but this method can significantly smooth out 
-    noisy data where it's hard to see a trend, making warm-up times more obvious
-- So, in summary, we need to often consider this warm-up period that doesn't 
-reflect the system we want to study, and Welch's method provides a way of 
-visually seeing this for noisy data
+- Now, let's talk a bit about Steady State simulations and their all-important WARM-UP periods
+    - The warm up period is just "the transient period from initialization until the system reaches a steady state," like the time it takes for an initially empty traffic simulation to fill up with cars
+        - Typically, we don't collect any data from the simulation until the warm-up period is over - but when does THAT happen?
+    - Figuring out when the warm-up period ends can be tricky, so to help figure it out we'll use WELCH'S METHOD (or "Welch's moving average method")
+        - To smooth out the data, first divide the time scale into cells large enough to each contain multiple data points (e.g. into 1-week long cells for a data set spanning months)
+            - The value for each time cell will then be the average of all the runs inside that cell
+        - Then, let's define a "replication size" of how many cells we'll use to compute an average, e.g. the average of 5 cells
+            - The window size "w" will be the number of additional samples we take on EITHER SIDE of our current cell (e.g. w = 3 means current cell + 3 to the left + 3 to the right = average of 7 total cells)
+            - Finally comes the "moving average" part of this procedure: take the average of cells [current - replicationSize, current + replicationSize] and plot that average; then take the average of [1, replicationSize+1] and plot that, etc., sliding our average "window" to the right until we reach the end of our cells
+                - If our window is too big for the current sample, then shrink the window's width until it fits inside the data
+    - This might seem arbitrary, but this method can significantly smooth out noisy data where it's hard to see a trend, making warm-up times more obvious
+- So, in summary, we need to often consider this warm-up period that doesn't reflect the system we want to study, and Welch's method provides a way of visually seeing this for noisy data
 
-- Another thing you'll HAVE to do for your project is verification/validation 
-of your models - so let's do that!
-    - There's a nice paper by Bob Sargent on this if you want a reference, 
-    which we'll base our discussion on
+- Another thing you'll HAVE to do for your project is verification/validation of your models - so let's do that!
+    - There's a nice paper by Bob Sargent on this if you want a reference, which we'll base our discussion on
 - Very generally, there are 4 things we're concerned about here:
-    - VERIFICATION - Does our model/software match what I intended it to do? Is 
-    it working as we planned?
-    - VALIDATION - Does the model represent the ACTUAL simulation under 
-    investigation "well enough" for our purposes?
-    - CREDIBILITY - Do our customers believe in our model? Are they confident 
-    enough to actually use it?
-        - Even if our model is statistically accurate, if our users don't trust 
-        it, they won't use it!
-    - USABILITY: Do our users understand how to use this program/data? Is it 
-    "easy" enough to be helpful?
+    - VERIFICATION - Does our model/software match what I intended it to do? Is it working as we planned?
+    - VALIDATION - Does the model represent the ACTUAL simulation under investigation "well enough" for our purposes?
+    - CREDIBILITY - Do our customers believe in our model? Are they confident enough to actually use it?
+        - Even if our model is statistically accurate, if our users don't trust it, they won't use it!
+    - USABILITY: Do our users understand how to use this program/data? Is it "easy" enough to be helpful?
 
-- For VERIFICATION, as we've stated before, we're asking if we actually built 
-our software correctly: that it's free from bugs, that it doesn't crash, and so 
-on, and that it matches the conceptual model
-    - In general, the more general the language we used to build our software, 
-    the longer it takes to verify
+- For VERIFICATION, as we've stated before, we're asking if we actually built our software correctly: that it's free from bugs, that it doesn't crash, and so on, and that it matches the conceptual model
+    - In general, the more general the language we used to build our software, the longer it takes to verify
     - How do we actually do this, then?
-        - The classic techniques are STATIC verification, where the team walks 
-        through the software and checks that everything looks alright
-        - More relevantly for your project are DYNAMIC techniques, where we 
-        vary parameters and make sure the output is reasonable, test simplified 
-        versions of our model for correctness, do unit-testing on individual 
-        models, etc.
-            - This also includes testing simple configurations for "reasonable" 
-            results (e.g. if we increase the amount of traffic, do the travel 
-            times increase?)
+        - The classic techniques are STATIC verification, where the team walks through the software and checks that everything looks alright
+        - More relevantly for your project are DYNAMIC techniques, where we vary parameters and make sure the output is reasonable, test simplified versions of our model for correctness, do unit-testing on individual models, etc.
+            - This also includes testing simple configurations for "reasonable" results (e.g. if we increase the amount of traffic, do the travel times increase?)
 
-- VALIDATION, once again, is asking a different question: did we build the 
-right model in the first place?
-    - It's possible for a model to be valid for some conditions, but break down 
-    for others (e.g. a traffic model might work fine for moderate traffic, but 
-    underestimate the effects of heavy traffic)
-        - What's an acceptable level of accuracy will vary from project to 
-        project; a stock simulation for teaching kids about money management 
-        isn't going to be as stringent as a professional flight simulator
+- VALIDATION, once again, is asking a different question: did we build the right model in the first place?
+    - It's possible for a model to be valid for some conditions, but break down for others (e.g. a traffic model might work fine for moderate traffic, but underestimate the effects of heavy traffic)
+        - What's an acceptable level of accuracy will vary from project to project; a stock simulation for teaching kids about money management isn't going to be as stringent as a professional flight simulator
     - There are 3 broad types of validation:
-        - DATA VALIDATION is where we're making sure the data we're basing our 
-        model on "makes sense"
-            - Almost all data sets have errors within them, or missing data, or 
-            something
-            - You should look through the data, check that any outliers make 
-            sense, that the data is consistent, etc.
-                - The difficulty here is that collecting all this data is often 
-                quite time consuming, and can be impossible in some 
-                circumstances
-        - CONCEPTUAL MODEL VALIDATION is where we're checking that the theories 
-        and assumptions our model makes are valid, and the representation of 
-        the problem is sufficient
-            - A very common way of doing this is "face validation:" you present 
-            your model to experts on the subject, and they give their opinion
-        - OPERATIONAL VALIDATION is where we're comparing our model's outputs 
-        with real-world data, and ensuring that the output makes sense
+        - DATA VALIDATION is where we're making sure the data we're basing our model on "makes sense"
+            - Almost all data sets have errors within them, or missing data, or something
+            - You should look through the data, check that any outliers make sense, that the data is consistent, etc.
+                - The difficulty here is that collecting all this data is often quite time consuming, and can be impossible in some circumstances
+        - CONCEPTUAL MODEL VALIDATION is where we're checking that the theories and assumptions our model makes are valid, and the representation of the problem is sufficient
+            - A very common way of doing this is "face validation:" you present your model to experts on the subject, and they give their opinion
+        - OPERATIONAL VALIDATION is where we're comparing our model's outputs with real-world data, and ensuring that the output makes sense
             - For your projects, this is probably the most relevant test
-            - When you can, you'll want to do this using objective approaches, 
-            like comparing your output data directly to real-world datasets
-                - If that's not possible, you can resort to subjective 
-                approaches instead, like having experts review your model's 
-                output, or comparing it to similar models
-    - You can spend a LOT of time on validation, and it often takes up a large 
-    portion of the project- but, at the end of the day, there are deadlines. 
-    you'll need to draw a line somewhere between confidence and expedience
-        - If you incorrectly reject a model that's actually fine, that's a type 
-        I error, and can cost developers money
-        - If you incorrectly ACCEPT and invalid model, that's a type II error, 
-        and a MUCH bigger problem: people will base their ideas off of your 
-        incorrect study!
-            - There's also the slippery type III error: your model is valid, 
-            but it doesn't actually answer the problem you care about
+            - When you can, you'll want to do this using objective approaches, like comparing your output data directly to real-world datasets
+                - If that's not possible, you can resort to subjective approaches instead, like having experts review your model's output, or comparing it to similar models
+    - You can spend a LOT of time on validation, and it often takes up a large portion of the project- but, at the end of the day, there are deadlines. you'll need to draw a line somewhere between confidence and expedience
+        - If you incorrectly reject a model that's actually fine, that's a type I error, and can cost developers money
+        - If you incorrectly ACCEPT and invalid model, that's a type II error, and a MUCH bigger problem: people will base their ideas off of your incorrect study!
+            - There's also the slippery type III error: your model is valid, but it doesn't actually answer the problem you care about
 
-- In his paper, Sargent recommends the following, general procedure to validate 
-things correctly without taking an eternity of time:
-    - Make some agreement with your clients about what validation techniques 
-    will be used/needed
-    - Agree with your clients on what range of accuracy is acceptable BEFORE 
-    you start building the model
+- In his paper, Sargent recommends the following, general procedure to validate things correctly without taking an eternity of time:
+    - Make some agreement with your clients about what validation techniques will be used/needed
+    - Agree with your clients on what range of accuracy is acceptable BEFORE you start building the model
     - As often as you can, test the assumptions underlying your model
-    - For every model iteration, at least do a face validity check on its 
-    conceptual model
-        - For each iteration, you should also explore the model's output 
-        behavior in some way
-    - At LEAST once the final model is built (and during prior iterations if 
-    possible), compare the model with the real-world system (preferably via 
-    datasets)
+    - For every model iteration, at least do a face validity check on its conceptual model
+        - For each iteration, you should also explore the model's output behavior in some way
+    - At LEAST once the final model is built (and during prior iterations if possible), compare the model with the real-world system (preferably via datasets)
     - Document all of your validation findings, good or bad, and present them
-    - If your model will continue to be used, make sure to periodically 
-    revalidate it
+    - If your model will continue to be used, make sure to periodically revalidate it
 
-- ALRIGHT, that should be it for the modeling-simulating lifecycle - and you 
-should actually now have everything you need to finish your second project! On 
-Thursday, we'll start diving into parallel computing, so make sure not to miss 
-that!
-
-</pre>
+- ALRIGHT, that should be it for the modeling-simulating lifecycle - and you should actually now have everything you need to finish your second project! On Thursday, we'll start diving into parallel computing, so make sure not to miss that!</pre>
 </article>
 <a class="side-link is-note-link" href="18_FELIntroParallel_3_28_19.html"></a>
 </main>

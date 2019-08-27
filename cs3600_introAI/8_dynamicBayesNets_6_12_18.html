@@ -10,6 +10,7 @@
 <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
 </head>
 <body>
+<script defer="" src="../js/wrapText.js"></script>
 <script defer="" src="../js/pageTransitions.js"></script>
 <nav class="nav-top">
 <ul>
@@ -22,6 +23,7 @@
 <a class="side-link is-note-link" href="7_introBayesNets_6_7_18.html"></a>
 <article>
 <!-- Actual note text goes into 'pre' -->
+<span id="text-width-ruler"></span>
 <pre class="main-note-text">//****************************************************************************//
 //****************** Dynamic Bayes Nets - June 12th, 2018 *******************//
 //**************************************************************************//
@@ -30,109 +32,62 @@
 - 2:29 - It would seem so...
 - 2:30 - (remembers that this class doesn't start until 2:35)
 - 2:31 - ...
-- 2:33 - Professor Byrd arrives and answers the question with a resounding 
-(implicit) "No"
+- 2:33 - Professor Byrd arrives and answers the question with a resounding (implicit) "No"
 - Upon the whiteboard this day, we see:
     - "Exact Filtering
     - Approximate Filtering (aka Particle Filtering)"
 - (off to the side, an equation I can almost read)
 -----------------------------------------------------
 
-- Okay, by the end of today you should know everything about Dynamic Bayes Nets 
-you need to finish the 2nd project - which I'd recommend doing right away
-    - "The code for this project is actually pretty short - it's only an extra 
-    hundred lines of code total or so - but coming up with those lines can be 
-    pretty difficult"
-- I WILL delay the midterm by 1 class period - the exact dates will be posted 
-on Piazza shortly, but it'll probably be on the 26th
-- Similarly, I'll give you an extra 2-3 days past this weekend to turn in this 
-project
+- Okay, by the end of today you should know everything about Dynamic Bayes Nets you need to finish the 2nd project - which I'd recommend doing right away
+    - "The code for this project is actually pretty short - it's only an extra hundred lines of code total or so - but coming up with those lines can be pretty difficult"
+- I WILL delay the midterm by 1 class period - the exact dates will be posted on Piazza shortly, but it'll probably be on the 26th
+- Similarly, I'll give you an extra 2-3 days past this weekend to turn in this project
 
-- So last Thursday, we briefly introduced dynamic Bayes' Nets, where because we 
-don't have all our variables at the same time we need a way to relate past 
-variables to our newly gotten values
-    - We'll still have "hidden variables" that we'll never know exactly (e.g. 
-    your true blood sugar level) and our sensor readings that should give us an 
-    approximation of those hidden values
+- So last Thursday, we briefly introduced dynamic Bayes' Nets, where because we don't have all our variables at the same time we need a way to relate past variables to our newly gotten values
+    - We'll still have "hidden variables" that we'll never know exactly (e.g. your true blood sugar level) and our sensor readings that should give us an approximation of those hidden values
     - What do we have that's new?
         - Xt, a time series of our random variables at a given time since T0
-            - To say "all sets of random variables from time A to B," we'd 
-            write "Xa:b"
+            - To say "all sets of random variables from time A to B," we'd write "Xa:b"
                 - This would give us a set like:
 
                     {Xa, Xa+1, ..., Xb-1, Xb}
 
-        - Et, a time series of our sensor readings at a given time since T0+1 
-        (since our first sensor readings will be processed 1 timestep after we 
-        enter the world)
+        - Et, a time series of our sensor readings at a given time since T0+1 (since our first sensor readings will be processed 1 timestep after we enter the world)
     - For all problems in this class, we'll assume that time is discrete
-    - Now, we ALREADY have an issue with this: as far as we know, any Xt 
-    depends on EVERY timestep before it (i.e. X0:t-1), which means if we ask 
-    "What's the probability of X1000?," we'd have to calculate everything 
-    between t = 1 and t = 999
-        - This means our program is UNBOUNDED, and eventually will slow our 
-        program to a crawl
-    - So, how do we "bound" our program so it's computable? We make 3 
-    simplifying assumptions:
-        - The MARKOV ASSUMPTION: Xt depends ONLY on a bounded subset of X from 
-        t=0 to t-1
-            - So, we could say that Xt only depends on the previous timestep, 
-            or the previous 4 timesteps, or something like that; this keeps the 
-            runtime from growing without bound
-        - The FIRST-ORDER MARKOV ASSUMPTION: basically, we say that a given Xt 
-        ONLY depends on the previous state (Xt-1)
-            - Again, this may not be exactly correct, but it'll usually give us 
-            "good-enough" answers
+    - Now, we ALREADY have an issue with this: as far as we know, any Xt depends on EVERY timestep before it (i.e. X0:t-1), which means if we ask "What's the probability of X1000?," we'd have to calculate everything between t = 1 and t = 999
+        - This means our program is UNBOUNDED, and eventually will slow our program to a crawl
+    - So, how do we "bound" our program so it's computable? We make 3 simplifying assumptions:
+        - The MARKOV ASSUMPTION: Xt depends ONLY on a bounded subset of X from t=0 to t-1
+            - So, we could say that Xt only depends on the previous timestep, or the previous 4 timesteps, or something like that; this keeps the runtime from growing without bound
+        - The FIRST-ORDER MARKOV ASSUMPTION: basically, we say that a given Xt ONLY depends on the previous state (Xt-1)
+            - Again, this may not be exactly correct, but it'll usually give us "good-enough" answers
             - Mathematically, we can write this as:
 
                 P(Xt|X0:t-1) = P(Xt|Xt-1)
 
-        - Now, a set of random variables that changes based on a subset of the 
-        previous values is known as a "Markov Process," or a "Markov Chain;" 
-        since our evidence ALSO has this problem of dependence, let's make the 
-        SENSOR MARKOV ASSUMPTION: 
+        - Now, a set of random variables that changes based on a subset of the previous values is known as a "Markov Process," or a "Markov Chain;" since our evidence ALSO has this problem of dependence, let's make the SENSOR MARKOV ASSUMPTION: 
 
                 P(Et|X0:t, E0:t-1) = P(Et|Xt)
 
-            - In English, "the evidence we're seeing right now is based only on 
-            the current state of the world"
+            - In English, "the evidence we're seeing right now is based only on the current state of the world"
 
-        - Now, if we just stop here, we'll eventually end up creating an 
-        infinite number of conditional probability tables (new one for each 
-        timestep) - so let's also assume that all our Markov Processes are 
-        STATIONARY
-            - This just means that, while our states can change, the underlying 
-            probability distributions governing them do NOT change:
+        - Now, if we just stop here, we'll eventually end up creating an infinite number of conditional probability tables (new one for each timestep) - so let's also assume that all our Markov Processes are STATIONARY
+            - This just means that, while our states can change, the underlying probability distributions governing them do NOT change:
 
                 P(Xt+1|Xt) = P(Xt|Xt-1) = P(Xt-1|Xt-2) = ...
 
-            - This lets us assume that we don't need to make separate CPTs for 
-            every timestep; we can just update our current table instead
-                - Specifically, we just need 2 CPTs: 1 between Xt-1 and Xt that 
-                defines "what's the probability of seeing Xt given Xt-1?" (our 
-                TRANSITION MODEL, how do we think the world changes over time), 
-                and another between Xt and Et saying "what's the probability of 
-                seeing this evidence given the current world?" (our SENSOR 
-                MODEL)
-                    - Remember: the "X"s are the HIDDEN variables, and the "E"s 
-                    are our evidence
+            - This lets us assume that we don't need to make separate CPTs for every timestep; we can just update our current table instead
+                - Specifically, we just need 2 CPTs: 1 between Xt-1 and Xt that defines "what's the probability of seeing Xt given Xt-1?" (our TRANSITION MODEL, how do we think the world changes over time), and another between Xt and Et saying "what's the probability of seeing this evidence given the current world?" (our SENSOR MODEL)
+                    - Remember: the "X"s are the HIDDEN variables, and the "E"s are our evidence
 
-    - Great! But there's one more problem...where do we get our probabilities 
-    and our data from? We have some CPTs, but how do we populate them with data?
+    - Great! But there's one more problem...where do we get our probabilities and our data from? We have some CPTs, but how do we populate them with data?
         - To talk about this, let's go through an example
-        - Let's assume we're a security guard in a secret underground bunker, 
-        and we're not allowed to leave, and we don't have any cameras or 
-        anything to the outside world
-            - Our boss IS allowed to leave, and the only information we get 
-            about the outside world is if our boss has brought in an umbrella - 
-            and, because we've been cooped up for so long, we're OBSESSED with 
-            knowing if it's actually raining
-                - "Let's assume that, for some reason, we can't tell when our 
-                boss is actually wet"
-            - Let's also assume that if it was raining before, there's a higher 
-            chance of it raining today
-        - All told, our "Xt" has only 1 random variable - "Is it raining?" - 
-        and 1 sensor - "Did the boss bring in her umbrella?" - giving us these:
+        - Let's assume we're a security guard in a secret underground bunker, and we're not allowed to leave, and we don't have any cameras or anything to the outside world
+            - Our boss IS allowed to leave, and the only information we get about the outside world is if our boss has brought in an umbrella - and, because we've been cooped up for so long, we're OBSESSED with knowing if it's actually raining
+                - "Let's assume that, for some reason, we can't tell when our boss is actually wet"
+            - Let's also assume that if it was raining before, there's a higher chance of it raining today
+        - All told, our "Xt" has only 1 random variable - "Is it raining?" - and 1 sensor - "Did the boss bring in her umbrella?" - giving us these:
 
             Xt = {Rt}
             Et = {Ut}
@@ -156,94 +111,52 @@ variables to our newly gotten values
             True        0.9
             False       0.2
 
-        - Now, our Bayes' Net's CPTs right now only tells us variables that 
-        depend directly on one another - but we DON'T KNOW any unconditioned 
-        probabilities for how the world will be overall (e.g., the overall 
-        probability it's raining without anything else given). Let's now make a 
-        PRIOR assumption: BEFORE we make our first observation, let's just 
-        randomly guess that it was raining, and that there's an equal chance 
-        it's either raining/not raining
-            - Over time, our observations will converge to the right 
-            distribution if we run the model for long enough, so it's okay if 
-            we guessed wrong
-            - Oftentimes, like now, we'll make the UNIFORM PRIOR assumption - 
-            each possibility for the world is equally likely
-                - If you've heard of "Bayesian Priors," that's what this refers 
-                to
-        - Now, before we start computing things, there are 3 kinds of questions 
-        we could try to solve with this model:
-            - The first thing we could do is FILTERING: computing our current 
-            belief state about the world, given all the evidence
+        - Now, our Bayes' Net's CPTs right now only tells us variables that depend directly on one another - but we DON'T KNOW any unconditioned probabilities for how the world will be overall (e.g., the overall probability it's raining without anything else given). Let's now make a PRIOR assumption: BEFORE we make our first observation, let's just randomly guess that it was raining, and that there's an equal chance it's either raining/not raining
+            - Over time, our observations will converge to the right distribution if we run the model for long enough, so it's okay if we guessed wrong
+            - Oftentimes, like now, we'll make the UNIFORM PRIOR assumption - each possibility for the world is equally likely
+                - If you've heard of "Bayesian Priors," that's what this refers to
+        - Now, before we start computing things, there are 3 kinds of questions we could try to solve with this model:
+            - The first thing we could do is FILTERING: computing our current belief state about the world, given all the evidence
                 - This is the ONLY one that we'll try and do in this class
 
                     P(Xt | e1:t)
 
-            - The next thing we can do is PREDICTION, which works fine for a 
-            short time into the future but doesn't work very well past that, 
-            since we're trying to guess things with no evidence
+            - The next thing we can do is PREDICTION, which works fine for a short time into the future but doesn't work very well past that, since we're trying to guess things with no evidence
 
                     P(Xt+k|e1:t) 
 
-            - Finally, there's MOST LIKELY EXPLANATION: basically, we try to 
-            figure out "how did I get here?" given our past evidence, and 
-            compute the most likely sequence of ALL previous world states that 
-            would explain our observations
-                - This is a pretty complex problem, and is usually solved with 
-                "Hidden Markov Models"
+            - Finally, there's MOST LIKELY EXPLANATION: basically, we try to figure out "how did I get here?" given our past evidence, and compute the most likely sequence of ALL previous world states that would explain our observations
+                - This is a pretty complex problem, and is usually solved with "Hidden Markov Models"
 
                     P(X1:t|e1:t)
 
-        - Now, for filtering, we'll assume that we can only use evidence 
-        gathered before time "T"; no cheating with information from the future
-        - So, given that we've estimated the probability for Xt-1, how do we 
-        guess the probability of Xt (the current state)? Or, in the context of 
-        our problem, what's the probability it's raining if we saw our boss' 
-        umbrella the past 2 days?
+        - Now, for filtering, we'll assume that we can only use evidence gathered before time "T"; no cheating with information from the future
+        - So, given that we've estimated the probability for Xt-1, how do we guess the probability of Xt (the current state)? Or, in the context of our problem, what's the probability it's raining if we saw our boss' umbrella the past 2 days?
             - Well, let's first try to solve this using EXACT FILTERING
-                - "The equation for this is as follows; I won't derive it here, 
-                but I've posted the derivation notes on Piazza if you're 
-                interested. Trust me, IT WORKS!"
+                - "The equation for this is as follows; I won't derive it here, but I've posted the derivation notes on Piazza if you're interested. Trust me, IT WORKS!"
 
-                    P(Xt|e1:t) = a*P(et|Xt) * {P(Xt|xt-1) * P(xt-1|e1:t-1), 
-                    xt-1} 
+                    P(Xt|e1:t) = a*P(et|Xt) * {P(Xt|xt-1) * P(xt-1|e1:t-1), xt-1} 
 
-                - In English: "The probability that this is the current state 
-                of the world (given the evidence) is: the probability of the 
-                new evidence piece given that state of the world, times the sum 
-                of (for each possible previous world state) the probability of 
-                the current state given the previous world state times the 
-                probability of that previous world state given the evidence"
+                - In English: "The probability that this is the current state of the world (given the evidence) is: the probability of the new evidence piece given that state of the world, times the sum of (for each possible previous world state) the probability of the current state given the previous world state times the probability of that previous world state given the evidence"
 
             - For Day 0, we have no observations; we're just there
-            - For Day 1, we see an umbrella! Let's try breaking out our 
-            equation:
-                - From our Exact Filtering equation, 1st P term is our sensor 
-                model (probability of the evidence), the second is our 
-                transition model, and the final term is our current state 
-                distribution (the unconditional probabilities we're guessing 
-                about the world)
+            - For Day 1, we see an umbrella! Let's try breaking out our equation:
+                - From our Exact Filtering equation, 1st P term is our sensor model (probability of the evidence), the second is our transition model, and the final term is our current state distribution (the unconditional probabilities we're guessing about the world)
                 - Let's break this down into 2 steps
-                    - First, before we look at our evidence, let's find the 
-                    probability it rained today given it rained or didn't rain 
-                    yesterday:
+                    - First, before we look at our evidence, let's find the probability it rained today given it rained or didn't rain yesterday:
 
                         P(R1|R0) = {P(R1|r0) * P(r0), r0}
 
-                        - So, we have to sum this over the 2 possibilities for 
-                        R0: it was/wasn't raining:
+                        - So, we have to sum this over the 2 possibilities for R0: it was/wasn't raining:
 
                             &lt;0.7, 0.3&gt; * 0.5 + &lt;0.3, 0.7&gt; * 0.5
                             = &lt;0.35, 0.15&gt; + &lt;0.15, 0.35&gt;
                             = &lt;0.5, 0.5&gt;
 
-                        - So, BEFORE we look at any evidence, there's a 50/50 
-                        chance that it's raining or not based on our prior 
-                        model - not too surprising
+                        - So, BEFORE we look at any evidence, there's a 50/50 chance that it's raining or not based on our prior model - not too surprising
                             - This is the value we'll use for P(R1)
-                            - This is, basically, the calculation from INSIDE 
-                            the sigma in our equation
-                    - NOW, let's pull in our new evidence: we saw an umbrella 
-                    on day 1
+                            - This is, basically, the calculation from INSIDE the sigma in our equation
+                    - NOW, let's pull in our new evidence: we saw an umbrella on day 1
                         
                             P(R1|u1) = a * P(u1|R1) * P(R1)
                             = a * &lt;0.9, 0.2&gt; * &lt;0.5, 0.5&gt;
@@ -260,61 +173,34 @@ variables to our newly gotten values
 
                         P(R2|R1)*P(R1|u1) = {P(R2|r1)*P(r1|u1), r1}
 
-                    - Plugging in, then, we'll sum over both possibilities of 
-                    r1 (it was/wasn't raining on day 1) to guess the chance 
-                    it's raining on day 2 w/o the new evidence:
+                    - Plugging in, then, we'll sum over both possibilities of r1 (it was/wasn't raining on day 1) to guess the chance it's raining on day 2 w/o the new evidence:
 
                             = &lt;0.7, 0.3&gt; * 0.818 + &lt;0.3, 0.7&gt; 0.182
                             = &lt;0.5726, 0.2454&gt; + &lt;0.0546, 0.1274&gt;
                             = &lt;0.6272, 0.3728&gt;
 
-                - Now, let's factor in that we did indeed see an umbrella on 
-                Day 2:
+                - Now, let's factor in that we did indeed see an umbrella on Day 2:
 
                         P(R2|u1, u2) = a * P(u2|R2) * P(R2|u1)
                         = a * &lt;0.9, 0.2&gt; * &lt;0.6272, 0.3728&gt;
                         = a * &lt;0.564, 0.074&gt;
                         = &lt;0.883, 0.117&gt;
-        - So, the evidence made a pretty big difference - the umbrella lifted 
-        our estimate to guessing there's rain from 50/50 to 88% - not too bad!
-            - As we see more evidence, this'll get closer and closer to the 
-            true distibution
+        - So, the evidence made a pretty big difference - the umbrella lifted our estimate to guessing there's rain from 50/50 to 88% - not too bad!
+            - As we see more evidence, this'll get closer and closer to the true distibution
 
-- So, that was exact filtering - calculating the exact probability of 
-everything based on everything we've seen
-    - BUT, it has a huge flaw: we have to sum over EVERY possible state of the 
-    world! That's fine for our umbrella problem, where there's just 2 states 
-    (rain/no rain), but it quickly becomes problematic for, say, chess games, 
-    where there's a huge number of possible world states
+- So, that was exact filtering - calculating the exact probability of everything based on everything we've seen
+    - BUT, it has a huge flaw: we have to sum over EVERY possible state of the world! That's fine for our umbrella problem, where there's just 2 states (rain/no rain), but it quickly becomes problematic for, say, chess games, where there's a huge number of possible world states
 
-- Because of that flaw, we're going to try PARTICLE FILTERING (or "approximate 
-inference"), which is a sampling algorithm: instead of trying to sum over EVERY 
-possible state, we put all our probabilities in a line, take some random 
-samples, and hopefully get something representative
-    - In this context, what we do is think of our particles as a bunch of 
-    leaves on a stream, and we drop some leaves in all/some of the "pools" 
-    representing possible states
-        - For the umbrella problem, there're 2 pools: "Is raining", and "Is not 
-        raining." We'll drop an equal number of particles in each one (going 
-        along with our uniform prior hypothesis)
-        - Let's then say that Day 1 also has the 2 possible "pools"/states; for 
-        Day 0, the first pool (is raining) has a 70% chance wide "stream" of 
-        flowing to Day 1's "is raining" pool, and a 30% chance of flowing into 
-        the "not raining" Day 1 pool; for Day 0's "not raining" pool, we do the 
-        same thing, connecting it to all the other possible Day 1 states with 
-        probability "streams"
-            - THEN, for each leaf, we "roll a die" (i.e. sample our 
-            probabilities) to decide which pool it ends up in; when we've done 
-            that, we count up the leaves in each pool
-            - Then, for each estimated day 1 pool, we say the 
-            (unnormalized)probability of being in that pool is the # of 
-            particles times the unconditional probability of that state; in 
-            other words
+- Because of that flaw, we're going to try PARTICLE FILTERING (or "approximate inference"), which is a sampling algorithm: instead of trying to sum over EVERY possible state, we put all our probabilities in a line, take some random samples, and hopefully get something representative
+    - In this context, what we do is think of our particles as a bunch of leaves on a stream, and we drop some leaves in all/some of the "pools" representing possible states
+        - For the umbrella problem, there're 2 pools: "Is raining", and "Is not raining." We'll drop an equal number of particles in each one (going along with our uniform prior hypothesis)
+        - Let's then say that Day 1 also has the 2 possible "pools"/states; for Day 0, the first pool (is raining) has a 70% chance wide "stream" of flowing to Day 1's "is raining" pool, and a 30% chance of flowing into the "not raining" Day 1 pool; for Day 0's "not raining" pool, we do the same thing, connecting it to all the other possible Day 1 states with probability "streams"
+            - THEN, for each leaf, we "roll a die" (i.e. sample our probabilities) to decide which pool it ends up in; when we've done that, we count up the leaves in each pool
+            - Then, for each estimated day 1 pool, we say the (unnormalized)probability of being in that pool is the # of particles times the unconditional probability of that state; in other words
 
                     # of particles * P(evidence|pool)
 
-            - So, if we see the umbrella on Day 1, and 4 leaves end up in 
-            "raining" and 6 end up in "not raining," we'd have:
+            - So, if we see the umbrella on Day 1, and 4 leaves end up in "raining" and 6 end up in "not raining," we'd have:
 
                     Raining = 4 * 0.9 = 3.6
 
@@ -325,33 +211,20 @@ samples, and hopefully get something representative
                         &lt;3.6/4.8, 1.2/4.8&gt;
                         = &lt;0.75, 0.25&gt;
 
-            - "Keep in mind for this that we don't have a 'belief state,' and 
-            we're not trying to calculate the probability distribution; we're 
-            just basing this off of the distribution of particles. If we want 
-            the algorithm to be faster, we run it with less particles; if we 
-            want it to be more accurate but slower, we add more particles"
+            - "Keep in mind for this that we don't have a 'belief state,' and we're not trying to calculate the probability distribution; we're just basing this off of the distribution of particles. If we want the algorithm to be faster, we run it with less particles; if we want it to be more accurate but slower, we add more particles"
 
     - So, the particle filtering "algorithm" is pretty straightforward:
-        1) Sampling from your "prior distribution," add in N particles among 
-        the possible states
-        2) Propagate the particles from their current states to their 
-        respective states (using the transition model probabilities)
+        1) Sampling from your "prior distribution," add in N particles among the possible states
+        2) Propagate the particles from their current states to their respective states (using the transition model probabilities)
 
                 t-1 -&gt; t, P(Xt|Xt-1)
 
-        3) Weight the samples by evidence (multiply # of particles by 
-        probability of being in that state, given evidence); then, normalize to 
-        get the probability distibution
+        3) Weight the samples by evidence (multiply # of particles by probability of being in that state, given evidence); then, normalize to get the probability distibution
 
                 P(et|Xt)
 
-        4) Resample the N particles from #3 (i.e. redistribute them based on 
-        the probabilities from #3 VIA SAMPLING - basically, we repeat step #1, 
-        but only with the existing particles, and with the new probabilities 
-        from step 3)
+        4) Resample the N particles from #3 (i.e. redistribute them based on the probabilities from #3 VIA SAMPLING - basically, we repeat step #1, but only with the existing particles, and with the new probabilities from step 3)
         5) Repeat from step 2
-
-
 </pre>
 </article>
 <a class="side-link is-note-link" href="9_introMachineLearning_6_14_18.html"></a>
