@@ -4,7 +4,10 @@
  */
 
 const main = document.querySelector('article');
-let maxLineLength = 80; // Max length in characters
+const maxLineLength = 80; // Max length in characters
+const linePixelWidths = getAllPossibleLineWidths(maxLineLength);
+
+let currentOriginalText = document.querySelector('.main-note-text').innerText;
 
 let cache = {};
 let newPageLoading = false;
@@ -41,6 +44,7 @@ function changePage(isLinkToAnotherNote) {
                 var newContent = wrapper.querySelector('.main-note-text');
 
                 // Wrap new lines
+                currentOriginalText = newContent.innerText;
                 wrapElementText(newContent);
 
                 resetSideLinks(wrapper);
@@ -57,7 +61,33 @@ function changePage(isLinkToAnotherNote) {
 }
 
 function wrapElementText(element) {
-    element.innerText = softWrapTextLines(element.innerText, maxLineLength);
+    const currentMaxWidth = main.offsetWidth;
+
+    let lineLengthChars = 0;
+    // Find the first line width that can fit on-screen
+    for (let numChars = maxLineLength; numChars >= 0; numChars--) {
+        if (linePixelWidths[numChars] <= currentMaxWidth) {
+            lineLengthChars = numChars;
+            break;
+        }
+    }
+    element.innerText = softWrapTextLines(element.innerText, lineLengthChars);
+}
+
+function getAllPossibleLineWidths(maxLineWidthInChars) {
+    const possibleWidths = new Array(maxLineWidthInChars + 1);
+    const ruler = document.getElementById('text-width-ruler')
+
+    possibleWidths[0] = 0.0;
+    let currentString = '';
+    for (let numChars = 1; numChars <= maxLineWidthInChars; numChars++) {
+        currentString += '#';
+        // TODO: Find if there's a way to do this without re-adding entire
+        // string each time?
+        ruler.innerText = currentString;
+        possibleWidths[numChars] = ruler.offsetWidth;
+    }
+    return possibleWidths;
 }
 
 function resetSideLinks(newHtmlWrapper) {
@@ -104,6 +134,10 @@ function animate(oldContent, newContent) {
 }
 
 window.addEventListener('popstate', changePage);
+window.addEventListener('resize', function(){
+    document.querySelector('.main-note-text').innerText = currentOriginalText
+    wrapElementText(document.querySelector('.main-note-text'));
+});
 
 document.addEventListener('click', function(e) {
     var el = e.target;
