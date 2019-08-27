@@ -7,13 +7,13 @@ const main = document.querySelector('article');
 const maxLineLength = 80; // Max length in characters
 const linePixelWidths = getAllPossibleLineWidths(maxLineLength);
 
-let currentOriginalText = document.querySelector('.main-note-text').innerText;
+let currentOriginalText = main.querySelector('.main-note-text').innerText;
 
 let cache = {};
 let newPageLoading = false;
 
 // When our 1st page is loaded, wrap its text
-wrapElementText(document.querySelector('.main-note-text'));
+wrapElementText(main.querySelector('.main-note-text'));
 
 async function loadPage(url) {
     if (cache[url]) {
@@ -60,9 +60,8 @@ function changePage(isLinkToAnotherNote) {
     }
 }
 
-// TODO: Doesn't appear to be wrapping correctly on iOS?
 function wrapElementText(element) {
-    const currentMaxWidth = main.offsetWidth;
+    const currentMaxWidth = main.querySelector('.main-note-text').offsetWidth;
 
     let lineLengthChars = 0;
     // Find the first line width that can fit on-screen
