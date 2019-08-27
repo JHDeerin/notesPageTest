@@ -9,13 +9,13 @@ import sys
 import ntpath
 from bs4 import BeautifulSoup
 
-def softWrapTextLines(txtFile, maxLineLength):
+def softWrapTextLines(rawText, maxLineLength):
     '''
-    Takes in a plaintext file and returns the file contents as a string,
-    "soft wrapping" each line to the given maximum length (such that the wrapped
-    part matches the indentation level of the original line)
+    Takes in a plaintext file's contents and returns the file contents as a
+    string, "soft wrapping" each line to the given maximum length (such that the
+    wrapped part matches the indentation level of the original line)
     '''
-    originalText = txtFile.read().split('\n')
+    originalText = rawText.split('\n')
     brokenLines = ''
     for line in originalText:
         textRemaining = True
@@ -58,7 +58,7 @@ def createHtmlFromTxt(htmlBaseFileName, notesTextFileName, outputHtmlFileDestFol
     outputHtml = BeautifulSoup(htmlBaseFile, "html.parser")
     # soft wrap the notes so the output HTML matches how they look in VS Code
     textContainers = outputHtml.find_all(class_ = "main-note-text")
-    noteText = softWrapTextLines(notesTextFile, 80)
+    noteText = softWrapTextLines(notesTextFile.read(), 80)
     for element in textContainers:
         element.string = noteText
 
