@@ -156,11 +156,9 @@ pre {
 
     main {
         padding-top: 0;
-        background: white;
-        color: black;
     }
 
-    article {
+    body, main, article {
         background: white;
         color: black;
     }
