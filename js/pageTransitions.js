@@ -72,6 +72,7 @@ function wrapElementText(element) {
         }
     }
     element.innerText = softWrapTextLines(element.innerText, lineLengthChars);
+    alert(`Current Width: ${currentMaxWidth}px | Chosen Width: ${lineLengthChars} chars (${linePixelWidths[lineLengthChars]}px)`)
 }
 
 function getAllPossibleLineWidths(maxLineWidthInChars) {
