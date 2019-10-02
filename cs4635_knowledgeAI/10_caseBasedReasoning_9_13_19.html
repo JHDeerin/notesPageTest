@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li class="active-note-page"><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. </a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="9_moreProductionSys_9_11_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*************** Case-Based Reasoning - September 13th, 2019 ***************//
+//**************************************************************************//
+
+- Ooooh, Friday the 13th, spooooOOOOOOoookyyyyy...
+- So, let us begin the day in the traditional way: by watching a YouTube video!
+    - Cue video on case-based reasoning for playing soccer, where agents observe a player and try to match observations to what the player does, and act based on its memory (tries to mimic a given teacher)
+        - This would be similar to KNN, and it has a problem: it's only useful for retrieval, not for actual reasoning!
+    - To try and fix this, we're going to make 2 moves that've been very important in KBAI
+        - We operate on 2 systems: an unconscious, memory-based heuristic system, AND a slower, more thoughtful deliberation system
+            - Thus far, we've been talking about system 2; NOW, we want system 1, since we want to build human-level, human-like intelligences in this field
+                - You don't think about how to remember what you had for lunch today, or how to eat with a fork - you just do it! You just use your memory!
+                - That being said, transferring knowledge from one situation to another isn't always trivial, especially if the situations aren't very similar
+            - "We think that we think a lot, but really, most processing is going on at the unconscious level"
+                - By that definition, these soccer robots aren't truly thinking - they're just remembering
+        - The second big move is that intelligence is SOCIAL, and that we don't Skynet our way into genius - instead, we learn from one another and imitate one another (whether consciously or not)
+            - This happens often when you travel to a new country; when you don't know what the etiquette is, you do what your friends are doing!
+            - Under current theories of AI, if these agents ever become sentient, they'll develop their own culture and their own societies
+--------------------------------------------------------------------------------
+
+- Last time, we said that in production systems the core method of learning is CHUNKING: creating new rules to deal with uncertain situations
+    - Today, we're going to talk about how skills might be transferred between different agents
+    - Here, we're moving away from procedural knowledge and towards episodic knowledge
+        - Remember: episodic knowledge is event-based, procedural is rule-based, and semantic we haven't covered in detail yet (but will get to)
+- "This lesson will probably seem very simple - that's all? - but the idea we're building here is that AIs experience a bunch of things, they remember them as cases, and then they extract rules and concept from these cases"
+    - It's also the very beginning of our exploration of creativity by analogy
+
+- So, imagine there's a 2D world entirely composed of colored blocks; they might see one block is purple and squat, another block is square and green, and so on
+    - Let's say we see the outline of a new block, and can't tell what color it is - we might say "well, it's the same shape as the black block, so it's probably black!"
+        - Story time: when Jill Watson was first built in 2016, it used case-based reasoning, where they had 40,000 different questions/answers from past years of the class stored, and it would try to find the closest match and then use the exact answers from previous TAs
+            - The current Jill Watson AI uses a different technique, where its answers sound more "robotic", although with a similar correctness rate
+            - Why did we change this? For ethical reasons, actually; some people objected to not telling the students that this was an AI TA, saying it was deceptive (mostly in the press, not so much among the students)
+                - So, to protect Georgia Tech's reputation, they switched it to a different method that gave less human answers, but was less controversial - which was a small sacrifice, since the responses didn't "feel" as natural
+            - More importantly, though, the old Jill Watson showed a gender bias! About 85% of the questions in Jill Watson's question bank had been asked by men, due to the demographics of the class
+                - One semester, a male student mentioned that his wife was expectant, and Jill gave a very nice response welcoming him to the class and congratulating him. The next semester, a female student had mentioned she was pregnant and would have to leave the class early with her husband, and all Jill said was "Welcome to the class" - because we didn't have a recorded case of a female student asking that kind of question before!
+            - Another, smaller issue they had to deal with was implementing "forgetting" old cases, so Jill wouldn't give outdated information
+
+- Anyway: the gist of case based reasoning is that, given a new problem, find the most similar problem we have in memory, and use the answer for that remembered problem
+    - Specifically, this is known as the NEAREST NEIGHBOR algorithm; this is literally computing the distance from our input to each point, and picking the closest one
+
+- We'll talk more about this - and its limitations - next week</pre>
+</article>
+<a class="side-link is-note-link" href="11_moreCaseBased_9_16_19.html"></a>
+</main>
+</body>
+</html>

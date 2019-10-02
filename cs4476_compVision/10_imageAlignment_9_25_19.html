@@ -1,0 +1,150 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li class="active-note-page"><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="9_edgeDetectionHough_9_23_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*********** Feature-Based Image Alignment - September 25th, 2019 **********//
+//**************************************************************************//
+
+- "Okay, today I'm excited; we get to talk about MY research area!"
+    - Structure from motion is SUPER cool, but we're going to ease into it with feature-based alignment first
+- Also, don't forget that project 2 is due FRIDAY
+    - "Pytorch is GOLDEN in industry right now, so this is actually really useful stuff you're learning"
+--------------------------------------------------------------------------------
+
+- Now, between any 2 images, there's going to be some kind of geometric transformation between them (either 2D or 3D)
+    - Let's say we have 3 photos of the same scene but with the camera translated a bit (like a panorama, but the lens isn't allowed to rotate); how can we stitch them together?
+        - Well, all 2D alignment problems involve making a set of feature matches and figuring out what transformation was responsible for going from one image to the next
+            - To do this, after we get those set of matches, we need to determine the best parametric model "p*" that defines the transformation
+            - If we're allowing translation ONLY, then we would say this model is
+
+                    f(x, t) = x + t
+
+                - ...where p == t
+            - So, for instance, let's say that a point "x1" in the first image is at [600, 150], and it's position in the second image "x1'" is [50, 50], and the parametric model is the translation one above, "p" would mean:
+
+                    x1' = f(x1, t)
+                =&gt;  [600, 150]  = [50, 50] + t
+                =&gt;    t = [-550, -100]
+
+        - So, what if we have MORE than 1 point - what should we do?
+            - Your first guess would be to take the average of all these points, right? And it turns out that's exactly right!
+                - We want to minimize the "sum of squared differences" between all the points and our calculated offset vector (or "parameter vector") "p":
+
+                    E_ls = sum{ (f(x_i, p) - xi')^2 }
+
+            - However, it turns out this can be generalized! We can solve for "p," the best guess to minimize this error!
+                - Most of the time, f(x, p) is going to be linear (i.e. both of the vectors), so that:
+
+                        f(x, p) = x + J(x)*p
+
+                    - ...where "J(x)" is the Jacobian of x, and "x" is a 2x1 vector and p is an Nx1 vector (meaning J(x)*p is a 2xN vector)
+                - Therefore, we find the loss function becomes
+
+                        E_ls = sum{ (J(x_i)*p - dx_i)^2 }
+
+                - Differentiating this equation and setting it to 0, we can use the chain rule
+                    - (confused here??)
+                    - The Jacobian transpose here just comes from multivariable derivative rules, where the chain rules requires it for the multiplication to work
+                - So, going forward a bit, we end up with the Hessian, where A is an NxN matrix:
+
+                        [sum(J^T(x_i)*J(x_i))]*p = sum( J^T(x_i) * dx_i)
+
+                    =&gt;  A*p = b
+                    =&gt;  p*= A^-1 * b
+
+                - So, this looks complicated, but it turns out the average DOES come out of this, since all 2D models are linear! (with the exception of perspective transforms)
+                    - Now ,for translation J = I, which means we end up with an equation where:
+
+                         p = sum( dx_i )
+                      =&gt; p* = 1/n sum( dx_i )
+
+                    - So, after a LOT of mathematical haggling, it turns out that the optimal P really is just the average of all the "flow vectors"/derivatives/differences!
+
+- Actually, I lied: the euclidean transformation is NOT linear, because it has a sine/cosine term for theta!
+    - That's an issue, since it means out "mean" finding doesn't apply now!
+        - so, what do we do? We still try to minimize the sum of squared errors, but unlike a linear model, here we have to linearize our model here around some guess, which gets us a linear approximation of the true model using our Jacobian term
+            - So, this gets us a Hessian term again, but we now have to (???)
+            - "This is a SUPER important algorithm, called NONLINEAR LEAST SQUARES"
+
+- Okay; let's now talk about something SUPER important in computer vision: the Projective transformation!
+    - Here, the Jacobian transformation is a bit more complicated than the previous examples
+        - (crazy linear algebra equation I don't have time to type out)
+
+- ...okay, that's the math. Let's use it!
+
+- Let's talk about the RANSAC algorithm!
+    - What is this? Well, when we're making these feature matches across objects, we're just doing it based off of the descriptors, but we know that there are some false-positive "outlier" matches that'll mess our stuff up if we try to match them up, etc.
+        - So, RANSAC is an algorithm to try and get rid of these outlier points so that only the "true" matches remain
+            - Why don't we just take the median instead of the mean, and have a better error function instead? That actually is a valid approach, and some people do that - but not us!
+    - So, that sounds great! How can we do this?
+        - Well, how would we get rid of outliers in a 2D scatter plot? If it looks like it's too far away for the main group, we get rid of them!
+        - We're trying to do a similar thing here:
+            - To find the "main group," we pick 2 points at random and fit a line between them, and say its "support" is the number of points within distance "d" of the line
+                - We do this for all pairs of points, pick the line with the most inliers, and then get rid of all the rest of the points that aren't within "d" of the line - that's it!
+    - Here's the actual details of the algorithm:
+        - Randomly select "S" points
+        - Instantiate a model (i.e. a line)
+        - Get all of the inliers within your chosen distance "D"
+            - How do we determine this distance threshold?
+            - To do this, we use a gaussian distribution and a Chi-squared distribution (the details aren't super important)
+        - If the match is above a "good enough" threshold we set (i.e. enough inlier matches have been found for our purposes), just stop and return
+        - Otherwise, repeat for "N" trials, and return the best model we found
+            - How many samples should we take? This is a VERY important question ("It's DEFINITELY going to be on the midterm")
+            - So, it depends on how many points we're looking for, and how many outliers there are
+                - If the portion of outliers is "e", then the portion of inliers is p = 1 - e
+                - Therefore, the probability of getting a sample of size "s" with ALL inliers is:
+
+                    p^s
+
+                - ...and the probability of a sample with any outliers is:
+
+                    1-p^s
+
+                - So, the probability of getting "N" outliers is:
+
+                    (1 - p^s)^N
+
+            - What we actually WANT, then, is for the probability of getting N outliers to be under some probability (e.g. having a 99% chance of getting a good match)
+                - So, if our threshold certainty P=0.99, then we want the probability of getting "N" outliers to be:
+
+                    p(N outliers) &lt; 1 - P
+
+                - In other words, we want:
+
+                    (1 - p^s)^N &lt; 1 - P
+
+                - Which means we can solve for the number of trials "N" we need!
+
+                    N &gt; log(1-P) / log(1-p^s)
+
+- Now, for translation, we only need 1 match to figure it out; for homography, we need 4 points; and for Euclidean transforms, we need 2
+
+- Okay, we'll keep going on with this stuff next week!</pre>
+</article>
+<a class="side-link is-note-link" href="11_poseEstimation_9_30_19.html"></a>
+</main>
+</body>
+</html>

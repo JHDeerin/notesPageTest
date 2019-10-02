@@ -80,7 +80,7 @@ notesToCreate.append(ClassNoteEntry(
 
 # Senior Year
 notesToCreate.append(ClassNoteEntry(
-    '../../../Class Materials/fall2019/cs4476_computervision/notes',
+    '../../../Class Materials/fall2019/cs4476_computerVision/notes',
     'css/cs4476Theme.css',
     'cs4476_compVision',
     "Computer Vision"))

@@ -1,0 +1,89 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. </a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="1_introKBAI_8_21_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************** Principles of KBAI - August 23rd, 2019 *********************//
+//**************************************************************************//
+
+- Lecture 3: The Herd Thins
+    - (or, possibly: The Collective Unconscious of CS 4635 Decides to Sleep In)
+- Professor Goel prepares to launch another audio-visual YouTube assault on our senses...
+    - Yet another clip from "Prometheus": an ad for a robot "David 8" indistinguishable from humans, with an understanding of emotions, super-intelligence, etc.
+        - If you've watched the actual movie, you know that this robot later goes insane and commits extraordinary amounts of violence
+        - "Is intelligence possible without emotions? 25 years ago, emotions were considered the 'irrational' part of humanity, an obstacle for intelligence researchers to overcome; now, though, many researchers think emotions are a CRITICAL part of intelligence since they're very useful for resource allocation, decision making, etc. (for instance, fear makes us alert to potential danger)"
+            - In actual AI research, computational "fear" has largely to do with resource allocation
+        - This video also talks about ethics, and how the robot can do "distressing" tasks unfit for normal employees. Is it possible to have intelligence without ethics?
+            - Our first reaction is to say "yes" - we're all aware of individuals who're not very ethical but who we'd still call objectively smart
+                - What about with societies? Do more intelligent societies become more ethical? Does that mean highly intelligent robots must become more ethical? If not, how can we ensure that robots remain ethical as they become more intelligent?
+                    - Perhaps surprisingly, many roboticists today are optimistic that higher intelligence will lead to better ethics as the most "rational" option (needless to say, this view isn't held by all people)
+- Now, assignment 1 has been posted (there may be minor tweaks, but the core details won't change); it'll be due a week from this coming Monday
+--------------------------------------------------------------------------------
+
+- So, last time we were talking about Raven's Progressive Matrices, and from them there are 7 fundamental principles for knowledge-based AI we can glean:
+    1) Knowledge is power; it isn't sufficient for intelligence (try asking an encyclopedia a question), but it is necessary, and KBAI agents represent and organize their knowledge into data structures to support their reasoning
+        - Notice that even in our books, knowledge is often organized in some way; we'll be studying different ways we can organize it throughout this course
+        - If we were building an ant AI, we wouldn't need to worry about knowledge acquisition because ants have basically NO intelligence
+    2) Learning in KBAI is often incremental
+        - What do we mean by this? We don't learn things by digesting millions of examples, by but looking at thing 1-by-1, step-by-step
+    3) Reasoning in KBAI agents is both top-down (knowledge-based) AND bottom-up (data-based and knowledge-light)
+        - For instance, if I threw a baseball across a field, what would happen?
+            - On the one hand, our eyes are processing the baseball's movement in a bottom-up, data-driven fashion
+            - On the other hand, we know from our knowledge of gravity that things fall, which we can use in a "top-down" manner to figure out what'll happen in advance
+        - How do these work together, then? Do we need to do bottom-up processing to get top-down knowledge? Those are questions we'll need to answer when designing our programs
+    4) KBAI agents match methods to tasks
+        - Some schools of AI are optimistic that we can come up with a single algorithm to do EVERY task; KBAI generally does NOT take that view, and instead acts like there are a large number of different techniques for different kinds of situations
+            - So for us, the question instead becomes this: how do we figure out what type of problem we're dealing with, and which technique to use?
+                - Humans do this extraordinarily well, and it's incredible! We'll need to figure out how to do something similar
+            - Essentially, then, this type of AI wants to build a "periodic table of mind" that we can combine into all possible intelligent operations
+    5) KBAI agents use heuristics to find "good enough" solutions, rather than optimal ones
+        - For our purposes, we'll just say a heuristic is a rule-of-thumb that lets us skip to a decent starting point
+            - For instance, if we're in the United States and want to find downtown in a city, we should look for the tallest building and head towards it
+                - This doesn't always work, and ESPECIALLY fails for many towns in Europe, but it often gets us pretty close!
+        - We will NOT focus on being perfectly right in this class, but on making good guesses; that's what humans do, after all
+    6) KBAI uses patterns to help solve problems
+        - Perhaps the secret of intelligence is not that we're very intelligent after all, but just that the environment offers many similar kinds of problems; our behavior appears complex just because the world is very complex
+        - So then, if we can learn the solution for some of these problems and learn to apply them correctly, we can act intelligently without really much effort at all!
+    7) Reasoning, learning, and memory will be closely coupled in our architectures
+        - In machine learning, you ONLY focus on learning, and no reasoning happens after you've learned these things; we're trying to do something fundamentally different from that
+- So, these are our 7 main (non-exhaustive) principles
+
+- With a few minutes left, then, let's begin talking about frames
+    - What are these things? Well, they're our first representation of knowledge, and we'll study their functions, properties, and how we can use them for making sense of things
+        - How can we know when a movie "makes sense," for instance? Consider the following sentence: "Ashok ate the frog."
+            - We can immediately tell the frog is dead and in Ashok's stomach, even though that information is NOWHERE in the sentence.
+                - So, intelligent agents can make sense of even partial or ambiguous information!
+            - Is Ashok happy or sad, though? We can't tell! That information CAN'T be inferred from here
+
+- One of the fundamental quesitons is what it means for something to have "meaning," or for us to understand something
+    - For our practical purposes, we'll say that "understanding" something means being able to draw the right inferences about something
+
+- And with that, your first week is over! Thank you very much, look at the first assignment, and goodbye!
+</pre>
+</article>
+<a class="side-link is-note-link" href="3_introFrames_8_26_19.html"></a>
+</main>
+</body>
+</html>

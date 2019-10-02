@@ -1,0 +1,65 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case</a></li><li class="active-note-page"><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. </a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="10_caseBasedReasoning_9_13_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*********** Case-Based Reasoning (cont.) - September 16th, 2019 ***********//
+//**************************************************************************//
+
+- So, we've been talking about theories of human-like intelligences right now, and most recently we've been talking about case-based reasoning, where we just retrieve a solution to our problem from memory
+    - But what about when the problem is similar to our remembered problem, but with some differences? Then we need to adapt our solution!
+    - *Cue CBR noir video*
+        - "Of course this video is tacky, but it gives the correct idea"
+            - This video actually references Professor Goel's Phd. thesis, KRITIK!
+        - And what is the correct idea, anyway? Think back to a couple years ago, when it was discovered that Syria was using chemical weapons; Republicans said this was like when chemical weapons were used in Iraq (justifying invasion), while Democrats said it was like Vietnam (avoid getting involved)
+            - So, they disagreed what the most similar case was, and had obviously indexed their cases differently with different importance criteria!
+    - We've talked before about how humans have a quick-acting, intuitive thinking system, and a slower-acting, more logical thinking system
+        - These systems are NOT mutually exclusive: we can have use these systems together and switch between them for different use cases (although how, exactly, to do this isn't obvious)
+--------------------------------------------------------------------------------
+
+- So, today we're going to build on case-based reasoning, and hope to eventually get to "analogical reasoning" using these cases (since case-based reasoning as we know it isn't helpful if we're dealing with totally dissimilar problems)
+    - One of the fundamental problems in AI is that any AI system has to begin with what it already knows - but then how can I solve new problems?
+        - We've also talked about how nearly all interesting AI problems are intractable, and seemingly can't be optimally solved in a reasonable amount of time
+        - This conundrum, then, is that we always have to deal with solving new problems
+    
+- So, we talked about guessing the color of a block from its outline - but what if the outline doesn't match any blocks we know?
+    - Well, then we use KNN and try to figure out which known case is closest to the input!
+- This is a kind of learning, but it isn't like in ML; instead, it's incrementally getting better as we see more cases
+
+- Beyond this retrieval, though, we often need to ADAPT our known cases to fit the current problem, EVALUATE how well this modified solution works, and then STORE the new problem/solution as a new case
+    - For instance, if we're making ravioli for the first time and want to make it more salty, we might remember that we made our lasagna more salty by adding Morton's salt to it - we had to make an analogy!
+        - One common way of doing this is via conjunction (connecting two known cases into a single case), although this certainly isn't the only way
+            - e.g. "I know how to get to the restaurant from my house, and from the restaurant to work, so I can get to work from my house by going past the restaurant!"
+    - Forgetting is also important in cased based reasoning, and seems to largely be based on forgetting-rarely used cases, or giving higher-priority to more frequently used cases
+        - If I ask you to name your high-school classmates, you might remember 2-3 immediately, and then have to think of the rest of them - we have them stored in some priority!
+            - Notice that this often isn't a binary remembered/forget; we might remember some things more quickly, or store other things at a different level of priority
+        - We may also forget things via abstraction (e.g. combining different cases into rules, etc.), which we'll talk about later
+
+- Okay - we'll talk more about this, and thing</pre>
+</article>
+<a class="side-link is-note-link" href="13_introToClassification_9_20_19.html"></a>
+</main>
+</body>
+</html>

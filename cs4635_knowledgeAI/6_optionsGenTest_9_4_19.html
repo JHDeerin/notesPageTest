@@ -1,0 +1,83 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li class="active-note-page"><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. </a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="5_semanticNets_8_30_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******** Choosing Options / Generate and Test - September 4th, 2019 *******//
+//**************************************************************************//
+
+- asyou'vealwaysknownthestress/returnsinneverendingvariations/aweekendorvacation'scleft/isshatteredbyyourownstrangeexpectations/so,dyingonthiswind-sweptglobetogether/howshallweliveifboundinbythestorm?/onlybylaughing,dancingwiththewaters/onlybyatdeath'sdoorbeingreborn
+
+- ...I'm in a vaguely uncheery mood today, but life goes on, the world's bigger than my sorrows, and Christ's bigger than the world
+- "James, the attendance in this class is falling! What should we do?"
+    - *students suggest bonus points for attendance, pop quizzes, serving breakfast, and so on*
+
+- Speaking of that, how was assignment 1?
+    - First of all, let's cover how these assignments are going to be graded - the assignments are distributed randomly among all 5 of the TAs, they grade them, and then they're going to check that the mean/median is the same across all the TAs ("we tend to lean towards positive reinforcement rather than negative reinforcement, if that comforts you; we typically hope for a median grade of ~80%")
+    - You then need to give peer feedback - the numerical feedback isn't very important (the TAs don't even look at it), but PLEASE give high-quality qualitative feedback to other people, and ESPECIALLY view reading other people's submissions as benefitting your own learning ("We've found it's extremely helpful for students to see different approaches to the problem, and to see things they hadn't considered")
+
+- Switching gears to project 1 a bit...
+    - The libraries you can use are very restricted, due to both grading difficulties with dependencies and ensuring you need to understand whatever you actually implement
+    - This project does require a little bit of natural-language processing; we'll cover the basics you need in-class, but you may need to 
+        - Most computer science classes teach you an algorithm, then expect you to implement it; we are intentionally trying NOT to do that, but instead to give you some very open-ended assignments
+        - "This is a top 10 university; these projects are hard, but I think it's fair to expect you to do challenging things"
+--------------------------------------------------------------------------------
+
+- So, last week we were discussing semantic networks - but what happens when there are multiple possible answers?
+    - For instance, in some of the Raven's matrix problems, people don't all give the same answer! Some people prefer one answer, while others prefer another one that's still possible to reach
+        - Why do people give different answers? Should we make AIs that give different answers? Is it irrelevant? What about for more important issues, like choosing what government to support? When there are multiple different answers, what should we make the "default" be?
+    - The current theory about why this happens for Raven's matrices in humans goes something like this: humans have a "similarity method" in their heads to rank what changes (rotation, reflection, translation, etc.) have the most/least "cost"
+        - Using this, people intuitively have an idea of what transformation has the lowest cost, and choose that one - but different people have different rankings for these changes!
+            - By this logic, difficult decisions are those that have very similar costs, and are difficult to decide between
+        - So, we have to deal with the individuality and universality of human intelligence; should we give this to robots? How? Should we make all the robots different? If they learn these preferences from their humans, we'd end up with as many unique intelligences as there are humans!
+            - "It's EXCEEDINGLY unlikely that future AIs will all be identical, or monolithic"
+    - This technique, then, allows us to decide between different plausible options!
+        - So, intuitively, it seems we might need to embed AIs with this sort of knowledge before they can become useful - knowledge based AI is powerful!
+            - The counter-perspective is bottom-up learning, which claims that the world is so full of data that we can just let the robot lose and have it learn for itself
+        - It is likely, of course, that we need a combination of both approaches
+
+- So, with that, semantic networks are done
+    - We can give different representations and weights to our knowledge, but the BIG point is this: in order to reason about something, we NEED to know how to represent it!
+        - Just because we can't represent something (yet) doesn't mean it doesn't exist, but if we want to be able to think about something, we need a good way of expressing it
+
+- So, those are representation - but how can we REASON using these frames and semantic networks and such?
+    - We want to build a "periodic table of mind," but so far we only
+
+- The first such reasoning method we'll talk about, then, is GENERATE AND TEST!
+    - "You actually already know all about this method, but we're going to put it in more formal terms than you probably think about it"
+        - All generate and test means is that we think of possible answers, test which ones could apply, and throw out all the ones that don't work - that's it!
+    - If that's all this is, though, why make a big deal out of it? Why should AI researchers care?
+        - Some people try to generate optimal algorithms that have such good generators they don't NEED to do any testing - they just always produce the right answer! Dijkstra's algorithm, for example, always gives us an optimal, shortest path
+        - Other schools of AI, though, like evolutionary algorithms and genetic algorithms, take the opposite approach: they have pretty poor generators that are totally knowledge-free, but EXCELLENT testing features, enabling them to quickly find good solutions
+            - "Please restrict these principles to algorithms, of course; human societies have been wrecked by eugenics and concepts of fit and unfit peoples, and that is absolutely not what we're doing here"
+    - Human-level intelligence, then, likely combines these two schools
+
+- How will we combine them? That'll be what we discuss next time!
+</pre>
+</article>
+<a class="side-link is-note-link" href="7_genTestMeansEnd_9_6_19.html"></a>
+</main>
+</body>
+</html>

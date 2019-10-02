@@ -1,0 +1,90 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li class="active-note-page"><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. </a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="0_firstDay_8_19_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************ Introduction to KBAI (cont.) - August 21st, 2019 *************//
+//**************************************************************************//
+
+- What's this? We're beginning class with yet another YouTube clip! (This time from the movie Prometheus)
+
+- "All of you know of TED talks, no? In this clip, the actor is a well-known man named Guy Pierce, and he's giving a TED talk in the film"
+    - *man rants in movie about how creating AI is playing God*
+    - "Is that what we're doing in this class, playing God? Should we worry about science first and ethics second? Right now, many people are concerned about millions of people losing their jobs through AI work like what we're doing at this college, but perhaps it will create new jobs? Or perhaps that would result in a shift away from work being a central part of our lives - but is that a good thing?"
+        - I don't want to preach in this class - you must come to your own ethical conclusions, and this isn't an ethics class - but I would advocate that you think about these things. Are you bad people for taking this class? Am I a bad man for teaching it? Why do you think what you think?
+        - Must AI reflect the values of the elite 1% that make them? There are many, many questions here
+
+- As a side note, there're sections on Piazza where you should introduce yourself - only 6 people have done it so far, so PLEASE do that! Piazza will be our main form of communication in this class, so you should check it frequently     - Video lecture are all on Udacity, so search up this course on there
+    - Office hours are still being decided, but will be posted in the next day or two
+--------------------------------------------------------------------------------
+
+- So, last time we were talking about the topics that we'll go through in this course
+    - Believe it or not, in knowledge-based AI (KBAI), knowledge is power, so we need to represent knowledge and connections using semantic networks and symbolic logic
+    - We'll also look into COMMON SENSE REASONING, trying to investigate data structures like frames and scripts to allow for this
+        - What do we even mean when we say we "understand" something, though? We'll get a bit into that too
+    - We'll get into LEARNING, which in this class is VERY different from machine learning since we'll try to build data structures that learn the same way that HUMANS do
+        - In ML, you have HUGE amounts of data but little knowledge; here, we'll try to get lots of knowledge from only small amounts of data
+    - We'll talk about ANALOGICAL REASONING, trying to enable creatively relating different concepts (e.g. thinking of the atomic model like the solar system)
+    - We'll also talk about VISUOSPATIAL REASONING, which is VERY prevalent in humans ("Why do we dream? I don't know, but we all seem to dream visually - and is that important for intelligence? Will intelligent AI agents dream, too?")
+    - We'll finally also start getting into METACOGNITION, where we're reasoning about our OWN reasoning
+        - "As an example, we all know the President of the United States is Mr. Donald Trump, but what is Mr. Trump's phone number? You don't know, right? But HOW DID YOU KNOW you didn't know, without doing an exhaustive search of all your phone numbers?"
+- This is a LOT of topics, so we'll obviously cover some in more detail than others, but that's the gist
+
+- As a side note, we WILL cover the same material as the videos during lecture, but Professor Goel still HIGHLY recommends watching the videos before you come to class anyway so that lectures are reinforcing what you've learned, rather than being brand-new
+
+- So, onto lesson number 2, where we'll cover:
+    - Core methods of KBAI
+    - Tasks addressed by KBAI
+    - How KBAI agents use these methods to tackle those tasks
+    - The relationship between KBAI and human intelligence
+
+- In this course itself, we hope you'll learn by example, by doing, by projects, and by reflection
+    - If you do the videos on Udacity, you'll see there are quizzes embedded in those videos - those quizzes should eventually give you personalized feedback on what you're strong/weak at in this class, so PLEASE do them! It's a valuable learning tool!
+
+- Let's start by talking about a weird little thing called "Raven's Progressive Matrices"
+    - This was an intelligence test written in the 1930s to examine general intelligence, consisting of 2x2 and 3x3 visual matrices where you have to choose how "A is to B, as _ is to D"
+        - Almost EVERYONE got the right answer on the slide, but how did we deduce it? We had to decide the pattern (KNOWLEDGE) to get from A to B, use induction to apply the pattern to the new example (TRANSFER), and then examine what that new APPLICATION means
+        - Sometimes, though, it's hard to figure out how humans solve problems because we can't peek inside our own brains - so instead, it's sometimes easier to build an AI as a hypothesis of how human brains operate (for simple problems where the AI can be reasonably built)
+            - In machine learning, most of the focus are on objects and features of those objects: is the tire round or square? Is it black or white?
+            - In KBAI, we want to instead focus on INSIGHT; in the field, a common proposal is that humans thinking is unique from animals because we can think of abstract relationships
+    - As it turns out, for some of the questions in this test different people can't agree on what the right answer is - why don't we all give the same answer? Could different humans have different "ranks" or preferences for different ways of thinking (e.g. some people favor seeing rotation, others prefer reflection)?
+        - Occasionally, our reasoning fails if we have wrong assumptions or incomplete information; instead of avoiding failure, we'll embrace it, since human reasoning fails all the time BUT is able to recover and learn from such failures
+        - We might also want to make our machines also have different preferences, since there are cases when no single answer is completely right
+- Most of the things we'll discuss in this class involve multi-step processes, whereas in ML and other fields we're talking about fraction of a second jumps
+
+- So, we want to somehow capture both the universality and diversity of intelligence in our AI - should we make each AI exactly the same, or give each one a slightly different brain? That's a question we must ask
+    - Unlike some schools of AI, we'll take the view in this class that there are MANY valid intelligences, and choosing which one to make is a design decision
+
+- Finally, as the constraints on a problem grow more tight, solving problems seems to become easier - how can we reflect that in the machines we build?
+
+- Also finally, on the syllabus are some textbooks we'll reference in this course; the most popular textbook in AI right now is Russell and Norvig's, but that textbook focuses on rational, optimal AI agents - which is NOT this course's focus!
+    - You don't need to buy any textbooks for this class; several are freely available online, the rest will just be referenced (no work'll be assigned from them)
+
+- Alright, and that's time for today - goodbye!</pre>
+</article>
+<a class="side-link is-note-link" href="2_principlesOfKBAI_8_23_19.html"></a>
+</main>
+</body>
+</html>

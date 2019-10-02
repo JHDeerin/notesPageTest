@@ -1,0 +1,111 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li class="active-note-page"><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. </a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="6_optionsGenTest_9_4_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******* Generate and Test / Means-End Analysis - September 6th, 2019 ******//
+//**************************************************************************//
+
+- So, we briefly mentioned genetic algorithms yesterday; let's look at an example of this in action with - you guessed it - a YouTube video!
+    - *cue video optimizing traveling salesman problem w/ GA*
+    - Mainstream AI apparently has moved away from genetic algorithms, with very few papers published on it - why haven't they been accepted?
+        - It seems that the completely random process of creating solutions / mutating solutions leads to very slow convergence, and discourages researchers from pursuing it - it seems we have a LOUSY generator that doesn't take any advantage of what it knows about the world
+        - It also has the problem of needing to define a FITNESS FUNCTION - but for most problems, it's very difficult to find a good fitness function that works in all cases!
+            - "This is one of the dangers of applying semi-scientific ideas from science to human societies, like with eugenics; people have had very misguided ideas about what a 'fit' society looks like"
+            - At the same time, the tester is EXCELLENT, but is difficult to actually create for most problems
+
+- Here's an example problem that you can do generate-and-testing on: starfish are dying in coastlines across the United States. Why?
+    - Rising ocean temperatures? Pollution? Increased ocean acidification? Death of their favorite prey types?
+        - We don't know which of these options is right, but all of these sound like REASONABLE ideas - no one said they're dying because of stock market fluctuations! We did a good job generating things!
+    - At the same time, how do we test these ideas to eliminate the less plausible ones? Maybe we can look at historical temperature data, or do surveys on current starfish prey populations...
+        - Perhaps one of the key facets of human intelligence is that we're very good at making reasonable generations and coming up with reasonable tests - although we're certainly not perfect
+            - "Almost all human tasks have generators and testers that aren't lousy, but also aren't perfect"
+        - In general, we generate enough ideas to test them out, but not so many we can't sort them all out
+            - One problem with many Georgia Tech classes: we often teach you to find THE solution to a problem, but most problems have many different possible approaches, and it often isn't clear which one is best ahead of time
+--------------------------------------------------------------------------------
+
+- One thing we should note is that knowledge representations and problem-solving techniques are closely related
+
+- This sort of generate-and-testing technique we've been doing is what's known as an "informed search"
+    - BFS and DFS are uninformed searches; they just exhaustively search through all possibilities
+    - Pruning our options with generate-and-test techniques, though, allows us to speed up the search by only looking at promising options - at the risk of ignoring actually good options our algorithm didn't realize were promising
+        - "Almost all interesting problems in the world, and especially in AI, are intractable"
+    - Why do we go to school? Purely practically, Professor Goel think it helps us in 2 main ways:
+        - To learn about already solved problems, allowing us to decompose problems into pieces we already know how to solve, letting us solve them more quickly
+        - To learn heuristics and rules of thumb, that allow us to get decent solutions in a reasonable amount of time
+            - Similarly, knowledge plays these 2 roles in KBAI
+
+- We can apply generate-and-test to Raven's matrices, too
+    - For the particular problem on the slide, though, there are 2 different ways we could do generate and test:
+        - Find the relationship between A/B, apply it to C/D, and then check what's changed and go through all the answer options and pick the closest match
+        - OR, they'll look at all the answer options (1 - 6), and for each answer they'll compare it with A/B and C/D, and choose the answer that best fits both A/B and C/D
+    - People use both of these strategies, and while different people usually have a preference for one or the other, we can all use both of them if we need to
+        - In fact, humans are amazing: if one of these strategies is struggling, they'll SWITCH and use the other one! That requires METACOGNITION, and realizing our current strategy isn't working - that's incredible!
+        - So, should we build an AI to use one of these strategies? Which one? If we want them to use both, how can we implement metacognition (which is notoriously difficult)?
+    - For Raven Matrix problems in particular, machine learning techniques, Markov Decision Problems, and so on have been tried and haven't worked very well - why?
+        - Because these problems are dependant on understanding relationships - and that's not what those AI approaches were designed for
+
+- Alright, I think that covers the basics of generate-and-test for now
+
+- Now, we're going to keep diving into problem-solving techniques with MEANS-END ANALYSIS
+    - What's that? Well, imagine there's a toddler in your family, and you give the child a set of 3 blocks labeled "A", "B", "C", like so:
+
+                C
+                A   B
+            ------------
+
+    - We then want them to move the blocks into the following pattern by ONLY 1) moving one block at a time, and 2) only moving blocks with no blocks above them:
+
+                A
+                B
+                C
+            ------------
+
+    - This seems like a trivial problem (and it is), but many toddlers struggle to solve it! Animals can't solve it! Why?
+        - 
+
+- So, MEANS-END ANALYSIS basically means that we'll write down a list of "operators" that we can use to solve a problem, and which ones are currently available
+    - So, we might know we have the "Move(block, location)" operator, and that the current STATE of the world is:
+            - A on Table
+            - B on Table
+            - C on A
+        - Therefore, the current available moves are:
+            - Move(C, Table)
+            - Move(B, Table)
+            - Move(C, B)
+        - "One operator us adults forget about here is 'Cry', which is very effective because mommy and daddy come and fix the problem for you"
+            - How do we figure out what operators are available? That's an excellent problem, but one we'll defer for the moment; we're just talking about what we need to learn in the first place
+    - Importantly, we ALSO know what our GOAL STATE is:
+        - A on B
+        - B on C
+        - C on Table
+    - So, we want to figure out how far away our current state is from our goal, and then pick an operator that'll get us closer! THAT'S how we solve this problem, and avoid resorting to "Cry"!
+
+- Alright, we'll dig further into this topic on Monday - goodbye!</pre>
+</article>
+<a class="side-link is-note-link" href="8_productionSys_9_9_19.html"></a>
+</main>
+</body>
+</html>

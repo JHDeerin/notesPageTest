@@ -1,0 +1,86 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. </a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="16_moreLogic_9_30_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*********** Logic (cont.) / Planning - October 2nd, 2019 ******************//
+//**************************************************************************//
+
+- Okay; we're still talking about logic, and what better example of logic can we find than Sherlock Holmes?
+    - *clip from the far inferior 2009 Sherlock Holmes movie*
+    - Now, this clip clearly isn't logic like we've been talking about so far; Holmes makes these logical leaps where there's more than 1 explanation
+        - This is NOT deductive logic, but ABDUCTIVE logic ("not to be confused with abduction, which I sincerely hope none of you have done!")
+            - Abduction is when we go backwards from effects to causes, rather than causes to effects
+            - This is similar to what doctors do: trying to go from a set of symptoms to the disease causing those symptoms
+                - Programmers, too, use abduction when they're debugging
+            - You can try converting abductive logic to deductive logic by saying "if this is the cause, does it explain these effects?" (i.e. now going from causes to effects)
+        - While not displayed in this clip, there's also INDUCTIVE logic
+- Later on, we'll try and create a theory that combines deduction, abduction, and induction
+
+- Now, let's briefly talk about the midterm examination
+    - There are 8 questions, each involved with a different framework and how it might fail; your responses should be no more than ~2500 words total, or about 1-2 paragraphs per answer
+--------------------------------------------------------------------------------
+
+- So, let's revisit our box example from yesterday and figure out how to show a box isn't liftable
+    - To speed this up, we'll use something called ROBINSON'S ALGORITHM
+        - Here, suppose we have an implication rule, like this:
+
+                !(can-move) =&gt; !(liftable)
+
+            - Therefore, this implies that "can-move" and "!liftable" have to be true at the same time (by "implication elimination"):
+
+                can-move AND !liftable
+            - (Need to revisit this???)
+
+    - For 
+
+- You may see it's cloudy outside and deduce it's going to rain; you may be inside this building and hear rain falling on the roof, and ABDUCE that it's raining
+    - Of course, abduction could be wrong; those raindrops could be because someone is making a movie on the roof, or your friends are playing a trick on you, or any other number of reasons!
+    - Deductive logic is the ONLY kind of logic that's guaranteed to give you correct, sound conclusions; the rest can only be probabilistic at best
+        - We want robots to be correct and truthful; otherwise, humans won't accept them, and that's why deductive logic is so attractive to many researchers
+        - The abducers and inducers, though, are less interested in correctness and more interested in capturing the breadth of human logic
+            - Deductive logic dominated AI until several decades ago, and it fell for several reasons: many concepts are hard to axiomatize, it isn't clear how much prior knowledge a robot "needs," it's computationally slow, etc.
+
+- We've discussed many techniques in AI so far - what's going on inside our heads? Is it a mess with all these techniques? How should a robot - or you, for that matter - decide what technique to use?
+    - Unlike other schools of AI where there's 1 dominant way to approach problems, in this class, we look at a large number of techniques and try to combine them
+
+- All of this leads into PLANNING - which seems similar to means-end analysis, but it's NOT the same
+    - Back to our block world problem
+    - Now, suppose we want to paint both our house's ceiling and the ladder - we know that it's most efficient to paint the ceiling first, then paint the ladder while the ceiling's drying, right?
+        - So, we have 2 goals here - but in many cases, goals conflict! If we paint the ladder first, we can't climb on a wet ladder to paint the ceiling!
+    - So planinng involves thinking about goals, then making a plan for each goal, and finally thinking about how these plans interact with one another
+        - We're going to assume that inside our heads, there's a lot of little people doing different things, trying to cooperate - one makes a plan, the 2nd criticizes it, a 3rd fixes it, etc.
+        - This is the SOCIETY OF MIND theory, where many simple agents interacting leads to complex behavior
+            - Marvin Minsky wrote a very fun book about this theory, but let's see how it works
+    - So, how do we implement this?
+        - First, we need to represent our goal state using logic: "painted(ladder) AND painted(ceiling)"
+        - We'll then represent our initial state
+
+- How do we figure out this initial state, anyway? That's what we'll discuss next time!</pre>
+</article>
+<a class="side-link is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html"></a>
+</main>
+</body>
+</html>

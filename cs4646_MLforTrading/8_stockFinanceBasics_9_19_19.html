@@ -1,0 +1,134 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Machine Learning for Trading</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4646Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Machine Learning for Trading</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_numpyCrashCourse_8_22_19.html">0. Numpy Crash</a></li><li><a class="is-note-link" href="1_pandasReturns_8_27_19.html">1. Pandas / Return Basics</a></li><li><a class="is-note-link" href="2_returnsRisksSharpes_8_29_19.html">2. Returns, Risk, and Sharpe's Ratio</a></li><li><a class="is-note-link" href="3_optimzationBasics_9_3_19.html">3. Optimization Basics</a></li><li><a class="is-note-link" href="4_mlBasics_9_5_19.html">4. Machine Learning Basics</a></li><li><a class="is-note-link" href="5_moreMLBasics_9_10_19.html">5. Machine Learning Basics (cont.)</a></li><li><a class="is-note-link" href="6_testDecisionTrees_9_12_19.html">6. Testing, Ensembles, and Decision Trees</a></li><li><a class="is-note-link" href="7_mlStatistics_9_17_19.html">7. Statistical Foundations for Machine Learning</a></li><li class="active-note-page"><a class="is-note-link" href="8_stockFinanceBasics_9_19_19.html">8. Stock Finance Basics</a></li><li><a class="is-note-link" href="9_moreMarketMechanics_9_24_19.html">9. More Market Mechanics</a></li><li><a class="is-note-link" href="10_moreMarketMechsShort_9_26_19.html">10. Market Mechanics (cont). / Stock Shorts</a></li><li><a class="is-note-link" href="11_leverageFunds_10_1_19.html">11. Leverage and Funds</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="7_mlStatistics_9_17_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************** Stock Finance Basics - September 19th, 2019 ****************//
+//**************************************************************************//
+
+- Professor Byrd is back!
+- "Alright, I hope you all enjoyed Brian's guest lecture yesterday; we won't be testing you on anything he talked about, but it's pretty interesting"
+    - Professor Byrd just got back from Manhattan, working as a consultant with J.P. Morgan - "I'd encourage everyone to go to Manhattan at least once, especially if you can get a bank to pay for it"
+- Also, don't forget Project 3 is due this Sunday!
+    - After that, Project 4 will be due in 2 weeks - "Defeat Learners", and is kind of a backwards assignment, having you trying to create datasets that'll cause performance issues with different kinds of learning algorithms
+- A few points about Project 3:
+    - We aren't coding a traditional random forest or PERT algorithm; instead, we're just using random trees with our bagging learner
+        - Random forests basically work by making a bunch of SUPER overfitted learners and then averaging their results together, and it ends up giving far faster training results with similar final accuracy (although the end product takes up several times as much space as regular decision trees)
+    - Also, make sure your BagLearner class works with ANY learner passed into it that has the correct API; if you're importing specific classes into your BagLearner, something is probably wrong
+        - The way this works is "kwargs" in Python, which might seem mysterious but're actually pretty simple
+            - "kwargs" is short for "keyword arguments," and is just an arbitrary variable name - what ACTUALLY matters is Python's "**" operator, which expands a dictionary into a Python parameter list of variables (with the names/value listed in the dictionary)
+                - This also works backwards, turning parameters into a dictionary!
+                - "It'd be EXTREMELY difficult to code BagLearner without this, since you'd have no way to predict what arguments a given learner needs ahead of time"
+            - Here's some examples:
+
+            ```python
+            # Will print the arguments
+            def foo(p1=9, p2='yes', p3=None):
+                print(p1, p2, p3)
+            params = {'p1': 9, 'p2': 'yes', 'p3': 'something'}
+            foo(**params)
+
+            # Will print the arguments as a dictionary
+            def bar(**kwargs):
+                print(kwargs)
+            bar(thing1='cool', thingy2='awesome!')
+            ```
+--------------------------------------------------------------------------------
+
+- Alright, today we're going to start getting into our finance talks by talking about a history of the New York Stock Exchange, and then talking about some basic market mechanics
+
+- So, let's talk finance, starting with its American heart - the history of the NYSE!
+    - New York began as the Dutch colony of "New Netherlands," which became "New York" after being sold to the British
+        - On the southern end of the peninsula, they built a wall to protect the coast from piracy and other sea-borne miscreants, but left a gap so people would still be able to evacuate in a hurry; that gap ended up becoming a meeting place since it's one of the less-cramped places in the city, known as "Wall Street"
+            - As a side-note, the NYSE was NOT the first stock exchange in the world by any means; in ancient Japan, there was a prototypical exchange for rice, although it didn't see the same lunacy and speculation of modern trading
+        - Now, the Dutch West India Company was a huge presence at the time, and a few days ahead of their ships' arrivals, rumors would start popping up about how well the trip had gone, what was on the ship, etc. etc.
+            - So, what happened? People would hear the ship was carrying a bunch of cargo, buy a piece of the company before the ship arrived, and then make some profit
+                - ...and of course, people immediately started taking advantage of this and lying, artificially inflating the stock price before ships arrived and such
+            - So, stock speculation has been a thing for awhile
+    - Now, for a long time stock trading was done peer-to-peer: you had to literally walk up to the person who owned stock and say "Hey, what'll you charge for 50 shares in the Dutch East India Company?"
+        - Having to physically track people down got kind of annoying after awhile, so people decided to centralize and meet under a prominent buttonwood tree (yes, an actual tree) near Wall Street during trading times
+            - Now, most of these stock traders were already rich enough to own stocks - so what did they do? They said "wait a minute, I'm rich! Why am I standing under this tree all day?", and started hiring people to stand under the tree and make proxy trades on their behalf
+        - As stock trading became more popular, regular people wanted to get into it, too, but they didn't have enough money to hire a proxy who worked for them alone - so there started to be proxy traders who would handle MULTIPLE people!
+            - This evolved into the role of modern BROKERS, who represent multiple different people on the exchange, handling their portfolios and trades
+    - Once a BUNCH of people got into this stock market, though, things went NUTS! Prices were volatile, people would straight-up lie under the buttonwood tree and sell shares they didn't actually own, speculation and fraud were rampant, etc.
+        - To fix this, all the proxies and brokerage dealers got together and formed - basically - a cartel
+            - They came together and created a formal list of rules called (for obvious reasons) "The Buttonwood Agreement," which had a number of rules people agreed to abide by
+                - Among other things, this said that prices had to be standardized; anyone who broke these rules would get kicked out of the cartel, and wouldn't be allowed to trade with other members of the cartel except at extremely high rates
+    - This helped a bit, but enough people wanted to trade stocks that it was still chaotic: you still had to physically talk to people to trade and exchange their stocks, and there were hundreds and hundreds of people underneath this darn buttonwood tree
+        - So, to calm down the madness, the cartel got together and decided to specialize, and assign specialists to specific stocks. Then, if you wanted to trade for a specific stock, you went to the specialist, wrote your name down in the order book, and then your trade got processed
+            - These specialists do still exist on the stock exchange today, and they do get special information before everyone else so they can handle it (the trade-off, though, is that these trades can be risky)
+
+- So, that's some history; let's now get down to details
+
+- First up, what's the price of a stock?
+    - ...this might sound like a trick question - and it is! It's TRICKY!
+        - You're probably used to hearing 1 number on the news ("Google's work $1021", or something), but there's a lot of nuance here
+            - If the stock market is currently open, there's a pretty simple formula for this:
+
+                (best bid + asking price) / 2
+
+            - If the stock market is closed ,though, we don't have this information, and so there's 2 ways to do this:
+                - The naive way of doing it is to use the last trade price when the market WAS open
+                - More sophisticatedly, we can use STOCK FUTURES
+                    - The details of this are way beyond what we're doing, but futures are basically a contract to buy/sell something at some exact future time and price you specify NOW
+                        - So, if we think the price of oil is going to go way up in the future, we might ask to buy 1000 barrels of oil a year from now at today's price + $2 per barrel
+                    - If we see the futures being made overnight on a stock while the market is closed, that's often a good indicator of the price
+                        - The problem, though, is that they're still speculative, and can be pretty volatile
+    - Another question we need to ask here is how sophisticated you want your answer to be
+        - You might want just one number, or you might want both the best BID PRICE ("I'm willing to sell IBM at $100 now") and the best ASK PRICE ("I want to buy IBM at $95 now") - a LEVEL 1 QUOTE
+            - As a side-note about arbitrage, offering large volume trades can be tricky, because your bids/asks can affect the price of the stock as you're buying it; if J.P. Morgan tries to buy 10,000 shares of Google, for instance, they probably won't get all of them at the current best bid price; instead, 
+        - You might also want to look at the order book itself and see, say, the 10 best bid/ask prices - a LEVEL 2 QUOTE
+        - Finally, the most sophisticated level is LEVEL 3 - the STREAM ORDER, where you're literally looking at the raw, real-time bid offers/asks being given
+            - You basically have to reconstruct the order book for this, and do all the work yourself, but the advantage is that you get to look at the data in the most detail possible
+
+- Now, the NYSE was the first American stock exchange, but a more modern example of a stock exchange is something like NASDAQ, which is entirely computerized and doesn't have anyone physically present ("except for the PR room where newscasters stand")
+    - There are only 2 kinds of orders you can place directly at NASDAQ:
+        - MARKET ORDERS, where you say "I want to buy X shares of company Y NOW, regardless of the price"
+            - Basically, this means you buy/sell immediately at the best available price, whatever that price is
+        - LIMIT ORDERS, where you say "I want to buy X shares of company Y, but I refuse to pay more than $Z" (or "less than Z" if you're selling)
+            - 
+    - Market orders have the advantage that they're carried out immediately, but you're not GUARANTEED to get a certain price
+        - You'll probably have a pretty good idea, since you looked at the price a minute ago, but this can matter if the stock is fluctuating rapidly
+    - Limit orders are great because you
+        - Early traders often have the idea of "hey, I'll only use limit orders so I don't get screwed on price," but what if you were a little bit off and 
+- So, if you make an order and it doesn't get executed immediately, how long do they last?
+    - At NASDAQ, the most common answer is "until the end of the day" - but you actually do have a few options:
+        - TIME IN FORCE orders let you specigy the time, and say "if I can't get a trade in 5 seconds, cancel my order"
+            - If this is 0 seconds, that's an IMMEDIATE OR CANCEL order, where they'll trade as many shares as they can IMMEDIATELY
+            - 99998 seconds means "until the primary exchange closes" (e.g. if you're trading a Japanese stock, until)
+            - 99999 seconds means "until NASDAQ closes today"
+    - "But haven't I made trades that last for weeks before?" Maybe, but that's your BROKER doing that - they automatically renew your order at the beginning of the next day
+    
+- How do we know all this stuff about NASDAQ? Because they publish their APIs publicly!
+    - NASDAQ offers an API called "ITCH" that lets you get outbound data from them like price quotes, trade tickers, etc.
+    - There's also a bidirectional order protocol alled OUCH, which lets you place/modify/cancel orders, receive market open/close notifications
+        - "...what do these silly acronyms stand for? NOTHING! They were created by an engineer at an equity firm, and he was annoyed at them creating creating 4-letter acronyms - so he made his own meaningless 4-letter acronyms to make fun of them, and they got so popular they stuck"
+
+- So, we'll keep going into this finance stuff next week - don't forget your projects are due THIS SUNDAY!</pre>
+</article>
+<a class="side-link is-note-link" href="9_moreMarketMechanics_9_24_19.html"></a>
+</main>
+</body>
+</html>

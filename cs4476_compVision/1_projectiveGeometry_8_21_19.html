@@ -1,0 +1,141 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li class="active-note-page"><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="0_firstDay_8_19_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//**************** Projective Geometry - August 21st, 2019 ******************//
+//**************************************************************************//
+
+- hereweareawaitingfor/thelighttoplayuponthescreen/explaininghowfromlightweform/worldsthathaveandhavenotbeen
+    - ...but, sure enough, 5 minutes before class starts the mad rush of people and noise begins (such wow much joy)
+- IN OTHER BREAKING NEWS, it's still frying-pan hot outside (a cool 97 fahrenheit), Greenland is still neither green nor for sale, and I haven't figured out where homework'll fit into my schedule this semester (sleep will probably become increasingly optional)
+--------------------------------------------------------------------------------
+
+- So, the plan is to do the lectures roughly in order of the book with some minor tweaks (a few chapters will be skipped for time reasons)
+    - The first thing we'll look at is chapter 2 of the book - "Image Formation" - where we'll start off with 3D geometry and how to translate it into a 2D image
+        - "This might be a challenging lecture if you haven't looked at linear algebra in awhile, and that's okay; if you're not the fastest learner, then just spend time with it. Re-read this section of the textbook, ask questions on Piazza, and stick with it; you'll be fine"
+
+- So, some of you have read ahead in the textbook and some of you haven't, but how does a computer represent 2D points/lines/conics, and 3D points/planes/lines?
+    - Well, 2D points just need an x/y coordinate!
+    - For 2D lines, we need 3 coordinates (ax + by + c = 0, or "y = mx + b")
+        - Note that 2D lines still only have 2 degrees of freedom though: we can rotate around the Z-axis, and we can change the line's distance to the origin (or you can think of it algebraically since you can combine a/b into 1 constant by dividing)
+            - In order for us to treat points and lines the same, we need HOMOGENOUS COORDINATES
+                - The easiest way to explain what the heck these are is that we tack on a "1" to the end of a point "x,y", i.e.
+
+                        [x,y] -&gt; [x,y,1] = [x,y,w]
+
+                    - This means the equation of a line going through a homogenous point [x,y,w] can be written in homogenous coordinates as:
+
+                        ax + by + cw = 0
+
+                    - This means if the line goes through [5,5] = [5,5,1] in homogenous coordinates, we could represent the 2D point [10, 10] as either [10,10,1] OR [5,5,0.5], where we divide by 0.5 to "scale" the point
+                        - This also means we can represent a point INFINITELY far away by saying w = 0, e.g. [5,5,0]
+                        - ...and an "infinite line" that works for all points at infinity can be represented by [0,0,w], where "w" is any non-zero number
+            - So, to convert from non-homogenous coordinates to homogenous, just tack on a 1 at the end; to go from homogenous to non-homogenous, divide the other coordinates by "w"
+
+- One other question: if we have 2 lines L1 and L2, how do we get their intersection point?
+    - As it turns out, WEIRDLY, this is just the cross product of the 2 lines!
+
+            p = L1 X L2
+
+        - And, if we have two points on a line, we can similarly say:
+
+            L1 = p X q
+
+    - Notice that this means lines and points are COMPLETELY interchangeable in projective geometry - cool!
+- Why is this useful to us, though?
+    - One application is that, if we have two perspective lines in a photograph, we can find where the vanishing point in the photograph is by taking their cross-products!
+        - What's the real-world meaning of this point? Well, in 2D, it'll be on the horizon, but what about in 3D?
+            - In 3D, this is actually a point at infinity, infinitely far away from the two lines in the image (which are parallel in 3D but intersect in their 2D projection)! That's the ONLY way lines that're parallel in 3D can ever intersect!
+
+- So, that's 2D lines and points, and we'll skip 2D conics for now
+
+- What about 3D stuff?
+    - For 3D points...
+        - Yup, we can represent it with the [x,y,z] coordinates
+    - What about for 3D planes?
+        - As it turns out, we can do this with just 4 numbers:
+
+                ax + by + cz + d = 0
+
+            - This plane will have 3 DOF; it's completely analogous to the 2D situation with lines!
+    - 3D lines, though, are ANNOYING little critters; they don't have a nice representation in homogenous coordinates
+        - We'll talk about them in more depth if we need them, but they actually don't come up all that much
+
+- Alright; now that we've got these primitives, what can we do with them? We can TRANSFORM them!
+    - We can do a TRANSLATION, where we just move the points and do nothing else (no rotation, no scalin', no NOTHIN')
+    - We can do a EUCLIDEAN transformation, where we translate AND rotate something
+        - This is sometimes also called a "rigid body transformation"
+    - We can also do a SIMILARITY transform, where we add on scaling
+    - ...or an AFFINE transformation, where we add shearing to our bag of tricks
+    - ...or, finally, PROJECTIVE transformations, where we do a 3D "warping" of the image and scale is the only thing that's preserved
+- How many numbers do we need to define these?
+    - For 2D translations, we need 2 numbers (for movement on the X/Y coordinates)
+    - For UNIFORM scaling, we just need 1 number
+        - To do non-uniform scaling, we'll do matrix multiplication, and we then need 2 numbers
+
+                p * [a 0]
+                    [0 b]
+
+            - We can also flip things by making a/b negative, or do a shear by changing the 0s to numbers to stretch along a particular axis
+    - For ROTATION, we'll do this by rotating our point by a rotation matrix!
+
+            [x'] = [cos(th) -sin(th)] * [x]
+            [y']   [sin(th)  cos(th)]   [y]
+
+        - Notice here that there's only 1 degree of freedom here, since there's only 1 free number we can "actually" modify (theta)
+            - As a side-note, theta is a WORSE notion of rotation than this matrix itself; why?
+                - Well, it does mean you need 4 numbers instead of 1, but matrices have the advantage of having a 1-to-1 relationship of matrices and rotations; in contrast, there are MANY thetas that correspond to the same thing! (0 = 360 = 720 = ...) 
+
+- So, matrices are convenient for doing these transformations, but how do we do translation in a 2x2 matrix?
+    - WE CAN'T! So, if we can't do it with 2 numbers, we'll use homogenous coordinates to do it with 3 numbers!
+
+            [1 0] =&gt;    [1 0 xChange]
+            [0 1]       [0 1 yChange]
+                        [0 0   1    ]
+
+        - What if that 3rd number isn't 1? Well, that coordinate isn't used for anything in 2D, so it wouldn't affect anything!
+    - We can also COMPOSE multiple transformations by multiplying these transformation matrices together so we can apply all the transformations AT ONCE
+
+- What about degrees-of-freedom, then?
+    - Translations have 2 degrees of freedom, Euclidean have 3 (add a translation), and similarities have 4 (add scaling)
+    - Affine transformations still have 4 DOF, BUT it preserves parallel lines, meaning points at infinity stay at infinity
+    - Finally, PROJECTIVE transformations, the most general kind, need 9 numbers but only have 8 degrees of freedom (why? something about scaling)
+        - This transformation also does NOT preserve parallel lines, aspect ratios aren't preserved, etc.
+
+- So, those're 2D transformations, but what about for 3D?
+    - Translation would be 3 degrees (x/y/z)
+    - Euclidean/rigid transforms would be 6 degrees-of-freedom, since we have translation + yaw/pitch/roll ("latitude, longitude, and spinning around")
+    - Similarity would then be 7, since we add a scale
+    - Affine translations would be 12 degrees of freedom (the top 3 rows of a 4x4 homogenous matrix, ignore the bottom row)
+    - For projective, we now need a 4x4 matrix (i.e. 16 numbers), but we're no longer scaling our object, so it'd be 15 DOF
+
+- Alright, that's the geometry we're starting out with - come back next week to dive deeper into things!
+</pre>
+</article>
+<a class="side-link is-note-link" href="2_cameraProjection_8_26_19.html"></a>
+</main>
+</body>
+</html>
