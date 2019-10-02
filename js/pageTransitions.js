@@ -36,7 +36,7 @@ function changePage(isLinkToAnotherNote) {
     if (newPageLoading) {
         return;
     }
-    if (isLinkToAnotherNote) {
+    if (!isLinkToAnotherNote) {
         //for now, just load non-note links like normal without any effects
         window.location.href = url;
         return;
