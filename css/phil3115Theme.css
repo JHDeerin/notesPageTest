@@ -1,0 +1,7 @@
+.phil3115 header:after {
+    background: linear-gradient(90deg, #f1f132, #fd5e53);
+}
+
+ul.note-links-slider > li.active-note-page {
+    background: linear-gradient(90deg, #f1f132, #fd5e53);
+}

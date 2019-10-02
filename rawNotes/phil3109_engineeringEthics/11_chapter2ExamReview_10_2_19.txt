@@ -1,0 +1,93 @@
+//****************************************************************************//
+//********* Textbook Ethics and Exam 1 Review - October 2nd, 2019 ***********//
+//**************************************************************************//
+
+- Alright; today I have a little bit more to teach, and then I'll talk about your exam on MONDAY
+
+- Let's talk about the exam now:
+    - The exam will have 10-15 multiple choice answers, and 5-10 short answer questions (as in 1-3 sentences)
+        - Example short answer questions would be along the lines of "Here's a concept X: what does the book say X is?"
+    - It should hopefully take 30 min to complete
+    - To study, I'd recommend looking through your notes, checking definitions, and so on
+        - All of the questions should come from stuff we talked about in-class; there may
+    - Also, BRING A PEN! Pencils can smear; you can scribble out incorrect stuff if you need
+    - Here's a (hopefully) pretty complete list of stuff we talked about, although you may need to recall stuff from the readings as well:
+        - Professionalism (what is it?)
+            - Social contract account / sociological account
+            - Engineers and licenses
+            - Prohibitive, preventative, aspirational ethics
+                - It will NOT be about people, but concepts; I won't ask you questions about Jeremy Bentham, but you SHOULD know the authors we read in case I
+            - Branches of philosophy: metaphysics, philosophy of mind, ethics, etc.
+        - Responsibility
+            - Standard of care
+            - Kinds of intent: intent to harm, recklessness, negligence, etc.
+            - Kansas City Hyatt Regency case
+            - Citycorp Center case
+            - Columbia accident investigation board
+        - Ethics (some stuff from today)
+            - Facts, concepts, "paradigmatic cases"
+            - "Creative middle way" solutions
+            - Norms, relativism
+            - Four types of judgement: permissible, impermissible, obligatory, superogatory (look in Chapter 2)
+            - Heidelberg University crash simulations (used dead corpses as crash test dummies)
+        - Utilitarianism (what is it?)
+            - John Stuart Mill
+            - Greatest happiness principle
+            - Consequentialism
+            - Act vs rule utilitarianism
+        - Deontology (what is it?)
+            - Immanuel Kant
+            - Reason, duties
+            - Categorical imperative
+                - "Do NOT be misled by the shortness of this slide; deontology is an important topic"
+                - The book's "respect for persons" is a dumbed-down version of deontology's idea that we should respect persons as ends in themselves
+        - Care Ethics
+            - Focus on familial relationships (parent/child, family/elderly, etc.)
+            - Focus on dependence, inequality
+            - Virginia Held, care & justice
+        - Virtue Ethics (what is it?)
+            - Aristotle
+            - Virtues, character, how to acquire them
+            - NOT about individual choices (why?)
+            - "Doctrine of the mean"
+        - SCOT (what is it?)
+            - Social Reconstruction of Technology
+            - What are the main claims?
+            - Pinch and Bijker "Social Construction of Facts/Artifacts" (bicycle)
+            - Interpretive flexibility
+            - Bicycle/Moog/oral contraceptives example
+        - Actor-Network Theory (what is it?)
+            - What can count as an "actor?"
+            - Difference between ANt and SCOT?
+            - Bruno Latour's "Technology is Society Made Durable"
+            - Key chain and speed bump examples
+        - Case Studies
+            - Pinto case
+            - Automated cars
+            - Military virtue
+            - Trolling cases (recitation this Friday)
+
+--------------------------------------------------------------------------------
+
+- So, after a semester thus far of talking about right and wrong, the book takes a very practical approach to this stuff as a "toolkit" to consult if we ever run into sticky situations
+    - The book really doesn't care about which theories are "right" or "wrong;" it just takes a very pragmatic approach to things, which is kinda "meh" for professional philosophers
+        - However, it DOES have some pretty good advice!
+            - Many of these moral theories assume we have reasonable information about the problem, but "many moral disagreements turn out to be disagreements over the relevant facts"
+                - For instance, you might be arguing with a coworker over whether or not to run some tests on your car, and they might think the tests take 6 months while YOU know they'll only take 2-3 weeks
+                - The book basically says "genuine moral disagreements happen, but they happen WAY less often"
+            - "Some of the best advice I've ever gotten was similar to this; I got offered a great postdoc opportunity after graduation, but I wasn't comfortable with the research topic. I went to one of my mentors, and he was like 'hey, maybe you don't have to make a moral decision here; just slow down and think things through.' And as it turned out, Professor Rosenberg ended up getting another, equally good opportunity from that lab that wasn't as controversial."
+        - The book also tells us to be clear about concepts and what they mean within our team: what exactly do we mean by "conflict of interest," "public safety," "taking bribes", etc.
+            - For instance, an engineer might say "oh, we can't worry about making something safe," and before you go on a tirade about engineering's duty to the public and blahblahblah you ask him "Hey, what do you mean by SAFE?" "Oh, I just meant we can't ever make something 100% safe - of course we're going to run the standard tests and such!"
+                - So, make sure you're on the same page; you guys might actually agree about something, but be using terms in different ways
+        - Another piece of advice is to try and think of "paradigmatic cases:" if the situation we're in is morally gray, we can try and think of a really clear example of what's going on instead
+            - For instance, let's say you're working at a consulting company, and they're telling your bosses we should use Product X - and Product X's HR people then give them stuff in return. Does that count as a bribe? We're not sure!
+                - "So, what DEFINITELY counts as a bribe? A giant bag with a dollar sign on it - if these HR people handed him THAT, it must be bad! And what definitely DOESN'T count as a bribe?"
+                - So, comparing that to our case, we can try and compare them: how big is the bribe? Does our company get a cut? Who knows about this? Is their advice genuine?
+        - Occasionally, we'll run into cases when 2 different rules in our organization's code conflict
+            - Sometimes, the choice between the 2 is clear (minimizing cost vs "the health and safety of the public")
+                - Often we can think of a solution that sidesteps the entire issue - "okay, if I can't convince my boss testing this is the right thing to do, maybe I can convince them the PR backlash isn't worth it, or that it'll save us money in the long run"
+        - Finally, for PR stuff, it's important to lay out what conditions you're using
+
+- There was some stuff I asked you to look at in Chapter 2 last week; I'd recommend looking at some of that stuff for the exam
+
+- Okay, for Friday read the news articles about Trolling on Canvas - good luck studying, and see you next week!

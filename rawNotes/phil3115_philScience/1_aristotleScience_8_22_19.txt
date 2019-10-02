@@ -1,0 +1,64 @@
+//****************************************************************************//
+//*************** Aristotle's Science - August 22nd, 2019 *******************//
+//**************************************************************************//
+
+- Aristotle is denser than a quasar (at least in Posterior Analytics)
+- We also now have assigned seats, so I suppose Liam and I won't be conversing too frequently
+    - "I'll assign you to different tables every class period with different people, to promote diversity, a broader range of perspectives, and so on; I think that'll help you learn more than talking to the same 6 people over and over"
+--------------------------------------------------------------------------------
+
+- So, we didn't cover any content on Tuesday besides the syllabus since some people were still shifting from class-to-class
+    - We'll talk a bit about big-picture philosophy, the Scientific American paper we assigned, and then get into our BIG reading for today: Aristotle
+
+- Philosophy has been defined in a TON of ways, and it's difficult to define
+    - The word itself means "love of wisdom" in Greek
+    - A provisional definition might be "the communal attempt to understand fundamental or important aspects of the world through rational inquiry and argument"
+        - Notice that this definitions means philosophy isn't just sitting in a room alone, but involves back-and-forth with other people
+            - What you consider "important" or "fundamental" may vary, but many themes come up over and over again in history: the existence of God, the question of ethics, how we come to know things, and so on
+            - And the BIG separator of philosophy from things like religion is that philosophy tries to operate through human rationality, be it empirical evidence, argument, or so on
+                - This sounds like a SUPER broad definition, doesn't it? It almost sounds a bit like science, right?
+                - The reason, though, is because almost every modern field used to be a part of philosophy up until the Enlightenment: physics, chemistry, biology, economics, and so forth
+                    - ...and, realistically, the lines still are a little blurry
+        - Socrates was a famous early philosopher who tried to ask questions like "what is beauty? What is knowledge?", and so on
+        - *flashes photo of "The School of Athens"*
+            - Here, the 2 central figures are Plato (pointing to the heavens) and Aristotle (pointing to the ground)
+                - Plato thought everything in the world are imperfect representations of "ideal forms", and that philosophy was trying to understand these forms
+                - Aristotle instead thought that knowledge had to come from the world, and had to come through (among other things) empirical evidence
+                    - This kind of indicates the depth of disagreement in philosophy, but it also shows that physicists who think all philosophers just sit around all day and never look at the world are WRONG (all the way back to Aristotle!)
+                    - The idea of "armchair philosophers" who ignore evidence and try to figure out the universe by their own reason is just a caricature, and always has been
+
+- There's a famous line in "Principia Mathematica" where Newton claims he "makes no hypotheses," but literally looks at the data and describes it mathematically
+
+- Alright, time for the Scientific American article!
+    - The background is that many physicists in recent years have turned philosophy into a punching bag, saying it's useless, detached from reality, etc.; the authors of this article argue that scientists DO use philosophy, but just don't recognize it
+        - For instance, it argues that many physicists are platonists because they believe their theories are literal natural laws, which is making a claim about things we didn't observe
+        - There's also the "realist" view, where the laws themselves don't exist, but the laws are just our descriptions of how these particles and such behave
+        - In contrast, there's the instrumentalist view of saying "we can't actually know if electrons and stuff actually exist, or if our theories are 100% true; the important thing is that the theory matches our observations, so we can use it"the
+            - i.e. The theory isn't to tell us any truths about the world, but just to create useful models
+    - Now, I assigned this article not to give you guys the full story about physics and philosophy, but just to show that there's more to science then just "doing science"; the issue here isn't that scientists are doing philosophy, but that they're pretending they're NOT doing it (and doing it rather poorly)
+
+- "So, what'd you think about Aristotle? He's the worst, right?"
+    - Everything we read from Aristotle is actually based on notes from his students ("which may be why it's such a pain in the *** to read")
+        - Anyway, Aristotle (384 - 322 B.C.) was born in Thessaloniki and wrote influential works in basically every field; he's ridiculously influential, and institutions like the Catholic church still have language influenced by Aristotelian views
+            - His system of physics was geocentric, and postulated a "terrestrial" (earth) and "celestial" (heavenly) realm, with completely different laws governing them
+                - This is one of the reason Newton's theory of gravitation was so groundbreaking - you could predict comets!
+            - He believed there were 4 "elements," along with an "aether" in the heavens, and a fundamental idea was that everything in the universe had a "telos" - a "purpose" or "natural place"
+                - For instance, Aristotle would say we fall back to earth because we're "earthy," and our natural place is on the earth's surface
+            - His metaphysics, meanwhile, believed that all objects were composed of matter and a "soul" (different from our conception; more like a "form" or organizing principle unique to that object)
+        - In Europe, Aristotle's philosophy would become the key mover of Scholasticism, which tried to marry Christian and Greek thought, as well as in Islamic and Jewish thought
+            - In particular, many of our surviving works of Aristotle only exist as Arabic copies, and they first reached medieival Europe in that form
+        - Really, Aristotle wasn't overthrown until the Scientific Revolution began in 1543 with Copernicus' "De Revolutionbus", which largely rejected his system
+            - One of the biggest things they threw out was this his that all things had a purpose; instead, the world was viewed as a complicated machine that operated solely by physical forces
+
+- So, in our "Posterior Analytics" reading, Aristotle talks about HIS version of scientific knowledge
+    - In the reading, you'll notice he refers to Geometry a-la Euclid a LOT
+    - So, for Aristotle, scientific knowledge is a kind of axiomatic knowledge that consists of demonstrating things from "necessary first principles"
+        - By "demonstration", we mean deductive arguments that serve as ironclad proofs/explanations of universal truths
+    - To avoid going back ad infinitum, Aristotle knew we needed fundamental axioms that we assume to be true, but he has a semi-weird account of 
+- Notice what this means: for almost 2000 years, science meant CERTAINTY, and anything with the title "scientific" meant that we could prove it absolutely
+    - For instance, the classic A-B-C syllogism "all humans are mortal/Socrates is human/Therefore, Socrates is mortal" is an example of "good science" by Aristotle's standards, where the conclusion follows by necessity from the premises
+        - In modern terms, we'd just call this a "deductively valid argument"
+
+- So, for next time you'll have a reading from Francis Bacon in "Novum Organum" (the "New Instrument"), and his ideas would become very influential in the Scientific Revolution
+    - Keep in mind you just need to read the preface and the first 50 aphorisms, NOT the whole thing!
+- ...so, see you then!

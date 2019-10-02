@@ -1,0 +1,44 @@
+//****************************************************************************//
+//************ Kuhn and Scientific Revolutions - October 1st, 2019 **********//
+//**************************************************************************//
+
+- Alright, we're going to be talking about Thomas Kuhn today, and his very famous book "The Structure of Scientific Revolutions"
+    - Thomas Kuhn (1922 - 1996) originally earned his Phd. in Physics at Harvard, but got interested in scientific history while having to teach a course on "Understanding Science" at Harvard for non-scientists
+        - Kuhn would later serve as a professor of philosophy at Berkeley, Princeton, and MIT
+
+- Soi, let's talk about this famous book of his
+    - In the book, Kuhn is trying to put forward an image of "how science works," and he views that as a challenging task because most people have a very distorted view of science
+        - In Kuhn's view, science textbooks themselved promulgate "Whig history," where we view past events as inevitably marching forward to today
+            - This view claims that science develops by ACCUMULATION, in which we follow the scientific method as an algorithm and keep getting an ever-more accurate view of the world
+            - There's also a heavy focus on individual scientists, focusing on the "brilliant minds" of people like Newton and Einstein instead of your garden-variety, everyday scientists 
+        - Kuhn argues that we can better understand science by looking at its actual history
+            - He says that this history shows people trying to understand past scientific theories in the context of their own time, and is divided into "normal" and "revolutionary" periods
+                - NORMAL SCIENCE is governed by a generally accepted PARADIGM (a view/theory fundamental to a particular field)
+                    - Paradigms aren't "just" theories, but are "universally recognized scientific achievements that provide model problems and solutions for a community of practitioners"
+                        - In other words, they're a framework that includes theories, methodologies, criteria for evaluating theories, etc.
+                    - Most science happens within this "normal science," and involves mopping up things the paradigm doesn't yet explain and trying to fit it into the reigning paradigm
+                        - Importantly, normal science does NOT question the paradigm, but works within it (e.g. trying to explain Mercury's orbit using Newtonian mechanics, or Lagrange trying to refine Newton's equations)
+                    - So, in normal science novelty is somewhat shunned; if an experiment gives wildly unexpected data, they tend to assume the experiment is wrong, not the paradigm
+                - REVOLUTIONS happen when a new paradigm clashes with the current one
+                    - Because human knowledge is limited, ALL paradigms have some anomalies and problems
+                        - When these anomalies become too great, the paradigm enters a CRISIS, and it becomes acceptable to propose alternative paradigms
+                            - One of the reasons Heliocentrism was accepted so quickly was NOT because it was simpler or more accurate; instead, Kuhn argues it was because people recognized the vast problems of the geocentric model, and were willing to give another plausible model a chance
+                    - Kuhn points out that 2 different paradigms in scientific revolutions are INCOMMENSURABLE
+                        - This literally means the 2 paradigms can't be directly compared or evaluated by the same objective standards; the debate has to proceed in other ways
+
+- Alright; that was background on the part of the book we DIDN'T read, so let's now talk about the part we did: chapter 9
+    - First off, Kuhn compares scientific and political revolutions - how are they similar?
+        - In Kuhn's view, a political revolution isn't just a change of political regime, but a change of the political "rules of the game"
+            - Many people argued and debated over Obamacare, but no one tried to argue the government was corrupt when it passed or that we needed a new type of government; there was discontent and debate about the bill, but never the rules of legislation themselves
+            - So, a REVOLUTION is a situation where you don't just disagree about if something in a game is good, but when you disagree about what the rules are at all
+                - So, Newton and Leibnitz's not agreeing on what counted as "explaining" gravity is an example of this kind of disagreement
+        - In both scientific and political theories, there are these differences 
+    - So, what's the main conclusion that Kuhn is trying to get at in this chapter?
+        - His main conclusion is that there's no rational way to choose between competing paradigms and their theories
+            - The key reason for this is because paradigms INCLUDE criteria for evaluating theories, meaning that any arguments for what counts as a good theory comes from WITHIN the paradigm itself - and therefore, the paradigms have different definitions of what makes their theories "good" or not, and can't be directly compared
+                - If you imagine 2 football teams, and they disagree about what a touchdown is, then of course each team is going to think someone else won the game
+                - This won't always result in disputes, but in many cases the criteria for evaluating theories really matters
+        - In premise form, his argument looks something like this:
+            - (didn't get this down)
+
+- Okay, the reading for next time is Kuhn trying to defend his position in response to criticism (many people argued that he had denigrated science to mere psychology)

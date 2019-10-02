@@ -1,0 +1,20 @@
+//****************************************************************************//
+//********* Hempel and Evaluating Hypotheses - September 19th, 2019 *********//
+//**************************************************************************//
+
+- Alright; we had a shorter reading from Hempel Chapter 4 today, so there's a *slight* chance we'll wrap up early today
+
+- So, let's dive straight into the discussion questions!
+    - Hempel talks about how confirmation of theories isn't just about ensuring theories are consistent with known data - how? What're the criteria he gives?
+        - Hempel gives 4 kinds of additional criteria he thinks we have to worry about beyond just "does this hypothesis fit the data?"
+            - Quality/variety of the data - are our tests varied and testing different aspects of the theory (not just shooting the laser beam at the same point every time)?
+            - Theoretical support - do other, existing theories support this? If we're contradicting existing theories, do we have strong evidence to support us?
+            - Confirmation by unexpected data - does the theory make unexpected predictions that're later found to be correct?
+                - Hempel has an interesting question about this: if the exact same theory is formed after we have more data, does that make it "less confirmed" than if we'd formed it before and found that evidence later? Or are they "equally verified?" Why does it matter when we discovered the data...and yet intuitively, it seems discovering unexpected data does give strong evidence?
+            - Simplicity - is the theory simpler than alternatives?
+                - Hempel hedges a lot here, pointing out that while simplicity is often appealed to to keep us from shooting off into the clouds, there isn't a clear logical reason why "simpler" theories are more likely to be true - and, furthermore, it's hard to define what makes one theory simpler than another (he goes through like 6 different philosopher's definitions and finds each has their own quirks)
+    - There's also this section about the probabilities of hypotheses being true; what's that all about?
+        - Here, he's saying "wouldn't it be nice if we could come up with an exact QUANTITATIVE system that, given what we currently know, objectively tells us how likely a hypothesis is to be true?"
+            - This was a goal for a lot of logical empiricists at the time, but it's largely been discarded as unrealistic today - it doesn't seem at all obvious how to characterize evidence, or to assign number values to things like simplicity, etc.
+
+- Alright, adios!

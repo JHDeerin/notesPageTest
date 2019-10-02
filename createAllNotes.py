@@ -97,6 +97,18 @@ notesToCreate.append(ClassNoteEntry(
     'cs4646_MLforTrading',
     "Machine Learning for Trading"))
 
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/fall2019/phil3109_engineeringEthics/notes',
+    'css/phil3109Theme.css',
+    'phil3109_engineeringEthics',
+    "Engineering Ethics"))
+
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/fall2019/phil3115_philScience/notes',
+    'css/phil3115Theme.css',
+    'phil3115_philScience',
+    "Philosophy of Science"))
+
 #===============================================================================
 #===============================================================================
 
