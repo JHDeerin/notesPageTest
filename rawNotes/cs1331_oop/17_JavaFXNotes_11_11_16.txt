@@ -1,0 +1,35 @@
+//********************************************************//
+//**************JavaFX (cont.) - November 11th, 2016*****//
+//******************************************************//
+
+-Taylor again! Simpkins MIA D:
+-NOTE: Next homework will have a TON of bonus points - but START EARLY! This last Homework is MUCH more involved than the previous ones
+    -Should be released either tonight or sometime over the weekend
+---------------------------------------------------------------------
+
+-Some useful JavaFX classes:
+    -import via "import javafx.*"
+        -scene.paint (lets you paint stuff on the screen)
+        -scene.shape (lets you draw shapes on the screen)
+        -.animation (lets you do animations; apparently a LOT of fun to play with)
+        -scene.text (change font, etc.)
+    -"The best way to learn any language, really, is to try and find something cool to do, and make it"
+
+-In previous semester, had to remake a basic version of paint as a final homework
+
+-EVENT HANDLERS; important, I should know this! Better!
+    -e.g. when a mouse if clicked, a MouseEvent event occurs w/ info about the event (right???)
+
+-SIDE NOTE: A CANVAS is the part of the screen we can draw on / responds to being clicked
+-Basically, every single node in JavaFX have an "addEventHandler" method where we can give it 2 parametrs: the EventType we want it to use, and the EventHandler we want to have handle the event when it happens
+        e.g.: "canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> currentTool.onPress(e, g));"
+            -NOTE: Here we're declaring a lambda method for the interface; this doesn't HAVE to be done, you can pass it an existing interface implementation
+                -the "e" is ... was explained in class, something to do with tying the lambda expression to the MOUSE_PRESSED event
+            -NOTE2: the "MouseEvent" class is part of the javafx API, and can be imported
+    -"Event Bubbling" - if an event handler can't handle the current type of event, it passes it on to its parent
+    -The EventHandler here has TWO ASSUMPTIONS:
+        1)
+        2) The interface only has ONE METHOD, as it otherwise gets confused about which method to pass the input to
+    -Basically, this makes whatever object we added the EventHandler to to "listen" for the event, and then respond when it gets the input
+
+-REMEMBER: EventHandler is a functional interface, so we can use it w/ lambda expressions!

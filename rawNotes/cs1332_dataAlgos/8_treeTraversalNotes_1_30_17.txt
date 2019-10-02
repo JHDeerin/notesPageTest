@@ -1,0 +1,69 @@
+//****************************************************************//
+//*************Tree Traversals - January 30th, 2017**************//
+//**************************************************************//
+
+-Starting off a day in January with Christmas music - that's how you KNOW it'll be a good day! (probably) (maybe)
+-Some notes about the exam:
+    -It will be on FEBRUARY 8th
+    -Don't be an idiot (e.g. wearing headphones, bringing notes, etc.)
+    -People aren't allowed to leave the exam before they finish it; e.g., if you have to go to the bathroom, you MUST turn in your exam first
+        -We'll give you more details as you get closer to the test date
+-----------------------------------------------
+-So! TREE TRAVERSALS:
+    -A "TREE TRAVERSAL" is a way of visiting ALL of the nodes in a tree in a systematic manner; as we mentioned before, there are "pre-order", "post-order", and "level-order" traversals
+        -BST's also have an "in-order" traversal, which visits the nodes in ascending order
+    -In general, these traversals can be sorted into 2 categories: DEPTH-FIRST SEARCH and BREADTH-FIRST SEARCH (level by level)
+
+-A PRE-ORDER traversal is a type of DFS; it looks at the left-child first, then goes to the right child
+    -Pretty much, goes ALL the way down and to the left, then goes up until it can go down and to the right, explores that branch all the way, then goes back to the next node...
+        -Pretty much, explores the nodes from left-to-right (or, as HB says, "Parent-Left-Right")
+
+-In POST-ORDER traversals, the pattern is instead "left-right-parent"
+    -First goes ALL the way down to the bottom-left node (STARTS at the bottom left, even though it has to go through some nodes to get there), then goes to the right CHILD of the left node's parent node, then visits the parent...
+    -Looks at the WHOLE subtree of a parent node before looking at the parent itself
+    -Is *almost* a BFS, but not quite
+
+-An IN-ORDER traversal is "left-parent-right"; the bottom-left node is visited first, like in post-order traversal, then the parent is visited, then the right child...
+    -If the tree is a BST, this returns the nodes in ASCENDING ORDER!
+    -...which, conveniently enough, is the only time this traversal is used: with BSTs
+
+-On paper, you can trace these traversals using the "spoke" method: draw three "spokes" from each node, then connect all of them, following the branches of the tree
+    -For pre-order traversal, start at the left spoke of the root node, then connect all the left spokes
+    -For post-order, start at the right spoke and connect all the right ones
+    -For in-order, connect all the bottom spokes
+        -Formally, this technique is known as an "Euler's Tour" in graph theory, but we're stupid CS students and don't need to know that :)
+
+-PSEUDOCODE-
+    preOrder()
+        if node is valid then
+            mark node as visited
+
+        e.g. if (current == null)
+                return;
+            else
+                lookAtData();
+                preOrder(left);
+                preOrder(right);
+
+    postOrder()
+
+        e.g. if (current == null)
+                return;
+            else
+                postOrder(left);
+                postOrder(right);
+                lookAtData();
+
+    levelOrder() //for this, think of a queue; the children of each node go in the queue, then all of their children go in the queue, etc. ...this guarantees that it goes down the list level-by-level, rather then just recursively slipping all the way to the bottom...also, WE START AT 0
+
+        
+
+-On Piazza, there's a .jar file called "GnarlyTrees" that will draw different types of trees for you
+    -"Complete" trees are filled in from left-to-right; there are no "gaps" in the leaf nodes
+    -"Balanced" trees have all of their leaf nodes at the same height/level
+        -A fully "unbalanced" tree is looks just like a linked list, with each node having only one child
+        -This makes searching take O(n) time, which is WORST-CASE for a BST
+    -"Full" is
+-A "Complete, Full, and Balanced" BST should take O(log n) to search for a given node
+
+-So, what's the time-complexity of a traversal? O(n)? O(nlog n)? You'll have to find out in recitation...

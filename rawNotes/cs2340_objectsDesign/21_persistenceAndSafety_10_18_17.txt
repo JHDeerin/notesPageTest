@@ -1,0 +1,60 @@
+//****************************************************************************//
+//************* Persistence(cont.) & Safety - October 18th, 2017 ************//
+//**************************************************************************//
+
+- So, we're talking about ways to get your data persistent; we were talking about binary serialization, and ran a little bit through JSON 
+    - "If I could make some suggestions, review the big file I/O classes for Java (BufferedReader, PrintWriter, etc.); you won't have to use all of them for these methods, but it'll help"
+
+- To use JSON conversion, I'd recommend using Google's "GSON" package; add it to your compile dependencies in Gradle
+    - In Java, create a new "Gson" object
+    - Then, say "String stringNameHere = gson.toJson(<insertObjectHere>)";
+        - If the string is REEEAAAAAALLLLLY long, you might need to break it up into multiple parts
+    - Then, save the file
+- "Again, if you just want to save the data to the phone, binary serialization is easier; JSON's big advantage is that the data can be shared between multiple different sources in a standardized way"
+    - To do the REVERSE, and convert a JSON string back to an object, use "gson.fromString(inString, classYouWantToConvertItTo)"
+
+- Custom .txt files
+    - Let's say that you're making a save system for your video game levels or what have ye, and you want to make your own format to only save the necesssary information; this is where things get harder
+    - "You're the one who has to handle EVERYTHING on your own here; save the info, preserving class associations, make your own way of converting from the .txt strings back to your saved data, etc."
+
+- SQL / Databases
+    - "If you haven't taken a Database class (and I HIGHLY recommend taking 4400 even if it's NOT required for your thread), designing a good database'll be tricky for you"
+    - Relational databases vs NoSql databases - it's your choice what to use! But we'll stick to teaching relational DBs in this class
+        - "As a convention, we'll have a few 'DAO' classes that handle conversions between our object and SQL"
+    - To use SQLite, like in our example, we need to have a class extend "SQLiteOpenHelper"
+        - We then have to implement 2 methods: onUpgrade (which handles when we change our tables), and (...missed the 2nd one...)
+    - Need a DB class that converts our classes to SQL, holds information, etc.
+- "There's a TON of tutorials out there to help you get started with SQLite"
+- Google "Room Persistence Library" to get the details for Google's documentation
+
+- For M9, your app needs to draw a "graph" for your data; look up "MPAndroidChart"on GitHub for a library that'll help with drawing the lines
+    - "I'd recommend just drawing a line graph, since it's simple and useful"
+    - Create a list with your data, SORT THE LIST (it will NOT display correctly otherwise), and then:
+        - Create a Layout XML file (using the GUI or otherwise) that'll have our "Graph" view component
+        - Get our chart object using "findViewById"
+        - use "List<Entry> entries = convertDataSetToEntries(ourDataArray)"
+            - "Somehow, you need to convert all your data to a list of "Entry" objects that ONLY have an "x" and "y" coordinate, and no other properties
+            - "The convertDataSet method isn't built-in; you have to make it yourself"
+        - LineDataSet dataset = new LineDataSet(entires)
+        - LineData data = new LineData(dataset)
+        - dataset.setDrawFilled(true) //fills in underneath lines
+        - lineChar.setData(data);
+        - lineChart.animateY(5000)
+- "Again, you're free to use another library, but I think this one is pretty straightforward to use"
+
+==============================
+// Back to Reliability/Safety
+==============================
+
+- SAFETY is the absence of accidents (no unacceptable/catastrophic failures); RELIABILITY is how often something does what it's supposed to
+    - "One example of something that's reliable but UNSAFE was the Mars Polar Rover; EVERY TIME they played the landing leg noise of the rover hitting the ground, the software was supposed to turn off the rockets that were slowing the robot's descent. This worked PERFECTLY in the lab. Problem was, when the rover was actually deployed, the landing gear DEPLOYMENT made so much noise that it set off the leg sensors - 1500 feet above Mars' surface. It did exactly what it was supposed to - it shut off the rocket. Problem was, that behavior made the rover go splat."
+    - Safe but Unreliable: "Captain Kirk - never followed a regulation once, and the darn guy never paid for it"
+- If you want to hear some GREAT advice on this, Nancy Leveson is an MIT professor with some good lectures on this topic
+    - "Alternatively, sneak into an ISYE classroom - the guys literally spend their whole lives worrying about these things"
+
+- How do we express what our software is supposed to do?
+    - Could write it out formally with discrete math - you'll see this if you pursue a Master's degree in CS
+        - "This is definitely used, but usually only in systems where correctness and safety is CRITICAL, like in airplane systems - it just takes too much time to verify everything this way"
+    - Could write it out in natural English - this is by FAR the most common way, since it's faster and, well, more natural, even if it's not guaranteed to be formally correct
+
+- We'll handle safety with CONTRACTS (Chpt. 4 in the "designing objects" book), which we'll get into more on Friday

@@ -1,0 +1,56 @@
+//********************************************************************//
+//************Dijkstra's Algorithm - April 14th, 2017****************//
+//******************************************************************//
+
+-It's Good Friday already...wow. It completely snuck up on me; this year actually flew.
+-Someone just asked if they could replace their lowest grade with the practice ArrayList homework...ah, GT. Never change.
+    -UPDATE: And 2 days later, they get their wish. "We will now be replacing everyone's lowest homework grade with their practice homewo..."
+        -...
+-Also, HB isn't wearing glasses for the first time this semester! That's...all the exciting news I can think of
+    -"I have really good news! The average on this test was an 83%, and we had multiple students who scored 100%!"
+        -TA Scott whispering in the background: "...yeah, because we made the test easy as **** this semester..."
+-String Search homework is due on MONDAY! So start that as soon as you can!
+-The plan is to finish up graphs on Monday or Wednesday, then to spend the rest of the time teaching you dynamic programming
+    -And after that...we're done! We only have 2 more weeks, and then the final!
+-The final is cumulative, so be prepared for us to ask ANYTHING on it
+-CIOS survey: if there is 70% participation, you'll all receive ONE WHOLE EXTRA POINT!
+    -...yay?
+--------------------------------------------------------
+
+-So, we went over the two basic traversals: DFS and BFS. NOW, we're going to start going through some of the actual "algorithms" involving graphs
+
+-The first one we'll go over is DIJKSTRA'S ALGORITHM!
+    -DIJKSTRA'S algorithm is a graph algorithm for finding the shortest path on a graph (weighted or unweighted) from a specified start node to the next
+        -Alternatively, it CAN be written to find the shortest path from a given node to ALL the other nodes
+    -We do NOT revisit nodes in our path; for each path, we go through each node only once
+    -To do this, we move forward using BFS, and then find the shortest path
+
+    -Dijkstra's algorithm computes the distance of all vertices from a given start node
+
+    -So, we START at the given start node; we then use BFS to find the nodes adjacent to START (using BFS) and consider their weights; we ignore all the other nodes adjacent to the current one (pretend they have infinite weight to travel to)
+    -We then move forward to the node with the least weight (i.e., the "closest" node)
+        -Store the distance of the path from START to each node in a table
+    -Continue expanding outward; if we find a SHORTER path to that node as we expand our path and consider all edges, then we update the table and replace it with the shorter path
+    -Continue until we've gone through all nodes, or have found the node we're looking for
+
+    -PSEUDOCODE:
+        //I THINK that right now, this just gets us the distance for the shortest path, rather than the path itself; not sure though
+        Dijkstra(Vertex start, Graph g) {
+            new int[] dist = new int[g.length];
+            dist[start] = 0 //dist stores the distance from "start" to the given vertex
+            for each Vertex v in g
+                if (v != start)
+                    dist[v] = infinity //set the rest of the distances as high as we can, so they'll be replaced as we find the shortest path
+            visitedVertices =  new set //sometime called "S"
+            unvisitedVertices = new Queue<Vertex>(g) //adds all vertices in "g;" using a priority Queue is the most efficient, since it can keep the shortest distance vertex "loaded" for us to grab right away
+            while (!unvisitedVertices.isEmpty())
+                Vertex u = closest vertex in unvisitedVertices (from START, I think?)
+                visitedVertices.add(u)
+                for each Vertex v adjacent to u
+                    if (dist[v] > dist[u] + w(u, v)) //if we've found a shorter path; w(u,v) is "distance from u to v"
+                        dist[v] = dist[u] + w(u, v)
+
+            return dist;
+        }
+
+    -So, that seems kind of complicated, doesn't it? Well, it is, but don't worry; Dijkstra's is the hardest graph topic that we teach in this course

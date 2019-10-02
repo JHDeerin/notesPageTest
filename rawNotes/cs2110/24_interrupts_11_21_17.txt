@@ -1,0 +1,42 @@
+//****************************************************************************//
+//****************** Interrupts - November 21st, 2017 ***********************//
+//**************************************************************************//
+
+- So, today, we're going to be talking about INTERRUPTS in I/O - "Remember us mentioning these back in the ol' assembly days? Well, we're now going to learn about them a bit more concretely"
+    - Back with assembly, when we had only a small number of I/O devices, we could get away with polling - just asking each device, every cycle, if they had any new information
+        - As systems got more and more complicated, though, having to CONTINUALLY check every device for new information quickly became a performance problem  
+
+- Think of this like a classroom - after the teacher says something, he doesn't ask EVERY student "Do you have any questions? Do you have any questions?", etc.; instead, he keeps teaching, and if a student raises their hand, THEN he checks what their question is
+    - Similarly, the teacher can choose to ignore those question requests if it isn't a good time, the teacher can choose to prioritize some students over others ("Today's South Carolina day, so only the South Carolina people get to talk to me"), etc.
+    - "So, interrupts are more efficient for large numbers of devices, and it lets us choose which requests we want to respond to, and in what order - those are the main advantages over polling"
+
+- Remember logic gates? Let's say that each I/O device has two special bits on it: a "Ready" bit and an "Interrupt" bit; when both of these are on, an AND gate sends a signal to let us know that that device wants to tell us something
+    - Since we have multiple devices that might try to interrupt at the same time, we hook all of these AND gate outputs from our I/O devices up to a "Priority Encoder" that assigns them priorities to be read
+        - This "Encoder" is basically a multiplexer that always lets the highest priority signal through, lets the 2nd highest priority through unless the highest priority is on, lets the 3rd highest priority through if neither the 2nd highest or highest priority is on, etc.
+- To support this, we modify the computer's FSM
+    - Normally, after we execute an instruction, we go back to the "fetch" stage to get the next instruction in memory
+    - INSTEAD, we now modify this so that AFTER an instruction is run, we then check to see if there're any interrupt signals before we fetch the next instruction
+        - IMPORTANTLY, this means that I/O interrupts NEVER happen during the middle of an instruction - it always waits until the instruction is done, then handles the interrupt signals
+    - We then add 2 registers - the "System Stack Pointer" and the "User Stack Pointer"
+        - The SSP is what we've been using all along - it holds instructions for the computer - and this register holds the pointer to the top of the system stack
+        - The USP, though, is a new stack that we're creating SPECIFICALLY to hold interrupt requests and handle them
+            - When an interrupt occurs, we're going to save the I/O interrupt signal on the User Stack (check this???), store the PC (next normal computer instruction) and any registers we need on the System Stack, process the interrupt request (check this???), and then go back to executing instructions normally
+                - What does the interrupt signal store on the user stack? It stores the CODE for that I/O device - it's identifying #
+                - On the LC-3, there's then a "Interrupt Vector Table" from x0100 to x01FF that identifies the device and what priority it is, and then runs the appropriate response
+                    - Unlike the TRAP table, this Interrupt table has TWO words: the instruction we should jump to to see how to handle the I/O request, and the identifier for the I/O device (again, check this??)
+            - Now, because we're putting all of these interrupt requests on a STACK, there's no issue if multiple interrupts happen at the same time - the requests just get put on the interrupt stack and are then handled in order
+                - "Of course, theoretically, there's nothing stopping designers from making a computer that only uses 1, combined stack for interrupts and computer instructions...but practically, people found that that made memory management even more complex then it already is, so most computers split it up into 2 separate parts"
+
+- Now, all of this has been building up to one, important, hair-raising question:
+    -...how does a GameBoy handle user input?
+        - Well, in the GameBoy, there's some interrupt circuitry that has a bunch of bits (1 for each I/O device, to tell us if it's being pressed or not) and a "flag register"
+        - The gameboy has 16 bits for different kinds of interrupt:
+            - 0: vertical blank
+            - 1: horizontal blank
+            - (...rest are on the slides, )
+        - Now, as the programmer, we have to EXPLICITLY say that we're accepting interrupt requests'    
+            - Have to write an "interrupt handler" to tell the system what we want to do with the interrupt, and to clear the intercept request from the stack(?) once we're done with it
+        - DISPLAY STATUS register stores both the status of the GameBoy display and visual-related interrupt requests
+        - (...details are on class slides, we went through this fast)
+
+- ...well, that's that for this week; until next time, enjoy your Thanksgiving!

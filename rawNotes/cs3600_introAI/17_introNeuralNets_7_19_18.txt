@@ -1,0 +1,190 @@
+//****************************************************************************//
+//************ Introduction to Neural Networks - July 19th, 2018 ************//
+//**************************************************************************//
+
+- 2:34...Professor Byrd, it seems, is finally becoming consistently late in his old summer-long age
+- 2:36 - We've got an arrival!
+- The agenda scrawl on the chalk-white front today:
+    - "Gradient Descent Algorithm
+    - Neural Nets
+        - Perceptrons 
+        - Feedforward (deep)
+        - Autoencoder
+        - Backpropagation"
+
+- Final is NEXT THURSDAY - example questions should be up and posted over the weekend, so get prepared (timeline)!
+    - Homework 5 is due on Sunday - really, the 2 pieces of code are just coding value iteration and Q-learning, and everything else is just small tweaks to that
+        - Debugging them can be kind of a pain, though, since they mostly take the form of small, deeply iterative loops
+-------------------------------------------------------
+
+- Okay, today we'll start getting into Neural Nets and, hopefully, show that they're not quite as scary as you've imagined - even things like perceptrons, neurons as computational units, etc.
+
+- Last time, we talked about how linear regression is one of the simplest "learning algorithms" that we can come up with - most statisticians would even say that it doesn't count - and that we can train it with "gradient descent"
+    - The whole idea with gradient descent is that we take our examples, make a prediction, and then use an error function to see how wrong we are - then, we tweak our model based on what direction we were wrong
+        - "Again, this is a form of local search, but it's gotten VERY popular since it works well with continuous parameters"
+    - First thing we need for gradient descent is a loss function to optimize (either max or min) - let's say we'll use the "Sum of Square Errors" function, which has two nice properties:
+        - It ensures all numbers are positive, so we don't have errors canceling each other out
+        - It naturally weights larger errors much more heavily
+            - "We'll call this function 'J', for 'objective' - apparently the O and B were busy the day they named this"
+            
+                J = 1/2 (ypred - yactual)^2
+
+        - Now, we want to find the GRADIENT of our output with respect to our input - for simple 1-variable linear regression, our prediction equation is just:
+
+                Ypred = mx + b
+
+            - So, the 2 parameters we can tune are "m" (the slope) and "b" (the intercept), so the 2 parts of the gradient we care about are:
+                - dJ/dm (the partial derivative of our loss function w/ respect to m)
+                    - So, plugging in for "J", we get:
+
+                        dJ/dm = d(1/2 (ypred - yactual)^2)/dm
+                            = 1/2 * dJ/du * du/dm
+                            = 1/2 * d/du(u^2) * du/dm
+                            = 1/2 * 2u * du/dm
+                            = 1/2 * 2u * x
+                            = ux
+                            = x(ypred - yactual)
+
+                - dJ/db (the partial derivative of our loss function w/ respect to b)
+
+                        dJ/db = ypred - yactual
+
+        - So, now that we know what our gradients are (i.e. the partial derivatives), we can run the gradient descent algorithm to improve our prediction algorithm:
+
+            - Start w/ random m,b; then:
+
+                loop:
+                    sse = 0
+                    m_new = m
+                    b_new = b
+                    for x, y in zip(trainX, trainY):    # for all training data
+                        yPred = m*x + b
+                        sse += (yPred - y)**2
+
+                        # improve our model
+                        # Derivative points toward direction of INCREASING error, so we want to go the OPPOSITE direction - i.e. subtraction
+                        m_new -= ((yPred - y)*x) * learningRate
+                        b_new -= (yPred - y) * learningRate
+
+                    m = m_new
+                    b = b_new
+                    J = 0.5 * sse
+
+                    # continue until either J < epsilon, or delta J < epsilon (i.e. error is small, or change in error is small)
+
+            - So, similarly to what we did in MDPs, we'll usually have some sort of learning rate decay - decreasing the learning rate step size as it decreases
+    - So, for linear regression with 10 parameters, the only difference is that we'd have 10 partial derivatives instead of 2 - it's actually not that complicated if you can do the calculus, and this basic technique is what most neural nets use today!
+
+- Now, specifically this is "batch" graident descent - we run the algorithm on ALL our data at once
+    - If, instead, we run it with just 1 data example at a time, it's know as STOCHASTIC gradient descent; anything in-between is "mini-batch" gradient descent
+        - Generally, batch descent is less noisy at descending but slower, but "SGD" has a significant advantage in that it's an ONLINE learner - you can improve the model continuously as new data comes in, which makes it super-handy for machine learning on the spot
+
+- Alright, let's dive into Artificial Neural Networks (ANN) - and hopefully find that they're not actually that bad
+    - "Keep in mind that this is an ARTIFICIAL network - while this was neurologically inspired back in the 1960s, neurologists have since found our brains really don't work like this...which we stopped caring about pretty quickly, because it's still a model that works really well computationally"
+        - The basic idea is that we have a bunch of input "neurons" holding some values, 
+
+    - Let's say we have "n" neurons, and "ai" is the input strength/"activation strength" of the neuron
+        - "These are NOT weights, but how 'excited' the neuron gets about the input it receives - small numbers mean it doesn't respond much, large numbers mean it really lights up"
+        - We'll always have a0 - the "bias" input - that's a constant (usually -1) that helps adjust the threshold needed for the neuron to activate
+    - For example's sake, let's say we have a SINGLE neuron with 3 input neurons n1-n3, and 3 neurons that it outputs a SINGLE value to, called n4-n6
+
+
+            a1 ----->|             |     |-----> n4
+            a2 ----->|  Our Neuron |-----|---> n5
+            a3 ----->|             |     |-----> n6
+
+        - What does our neuron output? Well, some value - let's say, for simplicity, the sum of its inputs!
+
+            Output = a0 + a1 + a2 + a3
+
+    - Now, this is great as a calculator, but we don't have any parameters we can tweak in our neuron - it just has inputs and outputs!
+        - So, let's say that our neuron now has weights for each of its inputs:
+
+            Output = a0 + w1*a1 + w2*a2 + w3*a3
+
+        - "These weights can be ANY real value - they can be zero (we don't care about that input), negative (this value decreases things), etc."
+            - Overall, the weights are parameters we can tweak for our neuron to change how much we pay attention to the inputs - and ALL of the weights of ALL of our neurons across our ENTIRE network are all the parameters we can tweak!
+                - "As you can imagine, even though all of these neurons are incredibly simple, these networks can get complicated to train pretty quickly"
+        - The bias itself ALSO has a weight "w0" that allows each neuron to tweak its own bias to a more appropriate value, which we'll have to add to our output:
+
+            Output = w0a0 + w1a1 + w2a2 + w3a3
+
+    - So, what does this neuron-output-equation remind you of?
+        - ...linear regression, perhaps? That's all each neuron is doing! It's just doing linear regression!
+
+- So, if we just left it at this, our neural net really wouldn't be that impressive - they could only solve problems involving linear regression! So, how're we going to improve this?
+    - One improvement we'll do is to add, to each neuron, an ACTIVATION FUNCTION that determines what the neuron's actual output is
+        - Oftentimes, this activation function will just be to output 0 if the neuron's "excitement"/unfiltered output is below a certain threshold, and 1 if it's above that threshold
+            - i.e., an activation function of:
+
+                ActualOutput = { 1 if output > threshold
+                               { 0 if output <= threshold
+
+            - If the neuron fits that EXACT description, we call it a PERCEPTRON - a neuron with simple linear regression output and a square-step function activation function
+- What can we do with "perceptrons?" A TON - these things basically resulted in the 2nd AI winter, since we thought they were going to take over the world (and then they didn't)
+    - "After all, if we were wrong about one thing, you probably can't trust anything we ever say"
+
+- Let's say we have a perceptron with the following:
+    - 2 inputs from other neurons, a1 and a2
+    - A bias "a0" of -1
+    - Weights of w0 = 1.5, w1 = 1, w2 = 1, respectively
+    - A square-step activation function where the threshold = 1
+        - So, if the possible inputs for a1/a2 are 0 and 1, what does the table of possible outputs look like?
+
+                a1  |   a2  |   g       | out
+                0       0       -1.5        0
+                0       1       -0.5        0
+                1       0       -0.5        0
+                1       1       0.5         1
+
+            - What does this look like? An AND gate! We made an AND gate!
+        - How could we transform this to an "OR" gate? Well, we'd just want the neuron to fire whenever one of the inputs is 1 - changing the bias weight to 0.5 means "g" will be over 0 whenever that's true, so just changing the bias weight does it!
+            - Can we do a "NOT" gate if we have just 1 input? Sure - just make sure if the input from that 1 neuron is 1, it's greater than the bias!
+
+- So, with that discovery, people got REALLY excited - if perceptrons can make AND, OR, and NOT gates, that means they're Turing complete! We can literally do ANYTHING with them - the future of AI looked crazy bright!
+    - ...annnnnnnnnnd then Marvin Minsky published a book called "The Perceptron" pointing out that perceptrons can't actually model the XOR gate, and were overhyped
+        - Basically, what these perceptron parameters let us do is slide a straight line/plane around so everything on one side of the line is true, and everything on the other side is false - XOR doesn't follow that pattern, and perceptrons just can't model them
+- Minsky's book basically killed the hype around these things - even though we can still do a lot of REALLY cool stuff with them, they'd been so overhyped as the Promised Land that people were crushed and deserted them en masse for almost three decades
+
+- Even at this point, though, people had the idea of combining these neurons into layers that talked to each other to process information in parallel - and that's a crazy powerful idea
+    - Really, not much theoretically changed to make neural networks relevant again - we just got enough computing power to pump massive amounts of training data into them
+        - "One actual problem with neural nets is that, unless you have a LOT of training data, they're pretty susceptible to overfitting"
+
+- There are two other big advances to neurons that we should be aware of:
+    - Having non-binary outputs; this seems like it gives us quite a bit more flexibility!
+        - However, with the size and interconnectedness of large neural nets, even small inputs can quickly grow uncontrollably
+            - The response to this led to... 
+        - The SIGMOID FUNCTION! Basically, instead of letting our output grow without bound, we instead have an activation function that's nearly linear in the middle but tapers off toward either end so that our outputs don't grow/decrease endlessly
+            - The actual math for this function is pretty simple (although you don't have to know it for the final):
+
+                    1 / 1+e^x
+
+            - Other functions that serve the same purpose are "tanh," "relu" (more popular recently since it can help with some kinds of overfitting), etc.
+    - Gluing a BUNCH of these neurons together into a "deep neural network" with multiple layers (something)
+
+- The most common type of Neural Networks are FEED-FORWARD Neural Nets, which only have connections in one direction, going "forward" towards the output layer
+    - "One of the main downsides is that this type of net doesn't work well for problems involving time; when you get into those, we have to start getting into other things"
+    - With these networks, we usually have "fully connected" networks (i.e. each neuron in the previous layer is connected to ALL of the neurons in the next layer)
+        - The first layer is a bunch of inputs - basically, one input for each parameter in our vector "X"
+        - In-between, we have a bunch of intermediate layers made up of interconnected neurons - these are often called "hidden layers"
+            - "Basically, all the hidden layers are are a bunch of parameter neurons we can tweak to get the output we want"
+        - Then, for the output layer, we'll either have a single or multiple outputs "y" where we read our net's prediction
+    - Here's a simple example to try and make this feel more concrete:
+        - Let's say we have 2 inputs, cleverly named "1" and "2"
+        - We then have a single hidden layer, with neurons "3" and "4"
+        - Finally, we have a single output "5"
+            - Pretend, for a moment, we've forgotten what a bias parameter is and we're ignoring it
+            - So, the inputs a1/a2 will just directly be the value of 1 and 2 - "they're not actually neurons, although they're sometimes referred to that way - just inputs"
+            - Because this is a fully connected network, 3 and 4 will both have inputs 1/2; 3 will have input weights "w31" and "w32," and 4 will have weights "w41" and "w42"
+            - Our output neuron, "5", will have inputs "3" and "4", with input weights "w53" and "w54"
+            
+        - So, our output a5 will be, given some activation function "g5":
+
+                a5 = g5(w53*a3 + w54*a4)
+
+            - Plugging in, then, for the outputs of 3/4:
+
+                a5 = g5(w53 * (g3(w31*a1 + w32*a2)) + w54 * g4(w41*a1 + w42*a2))
+
+- Alright, we've got our output function! Now, how do we train it?
+    - Well, we do it with gradient descent, of course!...but we'll need a slightly more complex form of it called "backpropagation." We'll get into THAT on Tuesday.

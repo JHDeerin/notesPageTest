@@ -1,0 +1,170 @@
+//****************************************************************************//
+//**************** Reinforcement Learning - July 12th, 2018 *****************//
+//**************************************************************************//
+
+- Starting a bit late, the board is marked:
+    - "Exams
+    - Last Projects
+    - Final Schedule
+    - Policy Iteration
+    - Q-Learning
+    - Local Search"
+- (GridWorld is back up on the board)
+- "There are only about 30 people left here...the other half of the class must be pretty confident in their A"
+
+- Last project is up on Canvas, and is due next Sunday
+    - Part I is basically value iteration just like in class, II and III are playing with the parameters to make the agent do something particular, IV and V are Q-learning
+- Our final exam is coming up pretty soon - 2 weeks from today, on Thursday. I'll post some practice problems, but there's only a bit of new material: decision trees, MDPs and Q-learning, local search, and a bit about neural networks
+---------------------------------------------------
+
+- So, Value Iteration like we covered last time is guaranteed to be optimal and usually isn't too bad runtime-wise, but it has an issue: we're calculating all these utility values when all we REALLY care about are the policies
+    - ...and then, once we have that policy, we completely forget about all those utility values
+
+- POLICY ITERATION, then, is where we try to directly explore the policy space instead
+    - The idea behind this is that, in value iteration, policies usually stop changing looooooooong before the utilities themselves converge; so, what if we could just figure out when we've got the right policy and stop?
+    - Let's start with the algorithm:
+        1) Start with some random policy "pi(s) -> a"
+            - We do NOT have any utilities; it's just a random mapping of states to actions
+            - From there, we're going to have 2 alternating steps:
+        2) Evaluate the utility of our current policy "pi(s)" to get utilities "U(s)" for all states
+            - During this step, treat the policy as a constant to calculate the utilities
+        3) Update the policy using "U(s)" to improve it
+            - During this step, the utilities are held constant as we change the policy
+        4) Repeat steps 2-3 until the policy stops changing after a step (i.e. PIt(s) == PIt-1(s))
+    - Now, this is STILL guaranteed to converge to the best policy, since we're exploring a finite state space and improving it at each step
+    - Let's look at an example of this:
+        - Let's say that our starting random policy is something like this (for our GridWorld problem):
+
+            \/      <       \/      +1
+            <       X       ^       -1
+            ^       \/      <       ^
+
+        - Remember, our "Bellman Update" equation for the utilities is:
+
+                Ut(s) = R(s) + g*{T(s,pi(s),s') * Ut-1(s), possibleStates}
+
+            - Now, last time, we couldn't analytically solve this because we had that pesky "max" term; this time, though, we're actually just going to have a system of linear equations! In this case, we have 11 possible states that the robot could be in, so we'll have 11 linear equations we can solve exactly via linear algebra
+        - So, to find the utilities for these states:
+
+                U(1,1) = 0 + 0.9 * (0.8*U(1,2) + 0.1 * U(1,1) + 0.1 * U(2,1))
+                U(2,1) = 0 + 0.9 * (0.8*U(2,1)) + 0.1 * U(1,1) + 0.1 * U(3,1))
+                (...)
+                U(4,2) = -1
+                U(4,3) = 1
+
+            - And, plugging this into a solver, we get a bunch of utilities
+        - With those utilties, we actually calculate our policy the same way we did in value iteration:
+
+            pi(s) = argmaxForEachAction( {T(s,a,s') * U(s'), possibleStates} )
+
+        - So, for instance:
+
+            pi(3,3) = argmax(   R: 0.8(1) + 0.1(0.044) + 0.1(-0.064)
+                                U: 0.8(0.044) + 0.1(1) + 0.1(-0.0015)
+                                L: 0.8(-0.0015) + 0.1(0.044) + 0.1(-0.064)
+                                D: 0.8(-0.064) + 0.1(1) + 0.1(-0.0015) )
+                    = argmax(R: 0.798, U: 0.135, L: -0.002, D: 0.049)
+                    = Right
+
+            - We do that for each of the 11 states (really, only 9, since we don'r need any actions for the terminal states)
+        - So, after just 1 step, we get this:
+
+            >       >       >       +1
+            ^       X       <       -1
+            <       <       <       <
+
+        - "Just looking at this, we can see it's already a significantly better policy"
+- So, this seems great! We STILL get the same juicy optimal policy as value iteration, but we get it with significantly less calculation...is there a catch?
+    - Actually, yes, and it's a bit like quick-sort versus merge sort: on average, policy iteration is MUCH faster than value, but in the worst case it's significantly slower than value iteration, which has a better worst-case runtime
+    - There's also the problem where if we do have a HUGE state space, we might end up having to solve a system of millions of linear equations - which can be almost impossible. In that case, solving the system iteratively with Value Iteration might be better
+        - "So, in short, policy iteration is almost always better, but there're a few edge cases where it doesn't work as well"
+
+- Now, everything we've done with MDPs up to this point assumes that we know T and R ahead of time - which works great for boardgames, but isn't true for most real-world problems
+    - So, if we still want to solve MDP-like problems but we don't know T and R, what's the easiest way of doing it?
+        - Well, the simplest (though not necessarily "best") solution is for the agent to explore the world and figure out T and R for itself
+            - ALL we have to know for this to work is our current state's ID and our possible actions - that's it!
+            - From there, we can just pick a random action, do it, and remember its results: <s, a, s', r>
+                - i.e. "I was in state s, I took action a, I ended up in s', and got a reward r"
+                - The reward will vary from problem to problem, e.g. in a stocks model, it could be the change in the stock's value
+            - If we do this a WHOLE bunch (like 100,000 times), then we'll have a giant list of experience tuples - and, like particle filtering in Bayes' Nets, we can sample from those experiences to approximate the probability distribution of what's going on in the world!
+                - Remember, our transition matrix "T" is just the state, action, and results with probability - we can figure that out by saying:
+
+                        T[s,a,s'] = # of <s,a,s'> / # of <s,a>
+
+                    - We do that for every state we've observed and every s' observed for a given state/action pair, and boom, we've got an approximation of our transition matrix!
+
+                - R is actually even easier; for each state "s'" we've ended up in, we can say:
+
+                        R(s') = sum of rewards for reaching s' / # times reached s'
+
+                    - i.e., just the average reward of reaching that state!
+
+    - That's MODEL-BASED REINFORCEMENT LEARNING - the simplest kind, where we're just trying to learn the model so we can run our old algorithms on it
+        - There're some problems, though:
+            - We're choosing random actions the WHOLE time we're learning this, so it's pretty inefficient right up until the end
+                - In the real world, taking random actions until the very end could be pretty costly - our reward could be how much we pay to repair our robot after it crashes, or how much money we've lost in the stock market
+                - "There is the 'Exploration-Exploitation' dilemma, where we could stop this algorithm early after, say, 1000 examples, calculate a policy, then let it keep exploring with a better idea of what it's doing - but the 'dilemma' part of that is that if we never reached a state during the random phase, then our policy will prevent our robot from ever finding it. That's great if that unknown state is a cliff, not so great if that unknown state was a pot of gold."
+
+- As a response to this, MODEL-FREE REINFORCEMENT LEARNING tries to directly learn the policy as it's running instead of finding the underlying distribution T/R
+    - It's a bit like going from Value Iteration to Policy Iteration: we're trying to skip all the intermediate stuff and hop straight to our policy
+    - In this class, we'll learn what's currently the most popular type of MFRL: Q-Learning
+        - In Q-Learning, we have a "Q function" that takes in a state/action pair and returns the expected reward
+            - "Short term reward? Long-term reward? Well, preferably, why not both?"
+
+                Q(s,a) = immediate reward + discounted future rewards
+
+            - So, the "Q value" of a state/action pair is the expected total reward for it over all time
+        - Once we have this Q function, our policy is pretty straightforward:
+
+                Pi(s) = argmaxForAllActions( Q(s,a) )
+
+            - i.e. For a given state, we choose the action with the highest Q value
+        - Obviously, if our Q function is optimal, our policy will be, too - but how do we find it?
+            - Well, roughly, the algorithm for Q-Learning is like this:
+
+            1) Set our starting state "s"
+            2) Initialize Q(s,a) randomly using small numbers centered around zero (since we want to avoid bias at this point)
+                - i.e., we have:
+
+                    Q(s,a) = rand(-1 * small #, small #)
+
+            3) Select the best action based on our Q table Q(s,a) 
+                - i.e. see what the highest Q value is for all possible actions in this state
+            4) Actually do that selected action
+            5) Observe those results: s', r (i.e. the next state and the reward)
+            6) Improve Q using that new <s,a,s',r> experience tuple
+                - As you can imagine, this is the beating blood-red heart of the algorithm
+            7) Set our current state as s'
+            8) Repeat from step 3 until either:
+                - Our Q values have converged below some epsilon values, and aren't changing, in which case we're done learning and improving Q
+                - If we've reached a terminal state, then we go BACK to our inital state s0, but KEEP OUR Q TABLE and keep learning from there
+                    - Occasionally, if the agent appears stuck, we'll do this anyway
+
+        - So, that's the overall flow - but what're the details for step 6? Hopefully, it looks a little familiar (although not quite the same):
+            - We say that our new equation, "Q'(s,a)," will be:
+
+                Q'(s,a) = (1-a)*Q(s,a) + a * newEstimate
+
+                - "a" is our learning rate, where 0 < a < 1
+                    - This controls if our learning is quick and noisy or slow and stable
+                - "newEstimate" is, kind of like in the Bellman equation:
+
+                        newEstimate = reward + g * (estimated future rewards)
+                            = reward + g * (Q(s', argmax Q(s',a')))
+
+                    - So, we choose the best estimated action we can take in s'
+                        - Remember, Q is the best possible action for ALL times including into the future, so just adding this once should be sufficient
+
+            - So, all together, it'd be:
+
+                Q'(s,a) = (1-a)*Q(s,a) + a*(reward + g*Q(s', argmax Q(s',a')))
+
+        - Now, this is NOT guaranteed to give us the optimal policy - so what could fail?
+            - Well, if our random starting policy leads to negative rewards, we'll try exploring somewhere else - but if it leads to POSITIVE rewards right away, it'll just stick to that path since it's being rewarded! If there's a better path, it'll never see it!
+                - So, if by dumb luck our policy goes to a pretty good path early on, it won't look for stuff that's better - it'll end up converging to some sub-optimal policy
+        - A common solution for this, then, is to have some chance of taking a random action instead of always following what we think is best
+            - Often, the chance of taking this random action will decrease over time - we want to explore the world a lot at the beginning, and start trying to improve our path once we have a good amount of information
+            - Now, as mentioned, this leads into the "Exploitation-Exploration dilemma" - at some point, we have to choose whether we want to keep exploring more and more of the world, or if we want to try and find the best path from what we know
+                - In the homework, this'll take the form of the "epsilon greedy" algorithm
+
+- Alright, that's all you need to know for the homework - next week we'll start getting into the final topic, with local search and neural nets

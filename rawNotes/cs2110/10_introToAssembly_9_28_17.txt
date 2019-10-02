@@ -1,0 +1,123 @@
+//****************************************************************************//
+//****************** Intro to Assembly - September 28th, 2017 ***************//
+//**************************************************************************//
+
+- The rain comes, pours, but then it passes. So it is with school.
+----------------------------------------------
+
+- So, at the VERY end of last time, we were talking about the "condition code" registers (N, Z, P) - these are set whenever we store a value in our registers
+
+- Now, we're about to go to assembly language, but we MUST make it clear: what is stored in a memory address is NOT the same as the address itself
+    e.g. Consider "int x = 10; x = x + 2;"
+        - What's the value of x? 12, right? NOT in assembly; in assembly, x is ONLY the address that holds the value 10
+    - "I know that sounds really basic, but trust me, it's a common confusion once we start programming"
+
+- OPERATE INSTRUCTIONS
+    - When Yale Patt wrote his book, he wrote to teach new Computer Engineering students at UIUC programming; because of that, he spends a whole chapter talking about "machine language". It's AWFUL; it's a REAL pain in the butt, and THEN he introduces Assembly Language as an "easier way".
+        - Since you are NOT brand new programmers, I don't think you'll get too much value from just learning machine code. So we'll go over Machine Code and Assembly at the same time.
+        - Quick Overview: Assembly is basically machine code, except that it's in ENGLISH instead; you literally tell the computer where to store things in memory, etc., at a very low level
+            - Once you've written your code, you give it to the "assembler", which converts your code to machine code. "Assemblers are really basic; you could write it in Java as a homework assignment if you wanted to."
+            - So, ASSEMBLE is when we convert our Assembly program into machine code, THEN we use the machine code during runtime.
+                - "In Java, the Java code is compiled to BYTECODE, then run."
+- An example of an "operate" instruction: NOT
+    - e.g. "NOT R1, R2"
+        - This would say "run the bitwise NOT operation on register 1, and store it in register 2"
+        - This would be converted the machine-language code: 1001 001 010 111111
+            - The 1's at the end are just padding; they're not read by the computer
+        - This is a REGISTER addressing mode, since we're directly 
+
+- ADD/ AND
+    - These are VERY similar, and they EACH have 2 variants
+        - ADD
+            - The first ADD is like the one we've already talked about; we specify a destination in register and 
+                - e.g. ADD R5, R3, R2 means "add the values in R3 and R2, and store the result in R5"
+            - The 2nd variant is the same EXCEPT, instead of a register address, the 2nd register is a 5-bit number that is added to the 1st
+                -e.g. ADD R5, R3, 2
+                - "This exists so that we can easily, say, add 1 to a variable without needing a 2nd register"
+        - AND 
+            - Again, the 1st version is a bitwise AND operation that takes 2 registers and stores the AND result in a 3rd register
+                -e.g. AND R5, R3, R2 does a bitwise AND and stores the result in R5
+            - The 2ns variant, again, lets us replace the 2nd register with a number:
+                - AND R5, R3, 0
+            - We can clear a register is way by "AND"ing it with a "0"
+    - The addressing mode for the 1st variant of both is "register"; the 2nd is "IMMEDIATE", since it uses a value we've already specified (check this)
+
+- There is NO subtract instruction; instead, we use a combination of the NOT and AND instructions to do bitwise complement
+- Similarly, multiplication is done via repeated addition
+- There is NO "Or" instruction; we use DeMorgan's law instead
+
+- Now, when we are getting information from the memory, we say we're "loading" it; when we want to write something to memory, we say we're "storing" it
+    - This leads us on to the topics of data movement instructions (7 of them):
+
+- All of these instructions share the same format:
+    - 4 bit op-code | (3 bits) Register we want to load/store | 9 bits ; uses PC to get to items stored near memory address (???)
+        - "The processor takes the 9-bit number, adds it to the PC, and that's the location of the data we want to address"
+        - This is known as PC-RELATIVE ADDRESSING
+
+- Now, let's imagine some simple sample pseudocode, like this:
+    "a = 5
+    b = 11
+    c = 0
+    c = a + b"
+    - So, if we give this to the assembler as Assembly language, what do we need to do? Well, the first thing it'll want to know is, "Where in memory do you want to start?"
+        - So, we'll start with the line "ORIG x3000", which tells it to put as at hexadecimal address # 0x3000
+    - THEN, we want to say:
+        "LD R1, A
+        LD R2, B
+        ADD R3, R1, R2
+        ST R3, C"
+            - "Wait, where are A, B, and C started?" Right! Let's do that in our assembly:
+        "A .FILL 5
+        B .FILL 11
+        C .FILL 0"
+            - ".FILL" just means "store this number on the right in the address on the left"
+    - Then, finally, let's tell the program we're done:
+        ".END"
+- Now, if we pass this to the assembler, it'll run it through 2 passes. The FIRST pass will assign each line of our instruction to an address in memory
+    - e.g. "LD R1, A" will be stored at x3000, "LD R2, B" will be stored at x3001, etc.
+    - "When the Assembler reaches our first variable, or 'symbol', it'll stop and say ''wait a minute, that's a memory location"
+        - So, the assembler will creeate a "Symbol Table" that assigns each of the variables an address in memory
+- The SECOND pass will convert all this to machine code
+    - So, for the 1st line, the Register will have assigned a value of "x3004" as A's memory location, and it will be translated to:
+        "0010 001 000 000 011"
+            - respectively, the op-code, the 1st register address, and the relative address of A (our current x3001 address + 3)
+        - All told, the machine code conversions will look like (picture I'm taking; missed some stuff )
+    - Now, once the program has finsihed doing the "ST" instruction, it will KEEP GOING and overwrite our the data we just wrote!
+    - So, we need to write a HALT instruction to tell the program to stop running code past this point (although the assembler will keep going past it):
+        "...
+            ST R3, C
+            HALT
+        ..."
+        - Why don't we write our variables at the top? "You know that introductory stuff teachers tell you before they tell you the truth? Yeah. We're at that point now."
+    - Bunch of problems were not addressing here: "What if another program uses adress x3000? ,etc."...for now, we're keeping things simple. We're assuming we're only running 1 program at a time.
+
+- Now, when we start coding assembly, we're going to be using a program called "COMPLEX" that one of our past TAs wrote, which works as an assembler and assembly tester.
+    - Therefore, these slides are NOT in the book.
+    - So, I just told you 
+    - In OUR assembly, you can force an offset using syntax like "#3", which lets us force the relative address we want to use; e.g., we could replace
+        "LD R1, A" with "LD R1, #3" (adds 3 to current address, uses that)
+
+- LEA is the "Load Effective Address" instruction; arguably, this shuold NOT be considered a data movement instruction
+    - e.g. "LEA R1, A" says "Load the address of A, and put it into R1"
+        - So, R1 now has whatever address value A had, so R1 is basically now a pointer to A; in contrast, LDR replaces the data in registers, rather than the address
+    - This uses IMMEDIATE mode addressing
+    
+- Now, our LDR and STR instructions don't use PC-offset addressing (like LD and ST); INSTEAD, they use BASE+OFFSET addressing!
+    - Here, we have a "base" register that holds our "base" address, and then we add our specified offset to it to get the address
+
+- Now, we'll go back over LDI and STI when we get to I/O later on, but I'll go over them now:
+    - For LDI and STI, these use INDIRECT addressing; we specify 
+    - e.g. "LEA R1, A       //address x3000; A has address x3004
+            LD R2, B        //address x3001
+            LDI R3, C"      // assigns R3 the ADDRESS in C
+                - So, LEA assigns R1 (register 1) an address of x3004
+                - Then, we load store B's value in R2
+                - Then for (something abot)
+            - "If you're confused about how this works, or why it's useful don't panic; we'll go over it again when we talk about I/O"
+
+- "So, to recap for the data instruction, LD, LDR, and LDI basically all do the same thing, just with different ways of determining the address; ditto for St, STR, and STI"
+
+- Brief note: the "." in assembly is the Pseudo-operator (except when it's not...we'll get to that when we talk about the "TRAP" instruction ("Yes, it's a trap..."))
+
+- (Me at the end of this lecture: got a bit confused when he started writing the assembly code, then data stuff I *mostly* followed, but was about 30 seconds behind him the whole time and probably missed some details; NEED to read the textbook to really grasp it)
+

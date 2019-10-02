@@ -1,0 +1,48 @@
+//****************************************************************************//
+//************** Introduction to Filesystems- July 17th, 2018 ***************//
+//**************************************************************************//
+
+- Alright, today we're going to start going over filesystems...starting with an exercise!
+    - Need to create the folder "universe" and move the crayola files into it
+    - Need to create the sub-folders (inside universe) of "glass", "paper", "stone"
+        - For "glass":
+            - Move "blue.txt" and "silver.txt" to here
+            - create "tinted," an alias to black.txt 
+            - Create "polarized," a symbolic link to brown.txt
+        - For "paper":
+            - Move "white.txt" to here
+            - Create symbolic link "cream" to yellow.txt
+            - Create alias "recycled" to brown.txt
+            - Create sub-folders "apple" and "orange"
+                - Move "red.txt" to apple, "orange.txt" to orange
+                - Apple should have "granny_smith" alias to green.txt, and symoblic link "fuji" to yellow.txt
+        - For "stone":
+            - Move "grey.txt" to here
+            - Create sub-folder "kiwi"
+            - Create alias "ash" to "black.txt" (use )
+- Useful commands for this:
+    - "mv <file> <new folder>" Moves the specified file into the new folder
+    - "mkdir <new folder name>" Makes a new folder w/ the given name
+    - "touch <name>" Creates a file with that name
+    - "ln <path> <new name>" Creates the "new name" file and makes it physically equivalent to the original path (for aliases)
+    - "ln -s <path> <new name>" Creates the "new name" REFERENCE to the original path file (for symoblic links)
+- Some quick notes:
+    - "aliases" are hard links to the file (basically shortcuts that point directly at the original file), but they ALSO contain the information in the original file; "symbolic links" are "soft" (point to the reference they're copying, NOT the original file itself) 
+        - Because of this, hard links are still usable after the original is deleted, but soft links become just "hanging references;" on the other hand, soft links can point to non-file things (e.g. directories) and span across partitions
+        - "Hard links point to the file itself, and deleting the original file just deletes one pointer to that file; soft links point to another POINTER to that file instead of the file itself"
+
+- Continuous allocation vs Linked allocation (missed the distinction, will probably come up on the final (11.1-11.3))
+    - Most systems have a "FILE ALLOCATION TABLE," which keeps track of which "data blocks" on the disk a given file is using
+        - This tends to grow large pretty quickly, so often this is done via INDEXED ALLOCATION, where the table is broken up into "i-nodes" for each file; each inode keeps track of the data blocks used to store the file
+            - We can have even MORE indirection by having multiple levels, with inodes pointing to inodes pointing to the actual data blocks
+            - Practically, most modern systems have a hybrid form of indexed allocation
+        - So, for instance, if we have a UNIX directory "root," there'll be an inode containing pointers for "." (the folder itself) and ".." (the parent folder, which, for the root, will also be itself)
+            - If we create a "program.txt" file inside the folder, the root folder will get a 3rd entry in its inode called "program.txt" (pointing to the file), and the program will have its own new inode pointing to the file's actual contents
+            - Similarly, if we create a child folder "paper" in the root, it'll get a 4th entry in its inode pointing to paper, and the paper folder will have its own new inode with 2 entries: "." and ".."
+                - So, paper would have 1 link (since root in pointing to it), root would have 3 links (since both "." and ".." point to it, as well as paper's ".." link), and paper will have 2 links (one from root, and one from its own "." pointing to itself)
+
+- So, filesystems are great when they work, but that's not what people care about when they come knocking on your help desk - how do these filesystems deal with crashes (11.7)? 
+    - Believe it or not, one of the greatest user innovations in computing is the recycle bin holding files before they're deleted - it's AMAZING how often people accidentally delete things, so giving that a second chance is great
+    - Systems can crash for a number of reasons; upon failure, the system will try and write a "crash image," and upon booting up the system will check the crash image and the file system to make sure they're consistent 
+    - To handle elegantly dealing with file changes, when files are added/deleted/modified, we write this to a TRANSACTION LOG, keeping track of all the changes we're going to make AS WELL as a "transaction #x committed thing"
+        - Then, if the system crashes, we save the transcation log; after starting the system back up, if a given transaction has a "commit" command finished, we save those changes; if we don't find a "commit" for a given transaction # in the log, then the crash interrupted some changes before they could be added to the log, so we drop all those changes and pretend they didn't happen (check this?)

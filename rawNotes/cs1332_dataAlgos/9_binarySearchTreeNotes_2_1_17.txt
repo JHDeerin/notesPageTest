@@ -1,0 +1,90 @@
+//*****************************************************************//
+//**************Binary Search Trees - February 1st, 2017**********//
+//***************************************************************//
+
+-"We have the best terminology in CS" - Prof. HB
+-The test is ONE WEEK from today; be prepared!
+-----------------------------------------------------------------
+
+-So, important question: "Why are tree traversals important?"
+    -e.g. level-order traversals could be used to find the oldest element in a tree; in-order traversals can retrieve a sorted list of data, etc.
+        -In other words, look up their applications later
+
+-REMEMBER: for BSTs, left is smaller, right is larger
+
+-The purpose of a BST is to be used for sorting and searching elements
+
+-The idea of BINARY SEARCH TREES comes from the idea of "Binary search" in arrays, where you split the list repeatedly in halves
+    -BSTs simply STORE the nodes in a way that traversing them IS a binary search, with the nodes ALREADY sorted by adding them to either the left or the right depending on their value
+
+-To search in a BST:
+    1) Start at the root node
+    2) Check the data; if you HAVEN't found it...
+        -If what you're searching for is LESS than the current node, go to the left
+        -If what you're searching for is GREATER than the current node, go to the right
+    3) Repeat until you either find the data, or you reach a null node
+        -This should be O(log n), as it is identical to a binary search
+    PSEUDOCODE:
+        search(data, node)
+            if (node == null)
+                return false
+            else
+                if (data == node.data)
+                    return true
+                else if (data < node.data)
+                    return search(data, node.getLeft())
+                else
+                    return search(data, node.getRight())
+
+-To ADD a new element
+    -Follow the same steps as searching until you either find the data, OR reach a leaf node
+        -(for this class, we will NEVER have duplicates in the tree; HOWEVER, this depends on the implementation)
+    -Once the proper position is found, if the data does not already exist there, then add it to that position
+        -This whole procedure should take O(log n), as it's basically just following the same steps as for searching, and the actual process of adding the node is O(1)
+
+    PSEUDOCODE:
+        add(data, node)
+            if (node == null)
+                return new node w/ data
+            else
+                if (data == node.data)
+                    {depends on implementation}
+                else if (data < node.data)
+                    node.left = add(data, node.getLeft())
+                else
+                    node.right = add(data, node.getRight())
+            return node //keeps nodes the same, as we replace the node w/ itself UNLESS the "node == null", where we add the new node containing the data we want to add
+
+        ANOTHER implementation:
+        //this is the "look-ahead" implementation, and it works just fine; BUT, we want you to get used to the "pointer reinforcement" technique above if you can, as when we get to AVL trees, doing it w/o that technique is HARD, and needlessly complex
+
+        add(data, node)
+            if (data < node.data)
+                if(node.left == null)
+                    node.left = new Node(data)
+                else
+                    add(data, node.left)
+            else
+                if(node.right == null)
+                    node.right = new Node(data)
+                else
+                    add(data, node.right)
+
+-First, some terms for a BST:
+    -The SUCCESSOR of a node is the next-highest value node in the tree
+        -Obviously, all nodes except for the highest-value node itself (the one most to the right) have a successor
+    -The PREDECESSSOR of a node is the next-smallest value node in the tree
+        -Like the successor, ALL nodes in the list have a predecessor EXCEPT for the lowest-value (farthest left) node in the tree
+
+-So, adding/searching really isn't too bad; how do we remove data, then?
+    -3 cases: the node could have NO children, 1 child, or 2 children
+        -Removing a node with 0/1 child nodes is pretty easy to deal with; 2 children is MUCH harder
+    -0 CHILDREN: We just set the node to null to "disconnect it" from the tree. Easy, right?
+    -1 CHILD: We don't want to lose the child when we disconnect the node, BUT, since the current node is greater/less than its parent node, its child must ALSO be greater/less than the parent node; so we just change the parent node's pointer from the current node to the child; aka, the child replaces the parent node
+    -2 CHILDREN: We replace the node with EITHER its predecessor or successor (depending on the implementation), which is GUARANTEED to itself have only 1 child or no children (and thus be easier to itself remove)
+    -COST TO REMOVE: O(log n), as locating the node to remove is O(log n), but re-assigning the node is still itself an O(1) processu
+
+    -PSEUDOCODE:
+        -
+
+-UPDATE METHODS:

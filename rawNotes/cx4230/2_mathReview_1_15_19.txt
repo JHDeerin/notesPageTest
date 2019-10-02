@@ -1,0 +1,129 @@
+//****************************************************************************//
+//************** Math Review for Modeling- January 15th, 2019 ***************//
+//**************************************************************************//
+
+- Microphone testing is underway, with all the customary 1-2-3-testings included
+- ...in other news, I apparently sat on the bench for nearly 3 hours. Which definitely feels long.
+----------------------------------------------------
+
+- "Alright, I'm all mic-ed up now, so I hope you're ready to go!"
+    - In the first 2-3 weeks, the schedule will probably shift around a little bit (some of this content Professor Vuduc is covering for the first time)
+        - Sayama Chapters 6/7 are mostly what we're going through; if you prefer videos, look up Strogatz
+        - "I'll post some study problems for the tests, don't you worry"
+            - For the exams: they are NOT math exams, but you will need to do some basic calculus/linear algebra/diff. eq. stuff on them
+
+- For some of the stuff we're getting into, we'll need Calculus, so here's some quick things to review:
+    - Taylor series expansions!
+        - General formula is f(x + y) = f(x) + y*f'(x) + (y^2*f''(x))/2! + ...
+            - "Remember, we have to do Taylor series based on a fixed point, so we need to know what f(x) is for some initial value"
+                - An alternate way of writing it: f(x) = f(a) + f'(a)*(x-a) + ...
+        - For this class you should just be able to do, say, the Taylor series for e^x
+    - Basic derivatives/integrals (eg. (x^5)' = 5*x^4, sin/cos, product/division rules, integration by parts, maybe u-substitution, etc.)
+    - Basic optimization (critical points (set first derivative to 0), finding min/max of function)
+        - Maybe look up Newton's root finding method - if it makes sense to you, you should be good!
+    - Quadratic equation (ax^2 + bx + c = (-b +- sqrt(b^2 - 4ac))/2a)
+    - Plotting equations
+- "Hopefully, you're looking at this list and saying 'eh, it's been awhile, but I think I can do this stuff'"
+
+- Now, we'll also be working with Ordinary Differential Equations (ODEs) (i.e. there's only one variable to deal with in each equation), so let's touch on those
+    - So, we might have some state variable "x(t)" (or a vector state variable w/ multiple equations inside, e.g. x(t) = [x0(t), x1(t), x2(t), ...])
+    - The classic way of doing modeling throughout the years was writing an ODE to describe it; for instance, we can express Newton's 2nd Law as:
+
+        m(d^2x/dt^2) + b(dx/dt) + kx = 0
+
+    - The ORDER of an equation just means the order of the highest derivative in the equation
+        - A linear equation has an order of 1, while a non-linear equation has 2, 3, 4, etc.
+            - "Linear equations are much easier to deal with, but most of the interesting stuff in the world is nonlinear - so we'll be working a lot with non-linear stuff in this class"
+    - An AUTONOMOUS equation is one that does NOT depend on time; if we have to know time explicitly to solve for the equation, then it's a NON-AUTONOMOUS equation
+        - An example equation would be the equation for a pendulum's motion:
+
+            d^2x/dt^2 + (g/L) * sin(x) = 0
+
+        - NOTE: 2 dots above a variable means "the 2nd derivative of that variable (but I was too lazy to write it out)"
+        - So, this'd be a second-order system, but by substituting some stuff we can convert it into a 1st-order system (although we now have 2 equations to deal with, i.e. a 2D vector equation)
+            - So, to make this one 1st-order:
+
+            y-> = [y0, y1]  =>  d(y->)/dt = [dy0/dt, dy1/dt] = [y1, -g/L * sin(y0)]
+
+                - Here, y0 = x, y1 = dx/dt ("We're basically just renaming the X variables")
+            - Even if the original equation was 3rd-order, 4th-order, etc., we could get it down to a set of 1st-order equations like this eventually
+                - "The Sayama book has a section on this in chapter 6 (with example problems) that I think it'd be helpful to look at"
+
+        - On the other hand, let's assume we have some regular, oscillating force pushing on the pendulunm, making it non-autonomous (because of the cos(t) part):
+
+                d2x/dt^2 + g/l * sin(x) = Fcos(t)
+
+            - We can ALSO substitue for "t" to make it autonomous (by 'hiding' the t variable, making the dependence non-explicit (since even if, say, velocity indirectly depends on time, if we know velocity by itself then we can ignore time)):
+
+                y2 = t, dy2/dt = 1
+
+                dy/dt = Fcos(y)
+
+            - "Now, when we're dealing with vector equations, the 'order' means the LENGTH/number of components in the vector, NOT the highest derivative's order"
+
+    - So, let's say we have this equation, where "x" is actually a function x(t):
+
+            dx/dt = k*x
+
+        - What would "x" be? Well, its derivative would have to equal itself, so it'd have to be the exponential function "e^(kt)"!
+
+    - Another example:
+
+            dx/dt = sin(x)
+
+        - What would the answer be? This is actually more complicated than you might think, but there's a technique called "separation of variables" we can use to solve it
+            - Basically, since we know x is a function of BOTH "x" and "t", we try to get all of them on one side, solve for one in terms of the other
+        - So, for instance, we'd do this:
+
+            dx/dt = sin(x) =>
+            1/sin(x) * dx/dt = 1  =>
+            integral(1/sin(x)) dx = integral(1) dt =>
+            (...magic trig function later...)
+            => t = -ln|csc(x) + cot(x)| + C
+
+        - Then, plug in for x(0), and solve x(t) to get the answer
+    - "So, this works, but it's pretty of awkward to solve analytically - is there something easier we can do?"
+
+- Well, as it turns out, if we're only interested in the overall/asymptotic behavior of the system, we can get pretty far just by graphing points and analyzing the behavior (approaching the problem geometrically)!
+    - The first technique we can use is making a PHASE PORTRAIT, where we'd sketch the equation (e.g. sin(x) for the last example)
+        - We can then see if there's any critical points for us to look at, e.g. where the derivative (in this case sin(x)) is 0
+            - Between those points, we can then at least figure out if the derivative is positive or negative (i.e. if the ORIGINAL function is increasing or decreasing)
+        - If the derivatives point TOWARDS the critical point, then it's stable (the equation will tend to go towards that point); if the derivatives point AWAY from it (i.e. positive derivative above it, negative derivative below it), then it's unstable
+            - These stable points are called ATTRACTORS, and the others are called UNSTABLE
+                - "...we just got lazy with the second name, I guess"
+    - So, given all this information, we don't know EXACTLY how to draw x(t) - but we can get a pretty good idea, since we know the points where the derivative is unchanging and the sections where the function is increasing/decreasing
+        - "Furthermore, for a given starting position (i.e. x0), we can figure out roughly what it's behavior might be - which section of the graph it's going towards, which attractors it might be heading towards, etc."
+- A good exercise might be to do this for "dx/dt = x^2 - 1" - "find the critical points, and classify them each as stable or unstable"
+    - You should also do the same thing for "dx/dt = x - cos(x)"
+        - This LOOKS more complicated, but remember, we're still following the same steps:
+            1) Find the x-values where dx/dt = 0 (the critical points, or "fixed points")
+                - For this, that means where x = cos(x)
+            2) Figure out which regions the derivative is positive/negative for
+            3) Label the points based on where the derivatives are pointing
+
+- So, why do we care about these regions? Let's say we're part of an elite team of bug conservationists, and we're examining the population of the bugs in a given swamp. We'd want to know if there's a certain point where the bug population will explode, or go extinct - if we have a rough equation for how the population CHANGES, we can use differential equations to figure this out, and the regions tell us which way the equation will go - if it'll go towards one point (extinction) or the other!
+
+- (NOTE: I think I used x/t interchangably here)
+- Speaking of population, let's look at one of the most famous models of population - the logistic curve!
+    - This was discovered by some Dutch guy named Verhulst in 1838 - "With a name like that he's gotta be Dutch, right?"
+- Let's say we know what the population is right now, and we want to know how that'll affect population growth in the future
+    - "This is an initial value problem, or IVP"
+        - We could go with a linear growth model, x' = r*x(t) ...but this means the population will grow forever
+        - We could go with an exponential model, x' = x * e^(rt), but that means that the population will either keep growing forever (if r > 0) or keep shrinking forever (if r < 0) - that's not how the real world works!
+    - Instead, Verhulst observed that the population tends to grow faster up to a certain point, then start slowing down when the environment can't handle so many people (he called this limit the "carrying capacity," k0)
+        - To model this, he used the exponential equation, but with 1 major difference: the rate of growth was a variable!
+
+            r(x) = r0 - r0/k0 * x
+
+        - So, plugging into the exponential equation for this:
+
+            x' = r0*(1 - (x/k0)) *x = r0*x - (x^2)*(r0)/k0
+
+        - This has critical points at x = 0 and x = k0 - which makes sense!
+            - If there's 0 population, nothing changes!
+            - If there's more the max population, nothing changes!
+
+    - So, that was how he come up with this model - but is it valid?
+        - Well, experiments have shown that this model pretty accurately models population for bacteria culture, yeast, etc. - but even for animal populations it starts to break down, and it's only kinda accurate for human populations
+
+- So, that's most of the math you'll need to get through this course. We'll keep trucking along on Thursday, so bring your thinking caps along and we'll get together then!

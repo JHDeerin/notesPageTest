@@ -1,0 +1,109 @@
+//****************************************************************************//
+//*********** Introduction to Machine Learning - June 14th, 2018 ************//
+//**************************************************************************//
+
+- Alright, today, the markings read:
+    - "Project/Midterm Dates
+    - Extra Credit
+    - Intro ML"
+- "As the semester goes on, the room gets sparser...I guess that'll suddenly change right before the midterm"
+- So, the project and midterm deadlines have both been moved back: the Bayes' Net project is now due next Friday (22nd), and the midterm in turn has been moved back to 26th
+    - For the midterm, you will get example problems, etc.
+- As for extra credit: the TAs are happy to help you with the regular homework problems (everything short of answering them for you), but they will NOT help with the extra credit problems - that's FINAL
+- Finally, today, we'll start dipping our toes into machine learning - hooray!
+----------------------------------------------
+
+- So, a lot of people just explain machine learning as a "black box" toolkit you can use to solve problems without really understanding how it works - I don't want it to be that way in this class, so let's try and wrap our heads around how these things work
+    - Everything we've done up until today has been AI, and now, going forward, we're going to be in the subfield of "Machine Learning"
+        - We said early on in this course that a pragmatic definition of AI is "approximating solutions to NP-hard problems" - we can't "solve" the problem of driving a car optimally, but we can get something to do it pretty well
+        - MACHINE LEARNING is a subfield of AI where agents learn to improve their own performance at some task as they're exposed to more data (i.e. "training")
+            - This was NOT true for search agents, Bayes' Nets, boolean agents, etc. - in those types of AI, we pre-programmed the rules, then just let the AI loose in a map
+            - For this reason, machine learning is occasionally called "learning by example"
+                - A LOT of people miss the "by example" part - people will get hyped up and say "let's solve this problem that not even humans can do yet!..." but if we don't have any examples of people doing it properly, how will we teach the AI what it's supposed to do?
+                - One example of this: a company recently approached Georgia Tech to create an AI that would read people's Twitter feeds and estimate what their credit score was based on their behavior - guess what? We don't know how to measure that!
+            - So, for ANY supervised machine learning done today, we need data that will act as "ground truth" for our algorithm to learn from; this is why we'll sometimes hire poor undergrad students to spend 3 hours a day labeling pictures of cats
+                - This isn't true for unsupervised machine learning, but for right now, that's still a limitation
+    
+- Previously in this class, we've said that AI agents make observations/percepts about their environments, run them through some sort of internal model, and output actions/predictions of what to do
+    - Up until now, WE'VE been designing the model manually - it might be able to handle data cleverly and do neat things, but the model itself doesn't change - it was fully defined by the programmer from the start
+    - Machine Learning, on the other hand, operates differently - we give it observations similar to what we'll be using it for, compare it against our "ground truth" data that says what its output should be, and the learning algorithm can eventually be "trained" to create its OWN model
+        - After sufficient training from this generic learning algorithm, where it gets better as we give it more examples, we can use the trained algorithm as a model, and then use NEW observations can be given to it, and it'll spit out answers!
+            - We'll get into this later, but training can be dangerous - ESPECIALLY "Overfitting," where we think our model is good, but it only works for the data we've trained on
+
+- Now, to get formal, a MODEL is any construct that turns observations into predictions
+    - Under this definition, mathematical formulas, etc. also count as models
+- Let's now get into some Machine Learning specific vocab:
+    - With ML, a "model" is a thing that can take in evidence/observations and use it to figure out our "hidden variables" - the things we want
+    - TRAINING is where we give a learning algorithm examples to get a useful model, which we can then query to get predictions
+    - INDUCTIVE REASONING is where, from looking at data, we can start coming up with rules and patterns that explain the data; this is really the big breakthrough of ML recently as a field of AI
+        - Previously in this class, our "classic" AIs have been based around deductive reasoning: we give it some rules, and it can decide what to do from that
+        - The problem old AIs kept running into, though, was they would hit situations that they didn't have a rule for and break down; literally, the rest of this course is going to be studying ways that AIs try to get around this
+    - EXPERIENCE/EXAMPLES are the data our AI looks at, and is usually framed as a tuple "(x,y)": X is the observation, Y is the prediction
+        - e.g. A stock-trading AI might say "X" is the current price of a stock, and "Y" is the estimated price of the stock in an hour
+        - "These 'X' observations are usually NOT just raw data; instead, they'll usually be 'factors' that we derive from the raw data that we *think* are more useful to the algorithm"
+            - Again, for the stock-trading example, the "X" observations usually aren't raw stock prices, but normalized prices (i.e. the difference in stock price over the day, like "+1.2%" or "-0.7%"), so that our algorithm doesn't run into problems trying to predict the exact dollar value when, really, we just care if it goes up or down
+            - "The big exception to this right now is Computer Vision, where deep learning has gotten pretty good at handling raw pixel values and extracting patterns from that - but we've had trouble getting that to work in other fields"
+
+- Of course, there are a couple different types of Machine Learning; let's look at a few of them
+    - UNSUPERVISED ML is where we ONLY give the algorithm observations, rather than any "ground truth" or "labeled" data; the AI doesn't know in advance what the "right answers" it's looking for are
+        - So, why is this useful? It can identify patterns and distributions in the data (e.g. it couldn't predict what the weather will be, but it can look at past weather data and say "rainy data occurs most commonly in this month" - "It can detect groups, but can't tell us what those groups mean")
+        - A few specific examples of this:
+            - Outlier detection (detecting unusual behavior for credit card charges - we can't say which charges are fradulent or not, but we CAN say "this isn't normal")
+            - Plagiarism detecting ("Guilty as charged" - if the data for 2 assignments are unusually close, that's a cause for alarm)
+            - Image Compression (it can group together similar pixels, decide what colors are most common in the image)
+            - Pre-processing for supervised learning ("Divide these images into 2 groups" - and hopefully, one group is cat pictures, and another group is "not-cat pictures")
+        - "In this class, we won't be looking at unsupervised learning very much - it's cool, but somewhat limited at the moment to forming groups"
+    - SUPERVISED ML is where we gives the algorithm observations AND what answer it should get for those observations. Under this, there's 2 kinds of supervised learning:
+        - GENERATIVE ML is trying to learn the Full Joint Distribution (FJD) table of our observations
+            - Because of this we need more data to fill in the table, but once that data has been gotten, we can sample from it! We can estimate how likely any combination of variables is, and it'll fit the data distribution it's been trained on!
+            - ...the problem, though, is that it's pretty hard to do; you need a TON of data to fill out these tables, and it gets exponentially worse as you add variables
+        - DISCRIMINATIVE ML is where we try to come up with conditional probabilities (P(y|X)) - it's basically "drawing lines in space," where we don't care what the distribution of the X data is or anything like that - we just care if it's Y or not Y, true or false, on one side of the "line" or the other 
+            - This is a MUCH simpler problem - we're just trying to split the space up into different regions, and then, when we're given data "X", trying to decide which region it falls into
+            - Because it's much easier and requires less data, this is by FAR the most common type of ML - and has also earned the nickname "function approximation," which is basically what it's doing
+    - REINFORCEMENT LEARNING uses rewards to tell the AI if it's doing something good or bad, and by doing this we're trying to teach it the optimal action for each state
+        - To do this, we usually use a "policy" function called "pi" to try and guess what the best action is for a given state - over time, those actions will lean towards ones with the highest possible "utility," or "goodness factor"
+            - You can think of this as a heuristic function - but we'll get to this later on in the course
+        - This is actually like a form of search that can handle non-deterministic environments, and doesn't need a single specific goal to work towards
+- Lastly, problems in ML can be broadly put into 2 categories:
+    - CLASSIFICATION problems are any kind where there's a discrete, finite set of outputs ("Will this stock go up or down?", "What kind of cat is this?", "How many stars should this be rated?", "Is this a fish, a moose, or a goat?")
+        - Note that our INPUTS can be decimal values or whatever, but these categories are based on our outputs (e.g. if we have decimal values for inputs like humidity, pressure, etc., but our outputs are just "rainy, sunny, cloudy, or stormy", it's still a classification problem!)
+    - REGRESSION problems are those that deal with continuous outputs ("how much rainfall should we expect next week")
+- ...actually lastly, there's yet another definition of "consistency" that's specific to ML
+    - In ML, CONSISTENCY means that our model's "hypothesis" about the real world matches up with ALL of our answers'/training data's examples
+        - Ideally, we want the SIMPLEST consistent model that gives us all right answers - think Ockham's Razor
+
+- Alright, that's a broad overview of what Machine Learning "is," and more-or-less what we'll be doing throughout the rest of this course - now, let's start digging into the basics of HOW this stuff works!
+    - The simplest, canonical ML example is the "K-Nearest Neighbor" model
+        - In this, let's say that this algorithm is an INSTANCE learner, meaning it remembers all of the data it sees
+        - It is also a NON-PARAMETRIC learner, meaning that it can take in a variable number of parameters (think average function, linear regression, etc.) and treats them all as separate parameters
+    - In the simplest case, there's the "1-Nearest Neighbor" algorithm, where for a given X input, it will look at it's data points, find the closest parameter, and return that parameter's Y value
+        - "2-Nearest Neighbor" will get the 2 nearest X-value neighbors and return the AVERAGE of their Y-values
+        - This keeps extending for 3NN, 4NN, 5NN, ...
+    - ...so, when we look at this, what do the results look like? Well, 1NN looks like the step function: near a point, all the values will be flat, and then it'll "jump" when it gets close to another value
+        - With 2NN, it'll still be a step function, but less noisy - it's able to interpolate between the points a bit, so the overall function is smoother
+        - With "N"-NN, it'll just be flat line, since it'll always return the average of all the points - not very useful
+    - Now, let's say we want to use KNN for a classification problem - how would we modify it?
+        - Well, instead of returning the "average" of, say, 5 points, why don't we return the mode? If 3 of the 5 dots have a Y value of "horse," let's return that!
+    - As you can imagine, though, this simple model has some problems:
+        - 1-NN is a classic case of OVERFITTING: it'll work for all of our examples, but it's jumpy and noisy and doesn't identify any underlying trends in the data - if we plug in something new, we can't be sure it'll work right
+        - N-NN, on the other hand, is UNDERFITTING - it's generalized too much, and can't give us a specific enough answer to be useful
+            - There's the "Biased Median" problem that, in general, the better a model performs on its training data, the worse it'll generalize, and vice-versa - it turns out to be a tough problem
+- Now, let's try a new algorithm: POLYNOMIAL REGRESSION (this is probably similar to what you've done by hand in stats classes)
+    - So, if n = 1, it'll be linear regression, trying to fit a straight line to the data - if n = 2, it'll be a parabola, if n = 3, a cubic...
+    - Basically, we're trying to make a curve like this:
+
+            Y = m1x1 + m2x2 + m3x3 + b
+
+        - Now, a high dimension (say, the # of points) suffers big-time from overfitting - it'll go through every single point perfectly, but it'll be SUPER jumpy
+        - Low dimensions, on the other hand, will underfit things - think of drawing a straight line through a curved data set
+            - "This algorithm gives us the term 'degrees of freedom': the more variables we let our model have, the more capable it will be of fitting a complex data set, but the more likely it will be to overfit the data"
+        - We usually try to train this model, and others like it, via curve-fitting
+
+- So, in our last few minutes, let's try and actually define what we mean by "underfitting" and "overfitting"
+    - ...but first off, what do we mean by "fitting," anyhow?
+    - Well, in ML, FITTING is the process of the model trying to match the data set it's been given by altering its parameters - we're trying to minimize the total error of our model to be as small as possible
+        - It's an optimization problem!
+    - So then, UNDERFITTING means that our model performs poorly both on training and testing data - it's usually a sign that our model isn't complex enough to match our data (e.g. a straight-line regression through some curved data)
+    - OVERFITTING means that our model performs well on our training data, but generally performs poorly on new data - it usually means that we've matched the data, but we've ALSO fitted ourselves to the noise in the data as well, instead of the actual patterns!
+
+- "Alright, we talked about this stuff in English today - next time, we'll start talking in math! In the meantime, work on your projects! Get em' done!"

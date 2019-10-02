@@ -1,0 +1,111 @@
+//****************************************************************************//
+//****************** Performance Basics - May 31st, 2018 ********************//
+//**************************************************************************//
+
+- Only 16 people coming to lecture in a class with ~45 people...is 10am early all of a sudden?
+- First test is next Thursday - in recitation, at MINIMUM, you guys'll get a list of topics, and hopefully a few practice questions (probably not a full practice test)
+- NOTE TO SELF: Are there any computers designed for the blind? Half of my laptop is a monitor, massive amounts of computing resources are devoted to drawing graphics (GPUs, system calls, etc)
+-----------------------------------------------------
+
+- So, today, we'll start getting into chapter 5 - improving the processor's performance, especially via pipelining!
+
+- Let's say you've been hired by ILM to find the "best performing" workstation out of a few different options
+    - What would you be looking at? CPU speed? Number of cores? Amount of RAM? Graphics card(s)? Upgradeability? Parallelizability (how easily it could be run in parallel w/ other computers)? Company reputation? Cost? Designed for the problem we're looking at?
+        - ...those are things people actually consider! A computer might be "better" in one metric and worse in another
+    - Back in the day, VHS and Betamax were competing home video standards, and Betamax was actually considered to be slightly BETTER from an engineering standpoint - but today, everyone remembers VHS! VHS was "good-enough," it was more cost-effective, they did a better job marketing themselves to Hollywood studios, etc.
+
+- First things first: how do we actually measure performance?
+    - There are two important objective metrics for any program:
+        - SPACE - how much memory does the program code/data require?
+            - If we ONLY care about space, we could have an array of data crammed together - but then we'd have to search for things every time
+        - TIME - what is the execution time for the program?
+            - If we ONLY cared about fast execution time, we'd want a hash map, but there's a lot of extra memory used by it
+    - One example of this trade-off: CISC vs RISC architectures!
+        - CISC, 
+        - RISC, even though it might take more individual instructions to do the same thing (something)
+    - Now, Space and Time are NOT necessarily correlated - in some cases, we can have things that use less space AND have better performance 
+    
+- How do we actually measure execution time?
+    - One metric is that: 
+        - Execution Time = sigma(CPI, individual instruction #) * clock cycle time
+            - CPI means "Cycles Per Instruction"
+        - Execution Time = n * average CPI * clock cycle time
+            - N is the number of instructions we're running
+    - STATIC instruction frequency is the frequency that an instruction occurs in compiled code; DYNAMIC instruction frequency refers to how frequently a particular instruction is executed when the program runs
+        - Loops can mean a program with supposedly only a couple of instructions can actually run forever!
+- Looking at this, it seems that there's a couple obvious ways to speed up our processor:
+    - Reduce the number of executed instructions
+    - Increase the clock speed
+    - Reduce the cycles per instructiom
+- How can we measure our speedup? Well, basically:
+    - Performance = 1 / (Execution Time)
+    - A machine "X" is n times faster than machine "Y" per:
+        - Y executed time / X execution time = n
+            - NOTE: This is different than pure "percent improved", which is (old - new) / old!
+
+- Early on, people tried to focus on optimizing individual instructions - looking at the instructions that took the longest or were used the most and reducing how many clock cycles it took to run them
+    - That's still a valid option, but people started having a thought: what if we INSTEAD focused on improving the throughput of the processor as a whole (i.e., how many instructions we can run in a given span of time)?
+- First off, to measure how long an instruction takes, "wall clock" time can be a little unreliable - we're trying to measure in picoseconds, after all!
+    - So, to handle this, we instead figure it out in "CPU time":
+        
+        Execution Time = Instructions per Program * Clock Cycles per Instruction * Seconds per Clock Cycle
+
+    - Now, some instructions take more clock cycles than others
+        - Remember: the clock cycle can only be as short as the longest microinstruction
+        - To deal with this, we can ammend the equation to be:
+
+            CPU Clock Cycles = Sigma(CPI for instruction * Number of instructions for this class, # of different instruction length classes)
+
+- Again, how can we speed this up? Fewer instructions executed, reduce # of clock cycles per instruction, and reduce the time per clock cycle - those jump out immediately
+    - But there are a few more, less obvious ways we can speed this up:
+        - Improve the datapath itself! We can save time by adding extra buses, using registers more, putting components physically closer, etc.
+        - Break up instructions - this way, complex instructions can be broken into 2 or more simpler, faster-to-run ones
+    
+- AMDAHL'S LAW:
+
+        Time After = (Time affected / Amount of Improvement) + Time Unaffected
+
+    - An example of this:
+        - 20% of a processor's time is spent adding
+        - A new ALU is 4 times as fast (speedup) at adding
+        - What's the overall improvment? well, assuming it originally took 10 seconds, then
+            
+            Time After = (0.2) * 10s / 4 +  (0.8) * 10s = 2/4 + 8 = 8.5 seconds
+            Speedup = 10/8.5 = 1.18
+
+        - So, adding an ALU that's 4x as fast won't magically make our whole computer 4x faster; it'll only speedup the parts of the process it affects, and only when it's being used!
+
+- BENCHMARKS - these can get pretty complicated (depends on what program you pick, etc.), but in general, the best choice is to use real programs, chosen from typical applications, using a large amount of code (to discourage cheating and optimizing JUST for the benchmark)
+
+- IN THE SLIDES: 3 problems near the end about CPI
+    - Professor Moss: "I like these questions. In fact, I like them so much that something similar MIGHT just end up on a test in the near future..."
+
+- Okay, everything UP TO NOW is fair game for the test
+---------------------------------------------------------
+
+- So, let's now get to the main event - PIPELINING
+    - Consider Chipotle - whne you get to the first person, they ask you if you want a bowl or a burrito - then, the next person asks you what kind of meat you want - then, the next person asks if you want rice or beans - then, the next person gives you any toppings you want - then, finally, the last person acts as the cashier and takes your payment
+        - The SECOND I finish telling the first person my general order, they start helping the person behind me - EVEN THOUGH I'm still in the line, finishing the rest of my order!
+    - So, right now, we fetch our instruction, wait until we're COMPLETELY done executing it, and then go back to fetch the next instruction
+        - ...meanwhile, fetch is just sitting there, not doing anything. Why can't we have it do something while it's waiting?
+        - "But wait! We only have one bus, so we can't do anything right now..."
+            - WELL THEN, we'll have to improve the hardware!
+    - By doing this improvement, we go from executing our instructions looking like this, waiting for each whole instruction to finish:
+
+            ====
+                ====
+                    ====
+                        ====
+                            (...)
+
+    - To THIS, handling multiple things at the same time:
+
+            ====
+             ====
+              ====
+               ====
+                (...)
+
+    - ...but, of course, the devil's in the details, and getting to this point isn't as easy as just slapping on a new bus; getting our hardware ready to do this will involve some major challenges and pitfalls
+
+- What're those challenges, and how will we deal with them? Tune in next week to find out! In the meantime, enjoy the weekend!

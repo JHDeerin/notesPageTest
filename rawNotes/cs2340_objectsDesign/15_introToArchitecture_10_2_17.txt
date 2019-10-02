@@ -1,0 +1,67 @@
+//****************************************************************************//
+//************ Intro to Software Architecture - October 2nd, 2017 ***********//
+//**************************************************************************//
+
+- So, we've finished our OOA stage, and we understand WHAT the customer wants us to build; NOW, we have to start thinking about HOW we're going to implement this on a computer
+
+- Now, a SYSTEM is an integrated composite of:
+    - People
+    - Products (both software AND hardware)
+    - Processes
+- ...to satisfy a stated objective
+    - "System engineers, like ISYE majors, care a LOT about the big-picture stuff like this."
+
+- "So, since I'm from the military, I like to give practical examples. Let's think about a UFO Defence System."
+    - The hardware people will be building the aircraft and submarines, the ISYEs are organizing the logistic reponse systems, the EE majors are wiring up the electronic alert systems, and us CS people are just writing the code to manage our small part of the system
+        - "Usually, the picture of the system is bigger than just us"
+
+- This is known as the "System Architecture": how the overall system with ALL of its parts are organized. In the CS world, OUR small part of this is SOFTWARE ARCHITECTURE
+    - "Software architecture for a program or computing system consists of the structure(s) of that system, which comprise elements, the externally visible properties of those elements, and the relationship between them"
+    - "Good software architecture..."
+
+- Now, for Architectural VIEWS - a VIEW is a representation of a set of system elements, and the relationships between them. Views are representations of the many system structures present at once in software systems
+    - A few "standard views":
+        - Conceptual/logical/functional
+            - Easiest to think about; laying out a big-picture idea of what each part of a system should DO, e.g. in MVC, we would have 3 boxes, 1 for each "responsibility". 
+                - "This is the only one we're having you do for homework in this class."
+                - "When you're listing your components, don't use 'developer speak', like front-end vs back-end; be general, e.g. 'UI'"
+        - Process/runtime
+            - This architecture is where every "box" in our diagram represents a different process/thread that we're planning to run; "Used when we're concerned with performance, or when we're dealing with parallel applications and we have to figure out how different threads will talk to each other."
+        - Physical
+            - We represent every physical device we're running the software on, or having the software interact with, and the connections between them.
+                - "Not too important in this class since, well, we're ONLY really using our phone; but at other times, if we have to figure out how we're coordinating all of these physical devices, it can be important to think about this."
+        - Module/implementation
+            - Either 1) How the codebase is going to be layed out, like a folder system ("/linux is the root folder, with /kernel /doc /device subfolders..."), OR 2) Showing how the software will integrate with other 3rd-party products, like APIs. 
+        - User interaction/Use case
+        - Security
+        - Performance
+
+- So, the views are helpful, but they're certainly not everything. Another big part are architectural STYLES    
+    - "Fortunately, you are NOT the first people to develop software like this, and there are a LOT of existing architctural styles that have been devised to help manage software projects"
+    - Some common ones:
+        - Client-Server
+            - "A bunch of clients are connected to a central server"
+            - "Thin" variants mean that most of the processing is done on the server, and the client just sees the view (e.g. T-square, most internet sites that aren't super JS heavy)
+            - "Fat" client variants mean that most of the processing is done by the CLIENT (e.g. downloading software on your phone) 
+                - A disadvantage of this system: what happens if the server's down? You can't use the app then!
+                - "Fat clients have less of a problem with this, but it still is an issue"
+        - Peer-to-peer
+            - EVERYONE is considered an equal, and connected to one another; if we're playing a game, then EVERYONE has all of the game state information, and if someone drops out, then the game doesn't break like it would if a server broke!
+                - The problem here is that we need to make sure users can connect to each other, "discover" each other, etc., which can be pretty darn complicated
+        - Blackboard/Shared Memory
+            - Used alot in AI applications; basically, we have a central "data store" where all of our data is, and then we have a bunch of smaller "knowledge stores" that can each solve a small part of the problem, then put it back in the data store (e.g. in a cryptography breaker, KS1 might do pattern-recognition, KS2 might find the letter E, KSN might try to combine all the letters, etc.)
+                - A problem with this is that we have to check when information updates
+        - Pipe & Filter
+            - "This is the way we did it in the punchcard days"; One part of the app does the 1st part of the task, then passes the data along to the 2nd part of the app, which does its part, then passes it to the 3rd part...and if we want to change the process, we add a new step in-between 2 things
+                - "Linux's PIPE syntax in BASH is inspired by this"
+                - Another example: image processing! We layer these image filters on top of one another
+        - MVC
+            - We've already beat this to death; we'll look at variants of this down the road
+        - n-tier
+            - We have a set number of tiers, each with a set focus; e.g., we have a "data tier", "data access tier", "business tier", etc.
+        - Layered
+            - Similar to n-tier, but tiers are less separated (might have to look this up again)
+        - Event-driven/Implicit Invocation
+            - We put in an event like "Rat sighted" w/ its data, and then the relevant objects for that event use the data, while the non-relevant objects ignore the data. "So instead of having a bunch of separate methods, we instead broadcast an 'event' to every object, and each object then handles its own repsonsibilities for those events"
+            - "Again, this is a big deal in modeling & simulation applications; HLA is a good example, which the Mod & Sim people will probably learn about later on"
+                - Great for keeping things VERY decoupled

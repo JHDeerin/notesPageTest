@@ -1,0 +1,72 @@
+//****************************************************************************//
+//***************** Player Modeling - March 25th, 2019 **********************//
+//**************************************************************************//
+
+- "First of all, I'm very disappointed no one showed up for class last week..."
+- A few announcements, though, about what's going on:
+    - After further deliberation, we WILL have an exam 2 on April 3rd, which is next week
+        - As per last time, it'll be open-note, it'll cover everything we've finished since the first exam up to genetic algorithms (including what we're doing today, but not reinforcment learning)
+    - Homework 5 grading got COMPLICATED, so we threw all the grades out and re-ran everything; we discovered that there were several out-of-date files in the autograder ("Have they been out of date for the past 5 years? Who knows!"), and have hopefully fixed that for good now
+        - ...this made us really paranoid about grading homework 6, so we're doing it as carefully as possible
+    - You should still be working on the Mario homework right now, which is due next week; hopefully you'll be starting that in the next 2 or 3 days
+- Now, at this point, we are rapidly running out of semester, with only 7 or 8 lectures left; the hope is that we'll wrap up genetic-type algorithms today, then cover reinforcement learning and creating game-playing AIs. If we have time, we'll then come back and cover grammars and L-systems
+    - Speaking of reinforcement learning: HOMEWORK 8!
+        - If you remember Gridworld from Intro. to AI, you'll be working on a tabular RL algorithm that learns to work on a Gridworld-like game
+            - If you're in the graduate section, you'll instead be creating a Mario-playing AI that only gets pixel-level input, which means you'll need neural nets and "deep reinforcement learning" (in our case, via the Pytorch library)!
+                - The Gridworld assignment actually requires you to write more code from scratch than the Mario model-training one; it's just that the second one can take several hours to train, and requires you to deal with ML modeling stuff
+---------------------------------------------------------------------
+
+- Alright - what were we talking about before spring break again?
+    - If you stretch your minds to the distant past, we were talking about optimization search, and specifically about genetic algorithms
+    - Using these techniques, we can let the AI take over designing parts of our game, tailoring our results using a "fitness function" that says what we want
+        - Importantly, for games, we need to do "viability analysis" to determine if the stuff we generate is usable (e.g. if the level is completable), and somehow correct it if it isn't
+    - This COULD be runtime AI, but typically, it's design-time stuff; it just takes awhile to run
+
+- This isn't the only way we can use optimization search for game design, though; another thing we can do is "player modeling"
+    - PLAYER MODELING is, basically, trying to figure out how our user is going to experience our content
+        - To make a good level, for instance, we might need some information about the current player, and modify our fitness function to reflect this
+        - To do this, we'd ideally have the player sit down and rate how much they like each of ten million levels we generate, but that's not going to fly (for obvious reasons)
+            - Instead, we'll create a function that will guess what the player is likely to think about a given level instead!
+
+- There are two broad ways we can do this:
+    - A MACRO player model is where we try to determine the general features that an asset should have without trying to figure out the details (e.g. "content targets" for how much of something we want)
+        - For instance, we might scan a level for features the player wants or doesn't want, then count how many of each appears (regardless of order)
+        - To do this, we'll use just a *little* bit of LEARNING STATISTICS
+            - Suppose we watch a LOT of people play our game and count the number of times they die, getting us a mean death rate and some distribution for the death rate (e.g. a normal curve)
+            - When a new player comes along, then, we can figure out where they fall on the curve (e.g. "Professor Riedl's death rate is 1.3 standard deviations above the mean")
+                - From there, we can use this feedback to adjust the content to the player, e.g. "if player deaths are x above average, decrease number of enemies by some factor of x," "if player collects y standard deviations of mushroom above average, increase number of mushrooms by some factor," etc.
+        - There are 2 big caveats with this method, though:
+            - It requires us to collect a decent amount of information across all players before this becomes useful
+            - We still need to figure out where the player falls, which means collecting at least a little data on them first before we can change anything
+                - How do we test the player to get this information, then? Typically, we'll have a few "test levels" that are the same for every player before we start modifying stuff
+                    - The problem, though, is that it's possible to end up with a biased feedback loop if we're not careful (e.g. if we have a level with just 10 coins, that's not enough to determine if players like coin-collecting) - there's not enough opportunity for choice!
+                - To counteract this, we'll try to incorporate as much choice into the level as possible; if the player HAS to kill the bad guy to get to the end of the level, we don't learn anything, and it'll just seem like ALL the players like combat; but if they chose the secret sneaky route instead of fighting the optional boss, that's a choice! That tells us something!
+                    - Basically, when you're testing these statistics, make sure the tests are actually meaningful, and force the player as little as possible
+    - MICRO player models are where we try to figure out the actual structure of the level/content (i.e. where all the stuff goes, etc.)
+        - People might prefer levels that have their 10 traps spread out evenly, for instance, instead of clustered all at the beginning
+        - For instance, to figure out the difficulty of a level we might "read" a level from left-to-right, decaying as we travel to the end but raising the difficulty when a hazard is found, creating a difficulty curve
+            - How do we know if this difficulty curve is a good one or not? Well, we'll have a designer-created TARGET DIFFICULTY PLOT, and match the generated level's difficulty curve to the target (shape-matching math is annoying, but it can be done)
+                - "...psychologists have made some somewhat-sketchy claims about what the 'optimal' difficulty curve looks like, but really no one knows what the best way to get people into flow is"
+
+- ...and as far as optimization goes, that's basically it!
+    - Oftentimes we'll also teach something called GRAMMARS in the context of procedural generation, which is based on something called "state automata" from discrete mathematics
+        - These are really powerful techniques, but in lieu of time we'll push them to the end of the class so we can get to reinforcement learning more quickly
+
+- With that, let's set the stage for part 3 of this class: human-level, game-playing AI
+    - When we build a big, shiny, expensive robot, we don't want to just kick it out into the real world and see how it does - it might get broken! Instead, we want to test it in a safe environment, and see how it does!
+        - Over the past several years people have increasingly concluded that games are pretty much an optimal environment to do this in, for a few reasons:
+            - Need to deal with visual input (ESPECIALLY if we're using an AI that has to process raw pixels), which is a common real-world requirement
+            - The output needs to be a series of controls or actions to alter the world, which is what we often want in real-world systems, too
+            - Needs to react to things in real-time, often at a very fast pace (e.g. Mario Kart)
+        - So, video games have these important features we care about for the real world, but importantly they're also EASIER to deal with than the real world, too:
+            - Finite set of possible actions we can take, instead of the infinite possibilities of reality
+            - Games follow a set of rules, so the possible situations are limited compared to the real world
+            - Vision is "regular;" the bad guys all follow the same template, and the number of possible objects we can see is limited to a predefined set of things
+            - There are definite scores or win conditions, so it's obvious if our AI is doing something right or wrong
+                - "Hopefully you figure out the win conditions of this life before you die - and when you do, please call me!"
+    - To a lot of AI researchers, then, modern games seem VERY attractive as a testbed - if their AI can't beat a game, what hope does it have in the real world? On the other hand, if it can solve a game, it's already had to deal with basic versions of many real-world problems!
+- This field of Game AI isn't trying to be fun for humans - in fact, it doesn't care about the human experience at all!
+
+- *cue video of AI destroying a human pro player in Starcraft II*
+
+- Even if AIs aren't playing all games at a human level just yet, this field is improving at a MASSIVE rate, and over the next few weeks we'll be digging into some of the techniques driving this - so come along on Wednesday!

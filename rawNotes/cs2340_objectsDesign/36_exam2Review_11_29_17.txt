@@ -1,0 +1,58 @@
+//****************************************************************************//
+//******************* Exam 2 Review - November 29th, 2017 *******************//
+//**************************************************************************//
+
+- So, let's go over a few things for Exam 2 coming up this Friday! We'll just go through some of the previous practice tests and address the things you should know about these questions
+    - First, a quick topic list to remind you what's on this test (keep in mind that this is intentionally a bit broad, so study to get the details!):
+        - UML Class Diagrams
+        - Sequence Diagrams
+        - Contracts and Error Handling
+        - GRASP principles / Object Design
+        - Coding Standards/Reviews
+        - Unit Testing
+        - UI Design / Evaluation
+        - Packaging Principles and Design Metrics
+        - Design Patterns
+    - "I will NOT ask programming questions about Android, although I might ask some conceptual questions about what we've done (e.g. persistence)"
+
+- Starting with the Spring 2014 Exam 1:
+    - For UML, know + is public, - is private, # is protected, static variables are underlined, {readonly} for constant variables, what the different arrows/arrowheads mean, how to write methods/classes, etc.
+        - "I might give you the UML diagram and ask you to write the Java code outline for it, or give you the Java code and ask what the UML diagram should look like, or tell you what the UML diagram needs to represent ('A Chest object contains 0 to 4 Items, where Items is an abstract class; the Chest knows what items it contains, but Item doesn't know what Chest it's in...') and ask you to sketch it"
+    - We did NOT cover MVP (Model-View-Presenter), architectural styles, etc., so I won't ask you questions on that stuff
+
+- From the Fall 2014 Exam 2 test:
+    - Know ALL the GRASP principles
+        - e.g. That they don't apply to OOA, since they're about designing our code instead of doing any domain analysis
+    - Know Law of Demeter, and that it minimizes coupling by only letting us talk to "nearby" classes
+    - Switch statements are generally bad since they violate open-closed principle, and we could use Polymorphism/Indirection instead
+    - Know all of the design patterns that we DID cover, and some of their advantages and disadvantages; be able to describe each of the patterns and when you would use them
+        - e.g. Singleton has the advantage of letting us have global access to a model, but the disadvantage is that it makes our programs highly coupled to that class
+        - Strategy is good for when we have classes that all do similar things with only slight behavior differences, etc.
+        - We did NOT cover Flyweight pattern this semester, so ignore those questions
+    - UI stuff! Know what we went over in class and the different evaluation techniques (Think-Aloud vs Heuristic vs Cognitive Walkthroughs): natural mappings, mental models (how the User thinks your system works), recognition vs recall (recognition is more user-friendly), affordances/false affordances, etc.
+    - Testing: know what we went over in class! Remember equivalence partitions AND boundary conditions (when a method needs a certain range of stuff to test, we test the end points, value inside the set, and value outside the set)
+        - e.g. Triangle question on this test was looking for 4 sets of values, since there were 4 partitions (scalene, equilateral, isoceles, and invalid triangle)
+        - Also know whitebox vs blackbox testing, statement vs branch coverage
+            - REMEMBER: Branch coverage has to cover EVERY possible prediacte condition
+                - e.g. "if (x>50 && x<60)", then to achieve branch coverage, we need 1 case where both x>50, 1 case where x<50, 1 case where x>60, and 1 case where x<60
+
+- From the "Exam2CS2340" practice test:
+    - Know the SOLID principles 
+        - B is "Violates SRP", C is "Violate LSP" (since we have to use instanceof to check functionality, which we should NOT have to do)
+    - Know about coupling and cohesion; we ALWAYS want high cohesion and low coupling
+    - Remember the code review stuff we went over!
+        - E should be "e" (both C and D would be valid ways of solving the problem)
+    - Remember the basics of dependency injection / dependency inversion
+    - Can combat "morning-after syndrome" by following the Acyclic Dependency Principle (keeping packages stable, then basing development off of stable package version)
+- For the macro question on this test:
+    - Command pattern let's us pool multiple commands, so we can create macros using that pattern 
+    - A is also valid, so "D" would be the right answer
+- Singleton question is both B and C: Singleton pattern limits design reuse due to coupling 
+- Testing questions: 
+    - To achieve statement coverage, we need case where X < 0, case where Y < 0, case where x > 30 && 0 < y < 7, and a case where none of those cases are met so we reach the "return true" statement (i.e. x > 0, y > 0, AND 0 < x < 30 OR 7 > y); therefore, the correct answer is D
+    - For branch coverage, you need to add the "x = 30, y = 7" case as well (answer B)
+        - "REMEMBER: Branch coverage means every PREDICATE in a statement has to have a true/false case (e.g. if we have "a && b || c", we need cases where a is false/true, b is false/true, and c is false/true), but we do NOT have to test every possible combination of true/false in that statement"
+- For equivalence partiton, answer is B (-45, 18, 3432)
+- For boundary conditions, the answer is C (-1, 0, 1000, 1001)
+
+- Besides all of this, you should know what we went over in-class about exceptions/error-handling, packages, sequence diagrams, etc.; anything that came up in-class since the first exam is fair game. Just like on Exam 1, you're all allowed a 1-page cheat sheet, front and back; good luck! 

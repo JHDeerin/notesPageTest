@@ -1,0 +1,84 @@
+//****************************************************************************//
+//*********** Corner Polyhedra Representation - March 15th, 2019 ************//
+//**************************************************************************//
+
+- Spring Break is nearly upon us, and the attendance in the room is reflective of the fact
+    - I count 43/150 people in class today - which is actually pretty good!
+    - BUT WE'VE LOST LUKE! WAGH!
+        - Nevermind, Luke get!
+
+- Now, for your homework, let's go back to finding the intersection points
+    - To find the intersection with the flat, HORIZONTAL plane (which we'll assume for THIS homework), you'll plug the ray into the equation:
+
+            r0.y + dir.y*t = plane.y + coneHeight
+
+        - Solve for T, find the intersection point, and make sure the point is within the cone's radius - done!
+            - The surface normal is REALLY easy, then - it'll just be pointing straight up!
+------------------------------------------------------------------
+
+- Now, we were going through different polyhedra representations on Wednesday, and got through 2 of them: the "Polygon Soup" and "Shared Vertex" schemes. Let's keep going!
+
+- Yet another method is the CORNERS method
+    - This method ONLY works for objects entirely composed of triangles, but it works really well for them
+        - It was actually invented by another professor here at Georgia Tech: Jarek Rossingnac!
+    - The basic idea is that we say each triangle's vertex has a "corner," with 3 corners per triangle - but it's NOT the same thing as a vertex
+        - Similar to the Shared Vertex table, we'll create a GEOMETRY TABLE with the (x,y,z) coordinates of each vertex:
+
+                [(x1, y1, z1),
+                 (x2, y2, z2),
+                    (...)     ]
+
+        - We'll then have a VERTEX TABLE with a list of vertex indices, like this:
+
+                [0, 1, 2, 1, 0, 3, ...]
+
+            - Each group of 3 vertices in this table defines a triangle; so, the 1st triangle is made up of corners (0,1,2), the 2nd triangle is (1,0,3), etc.
+                - So, for a given corner index "corner" in this list, it'll belong to triangle # (floor(corner / 3))
+                    - From this, we can easily get from a particular corner to a particular triangle!
+            - IMPORTANTLY, the order of these vertices in each triangle should respect orientation (e.g. always being counter-clockwise)
+                - As you're going to see, this allows us to find adjacent triangles
+                - How do we make sure all these triangles are oriented the same way? That's actually a little bit complicated, but it can be done - let's ignore that question for now
+            - Using this table, we can say the "next corner" in a triangle will be:
+
+                    corner.next = 3*corner.triangleNum + ((c + 1) % 3)
+
+                - "Greg, what the heck is this doing?" Well, it's saying that to find the next vertex of a given corner, we'll jump to the start of that corner's triangle, then (using the modulus) rotate to that corner in the triangle, then one more
+                    - Similarly, to find the previous corner, we'll just find the "next-next" corner (literally corner.next.next)
+        - Finally, we'll have a 3rd table: the ADJACENCY INFORMATION, or the "Opposite Table," telling us which triangles are next to one another
+            - To do this, we just have to add one more piece of information to each corner: "corner.opposite," which gets us the ID of the opposite corner
+                - What's the opposite corner? Well, if we have 2 triangles that share a base, then the "opposite" corners A/B are the 2 that don't share a vertex:
+
+                             /|\
+                            / | \
+                         a /  |  \ b
+                           \  |  /
+                            \ | /
+                             \|/
+                        
+            - If we have the Vertex Table, this actually isn't too hard to compute! Here's how we do it:
+
+                    for each corner a:
+                        for each corner b:
+                            // NOTE: "corner.vertex" means vertexTable[corner] 
+                            if (a.next.vertex == b.prev.vertex AND a.prev.vertex == b.next.vertex):
+                                opposite[a] = b
+                                opposite[b] = a
+
+                - So, if the corners share the same adjacent vertices, it means they must each be the "3rd point" in their triangle, and that their triangles are adjacent, so they're opposite!
+            - But why do we care about knowing these opposite corners? What do we "get" from this? Well, a LOT!
+                - We can calculate the corner's left/right neighbors really easily:
+
+                        corner.rightNeighbor = corner.next.opposite
+                        corner.leftNeighbor = corner.prev.opposite
+
+                    - This gets us another corner,yes - but it's a corner that's INSIDE the right/left adjacent triangle, and we can get that triangle's ID really easily!
+                - We can also calculate the SWING of the triangle, which lets us rotate to all the triangles around a given vertex:
+
+                        corner.swing = corner.next.opposite.next
+
+                - This means we can process all the triangles around a given vertex super easily, which is difficult in Shared Vertex schemes and straight-up IMPOSSIBLE in Polygon Soup!
+        - It takes a little while for this representation to sink in (remember that corners are NOT the same thing as vertices - vertices can be shared between triangles, corners can't), so why are we spending so much time on its gory details?
+            - Well, because it is a legitimately elegant way of storing triangle meshes: it's compact, but it gives you a LOT of information for not a lot of storage
+                - ...there's also a decent chance this'll reappear on an exam sometime in the near future, but surely you don't care about THAT...
+
+- Alright, and with that: break time! See you all in 9 or 10 days!

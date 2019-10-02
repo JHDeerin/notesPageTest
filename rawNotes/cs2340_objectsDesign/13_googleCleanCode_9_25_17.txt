@@ -1,0 +1,102 @@
+//****************************************************************************//
+//***************** Google Clean Code - September 25th, 2017 ****************//
+//**************************************************************************//
+
+- 4 Googlers w/ a PowerPoint called "Keeping it Clean..." pretty good
+    - And Prof. Waters is joking with them about coding standards...and that the doors outside are, for some reason, still locked
+----------------------------------------------------------
+
+- Google Employees: Mike Bufano (University Relations, not a software dev), Michael (no last name?, Google Drive engineer @ NY campus, 2015 GT grad), 
+    -...they have "Googley Facts" about everyone...
+        - ...riiiiiiiiight...
+    - Also: Saajan, Stephanie, and Cory
+
+- Four questions:
+    - Why care about clean code?
+        - "Clean code is actually analogous to communicating in real life - if you can communicate well, you'll save time and effort"
+    - How do you define clean code?
+        - "Easy to read? Simple to understand? Well-documented, and maintained documentation? All those are certainly parts of it!"
+    - What does clean code look like?
+    - How to learn more about clean code?
+        - "Going into my first internship at Google, 2340 was the biggest indicator of what the software dev world is actually like"
+
+- So, let's start!
+
+- *flashes C++ code on screen* So, this code is annoying and barely readable; WHY?
+    - Generic, meaningless variable names ("g" and "auto")
+        - "I'm a Google enigneer, and I couldn't even figure out what this does"
+        - "One of the hallmarks of messy code: if you have to put in effort just to UNDERSTAND what a piece of code does, it's probably not well written"
+    - No comments
+- "So, let's clean up this code; what makes this new version so much better?"
+    - Actual variable names (method is called "CartesianProduct", "vector" variable, etc.)
+        - "Back when I was here, I took CS 3600, intro to AI, and there was a competition in that class: to write EVERY homework solution in 1 line of code. Please don't do this. Ever."
+    - Better indentation
+- Another code statement; "The code itself is identical, but the 2nd one is better. Why?"
+    - Because the code is actually indented! The indentation is standard, and consistent
+    - Use of a "foreach" loop instead of a "for" loop
+        - "These 2 snippets are practically identical, but the little stuff - use of standards, indentation, etc. - really do make a difference to make it readable"
+- *flashes another statement*
+    - Only difference is 4 vs 2 space tabs, single-line if statements w/o braces...
+        - "Which one is better? NEITHER! These are BOTH readable; something as simple as 2 vs 4 spaces is too insignificant to argue about in code reviews. The IMPORTANT thing is to agree on a standard for your team, like you will with the stylechecker later on in this course, and stick to it. For little, opinion-based stuff like this, conistency is more important."
+
+- "So, now we ask: why do we care about clean code? Well, because communication matters!"
+    - Software engineers, on average, spend more time reading code than actually writing it
+    - "As programmers, we want to communicate effectively, and the same principles of communication we use in English apply to code: keeping things concise, clear, and easy-to-understand"
+- "A good rule of thumb: imagine that the person who has to read your code later on knows where you live, and has a gun. Wouldn't you want to keep that person happy?"
+
+- So, some guidelines for how what actually makes code "clean":
+    - Consistency (e.g. style guides)
+        - "There may still be places where you have to make your own choices, but even then, your code should be internally consistent, at least"
+    - Contains no duplications
+        - "If you feel like your code is copy-pasted, it'll come back to bite you, and people WILL notice"
+    - Efficient, and mindful of scale
+        - "If your method is generic enough that it could be rewritten to be made reusable, or use generics, spend a few minutes to do that"
+        - "Also, don't try an 'optimize prematurely'; while you should NOT try to make it as optimized as possible, though, focus on making sure it can be optimized if you NEED to - but otherwise, if it works, prioritize readability"
+    - Simple and direct as possible
+    - Maintainable
+        - "Clean code should be able to be easily modified. Whole books on the topic (ever hear of Software Architecture?), but keeping methods small is a good way of doing this"
+    - Optimized for the reader
+        - "If you can make the reader's life a bit easier, in any way, spend an extra minute and do it."
+    - Leaves explicit trace for the reader
+        - "If things aren't obvious enough, leave comments. Use descriptive variable names so you don't have to use comments in the first place."
+
+- Again, clean code SHOULD be easy to understand
+    - It should be consistent
+    - It should have good style
+    - It should have GOOD names (SUPER important)
+        - "Personally, I start writing code by writing the method headers, and deciding what the API should be. I write it like an API documentation, so it's obvious what the code does before I've even written the method implementations."
+    - Comments on functions/methods when needed
+        - "Comments should NOT be to explain what exactly the code is doing, but WHY it is doing it/doing it a certain way (e.g. saying something is an arbitrary constant). The only time you need to write comments is when you ABSOLUTELY CANNOT COMMUNICATE WITH YOUR VARIABLE NAMES / code. If there's ambiguity about what something does, and you guess it'll make someone ask questions ("Why aren't they using Javascript's clone method?", etc.) and you CANNOT explain it in a variable names, THEN it's okay to use comments...but we want to minimize them as much as humanely possible."
+- Clarity is KEY; additionally, you want to write MODULAR code: your code should be doing ONE THING and doing it well
+    - "That way, your unit tests can be smaller and simple, there are less assumptions, it's easier to read small code blocks than huge 'mega-functions', etc."
+    - Keep it DRY: Don't repeat yourself!
+        - "The rule of 3 is a good rule of thumb: if you write the same thing twice, don't freak out about it, but if you have to write the same thing THREE times, you need to fix your code"
+ - ALWAYS follow the Single-Responsibility Principle
+
+ - Refactor, refactor, refactor; "If your method is more than 30 or 40 lines, you should break it up. Don't think 'eh, it's good enough'; writing sloppy code the first time is expected, and we all do it. Not fixing it is the problem."
+ - Avoid preemptive optimization; "While writing the most performant code possible is sometimes necessary, if we don't ABSOLUTELY NEED that perfromance, it's more important to keep the code clean and readable"
+ - "Don't second-guess the compiler; if it complains, and you don't have a VERY good reason why its wrong, you need to fix your code." 
+
+ - Applying what we've learned:
+    - We want to write a method "word_count" that counts the # of times each word in a sentence appears
+        - Let's make 2 helper methods to split this task up: "split" that turns the string into an array of words, and "insertOrIncrement" that either adds the new word or increments the word count into a map
+        - "Split is likely already a library function; we don't even have to code it"
+
+- Some other best practices to avoid "technical debt"
+    - Write unit tests! That way, you A) Have an example of how the code should be used, basically serving as documentation; and B) You can quickly verify if a change broke something
+    - Refactor, refactor, refactor!
+    - Manage the complexity of your code; keep it as simple as possible
+    - Use abstractions as much as you can
+    - Keep things readable and traceable
+        - "If something isn't documented, take 15 minutes and fix it"
+        - "If the code is good, it might take you a day to get caught up and understand it; if the code is poor, it might take you a week"
+
+- There are also tools to reformat your code; You can check out Google's own coding standards online
+    - 3 book recommendations:
+        - The Art of Readable Code
+        - Clean Code (Robert C. Martin)
+        - Cracking the Coding Interview, 6th Edition
+
+- "What did I learn at Google but not at school? This principle of self-checking your own code called 'googliness', and that design documents take longer to write than the code ('You have to get other people to agree with you')"
+    - "Copy-pasting is the most common "unclean code" problem in industry; it's not super common at Google, but it does happen"
+    - "TODO comments, and never doing them/making unit tests for them, are also kinda common"

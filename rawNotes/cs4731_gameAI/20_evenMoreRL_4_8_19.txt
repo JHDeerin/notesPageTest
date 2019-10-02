@@ -1,0 +1,114 @@
+//****************************************************************************//
+//*** More Q-Learning/Intro. Deep Reinforcement Learning - April 8th, 2019 **//
+//**************************************************************************//
+
+- Rain, rain, go away (and come back as snow please...yay?)
+    - It also appears to have scared off half the class, which is sad (but hey, extra legroom!)
+- "What were we doing last week? Oh yeah...there's that test thing that happened Wednesday"
+    - We ended up throwing out Question 6 due to the confusing wording of the question; grades should be up either tonight or tomorrow, and we'll probably go over the exam next lecture
+- Practical Homework debugging thing: look up pdb.set_trace()! It's the greatest Python debugging thing since sliced bread (please send pictures if you attempt to debug Python using sliced bread)!
+--------------------------------------------------------------------
+
+- All right, we were finishing up tabular reinforcement last week; today, we should finish it completely, and then start getting into the deep learning part of the course
+    - Hopefully, you're starting to see the intuition behind how this Q-learning algorithm actually works, and why it exists
+
+- As we mentioned last time, the Q table will start out initialized evenly to all 0s, and will stay that way until we hit our first reward (positive or otherwise)
+    - From there, the values will start to backtrack as we go through those states again and update their values (each trace will backtrack one space), until eventually the states close to our good rewards will have a higher Q-value than normal, showing us where the best places to be are
+
+- We also talked about the EPSILON-GREEDY ALGORITHM: to avoid just getting stuck in a local minimum, we'll take a random action "epsilon" percent of the time, and then the optimal action the rest of the time
+    - A good way to think of this is via ants!
+        - If you watched ants a child (as I'm sure you all did), when they were searching for food, they'd all spread out randomly until one of them found some food
+            - The rest of the ants will then follow that one's pheromone trail when they find it, but a few of the ants will STILL wander off the path and wander aimlessly for a little while - some of the ants might die horrible anty deaths, but a few of them might find a shorter path to the food, or even an entirely new food source!
+    - This turns out to be a pretty decent strategy for learning to do something - and is also a perfect example of the EXPLORATION-EXPLOITATION tradeoff
+        - "Exploration" just means we're going somewhere we've never been and seeing how good it is, while "exploitation" is sticking to what we know works and taking advantage of that knowledge
+        - The higher our epsilon value, the more we'll explore and take random risks, and the less we'll stick to the policy we know
+    - A common technique when we're doing this training is EPSILON RELAXATION
+        - This is where we start off doing a LOT of random actions, and then gradually decay epsilon over time to take fewer and fewer random actions until after a lot of training, we're almost always sticking to our policy
+            - For the undergraduate homework, this sort of relaxation isn't really necessary for reinforcement learning, but for the deep reinforcement assignment it's almost certainly necessary
+
+- Once we have all this information, the actual training process for Q-learning is pretty straightforward: train your agent for "N" trials (i.e. "send out your ants")
+    - After each trial, set the agent back to its initial state but KEEP THE Q-TABLE!
+    - For each trial, the loop looks something like this:
+
+        while state isn't terminal and time < timeLimit:
+            if random < epsilon:
+                pick a random action
+            else:
+                pick action w/ best Q-value
+            execute chosen action and get new state/reward
+            update Q-table w/ new state
+            (optionally) update epsilon value
+
+    - Once we've finished training, we'll set our epsilon value to 0 (i.e. always take our optimal action and never do something random)
+
+- As a very simple Q-learning example, let's look at a game where we have 4 states, called the...um..."4 Square Example Game"
+
+            -----------------
+            |       |       |
+            |       |  +10  |
+            -----------------
+            |       |       |
+            |       |       |
+            -----------------
+
+    - If we can take 4 different actions (up, right, left, down), then we'll have a 4x4 Q-table, initialized completely to 0
+        - Let's say we also have a learning rate of 0.5
+    - If we start in the bottom-left corner and randomly choose to move "up," then our Q-table will be updated from 0 to...0. We haven't received a reward yet, so there's no change
+        - If we move to the right from there, though, then we'll get a reward of +10, which means we'll update our Q-value for the top-left state
+
+            Q(top-left, right) = 0 + 0.5*(10 + 0.5*MaxQ(Top-right, act) - 0)
+                                = 5
+
+        - So, we now know the top-left corner is a good place to be!
+            - Again, the last 0 on the right is "temporal difference learning," where we're subtracting our current Q-value so that we don't overestimate the reward 
+    - If we were to then restart in the bottom-right corner, and move to the left to the bottom-right, then our new Q-value would be:
+
+            Q(bot-right, left) = 0 + 0.5(0 + 0.5*MaxQ(Bot-left, act) - 0)
+                               = 0.5*(0.5 * 5)
+                               = 1.25
+        
+        - This means the bottom-left state is less than the others, which is good, because it's farther from the reward than the rest of them!
+
+- Alright, tabular reinforcement like this works GREAT if you have a relatively small number of discrete states, but not all games are like that; what's let us make the jump from simple games to complex games is DEEP LEARNING
+    - REMEMBER, we don't know the rules of the game we're trying to play ahead of time, and there might be an opponent that's playing against us (which means every state transition is kind of like 2 transitions, our move and our opponent's)
+        - Either way, we don't have a clear idea what state we're going to end up in when we take a particular action
+    - What's a state in a video game from a human perspective, then? It's ANY possible screen we can render, i.e. ANY color combination of pixels
+        - Is a single pixel changing relevant? If we're using tabular reinforcement learning, we DON'T KNOW, and'll have to treat EVERY single 1-pixel different screen as a completely different state, and relearn everything for it
+        - So, should all these screens be treated differently? How do we figure out if a state change isn't relevant?
+            - For instance, in Mario, it doesn't matter if a cloud in the background has moved - but if a goomba has moved, that COULD affect how we should act!
+            - How do we figure out that the cloud doesn't matter, but the goombas do? How do we figure out that Mario's idle animation isn't important?
+                - We need to somehow learn all this information separately for ALL possible screen combination,s and there's literally not enough memory in most computers to store all these states, let alone that information about them!
+        - This problem was seen as impossible for a long time, but literally within the last 5 years, we've started to make significant progress - this problem isn't so impossible after all!
+
+- To do this, we need to do something called Q-APPROXIMATION
+    - What we want for this is an algorithm that'll take in a given 2D array of pixel data and 
+        - To remind you, a neural net takes in some number of inputs and tries to map them to some number of outputs
+    - So, to do this, we'll pass our 2D screen data into a neural net, which'll then map that screen to the Q-values for a given action while in that screen
+
+                                                 |---> Q(S, a1)
+            [Image] ----> Neural Net Magic??? ---|---> Q(S, a2)
+                                                 |---> Q(S, a3)
+                                                        (...)
+
+        - To do THIS, we need to figure out 2 things:
+            - The architecture of the neural net itself
+            - How to properly train the neural net
+    - How do we solve this problem? Well, enter the CONVOLUTIONAL NEURAL NET!
+        - Imagine here that we're passing in a black-and-white image, each pixel of which is a value in the range [0, 1]
+            - In a traditional neural net, each pixel will map to a neuron, which'll map to another (possibly smaller) layer of neurons, all the way down to a single binary neuron: "Yes" if there's a face in the image, and "No" if there isn't a face
+            - The hope is that there'll be some pattern of pixels that corresponds to a face, but there's a problem: there could be BILLIONS of possible variations on that pattern! It's very difficult to map ALL of these to the concept of a face
+        - So INSTEAD, Convolutional neural nets are instead trying to ask if there's a pattern of pixels SOMEWHERE that maps to a face
+            - Here, we'll have a sliding WINDOW (or "kernel" or "chunk") of pixels that's just the size of a certain chunk of the image, and that chunk will map to a single pixel: "yes" if the chunk contains a face, "No" if it doesn't
+            - We'll slide this window around the image so that we end up with a smaller, 2D array of neurons, each of which says "yes, my chunk had a face" or "No, mine didn't have a face"
+                - It's possible only a part of a face ends up in our image, though, in which case we'll repeat this process AGAIN on our yes/no neuron array, trying to match up a pattern of chunk activations to the face instead
+                    - Some neural nets might have 50+ of these CONVOLUTION layers to try and capture these various different-sized features (for simple games, usually 2-3 is sufficient)
+        - "Wait," you're probably saying, "how did we know the chunk had a face in it to begin with?" Well, we still know from our example data if the image had a face or not, so we can backpropagate that error through our convolution layers to train them the right "pattern" to look for in the image!
+            - So, after all these convolution layers, we'll have a set of fully-connected layers that's trying to map the final smallest convolution's activation pattern to "face/no face"
+            - "...this is crazy s***, and it's the first time I've tried teaching this, so it's okay if you're confused"
+    
+- In a game, we're not trying to identify if there's a face, or a goomba, or whatever specific thing; INSTEAD, we're trying to map it to the action we're trying to take!
+    - Instead of the signmoid function here, we're using an activation function called the RECTIFIED LINEAR UNIT, where we have a minimum output value of 0 (if we have a negative input) and otherwise output the same thing as our input (y = x)
+        - Why do we do that? Because we're trying to output a Q-value, and we DON'T want to cap our Q-value at 1; we want it to be the actual Q-value itself!
+
+- Alright, that's as much time as we have, so we'll keep going over this on Wednesday! Good luck, and see you then!
+    - ("Charles Isbell would like to share a photo" flashes up on the powerPoint screen - all hail our new Dean)

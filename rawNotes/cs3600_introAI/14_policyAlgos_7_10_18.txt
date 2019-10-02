@@ -1,0 +1,167 @@
+//****************************************************************************//
+//******************** Policy Algorithms - July 10th, 2018 ******************//
+//**************************************************************************//
+
+- 2:34: In the nick of time, the Byrd has landed
+    - (...I'm sure there's an article in the Geneva Convention allowing me to be tried for this joke)
+- A grid is being drawn on the board...perhaps *chuckle* a whole WORLD of GRIDS?
+    - (...bringing in the Helsinki Accords now...)
+
+- A rather quickly written agenda intones from the board's white blank:
+    - "Utility
+    - Value Iteration
+    - Policy Iteration"
+- "You'll be glad you came to this class, since the last project is heavily based on the stuff from this lecture - and the description of them in the book isn't the best"
+- According to the calendar, we might have the honor of having the very first final exam period of all the sections - Thursday at 1pm. More details will be coming up as we get closer
+    - "Keep in mind that the registrar controls the final schedule, not me"
+    - Also keep in mind that the final IS cumulative - although I'll probably weight the detailed questions towards new stuff
+        - "You have to wait at least until the day after class to start forgetting everything"
+------------------------------------------------
+
+- So, we talked last time about "additive" and "discounted" ways of calculating utility over a period of time/for sequences of actions, so our agents have the ability of giving up short-term gains for long-term goals
+    - We decided that the utility of a state at t0 should be:
+
+            U(S0) = E(R(S0) + gR(S1) + g^2R(S2) + ... + g^nR(Sn))
+
+        - ...in other words, the expected reward of s0 plus gamma times reward of s1 plus...you get the idea
+            - This is our DISCOUNTED UTILITY formula, where we have 0 < gamma < 1 so that states far into the future aren't weighted as heavily
+    - Using this, we want to try and find a policy function "pi(s) -> a": a way of mapping a given state to the action we should take in that state
+        - Preferably, we want to find "pi*(s)->a" - the OPTIMAL policy function
+
+- Now, to pick our actions, we want to look at the future; particularly in our GridWorld example, 
+    - Let's say that in GridWorld, our current state is S0 (3,1) and our action is "L" (move left)
+        - We know we have a 0.8 chance of actually moving left, a 0.1 chance of bumping the wall and staying in that state, and a 0.1 chance of moving right
+        - So, using that and knowing the utility of each state ahead of time:
+
+            EU(S0, L) = 0.8*(0.655) + 0.1*(0.66) + 0.1*(0.611) = 0.6511
+
+        - If we moved UP, on the other hand:
+
+            EU(S0, U) = 0.8*(0.66) + 0.1(0.655) + 0.1*(0.388) = 0.6323
+
+        - "So, since we have a chance of moving into the pit, moving up is a less optimal action"
+- So, once we have the utilities of all these states, calculating the policy is simple: we just choose the action with the highest expected utility!
+    - ...there's a problem, of course: how do we find each state's utility in the first place?
+    - For now, though, let's say this:
+        - The EXPECTED OPTIMAL POLICY for a given state is:
+
+                pi*(S) = argmaxForEachPossibleAction( {T(s,a,s') * U(s'), possibleNextStates} )
+
+            - i.e. Choose the action with the highest utility, calculated as the sum of (for each possible next state resulting from that action) transition matrix probability of that state times the utility of that state
+
+- So, we say the utility U(s) of a state is the current reward PLUS the discounted future rewards we expect to get if we start in s' and act optimally
+    - Now, if we have U(s') for all s' (given current state/action), then we can calculate this!
+        - For instance, for our gridworld problem last time with a reward of -0.04 for non-goal/pit squares, if S = (3,1) and gamma = 1 (i.e. additive utility):
+
+            U(S) = Max( Left: 0.6511
+                        Up: 0.6323
+                        Right: 0.8*.388 + 0.1*0.66 + 0.1*0.611 = 0.4375
+                        Down: 0.8 * 0.611 + 0.1 * 0.388 + 0.1*0.655 = 0.5931)
+                = 0.6511 + currentReward(S)
+                = 0.6511 - 0.04
+                = 0.6111
+
+        - "So, calculating policy differs from calculating utility really in just one way: utility is the highest utility number itself, while the policy is picking the ACTION that results in that highest numer (in this case, Left)"
+
+- Alright, so we can calculate the utility of our CURRENT state if we know the utilities of our future states - but how do we get those future values? Where do we start?
+    - Well, when we were dealing with Dynamic Bayes' Nets, we made a "uniform prior distribution" assumption, where we chose some starting place and then improved it as we kept making observations
+    - Here, our equivalent of that is starting with our TERMINAL STATES: there's no future actions, so it's utility is just the current reward - in our case, 1 for the goal, -1 for the pit!
+        - "Now, it is possible that you don't have any terminal state - in that case, we'll have to really do what we did with DBNs and choose an arbitrary prior, then refine our guess over time"
+            - Keep in mind that this is NOT reinforcement learning just yet - it's just dynamic programming, since our agent has to know the transition matrix/reward function in advance - it never learns those functions from experience
+    - So, our utility function right now is this:
+
+        U(S) = R(S) + g * maxForAllActions{T(s,a,s') * U(s'), possibleStates}
+
+        - "This is known as the 'Bellman Equation,' and comes up a good amount in certain fields - especially robotics"
+            - Computationally, though, this equation is annoying because of that "max" function - it means that this is a nonlinear equation, since it has discontinutities! That means we can't solve it analytically!
+        - Because of that limitation, we're gonna have to approximate an answer iteratively
+
+- So, to make this sane to calculate, we change this equation into the "Bellman Update" - starting with arbitrary utility values and improving them each iteration using the previous utility values
+    - Formally, this looks like:
+
+            Ui+1(s) = R(s) + g*maxForActions{T(s,a,s') * Ui(s'), possibleStates}
+
+        - Now, U(s') is based on the previous calculation, letting us successively refine the old values
+- Using this, we can now do the VALUE ITERATION algorithm:
+    1) Our starting utilities, U0(S), = all zero OR small arbitrary numbers for all states
+        - This algorithm'll work with any starting numbers, but these are the two main conventions; all zero means no state has any preference, arbitrary small numbers is nice for "weighting" our graph with a certain guess (good for some real-world applications)
+    2) Loop until no U(S) changes by more than some real number "e" from i to i+1 (i.e. until the numbers look more-or-less stable)
+        - Inside the loop itself:
+            a) For each possible state "s" in "S":
+            b) U(s) = [Bellman Update Equation]
+- "If you think of this as increasing a finite time limit, this is dynamic programming since we only need to know the current state"
+    - The proof is complicated, but Value Iteration IS guaranteed (for almost all possible inputs) to converge to the globally optimum value if it runs for long enough
+    - It also has the advantage of the values being pretty stable; as long as we choose a reasonable epsilon value, the next iteration wouldn't change by more than epsilon. Even if we choose the wrong action, it's reward value is guaranteed to be within "epsilon" of the actual best choice
+
+- So, with the algorithm down, let's run through an example of Value Iteration
+    - "Keep in mind that I am evil, and would absolutely ask stuff on exams like 'calculate one step of Value Iteration by hand'"
+- Let's say we know the following:
+    - g/gamma = 0.9
+    - R(else) = we don't know/care, so 0
+    - It's the GridWorld problem, and we start with all zero utilities:
+
+            0   0   0   0
+            0   X   0   0
+            0   0   0   0
+
+        - So, for example, the goal state's utility U1(4,3) = R(4,3) + 0.9(no following actions, since it's the goal) = R(4,3) = 1.0
+            - Similarly, U1(4,2) (i.e. the pit) will be -1
+        - It starts getting interesting when we start doing this for non-terminal states, though, which'll follow this formula:
+
+            U1(s) = R(s) + 0.9*(optimal action's utility)
+                = 0 + 0.9 * U0
+                = 0 + 0 = 0
+
+        - So, we end up with this after the first step:
+
+            0   0   0   1
+            0   X   0   -1
+            0   0   0   0
+
+        - The second iteration is where things start getting a bit more interesting; for instance:
+
+                U2(3,3) = R(3,3) + 0.9 * max({T(s,a,s') * U1(s'), s'})
+                    = 0 + 0.9 * max(R: 0.8(1) + 0.1(0) + 0.1(0)
+                                    U: 0.8(0) + 0.1(1) + 0.1(0)
+                                    D: 0.8(0) + 0.1(0) + 0.1(1)
+                                    L: 0.8(0) + 0.1(0) + 0.1(0))
+                    = 0.9 * max(0.8, 0.1, 0.1, 0)
+                    = 0.9 * 0.8 = 0.72
+
+            - Now, what other states could propagate to a non-zero utility? Well, definitely (3,2), since it's next to the pit, and similarly (3,1), since it's possible to reach the pit/goal for them
+                - Doing the same calculations for (3,2), then:
+
+                    U2(3,2) = R(3,2) + 0.9 * max(...)
+                            = 0 + 0.9 * max(-0.8, -0.1, -0.1, 0)
+                            = 0 + 0.9 * 0
+                            = 0
+
+            - So, we ended up with zero, since it's still the max among all those negative numbers!
+    - Thus, after the 2nd iteration, our utilities look like:
+
+            0   0  0.72 1
+            0   X   0   -1
+            0   0   0   0
+
+    - Finally, for the 3rd iteration, our calculation for (3,2) would look something like this:
+
+            U3(3,2) = R(3,2) + 0.9 * max({T(s,a,s') * U1(s'), s'})
+                = 0 + 0.9 * max(R: 0.8(-1) + 0.1(0) + 0.1(0.72)
+                                U: 0.8(0.72) + 0.1(0) + 0.1(-1)
+                                D: 0.8(0) + 0.1 (0) + 0.1(-1)
+                                L: 0.8(0) + 0.1(0) + 0.1(0.072))
+                = 0.9 * max(-0.728, 0.476, -0.1, 0.072)
+                = 0.9 * 0.476
+                = 0.428 = ~0.43
+        
+        - Calculating the rest of these, we'd end up with a T=3 map of utilities like this:
+
+            0  0.52 0.78 1
+            0   X   0.43 -1
+            0   0   0   0
+
+    - ...and, if we keep carrying this out ad nauseum, we'd eventually end up with utilities continuing to spread and be refined until we get a map of the true utilities (within +/- epsilon) - great!
+
+- Alright, so that's Value Iteration! Then, once we've done all of those painstaking utility calculations, we more-or-less throw them all out to get the policy from the action associated with each state's utility (we also stored the optimal action we chose for each state)
+    - This seemed a bit wasteful to some people, so we'll go over an alternate algorithm used to try and go straight for the policies...but that's for next time.
+

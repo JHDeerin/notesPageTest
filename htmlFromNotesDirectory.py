@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import sys
 import ntpath
 import os
+import shutil
 import htmlFromTxtNotes
 import re
 
@@ -101,8 +102,10 @@ def setupHtmlHeaderLinks(outputDirectoryName, noteTitles):
 
     print("All header links setup successfully!")
 
-def createHtmlFromNotesDir(htmlBaseFileName, directoryPath,
-        outputDirectoryName='notesToHtmlOutput'):
+def createHtmlFromNotesDir(htmlBaseFileName, 
+                           directoryPath,
+                           outputDirectoryName='notesToHtmlOutput',
+                           rawNotesDirectoryName='rawNotes'):
     '''
     Creates HTML files based on the .txt files found in the given directoryPath,
     using the base file as a template; all output files placed in the given
@@ -120,12 +123,23 @@ def createHtmlFromNotesDir(htmlBaseFileName, directoryPath,
     print('Converting .txt files...')
 
     txtNoteTitles = []
+    # Setup directories for HTML output and copying raw notes
     if not os.path.exists(outputDirectoryName):
         os.makedirs(outputDirectoryName)
+    rawNotesDirectoryName += '/' + outputDirectoryName
+    if not os.path.exists(rawNotesDirectoryName):
+        os.makedirs(rawNotesDirectoryName)
     outputDirectoryName += '/'
+    rawNotesDirectoryName += '/'
+
     for filename in filesInDirectory:
+        # Check if file is an actual notes file
         if filename.endswith('.txt'):
             notesFilename = os.path.join(directoryPath, filename)
+
+            # Create copy of the raw notes for GitHub
+            shutil.copy2(notesFilename, rawNotesDirectoryName)
+
             htmlFromTxtNotes.createHtmlFromTxt(htmlBaseFileName, notesFilename, outputDirectoryName)
             txtNoteTitles.append( getTitleOfNoteFile(notesFilename) )
 

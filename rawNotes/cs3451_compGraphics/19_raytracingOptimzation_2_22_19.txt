@@ -1,0 +1,113 @@
+//****************************************************************************//
+//************* Raytracing Optimization - February 22nd, 2019 ***************//
+//**************************************************************************//
+
+- So, we have the gift of a midterm bestowed on us this Monday, the 25th - it's open note/open-book, calculators are allowed (though you probably won't need it), and it'll be online, so BRING YOUR LAPTOP!!!
+    - The test will start promptly at 12:20, and will be cut off at 1:10
+    - Basically the only restriction is that, while you can use notes on your computer, you can't look up resources online during the test
+        - What're the test topics?
+            - Look at the reading list; we won't talk about radiometry or curves, but everything else on there is something we've discussed
+                - For reference, here's the said list:
+                    - Pixels / display technologies (LCD, E-ink, etc.)
+                    - Matrix / vector basics 
+                    - Transformations and the matrix stack
+                    - Viewing and projection transformations
+                    - Rotation in 2D / 3D
+                    - Lines and rasterization
+                    - Hidden surfaces
+                    - Color, lighting and shading
+                    - Ray tracing
+            - Content from the previous lecture, and today's lecture, won't be on the midterm; everything else is fair game
+--------------------------------------------------------------
+
+- So, we've been talking about raytracing, but let's say we want to add a brand new primitive/shape; what do we need to do to render that shape?
+    - First, we need to intersect a ray with the object's surface
+    - From there, we need to return the intersection point and the surface normal of where we hit
+    - Then, at last, we return the bounding box for the object
+        - Why is this important? We'll explain that in due time (i.e. 20 minutes)
+
+- Some objects are easy to raytrace: spheres, triangles/polygons, and cylinders are pretty quick to render, boxes and ellipsoids aren't too bad...but there are others where the story isn't as nice
+    - Toruses take MUCH longer than normal; instead of having to solve a quadratic equation to find the intersection point, we have to solve a quartic one, which makes it far slower to render than, say, a sphere
+        - Other objects that take awhile to raytrace include:
+            - Subdivided surfaces
+            - Cubic paths/curves
+            - Fractals
+            - "Blobby spheres" (or "metaballs")
+            - Collections of polygons
+                - "What? Aren't polygons supposed to be fast?" Well, each individual polygon might be quick, but anything in large groups can take awhile
+
+- So, if we want to make industrial-strength raytracer, how do we deal with these slow-to-raytrace objects efficiently? We can't just ban them from existence!
+    - Let's remember our raytracing loop:
+
+            for each pixel:
+                create ray through pixel
+                for each object in scene:
+                    intersect ray with object
+
+        - This loop is the source of all our slowness; Z-buffering only checks the intersection for the current object for all the pixels that might be rasterized, but with ray-tracing, we have to check ALL of the objects for each pixel!
+    - So, how can we check all our objects more efficiently? Fortunately, this question has been around for awhile, and there're a number of techniques we can try
+
+- First off, we can surround each of our objects in an invisible BOUNDING BOX; this way, instead of trying to solve a complicated object's equation just to figure out if our ray's near it or not, we can just check against all the easy-to-calculate bounding boxes FIRST
+    - If our ray doesn't hit an object's bounding box, then we know it won't hit the object itself, so we can skip it!
+        - Otherwise, if it does hit the bounding box, we'll just calculate the object's intersection like normal
+    - More generally, we don't HAVE to use a box; any simplified "bounding volume," like a cylinder or sphere or ellipsoid, can be used
+        - Ideally, we want to use the fast primitive closest in shape to our object to avoid "false positives," where the ray hits an object's bounding box but not the object itself (e.g. ray goes through the hole of a donut)
+
+- So, bounding volumes let us speed up raytracing by skipping ONE object - but what if we have multiple objects, all of them complex to raytrace?
+    - Well, if we have a group of complex objects (e.g. a bicycle chain,) we can surround all of their bounding volumes in ANOTHER big bounding volume; that way, if the box isn't hit, we can skip ALL of them!
+        - Of course, if that volume is hit, we need to open it back up and check each object's bounding box like normal
+    - What if we put this box inside another, larger box? We can keep doing that, too!
+    - We'll say this larger box is the root of a BOUNDING HIERARCHY, and is the parent of some smaller boxes "B" and "C" inside it, which are themselves parents of other boxes, which are themselves...well, you get the idea. We do this all the way until we get down to the individual bounding volumes themselves, which contain the "real" object
+        - So, if we had a chain made up of 4 toruses (tori?), each of them might have their own bounding boxes
+            - Then there might be 2 meta-boxes that each hold 2 toruses, and then an even bigger box that holds both of those, and acts as the parent, making a dependency tree like so:
+
+                                    Biggest box
+                                        / \
+                                       /   \
+                                      /     \
+                                     /       \
+                                 Big box    Big box
+                                 /   \       /    \
+                              Box   Box    Box    Box
+                               |     |      |      |
+                              Obj.  Obj.   Obj.   Obj.
+                              
+        - Even in this small case, we're now only checking our ray against at MOST 3 bounding boxes and 1 torus, which is MUCH faster than checking all 4 toruses!
+    - How do we actually do this, though? Let's take a peek at some pseudocode:
+
+            hierarchy_traverse(ray r, node n):
+                if r intersects n's bounding volume:
+                    if n is a leaf
+                        // We've reached the object itself
+                        intersect r with n's actual object
+                    else:
+                        for each child node c of n:
+                            hierarchy_traverse(r, c)
+
+        - Notice that if we don't intersect anything, we just stop traversing the tree - we're done, and can ignore everything else!
+
+- So, once we've got this bounding hierarchy tree, we can get MASSIVE speedups in rendering - but how do we construct the tree itself?
+    - There's a LOT of different opinions, but most of them fall into one of two camps:
+        - The "bottom-up" strategy
+            - Let's say we have a scene with thousands and thousands of spheres, all scattered around; for each sphere, we ask "where's the nearest un-grouped sphere?" and put them both in a bigger box
+                - Once we run out of pairs, we then do this for pairs of pairs (i.e. the next level up on the hierarchy), then pair THOSE boxes together, and so on, until we've eventually got everything contained under one giant box
+        - The "top-down" strategy
+            - Here, we start off by having one big bounding volume, covering the whole scene, and ask "how many objects are in this box?"
+                - If there's some arbitrary "n" or less objects, we say that our cube is sufficiently divided
+                - Otherwise, if there's still too many objects inside our box, we'll divide it up into evenly-sized sub-cubes (usually 8), each parented to our original "big box," and recursively do the same thing to all those sub-cubes until all of them are sufficiently small
+                    - What if objects are on the edges of these cubes? There are a few different ways to handle this, 
+            - This is probably the more common strategy today
+    - While sometimes one strategy is better than another, both of these techniques tend to give pretty similar results; creating an "optimal" tree is an NP-hard problem, but getting a good-enough tree is very doable
+
+- These are the most prominent methods for speeding up raytracing, but certainly not the only one:
+    - The GRIDS method, for instance, involves "spatially partitioning" (i.e. chopping up) our scene into a 3D grid of small, evenly spaced cells, each of which has a list of the objects inside it
+        - So, for each cell our ray passes through, we ask "are there any objects in this cell?" If there aren't, we just skip it!
+            - If there are objects in it, we check if we intersect each of the objects in that cell, and stop once we have our first "real" intersection
+        - This might seem like a lot of wasted work (all those empty cells, right?), but it lets us skip a ton of intersection-checking, which is great!
+            - We end up moving from cell-to-cell in a way very similar to our 2D line rasterization methods
+        - This method is GREAT when we have a lot of similarly-sized objects in a scene to deal with, but it doesn't work as well for scenes where the objects are at wildly different scales; large objects have to be checked entirely, while small objects all get grouped in the same cell
+    - K-D trees is another technique for splitting up the spatial search space, but we won't get into the details of them just yet
+
+- Raytracing is still slower today than rasterization, but thanks to these and other techniques it's become fast enough to be practical for many applications - and today, it dominates the special effects industry.
+
+- So, your homework is due on Saturday, and the midterm is coming up on Monday - good luck to you on both of them, and study hard!

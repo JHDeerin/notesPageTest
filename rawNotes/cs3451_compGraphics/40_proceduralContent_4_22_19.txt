@@ -1,0 +1,64 @@
+//****************************************************************************//
+//************ Procedural Content Generation - April 22nd, 2019 *************//
+//**************************************************************************//
+
+- EXAM, THIS FRIDAY, THIS ROOM, 11:20 AM!
+    - Be there, or be square (and receive a fairly large whack in the GPA-sensitive parts of your body)
+    - Again, BRING YOUR LAPTOP! Most of the exam will be on Canvas; you're allowed to use electronic notes if you have them, but you may NOT use online resources
+-----------------------------------------------
+
+- The last lecture, and the last of our topics, is going to be looking at Procedural Content Generation (or: how I learned to stop worrying and make stuff using random numbers)
+    - "If you forget EVERYTHING else from this lecture, remember: random numbers!"
+    - What is "content," though?
+        - Well, it's the "stuff" inside a video game or film, in particular the graphics, sound, story, AI, and so on
+            - Traditionally, humans have had to create all of this stuff by hand, but that can be VERY slow: for graphics in particular, we need to model every bush, tree, NPC, car, mailbox, toothless newt, bespectacled wizard, etc.
+    - If we could relieve some of this awful burden from ourselves and put it onto our computer overlords, that'd be great!
+
+- Procedural generation is used in a BUNCH of stuff, but particularly in games
+    - Minecraft is probably the most famous of these, generating all of its terrain randomly
+    - Simcity ALSO uses procedural generation to algorithmically place trees, NPCs, etc.
+        - "Simcity sucked me in about a year and a half ago, and I had to quit it cold-turkey"
+    - Spore uses PCG to generate different kinds of creatures
+
+- So, the goal of PCG is to save time by creating content using algorithms, but what does that look like?
+    - In particular, the algorithm needs to create a VARIETY of objects, with different shapes, sizes, colors and features- and to do that, we need random numbers!
+        - One of the most famous techniques for this is PERLIN NOISE, which lets us get "controlled random numbers" in the range [0, 1] by passing in a 1D, 2D, or 3D position
+            - If we change our position, though, the random value we get out changes SLOWLY, as if we were walking down a hill
+                - This makes Perlin noise great for creating textures that aren't just random "white noise", or for making hills, or anything where we need the values we get out to be related to each other
+                - A few more example applications of this noise:
+                    - Using it as a bump map (either as-is or after some processing to get different patterns)
+                    - To get "turbulence" by combining different "frequencies" of this noise (e.g. to get soap-bubble patterns, or marble textures)
+                - Ken Perlin actually received an Academy Award for this research, since his noise functions are used EVERYWHERE in films
+            - The way this function actually works is (roughly) that we pass in a seed value, get the numbers we need, and then interpolate between them
+                - We can use 3D Perlin noise as well, where we interpolate between 8 points instead of a mere 2
+
+- One common use of PCG, though, is to create terrain for games and movies (mountains, dunes, cliffs, etc.) - "But GREG," you ask, "HOW!?"
+    - Well, we can use different noise textures as heightmaps, or generate the terrain with fractals *cue examples reel*
+        - One thing missing from most of these examples is erosion from water and wind - but, as it turns out, this has been an area of research as well
+            - We can simulate water erosion by pretending that our terrain is on a grid, and that each step "rain" is deposited throughout the grid
+                - Fast-moving water will "pick up" some of the sediment from the ground, while slow-moving water will drop it back down, scooping out valleys and rivulets
+    - We might also want to allow for "user-guided terrain," where we try to give people some control
+        - Howard Zoo, a former Phd. student here at Tech, did some research on this topic some years ago, and his results managed to look pretty cool
+
+- But terrain isn't the only thing we want to make - we might also want to make PLANTS!
+    - One well-known way of doing this is using grammars, such as L-Systems (which are a context-sensitive grammar, if you're familiar with such things)
+        - A GRAMMAR (for computer science purposes) is just a set of rules where we replace something with another thing
+            - These come up a LOT in compiler design, but we can also use them for our own nefarious purposes
+        - These are rules that guide how the segments of the plant branch and grow
+            - We'll start out with a single plant segment, and then have various "rules" for what we replace each section with and how it's modified at each step
+        - These L-systems can also communicate information down the system - "Is a flower blooming? Is a hormone present?" - and so on
+            - How would we create a flower in the first place? Well, flowers typically have their petals in a spiral pattern, and it turns out you can get a pretty realistic flower by arranging them in a spiral with an angle of ~137 degrees (a number related to the golden ratio), known as the "phyllotaxis" method
+    - Where does the randomness come into grammars, then? Well, we can assign random probabilities to which rule we use, or for what the results of a rule will be (e.g. how many petals the flower has)
+
+- Can we do this for human-made objects, like buildings? As one famous builder said, YES WE CAN!
+    - We can use similar grammar systems to the ones people use for plants to modify building objects, using rules to add windows, floors, various details, modify the floorplan, etc.
+        - Another group, interested in creating a virtual Pompeii, created a grammar system that generates city plans for ancient Roman towns
+    - Just like we can make a single building, we can also generate a map of city streets!
+        - The idea here is that the user provides some information about what's in the scene: important resources, population centers, rivers and lakes, etc.
+        - From there, we can apply some grammar rules to figure out a reasonable layout of streets, fill in the blocks with building models, and so on
+            - We can allow artists to specify what directions the roads should go in, where certain buildings should be placed, etc., if we so choose (e.g. using "tensor design")
+    - If any of you have played "Cities: Skylines," we can control where some of the roads and building zones are, but the algorithms themselves control traffic patterns, individual buildings, and so on - you name it!
+
+- (There is an example of No Man's Sky's procedural generation on the screen, but I have chosen to stop taking notes. I apologize for the inconvenience)
+
+- Alright, and that's it for today - and for the class! Come to the final on Friday, but otherwise, live your lives! Carry on! You're free!

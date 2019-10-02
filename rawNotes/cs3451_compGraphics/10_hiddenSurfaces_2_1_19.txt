@@ -1,0 +1,83 @@
+//****************************************************************************//
+//****************** Hidden Surfaces - February 1st, 2019 *******************//
+//**************************************************************************//
+
+- We continue on our epic journey of drawing triangles. Repeatedly.
+----------------------------------------------------------------------
+
+- Alright, the hope for today is to wrap up polygon rasterization - and to capture your feeble attentions, here's a possible test question Professor Turk likes:
+    - "What algorithm is used to draw in your graphics card?"
+        - Rasterization by z-buffer
+        - Ray tracing
+            - "Ray tracing is a beautiful, wonderful way of doing things, but nope, it's barely used for real-time stuff right now - polygon rasterization is more efficient, so it's still the way of the world!"
+
+- So, let's keep going on our *sketchy* (HAHAHAHA -_-) journey of drawing triangles to the screen
+    - What information do we want to know for this, to draw the edges? Well...
+        - The minimum/maximum y-value (i.e. lowest point)
+        - xleft/xright (the left/right intercepts for the two edges above the lowest point)
+        - dxleft/dxright (how much are we "jumping" to the left/right for a given edge for every pixel we go up?)
+    - With that, the pseudocode for drawing our triangle looks something like this:
+
+        find ymin, ymax
+        find xleft, xright, dxleft, dxright //this sets up the two non-top edges
+        for (y = ceil(ymin); y < ymax; y++) {
+            for (x = ceil(xleft); x < xright; x++) {
+                writePixel(x, y, color)
+            }
+            // possibly swap edges if needed
+            xleft += dxleft
+            xright += dxRight
+        }
+
+- So, a few unfilled details aside, that sounds pretty good - but we have a problem. Right now, ANY polygon in our camera will be drawn, even if it's behind another object! How do we deal with this? How do we determine which surfaces are hidden and which are visible?
+    - This is known as the HIDDEN SURFACES problem, and it was a big deal back when computer graphics was getting started in the 1970s
+        - Nowadays, though, it's more-or-less a solved problem
+    - How do we begin approaching this? There're a few well-known techniques we'll talk about:
+        - Painter's algorithm
+        - Z-buffering
+        - (MUCH later) Raytracing
+            - "We used to also talk about something called BSP trees, but really, it's just a more complicated variant of the Painter's algorithm, so we'll ignore it"
+
+- First up: the Painter's algorithm!
+    - "A quick note: very few people use this algorithm anymore, since there're more effective alternatives we've figured out since"
+    - Let's say we have a cube we want to draw, with both front AND back surfaces, and we only want to draw the ones that should be visible - what'll we do?
+        - According to the painter's algorithm, we do the following:
+
+            1) Sort the polygons in order of increasing Z/depth
+                - We'll do this by just taking the centroid (i.e. average of points) of each polygon, and ordering based on the centroid's Z value
+            2) Draw polygons in back-to-front order
+
+        - This'll mean that we draw the closest polygons overtop the ones in the back, so they won't be visible!
+    - "But Greg, if the back surfaces weren't going to be drawn, isn't that wasted computation? Why didn't we just skip to drawing the visible surface?" And you're right!
+        - In SOME cases, we can figure out which surfaces aren't visible, and skip over them
+- HOWEVER, there's a serious flaw with this algorithm: it doesn't work for every case
+    - For instance, what if we have a BIG polygon whose center is farther forward than a smaller polygon in front of it? Then that small polygon will be hidden incorrectly!
+        - The BSP tree algorithm addresses this flaw
+    - What if two polygons are intersecting, so that they're both behind AND in front of each other? Then only one polygon will be drawn; that's not what we want!
+- Because this algorithm is so simple, it was used pretty frequently in the old days - but in the end, the incorrect results it gave led most people to abandon it
+
+- So, what's the new hotness that most people use today? It's a now-common technique called Z-BUFFERING
+    - Back when this was first proposed, people though that it used far too much memory to ever be practical - but of course, RAM is cheap as chips nowadays, and it's become the de-facto hidden surface algorithm for 99% of the globe
+        - The guy who originally wrote the paper for this is now one of the higher-ups at Pixar Animation
+    - How does it actually work, though? Well, here's some pseudocode:
+
+        //Setup, just drawing the background color and pretending each pixel is
+        //an infinite distance away from us
+        for every pixel (x,y):
+            writePixel(x, y, background_color)
+            writeZ(x, y, very_far_away_large_constant_value)
+
+        // Now, the real workhorse loop
+        for every polygon:
+            Figure out the pixels polygon covers using our rasterization techniques
+            for every pixel(x,y) in polygon:
+                pz = Z-value of polygon at pixel (x,y)
+                if pz >= ReadZ(x,y):
+                    // pixel is the new closest pixel!
+                    writeZ(x,y, pz)
+                    writePixel(x, y, poly_color)
+
+    - So, we just go through every PIXEL we're going to draw, figure out what the closest object *in that pixel* is, and draw that!
+        - Memory-wise, we have to hold an integer value for each pixel in the monitor, which was viewed as insane back-in-the day - but, nowadays, is perfectly reasonable
+
+- So, that's the gist of hidden surfaces, and one more step forward on our thousand-mile journey to Draw All The Best Triangles.

@@ -1,0 +1,74 @@
+//****************************************************************************//
+//********************* UML Diagrams - October 6th, 2017 ********************//
+//**************************************************************************//
+
+- Fall break begins today! Callooh! Callay!
+--------------------------------------------
+
+- So, we've made domain models; now let's talk about UML
+
+- "UML" stands for "Unified Modeling Language"
+    - In the 1990s, there were a BUNCH of different diagramming methods for OO design, like the Booch method, Rumbaugh's OMT, Jacobson's OOSE Use Cases, etc.
+    - In 1994, though, Rational Software decided that there was a market niche for a software design program - so they hired Booch, Rumbaugh, and Jacobson ("The 3 Amigos") to design a diagramming technique they could all agree on. And thus, UML was born
+        - "Nowadays, unless you're looking at REALLY old documents, all of the class diagrams you'll see are in UML"
+        - (Rational Software was really succesful, by the way - they were eventually bought by IBM, although open source design software has since become wildly popular)
+
+- There are 17 (SEVENTEEN!) different types of UML diagrams, but we're only going to focus on two: Class diagrams, and Sequence diagrams 
+
+- Classes are drawn just like in our domain model boxes; there's a box with the class name, its attributes, and methods
+    - "The point of class diagrams, basically, is for us to create the 'stubs' of all our methods and properties"
+    - ATTRIBUTES/properties are all written in the following format:
+
+        [visibility name:type]
+
+        -e.g. + studentCount : int
+            - We use a "-" sign for PRIVATE variables, and "+" for PUBLIC variables; 
+            - ADDITIONALLY, "#" means "protected", "~" means "package"
+            - "Generally, the only public stuff are static fields"
+        - Can optionally show the default value for the variable:
+            "- id:int = 5"
+    - For both attributes AND methods, we underline the name to say that it's "static"
+    - For METHODS, we typically do NOT show our getters/setters unless they're doing something unusual
+        - Methods usually follow this format:
+
+            [visibility methodName(parameters) : returnType]
+
+            -e.g. "+ getName() : String"
+        - Parameters are listed the same way as attributes 
+            - There's technically 3 kinds of parameters in UML (In, Out, InOut), but Java only supports "In" parameters, so we're just concerned with those
+                - "In" means the variable can only be passed in; "Out" means we're returning a value through that parameter (examples are refs in C#), "InOut" means we're doing both
+    - One thing that trips people up: package visibility!
+        e.g. "~ i:int"
+            - Package visiblity means we just write "int i"; we do NOT put "package" in front of the variable in Java!
+                - "Common mean test question from me, so watch out!"
+    - Another common error: in UML, the variable name comes FIRST, THEN the variable type; in Java, this is backwards!
+    - We represent ABSTRACT classes by writing the class/variable name in Italics
+        - "If you can't write in italics, like if you're prototyping on a whiteboard, then you can write {abstract} above the class name, or to the right of the variable"
+
+    - To show that something is CONSTANT (or "final"), we write at the end of the line "{readonly}"
+        - e.g. "- id:int {readonly}"
+... and that covers 99% of the important stuff for individual class diagrams!
+    - "There is some specific stuff like how to show enums, etc., but we'll get to that"
+
+- Now that we have our individual class diagrams in nice little boxes, though, how do we represent the relationships between them?
+    - "For instance, let's say we have a 'Person' class, and we want to show that the 'Student' class is a subset of 'Person'"
+        - To show inheritance, you draw an arrow FROM the subclass pointing TO the parent!
+            - "Students ALWAYS get this backwards; the arrow should be pointing TOWARDS THE PARENT CLASS!!!"
+        - To show cardinality/"has-a" relationships (e.g. if a "Car" has a "Student" property and the "Student" could own multiple "Car"s), then we'd draw a line w/o arrows with numbers on the sides showing the cardinality
+            - e.g. "1 ... owns ... *" means "1 student owns 0...infinite cars, and each car has 1 student"
+        - Our 3rd and final type of association between classes is AGGREGATION
+            - This is when something "is made up of" an object that's important for it, e.g. a "Car" has-a "Engine"
+                - Like the cardinality relationship, this usually translates to an Instance method in Java
+            - To ACTUALLY draw this, we draw an arrow FROM the component (e.g. the engine) pointing TO the aggregate (the Car); BUT, the arrowhead is a "diamond" shape, instead of a triangle
+                - This diamond could be either hollow or colored in solid; the hollow one means "Aggregation" ,the solid one means "Composition"
+                    - "Aggregation" means that the components are separate from one another; if a board game piece disappers, then the board game as a whole will still exist
+                    - "Composition" means that the object is actually PART OF the object; If the board is destroyed, then the "Squares" making up the board will ALSO be destroyed
+                        - Coding-wise, this tells us how tightly to couple these objects, as well as how to handle memory in languages w/o garbage collection
+
+- Later on in this class, we're going to talk about "Coupling", and how to decide how much objects should rely on each other. 
+    - To show that a relationship only goes 1 way (e.g. students know what Car they own, but cars don't know about what Student owns them), we draw an unclosed arrow pointing FROM the object that knows the info
+
+- For Interfaces, we show the class is an interface by writing "<<Interface>>" over the class name, just like our stereotypes in our domain model!
+    - We then show a class IMPLEMENTS the interface by drawing an arrow w/ a dashed line FROM the class implementing the interface TO the interface
+
+- There's just a few more things to go over for Class Diagrams...but we'll go over those on Wednesday. Enjoy the long weekend!

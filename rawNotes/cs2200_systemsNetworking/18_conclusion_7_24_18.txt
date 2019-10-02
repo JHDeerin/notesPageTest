@@ -1,0 +1,58 @@
+//****************************************************************************//
+//*************** Concluding Remarks - July 24th, 2018 **********************//
+//**************************************************************************//
+
+- The last 2200 lecture of all...*sniffle*
+- So, the agenda for today should be short and sweet:
+    - The Internet
+    - Benchmarking
+    - Final Exam Overview
+    - CIOS
+-----------------------------------------------------
+
+- We have covered a LOT of material in this class, and it isn't trivial stuff either - but we've almost made it!
+    - Even so, you can go a LOT deeper into any of the topics introduced there - that's what many of you will be doing for your next few years in college
+    - What THIS class was focused on primarily, then, was the breadth of fundamental topics out there - how all these things come together to make up modern computers
+        - "Hopefully, the final will primarily be about these broad connections - we definitely went into depth about some stuff, and you shuoldn't forget it, but I want to test your high-level knowledge first and foremost - not your math skills"
+
+- First off, let's wrap up networking
+    - "There's a TON of stuff in chapter 13 that we sadly won't get to this semester"
+    - (Pulls up VOX article on "40 maps that explain the internet")
+        - Started off with experimental, local LAN networks on a relatively small scale; as the internet grew, large, reliable "backbone" networks were created that these sattelite LAN networks could branch off of (managed mostly by ISPs)
+    - "Again, this class is NOT the definitive 'all you ever need to know about networking' extravaganza - it's just a quick introduction to the fundamentals of these topics, (hopefully) in preparation for further study"
+
+- For the benchmarking assignment - again, COMPLETELY optional - those people will get some bonus points
+    - The choices you make for computer specs are NOT easy - it's a balancing act!
+
+- Now, what I think some people are kinda interested in...
+    - The final exam is on AUGUST 1st, 8:00am, in THIS ROOM, and will be 2 hours, 50 minutes long
+    - There will be 11 questions..,specifically, THESE questions:
+        - [Paging] Virtual Address Translation - 10 pts
+            - "This is the closest the exam will get to being cumulative - some overlap with the last test. Everything else will come from what we've been doing since."
+        - Page Replacement Policies - 10 pts
+        - [Caching] Direct-Mapped Addressing - 10 pts
+        - Associativity Level Design Tradeoffs - 5 pts
+            - "Tradeoffs" here basically means writing a paragraph-long discussion of why you might use associativity level X in a given situation, or why you'd use X instead of Y
+            - I *think* this refers to set-associativity vs single, # of entries per set, etc.?
+        - EMAT calculations - 10 pts
+        - Cache Design Tradeoffs - 10 pts
+            - Direct-mapped vs Set-associative, Write-back vs Write-through, etc.
+        - [File Systems] i-node Structure - 10 pts
+            - "The book has some pretty good sections on i-Nodes"
+        - I-node Design Tradeoffs - 5pts
+            - REMEMBER, in the book, how we historically "got" to i-nodes - why were they adopted, and what advantage did it "buy" us?
+        - [Storage] Disk Scheduling Policies
+            - Given some different policies, can you show the order they work in graphically?
+        - [Concurrency] Locking Structures - 10 pts
+            - You MUST know how pthreads works - ESPECIALLY conditional variables (waiting/signaling), locking/unlocking mutexes, and how these calls change their queues
+        - Deadlock Detection - 10 pts
+            - Given some code, will it deadlock? For a given critical section of code, is there any way both threads could get into that section at the same time? If there is a problem, is there a way to fix it?
+    - "Out of these 11 questions, there's probably only 2 or 3 that aren't VERY similar to examples in the book or in your homework"
+    - The point values are ~95% set; the questions themselves, unless something extreme comes up (questions stolen, etc.), will be exactly on these topics I'm presenting here
+
+- Alright - and the CIOS!
+    - "I've really enjoyed teaching all of you this semester, I hope this class helped you to put some of the pieces together on your computing journey, and I wish you the very best in your future endeavors - but I need your help and feedback! PLEASE tell me if you liked this, didn't like that, if that topic was confusion, if you would've liked more of this, etc., so this class can be the best it can be in future semesters!"
+    - I can't *force* you to do the CIOS, but I can ABSOLUTELY bribe you
+        - 75% coverage will give EVERYONE +2 bonus points on the exam; 90% will give everyone +4 bonus points
+
+- ...annnnnnnd with that, I think we'll end about an hour early today. I'll keep having Professor office hours up until the exam, but besides that, it's been a pleasure!
