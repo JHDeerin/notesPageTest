@@ -1,0 +1,67 @@
+//****************************************************************************//
+//********** Bacon, Arguments, and Induction - August 27th, 2019 ************//
+//**************************************************************************//
+
+- Alright, our first reading quiz is today! Get out some paper and prepare thyselves!
+- Also, we do NOT have class this Thursday, so DON'T COME!
+    - The reading for next Tuesday is really interesting; it's difficult to read ("Not like how Aristotle's difficult to read (no one's difficult like Aristotle to read)"), but some interesting ideas from Hume
+--------------------------------------------------------------------------------
+
+- Okay; now that that's done, we're going to spend today reviewing Aristotle and briefly introducing logic
+
+- Last time, Aristotle claimed that "proper science" involved going back to our first principles we know to be true and then "demonstrating" from deductive logic further facts we can prove
+    - These demonstrations serve as both proofs and explanations of why things must be true; in his view, "science" therefore referred to the highest, most certain form of knowledge we can have
+    - We also saw that Aristotle came up with the "syllogism," with a major premise and minor premise that, if true, mean a given conclusion must also be true
+
+- Now, let's briefly pause here to introduce some terminology that's going to come up again and again this semester
+    - When we talk about ARGUMENTS, we don't mean people yelling at each other, but "a series of statements, one of which (the conclusion) is taken to be supported by the others (the premises)"
+    - There are two main classes of arguments:
+        - DEDUCTIVELY VALID means it is not possible for the conclusion to be false if the premises are true; if the premises are correct, then the conclusion HAS to be true!
+        - A deductively INVALID argument, though, isn't airtight; the premises can be true
+            - For example,
+
+                1. If Australia is a continent, then the earth is flat
+                2. Australia is a continent
+                3. Therefore, the earth is flat
+
+            - This IS a deductively valid argument, but it isn't SOUND because the 1st premise isn't true; Australia being a continent has NOTHING to do with the earth being 
+                - So, an UNSOUND argument is one that has an untrue premise
+    - The 2 most fundamental forms of valid deductive arguments are:
+        - MODUS PONENS: if p then q, p, therefore q
+        - MODUS TOLLENS: if p then q, but not q, therefore also not p
+            - As an example,
+
+                1. If Russell goes to the bar, he'll get drunk
+                2. If Russell gets drunk, he'll try to impress the bartender
+                3. Russell does not try to impress the bartender
+                4. Therefore, Russell did not get drunk
+                5. Therefore, Russell did not go to the bar
+
+            - This IS valid, and is a combination of both types of argument
+            - Another example:
+
+                1. If Russell goes to the bar, he'll get drunk
+                2. Russell gets drunk
+                3. Therefore, Russell went to the bar
+
+            - This is NOT valid, since the 1st premise doesn't say Russell ONLY can get drunk at the bar; he could've gotten drunk somewhere else!
+    - So, for Aristotle, arguments are 
+
+- Alright - we now skip 2000 years into the future to meet the wonderfully named FRANCIS BACON (1561 - 1626)
+    - Bacon was born in London and worked as a successful lawyer, politician, and philosopher, and wrote one of the most influential early models of the scientific method in his "Novum Organum" ("The New Tool")
+        - For 2000 years, Aristotle's philosophy had pervaded all of Europe - but now, thanks to Bacon (and others liek Descartes and Galileo), it began to be replaced
+            - 1) What's Bacon's critique of the "old" Aristotelian method? What's his new method?
+                - Axiom 19 suggests that this method "jumps" to conclusions and axioms too quickly, "anticipating" them rather than "interpreting" the facts we know
+                - Axiom 12 also points out that deductive logic is poor at discovering new ideas; we can only "discover" things the premises already allow for
+                - Bacon also thinks this line of reasoning is particularly susceptible to reinforcing errors; we never question the first premises we start from, and don't have a good way to critique them!
+                - In 13 and 14, he also seems to suggest language isn't great at representing ideas, and that therefore "true inductions" are needed
+            - 2) Explain Bacon's "idols;" what are the 4 different kinds, and why do you think he introduces them?
+                - As my table said, "mankind sucks (Idols of the tribe, human biases), you suck (Idols of the cave, personal biases), the words we use suck (Idols of the marketplace, communication and false agreement and limitations/biases of language), and previous science also sucks (Idols of the Theatre, influence of preexisting ideas, models, fashionable ieas, etc.)"
+                    - Limitations of language are particularly relevant; different cultures have totally different languages, and therew are some cultures that have entirely different ways of looking at time, direction, etc., and it's difficult to even talk about different ways of thinking!
+                - Looking at 38, and 40, it seems he introduces these both to attack the old system ("look how many ways logic can go wrong!"), and also to legitimately support his new system (by pointing stuff out that we need to be careful)
+                    - Bacon leans HEAVILY into the idea that, left to our own devices, people screw things up and go astray (e.g. 40); he was one of the first people to really emphasize biases and the need to be careful with them
+                    - In 48, for instance, Bacon talks about how the human mind deals poorly with infinity and ends, times before/after we die, etc.
+        - Now, this all seems like really good stuff to our modern ears, but when you look at what Bacon has to say about induction itself, it really isn't all that much; he doesn't have a clear description about how it's supposed to work
+            - Another thing we'll talk a LOT more about later this semester: now that we know about these biases, how can we avoid them? Can we? Should we?
+
+- Alright, DON'T COME TO CLASS ON THURSDAY, and return prepared for Tuesday!

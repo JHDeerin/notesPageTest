@@ -1,0 +1,79 @@
+//****************************************************************************//
+//***************** Frames (cont.) - August 28th, 2019 **********************//
+//**************************************************************************//
+
+- Last lecture, we talked very briefly about the Eliza system from the 1960s, so here's a video of it talking; it doesn't understand ANYTHING the person is talking about, it just rephrases everything they say into a grammatically-correct question
+    - This was the early stage of AI, so how DO we get robots to understand?
+    - Today, a variety of methods are used together, and frames are VERY commonly used as one piece in the system
+- A few housekeeping things:
+    - There's a basic survey on Canvas; PLEASE fill it out so that we can get to know your class better, and so we can make this class itself better
+    - Office hours should now be posted on the updated syllabus/Piazza; if you have questions about the first assignment, ask us!
+
+- Okay, I think most of you have read assignment 1, but not many of you have completed it, yes? It is due THIS 
+    - Question about being confused about where to start; remember, Assignment 1 is meant to help you complete Project 1, so try reading the Project 1 description BEFORE you start writing Assignment 1 to get an idea of how much detail you need to go into, what the project constraints are, etc.
+        - 
+--------------------------------------------------------------------------------
+
+- So, we talked about frames and how they represent stereotypes, provide default values for our conceptions, and they can use inheritance
+    - Because of these stereotypes and default values, we can make inferences; if we saw the someone was eating almonds, we might infer that they enjoy eating almonds!
+        - However, as we all know, stereotypes can result in us making errors. So if we can't make an optimal problem, here's a question: should we make robots that make the same types of errors we do? Is it okay for us to put it on the market knowing it will frequently make mistakes? Is it okay if they learn to self-correct?
+        - Right now, it seems more likely that we can't buy an "adult" robot outright, but a "toddler" that will grow up relatively quickly
+
+- One example of things that frames can do: we can represent our Maven's matrices problems using frames!
+    - "Something I'll repeat many times: there's a growing belief (not fact yet) that humans are the only known creature capable of reasoning about relationships"
+    - For instance, let's suppose we have this image of a circle "Y" inside a triangle "X", below a small filled circle "Z"
+
+            *
+              /\
+             /O \
+            ------
+
+    - How many of you think we think in English? What about bilingual people; you think in both languages sometimes, right?
+        - We're going to make a bold proposal: that people do NOT actually think in languages, but instead in terms of frame-like relationships, regardless of whether they're English or Japanese or Hindi or what-have-you
+            - So, under this view, a "thought" is perhaps when we take an input sentence and translate it into a filled-in frame, or when we turn one of these frames into a sentence
+            - If a machine can think like this, then, could it also say "I think, therefore I am?"
+    - So, translating this diagram into frames would look something like this:
+
+            Shape                   Shape                   Shape
+                name: x                 name: y                 name: z
+                shape: triangle         shape: circle           shape: circle
+                size: large             size: medium            size: small
+                fill: false             fill: false             fill: true
+                inside:                 inside: Shape(x)        inside: 
+                above:                  above:                  above: Shape(x)
+
+        - Similarly, we can now understand complex stories using frames!
+            - Consider the following story about an earthquake: "Today, and extremely serious earthquake of magnitude 8.5 hit Lower Slabovia, killing 25 people and causing $500 million in damage. The President of Lower Slabovia said the hard-hit area near the Sadie Hawkins fault has been a danger zone for years."
+                - We might end up with a frame like this from this story:
+
+                    Earthquake
+                        day: Today
+                        location: Lower Slabovia
+                        damage: $500 million
+                        fatalities: 25
+                        faultline: Sadie Hawkins
+                        magnitude: 8.5
+                        time:
+                        type:
+                        duration:
+
+                - So, here we're trying to move from sentence-level understanding to discourse-level understanding; at first, the agent will read sentence-by-sentence, word-by-word (e.g. it'sll pull up a frame for "today," "earthquake", "hit", "killing", and so on), and then do the same thing for the second sentence.
+                    - How do we know the earthquake is the main point of this story, instead of, say, Sadie Hawkins? We'll get into some of the details of HOW we do this a little later (architecture, etc.), but it is worth pointing out that frames are somewhat limited because of things like this
+                        - "This is a hard task because we're really trying to do 2 or 3 things all at once; we're inventing a language for describing things (i.e. frames), and a theory for how to use that language to think and do things. Right now, we're just discussing the language; we'll get to the theory later"
+
+- So, that finishes our introduction to frames; NOW, we'll get into SEMANTIC NETWORKS (occasionally referred to as "knowledge drops")
+    - Earlier, we asked what it meant to say we "understand" something, and we pragmatically said understanding something meant being able to draw the correct inferences
+        - We might also say that "meaning" involves the evocation of related concepts; for instance, if you read the sentence "Ashok wanted to get rich, so he grabbed a gun to...", you might immediately start thinking about robbing someone, even though that's never mentioned!
+    - Frames and semantic networks are VERY related, but they do have some important differences
+
+- What ARE semantic networks, though?
+    - Let's say we have another Raven's matrix problem, with two boxes: a left one with two nested circles, and the right one with only a single large circle left
+        - We might represent the shapes' relationships, and how they change from the 1st image to the 2nd, with a semantic network like this:
+
+            u----unchanged----u
+            |
+            inside
+            |
+            v-----deleted-----v
+
+- "Alright, I still have 30 seconds of your time, but I think I'll let go of it; see you on Friday!"

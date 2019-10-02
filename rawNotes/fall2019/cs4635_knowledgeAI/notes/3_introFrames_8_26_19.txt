@@ -1,0 +1,99 @@
+//****************************************************************************//
+//************** Introduction to Frames - August 26th, 2019 *****************//
+//**************************************************************************//
+
+- ...annnnd my laptop isn't going to sleep when I close the lid :(
+- So, we'll start off today by watching a Business Insider interview of "Sophia", the "world's first robotic citizen"
+    - "So, Sophia is an AI robot with a robotic face, and she has apparently been granted citizenship in some countries - but she isn't really intelligent! Many of her answers have been pre-programmed"
+        - One side thing to note: why are many robot AI projects given feminine names? Is there a gender bias here? Would Sophia have been givien citizenship if "she" was named Sean instead
+    - An interesting thing to notice, though, is that she APPEARS intelligent for the same reason an earlier program called ELIZA appeared intelligent in 1965: it takes the sentences that you utter and rephrases them as interrogative questions. "I'm feeling sad today, Eliza" becomes "Why are you feeling sad, Ashok?"
+        - This appears intelligent to us psychologically, but we know it's not doing anything of the sort!
+- So, we come back to this question: what does it mean to be intelligent, for a robot to "understand" what we're saying?
+    - It may appear that we're doing psychology in this class, because we're asking these sorts of questions, but that's because we're trying to build human-like AIs! We're really doing AI work, but we're asking these types of questions to try and get closer to how humans do these things
+    - Why build human AIs at all? Because we're a good model of intelligence, to be sure; but also because there's something captivating about the idea of working with robots that understand us, that are like us
+        - So, we're simultanoeusly building theories of how humans work AND building AIs based on those theories, despite 
+--------------------------------------------------------------------------------
+
+- So, we're going to be very bold in this class and propose some theories of understanding - an imperfect one, to be sure, but it hopefully captures at least some aspects of understanding we consider important
+
+- Last class, we noted that we can use "common-sense" reasoning to infer non-stated information about the sentence "Ashok ate a frog" - we knew that the frog was now in Ashok's stomach, the frog was likely dead, etc.
+    - How did we figure this out? Because we know from experience that there are some things that ALL acts of eating have in common: there's a subject that we ate, a place/time we ate it, a utensil we used to eat it, and so forth
+        - So, we might have a partial list in our heads of what eating entails; this list might vary from person-to-person and culture-to-culture, but look something like this:
+
+            Ate
+                subject: Ashok
+                object: A Frog
+                location: ?
+                time : ?
+                utensils: ?
+                object-alive: false
+                object-is: in-subject
+                subject-mood: happy
+
+- This sort of structure is called a mental FRAME, where each concept in our head has "slots" of items we associate with that concept and "fillers" for the current values of those attributes
+    - There may be default "fillers" we assume are typical; for instance, in the West, we might assume when someone offers to give us a "ride" that they mean giving us a ride in a car, or even a more specific variety like a "4-seat sedan"
+        - The fillers may vary ENORMOUSLY from culture to culture; in Eastern cultures the default utensil might be a chopstick, or we may assume a default "chair" object has 4 legs
+            - Notice here that this structure might allow us to be creative! If we encounter the sentence "The copy machine ate my paper", we can infer the subject is the "machine" and the object is the "paper"
+    - Notice, too, that not all of these slots will be filled by default; we don't know what the subject is right away
+- Once we have a frame, though, we can understand MANY different occurrences of this concept in sentence; for instance, the frame for "David ate my pizza at home" could look like:
+
+        Ate
+            subject: David
+            object: my pizza
+            location: at home
+            time : ?
+            utensils: ?
+            object-alive: false
+            object-is: in-subject
+            subject-mood: happy
+
+    - Siri and Alexa, for instance, both use frame-like systems that anticipate what sort of question you're going to ask. Why do they not give us good answers all the time, then? That happens when they either don't have a frame for what you're asking OR when there's too much ambiguity to decide which frame is appropriate
+        - In humans, under this theory, we may have thousands of frames that we've learned over time
+        - Currently, there's no AI system that can learn an arbitrary frame from an arbitrary word from scratch; it's a surprisingly difficult problem. How can we decide the meaning of a word from context? 
+
+- For a more complex sentence, more and more of these things might be filled up
+    - For instance, the sentence "Angela ate lasagna with her dad last night at Olive Garden" would be a bottom-up input sentence that, when we pull a top-down frame "ate" to use, would give us:
+
+        Ate
+            subject: Angela
+            object: lasagna
+            location: Olive Garden
+            time : last night
+            utensils: ?
+            object-alive: false
+            object-is: in-subject
+            subject-mood: happy
+
+    - How do we know "with" here means she was present with her Dad, instead of, say, using "Dad" as a utensil to eat the lasagna with? How do we deal with grammar errors in sentences? What do we do with extraneous information? Hold on to that thought for later...
+
+- One important thing is that we can COMBINE frames
+    - For instance, instead of just having the word "Angela" for our subject, we might have a "Person" frame like:
+
+        Person
+            name: Angela
+            surname: Smith
+
+    - And for "location", we could have a "Restaurant" frame filled with information like:
+
+        Restaurant
+            name: Olive Garden
+            location: Atlanta
+            price-range: $5
+
+- So, once we here a sentence like this, we'll do bottom-up processing to understand the parts of the sentence: the subject, the object, and so on. But then we'll try to find all of these parts of speech in our memories, and it turns into top-down processing
+    - For instance, we might realize we know Angela from a previous meeting, we know she lives in Atlanta and can infer that the location is the Olive Garden near her house, and from that we can infer it was probably hot outside, and so on
+        - This process is iterative: we pull out a word using bottom-up processing, get that frame using top-down processing, then do bottom-up processing on the sentence to get the information we need to fill for that frame (subject, object, location, etc.), do top-down processing to get the frames for each of those pieces, etc.
+
+- Notice here that this process is both data-driven (bottom-up), like machine learning, AND knowledge-driven (top-down)
+
+- So, frames what are the key properties of frames?
+    - First off, notice that frames basically represent stereotypes we have about the world - we EXPECT certain things to have certain properties
+        - This IS useful, because it's economical! It means we can make decisions quickly using our past knowledge without having to re-think through everything
+        - Obviously, though, our stereotypes aren't always correct! Moreover, stereotypes vary enormously from culture-to-culture; whose stereotypes should we use as the "default"? India's? The United States's? A mix of cultures?
+            - This is where the line between ethics and research blurs a bit
+            - Does this mean robots could end up having a bunch of different cultures, too? Different languages, beliefs, ages, classes, and so forth? Will robots inherit their researchers' stereotypes, or create something new? Or is this all just pie-in-the-sky stuff
+    - Frames also have default values for their properties
+    - Finally, notice that frames exhibit inheritance - they can have specific 
+        - If this sounds like object-oriented programming, great! It SHOULD sound similar!
+
+- Okay, we'll continue going over this on Wednesday!

@@ -1,0 +1,87 @@
+//****************************************************************************//
+//******* Testing, Ensembles, and Decision Trees - September 12th, 2019 *****//
+//**************************************************************************//
+
+- Remember: Professor Byrd won't be here next week, so there'll be a guest lecturer
+--------------------------------------------------------------------------------
+
+- Alright, today we'll talk about everything you need to know to finish project 3, with bootstrap testing and decision trees and the like
+
+- Okay; last time, we asked a question: how do we test an iterative learning model?
+    - How about this: we'll split our training into "epochs," and do some testing after each epoch (I believe?)
+    - Well, we now need to split our testing data into two pieces:
+        - A TESTING set we never let the learner train on, for final performance testing at the end of things
+        - A VALIDATION set we use to train our model on, and decide when to stop training (since, after a certain point, performance will start getting worse)
+    - Why don't we use the same data for testing/validation? Because our validation data is compromised; the learner DOES learn it!
+- Now, how do we know we didn't just get lucky with our 80/20 split? How do we know our model works regardless of the dataset we choose?
+    - Well, we can do this via CROSS-VALIDATION: we split our data into "n" chunks, and we train "n" models, choosing 1 chunk in each to use as our test data instead
+        - "Leave 1 out" is a variant of this where "n" is the number of datapoints
+            - ...obviously, this is only a good option if you have a very small dataset
+    - So, if we take the "average" of all of their answers, we can get a better, less-biased estimate of how well our algorithm is working on this dataset! 
+        - ...this does NOT work for time series data, though, since it GUARANTEES most of our models end up seeing future data!
+
+- Alright: let's now talk about overfitting
+    - OVERFITTING is a ridiculously common problem where our learning gets too specific to our dataset
+        - Typically, we want to learn the underlying pattern in our dataset; instead, overfitting is when we also learn the noise in our dataset, instead of the real thing
+        - This is honestly a problem you'll see in some degree in almost all projects and papers, since it's very easy to slip under the radar
+    - How do we detect this? Well, normally overfitting starts when we keep getting better at our in-sample tests but start getting WORSE at our out-of-sample tests
+        - We can see this by varying our hyperparameters, and stopping when our training-data tests keep improving but our validation error starts increasing
+            - Keep in mind that the length of training/number of epochs/etc. IS a hyperparameter we can choose!
+        - More simply: just choose the 
+    - Also, remember that overfitting does NOT just mean our hyperparameters are too large; depending on the model, it could be different (e.g. with KNN, the most overfitting happens at k=1)
+- How do we detect underfitting? Well, this means our model can't match the data well enough, and our test results are just unacceptable - this isn't as much of a problem as overfitting, as it's pretty obvious when your model just straight-up doesn't work
+
+- Alright, now to dig into your project: how can we make learning algorithms generalize to unseen data better?
+    - One broad way is to use ENSEMBLE LEARNING, where we train multiple completely different algorithms and train them on the same data
+        - These are what win most Kaggle competitions, but they're also very slow, and for that reason rarely used in the real world
+        - The hope here is that if we train many different types of models, each with their own biases, their biases will cancel each other out, and they'll avoid overfitting
+    - So, after training all these models, we'll look at all of their answers and take either the mean (for regression) or mode (for classification) of the answers
+- In your projects, you'll be coding a version of this called BAGGING, or "BOOTSTRAP AGGREGATION"
+    - This is where we take the same model and create multiple copies (or "bags") of it
+        - Each "bag" will get "n'" samples from our training set, which we'll randomly sample with replacement
+        - Hopefully, then, the biases will cancel out and give us a better answer overall
+    - The idea of this is pretty simple!
+        - "In your homework, the coding is a little bit tricky since it needs to generalize to any learner, but the overall idea is hopefully not too bad"
+
+- Alright, let's talk about decision trees!
+    - "If you've taken any sort of AI course before, you probably learned the ID-3 algorithm"
+    - DECISION TREES are essentially fancy flowcharts that we build; we start by asking different questions at the top ("What type of food is it? Is the Restaurant expensive?"), and depending on our answers we take a different path down the tree
+        - Once we reach the bottom, there should be an answer to our question!
+    - So, these are easy to use once we have the tree, but how do we build these things in the first place?
+        - Basically, we put all of our data/questions into the root node, and then try to decide "okay, for my first question, which question gives the most information?"
+            - In ID-3, this is done based on information gain, and seeing which question reduces the uncertainty in the dataset to 0
+        - Once we decide on the question, we put all the possible answers down as nodes, then recursively do the same process for each node if we have multiple possible answers for each one
+    - So, what're some limitations of it (and ID-3 in particular)?
+        - First of all, ID-3 can only have a binary answer for each branch
+            - e.g. "Is this Italian food?", "Is this >= $5.00?", are each questions with a yes/no answer
+        - Second, this can only sort on categorical, discrete 
+        - Finally, for ALL this is a GREEDY algorithm, so it is NOT guaranteed to produce an optimal tree
+            - In fact, doing this is an NP-complete problem!
+- So, for this assignment, you'll be implementing ID-3 with a few modifications, since stock data is continuous
+    - Note that the assignment gives you pseudocode for this; USE IT!
+    - So, what changed are we doing?
+        - Instead of information gain, we'll say the best feature is the absolute correlation coefficient it has with the data; this is just "r"!
+            - So, just compute the correlation coefficient of the output "y" using each feature as an "x" for all the remaining datapoints in the leaf we're splitting 
+        - Secondly, since the features/inputs are continuous, we need to find a "split value" to get different categories
+            - For now, we'll just use the median value of the selected feature as a split (less-than goes left, greater than goes right)
+        - Finally, we need to know when to stop, since it would take a VERY long time to get all of our leaves with a single datapoint/answer
+            - You could do this by specifying a maximum tree depth, and stopping if the tree gets deeper than that
+            - Alternatively, you could specify a "max laf depth"
+            - You should also avoid splitting if all the X's would fall on one side of the split (i.e. all the data points are in the same category), or if all the Ys are in the same category
+                - If your leaf still has multiple answers when you're done, do the same thing we did in ensemble learning: take the mean or the mode and return that!
+
+- Now, algorithmically a decision tree is a directed-acyclic graph (DAG)
+    - A typical OOP-implementation of this tree would have nodes and links all that good stuff
+    - To work better with numpy, though, you'll instead build a TABULAR version of this tree in a numpy array!
+        - The basic way we'll do this is that we'll have a row for each node, with its left/right children specified as an offset (e.g. "my left child is 3 rows down from me")
+        - Where are the Y-values in this for our leaves? Well, we'll just reuse the "split-value", and for all our leaves have the split-factor be "Null"/"NaN"
+            - "...this might sound complicated, but it makes a lot more sense once you start getting into it"
+
+- Okay; the final part of your project is RANDOM TREES, and it's a lot simpler than you think!
+    - Imagine back to ensemble learners, and imagine that we make a bunch of decision trees COMPLETELY randomly - but if we do a BUNCH of them and don't give them a maximum depth, then all of these horribly-overfit trees can actually give us some pretty great results!
+        - So, we build this the same way as a regular decision tree, except that instead of calculating a split feature we choose one COMPLETELY randomly, and then choose two random different datapoints and make our split value their average
+            - For this project, after 10 tries just make it a leaf and stop
+    - "Most of this code will be the same as your regular decision tree, you're just changing"
+        - Your "forest," then, will just be using your "bagging" algorithm on these random trees!
+
+- Plan to spend a LOT of time on this project, since it's the first real "weed-out" project of the course. Good luck on it, and I'll see you - well, not next week, but soon!

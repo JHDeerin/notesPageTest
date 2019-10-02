@@ -1,0 +1,55 @@
+//****************************************************************************//
+//****************** First Day - August 19th, 2019 **************************//
+//**************************************************************************//
+
+- Alright, this is a well-filled room of computational-looking humans
+    - ...and yet, two minutes before the scheduled initiation of our pedagogical rites, none of those humans is our Professor
+- BUT, with 1 minute to spare, an official-looking older gentleman makes his way to the lectern!
+    - And, 2 minutes past our scheduled time, he begins to speak
+--------------------------------------------------------------------------------
+
+- Alright, a very-micless Professor Frank Dellaert has taken his rightful place at the front of the room!
+    - Assisting him will be the head TA, Cusuh Ham, along with 8 other TAs
+- So, this is the undergraduate section of COMPUTER VISION, which you're probably aware is a HUGE field of AI research right now (and a rather handsomely compensated one in industry, too)
+    - So, Professor Dellaert was born in Belgium ("NOT Germany, despite the accent - they invaded our country twice!"), started out getting a degree in EE before getting his CS Phd. from Carnegie Mellon in 2001 and moving to the Tech faculty ever since
+        - "There's a slight chance I'll be teaching Computational Photography in Barcelona next year, which just sounds like bliss"
+        - Another cool thing is that Professor Dellaert accidentally invented a widely-used algorithm while procrastinating on his Phd. thesis, called Monte Carlo Localization ("It started out as avoiding work and ended up turning into its own paper")
+            - *spends a few minutes showing off stuff his doctoral students have done, like the 3D reconstruction of cities from Google Image photos*
+        - He also took a sabbatical and worked at a company called Skydio, making drones that can follow people through any environment, even forests with tons of obstacles ("it's basically a toy for rich people")
+            - One of the things that makes Silicon Valley, well, Silicon Valley is that there's a TON of mobility between companies, and so he also did some cool computer vision stuff for Facebook while he was out there (not all of which he could talk about)
+                - "Why Facebook? Because they're using computer vision to violate your privacy every day!"
+- So, hopefully from all those examples I've convinced you that computer vision has a TON of applications, and can actually be really, really cool
+
+- That's the introduction, but now let's talk a bit more about syllabus-related stuff
+    - This year, we're revamping all of our projects from last year because something AWESOME happened back in 2012: there was a conference in Florence, and a new algorithm beat ALL existing benchmarks not by 1% or 2%, but a whole 7%!
+        - As you might've guessed, that's when DEEP LEARNING invaded the field, and it's become an integral tool in computer vision over the last few years
+        - So, because of how quickly this has become important, we've started injecting some deep learning stuff into most of these projects
+    - However, our textbook is from 2011, meaning it has NO deep learning content; that being said, it's a really good book; it's ALSO available via PDF for free!
+        - I'd HIGHLY recommend reading the chapters before coming to lecture; it's not mandatory, but I've found it extremely helpful in my own college career
+    - There'll be 6 projects, with about 2 weeks to finish each one; there'll also be a midterm and a final
+        - We'll be using linear algebra a LOT - not super-complicated linear algebra, but the basic stuff (plus a few more advanced algorithms like SVD) - "examine your inner self and make sure you're prepared for that"
+    - Grading-wise, the breakdown is HEAVILY project based:
+        - 75% projects (each equally weighted)
+            - From industry, Professor Dellaert STRONGLY believes in unit testing, so for each project your code will have to pass two tests: public tests that we give you, and then some additional tests/data sets only available to the graders
+            - "Our late policy is 25% loss for each day you're late, to 'encourage' handing things in on-time"
+        - 10% midterm
+        - 10% final
+        - 5% participation (largely based on Piazza activity)
+            - "...I can see the Piazza thing caused some anxiety, and with 250 of you it's difficult to take attendance"
+    - Assignments will be handed in via Canvas, while feedback will be given on Gradescope
+
+- So, what're these projects? Let's take a look!
+    - Project 1 will involve "unmixing" a combined image of a cat/dog using fourier analysis and high/low-pass filtering
+    - Project 2 will involve doing feature matching
+    - Project 5 will be an object recognition algorithm that does NOT use deep learning, but instead a "bag of words" approach
+        - This approach is actually still better than deep learning in some domains
+
+- ...and, with 15 minutes left, here's a question that's probably important to answer: what IS computer vision?
+    - Well, computer graphics is where we turn models into images, and computation photography is just mapping images to new images
+        - There's a little bit of both of those in this class, but not very much
+    - COMPUTER VISION, though, is where we turn images into models; we're trying to take 2D photos of an environment and extract as much information about that environment as we can
+        - In general, we're trying to make computers understand images, video, or any other visual data
+            - This comes naturally to us, but it's classically been a MASSIVELY difficult problem
+
+- So, as we wrap up today, I'll ask you to read Chapter 1 of our textbook introducing what this field really is and just how difficult it's been
+    - In the meantime, see you on Wednesday

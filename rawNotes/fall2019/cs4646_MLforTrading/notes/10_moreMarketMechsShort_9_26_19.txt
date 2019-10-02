@@ -1,0 +1,71 @@
+//****************************************************************************//
+//***** Market Mechanics (cont). / Stock Shorts - September 26th, 2019 ******//
+//**************************************************************************//
+
+- "If I look a little tired today, folks, it's because today is the deadline for a European AI conference that I'm publishing 3 papers at - so apologies if I seem a little less perky than normal"
+    - For Project 4, there shouldn't be all that much hidden; it's generally an easier project than normal, but it can be a bit confusing (since you're generating and storing a dataset, not coding)
+--------------------------------------------------------------------------------
+
+- Alright, we'll talk today about short-selling, leverage, and trading on margin, and some other stuff that advanced traders have to worry about
+    - If we have time, we'll then start talking about investment funds, and why you might want to deal with them instead of buying stocks yourself
+
+- Alright, last time we spent a lot of time talking about opening/closing auctions for stocks
+    - These time periods are also when the highest volumes of trades are going through, which often means they're when the best prices can be found and when large volumes of trades will least affect the price
+
+- There are a few other broker orders:
+    - ALL OR NONE is a type of order that says "I only want you to execute when you can do EVERYTHING at once (e.g. don't trade until I can get 1000 shares of IBM all in one go)"
+        - So, there's no partial execution here, but it sticks around if it's not immediately fulfilled
+        - FILL OR KILL is an all-or-none order that does NOT wait to be fulfilled (if it can't execute immediately, it just stops right away)
+            - Remember, both of these are distinct from "Immediate or Cancel," where you can get partial numbers of shares purchased
+    - ONE CANCELS OTHER is basically a switch statement around a set of other orders that says "do the first order you can, then cancel the rest"
+        - Why would you want to do this? Maybe the market's being really volatile and you don't know if the market'll go up or down, so you want to do either a STOP BUY or STOP SELL depending on which way it swings, but not both
+            - So, you do an OCO order containing both of these and let only 1 happen!
+            - "Many brokers provide APIs that let you place these trades - let me tell you, you've never known fear of bugs until an infinite loop an drain your bank account"
+    - GOOD TILL CANCELED is another order where we say we want this to last PAST the end of the day (since, usually, the order book is wiped clean after each market close)
+        - There are a few exchanges that've just started supporting this directly, but it's still early days
+
+- Finally, the confusing one: the SHORT SALE
+    - This means "hey, I think this stock is going down, which means it'd be a great time to sell - but I don't own the stock!"
+        - So, what do you do? You sell the stock EVEN THOUGH YOU DON'T OWN IT!
+            - How the heck does that work? You can't sell a sandwich you don't own, but you can for stocks? Yup!
+        - The way this works is that the number of stocks you own becomes NEGATIVE, and you then have to "rent" someone else's stock temporarily and sell it
+            - So, if I want to short 100 shares of IBM and Joe has those shares, I can tell my broker I want to short, and then the broker'll take those shares from a customer and give them an IOU behind the scenes
+            - We'll then sell those borrowed shares like normal
+        - At this point, we're in the state of "being short:" we've sold someone else's shares, gotten the money, and now we have to give our broker 100 shares back so he can give them back to Joe
+            - So, if we were right and IBM drops down to $90, and we decide that's good enough, we can buy 100 shares of IBM from literally anywhere, give it to our broker (who pays back Joe), and pocket whatever money is left over
+                - So, short-selling is backwards: we sell something to open and buy back to close our investment!
+            - The problem, of course, is when we're wrong
+    - Short sales are kinda controversial, and exchanges have occasionally banned them when stocks get particularly volatile
+        - Borrowing shares is just like borrowing money: you're essentially taking out a loan, so your broker'll charge you interest for every day you don't pay the stocks back
+        - To do any shorting, you also need a MARGIN ACCOUNT with your broker that says "hey, I trust this person to do advanced trading"
+    - Now, if we're wrong, and a stock's price goes up, things get tricky
+        - In particular, if Joe decides to sell his shares, the broker can force you to pay back the stock NOW without your permission - or, if the broker has waited too long or the stock price goes up too much, they can force you to close anyway
+            - Realistically, the way this works isn't borrowing shares from a single person, but a pool of people - and if too many people who "really" own the stock want to sell it, then that means they've got to make the shorters pay up
+                - If there literally isn't enough stock to go around, then the brokers would have to use their own money to buy stocks to send back to Joe
+            - The broker'll usually have you sign an agreement saying that they can close your short sale at any time, for any reason
+        - The other problem with shorting is that pesky interest; the longer you wait, the more you'll have to pay back
+            - This often is only a few tenths of 1%, but since it's a daily interest rate, it adds up quickly; keeping a short open for more than a few days or weeks will drain your bank account FAST
+                - "As some people say, the market can stay irrational longer than YOU can stay solvent"
+    - So, shorting creates a fundamental problem: we're doing real trades for real money with someone else's shares, and 2 people simultaneously think they own the same shares
+        - For instance, if you need 100 shares to show up to a shareholder's meeting, then Joe can't show up to the meeting while his stocks are being traded! If he had a margin account that let this happen, then he signed an agreement saying he was okay with having stock randomly pulled from his account at any time
+            - Joe IS still entitled to receive dividends from the company, though, so as long as we're shorting the stock WE need to pay Joe his cut of dividend
+    - So, short selling is the obvious way of taking advantage of a market that's about to go belly-up, but it's fraught with risks
+        - There are other ways of making money when stocks go down besides shorting, which we'll talk about later
+
+- "Also, as a side-note about the doom and gloom scenarios: don't worry about the Twitter fears where people stop selling stocks and gold jumps to a billion dollars a pound or something. If stocks ever actually become worthless and the only stuff that's trading is oil and guns, that's not just a financial crisis: that is the literal collapse of civilization. At that point, you'd have much, MUCH bigger things to worry about than how much money you put into Microsoft, because you WOULDN'T CARE; your money would literally be worthless because anyway America is on fire. That's how bad things'd have to get: the only reason stocks would completely stop trading is if something so huge happened that no one cared about money anymore."
+    - "...so, yeah. Try to keep some perspective."
+
+- Okay, let's use the last 10 minutes to start talking about leverage
+    - What is this? Well, to do this you also need to open a margin account - and once you've
+        - To determine how much you're currently "leveraged," and how much at-risk you are for the broker, there's a simple formula:
+
+                (long + short) / (long - short + cash)
+
+            - Where "long" is the value of stocks you own, "short" is the value of all the shorts you have out, and "cash" is your uninvested liquid assets
+                - In other words, this is the ratio of "at-risk" money you have on the market, to how much total money you actually have
+        - So, if you invested $10,000, you'd be 0% leveraged, since "cash" is the only thing that's gone up
+            - If you invested $5000 in Google, you'd now have $5000 of cash and $5000 in "long" investments, which'd give you a 50% leverage ratio
+            - If you then short $5000 worth of Amazon stock, you'd be at 1.0 leverage
+                - This'd normally be the max leverage you'd be allowed, not counting money you borrow from your broker
+            - If you then borrow $15,000 from your broker and invest it all in Apple, you'd have a leverage of 2.5
+        - Brokers will allow you to go up to a certain amount of leverage before - if you're too much "at risk" - they'll start giving you very serious calls

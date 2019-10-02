@@ -1,0 +1,143 @@
+//****************************************************************************//
+//**************** Pandas / Return Basics - August 27th, 2019 ***************//
+//**************************************************************************//
+
+- Okay, I apparently screwed something up when pushing to my notes repo, because it occasionally just hangs and crashes on window resizing
+    - ...and the class continues to talk
+- DON'T FORGET: Project 1 is due this coming weekend, so make sure you remember to start it within the next few days ("We do NOT take any late work!")
+    - The buffet servers should be online and login-able with your standard GT credentials
+--------------------------------------------------------------------------------
+
+- Alright, today we'll be having a tutorial on Pandas, a run-through of some common stuff you might have to do with it, and then we'll learn a little bit about time-series statistics
+    - "This isn't a very deep stats class by any means, but there is some stuff you have to know"
+
+- So, first things first: what IS "pandas"?
+    - Last time, we went over numpy, and that makes explaining this a little bit easier
+        - Think of numpy as primarily being a library for dealing with 2D/3D/etc. arrays and matrices
+        - All pandas is, really, is just a fancy indexing system into these numpy arrays!
+            - Under the hood, "dataframes" in Pandas store everything in numpy
+            arrays anyway
+    - What's the point of pandas, then? Well, 2 big things:
+        - Fancy indexing actually can be REALLY convenient! We can index things by date, by their class, by different values, and so on; this makes it pretty easy for us to get whatever data we're looking for
+            - We'll ESPECIALLY be using datetime and string indexing in this class, for getting stocks of a certain name and trades from a given time
+        - Pandas also gives us a bunch of time-series utilities that vanilla numpy doesn't give us, like rolling averages, grouping stuff by days/hours, etc. 
+            - Not every stock trades every hour of every day, meaning we'll need to handle cases when certain stocks weren't traded in the time we're looking for; pandas makes this easier
+    - Finally, pandas (as a database library) lets us do fancy database stuff like "joins," letting us combine multiple data sets without losing our minds
+
+- So, what kind of dataframes do we use in this class?
+    - For the most part, we'll be using the adjusted close prices at the end of each day for each stock we're interested in, with the close prices for various days accessed by date indices
+        - This lets us get everything in a single dataframe; if we wanted to be fancier than that, we could have a dictionary of unique dataframes for each stock, with each stock's dataframe having all the high/low/etc. goodness we'd like to know
+        - If you wanted to get even fancier, pandas supports multiple indices via tuples, meaning we could have a single dataframe with ALL this information, and we could then ask for the information we want using a tuple like ('IBM', datesList)
+
+                    APPL     IBM     GOOG   (...)
+            date1   93.1    107.2   34.8
+            date2   91.27   107.8   35.6
+            (...)
+
+- So, what's a practical example of this?
+    - In this class you don't have to write this EXACT code (beacuse we wrap it in a utility function), but let's say you have a bunch of .CSV files with dates as the first column and then stocks/closing prices as the next columns
+        - To open this up in pandas, there're a few things we need to do
+            - First, we need to import pandas:
+
+                ```python
+                import pandas as pd
+                ```
+            - Then, let's specify the date range we're interested in; let's say we're interested in the week July 1st-7th, 2011
+
+                ```
+                index = pd.date_range('2011-07-01', '2011-07-07')
+                ```
+
+            - We can create a new empty dataframe from this to contain all the data we're interested in
+
+                ```python
+                df = pd.DataFrame(index=index)
+                ```
+
+            - HOWEVER, this contains weekends and holidays, which'll probably have either null data, unchanged data, or "unofficial" trades with weird prices until the normal working week starts again - ALL of which can confuse a machine learning model we're trying to train
+                - Typically for stock prices, we're concerned about estimating the prices for the next market day, so it makes sense to get rid of weekends and holidays as a weird special case
+            - So, what's an easy way to figure out when the stock market was open just from our CSV files? Well, S&P ("Standard and Poor's") has a stock called "SPY" that ONLY trades on market days, and since it's traded VERY frequently, we can just look for the SPY stock and only include the days when it was traded!
+                - This is a bit hacky, but it works like so:
+
+                ```python
+                dfSPY = pd.read_csv("data/SPY.csv", indexcol='Date',
+                                    parse_dates=True,
+                                    use=['Date', 'AdjClose'])
+                ```
+
+            - So, we've got an empty dataframe with the dates we're interested in and a full dataframe containing every trade since January 1st, 2000; how do we put them together?
+                - ...this is where that database "join" functionality comes in handy
+                - Here, we'll make our empty "df" frame the left side of the join and the "dfSPY" frame the right side, and do it as an INNER join (i.e. the intersection of the two tables)
+                    - 'outer' means to do a union-style join, including any index that appears in either table
+                    - 'left' means keep the left table indices and add any indices from the right table that; 'right' is vice-versa
+
+                ```
+                df = df.join(dfSPY, how='inner')
+                ```
+
+            - This will get us July 1st, 5th, 6th, and 7th - which, if we check a 2011 calendar, is correct!
+        - Now, this table currently only has two columns: "date" and "AdjClose", with the SPY stock data
+            - To add a new stock to this table, let's FIRST rename the column to "SPY":
+
+                ```
+                df.rename(columns={'AdjClose': SPY})
+                ``` 
+
+            - Then, let's add the stock data for IBM:
+
+                ```
+                dfIBM = pd.read_csv()
+                df = df.join(dfIBM, how='left')
+                df.rename(columns={'AdjClose': IBM})
+                ```
+
+                - Notice here that we did a "left" join, so that we only include the dates we're interested in
+
+- So, that's neat, but that's all code you don't need to write anymore - we'll get to a more practical example in a second. But BEFORE all that, we need to talk about everyone's favorite subject: statistics!
+    - The first things we're worried about are GLOBAL STATISTICS, which are stats across ALL of our data (across ALL time, ALL stocks, etc.)
+        - This is often pretty useful, but it's less useful for stock prices; if we found the average stock price for Google since its IPO, we'd end up with ~$400, which is WAY less than its current price of ~$1150
+            - Instead, we'd probably want to limit our calculation to just a subset of the data
+    - So, a simple but VERY important idea is ROLLING (or LOCAL) statistics, where we have a "window" of the data we look at
+        - For Google, for instance, we might have a window of 20 days and take a "simple moving average," taking the mean of all the dates in the past 20 days
+            - We can then plot this average as we "slide" the window across the time series
+        - This "SMA" calculation actually does 3 things:
+            - We lose the first 20 days, so the time series will be a little bit shorter
+            - The data will become a LOT smoother, thanks to the averaging effect
+            - The data will LAG behind the current stock price; since we're weighting each of the last 20 days equally, the mean will take a little time to update
+                - To be more responsive, we could do an "exponential moving average" to weigh more recent days heavily
+                    - We could also center the window to use 10 days from the past/10 days from the future, EXCEPT that we don't know what the stock prices are 10 days in the future, so that sadly won't work
+                        - This IS valid in stuff like radio transmissions where data is buffered, though, and we can afford to wait for more data
+                    - "One common accident that happens in machine learning is that people accidentally train their AI on data from the future, and then they freak out saying 'Dave, my algorithm predicts stuff 200% better than anything else!'"
+
+- Ifd we have a time series like this, pandas actually makes it REALLY easy to calculate rolling stats!
+    - Specifically, we can do it in one line!
+
+            ```python
+            df.rolling(20).mean()
+            "            ".sum()
+            "            ".std()
+            ```
+
+        - Pandas has a few different options for dealing with the first 20 days; it might just exclude days it doesn't have data for, fill them with NaN values, or just try to estimate the est it can
+
+- Now, let's look at something pretty practical for this class: comparing different price series between stocks
+    - Let's say we wanted to compare investing in Google ($1000/stock) vs investing in LendingTree ($4/stock)
+        - Suppose each stock goes up by $1 - you made money, congratulations! However, it's clear the LC people made a LOT more money proportionally
+            - Why wouldn't we always invest in cheap little stocks, then? Because they have a tendency to go DOWN
+                - "...there're a few people who make good money in penny stocks, either by being very smart or by criminal stock manipulation. I suspect the latter is more common."
+        - So, to calculate our returns for a given day, we can use a pretty simple formula:
+
+            daily_returns[i] = price[i]/price[i-1]
+
+        - From this, we can see LC has ~1.25 return rate, while GOOG has a 1.001 return rate
+            - So, returns is a MUCH better feature to give to a learning algorithm, since it quantifies that higher percentage changes in price are better than just higher prices
+    - That's great for comparing two stocks, but the change in stock price from day-to-day is pretty small - what if I wanted to see how a single stock is doing over a long period of time?
+        - Well, we'll do a still-not-very-complicated formula called CUMULATIVE RETURN, where we assume we bought a stock, held it for a certain amount of time, and then sold it
+            - "Remember, stock prices don't actually matter until you sell; otherwise you'll get psyched up from watching CNBC over nothing"
+        - This, actually, is an even EASIER formula:
+
+            cum_return[i] = price[i]/price[initial]
+
+        - This makes it a LOT easier to compare stocks over longer periods of time; this means we can see how our strategy is doing for a given period!
+
+- Alright, there's only 2 minutes to go, so we'll count this day wrapped up - see you on Thursday!

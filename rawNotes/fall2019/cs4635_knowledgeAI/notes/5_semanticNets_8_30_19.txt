@@ -1,0 +1,71 @@
+//****************************************************************************//
+//***************** Semantic Networks - August 30th, 2019 *******************//
+//**************************************************************************//
+
+- ...welp, two weeks in and 3 minutes before we start, and the physical classroom is already thinning out ridiculously
+    - Then again, posting all of your lectures as professionally-produced online videos probably softens the blow of sleeping in
+    - ...okay, people actually are filing in now
+- "So, last time we off-handly mentioned two Alexas talking with one another; let's see the video of that in action"
+    - So, a minute into the video, you can see that Alexa really isn't that intelligent of an AI
+        - We've been asking "What is understanding? What is meaning?", because these are things AI still struggles with enormously AND they're things we really don't understand ourselves - and yet the media keeps saying that AI is going to take over the world!
+        - Look at the robots in the Georgia Tech lab, and it doesn't seem like they're going to take over the world anytime soon; "my personal feeling is that it may take several more generations before we get close to truly human-level intelligences, and some pessimists think it might never be achieved"
+    - So, what we're asking you to do in this class is really quite ambitious - we're asking you to do something even experts struggle with, so DON'T PANIC if you think these projects are hard. They are!
+        - There's been a proposal to have Jill Watson-style computers installed in the Georgia Tech dorms in several years, so that if the RA is sleeping or you can't reach a TA, you still can get answers when you need them
+--------------------------------------------------------------------------------
+
+- Now, we talked about frames as one "language" we can use to represent knowledge and thoughts - now, we're going to talk about another such knowledge representational language: semantic networks!
+    - All languages have a lexicon (i.e. vocabulary), semantics, and so on - what are these pieces for semantic networks?
+        - The lexicon of these networks are NODES representing objects/concepts, and they're structurally connected with directional links
+        - Semantically, the meaning comes from the application-specific labels we attach to these nodes and edges; for instance, a "sandwich" node might be connected to a "stomach" node by an "eating" link
+
+- Let's take a step back ,though, and ask a more general question: what makes a knowledge representation "good"? Why do we need multiple knowledge representation?
+    - Well, there are MANY different representations because it isn't clear if there's a single "type" of thinking process in our brains, or multiple different kinds that we use for different tasks - and even if it is just 1, we have many different hypotheses about how that thinking works!
+        - So, for this part of the class, we'll assume that there ARE these multiple different kinds of thinking
+            - This may be overstating our case, of course - if there are 200 languages across the world, does everyone all think differently? But if there is a single language, what do we make of certain tribes that don't have words for numbers, or that use only absolute directions? Or are those not true counter-examples because these are "learned" concepts, rather than innate to intelligence?
+        - "There's the danger that everything I say in this class is wrong, and I'll be laughed at 20 years from now"
+    - A GOOD representation, then, needs to do the following:
+        - Make relationships between concepts explicit
+        - Expose natural constraints of a problem
+            - One problem you might've seen before that makes this clear: the "9 Dots" problem, where we have 9 dots like this that we need to connect with 4 straight lines WITHOUT lifting their pen:
+
+                    *   *   *
+                    *   *   *
+                    *   *   *
+
+                - How do you solve this? By drawing lines BEYOND the grid of dots! We never said that wasn't allowed!
+                    - "Many people automatically assume that that constraint exists, even though we never said it; we want robots to also not assume such constraints"
+
+                    |\
+                    * * *
+                    |  /
+                    * * *
+                     /    \
+                    *-*-*---
+        - Bring objects and relationships together
+        - Exclude extraneous details
+            - "If I asked you how to get to Los Angeles, you would all tell me to take a plane from Atlanta airport to LAX - you wouldn't tell me about the Rocky Mountains or how to purchase a ticket! At the same time, though, if I was planning a road trip, you might tell me of some of those details because I need them!"
+        - The rest: clear, concise, complete, computable, and fast
+
+- To illustrate how semantic networks can help us, let's take a look at the "Guards and Prisoners" problem (it goes under many different names as well)
+    - Let's say we have 3 guards and 3 prisoners on one side of a river, and we want to get them all across the river using a single boat
+        - The boat can only take 2 people at a time, and needs at least 1 person to row it
+        - We'll assume prisoners won't run away, but if more prisoners are on the same side of the river than guards, they'll overpower the guards and revolt
+    - So, to solve this with semantic networks, we could draw the initial state, then draw a connection forward with ALL 5 possible states we could end up in by making a move from this state
+        - Then, we'll remove any states that are invalid (i.e. more prisoners than guards on one side) OR that have appeared before in the same line (since then that would be a cycle, so we wouldn't have made any "forward progress")
+    - This is a semantic network, and it makes it MUCH easier to solve this problem because it makes the constraints very clear! We can see right away what moves won't be productive!
+        - This is also why debugging can be extremely hard sometimes: there's a MASSIVE possibility state and too many possible paths, and it isn't clear what the constraints are to guide us on which path to take
+
+- So, right now in KBAI, it seems we're saying that intelligence is composed of many small "packets" of intelligence, each with its own representation and methods, that we can then combine
+    - As we mentioned earlier, this is like trying to build up a periodic table of intelligence - but where do we actually begin? That's our challenge; we need to invent these "atoms" rather than discover them!
+        - As you can imagine, there's SIGNIFICANT disagreement about what's really "fundamental" to concepts of intelligence
+- Going further on the philosophizing, what counts as a "mind"? Does Georgia Tech as an institution have a mind? Does the United States have a mind as a society? If our minds are just interactions of many small atoms of intelligence, why can't we extend the analogy to societal "minds" made up of the many smaller minds of people?
+    - When we're understanding a sentence, for instance, there might be a "noun" intelligence that picks out the part of a sentence, and then a "time" packet that figures out what time this sentence is taking place, and so on
+
+- To solve Raven's matrices, for instance, we might have the semantic networks for the transitions we know, and then we can try to make a similar semantic network for the unknown transition
+    - Comparing these semantic networks, though, means doing graph comparison, which we KNOW to be an intractable, NP-hard problem!
+        - "So what do we do? Humans are VERY good at throwing up their hands and saying 'I don't know!'"
+    - An important principle of human intelligence is focusing on complex relationships; this seems like it could be the "secret sauce" of high-level intelligence, so we want the AIs we construct to also be able to reason about such relationships
+        - Perhaps, for these Raven's matrix problems, we're not leaping straight to the right answer, but are considering many different possibilities we've somehow narrowed down on
+- "I know I'm asking you many questions in this class, and not always giving you the answers - I'm sorry, because I don't know all the answers either!"
+
+- Alright; we're out of time, so I'll see you next week!
