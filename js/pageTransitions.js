@@ -36,13 +36,14 @@ function changePage(isLinkToAnotherNote) {
     if (newPageLoading) {
         return;
     }
+
+    var url = window.location.href;
     if (!isLinkToAnotherNote) {
         //for now, just load non-note links like normal without any effects
         window.location.href = url;
         return;
     }
 
-    var url = window.location.href;
     newPageLoading = true;
 
     loadPage(url).then(function(responseText) {
