@@ -1,0 +1,70 @@
+//****************************************************************************//
+//************ Code Reviews and Unit Tests - October 30th, 2017 *************//
+//**************************************************************************//
+
+- Trying to debug impossible code w/o the TAs, I'm not ready yet...welp
+---------------------------------------------------------
+
+- So, today we're taking a quick break from design principles since M10 has to do with Code Reviews and creating jUnit tests
+    - "The Google lecture on clean code already covered a LOT of this, so I'll be skipping some of the stuff I usually cover in this lecture"
+    - One thing that might be interesting: look up Google's coding standards for Java, which goes over how to name things, set up folder structure, etc.
+        - "A good book on how to be a good CODER (although not necessarily a good software 'designer') is CODE COMPLETE"
+    - "The big idea: remember to write your code clearly, as if you were explaining it to a stranger...since in 6 months, you won't remember what the heck you were writing it for. You'll be that stranger."
+        - "All software starts out with the best intentions, using good design principles, etc; the difference between good and inexperienced designers, though, is if you keep up with it" (also said something else, but of course I missed it)
+
+- Code Reviews - they're REALLY important
+    - Code reviews are, basically, just meeting with someone in-person to go over your code
+        - "Costwise, it's MUCH more efficient to fix bugs on the spot as they come up, instead of having to pay $200/hour for a QA team to look over it"
+        - Code reviews are a best practice, since they can catch bugs early on before they're submitted to everyone else and become difficult and expensive to find
+            - "Pair programming is basically a continuous code review, where someone is constantly double-checking your code to catch bugs as they come"
+    - These reviews can be formal or informal; they could be as simple as meeting with your friend to glance through your code quickly, or as formal as being called into a conference room and having multiple managers go through your code recording defects as they're found
+        - "Code reviews are NOT about fixing things, but about finding problems; there are usually multiple ways to fix a problem, and it's better to leave that up to later discussion instead of arguing over how to fix it during the review"
+    - Code reviews should rarely (if ever) be more than 1 hour; after that point, most people's brains are more or less fried and productivity sinks
+        - "If a company's catering your code review, you know you're in trouble"
+    - Have a checklist of standard things to look for during these reviews - "Are constructors necessary? Should this be private or public? Are braces balanced? Are comments appropriate? Are algorithms consistent w/ design? etc."
+        - On T-Square, under "Code Review Stuff", there's an example checklist of what you should be looking for during a typical review
+    - These meetings should always be to critique the CODE, NOT the coder - the point isn't to say "Oh, Bob, you're an awful coder, etc."; it's just to make sure the code is as good as possible
+        - "Code reviews shouldn't ever hurt people's feelings or be an indictment of the coder; keep the focus squarely on the code"
+
+- For simpler stuff like coding standards, we have AUTOMATED code reviews - these automatically scan your code to try and find common errors without requiring people to manually read through everything (e.g. Checkstyle)
+    - "Currently these are mostly limited to things like style guides, basic common bugs, etc., but the AI for them is improving all the time; in the past few years alone, they've gotten MUCH more sophisticated"
+
+- "In M10, you'll be doing a code review of your own code; there's an 'Issue Inspection Log' that you'll need to fill out"
+    - In addition, you'll have to fill out the "Summary Report" for who did the review, how long the review was, who was present, etc.; "The Product Appraisal" part is more for real-company usage, so I won't worry about that too much"
+        - You do NOT have to fix all of these issues
+    - You also WILL have to run a checkstyle-like file that we give you for Android Studio; you WILL have to fix issues that it detects (unused variables, etc.), OR explain why you're not going to fix an issue ("It thinks i'm not using it, but that's because I'm setting the variable in my XML file")
+        - "If you've got like 1000 formatting errors, try using Android Studio's (missed this)"
+        - "Real-life, you'd be running files like this before every commit to GitHub"
+
+-...and that's pretty much it for code reviews in this class
+
+================
+// Unit Testing
+================
+
+- Testing is SUPER important, but can also (at times) be VERY difficult
+    - "One problem specific to this class - not learning JUnit's syntax. Take 10 minutes before you start on M10 to do that - it'll save you a few headaches"
+
+- Testing should start early on in the project with Acceptance tests (writing user stories, then writing all the "given X, should do Y" stuff...), most of which'll come from the Customer's criteria
+    - "We can't test EVERY possible input to a program, so we have to decide what we're actually going to test as a representative sample to make sure our code is working"
+- During the design phase, we do USABILITY tests
+    - This is to make sure it works well, users understand how to use the system, etc.
+- During implementation, we write UNIT tests - which is what we'll be focusing on in this course
+- During Integration, we then write Integration tests, and during the final testing phase we write System & Alpha/Beta tests
+    - "These last 2 we really don't cover at all in this course"
+
+- Some quick vocabulary:
+    - FAILURES are incorrect behaviors of a component - this is a symptom of the error
+        - e.g. "We gave our square(x) function 4, and it output 18 instead of 16"
+    - FAULTS (or BUGS, or DEFECTS) are the actual problems in the code (e.g. using an "add" instead of a "multiply" in the square function, or something more complex like omitting a critical step, error in pointer arithmetic, etc.)
+    - ERRORS are more general, and are the actual mistake in logic that caused the coder to write the bug - this is the root CAUSE of the bug
+        - e.g. "I went to UGA, and they taught me that adding two numbers together was how you square things" or "I didn't understand pointer arithmetic, so I forgot to account for the datatype size", or even "I'm a sloppy typer and I was typing really fast, so I accidentally hit 'q' instead of 'w'..."
+
+- The life cycle of problems in code usually looks something like this: ERRORS in logic cause the programmer to make a FAULT, which then causes a FAILURE the programmer sees, which results in the programmer debugging the code to fix the fault, which possibly results in a new ERROR on the programmer's part that results in a new FAULT...
+
+- Now, in this class, we're focusing on UNIT TESTS - testing a single class or piece of code to make sure it behaves as expected
+    - Can be done "statically" by looking at the code manually during code reviews ("hand-compiling" the code in our head), or "dynamically" by writing new pieces of code to check the behavior of our existing code
+        - "The dynamic stuff is usually done using a special automated testing framework"
+    - Classically, there's two general types of unit tests: WhiteBox and BlackBox
+- "We'll wrap up going over Unit Tests on Wednesday" 
+

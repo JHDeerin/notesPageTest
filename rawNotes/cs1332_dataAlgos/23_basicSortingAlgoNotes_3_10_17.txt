@@ -1,0 +1,52 @@
+//****************************************************************//
+//******** Basic Sorting Algorithms - March 10th, 2017***********//
+//**************************************************************//
+
+-AVL Tree homework due MONDAY! If you haven't started, PLEASE DO!
+    -Homework afterwards will be on some of the "review" sorts
+-HB is breaking out the playing card props...sorting should be fun
+-"Tests are almost done except for a few make-up exams that we're waiting on"
+    -"Exam 2 average is currently around 77%, which is actually pretty good; in particular, the BST coding question seems like it was easier than I'd thought"
+------------------------------------------
+-As mentioned, we'll be covering these sorts
+    -Bubble
+        -*Cocktail Sort
+    -Insertion
+    -Selection
+    -Merge
+    -Quick
+    -Radix
+
+-We're currently concerned with 2 main factors of these algorithms: their STABILITY and if they're IN/OUT-OF-PLACE
+    -A STABLE sort means that the sort will always keep duplicate elements in the same order (e.g. if two people have the same height, the one that came first in the original list will still come first in the sorted one)
+    -An IN-PLACE sort is where you DON'T need to create an extra data structure to help sort (e.g. an extra array or something); an OUT of place sort does the opposite, where it does use some extra data structure for helping
+
+-BUBBLE SORT works by going through a list of elements, starting from the front, and swapping it with the next element if that next element is smaller than it
+    -This process continues until no swaps have been made in a pass, which means the list is now sorted in ascending order!
+    -After "n" passes, the last "n" elements are in order (the greatest elements)
+        -This means that after "n" passes, we can ignore the last "n" elements in the list
+    -This type of sort is O(n^2) - NOT very good!
+        -The only saving grace is that it's O(n) if the array is already sorted, but this situation rarely comes up
+
+-INSERTION SORT works by using two loops, so we reach an index in the array, then go either backwards or forwards, swapping with out-of-order elements until no swaps are required; we then move to the next index in the array, and continue doing this until we reach the end of the array
+    -This is an in-place algorithm as well
+    -This is also a STABLE algorithm, and
+    -It is O(n^2) - but it IS faster than bubble sort even though it has the same growth rate
+
+-SELECTION SORT is pretty easy to mix up with insertion sort; in INSERTION sort, we can say that every element is sorted "with respect to itself" (it's in the right spot compared to elements to its left / right), but we CAN'T guarantee that it's in the same spot it will be in the final, sorted array until we've gone through all the elements
+    -In SELECTION sort, we go through the whole array and find the SMALLEST element; we then swap that smallest element with the element at index 0 (the front of the array)
+        -We then repeat the process from index 1, finding the min between [1] and the end of the list and swapping the min with [1]; then repeat the process from [2] to the end, then [3] to the end...until we eventually reach the end of the list
+            -Because of this process, the first "n" elements after "n" passes are exactly where they'll be in the final array!
+            -NOTE: in order to find the min, we ALWAYS have to go through the whole list until the end, even if the min happens to be the element we start at
+    -This is STILL an in-place sorting algorithm...
+    -HOWEVER, it is NOT stable; duplicates can be swapped with the min element, changing their original order
+    -Selection sort IS faster than Bubble Sort, but it's not stable and UNLIKE Bubble/Insertion sort, it's NOT "adaptive" (aka it does less swaps if the array is already sorted), so we usually prefer Insertion Sort to this
+    -Speed-wise, it is STILL O(n^2)
+
+-Now, let's try a little bit of a twist on Bubble Sort...
+    -We start out like normal, but AFTER WE REACH THE END, instead of going right back to the beginning, we go BACKWARDS and start swapping in REVERSE
+        -So, when we go forward, we swap if the next element is larger; when going backward, we swap if the next element (goin backwards, so i-1) is smaller
+        -"One iteration is a forward AND back pass"
+    -This is known as COCKTAIL SORT!
+    -Still stable / in-place
+    -It is STILL O(N^2), but it is noticeably faster than bubble sort!

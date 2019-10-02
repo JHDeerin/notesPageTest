@@ -1,0 +1,37 @@
+//*******************************************************//
+//******* The Object Superclass - October 5th, 2016*****//
+//*****************************************************//
+
+-So, wrapping up polymorphism:
+    -We can declare something as an "Animal" (e.g. "Animal x = new Cat();") even though Animal is an interface; it defines a type just like a class, even though it itself can not be instantiated.
+        -Can call ONLY methods defined in interface (checks at compile time for methods in the interface; can get around it by casting); can make an "Animal" object out of anything that implements the interface
+        -ANYTHING the class implements or derives from IS A SUPERTYPE of that class; we'll see this soon with the "Object" class
+        -SIDE NOTE: Don't use "Duck Typing" in Java- won't run
+
+-"Cracker vs Hacker" comment- Hacker "traditionally" means anyone who very much enjoys figuring out how things work out of curiosity, not for nefarious purposes. Hackers tend to think of ways to get around the system- i.e. casting twice to try and get around Java's compiler
+
+- WHEN YOU WANT TO FIGURE OUT HOW SOMETHING WORKS, TRY IT!!!!
+
+-Common question: "Why use an interface instead of an abstract class?"
+    -Because it lets us be more flexible with polymorphism; there's nothing here that you COULDN'T do in an abstract class, but interfaces are much less rigid (can implement multiple interfaces, don't have to be a subclass of the abstract class to use polymorphism w/ interfaces, etc.)
+
+-To get a private variable from a parent class:
+    -could change it to a protected variable (WRONG WAY, as you could shadow the variable)
+    -Could add a getter method (right way!)
+
+-When should polymorphism be used? Isn't it fraught with peril?
+    -It really isn't; as long as you're not class-casting all over the place, polymorphism should be fine. Any time you have methods that aren't going to change but different ways of doing things (e.g. multiple breeds of dogs), then "subtype" polymorphism (class inheritance poly) makes sense. In CS 2340, you'll get deeper into when it makes sense to use polymorphism vs data-oriented objects vs whatever else they teach
+
+...right, we got really off track talking about dogs and casting
+
+-ANYWAY,
+    -EVERY class in Java inherits from a class called "Object" in the Java.lang.Object location, with a bunch of default methods that are designed to be overridden (toString, hashCode, equals, etc.)
+    -This class hierarchy sometimes called an "Object Oriented Framework," where the base class provides a guide on how to create new subtypes
+    -the .toString() method is a good example:
+
+"@Override
+public String toString() {
+    return "Ha! I now say something!";
+}"
+
+    -Now, when we just print the Object, it will print whatever the toString method is!

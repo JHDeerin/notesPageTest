@@ -1,0 +1,76 @@
+//********************************************************************//
+//**************Review / Intro. to Sorting - March 6th, 2017*********//
+//******************************************************************//
+
+-----------------------------
+REALITY CHECK!
+1) Given the following 2-4 tree, add 670
+        [293 391 701]
+       /    /   \             \
+[186 233] [371] [643 663 693]  [762]
+
+-Would insert 670 between 663 and 693 in the list; HOWEVER, this would lead to an overflow, so you would then promote 670 (as the 3rd node in the list; COULD BE THE 2ND NODE IN THE LIST DEPENDING ON IMPLEMENTATION) to the parent (so it would become "[293 391 670 701]"), with 2 new children ("[643 663]", "[693]"); HOWEVER, this would cause ANOTHER overflow in the parent node, so we would promote 670 AGAIN to be the lone root, so we end up w/ the split left-child [293, 391] (w/ children "[186 233]", "[371]", "[643 663]") and the the right-child [701] (w/ children "[693]", "[762]")
+
+2) Given the following 2-4 tree, remove 680
+                [597] ______________
+               /                    \
+    [211     380     549]             [806]
+    /        /   \        \           /  \
+[7 101 188] [220] [387 471] [593]   [680] [953]
+
+-We would remove 680, but this leaves a gap / missing node (UNDERFLOW), so we'll instead promote 597 to replace 806 (as the predecessor to 680) and have 806 replace the missing 680. HOWEVER, now the former "597" node is empty, so we'll promote 549 to take its place as the root; this means 593 doesn't have a "parent" data item, so we move it to become a child of the right [597] node, and merge [680] [953] -> [680 953] so that [597] still only has 2 children and follows the 2-4 tree rules
+
+3. Given the following splay tree, after adding 732, where will 732 be located?
+    -note: This TREE is MEANT to be ugly
+                        363
+                        /   \
+                      74    452
+                     \         \
+                    146         939
+                       \          / \
+                      155       459  (...)
+
+-Since it's a splay tree, 732 will ALWAYS be at the root immediately after adding
+    -We didn't ask you to do all those rotations and things; we only asked you WHERE it would be! Don't do more work than we would ask you!
+
+-The KEY with splay trees: if the node has a GRANDPARENT, you do a 2-rotation: either a "zig-zag" or a "zag-zig"
+    -If it does NOT have a grandparent, then it's near the top, and we just do 1 "zig" or "zag" on the tree
+-Splay trees are becoming increasingly popular, since it lets us quickly retrieve commonly used information
+
+-So, back to the LAST (...few) B-tree removal case(s)
+    -W/ B-Trees, we want to ALWAYS keep the DEPTHS of the nodes THE SAME!
+
+-What happens if we remove from a single-data leaf node, and we don't have a predecessor / successor to borrow from
+
+-What happens when we remove the root?
+    -We look for the successor, and replace the root w/ it
+        -This could leave the leaf empty, so we move the parent of the (former) successor node into that node
+        -We would THEN have an underflow problem, so we'd have to move the parent BACK to become the new parent of those nodes - leaving the root empty AGAIN!
+    -So, we'd promote the largest data item in the left-child (NOT the children of the left-child) to become the new root, and the right children of that data item would become children of the
+-REMEMBER: The number of data items is ALWAYS 1 less than the number of children, UNLESS the node is a leaf w/ no children
+
+-DEPENDING ON IMPLEMENTATION, there CAN be multiple answers to this question
+    -In THIS CLASS, we usually do "bottom-up" ordering
+        -This "bottom-up" ordering will be expected on the test as well
+
+-Should DEFINITELY re-read Saikrishna slides on B-nodes
+---------------------------------------------------------
+---SORTING-----------------------------------------------
+
+-Given a set of items, people can "easily" sort them into ascending/descending order
+    -COMPUTERS, however, can't just look at 2 items and sort them easily; they need an ALGORITHM to follow
+    -Some people have come up with INGENIOUS ways to sort things efficiently; we'll go over a few of them here:
+        -Bubble
+        -Selection
+        -Insertion
+        -Merge
+        -Quick (in-place / out-of-place variants)
+        -Radix
+            -Could be implemented in one of two ways (most-significant digit first / LSD first); still deciding which one to teach
+        -The first 5 of these are considered COMPARISON sorts because they directly compare items in the list; the first 3 are all O(n^2)
+            -Radix sort is...well, special (AND COOL!)
+
+-TWO IMPORTANT TYPES OF SORTING AlGORITHMS:
+    -IN-PLACE sorting algorithms do everything within the original array, OUT-OF-PLACE sorts need to create a new array / data structure to complete the sort
+        -In general, out-of-place sorts tend to use more memory, but tend to be be more "stable"
+    -STABLE sorts keep duplicate items in order, whereas UNSTABLE sorts aren't guaranteed to keep duplicates in-order

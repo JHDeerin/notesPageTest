@@ -1,0 +1,62 @@
+//****************************************************************************//
+//************** Kant and Deontology - September 16th, 2019 *****************//
+//**************************************************************************//
+
+- A couple points of business:
+    - You had a homework assignment due! At the end of class today, there'll be folders for each recitation section: find your folder, place your homework inside them, and then you'll be good
+        - ... I guess that was more of a singular point
+--------------------------------------------------------------------------------
+
+- Alright, today we're going over the 2nd SUPER big ethical theory in this course: DEONTOLOGY, or generally "respect for persons"
+    - Combined with utilitarianism, these 2 theories generally capture the 2 opposing sides of our moral intuition: "actions matter" and "intentions matter"
+
+- "You had to read Kant; Kant is definitely the hardest person we're reading this semester, and he writes an odd, tricky, technical way"
+    - This sadly isn't just a translation issue; he writes weird in German, too
+- Right out of the gate, Kant has this to say: "There is no possibility of thinking of anything at all in the world, or even out of it, which can be regarded as good without qualification except a good will"
+    - So, this is a complicated way of saying "it's the thought that counts"
+
+- So, what is Deontology, anyway?
+    - Our textbook summarizes it as "respect for persons," because it doesn't think you're smart enough to handle Greek
+        - The actual origin of the word comes from "deon," or "duty"
+    - There are several different facets to this theory:
+        - The big one is that ethics should be determined by one's duty, rather than what might happen from one's actions
+            - A big reason is because you can do good things for bad reasons: you might donate to charity because you wanted to impress someone, or because you tripped and accidentally dropped your wallet in the donation bucket. The outcome was good, but was the action moral? We'd say no!
+
+- So, who was Immanuel Kant, anyway?
+    - Well, there's a story that every philosophy class ever has to tell about him...
+        - Kant lived in Konigsberg, Germany, and he always started walking at exactly 11:00 - and the legend is that the townspeople would literally set their watches by the time he'd walk past their house
+            - ...he also apparently threw pretty good parties, though, so he wasn't a total dork
+            - ...and a racist, but we don't have time to go into that
+    - Kant is a HUGE figure in Western thought; he's not a household name because he's technical and difficult to read, but he literally did revolutionize multiple philosophical fields, and people are still responding to him
+        - Plato, Aristotle, and Kant are the biggest figures in this class by far; sure, there are other major figures, but no one else we'll mention revolutionized the fields like these 3
+        - In particular, the "Critique of Pure Reason" is a ridiculously important text on logic
+    - Also, a sidenote on two terms that we might as well define (because Kant uses them):
+        - A PRIORI is a Latin phrase that means "before experience"; you don't need to experience 1 + 2 = 3 to know it's true
+        - A POSTERIORI, instead, means "after experience," 
+
+- The book we read the first section of, though, is his "Groundwork for the Metaphysics of Morals," and it's the most bog-standard ethics text in existence
+    - In Kant's argument, he says that we do NOT determine whether something is right or wrong by weighing the consequences - that's utilitarian
+        - Instead, Kant claims that what makes something moral or not is if we do something out of a sense of duty, and not from selfish or wrongheaded motives
+        - So, we don't follow 
+    - What Kant claims we discover from this is the CATEGORICAL IMPERATIVE
+        - "This is the punchline of Kant's morality, and it's SUPER important!"
+    - What is this? In a slightly-shortened version, it is "to act only in a way that works as a universal law"
+        - An "imperative" is just a thing we've gotta do, but what's the "categorical" part?
+        - According to Kant, this is a moral rule that we can arrive at by reason, and IMPORTANTLY Kant claims this is a common-sense rule, and that it generally accords with what normal people already do (although he certainly thinks people can get it wrong)
+            - In other words, Kant is saying this rule is just spelling out what most people already believe in philosophical terms
+    - Putting it another way, Kant is saying that when we're about to follow a moral rule, we should ask "would this work if everyone else does this?"
+        - The classic example of this is if it's okay to make false promises; Kant would say this isn't okay because if everyone did it, then it wouldn't even make sense to lie, since trust would break down
+            - Notice that Kant does NOT say this is wrong because a world where everyone lies would be terrible, because that would be consequentialism!
+                - ...at the very least, he SAYS this (Professor Rosenberg isn't entirely convinced he gets away with this)
+    - A HUGE consequence of this is that we should regard other people/rational agents as ends in themselves, and never simply use people as means
+        - In other words, we need to have "respect for persons," which simple versions of utilitarianism
+        - So, Kant would say that Spock in Star Trek couldn't sacrifice himself to save the crew because, if everyone did it, there would be no crew left; it's wrong on principle
+    
+- "Batman is a good example of a Kantian deontologist; he doesn't kill Joker, even though it would stop bad things from happening, because he believes on PRINCIPLE that it's wrong to kill! At the same time, accidentally killing people is okay under his system, because it isn't his intention."
+
+- So, under Deontology, an act is good not because of its outcomes, but because it was "the right thing to do"; we can't do something because it makes us feel good
+    - A strength of this theory is that we can't make excuses for ourselves; the same rules apply to us (although context may still matter for certain actions)
+    - This theory also tends to say we can figure out the right thing to do, rather than memorize a bunch of rules or systems
+    - It also places a HUGE emphasis on giving human beings intrinsic value, which is another strength
+
+- Alright; we'll talk more later! Turn in your homework and FLEE!

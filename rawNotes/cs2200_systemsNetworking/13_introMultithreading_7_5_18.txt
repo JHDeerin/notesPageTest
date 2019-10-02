@@ -1,0 +1,84 @@
+//****************************************************************************//
+//**************** Intro to Multithreading- July 5th, 2018 ******************//
+//**************************************************************************//
+
+- 9 whole humans in lecture today...I don't understand the aversion to class
+- Sounds like everyone had a good Fourth...everyone got a chance to go home, relax, planes coming in right as the fireworks were going off, etc.
+- "I consider this the 3rd main part of the course. We had the processor, then we had memory, and NOW we're trying to bring it all together with multithreading"
+------------------------------------------------------
+
+- Now, as you probably all know, most modern processors are actually split into several separate "cores" that can execute different things simultaneously - but our program doesn't just magically get split across all of them. That's our job as programmers!
+    - So, WE have to deal with splitting the program into pieces that can be executed simultaneously - and that can be more difficult than you'd think 
+
+- Before we do that, though, let's jump back to what we were talking about on Monday with caching
+    - Between the memory and the CPU, we can have several high-speed caches that'll hold a small portion of memory that we think we'll need soon, with the HOPE that'll speed up memory accesses
+        - If we're dealing with cloud-based computing, the networking speed might also be a part of this stack!
+
+            CPU
+             |
+          Cache 1           Level 1
+             |
+          Cache 2           Level 2
+             |
+           (...)            (...)
+             |
+          [Memory]          Level N
+
+    - Now, how much does this actually speed up our accesses? Well, the exact measurement varies from book to book, but our textbook uses a measurement called EMAT: "Effective Memory Access Time"
+        - For each "Level" of our memory, we say that the EMAT is:
+
+            EMAT = accessTimeForLevel + (missRate * EMAT(levelBelow))
+
+        - So, for instance, if we had 1 cache with a 4ns access time and memory with 100ns access time, and a hit rate for the cache of 80%, we'd have:
+
+            EMAT = 4ns + (1 - 0.8) * (100) 
+                    = 4 + 20
+                    = 24ns
+
+- With that being said, then, let's start dipping into Chapter 12: multithreading!
+    - "If you've never had to deal with semaphores, mutexes, critical sections, etc., it can really throw you for a loop - but once you understand it, it's a GREAT addition to your toolkit!"
+        - This really is tricky stuff, though - multithreading has thrown some of the best theoretical computer scientists for a loop, but it's enticing because it has the potential to be VERY powerful
+
+- So, to start off: what's a thread?
+    - Well, if a process is a program in execution, a THREAD is a part of the process that is currently in execution; it's where we are in the program
+        - Up until now, we've just been dealing with single-threaded processes: only one part of the process is executing at a time
+        - Many problems, though, seem to naturally lend themselves to multiple things happening at the same time
+    - So, every thread needs 2 things:
+        - A PC to know where it is in the program
+        - A stack, to keep track of the data it's using
+    - HOWEVER, that raises a new issue: how do we pass data between different threads?
+
+- Now: Semaphores
+    - Let's say we have a situation like this: a HUGE crowd of people wants to get into a restaurant, but the restaurant only has room for 1 person at a time!
+        - This is very similar to when the processor can only run 1 thread at a time, or, from a software perspective, (something)
+    - To combat this, Edsger Dijkstra came up with the concept of SEMAPHORES
+        - Basically, we have a counter (called a semaphore) that keeps track of how many processors that're using 
+- A MUTEX is the same idea, but the "counter" can only be 1 (locked or unlocked)
+
+- There's an issue, though: what if 2 different threads both try to check our mutex counter at the same time?
+    - Well, they might BOTH slip in and start running - which isn't what we want!
+    - We say that the portion of code we want to protect is called a CRITICAL SECTION - a piece of code we only want a certain number of threads to run at the same time (usually because it has some variable shared between different threads)
+        - For instance, if we have a bank account, we don't want 2 different threads to try incrementing and decrementing our money at the same time - otherwise, the decrementing thread might be the one to overwrite the value last, and then our deposit is lost! We want to make sure only ONE thread is changing that value at the same time
+
+- So, semaphores have 2 main uses:
+    1) Protecting critical sections with shared data
+    2) Synchronization (e.g. multiple threads have data that they want to store, but they need to wait until the "getMemorySpace" thread has finished its job)
+        - In this case, we'd initialize the mutex as locked, and only unlock it when we're ready
+
+- Now, from a programming perspective, we want a library that lets us:
+    - Create threads
+    - Communicate between threads
+    - Terminate Threads (?)
+- Now, because threads are already inside of a process, they can borrow the process' allocated memory, global variables, information in the PCB, etc.;
+    - So, really, all a thread NEEDS is the stack of data that it's using - and, for practical reasons, usually the registers it's using as well
+    - For this reason, threads are sometimes called "Lightweight Processes," or LWPs - all of the process' threads share the same code, global data, heap, etc.
+        - This is good, as it gives us a way of sharing variables between threads - but it does mean that for complicated situations where having our own memory space is convenient, it makes more sense to break that off into a new process
+
+- One HUGE problem we deal with in concurrency are DATA RACES, where one thread is trying to write/access a shared variable at the same time that another thread is writing to that variable
+    - We don't know in what order the threads are going to execute, so the thread might overwrite the old value before the other thread reads it, or vice versa, or the 2nd thread overwrites the value that was just written by the 1st thread...
+        - So, we have to design our programs to not depend on the code running in a certain order - and if we HAVE to have a guaranteed order, we might need more mutexes/locks to ensure that
+- One common structure of dealing with this is to have a PRODUCER thread that writes to the shared variable, and a CONSUMER thread that just has to read and use the data without changing it
+    - This way, the two operations are independent (think of a messaging app, with a producer thread that stores messages from the network and a consumer thread that displays those messages)
+    - As we'll see, though, there are some wrinkles in this scheme that we still have to deal with
+
+- Now, that's a good overview of multithreading - put there're problems with it. We'll deal with those on Tuesday.

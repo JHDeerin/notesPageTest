@@ -1,0 +1,149 @@
+//****************************************************************************//
+//******************** Local Search - July 17th, 2018 ***************//
+//**************************************************************************//
+
+- Once more, at 2:35pm, we see no trace of Professor David Byrd
+- 2:39 - ...still nothing save silence
+    - (...well, as silent as a room full of college students can be)
+- Ah! Rather quickly marked up on the board, observe:
+    - "Hill Climbing
+    - Simulated Annealing
+    - Genetic Algorithms
+    - Gradient Descent"
+
+- "The TAs did finish grading your homeworks, but I forgot to press the big green button that lets you see your grades. Sorry. I'll hit that later tonight"
+- Your last piece of homework is due Sunday - DON'T FORGET!
+    - Basically, parts I-III deal with Value Iteration, and parts IV - VII deal with Q-learning
+---------------------------------------------------
+
+- So, last week we went over the Q-function algorithm for solving MDPs, where we only needed to know what state we're and the actions we can take to form a policy
+    - There are ALSO POMDPs - "Partially Observable Markov Decision Processes" - where we don't even have to know for sure which state we're in, just the list of available actions
+        - We won't talk about those in this class, but it's similar to dealing with our noisy-sensor Pacman problem, where we have to make a probability distribution of what state we could be in given our observations
+            - "Apologies for not going over any of that this semester, but summer is short and some things just have to give"
+
+- NOW, we're getting into a different topic: neural networks and local search!
+    - Basically, neural networks are too big to exhaustively search, so we instead have to do it by just searching a small portion of the space - "local search"
+        - By FAR, gradient descent is the most popular way of doing this
+
+- In a lot of our previous problems, we assumed that we had a discrete space that was small enough for us to remember all the paths we've explored and to search the space in a reasonable amount of time...obviously, for real-world problems, that's not always true
+    - In Search problems, for instance, we assumed we had a fully observable, discrete world of a "reasonably" searchable size
+        - This let us calculate the globally optimum path... 
+    - But what if we have a HUGE - even potentially infinite - state space? What if our hardware has some severe memory constraints, or if we have to deal with a continuous state space?
+        - In all of these cases, search quickly becomes either impossible or unrealistically time-consuming
+
+- So, for those sorts of problems, we usually can't do an exhaustive search to guarantee the globally optimal solution - what we CAN do is find a locally optimum, "acceptable" solution; this is known as LOCAL SEARCH
+    - So, for what kinds of problems are non-optimal solutions okay? Well, a bunch of things:
+        - NP-complete problems ("We can't calculate the full solution anyway, so bring on the heuristics!")
+        - Optimization problems (ESPECIALLY with continuous parameters)
+    - Alright, this is useful, but can we find these local solutions even given memory constraints far smaller than our state space?
+        - ...well, YES! That's exactly what local search as a field is supposed to do!
+
+- In order to solve a local search problem, we need our current state, the successor state, and the cost/objective function we're trying to optimize
+    - The most basic version of this is the HILL-CLIMBING ALGORITHM - just "move to the successor with the highest performance metric until we can't move to anywhere higher"
+        - As an example of this, let's say we have the following Pacman grid:
+
+                1   2   9   8
+                3   1   2   12
+                4   5   6   10
+                8   7   6   5
+
+            - If we start at (1,1), we'll end up at "8" and then stop
+            - If we start at (1,2), though, it'll go to 9
+
+        - So, the issue with this algorithm is that we can end up trapped in local minima, when better solutions are just around the corner
+            - The greatest strength and weakness of this algorithm is that it keeps NO memory of where it's been - that means it requires practically no memory to run, and can run even in infinite problem spaces, but it's doomed to not be able to "escape" when it gets stuck
+
+- Let's now look at a problem that's commonly solved with CSP - the "Four Queens" problem
+    - Let's say we have a 4x4 grid with 4 queens randomly placed on the board - can we move the queens to a position so that none of them are attacking one another?
+        - With a small grid like this, we can solve this pretty easily with a CSP - but what if we have a million queens on an NxN board?
+            - That's too big of a state space to search!
+    - With local search, though, we can try to solve this in a less optimal, more efficient way
+        - Let's say we have a cost function equal to # of queens attacking one another, and we want to minimize it
+            - For simplicity, let's say we can only move 1 queen at a time, and that we can only move the queens vertically (i.e. in their column, since if 2 queens shared the same column they'd be attacking)
+        - So, given that, we can then explore all possible successor board states and pick the smallest successor, and repeat
+            - This'll work! And we did it without global search!
+            - ...but there are issues. What if we start in a local minimum and there're no successors with a smaller cost?
+                - If we allow ourselves to move to states with an equivalent cost as the current state ("lateral moves"), there's potential for an infinite loop (we could just hop back-and-forth between the current state and another one), but a chance we might find a way out 
+                    - To avoid the infinite loop, we could just put a limit on how many lateral steps we take - that's about as good as we can get
+
+- So, there're some major problems with a simple hill-climbing algorithm - running this algorithm on the 8-queens problem, 86% of solutions get stuck in a local optimum!
+    - The BIG advantage of this algorithm, though, is its speed - on average, it can find a local minimum within 3-4 steps
+- So, one improvement we can make to this algorithm is RANDOM RESTARTS - if we end, and haven't reached a globally optimum solution, we reset the state to a random initial state and begin running again
+    - We ALWAYS need a max number of "restarts," however, since there's a chance this algorithm will run into an infinite loop
+        - Now, for the 8-queen problem, an average of 7 restarts is enough to find a 0-cost global solution - just 22 steps total on average! That's pretty good!
+    - "This simple algorithm is actually used more than you'd think"
+        
+- An alternative to this is "beam search," where you just remember the past 3 or 4 states you were in and backtrack if you get stuck - we won't deal with it in this class, but it's definitely a thing
+
+- Now, what if we have a max-optimization problem and we flip it around so the "best" solutions are the minima?
+    - Now, our Hill-Climbing optimization is like putting a marble on the top of the hill and letting it roll down - and what do you do in the real world if the marble gets stuck somewhere? You shake it!
+        - "And shaking the marble is exactly what we're gonna be doing!...in a mathematical sense"
+    - So, when we fall into a local minimum the first time, we "shake" the state a LOT at first to see if it falls back into the state or goes somewhere else; over time, we shake more gently so that we don't knock our state out of our final answer
+    - This algorithm is called SIMULATED ANNEALING, and because "annealing" is a metallurgical term, the vocab makes no sense: we say "Temperature" is how hard we shake the state
+        - Formally, the algorithm can be described as this:
+
+            1) T = some starting temperature, S0 = some random initial state
+            2) Select some random neighboring state and calculate "delta = cost(next) - cost(current)"
+            3a) If delta < 0, we're moving downhill, so current = next!
+            3b) If delta >= 0, then if random(0, 1) < e^(-delta/T), we STILL take it
+                - So, the bigger delta is, the less likely we are to take this "bad" exploration move, and the higher the temperature, the more likely it is
+            4) At some problem-appropriate point, reduce T on some fixed schedule (e.g. reduce T by 1 every step, reduce T by 0.1 every 10 steps, etc.)
+            5) Loop back to 2 until T <= 0, at which point we stop
+
+    - "So, annealing is actually a pretty simple algorithm"
+
+- GENETIC ALGORITHMS, on the other hand, are really cool - but not actually used for neural networks today, so we'll only go over the basics
+    - The basic idea of G.A. is that it's a biology-inspired meta-algorithm, where we split our code into "DNA strands" that we combine to produce "children" that're better than their parents
+        - So, we have an objective function to evaluate our function, called the "fitness function"
+            - So, going back to our 8-queen problem, we could have a string of 8 column positions (one for each queen) that UNIQUELY and DISCRETELY maps our state to a 1-dimensional array
+                - This'll be our "DNA strand" that we recognize
+                - Another example would be for stock trading, where we could have a 1-letter code for each graph pattern and we have 1 array entry for each "pattern" over the past hour
+        - With G.A., we'll start off with randomly generated ancestor array "strands" (often they're literally strings); we'll then evaluate the fitness of those strings, and select the best "k" individual strands to "breed"
+            - "Technically this is Eugenics, but I think it's okay since it's just math"
+            - K, of course, is a programmer-defined hyperparameter
+
+                Cost = 3,   1|4|2|4
+                Cost = 1,   3|2|4|1
+            
+        - We then generate "children" strings by "mutating" each string by randomly changing one array entry to another valid entry, and "cross-over" substrings at a random location 
+            - The distribution should favor taking more stuff from the higher fitness 
+
+                Cost = 3,   1|4|2|4              Cost = 3,   1|4|2|1
+                                 |      => 
+                Cost = 1,   3|2|4|1              Cost = 1,   3|2|4|4
+
+        - We continue to do this until the fitness stops improving
+    - Now, this is technically a meta-algorithm, so it can be used in tandem to improve existing algorithm - the main drawback is that you have to be able to map your state into a discrete string (which doesen't work well with infinite states, although you can kind of hack it sub-optimally by choosing subsets)
+- These're still commonly used in engineering applications, but have been somewhat eclipsed by Neural Networks in recent years - "we're a bit fadish in CS"
+
+- Our final form of complicated, mind-melting local search is...linear regression!
+    - Remember: an "online" learner can accept new data points one at a time, while a batch learner needs all of its data at once and has to start over if the data changes
+        - "Batch learners tend to produce better final results, online learners are convenient for most applications - linear regression, with some excepted modifications, is a batch learner"
+    - So, the standard multivariate linear regression equation just looks like this:
+
+            y = b + m1x1 + m2x2 + ... + mnxn 
+
+    - "This is just defining whatever your dimensional equivalent of a 2D line/ 3D plane/etc. is, letting us sample points from it"
+        - Given some (X,y) training tuples, where "X" = <x1, ..., xn>, we're trying to minimize some error function "err(Yactual, Yestimated)"
+            - What is this "learning," then? It's learning the optimal values of "m"!
+                - The "hyperparameter," then, is "n" - the number of dimensions
+        - Once trained, we can just plug in a given "X" vector to get an estimate "y" for that point
+    - So, how can we find at least a locally optimal solution to train this thing? GRADIENT DESCENT!
+        - Basically, we initialize all of our "M" values to some random values, look at our error function, and find which direction to shift our values and go in that direction - repeat until we stop improving
+            - "For TRULY linear equations, we actually have a closed-form solution for this problem - for anything non-linear, of course, we have to approximate things"
+        - So, given some handy math libraries, we can honestly create a linear regression learner in just a few lines of code:
+
+                class LinRegLearner:
+                    def __init__(self):
+                        pass
+
+                    def train(self, trainX:numpyArray, trainY:numpyArray):
+                        # So, X would be a 2D array with 1 row per example X vector, and Y would be the answer for each row
+                        <missing part we'll go over on Thursday>
+                        self.m, self.b = someLibrary.linreg(trainX, trainY)
+
+                    def query(self, testX):
+                        return (self.m * testX) + self.b
+
+- So, that's the easy part of gradient descent - but what's the hard part? We'll start digging into that on Thursday
+            

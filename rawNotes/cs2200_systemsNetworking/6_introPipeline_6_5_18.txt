@@ -1,0 +1,101 @@
+//****************************************************************************//
+//************** Introduction to Pipelining - June 5th, 2018 ****************//
+//**************************************************************************//
+
+- Alright, water's down, 6 minutes late starting up, annnnnnnd...test announcements!
+- Exam 1 is THIS Thursday; it shouldn't be a time-cruncher (should take ~90 minutes, giving you guys the full 2 hour block of time to work on it)
+    - 9-10 questions on the exam (he's considering whether to keep one of them)
+        - "I don't like giving many true/false questions; it'll mostly be short-answer or free response"
+        - ~6-7 are similar to questions on the homework/slides
+    - Topics that it'll cover:
+        - Memory layout
+            - If we give you int/char/short variables, and tell you the memory is word aligned/unaligned/packed/etc., how should the variables be laid out? 
+            - This'll be similar to the homework problem
+        - Microarchitectures (x2)
+            - So, we talked about the datapath, broke down the "ADD" instruction into 3 steps, etc; for a given instruction, you should be able to say which elements are driving the bus, listening to the bus, what the components are doing, etc.
+                - This is asking about what microstates you need
+        - Data propagation
+            - How many cycles do things take to execute fully? Edge-triggered logic vs level-triggered logic? Given a circuit diagram, what's the delay time? Clock-cycle time?
+        - Performance (x4)
+            - Just last lecture, we talked about "how fast will this processor really go?", 3-factor execution speed formula, tradeoffs involved in performance, etc; 
+            - Know stuff like speedup, CPI, Amdahl's Law, etc; this'll be similar to homework 2 and the previous lecture
+        - Interrupts
+            - We didn't do an interrupt project or anything, but given a general scenario, what's the difference between a trap, an exception, and an interrupt? "If x happens under x conditions, would you classify it as a trap, exception, or interrupt?"
+        - LC-2200 architecture
+            - I do NOT want this to be memorization-based, so I'll provide you with the ISA and a diagram of the datapath - the idea is that if I give you a small sample of assembly code, can you tell me what the code does? Can you tell me if the code has any errors? Can the code be improved in some way?
+------------------------------------------------
+
+- So, with the exam nice and cozily settled, let's start talking about pipelining
+    - "As I'm sure you've heard, this is what your next project will be based on"
+    - There's a TON of different ways to implement this, so in-class I'll introduce the general concepts, but you'll still have some choices to make for the homework
+
+- Last lecture, I (obviously) must've gotten pretty hungry, because I started talking about Chipotle and how they optimized their workflow with multiple people doing multiple things at once - and how we can use similar ideas to improve our computer architecture
+    - Of course, the implementation is NOT that simple, and brings up some issues
+
+- Let's assume a wonderful man named Bill Leahy (cue terrifying picture of young Professor Leahy) is running a sandwich shop, and right now, there's just 1 employee at the counter - he takes the person's order, makes their sandwich, gets all their toppings, rings them up at the register, and then runs back to get the next customer
+    - This is how our current architecture works - and while it WORKS fine, and it's pleasantly simple, there's a lot of time wasted with the next instruction just sitting around, waiting for the last instruction to finish being processed
+    - Using the Chipotle model, though, and hiring more employees to each do one of those tasks, we can handle a different customer (i.e. instruction) at each stage - effectively, we go from our instruction vs time graph looking like this:
+
+            =====
+                 =====
+                      =====
+                          (...)
+
+    - ...to THIS:
+
+            =====
+             =====
+              =====
+               (...)
+
+    - This way, after the first 4 instructions (in this example architecture) are run, we're doing 5 things at one - a 5x speed improvement! That's great!
+
+- Of course, there are some challenges to implementing this pipeline; in particular, there're 3 problems with "simple-minded" pipelines:
+    - The different stages of execution often need the same datapath resources      - They have to use the ALU, IR, etc., all at the same time!
+    - The amount of work done in the different stages isn't the same - we can only move as fast as our slowest stage
+        - In a sandwich shop, if grilling the cheese takes longer than the other steps, then that's a bottleneck - customers will pile up right before the stage, and we can't move customers any faster than it takes
+            - In our LC-2200, fetching is quick, and decoding is very fast, but the execution stage can take AWHILE - and take variable time!
+        - So, IDEALLY, we want all the instructions to run in the same amount of time - even if this involves actually "slowing down" our fetch/decode stage, it keeps instructions from "bumping into" one another
+            - In practice, this can be a little bit more difficult - it requires rethinking our simple "fetch/decode/execute" paradigm
+            - Conceptually, we can change this 3-stage model into a 5-stage model, breaking the execution phase into 3 phases
+                - This new model is:
+                    - IF ("Instruction Fetch", gets the next instruction) 
+                    - ID/RR (decode the instruction and read/write to registers)
+                    - EX (handle the ALU operations the instruction needs) 
+                    - MEM (interacts w/ memory) 
+                    - WB ("write back", store the data on a register)
+                - Each of these stages has a "buffer" in-between it and the next stage
+                    - This STILL leads to some complications - won't the instruction fetch/memory stages conflict? - that require some sort of resolution (e.g. separate memories for instructions and data)
+    - Overall, the 3 hazards all fall under the categories of "Structure," "Data," and "Control"
+    - Now, the beauty of this system is that the buffers (which are basically mini-register files) hand-off information to the next step at every single cycle - they control the flow of the information, and even though that complicates our hardware in some ways, it actually simplifies it in others
+        - It's like a layered architecture in Software Engineering - only the adjacent layers can talk to one another, and they don't have to know ANYTHING about the other layers! We can change the other layers as much as we want, and the pipeline doesn't care!
+        - Practically, the buffers also keep the values between each stage stable for the whole cycle - otherwise, the new values in the previous stage could overwrite the values we want!
+        - So, the 4 buffers:
+            - FBUF - Primarily contains the new instruction from memory
+            - DBUF - Contains the decoded IR and values from the register file
+            - EBUF - Contains the ALU operation's results and any other instruction-specific parts needed for execution
+            - MBUF - Same as EBUF execpt for LW/SW instructions; for those, it contains the contents of the read memory location
+
+- Anyway, the buffers help channel information through the system, and again, in a conceptual way, this SIMPLIFIES our pipeline by making it more modular
+    - The buffers are analagous to well-defined interfaces in Software Engineering: as long as the expected information gets written to the buffer at the end of the day, we don't care how the stage itself did it
+    - Furthermore, since each stage has to take 1 clock cycle, almost everything inside it is combinational logic - great!
+- Again, though - HAZARDS AHEAD!
+    - STRUCTURAL HAZARDS are limitations in hardware that don't allow concurrent execution of different instructions (e.g. single-bus design, single ALU, memory, or IR, etc.)
+        - Back when Professor Moss was a new Masters student, this was a brand-new issue - nowadays, it's a major component of processor design, and the average processor has 20 stages
+        - The FIX for this is to add additional components to the datapath so that each stage can do its job without stepping on another's toes
+    - DATA HAZARDS are where (missed the full one)
+        - e.g. Trying to load a new value into the register AND use it in a calculation in the same cycle leads to uncertainty - is the old or the new value used for the calculation?
+            - This type of data issue, specifically, is known as a RAW hazard - "read-after-write," where we didn't give enough time for the newly written data to propagate to the register's output
+            - The fix for this is to use "bubbles" - where we propagate a "No Operation" instruction between the write and the read instructions
+                - To FULLY fix this problem, we need to add 3 "NO-OP" instructions between the write and read instruction (this way, the write instruction can reach the WB stage and be stored before the new instruction tries to use it)
+                - In more intelligent systems, they'll use instructions that don't depend on the register in question as padding intead of full-stop "No-Op" instruction, to avoid wasting space
+    - CONTROL HAZARDS deal with branching; when using an instruction like BEQ, we don't know where to branch until the execute stage - but before that, the IF stage is still getting new instructions, INCLUDING, potentially, instructions we weren't supposed to take according to the branch!
+        - How do we fix this? A simple solution is to use bubbling again, where we put 2 NO-OP instructions before the branch - this hurts our efficiency, but it's simple and it works
+        - Another alternative is to "flush" the pipeline - where we get the new instructions as usual, but if the BEQ evaluates to true and we're supposed to skip those, then we "flush" the previous 2 instructions and replace them with NO-OPs
+        - Finally, we could try using "branch prediction" / "delayed branch" techniques, where (details on slides)
+            - These techniques use flushing as a component of their design
+        - In some cases, compilers can also cleverly optimize for this with putting instructions that the branch will overwrite anyway there, etc.
+
+- Bottom-line takeaway: this is what the extra hardware in project 2 is needed for, and the potential problems you need to look out for
+    - The project won't require you to include all the elaborate pipelining stuff the book mentions, but it should run faster than your datapath and handle these hazards gracefully
+- In the meantime, good luck for the exam on Thursday - be here on time, study your past homeworks, and you'll do fine!

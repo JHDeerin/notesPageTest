@@ -1,0 +1,55 @@
+//****************************************************************************//
+//********* Hempel and the Scientific Method- September 17th, 2019 **********//
+//**************************************************************************//
+
+--------------------------------------------------------------------------------
+
+- Okay, before we move on to today's reading, we'll wrap up our discussion from last time
+    - Here' Professor Biddle's version of Salmon's argument:
+
+        1. According to Popper, there's no rational way to make an inductive inference from past to future events
+        2. According to Popper, corroboration of theories involves statements about past and present performance of theories, no the future
+        3. There are infinitely many generalization about the future that are compatible with the past
+        4. Making a prediction in the sphere of practical action involves making a choice about which generalization to use
+        5. Making a rational prediction 
+
+- Okay; we'll now look at our reading today from Karl Hempel
+    - Hempel (1905 - 1997) was a German philosopher of natural science who worked in a number of 20th century universities, fleeing to America and Israel during the holocaust
+        - Hempel was one of the big proponents of LOGICAL EMPIRICISM (or "positivism") as a school of thought
+            - It's logical in that it emphasizes articulating the logic of fundamental things - laws, theories, confirmation, etc. - in a purely formal way
+            - It's empirical in that they say statements ONLY have meaning only if they have empirical/observable content
+                - Under Hempel's view, some scientific theories of the time were problematic because they were untestable (e.g. origin-of-life theories)
+    - So, today's reading was from Chapters 2 and 3 of Hempel's textbook
+        - Reading the quote on page 11, how does Hempel critique the "narrow inductivist view of scientific inquiry?"
+            - This "narrow" view of science says that we should impartially gather all the data and categorize it, then form our hypotheses from the data and test them - and Hempel has issues with that
+                - Hempel critiques first of all it's idea that we need to record ALL facts without a hypothesis to guide you as impossible, because there are an infinite number of facts but only a few are relevant
+                    - In particular, Hempel says data is "relevant" if it could affect the outcome of a hypothesis/experiment
+                - Even if we DID have all the data, Hempel argues that we wouldn't know how to categorize it without making some assumptions about what's important, which'd require a hypothesis
+                    - ...Mill and Bacon arguably lean towards this narrow view, depending much more on data-collection and de-emphasizing hypotheses
+                    - "It's also an argument that's come back in this age of big data and machine learning, with some people claiming we can skip hypotheses and jump 'straight from the data' - although Hempel would obviously disagree"
+            - So, Hempel would say we NEED a hypothesis to guide us in our collection and interpretation of the data; otherwise, we literally don't know what to look for!
+        - Also, how do you think Hempel would respond to the kinda-common idea that the scientific method is a mechanical "algorithm" that guarantees success?
+            - On Page 15, he gives a very Whewell-like counter to this, arguing that hypotheses often require a creative leap beyond the data, with no obvious way to reliably get them from the data alone; he certainly doesn't believe in a mechanical version of the scientific method
+                - In many cases, we describe scientific discoveries in terms that have nothing to do with the observations, describing stuff like heat and pressure in terms like "kinetic energy," "molecules," etc. - if we observe just based off of the data alone, we're never going to get to things we can't observe
+        - So according to Hempel, how is science inductive? How is it not?
+            - He would say science is inductive in the sense that it never gives us proofs; at best, it gives us probabilities, but we can never "prove" a hypothesis via induction
+                - However, Hempel ALSO thinks we can't definitively prove that a hypothesis is FALSE because of the idea of "auxiliary hypotheses," which are basically "hidden assumptions" we make in our experiments - he thinks we can't ever test hypotheses in isolation, but only in bundles
+                    - We can't control every variable: the rotation of the moon, position of the stars, the bus system running outside, etc.
+                    - So for Hempel, the premise of an inference looks less like this:
+
+                            H -> O
+
+                        - ...and more like this:
+
+                            (H & A1 & A2 & ... & AN) -> O
+
+                    - So, when we don't see the observation we expect, we can't know for sure if the actual hypothesis was wrong OR if one of these auxiliary hypotheses was wrong instead
+                        - For instance, Hempel gives the example of Tycho Brahe trying to prove the heliocentric theory by measuring star parallax (i.e. apparent change in location) at different points in the Earth's orbit; however, he didn't measure any noticeable parallax, and so he discounted it
+                            - As it turned out, though, Brahe was assuming the stars were close enough for his instruments to detect any parallax that occurred - and even though he thought he had reasons for this, he ended up being wrong! His auxiliary assumption was wrong!
+                                - As a side-note, this parallax wasn't actually measured until 1838 - so why were Kepler's theories accepted? It was simpler, certainly - but that doesn't logically prove it to be right
+                - Hempel says that this is a general phenomenon: while we might be able to show a hypothesis is less likely, we can never be 100% sure the hypothesis itself was disproven, rather than some interfering hidden hypothesis
+                    - Oftentimes, when contradictory data is found for well-accepted hypotheses, people try to save it by making AD HOC hypotheses that explain away the discrepancy or tweak the original hypothesis. Sometimes this works great (proposing the existence of Neptune because of Uranus's wonky orbit), other times not so much (proposing a Planet X because of Mercury's wonky orbit, which is actually due to general relativity)
+
+- So, Hempel thinks it simply isn't possible to test a hypothesis in isolation - we deal in probabilities, not certainties, as scientists
+
+- We'll talk more about this on Thursday!

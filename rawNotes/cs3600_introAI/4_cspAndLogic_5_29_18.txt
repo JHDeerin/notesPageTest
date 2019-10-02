@@ -1,0 +1,117 @@
+//****************************************************************************//
+//****************** CSP and Logic Agents - May 29th, 2018 ******************//
+//**************************************************************************//
+
+- Heuristic returns a path of 30...so close, yet so far :/
+- 2:35, yet the board remains...empty
+    - That error is currently being corrected:
+    - "Logic & CSP"
+
+- A quick word about the first project; it seems people are still a bit confused about consistency, so we'll briefly go over it again
+- After that, we'll quickly talk about 2 topics that've been de-emphasized in the class to leave more time for machine learning: logic agents, and CSPs
+    - On Thursday, we'll then start talking about probability-based agents, which evolved from these 2 themes
+
+- And don't forget: project 1 is due Sunday night! Do the extra credit if you have time, don't turn it in late unless you have to
+------------------------------------------------------------
+
+- So, first things first, let's go over consistency again
+    - CONSISTENCY, once again, formally states this: abs(h(n1) - h(n2)) <= actualCostDiff(n1, n2)
+        - In English: "The heuristic estimate to the goal mustn't change by more than the actual path cost when we move between any 2 nodes"
+        - So, if we actually move 5 units closer to the goal, it's fine if our heuristic gets 5 closer as well; it's ALSO okay if it gets LESS than 5 closer to the goal; it's NOT okay if it changes by MORE than 5!
+            - The issue is NOT that we're overestimating the cost to the goal (that's admissibility), but that we're overestimating the distance between 2 non-goal nodes
+            - This won't give us the wrong answer, but often it WILL end up with us going down a lot of dead ends, since it'll result in a heuristic that's inconsistent with the actual map
+                - "Consistency usually implies admissibility, but admissibility doesn't always imply consistency (although it usually does)"
+                    - HOWEVER, if a heuristic isn't admissible, it ALSO won't be consistent
+                - Very rarely are heuristics mathematically proven to be consistent, since it's difficult to prove; it's largely still an art to come up with them
+
+- So, let's get to the first of our two topics today: CONSTRAINT-SATISFACTION PROBLEMS, or CSPs
+    - "This really is just a specific type of search; it's a GREAT search algorithm, but only works in limited circumstances"
+    - CSPs will ONLY work with "factored state problems," meaning that we can look at individual pieces of the state and give meaning to them
+        - Our previous search algorithms didn't understand anything about the problem domain, it was just searching through a bunch of arbitrary transitions for arbitrary states
+        - With CSPs, our agents understand what the sub-pieces of the state mean, and can use that information to make decisions
+    - So, if we have this "factored state" and rules that govern how parts of that state behave, we can do a better search algorithm
+        - One example: Sudoku! We have 1-9 in each row, in each column, and in each square
+        - We COULD solve this just with regular search by defining a unique state for every possible combination, but that search space is extremely large (for a normal sudoku board, 9 possibilities for each square, so for a 9x9 board it'd be 9^81 - and that's not counting the intermediate search states)
+            - Search will eventually solve this problem, but with such a large state space to explore it'd take prohibitively long to do so
+        - By taking these rules and including them as part of the search, we can search more intelligently
+    - So, to do a CSP search, we'd define the set of variables "X" that make up the state
+        - For Sudoku, there might be 81 - one variable for each square
+    - Then, we'd define the set of domains "D" for the valid values each variable can take on
+        - For Sudoku, this'd simply be 1-9 for all squares
+        - You can define an individual domain for each variable; they DON'T all have to be the same 
+    - Finally, you define a bunch of "constraint" rules on how the variables relate to each other
+        - Formally, you're supposed to write this out as a matrix for each pair of possible variable values, but more commonly we write a "satisfiesConstraint(state)" function
+        - For Sudoku, you could write something like this:
+
+            satisfiesConstraints(state):
+                if all values in columns 1..9 are different
+                    if all values in rows 1..9 are different
+                        if all values in bigSquare are different
+                            return True
+                return False
+    
+    - So, we've defined what we need for a CSP, but how is it any better than our old search techniques?
+        - Well, like we said, search can only answer 1 question when it finds a new node: "Is this a goal?"
+            - For the Sudoku problem, that's not helpful; there's a few goal states but TRILLIONS of possible other states!
+            - Furthermore, we don't know if we're getting any closer to the goal! It'll create illegal Sudoku boards and still check if they're a goal, and it's difficult to create heuristics that tell us which states are better than others
+                - So, search kinda sucks for problems involving factored states and large numbers of possible states
+        - With CSP, it still doesn't know what to try next, but because of its constraints, it can quickly tell when it's going down the wrong direction and making an illegal move; it won't bother searching things that can't possibly be a solution (e.g. a board with 2 of the same number in a row)
+            - If you think of it as a search tree, it's pruning off MASSIVE possibilities as it goes; it won't bother searching any possible state with 2 1's in the same column, for instance
+        - So, the CSP's "goal" is to find any configuration that is CONSISTENT and COMPLETE
+            - For the CSP definition, 
+                - CONSISTENT means no constraints have been broken 
+                - COMPLETE means all variables have some assigned value
+- The simplest version of CSP is BACKTRACKING SEARCH - "If I've broken a rule, back up, don't go down that path, and try a different one"
+    - We can restate this as a search problem, where our set of states is the set of variables, s0 is the "empty" set (no variables have an assigned value yet), our action is to assign a new value from the domain to an empty variable (really, just that 1 action), and the final state is ANY state where all variables are assigned and the constraints are satisfied
+    - We can actually use our old search techniques to handle the searching part of this
+- CSPs are clearly useful, since we can avoid searching down a LOT of unprofitable paths, but there're some limitations with them
+    - CSPs don't have any heuristics/performance metrics; it can only tell us "this is valid" or "this is invalid," so it doesn't find the best path for us; it does NOT necessarily find the optimal path to do things, or the "best" solution
+    - CSPs do NOT know what the goal state is explicitly, it just knows the rules that define a solution
+    - To CSPs, any solution is as good as any other; it only finds "a" solution, not the "best" solution
+
+- So, we used to talk about a bunch of CSP algorithms in this class, but for any exams I give, you only need to know about as much as we've said
+    - One optimization you should know, though, is that the order in which we assign values to the state matters; there's some clever ways of improving this (e.g. detecting the missing Sudoku number in the row)
+    - There's also some clever ways to detect dead ends early (BEFORE we make an assignment) to further optimize what we're doing
+
+- So, with CSPs out of the way, we'll move on to logic-based agents - and a rather old game called "Hunt the Wumpus"
+    - The trouble with CSPs is that it still requires us to run search algorithms - it just lets us search more efficiently, but it still runs in exponential time
+    - If we have a sufficient number of clear rules for our state, though, we can try to logic our way through the problem
+        - Search can just ask "is this a goal?"; CSP can ask "is this a valid state?"; but neither can form new rules to help itself, or to reason about the problem logically
+            - Think about solving a Jigsaw puzzle - we could do that using a basic search (placing our pieces in different combinations until they all fit), improve it with CSP (identify if a piece will fit or not), but it's not a smart way to solve it - we're guess-and-checking, really
+        - With a bit of logic, though, we can figure out that straight-edged pieces go at the edge of the puzzle, and two straight edges means the piece is a corner
+            - That's how most PEOPLE start off jigsaw puzzles
+    - So, right now, our search techniques have all been "goal-based" agents - now, we're going to move on up to KNOWLEDGE based agents! A few things we need:
+        - First off, a KNOWLEDGE BASE is a set of facts/propositions (true/false things)
+        - Then, the capability of adding new facts to its knowledge base
+        - Finally, the ability to reason about facts and make deductions
+    - To make this more concrete, let's look at an example called "Hunt the Wumpus"
+        - "In the book, they called this 'Wumpus Hunter' - I don't know if they were worried about public-domain copyright infringement or what, but they're WRONG!"
+            - In the game, we're in a pitch-black maze, but with no map of the maze
+            - We do know a few things:
+                - We know there exists a SINGLE Wumpus - a horrible, stinky monster with suction cups for feet, and it DOES NOT MOVE
+                - We also know there are pits in the map - they are fatal if we are in them (due to dehydration, since they're all bottomless pits)
+                - There's gold, and we WANT IT 
+                    - "Adventure games are pretty boring if the characters aren't greedy, since then they just give up and go home"
+                - We also have a bow with 1 arrow, which will kill the Wumpus if we hit it
+            - So, we want to get the gold, possibly kill the Wumpus, and avoid dying (by falling into a pit or being eaten by the Wumpus)
+            - As it stands, there's NO WAY to solve this problem since we don't have any sensors!
+                - So, let's say that the Wumpus stinks with a radius of 1 (right next to it) - we can detect that we're adjacent, but we can't tell which direction it's in
+                - We can detect gold if we're on top of it - a range of 0
+                - We know pits make breezes within a radius of 1, so we can tell if there's a pit next to us (but not which direction); we can't distinguish the breeze from 1 pit from the breezes of multiple adjacent pits
+                - The Wumpus screams horribly if it dies, so we immediately know if the Wumpus is dead
+            - Notice that we can't tell what's in adjacent rooms
+            - We also have a few actions we can do:
+                - We can move up/down/left/right
+                - We can shoot our arrow up/down/left/right, and it will travel in a straight line until it hits the wall or kills the Wumpus
+                - We can grab the gold if we're on top of it
+            - So, logically, how can we get our computer to play the game well?
+                - Well, we want to maximize our chance of survival - if we live long enough, we'll eventually find the gold
+                - In terms of environment, this is partially observable, stochastic (from the agent's perspective, since we don't know everything, so we can be surprised); arguably deterministic (since there's nothing totally random), episodic (we don't need to know our previous actions to behave optimally; our "mental map" has information added as we move, but we don't need to know OUR exact actions), static, discrete, and single agent (the wumpus doesn't move/take any actions; it's just a cell that kills us if we enter it)
+                - (For today, Prof. Byrd draws the example grid on the board and goes through some possible paths)
+                    - "We'll just go through some examples today, and then formalize it into an algorithm on Thursday"
+                    - In a location w/ no breeze or smell at 1,1, we know (1,1), (1,2), and (2,1) are safe
+                    - Moving up into a smell, the Wumpus could be up or right, so we move back to 1,1
+                    - Moving right, we find a breeze, but no smell - THEREFORE, we can deduce there's no Wumpus above us in (2,2)!
+                    - So, We go to (2,2), detect no percepts, and know that (2,3) and (3,2) are also safe
+
+- Next time, we'll formalize this and turn it into an algorithm that can solve the game - then we'll dive right into probability!

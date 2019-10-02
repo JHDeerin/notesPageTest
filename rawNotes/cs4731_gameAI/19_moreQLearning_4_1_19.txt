@@ -1,0 +1,62 @@
+//****************************************************************************//
+//****************** Q-Learning (cont.) - April 1st, 2019 ********************//
+//**************************************************************************//
+
+- As I'm sure you know, Exam 2 is THIS WEDNESDAY, i.e. 2 days from now - it's open note, covers everything we've done between Exam 1 and Exam 2 EXCEPT for Reinforcement Learning (Exam 1 started *just* before we finished doing decision-making)
+- Homework 7 is done, and thus, homework 8 begins!
+    - The first half of the course wasn't very technically involved; this homework assignment isn't particularly more difficult than the others, but it IS more mathematically involved, and uses "Tabular Reinforcement Learning"
+    - For the 4731 people (the non-grad students), you'll be teaching your agent to play a grid-based game
+        - There'll be walls, cells that damage your robot, some "people" we need to collect, and an enemy that chases us around
+        - You'll train a "Controller" agent, which'll iterate for a specified number of iterations; it'll then go into "interactive mode," where you can play as the enemy robot and chase your robot around
+            - By default, the enemy either acts randomly or according to predefined rules
+        - Your job is top implement Q-learning in the controller, then fiddle with the agent parameters
+            - You will ALSO have to write a very brief report where you explain why the agent does certain things (e.g. why the agent often learns to walk through lava, etc.)
+    - For the grad students, then, you'll be training agents to play a simple level of a game called COIN RUN (created by OpenAI), trying to get your agent to beat it in under 50 timesteps
+        - Specifically, we'll be looking to make sure your code converges to the optimal solution (even if it takes ridiculously long to do so)
+        - for Professor Riedl's solution, the agent randomly does 10,000 actions to map out its possible options and rewards
+            - To make the problem easier, this version of the game has a box that changes color based on the agent's velocity, making it easier for the neural net to "learn" the agent's velocity
+        - The agent will start acting pretty decently after ~1 million timesteps, but that'll take FOREVER on a laptop
+            - To speed this up, we'll instead use Jupyter Notebooks on Google CoLab to run your code on some GPU-enabled computers in the cloud
+                - The Jupyter Notebook code is basically like a Python interpreter with markdown mixed in
+                - If you're okay with not seeing the graphics, you can run the entire thing on CoLab without having to ever run the files directly on your own computer
+            - On the Notebook itself, there'll be some boxes where you write your own code, just like for the other assignments
+        - Once the code is done, and the model has been trained to your satisfaction, you'll download the finally trained model and submit it on Canvas
+        - So, this homework is more complicated because of the neural-net component, and will also be tested directly by Professor Riedl
+--------------------------------------------------------------------------
+
+- SO, to do these fantastic homework assignments, we need to actually learn a bit more about reinforcement learning!
+    - Last week, we were doing a type of RL called Q-LEARNING, which requires us to know the game's states, possible actions, and rewards - but assumes we DON'T have the transition function that tells us the rules("what happens" for a given action)/what our opponent is doing
+    - From this, we can derive our UTILITY, or "Q" value: how much total score we expect to get for a given state/action pair (e.g. "If you're at the bottom of the pit, and you jump, you'll probably get a score of 57.3")
+        - To learn these values for a given state/action, we use the Q-UPDATE function, which updates our Q-table of Q values
+        - Basically, this function updates the utility for doing an action at a certain time/place using the current reward and the likely future rewards from the new state (along with subtracting the current utility, just to make sure we don't update things too quickly)
+
+- So, that's what we do when we're updating our Q-value...ALMOST
+    - If we're at a terminal state (the goal, or death, or a YOU LOSE enemy), we shouldn't take future rewards into account!
+        - For these game-ending states, the new reward should be:
+
+            Q(s_t, a_t) = Q(s_t, a_t) + a*(r_t+1 - Q(s_t, a_t))
+
+            - "Technically, this isn't required for Homework 8 to work well (since there's no terminal state), but I wrote a unit test for it, so hey - you're doing it!"
+        
+- To train our agent, it has to play the game a lot of times.
+    - ...you'll notice I'm still talking, so it isn't quite that simple
+    - If we had our agent just randomly take actions, we'll EVENTUALLY see everything, but it'll take a VERY long time 
+        - You basically need to wait until you hit a terminal state to start getting non-zero Q-values for stuff, and until then the agent has NO idea what it's doing
+    - So, if we're not done learning, just taking RANDOM actions every time is inefficient, and results in us having no guarantee of seeing states that are far away from our initial states
+        - ...which means random times increase exponentially with the state space
+    - So, let's instead try doing the ON-POLICY, where we ALWAYS perform the most optimal action that we know about
+        - Initially, all of our Q-table values are 0, meaning our agent will take random actions
+        - Eventually, though, the agent will see the same state twice, updating its Q-value - and if it did something that got it a positive reward, it'll do the same action it took last time!
+            - This is GOOD because it gets us a positive reward, but it means that once we get just a little bit of reward, we'll stick to that path hyper-conservatively - but what if that path is a local minima? What if there's a HUGE reward just a little bit off the path we're on?
+    - So, random is good because we get to see a lot of stuff, and on-policy let's us see the same states multiple times, letting us update their values multiple times and refine our plan
+    - So, to combine these two, we'll use a hybrid plan called the EPSILON-GREEDY scheme:
+        
+            epsilon = some number we choose between 0 and 1
+            if random < epsilon:
+                do random actions
+            else:
+                do the optimal on-policy action
+
+        - This scheme means we'll still zero-in on the best actions, but we'll keep exploring around a bit, too!
+
+- Alright, that should be enough to start doing tabular reinforcement learning - in the meantime, prepare for the exam on Wednesday! Good luck!

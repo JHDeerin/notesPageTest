@@ -1,0 +1,118 @@
+//****************************************************************//
+//******************Iterators - February 3rd, 2017***************//
+//**************************************************************//
+
+-Once again, HB is running a little late, so we've got the TA's taking care of business
+-So, you have an exam next week! GET READY GET PUMPED! HOWEVER, you also have the BST homework (due in TWO weeks, so you have a little time)
+---------------------------------------
+
+-So, a "foreach" loop uses an iterator object to go through the elements in a data structure
+    -"for(int i : someArray)"
+        -this is ACTUALLY shorthand for "for(Iterator<Integer> i; i.hasNext(); i = i.next())", which is what the compiler translates it to
+
+-The only method in the "Iterable" interface you HAVE to implement is the "iterator()" method, which returns an "Iterator" object
+    -The "Iterator" interface requires you to impleemnt the "boolean hasNext()" and "<T> next()" methods
+
+-So, remember how we had to use an index to keep track of where we were in our Linked Lists? Iterators are supposed to handle all of that complexity for you
+
+"public class LinkedList<T> implements Iterable<T> {
+    ...
+    public Iterator<T> iterator() {
+        return new LLIterator();
+    }
+
+    private class LLIterator<T> implements Iterator<T> { //just implement an inner class to create the "Iterator" object the iterator() method needs
+        private Node current;
+
+        public LLIterator() {
+            current = head;
+        }
+
+        public boolean hasNext() {
+            return current != null;
+                //why not check the "next" node? Because when we just start out, we haven't checked the current node; if we had just 1 element in the list, then hasNext() would return false before we go through the first iteration of the for loop - which is wrong!
+        }
+
+        public T next() {
+            if (!hasNext()) { return null; } //if the current node is null, don't return anything
+            T temp = current.data;
+            current = current.next;
+            return temp;
+        }
+    }
+}"
+
+-Remember: ITERABLE is the interface your class is actually implementing; ITERATOR is what Iterable is returning
+
+---REALITY CHECKS!---
+##### 1 #####
+"Write a recursive method for Euclid's algorithm; the greatest common divisor of 2 integers is the largest integer that divides evenly into both of them; e.g. gcd(102, 68) = 34"
+
+public int gcd(int i, int j) {
+    if (j == 0) {
+
+    } else {
+        return gcd(j, j)
+    }
+}
+//couldn't figure the algorithm out; apparently we were supposed to look up the algorithm :(
+
+CLASS ANSWER:
+    -So, Euclid's algorithm itself is to call gcd(j, i % j);
+    -therefore,
+    "public int gcd(int i, int j) {
+        if (i == 0) {
+            return j;
+        }
+        if (j == 0) {
+            return i;
+        }
+        return gcd(j, i % j);
+    }"
+
+
+##### 2 #####
+"Write a generic private inner class Node for doubly linked lists below; the Node class will have data, and references to next and previous. It will have methods to get and set next, and to get and set previous"
+    -An actual exam question would be a little less vague than this
+
+private class Node<T> {
+    private T data;
+    private Node<T> next;
+    private Node<T> prev;
+
+    public Node(T data, Node next, Node prev) {
+        this.data = data;
+        this.next = next;
+        this.prev = prev;
+    }
+
+    public Node(T data) {
+        this.(data, null, null)
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public Node getPrev() {
+        return prev;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
+
+    public void setPrev(Node prev) {
+        this.prev = prev;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+}
+
+-

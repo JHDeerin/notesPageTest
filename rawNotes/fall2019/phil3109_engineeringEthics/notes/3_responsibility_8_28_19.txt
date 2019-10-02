@@ -1,0 +1,60 @@
+//****************************************************************************//
+//*********** Responsibility for Engineers - August 28th, 2019 **************//
+//**************************************************************************//
+
+- I should like to write a lament, in 17th century prosody, on the confining effects of arm-rests, lately sprung up in this our nation, to the doom and unhappiness of all partakers
+- REMEMBER: We don't have class ALL of next week, but when we do come back, stuff gets real with ethics!
+--------------------------------------------------------------------------------
+
+- So, the topic for today is the nature of responsibility for engineers
+    - At the end of chapter 1 (1.7-1.9), our textbook argues (well, states) that there are 3 ways of looking at professional ethics
+        - Prohibitions are bad things that we are NOT supposed to do as engineers ("don't take bribes!", etc.)
+        - Preventative measures says that there are things that - while not bad in themselves - we should avoid doing/try to do to prevent bad things from happening in the future
+        - Finally, "aspirational ethics" focuses more on what we SHOULD do as engineers, even if they aren't necessarily our "duty"
+            - For instance, the textbook mentions Carl Clark, one of the engineers who invented airbags
+                - We might think "oh, that's great, good for him who worked on it," but this story is actually NUTS - the auto industry tried to stop his research, he used himself as a crash-test dummy, and his invention has saved literally THOUSANDS of lives! What he did was heroic, WAY above what he was required to do i his day-job
+            - So, what do we aspire to as professional engineers, and what SHOULD we be aspiring towards?
+
+- With that, let's take a look at chapter 3: what it means for engineers to be "responsible"
+    - Our textbook annoyingly does a LOT of defining semi-obvious terms to make them technical, and that might've meant you overlooked a VERY important term: STANDARD OF CARE!
+        - "Again, I do sympathize a little bit with the textbook authors here, because they want to make this stuff SUPER clear so that we can recognize it when things seem more gray-ish in the real world"
+    - What's "Standard of Care", then, and why is it important?
+        - Basically, it's the idea that there's a standard in our careers above the minimum, legal requirements that we're expected to meet
+            - It is "what is commonly and ordinarily done (or not done) by competent engineers...it might be seen as representing the highest shared standard among competent, responsible engineers in a relevant field"
+        - Is this just saying "do your job and don't suck?" Not quite!
+            - Let's suppose a client asks us to build a 45-degree angle leaning building, and we read up on all the building codes of the city, build it *technically* following all those rules, and then it falls down - were we responsible for that?
+                - According to the standard of care, YES, because we followed the minimum standards for regular buildings despite having a much more difficult problem - we OBVIOUSLY needed to do more!
+                - We can even be held legally responsible for this, to - if experts agree we should've done more and were negligent, we can be held responsible even if we didn't explicitly break any laws
+        - This does NOT mean that you're responsible for anything that could possibly go wrong, however; there's always the possibility of something going wrong
+    - "Okay, so we just have to always be as safe as possible, right?" Not necessarily!
+        - There may be reasonable risks to take on for a given project, and there may be unreasonable risks, and the other engineers in your field have to judge which ones are and aren't
+        - The deep point of this lesson today is that engineering is NOT just following rules or and algorithm: we NEED to use our judgement when we're working
+
+- There are 2 cases from the textbook that are worth looking at for this
+    - Case 1: the Hyatt Regency Hotel in Kansas City
+        - "What is this? It's a disaster story!"
+            - Like many hotels, this was frequently used as a venue for conferences and events
+        - On this particular day, there was a dance competition, and people were standing on the concrete walkways over the main atrium - and suddenly, those walkways broke, fell on all the people below, and around 109 people died (the worst U.S. engineering disaster in history until 9/11)
+            - It was later found that the design for the support columns was changed last-minute to not line up, making building the walkways easier but weakening the 
+            - The project manager was later accused of displaying a "conscious indifference" to safety standards during
+    - Case 2: The NYC Citycorp Center
+        - This was (and is!) a skyscraper that distinctively wasn't supported at its 4 corners, since they wanted to make room for a historic church on the property; instead, it was supported by 4 large "pillars"
+            - When this building was almost completed, the engineers suddenly realized that if hurricane-force winds hit this building, the pillars supporting it would allow air to flow underneath the building, and there would be enough force to collapse the building
+        - Fortunately, they caught the mistake in time, paid for stronger beams to be used to support the building, and the building is still standing today; the laws of NYC didn't require them to do this at the time, but they chose it as the right thing to do
+
+- So, the standard of care exists because standards themselves are often in a state of flux, haven't caught up with recent innovation, or don't apply to unusual cases - and for all of those, we have to use our best judgement to figure out what needs to be done
+
+- One other thing the book mentions is legal liability, which is more straightforward
+    - Basically, if someone does something bad as a professional, there are 3 broad "levels of badness"
+        1) Intentionally causing harm ("this is literally 1st-degree murder stuff, where you knowingly want to do something bad and then do the bad thing")
+            - This is obviously pretty rare; most engineers aren't trying to cause pain and death when the show up to work
+        2) Recklessly causing harm
+            - This is when you KNOW something is risky, but you choose to do it anyway, even if you don't want anyone to get hurt
+            - "Here's an 'I-knew-a-guy-story': I had a friend who would tie a rope to his pickup truck, stand on his skateboard, and then try and go skateboard-skiing behind the car. That will rip your face off at 15 MPH, and they knew that, but they did it anyway."
+        3) Negligently causing harm
+            - This is like the babysitter not watching the kids, or the friend who doesn't think to tell their skateboarding friends what they're doing is a really stupid idea
+            - Basically, negligence means that people didn't realize that they were doing something wrong, but they SHOULD have known
+                - It's like ignorance, but more blatant
+    - "I can't guarantee telling the difference between these and examples of them will be on the test, but it's not a bad candidate..."
+
+- Okay, when we get back we'll talk a bit about the Columbia disaster ("not the 80s one, the 2000s one"); bye!

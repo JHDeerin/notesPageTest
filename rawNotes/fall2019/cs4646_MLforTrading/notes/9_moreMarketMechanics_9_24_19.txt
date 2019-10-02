@@ -1,0 +1,35 @@
+//****************************************************************************//
+//************** More Market Mechanics - September 24th, 2019 ***************//
+//**************************************************************************//
+
+- Okay, I walked in REALLY late today
+    - 1st slide says "How do prices happen? How do trades happen?"
+--------------------------------------------------------------------------------
+
+- So, people can put a stock up for sale at ANY price they want; but the only ones most people really care about are the lowest asking price and the highest bid price
+    - "Occasionally, you will hear about people putting stocks for sale at higher-than-normal prices and hoping a big firm won't do their homework and'll just hoover up 10,000 stocks, theirs included"
+
+- Okay, what other kinds of order? Well, there's technically one more type: an "opening/closing cross"
+    - You might've heard me say the order book goes away at the end of the day, since orders that haven't been executed yet
+    - So, markets open with an OPENING CROSS - an auction
+        - The details vary between exchanges, but the idea here is that some bids will come in for the first 30 min or so the exchange is open
+            - LIMIT ON OPEN bids are basically an order book for before the market opens, and say what price they're willing to pay
+            - MARKET ON OPEN bids say "I don't care what the final auction price is, I want to buy 100 shares of X at its opening price"
+        - So, when the opening cross starts at 9:30, the exchange tries to maximize the number of transaction ("since they're paid on a per-trade basis"), and that becomes the opening price of the stock!
+            - So, they'll use an algorithm to find the price where the most shares will get traded, and that becomes the opening price of the stock
+            - What if no one puts up bids? That'll sometimes happen with penny stocks, but it's very rare for what we're talking about
+                - "Pink slip" stocks are ones that are "thinly traded," and aren't even listed on major exchanges
+                - More important stocks are on the actual exchange
+                - The most important stocks are on indices, like the S&P 500
+    - CLOSING CROSSES are similar, but generally have a lot more trades; this is where we determine the closing price for the stock
+        - There are 
+
+- So, those are the "official" orders we can do directly on the exchange; now, let's talk about some order types that don't "really" exist, but that are offered by many brokerage firms
+    - STOP trades basically mean there's an if statement based on the stock price (e.g. "If MSFT is at price 90, then ...")
+        - STOP LOSS/GAIN trades are the same thing, we're
+            - STOP LOSS is where we're trying to exit and cut losses 
+            - STOP GAIN is where we're trying to buy more stocks at a certain price
+        - Why do this instead of limit orders? Because it's guaranteed to execute if the stock even briefly touces a price, and avoids disclosing your strategy to the exchange (your broker knows it, but the exchange doesn't need to )
+    - STOP LIMIT may not execuse at all, since it submits things as a limit order, meaning that it'll wait until there are enough shares at a given price, etc.
+        - It's very similar, though
+    - TRAILING STOPs are more useful for long-term traders

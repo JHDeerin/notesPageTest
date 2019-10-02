@@ -1,0 +1,153 @@
+//*****************************************************************//
+//***************Linked Lists - January 13th, 2017****************//
+//***************************************************************//
+
+-So, we can apparently submit music to be played before class! Sounds delightfully terrifying!
+-HB is currently in the process of updating the slides to include circular linked lists / other cool goodies, but those aren't *quite* up on the site yet
+-1st homework posted and DUE ON MONDAY, so hop to it!!!
+    -Next homework will be on "Singly Linked Lists"
+----------------------------------------------------------
+
+-So, to recap, a linked list is a data structure consisting of a sequence of "Nodes"
+    -Each Node has a reference/pointer to the next Node in the list, and the actual data that the node contains
+-A "HEAD" pointer to the first node in the list is almost always necessary to get to the start of the list; a TAIL pointer is useful, but usually optional
+    -In almost all of our examples, though, we'll create a TAIL pointer
+
+-Linked Lists are GREAT for cases where data is being constantly manipulated (due to the low "cost" of adding/removing nodes), but is slower than Arrays / ArrayLists for accessing already stored data
+
+-Inserting to the front/back of the list isn't bad; create the new node, have it point to the first node (if added to the front) OR have the old tail point to the new (if it's added to the back),
+
+-Removing from the TAIL of the Singly Linked List, however, is NOT very efficient, since you have to FIRST remove the last node, THEN set the "next" pointer for the "new last" node to null
+    -To reach this "new last" node, you have to start at the HEAD, then go through the ENTIRE list to reach it - there's no faster way!!!
+        -cost: O(n)
+    -Usually, we'll start at the beginning, then see if the "next" pointer of the node as we're iterating through the list == the TAIL; once it is, we've found the 2nd to last node, which will become the new last node
+
+-You can ALSO add items to a specific point in the linked list, but you'll STILL have to iterate sequentially through the list to get to the right point; once you get to the proper spot, you create the "new node", set the "new node"s next pointer to be equal to the current node's "next", then set the "current node"s next pointer to the new node
+
+-So, for adding:
+    AddFirst(e)
+        -create new Node w/ data "e"
+        if (list is empty)
+            tail = node
+        else
+            node.next = head
+        head = node
+        listSize++
+
+    -This example handles the "Edge Case" of if the list you're adding to is empty; THESE EDGE CASES ARE VITAL TO WATCH OUT FOR
+
+    AddLast(e)
+        create new node w/ data "e"
+        if (list empty)
+            head = node
+        else
+            tail.next = node
+        tail = node
+        listsize++
+
+    RemoveFirst() //?????? CHECK THIS
+        head = head.next;
+        listSize--;
+
+////////////(Singly) Linked List Example///
+    public class LinkedList {
+        private Node head;
+        private Node tail;
+        private int size;
+
+        private class Node() { //DON'T NEED GETTERS/ SETTERS since it's an inner class, and so LinkedList has access to Node's variables
+            private int data;
+            private Node next;
+
+            public Node(int data, Node next) {
+                this.data = data;
+                this.next = next;
+            }
+
+            public Node(int data) {
+                this(data, null) //"CONSTRUCTOR CHAINING"; using previous constructor (kind of like a local "super" call)
+            }
+
+            public String toString() {
+                return Integer.toString(data);
+            }
+        }
+
+        public LinkedList() {
+            head = null;
+            tail = null;
+        }
+
+        public LinkedList(int data) {
+            head = new Node(data);
+            tail = head;
+            size = 1;
+        }
+
+        public void addToFront(int data) {
+            head = new Node(data, head); //should point to "old front"
+            if (tail == null)
+                tail = head;
+            size++;
+        }
+
+        public void addToBack(int data) {
+            if (head == null) {
+                addToFront(data);
+            } else {
+                tail.next = new Node(data);
+                tail = tail.next;
+            }
+            size++;
+        }
+
+        public void removeFromFront() {
+            if (head == tail) { //if the size of the list is 1
+                tail = null;
+                size = 0;
+            } else {
+                head = head.next;
+                size--;
+            }
+        }
+
+        public void removeFromBack() { //this is the one that can't be done efficiently
+            if (head == tail) {
+                tail = null;
+                head = null;
+                size = 0;
+            } else {
+                Node current = head;
+                while (current.next != tail) { //will end at the 2nd-to-last node
+                    current = current.next;
+                }
+                current.next = null;
+                tail = current;
+                size--;
+            }
+        }
+
+        public boolean isEmpty() {
+            return (head == null);
+        }
+
+        public int sumData() { //works since the data are all ints
+            int sum = 0;
+            Node cur = head;
+            while (cur != null) {
+                sum += cur.data;
+            }
+            return sum;
+        }
+
+        @Override
+        public String toString() {
+            String answer = "";
+            Node current = head;
+            while (current != null) {
+                answer += current + ", "
+                current = current.next;
+            }
+            return answer;
+        }
+    }

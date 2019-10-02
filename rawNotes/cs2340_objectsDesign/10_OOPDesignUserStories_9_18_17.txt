@@ -1,0 +1,50 @@
+//****************************************************************************//
+//************* User Stories OOP Design - September 18th, 2017 **************//
+//**************************************************************************//
+
+- So, a quick reminder about OOP thinking:
+    - An APPLICATION is a set of interacting objects
+    - An OBJECT is an implementation of one or more "roles"
+    - A ROLE is a set of related "responsibilities"
+    - A RESPONSIBILITY is an obligation to do a task, or knowing information, or deciding something
+        - A bit more abstract than a simple "method" or data structure
+    - A COLLABORATION is an interaction between different objects or roles
+    - A CONTRACT is an agreement outlining the terms of a collaboration
+
+- So, as we've (probably?) talked about before, there are 3 phases/areas in designing a program:
+    - The "OOA" ("Object-Oriented Analysis") phase is where the Customer gives us their requirements, and we try and think from the CUSTOMER'S point of view what the application needs to do and how it should work
+    - "OOD" ("Object-Oriented Design") is when we take those customer requirements/needs, and translate them into a high-level design / architecture that we can implement via code
+    - And then in OOP, finally, we actually implement this model in code
+- "There are a SURPRISING number of companies that want to skip straight to the coding phase, when the reality is that they have no idea what they're supposed to be building!"
+
+- So, one first step to designing our software is to make a CONTEXT DIAGRAM; in the world of all possible cloud services, application, servers, creatures, etc., what'll our system actually interact with?
+    - In UML, this is a top-level use case diagram (AGAIN: this is VERY high-level)
+    - In the diagram, we draw a box representing "our application", THEN connect it to a bunch of ACTORS - the different kinds of entities that our system interacts with
+        - PRIMARY actors are people/things who actually use our system (System Admins, Customers, External APIs, etc.)
+        - SUPPORTING actors are computer systems that OUR system uses, but that don't use our system (e.g. APIs that we use, databases, libraries, servers we need, etc.)
+        - OFF-STAGE actors are more distant: they're people/things that care about our system, but don't directly use it (e.g. Shareholders, rival companies, laws regulating our system, etc.)
+            - These usually aren't represented in the diagram itself, but can be important to consider; "If we're designing a game for little children, we'd better care what the parents think about it" 
+    - "Beware of getting TOO generic when you're drawing these; if you say your primary actor is the "User", it's not too helpful, is it? It doesn't really tell you very much."
+- "Some versions of these diagrams ask you to label the data flowing in/out of your system to each actor, etc.; that is NOT what we're asking you to do. We're expecting you to do our variant of a UML diagram, which is a simplified model."
+    - Optionally, you could include this extra detail, but it won't be required for HW4
+- "Remember: the POINT of this diagram is to help you and your team communicate about planning for the project. If drawing these UML diagrams helps your team communicate and organize your design, GREAT. But don't fall in the trap of just drawing these diagrams for their own sake; if they help, use them. If they don't, don't."
+
+- So, we've got the actors for our system; great! Now, what does our system ACTUALLY need to do?
+    - There've been a LOT of different ideas for how to figure this out, but right now the BIG winner in the Agile world are USER STORIES.
+    - The standard format for this is that, for each type of actor in the UML diagram, we write a few things like this:
+        - "As a <type of user/role from diagram>, I want to <perform some task(s) (which helps us devs identify a feature the system needs)>, so that I can <describe some business/other goal the user has>"
+            - e.g. "As an instructor, I want to create an assignment so that my students will be able to work on it"
+        - Each part of this is important; if we can identify a task the user can do but can't come up w/ a goal/reason for why they'd do it, then we have to ask: is this feature actually useful for the user?
+    - Some characteristics for making good user stories - use the INVEST acronym:
+        - INDEPENDENT: stories should be developed independently of one another ("You should NOT be saying 'I can't write THIS story until I write THAT one'")
+        - NEGOTIABLE: Do not put "implementation language" in a story. Keep it general enough so you can have design flexibility; don't try to cram in all the details.
+            - "These stories AREN'T about writing out all the requirements for a project's feature; they're about pretending to be the customer, thinking about how you'd use your system"
+        - VALUABLE: The feature HAS to provide some business or other value to the user (worthwhile goal), or why provide it?
+        - ESTIMABLE: Can't be too big, complex, or unfamiliar to developers that they can't guess how long it'll take
+        - SMALL: User stories shouldn't span multiple iterations/sprints; if the task is too big, break it into a bunch of smaller stories and use the bigger story as an "EPIC" (Overarching story that sub-stories fit under)
+        - TESTABLE: Have to be able to specify acceptance tests for the story
+            - "If you can't come up with a way of proving that your feature works, that's a problem"
+- For stories in the current iteration/sprint: list the detailed tasks to implement story, the "acceptance criteria", and the "done done" criteria ("what HAS to be done so that you're COMPLETELY done implementing this user story?")
+
+- Next time, we'll finish going over user stories, and keep talking about OOP design.
+        

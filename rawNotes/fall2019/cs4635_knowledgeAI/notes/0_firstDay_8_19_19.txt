@@ -1,0 +1,71 @@
+//****************************************************************************//
+//******************* First Day - August 19th, 2019 *************************//
+//**************************************************************************//
+
+- With an ample 4 minutes to spare, our Professor Ashok Goel has entered the room and begun a-fiddling with the lights
+    - And his first executive action is to...search for a YouTube video?
+        - *cue Bakumon ad, which probably wasn't the primary target*
+--------------------------------------------------------------------------------
+
+- "So, we're going to watch a video, and I want you to consider a question while you're watching: is IBM Watson intelligent?"
+    - *proceeds to play a video of Watson destroying Ken Jennings at Jeopardy*
+    - We'd all agree Ken is an intelligent creature, but why are we hesitant to say that Watson is?
+        - Another problem: we know that we're thinking right now (well, at least the front row is) - but is Watson thinking? How can we tell our little siblings are thinking when they do their math homework? What IS thinking, anyway?
+
+- This is what artificial intelligence is interested in: figuring out what intelligence and thought are, and how to get machines to do it!
+    - There are MANY ways we could try to answer what thought is: we could ask a psychologist and try to figure out what humans do when they "think," we could ask a neurobiologist and analyze fMRI brain patterns, we could ask a philosopher and speculate on these definitions and scenarios...
+    - But, as AI researchers, we have a different methodology: we want to build machines that can "think," even though we don't strictly know what "thinking" means
+
+- So, with your interest hopefully piqued a little bit, let's start going through the mechanics and syllabus stuff of this class
+    - This class has 4 different sections: an undergraduate class, a graduate student class, and 2 online sections; all of these have the EXACT same instructors, course content, and assignments
+        - Speaking of which, the TAs are Aaron, Daniel, and Rohin, and several others who aren't present today (due to swelling class sizes, we're currently on a mad TA hiring spree)
+    - We will ALSO have an AI TA - cleverly nicknamed "Aita" - that can answer basic questions you have about the syllabus like "when is our next test going to be?", "What subjects are we covering next week?", etc.
+        - How does this work? Well, as it turns out, you'll be building a mini version of this system for one of your homework projects! ("I believe it is project 3")
+    - The schedule on the syllabus is FINAL
+        - "Please don't ask for a homework extension, because then we will have to say NO, and that would make us sad"
+        - In return, we promise that there will be no extension for the graders either; we'll get all assignments back to you within 2 weeks
+    - "I know, you will not read the syllabus, but I'm asking you anyway: PLEASE read the syllabus"
+
+- (After going through all that, Professor Goel got confused about how to reopen Google Chrome - "who builds these things?")
+
+- On Canvas, there are a few files we've already posted:
+    - There are 26 videos for each lecture of this class, ranging from 30 to 90 minutes; I will expect you to watch these videos before EACH class! Can you do that?
+        - "...oh, that was a very feeble yes, class..."
+        - The video lessons talk about the most important concepts we'll cover in each class, and then the class itself will be used for going through examples and answering questions
+    - "One not-so-nice thing about this class: all the homeworks are due on Sunday midnight, using anywhere-on-earth time. I've received much criticism for this, but here's the thing: you have TWO WEEKS to do each project, so DON'T WAIT until Sunday night! Start as soon as you are able, and it won't be an issue!"
+
+- Alright, with the syllabi out of the way, let's start getting into what knowledge-based AI actually IS
+    - We just saw Watson answer all of these questions, and to do that it has to read the clue, search through what it knows in its knowledge base, determine the most likely answer is and then finally say that answer back
+- The problem we have is that intelligent agents all have limited resources, but we're often trying to answer LARGE problems with vast constraints
+    - Even the smartest of us only have limited memories and processing speeds, so how can we answer these complex questions like "who is this strange man talking right now?" in near-real time? There are BILLIONS of people in the world, but somehow you narrowed it down to Professor Ashok Goel in seconds!
+- Another problem we face: logic is deductive, but many problems aren't deductive like this.
+    - If we saw five houses in a neighborhood with red bricks, how can we inductively leap to conclude this neighborhood is made up on brick houses?
+- Yet another problem: the world is dynamic and CONSTANTLY changing, but we handle this novelty just fine!
+    - If we order a sandwich at a restaurant, for example, we don't worry that the type of lettuce is different from our last sandwich; we just start digging in!
+- Yet ANOTHER problem is that learning and problem solving are complex, but explaining things are even MORE complex!
+    - "For instance, why did you come to Georgia Tech? Because it's a good school, perhaps - but HOW did you know it was a good school? Because someone told you, because it was well-ranked in the community and news? As humans, we can incredibly explain why we make many choices, but there are other choices we CAN'T explain. I can't explain why I'm terrible at tennis, although I know I am terrible - so explaining things can be a VERY difficult problem"
+        - One school of thought right now is that AI is at the stage where it can do many things, but it can't explain how it does it effectively yet
+
+- So, AI seems ridiculously difficult, but we KNOW that human intelligence works - so how does it do it? What are the "secrets" that we use to solve these problems?
+    - One "secret" is that knowledge often arrives incrementally, one example at a time - when your parents taught you to tie shoelaces, for instance, you could learn how step-by-step
+        - "One funny thing is that many AI researchers think that teaching a robot to tie shoelaces is an excellent litmus test of AI progress"
+    - Another: similar kinds of problems recur again and again, with only minor differences; once we figure out how to eat a sandwich once, we can eat ANY type of sandwich
+    - Yet another: problems often have many levels of abstraction that help us think about them more easily
+- AI problems, in particular, have many other common characteristics - but alas, they're not very helpful characteristics
+    - AI problems tend to be intractable (difficult and approaching NP-hard), deal with a constantly changing world from a static knowledge base, and deal with a world our knowledge base doesn't have complete information about
+- AI agents, as we mentioned, also struggle with limitations in the face of these monumental problems: limited computing power, limited sensors, limited attention spans and memories, and so on
+
+- We'll talk about how many AI problems involve a general "deliberation" process, where the AI cycles back-and-forth between learning new things, using its existing memory, and reasoning about all of that
+    - Machine learning deals SOLELY with learning right now, whereas knowledge-based AI deals with all 3 of these pieces: learning, memory, and reasoning
+- Some of you may have seen the "4 categories" of AI, where we rate AIs on two axes: "optimal/act like humans" and "think rationally/act rationally"
+    - "This does NOT mean humans are irrational, by the way...although we certainly can be. It's more that we tend to not optimize at the micro-level; humans instead tend to be good at VERY many things."
+    - Machine learning tends to focus on thinking rationally, robotics tends to focus on acting rationally, while WE'LL tend to focus on the 3rd quadrant: building programs that think like humans
+        - These are known as COGNITIVE SYSTEMS: systems that try to mimic how human intelligence thinks about the world
+
+- Later on, we'll talk about an AI architecture that will come up again and again in this course:
+    - A bottom "reaction" layer that works in milliseconds for things that have to happen NOW
+    - A "deliberation" layer that processes things more carefully over seconds, and
+    - A "metacognition" layer that reasons about itself over any period of time to improve the other two steps (for instance, if a car honks at us when our card-driving AI changes lanes, it might try to reason about what it did wrong)
+
+- ...and with the bell a-ringing, we'll stop here for today, and continue going over this next time; slides will be posted to Canvas for your reviewing pleasure!
+    - Thank you very much, and good luck on the rest of this course!

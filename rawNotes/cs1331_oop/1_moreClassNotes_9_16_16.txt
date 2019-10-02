@@ -1,0 +1,42 @@
+//****************************************************//
+//******Classes (Cont.) - September 16th, 2016*******//
+//**************************************************//
+
+-NOTE ON PRACTICE EXAMS: Probably won't have T/F questions on the real one; any coding questions will be restricted so there won't be a bajillion right answers; THE WAY TO TAKE THE PRACTICE TEST CORRECTLY IS TO DO IT WITHOUT LOOKING UP ANYTHING; then, BEFORE you look at the answer key, code it and try it out in Java! If you got something wrong, then look it up in the textbook, or java API, etc.;
+    -looking at the answer key and just saying "Oh yeah, I knew that, that'll NEVER happen again" IS NOT HOW TO STUDY
+
+-You CAN write 2 constructors w/ different method (will that work???)
+
+-ANYWAY, now that we have constructors (v2.0.1), we have a safe, reliable way of creating cards properly, that is encapsulated, utilizes class invariance, and that cannot create improper instances of card
+    -Can we improve? OF COURSE!!!
+
+-For 1, all of the current Card objects have to have their own array of suits/ranks, even though they're exactly the same for ALL instances of the class
+    -This sounds like a job for...STATICS!!!
+        "public static final String[] VALID_RANKS = {*stuff*};"
+    -This means that the card class itself now holds this information, rather than the individual instances of the class
+    -So, we're only using ONE array now for all of the cards...hooray!
+        -We're making them "public" SINCE THEY'RE "FINAL", and thus can't be randomly changed; this means that we can let other classes use these, but we don't have any risk
+            -accessed via "." operator, like with methods; e.g.
+                "public String newSuit = Card.VALID_SUITS[0];"
+            -Actually, EVERY public operator/ member is accessed this way
+
+-So, Card v2.1 is pretty good at this point; but we can still change it with the getter/setter methods!
+    -Does that make sense to let the card change? Nope!
+-So, we'll make the class IMMUTABLE by removing the setters, OR making the setters private so clients can't use them, but the object itself can
+    -Unless there's a GOOD reason to make a method mutable, then you should make your methods immutable
+        -This is a fundamental principle of FUNCTIONAL programming languages, which are becoming more popular since they're much easier to use with multiple threads/ parallel computing
+
+-So, moving allllllll the way to 5.0, there are a few changes
+    -We use the Maven standard directory layout (look this up?)
+    -The String[] arrays for the suits have been replaced with ENUMERATIONS (enums), which are declared in a separate array
+        -One advantage of this is that enums are checked at compile time, rather than arrays, which aren't checked until runtime, making them safer; additionally, enums are simpler to understand once they're known
+    -Also utilizes a proper "equals" method; we'll cover these later
+        -FOR NOW, know that there's 2 types of equality: VALUE equality (checks to see if 2 variables/ classes/ objects/ etc.) have the same values, and OBJECT(right name???) equality, which checks to see if the objects use the same piece of memory (i.e., are the EXACT same)
+            -So, right now, if 2 cards are instantiated w/ the same values,
+                "c1 == c2" is FALSE, since they use different memory locations
+                "cl.equals(c2)" is TRUE, since they have the same values
+            -To use another analogy, value equality checks to see if two sentences are the same; object equality checks if it's the same piece of paper
+
+-SIDE NOTE: Know how to compile professionally (w/ classpaths) from the command line; if something goes wrong in your IDE, you can go back to first principles and see what went wrong
+    -QUESTIONS ABOUT PACKAGE STATEMENTS/ CLASSPATHS MAY APPEAR ON THE TEST!!!
+        -Won't be required to write it, but might show up in MC/ "what will the output be?"

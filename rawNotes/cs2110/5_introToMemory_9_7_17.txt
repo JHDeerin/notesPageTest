@@ -1,0 +1,63 @@
+//****************************************************************************//
+//******************* Intro to Memory - September 7th, 2017 *****************//
+//**************************************************************************//
+
+- K-Maps: They have to be in groups of 2^n because we're eliminating based on the idea that bits are switched on/off without changing the output; so we need 2 unchanged inputs to verify that we can eliminate it; so with, for instance, 6 bits, we wouldn't have an exhaustive list of all possible cases to verify that the bit in that expression could be removed
+----------------------------------------------
+
+- So, thus far with circuits, we've basically been working exclusively with truth tables in different forms: as K-Maps, as boolean expressions, as circuits, and as the tables themselves
+
+-Now, remember when we built our adder? It had 3 outputs and 8 AND gates (one for each possible input); but it only has 3 outputs
+    - Well, let's imagine that we have 4 OR gates as our outputs, and we want to wire up the output from our AND gates to these OR gates in...some way
+    - Well, these connections could be ANYTHING; and by changing HOW our outputs are connected to the OR gates, we can get the circuit to behave EXACTLY like we want, to match ANY truth table with 3 inputs we could think of (the 4 OR gates each represent an output column in the truth table)
+        - Now, imagine that we shrink this circuit down so it's composed of THOUSANDS of gates, and we have materials that can automatically change the connections between these gates; better still, instead of having to manually put in all of our truth tables, we have software that can manually change these connections to represent whatever truth table/operation we want
+    - These are known as PLA - Programmable Logic Arrays (sometimes known as PGAs)
+        -...minus the software part. That's not necessarily part of the equation yet - but it will be soon
+
+- So far, we've been using COMBINATIONAL logic; now, we're going to be moving onto SEQUENTIAL logic
+    - Combinational logic is kind of like a bicycle lock: if you give it the right number, it will always open, no questions asked
+    - Sequential logic is like a padlock; if the combination is "12-21-55", you can't put in "55-12-21"; you HAVE to put in the inputs in the EXACT order, or the lock will behave differently - it won't open! 
+
+- An example of this Sequential logic: An RS Latch! (in "5_Circuits")
+    - We can NOT predict what the output of the circuit if we're just given the 2 inputs "S" and "R"
+    - S stands for "set", R stands for "Reset"
+    - This lets us store 1 bit of information!
+        - We set "S" to 0 to "set" the latch to 1, and set "R" to 0 to "clear" the latch to 0
+        - Do NOT set both S and R to 0 at the same time; this'll make the circuit's behavior unpredictable
+
+- Now, this RS Latch is AWESOME - we can store stuff! - but it's kinda weird that we have to turn the input OFF to turn the output ON, right?
+    - With a couple of NAND gates, we can get the RS latch to work with only 1 input; this is known as a GATED D-LATCH
+        - To get this in Logisim, you'll need to use a D-Latch and change its settings to high-level (might be called a "D Flip-Flop")
+
+- "So, have you read the textbook? Don't do that. You're supposed to give us your money, not get value out of that thing."
+    - So, let's say you have a keyboard with 8 keys (switches); you have a D-Latch for each, the write-enables all hooked up together (to a single switch), and the input on each D-Latch hooked up to each key; for the output, each is hooked up to an LED
+        - "So, you know those Pillbury biscuits from the freezer? The ones with 8 dough-balls? Well, I'm not sure what you do with them, but when I have guests over, I get those things out and I put 1 over each eye, and then I bring out my keyboard-circuit"
+        - "So, I can't see a darn thing, and I tell my guest or whatever to hit one of the keys on my keyboard and hold it down..." (amazing fake story interrupted by my poor typing abilities)
+    - This component is known as a REGISTER - basically, a set of D-latches that let us store/set MULTIPLE bits of information!
+
+- Now, here's a very important question...WHAT ARE WE DOING?
+    - At this point in the class, there's a decent number of people who were introduced to computers at a young age, were the best coders in their high school, did awesome in 1331, and then get here and say..."I didn't come to college to hook up wires!"
+    - So, what are we doing in this class? Believe it or not, we ARE CODING. At some point this semester, you'll be sitting at home, working on an assignment, and you'll realize: wow. The stuff we're doing in hardware is the EXACT SAME as what I was doing in Java, or C, or whatever. The languages may make it look a lot nicer and put a lot of sugar on top of it, but deep down, there's no difference; we really could do the same thing by hooking up wires.
+
+- With that out of the way, we're gonna start getting into memory; but FIRST: 2 preliminary concepts:
+    - ADDRESS SPACE
+        - So, in high school, you were probably walking around, looking at the lockers, and you saw that each locker had a 3 digit number on it; so, you might've guessed "oh, well, then we can't have more than 1000 lockers; from 000 to 999"
+        - ADDRESS SPACE is the exact same thing; if we have a "16-bit address space," that means we can represent 2^16 different numbers in our computer (specifically, as we'll see, in our computers MEMORY)
+    - ADDRESSABILITY
+        - So, you're walking around in that same high school, and I'm guessing most of you didn't have lockers as tall as you; they were probably pretty short, right? But they were ALL the same size; the locker size had NOTHING to do with that 3-digit address 
+            - Similarly, ADDRESSABILITY is how big each of those individual memory locations is; it has no relation to the "address space", which is just how many different memory locations there are
+- Now, when you go out and buy any computer these days, the memory was measured in gigaBYTES, right? Not in bits!
+    - Long ago, people decided that bytes were going to be the smallest unit of memory that the computer dealt with
+    - "Now, everything I tell you in this class is kind of a lie, but mostly true; there's always wacky systems out there that do things differently, or the actual physics is a bit more complicated, but it gives you mostly the right idea"
+        - So, the computer is technically CAPABLE of accessing individual bits if you access the byte it's stored in, but it only assigns locations IN MEMORY on a byte-by-byte basis; individual bits are NOT given addresses
+    - So, we say the addressability of EVERY modern computer these days is 8 bits - 1 byte
+
+- So, onto memory proper
+    - "I can't draw you 'real' memory, since modern computers have about 64 billion bits of memory, and with my arthritis, that'd cramp up my hand quite a bit"
+    - Still, we can come up with a small, representational model
+        - So, to store something IN memory, you just need 2 things: the address and the data you want to store
+        - What do we need to GET the memory?
+            - Now, IN JAVA, you get a value from a variable by putting it on the right-hand side of an assignment statement, right? THAT's why the classic "x = 1 + x" works; it tells you "go get the value of X" on the right, THEN tells the computer "alright, store whatever this value on the right is in the 'X' memory location"
+        - So, for memory, we need some pins for the memory's ADDRESS, some pins for the INPUT, some pins for the OUTPUT, and a pin for the read/write enable
+        - (Couldn't get it down, but proceeds a HILARIOUS drawn-out story about Prof. Leahey's hate for the lack of a Computer Scientist Barbie leading to the punchline of "The Barbie Dream-Memory, inside the Barbie Dream-Computer, inside the Barbie-Dream Home is a very tiny bit of memory, since it was especially designed by MATTEL to be drawn on this whiteboard")
+            - So, let's say that the memory needs to store 4 words, each of which is 3-bits long...annnnnnnnd we'll finish going over

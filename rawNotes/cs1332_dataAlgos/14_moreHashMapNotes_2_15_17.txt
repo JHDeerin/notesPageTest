@@ -1,0 +1,43 @@
+//******************************************************************//
+//**************Hashmaps (cont.) - February 15th, 2017*************//
+//****************************************************************//
+
+-HB is, per usual, stuck in traffic; TA team to the rescue
+------------------------------------------
+
+-So, we talked about best/worst case performance of hash maps, and it's VERY dependent on 2 things:
+    1) The quality of your hashCode() function
+    2) The size of your backing array (larger = better, since it means less collisions)
+
+-So, what makes a good hashCode/"hashing" function? We want to avoid collisions, of course, but how can we do that?
+    -We NEED the hash function to be reproducible, because it will be used to search for the object later on (so we can't just use a random number or something else)
+        -Also means we need to just use the data we'd know about the object to search for it; if we want to search for it just using the name
+
+-Remember ASCII tables? All of those characters are actually just numbers under the hood
+    -So, one POSSIBLE hash function for strings is to just add together all the values of the characters in the input string!
+        -This is better than just, say returning the age of a "person" object,  but it STILL has a lot of collisions
+            -e.g. "bin" == "nib" == "ibn" with this function
+        -Maybe we could multiply the letters by a value depending on their place (e.g. char[0] * 1 + char[1] * 2 + ...) to differentiate them, but this STILL isn't perfect
+-The thing about Hash Maps is that even though they're O(1) for everything, it's often HARD to write a good enough hash Code to get close to that O(1) performance
+
+-So, chaining vs probing: probing will require you to regrow the backing array more often than external chaining, but either way, you're going to want to start off with a fairly large array
+    -Usually, for the table size, we choose a PRIME NUMBER because otherwise, for quadratic probing, we could end up with the index "infinitely cycling" if it's adding the table size to the index (e.g. in an array of size 8, we're trying to move an item to index "i+8" thtough probing; this would just cycle back to the same place, so then we would add 64, which would have the same problem, ...)
+
+-For PROBING, when it's time to remove one of the values, and the value you're REMOVING would create a "gap" between the keys in the map that should be at that index (e.g. 1, 2, 3 should all be at the same index, and we delete 2)
+    -We could just set this to null, but then that could mean that when we add the next thing it gets added FAR away from its original index, resulting in as bad as an O(n) search time
+        -Just look up removal on the Saikrishna slides, HB didn't explain it well
+
+-So, when is it good to use a hashMap?
+    -Students with unique ID #s
+    -
+
+-Adding /Searching/Removing from a hashMap should ALL ideally be O(1) operations
+    -In the worst case, if we have a table ENTIRELY made of collisions, then all of these operations can become as bad as O(n)
+
+-DOUBLE HASHING is when, for the hashCode / hashing function, we do TWO separate calculations (e.g. "# % 7" and "# % 3") (primes chosen just because it reduces the chance of )
+    -Normally, we just use the 1st, "normal" hash function; BUT, when there's a collision, we instead use the SECOND hash function, or a combination of the two (e.g. #1 + #2) if the 2nd one ALSO doesn't work
+        -Collisions certainly can still happen, but this reduces the chance
+
+-LAST MINUTE AD!!! Some GT Students made a thing called "Internblitz," which they're currently marketing as a "Common App for Internship Applications"
+    -"You can apply to 15 internships in 5 minutes"
+    -"Don't be that kid stuck on CareerBuzz!"

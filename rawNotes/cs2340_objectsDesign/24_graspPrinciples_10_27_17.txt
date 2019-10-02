@@ -1,0 +1,52 @@
+//****************************************************************************//
+//***************** GRASP Principles - October 27th, 2017 *******************//
+//**************************************************************************//
+
+- So, let's go back over these GRASP design principles we were talking about:
+
+    - INFORMATION EXPERT - assign a responsibility to a class if it has the information necessary to fulfill the responsibility
+        - e.g. who should be responsible for knowing the grand total of a sale? Well, the "Sales" object is the one that has all the "LineItem" objects, so that makes the most sense; similarly, the LineItem should be responsible for calculating the subtotal
+        - Who should be responsible for saving the sale in our database? In the diagram on the slides, we don't seem to have any classes that have that information, which should be a sign that we need a new class - "SalesDbManager" or something like that
+    
+    - LOW COUPLING - we assign reponsibilities so that coupling remains as low as possible between objects; If we want the "Register" class to handle the payment, it has to know about the Sale and Payment classes, but if we let the "Sale" object handle it, it only needs to worry about Sales
+        - "Now, not ALL coupling causes problems - there's nothing wrong with being tightly coupled to the String class, for instance, because it's unlikely to change! The reason coupling is a problem is because most of the time, OUR classes are very subject to change from changing problem requirements, etc."
+        - "It's okay to have classes exchange information with one another; we just want to minimize the impact of changing one class"
+
+    - CONTROLLER("yup, ANOTHER use of the word controller") - Controller is the first-level class that coordinates between the UI and the backend - "hides the details of the UI from the backend, so we're more free to alter the UI code without affecting the backend"
+        - Again, a BIG principle is to NOT have business logic in the UI
+        - This responsibility should be assigned to a class that represents the overall system (i.e. "Facade Controller"), OR a Use-Case controller
+            - Facade controllers represent the overall system, suitable when there aren't a whole lot of events to be routed; most methods are just "pass-through" methods to the backend
+            - Use-case controllers are used when a single Facade would be too bloated, too coupled, or not cohesive enough; best when there are MANY possible system events, and allows you to separate control functions into multiple classes
+                - "Remember, controllers should NOT be doing any logic work - it should just be coordinating the flow of information between parts of the program"
+        - If controllers are getting bloated, either 1) Delegate more work to the domain objects, or 2) Switch to use-case controllers and create multiple controllers for different roles
+
+    - HIGH COHESION - classes should be manageable, focused, understandable, and support low coupling; objects should NOT do many unrelated things
+        - "One example: a checkers game! Where should be put our game-logic loop? In 'Player'? 'Board'? 'Piece'? 'CheckersGame'?"
+            -...well, CheckersGame makes the most sense!
+        - Continuing the example, what object should handle taking a turn? Well, in a turn, we have to know where all the pieces are, be able to select a piece, figure out which player that piece belongs to, and figure out if a move is valid, then be able to move/remove a piece on the board
+            - So, the Player knows its pieces, Board knows where all the pieces are, CheckersGame knows what turn it is, but the data is spread out across several classes...
+                - Some principles: 1) If there's 1 class that knows more relevant info than the other classes, prioritize that 2) Consider which would minimize coupling and maximize cohesion 3) If there's still no clear winner, consider how we'll need to modify this application in the future
+            - In this case, it's not super clear; you could argue for any of these
+
+    - POLYMORPHISM - how do we handle alternatives / pluggable components? Well, when variations exist, we want to assign responsibilities to the types where the behavior vary
+        - Do NOT have a conditional that checks what type of object it is and then selects a certain behavior; put the behavior on the object itself!
+        - e.g. when calculating sales tax w/ different accounting application, create a "TaxCalc" interface, and then assign the interface to all the different "Application" objects (QuickBooks, Quicken, StateFarm, etc.)
+        - Another example: Monopoly! We have different effects for each square: Chance, Income Tax, Go, etc.
+            - "DON'T just use a huge switch statement to do that; that's terrible! If you're using an "instanceof" check, there should be a better way to do it: USE POLYMORPHISM!"
+    
+    - PURE FABRICATION - When an object should get responsibility for something to comply w/ coupling and cohesion, but Info expert isn't helping us, we should make a new class that can be highly cohesive to handle those responsibilities
+        - "Students, especially later on in a project, are REALLY reluctant to make new classes, even when they really should make one"
+        - An example of this is that problem of "Who should save our Sales to the database?" We don't want it in the Sale class, the other ones don't have enough information, so it would make sense to create a new "PersistentStorage" class, or something similar
+            - "These kinds of classes usually do NOT show up when we're making our Domain Model, but only when we start working on our design models"
+
+    - INDIRECTION - how should we assign responsibilities to avoid direct coupling between two things? How do we decouple objects? Well, we create an INTERMEDIATE object between the objects to coordinate their services; this way, the two aren't directly coupled to one another, but to a shared interface
+        - "There's an old joke in CS that there's nothing we can't solve with sufficient amounts of indirection"
+
+    - PROTECTED VARIATIONS - How do we design objects so that changes don't have an impact on other objects? Well, we identify classes that have the potential to change and create an interface around them (similar to the idea of "information hiding")
+        - The PersistentStorage class is an example
+        - Two kinds of changes:
+            - VARIATION: Something we know is required by our CURRENT design
+            - EVOLUTION: Something that isn't currently required, but MIGHT be required in the future
+        - "In general, we ALWAYS have to take care of variation points, and we handle evolution points if the time requirement isn't too great"
+
+- Next week, we'll start talking about Unit Tests

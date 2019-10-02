@@ -1,0 +1,61 @@
+//****************************************************************************//
+//*************** Intro to Von Neumann- September 21st, 2017 ****************//
+//**************************************************************************//
+
+- Supposedly we're starting Von Neumann today...I am not prepared.
+- Also, once again, I'm reminded that I'm a procrastinator - too often I've been like a man watching a door close in front of him, without doing anything. That'll have to change.
+----------------------------------------
+
+- First off - it's pronunced "neu-mann" (auf Deutsch), not "newman". "Noy-man". (Like, ya know, I took 6 years of German for?)
+
+- So, a bit of history: right at the tail end of WWII, Harvard researchers were building the paper-tape driven "Mark I" computer, and they came up with something called the "Harvard Model" to process instructions.
+    - The "Harvard Model" (which you don't really have to know much about) keeps data and storage pathways COMPLETELY separate
+- Today, the "Harvard Model" is contrasted with the model more commonly used today: the "von Neumann" model.
+    - John von Neumann was a Hungarian immigrant to the U.S., a Princeton Professor, and a guy who was pretty much famous for just being really, really, really smart - "his office was literally across the hall from Einstein".
+    - While working on the ENIAC computer, von Neumann came up with the idea of using a single memory (instead of the Harvard model's multiple separate memory banks)
+        - "As it turns out, Neumann didn't actually come up with this on his own, but poor Neumann got the blame for it anyway."
+
+- Now, when I say a computer's memory is storing "instructions", what is an "instruction" anyway?
+    - An instruction is JUST a code that tells the computer what it should do next - but, since computers ONLY understand binary, we can't give it complex instructions like "sort this list of names". We can ONLY give it very simple instructions like "add these 2 numbers", "access this address", etc.; anything more complex requires chaining instructions together.
+
+- So, these instructions are stored in the computer's memory
+- The PROGRAM COUNTER, or "PC", is a register that keeps track of where the next instruction we're executing is in memory - "bit of a misnomer, since it doesn't 'count' anything per se, but the name stuck".
+    - Intel engineers originally called this an "Instruction Pointer", which is a MUCH more appropriate name
+        - "You're gonna get sick of hearing the word pointer by the end of your time here at Tech - just mentally translate it to 'address', and you'll get out fine"
+- The IR is the INSTRUCTION REGISTER - it holds the instruction that is CURRENTLY being executed
+- Another component that handles instruction is the computer's Finite State Machine, it's FSM
+    - These 3 components together - the PC, IR, and FSM - are the CONTROL of the computer
+
+- The next part of the computer is the DATAPATH, or sometimes the "Processor"
+    - This contains an ALU that can handle arithmetic, some VERY fast memory that briefly holds values temporary results (so we don't waste time/memory moving things into/out of our memory proper, e.g. for operations like "B*C + A", we can store B*C so we don't have to fetch the result when adding A)
+        - Modern day processors can have 8, 16, 32, or even more registers of this high speed memory
+
+- So then, all of these components are hooked together; the Datapath to the Control, both of them to the memory, etc.
+    - For now, let's pretend the memory is made up of gated D-Latches, so it uses "level triggering"...but then the Control/Datapath are using "Edge triggering", since it's easier to use that with those circuits. Therefore, we need some way to interface between them - we'll use 2 registers, the "Memory Address Register", or MAR (hold addresses) and the "Memory Data Register", or MDR (which holds the data).
+
+- "Now, I am going to briefly show you the complete diagram for the datapath...most of you in the room will want to dash from your seat screaming. The rest of you will already have. TRUST ME, though, you can understand this, even if it looks stupidly complicated right now."
+    - *flashes it onscreen; nervous laughter commences*
+    - The magical "dot dot dot" next to the FSM are the outputs that we didn't want to draw wires for; they're the EE version of "tunnels" in Logisim.
+    - ALL of these components are things we've seen before...the brown components store some piece of data on the path, the blue do some sort of operation on the data, the purple are involved with controlling where the data goes/flows, and the 4 red triangles are "tri-state-buffers"...these prevent us from accidentally connecting power to ground in the circuit, by allowing us to only turn on 1 part of the circuit at a time
+- "Okay, so it's still really complicated...but it's not incomprehensible"
+
+- "Now, at this point, there's always people who have problems with 'situational awareness', and they have trouble keeping everything straight"
+    - "On your computer, you have a memory board with a processor in one place, but the memory in a separate place, etc."
+
+- NOTE: Hardware-wise, the ALU and memory can be different sizes (the ALU may be 32-bit, for instance, when the memory is only 16-bit)
+
+- So, we've talked about the components...but what actually IS the von Neumann model?
+    - The CENTRAL idea of the von Neumann model of computer processing is that the program and data are both stored as sequences of bits in the computer's memory, and that the programs are then executed one instruction at a time (under direction of the control unit, which is basically just a complicated FSM)
+
+- There are a couple of different kinds of instructions
+    - One kind of instruction is the ADD instruction; in a 16-bit computer, the first 4 bits are a code that say, "Hey, this is an ADD instruction" the next 4 bits tell where (i.e. which register) to store the result, the next 4 bits tell where to fetch the 1st number, and the last 4 bits are the location of the register where the 2nd number we want to add is
+        - To execute this, we tell the PC the memory location of this instruction, it'll go get the data using that address (via the Memory Address Register (MAR), then outputting the instruction via the MDR), put it onto the IR via the Bus, and then the FSM will use the instruction to decide what to do. It'll then access the information in the specified registers (let's say "Source Register 1" and "SR2"), put those through the ALU, and add the result to the Bus, where it'll be stored in the register the instruction specifies. 
+            - NOTE: The "Bus" is just the wire that connects all of the different components of the computer (e.g. hooks up the MAR, MDR, PC, IR, etc., so they can send information to one another)
+        - Now, instructions work on the principle of "Lather, rinse, repeat" - it'll just keep going through the process. So, if we don't do something, the program will just access the same instruction again and do everything AGAIN!
+            - To prevent this, RIGHT AFTER WE EXECUTE THE INSTRUCTION (while we're doing everything else), we take the instruction address that's in the PC and add 1 to it, so we're ready to handle the next instruction. 
+- "One of the points of this: doing everything with the memory isn't instantaneous. It takes a few clock cycles to get our info, do something with it, and store the result in memory".
+    - A side note: If you've ever overclocked a PC, all you're doing is literally what it sounds like: we're just speeding up the clock rate on the PC. By default, the engineers set the clock rate to a worst-case "safe" tolerance; when we overclock, we're speeding up how fast the instructions are run, but if the rate is TOO fast, then things can update before we've completed an instruction - which is when problems start happening and things get out of sync.
+
+- Now, in the book, Yale Patt doesn't explain this in terms of the clock cycle, like we did here; he goes from "Fetch" to "Decode" to "Evaluate Address" to "Fetch Operands (get info needed from registers)" to "Execute" to "Store Results".
+
+- On Tuesday, we'll be going over the "Load Register" instruction.

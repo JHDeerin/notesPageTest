@@ -1,0 +1,88 @@
+//****************************************************************************//
+//******* Intro to Programming Paradigms/OOP - September 15th, 2017 *********//
+//**************************************************************************//
+
+- So, for 1st exam: we're a bit behind
+- I usually DON'T ask coding questions, but higher-level stuff; anyway, let's get back to Android
+--------------------------------------------
+
+- RECYCLER VIEWS are like a high-tech version of the old "List" view
+    - Basically, every time you scroll down, to show a new item in the list, it'll "recycle" the top-level container and put it on the bottom to display the new item
+        - Think scrolling in Scratch, which was done w/ just 2 sprites that swapped places
+        - This is MUCH more performant than the old list, where it would just create a new box/element for EACH item in the list, which was NOT good if you had a very large list
+            - You'll eventually need to use these for your project, to allow Rat sighting reports
+            - You might also want to use this for the current M3 milestone
+    - Again "Layout" for each of these views is stored in "Layout" XML files...
+        -...Android is one of those things where you learn by doing, so if this is confusing, look at some of the resources and tutorials online, and then dive in and start building stuff to get a feel for what I'm talking about
+    - "NullPointerExceptions when you're trying to find the view by its ID are almost always due to spelling errors"
+
+- In Android, there's a thing called the "ViewHolder", and a thing called an "Adapter" that maps between our POJO models and Android's views
+    - ViewHolder is more-or-less just an internal class used by the adapter
+    - "ViewHolder" BINDS the view of the model to the model's POJO class itself, so if the view updates, then the model's data ALSO updates, and if the model updates, then the view ALSO updates
+        - You'll do this for CourseActivity, and possibly also CourseDetailActivity
+
+- For the homework, you don't have to worry about multiple layouts; just worry about 1
+- (again, example code is on T-Square)
+    - "M3 is due on Monday, so just upload your whole Lab3 directory as a .zip file on T-Square"
+    - We'll revisit Android programming when we get to importing Rat Data to our application
+
+- So, for now, let's get into some design stuff
+- First up: Object Theory!
+    - "Timothy Budd's book's first 4 chapters are all about the CONCEPT of OOP design, so that'd be cool to read"
+        - OTHER DESIGN PARADIGMS: 
+            - Procedural(C, Fortran, Cobol)
+                - Thinking in "verbs"; "What does my program have to DO?", divide program into series of functions and data stored in static data structures
+                - "Plenty of people use Java or C++ like this; their "objects" are really just containers for data, and all the heavy lifting is done by functions outside of the objects"
+
+            - Object-Oriented (C++, Java, Smalltalk)
+                - "We ask WHO's doing the work, and break the program into a bunch of objects w/ different tasks"
+
+            - Functional (Scheme, OCAML, F#, fp, Scala)
+                - Mostly academic, but has been gradually creeping into industry through Scala, parts of React.js in the Web-dev world, etc.
+                    - "Our CS 1 class used to be taught in Scheme, which was universally hated by students since...well...functional programming isn't how we usually think about things, although it is really cool once you understand it"
+                - "This is like the reverse of 'functional decomposition' in procedural programming; we start with the little details, and then build them up into a whole"
+                - 
+
+            - Logic (Prolog)
+                - Programming based around logical rules; really interesting theoretically, but not really used outside of research
+        - So, in this class, we'll just focus on OOP; but be aware that it isn't the be-all end-all of programming paradigms; there ARE other ways of doing this
+
+- So, WHY do we want to use OOP?
+    - Helps w/ understanding large programs via abstraction of detail
+        - "When we think of a car, we don't think of it in terms of individual wheels, pistons, screws, bolts; we think of it as something to get us from one place to the next"
+    - Helps organize large systems into different modules
+        - Some debate in the theoretical CS world if objects are the BEST way to do this, but by-and-large OOP has helped keep large systems organized
+    - Enables a better way to reuse software via creating "Software ICs"
+        -...this one has been more of a failure. The HOPE was we could avoid writing low-level code by finding the single-most efficient way of doing general tasks, so we were free to only focus on the high-level problems of software. This has kinda worked for VERY fundamental tasks (Math libraries, etc.), but seems to break down for anything more complicated.
+
+- So, let's say we're designing a flower shop, with a "flower" object and a "bouquet" object:
+    Flower {
+        char species;
+        int price;
+    }
+
+    Bouquet {
+        Flowers[];
+        Vase;
+    }
+
+    - Now, we start thinking of what we have to do: we need a method for adding flowers to boquets, sending flowers to customers, collecting money, growing the plants...
+        - This is NOT Object-oriented design; this is PROCEDURAL design, done in an object-oriented language!
+        - "That code'll be pretty strictly tied to selling flowers; porting it over to another use would require a LOT of redesigning"
+
+    - An OOP way of designing the program would we more based around NOUNS
+        - So, for the Flower Shop, we'll need our Flower/Bouquet classes
+        - THEN, we need a class for the Florist w/ the role of trimming the flowers, for the Grower who creates the flowers, for the Arranger who makes the boquets, for the CFO who plans the finances, for the Cashier who's at the register, etc...
+            - This is more flexible; by creating the COMPONENTS of a flower-shop, and all the objects within it, we can easily do deifferent things with those objects if we've designed them well!
+
+- The BIGGEST problem I see with students new to OOP is that they make a TON of instance variables / static methods. This isn't OOP; this is a C program in disguise!
+    - In OOP, the work is done in instance methods on the appropriate class; good objects have clear, cohesive, focused roles and clear interfaces for interacting with it
+- So, what is an "object", anyway?
+    - An OBJECT is a class that can do 4 things:
+        - Holds/"knows" information
+        - Performs services
+        - Interacts w/ other objects (or at least allows it)
+        - Makes decisions
+    - Good objects have an "Identity" (they do ONE specific thing), they're ENCAPSULATED ("They hide the details of how they do things"), and they enable Polymorphism ("We can all do that thing, but I can do it MY way")
+
+- On MONDAY, a speaker from Google is coming to talk about their software dev process; after that, we have our test on the 27th, so we'll need to get ready for that!

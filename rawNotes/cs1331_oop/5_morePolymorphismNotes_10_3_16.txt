@@ -1,0 +1,60 @@
+//*********************************************************//
+//****** Polymorphism (cont.) - October 3rd, 2016 ********//
+//*******************************************************//
+
+-World Ballet Day tomorrow! Hence the random "Giselle" appearance (also the ballet deals w/ ghosts, and it's October, sooooooo...)
+-"Yes, I said innovative, so you can all mark the squares on your BS bingo cards"- Simpkins 2016
+-Problems w/ 1st homework? See us- we'll try to figure it out and help you as best we can. In particular, you WILL get points if you did actually turn them in
+-Tests will be handed back at recitation tomorrow; all regrade requests must be made within 1 WEEK of getting your test back
+    -Average was ~78%, which is "typical good" for this class
+    -Programming quizzes are still being worked through, but grade should match what you received via the auto grader
+-----------------------------------------------------------------
+
+-RIGHT, so we've been playing w/ polymorphism via the "Employee" class and the "monthlyPay" method- it was declared in the Super class but implemented in the subclass
+    -If method is abstract, child class MUST write its own implementation unless it is also an abstract class
+    -In UML, abstracts are written in italics (not tested, but good to know)
+-Polymorphism works via dynamic types overriding "static" types of element (at runtime, compile-time "static-type" "Employee" replaced w/ child classes in the array), allowing us to call the same method on multiple types, even though the subclasses are different and their implementations are different
+    -Method must be on actual parent "Employee" class
+-Typecasting a child class to the super class will STILL result in the child class's methods being used
+
+-Let's say we have two methods w/ the same name and the EXACT same code in 2 different child classes. How can we avoid the duplicated code?
+    -Could put the code in the parent class, but if it's a private method that won't work; so instead, we use the "protected" keyword
+        -PROTECTED allows child classes AND members of the same package to see the variable/ method
+    -Protected...*works*, and can be useful in places, but it can be a bit messy and can easily be abused. There's a better way...but we'll get to that later
+
+-ENUMS!
+-Enums allow for the easy creation of "mini-classes", e.g.
+    "public enum Month{Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec}"
+    -This defines an Enum called "Month" that can ONLY take the predefined constants Month.Jan, Month.Feb,...etc.
+        -Enums are a type of class, and are typechecked at compile time
+        -Java has some built-in methods for Enums; because they are technically classes, programmer's can do some cool stuff with them (define constructors, etc.)
+        -For now, very nice for defining a set list of unchanging objects
+
+-We can overload methods so that there are 2 methods with the same name, but different inputs/signatures/parameter lists; Java is smart enough to figure out which one we want to use.
+    -e.g. Could choose to pay either by a number of hours, or by a certain month
+    -Technically, any two methods with the same name but whose declarations are not "override equivalent" are overloaded
+
+-Ad-Hoc Polymorphism: Overload submethods
+-Parametric Polymporphism: Will learn this later
+-Subtype polymorphism: Override parent's methods
+
+Inheritance Problems
+-So, we have the "disallowZeroes&Negatives" method in the parent "Employee" class...but this is a more general concept than just belonging to "Employees," but only Employee subclasses can use it
+    -We say that this method makes the class lack COHESION, as the "Employees" class now has a part that conceptually doesn't need to be there
+-So, we instead move this method to a new "ValidationUtils" class and make the methods static, so ANY class can use this method by calling "ValidationUtils.disallowZeroes&Negatives"
+    -This is fine since this method doesn't depend on the caller's "state"; in contrast, a "getName" method can't be in a separate class like tihs, since it needs information from the class
+
+Implementation inheritance vs Interface inheritance
+-FAVOR INTERFACE INHERITANCE- allows for a "loose-coupling" apporach where more code can be reused
+
+Good Design Principles:
+-Single Responsibility- module should only contain code that is related to its definition; e.g. "Employee" shouldn't have a method like "hoistAnchor" (too specific) or "addNumber" (too general)
+
+-Open-Closed Principle- can write new code without having to modify old code to make it work
+
+-Liskov substitution principle- we'll focus on that later
+
+-SO, for next class:
+    -Check slides for Animal Programming Exercise; do everything up until the Kennel class
+
+-Can do "intentional programing"- write client code first, then implement the methods to make it work

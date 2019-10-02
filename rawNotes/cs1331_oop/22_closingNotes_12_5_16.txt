@@ -1,0 +1,31 @@
+//*********************************************************//
+//*********Closing Time - December 5th, 2016**************//
+//*******************************************************//
+
+-Over 80% CIOS participation will mean slightly lower grade-point cut-offs - EXCEPT for a C
+    -"If I give you a C in this class, then I'm telling the rest of the world you're ready to move on to CS1332 - so I have to be firm about that line"
+
+-Your exam - should you choose to take it - will consist of a series of letter bubbles on the front page, followed by a number of multiple-choice questions (~50); there will be 5 extra credit questions
+    -Final is designed to take ~2 hours if you're moving at "normal speed" - meaning you should have an extra 50min. check everything
+        -NOT trying to make time pressure a factor in any way
+-So, going back to the parentheses problem...let's jump over and explain the solution
+---------------------------------------------
+
+-Right, coming back: the final. It will have:
+-EVERYTHING we did in class - EXCEPT JavaFX.
+    -GUI programming tends to be highly reliant on documentation - no one just straight-up memorizes all the classes they need to use (although if you're using classes over and over, you should know how to use their key methods)
+
+-ANYTHING else that appeared in class, or on another exam, is fair game - iterators, Comparable vs Comparator, lambda expressions, inheritance questions, addresses, reference vs value types/assignments, scope / variable shadowing, variable types, default values, etc., etc., etc.
+
+-Type parameter = "Object" in "public void (Object o)"
+    -SIDE NOTE: FOR METHODS, return type has to be a class or a subclass of the original return type (COVARIANT), parameter types/ number of parameters must be EXACTLY the same
+-Parameter type = "<E>", etc., for generics
+    -In legacy functions w/o generics, you'll have to declare everything as "Object"s, then cast them (CANNOT DOWNCAST);
+    -Behind-the-scenes w/ Java, when using Generics w/ legacy code, Java writes a "bridge method" to re-cast object from object
+
+-Implementing an interface in a CONCRETE class means that you MUST have override-equivalent implementations for all of the interfaces methods
+
+-SIDE NOTE: Learn regular expressions, esp. for console use; they're VERY useful in larger projects (or for just being lazy)
+
+-...so, that's the end! I hope you had a great time in the class, and, more importantly, learned a lot. It's always a privilege to keep teaching and working with so many great students here, and remember, if you ever need to see me, my contact info is on the website and my door is always open. Also, I have candy.
+    -"Tech is a hard school, but as cliched as it is, it's a rewarding one, too. Keep at it, and put in the effort. I wish every one of you luck."

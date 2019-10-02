@@ -1,0 +1,94 @@
+//****************************************************************************//
+//**** Iterated Maps (cont.) / Cellular Automata - February 19th, 2019 ******//
+//**************************************************************************//
+
+- Okay; I'm definitely on edge with this work. Why do I care so much about the grade? If it were for good reasons, sure, but it's literally a Pavlovian response to stress - "See B, Begin Scream." And more than that, it'll pass. Work on it, care about it, sure, but why lose peace in addition to sleep? It's just life; no, not even that. It's the grass that's grown around life.
+- ...in more light-hearted news, the projector is absolutely tripping out, and Professor Vuduc has near-to-nil idea what to do
+    - Also: it IS a cobweb plot. "That was years of my life I was saying that, guys. The AIs officially win."
+- Also: ALL the practice problem pdfs have been posted in the GitHub repo, and at least one or two of the problems will be taken VERBATIM (with changed numbers) from these problems
+    - Also, for the scope of the exam: I will ONLY ask about stuff that you need to solve the practice problems. I might talk about connected stuff, but in general, if you don't need to know it for the problems, you don't need to know it for the exam
+    - There's also an "intro the cellular automata" notebook in the practice problem
+--------------------------------------------------------------------------
+
+- So, last time, we started looking at iterated maps last time, and we talked about Lorenz's analysis of the state variables; he found that while their local maximums/peaks DID seem to have a pattern to them, predicting the point themselves is difficult
+    - As Lorenz began to understand, discrete functions, even though they have a lot in common with continuous ones, are a very different beast, and can have very different behaviors
+- We looked at the iterated map version of the logistic curve (the "logistic map"), and saw that as the growth parameter "r" changes, we do see things like fixed points, bifurcations, etc.
+    - If we draw the cobweb plot for the system (essentially just a phase diagram), we can see how the system moves towards a certain point
+    - For the logistic curve, though, after some point of increasing r (~r=3.4) the system stops decaying to a single value; instead, it seemed to oscillates between two fixed values (a "period-two" bifurcation/cycle)
+        - It then continues to split into 4, then 8, then EXPLODES into a huge number of different fixed points!
+
+- What we DIDN'T do last time, though, was the most important thing ("Because I forgot") - the system's ORBIT DIAGRAM
+    - Basically, we iterate the system for some approximation of infinity steps (~10000 or so) for each value of r (e.g. 2000 values between r = 2.0 and r = 4.0), and then plot the last 50 points or so of each curve after all those iterations, so we see where the system is settling down to far into the future
+        - With the logistic map, there's a very clear structure to the doubling, but the actual pattern is quite complex, and also seems to repeat at different scales (fractal-style)
+- This logistic map system has been studied pretty extensively, and here's what we know about it so far:
+    - Analyzing a few of the system's fixed points, there are two possible fixed points: 0, and 1-1/r (only exists if r > 1)
+        - You can look at the stability in discrete maps in two ways: in a formal analytical way by looking at the "derivative" or the function and seeing how it changes, or by creating a cobweb plot and seeing where it goes
+            - Analytically, Lorenz did this by plugging in points very close to the points he had (just a bit perturbed), and calculating the derivative/growth rate that way and seeing if the growth rate was growing/shrinking
+        - Past r=1, the 0 fixed point for this system flips and becomes unstable
+    - You'll also find that this second fixed point is stable until r = 3, since we know
+
+            f'(x) = r*(1 - 2x) =>
+            f'(1 - 1/r) = (...) = 2 - r
+
+        - ...and as we know from last time, if |f'(x)| < 1, it's a stable point, otherwise it's unstable (unless it exactly equals 1)
+    - (something about the COMPOSITE FUNCTION, which we need to know the CONCEPT for the midterm, but we're not expected to compute it by hand, since the computations often get messy)
+        - e.g. if we're trying to find a cycle in the system, a "2-cycle" means:
+
+            q = f(p)
+            p = f(q) = f(f(p))
+
+        - Therefore, p must ALSO be a fixed point of the "composite function:"
+
+                g(p) = f(f(p)) = 0
+
+            - We can plug in our critical points for f here, and eventually use it to solve for p and q (if they exist) and when they emerge
+                - Analysis in Professor Vuduc's OneBook notes
+
+        - EX) Show that all 2-cycles are stable for 3 < r < 1 + sqrt(6)
+            - To do this, again, we analyze the stability of:
+
+                g(x) = f(f(x))
+
+- So, the midterm content will be up to about here (I THOUGHT YOU SAID THAT LAST TIME!)
+
+- One more thing to know about this system are U-SEQUENCES
+    - Some you might be familiar with the Metropolis' algorithm; the team that came up with that also encountered this concept as they were working
+    - Many functions are "unimodal," i.e. it's of the form:
+
+            x_t+1 = r*f(x_t)
+
+        - ...and it only has a single local maximum
+        - For ANY iterated map of this type, it terms out that the sequence of period doublings is ALWAYS the same (e.g. 1, 2, 4, ...), even if the plots themselves look very different 
+- Another thing to know is the FEIGENBAUM CONSTANT
+    - Feigenbaum was a physicist at Los Alamos, and he was looking at bifurcating systems like this and writing down the r-values where the system bifurcated (r1, r2, ...)
+        - As it turns out, if you take the ratio of the spacing between these r-values as time goes to infinity:
+
+                lim(t->inf) (r_t - r_t-1)/(r_t+1 - r_t)
+
+            - It will ALWAYS approach the same constant value (~4.669...)
+
+- ...so: that's all we're going to say about the logistic maps, but it's crazy that this system that was
+    - Now, keep in mind that this doesn't explain every complicated thing we see in nature; aerospace people, for instance, were very excited that this sort of theory might explain turbulence, but it's never really gone anywhere
+
+- AND now for something completely different: CELLULAR AUTOMATA
+    - ...I mean, like a month after it's on the schedule, but hey, better late than never
+    - At a high level, cellular automata are discrete systems (in time AND space/state) with neighborhoods of "cells" near each other and transitions between the cells' states based on their neighboring cells
+        - The most famous example of this is without a doubt Conway's Game of Life, where we have a grid of cells, each of which can be in one of two states: "alive" or "dead"
+            - If a live cell has 2 or 3 living neighbors, it stays alive
+            - If a live cell has 0,1 (lonely), or 4+ (overcrowded) neighbors, it died
+            - If a dead cell has EXACTLY 3 living neighbors, it becomes alive
+        - If we iterate this system, we find that there are some equivalents of "fixed points" in the system:
+            - If we have a 2x2 square of living cells, for instance, it'll stay that way and not change; it appears to be stable, barring surrounding states
+            - There are also oscillatory "points" in the system that go between each other (e.g. a horizontal 3x1 bar will turn into a vertical bar, and vice-versa)
+            - Finally, there's a NEW type of stable point: a "motion" point, where the same shape will crawl across the grid
+        - "Some of you are doing CA systems for your projects, but for the rest of you, I'd encourage you to try implementing them for yourself; it's really cool, and not hard to whip something simple together"
+            - One very famous 1D cellular automata is where we have just a 1D straight-line of cells, and each cells state is determined by its own state + its two neighbor's states (i.e. mapping from a 3-bit input to a 1-bit output)
+                - So, there are 2^3 = 8 possible inputs, and we can say for each input if it outputs 0 or 1
+                    - There are 2^8 =  such possible mappings
+                - Wolfram named each of these outputs based on the binary value of the 8 output states, and tried out each of them; and surprisingly, there were some really cool ones
+                    - "Rule 90," for example, ends up with us getting a Sierpinski Triangle from a single live cell
+    - That's cool and all, but we're analyzing these systems; what structure can we find in the pattern of these states?
+        - We can see if there are any states that the system tends to go towards, i.e. any "fixed point" states
+        - To do this, we can try to create some "state transition diagrams" for the system, where we label each state and then see what they converge to, connecting them w/ transitions (particularly when the domain is small enough/there's a small enough number of states that mapping all of them is feasible)
+
+- We'll talk a bit more about CA systems on Thursday - until then, keep working on your projects, preparing for the test, and staying dry (it's wet outside today)!

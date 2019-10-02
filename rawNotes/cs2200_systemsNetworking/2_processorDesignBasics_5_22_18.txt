@@ -1,0 +1,79 @@
+//****************************************************************************//
+//**************** Processor Design Basics - May 22nd, 2018 *****************//
+//**************************************************************************//
+
+- ...I have no clever introductory comment to start the day. Maybe something like "I didn't read the book last night like I was supposed to." (which is both true and upsetting)
+----------------------------------------------------
+
+- Alright, let's quickly touch on some Chapter 2 stuff, then roll on to chapter 3
+- So, for the LC-2200:
+    - 32-bit, register-oriented, little-endian, all addresses are words, etc.
+    - 4 TYPES of instruction formats, a couple instructions per format type
+    - 8 instructions total in the ISA
+    - 16 registers
+
+- Now, in the real world, you'll look up most of the nitty-gritty details of the specific ISA you're working with; we're not too interested in testing you on that. BUT, you SHOULD still understand how to do the fundamentals: how do I move data to/from memory? How do I do arithmetic? How do I create loops? If statements? Procedure calls?
+- A quick list of factors influencing processor design:
+    - OS system we're designing for
+    - Supporting modern languages (Java, C++, NewFangledThing, etc.)
+    - Memory System
+        - Do we have to redesign our processors to optimize for SSDs? Well, SSDs are non-volatile (the memory is preserved when you turn it off), and people have leveraged that to decrease boot-up times
+    - Parallelism
+    - Help debugging
+        - As processors get more and more complex (*cough* concurrency *cough*), more processors have instructions that let you observe the state of the processor directly
+    - Virtualization
+        - As it turns out, virtual desktops (running multiple OS's at the same time) has become fairly common, and some hardware manufacturers have added things to help that
+    - Fault Tolerance
+        - The more complex the processor, the more we have to worry about something breaking
+    - Security
+        - Have to worry about "side-channel" attacks that give information away in ways you didn't expect (heat signals from the processor, etc.), along with the "gopher theory" of security where people can get around certain security features by taking advantage of the hardware (or by tampering with the hardware itself)
+- Applications also influence ISA design:
+    - Some applications with number-crunching might require efficient, hardware-level floating point support; on the other hand, cost restrictions might require leaving this out and supporting it via software libraries instead
+    - Media applications might need to deal with streaming data, which hardware decisions can help with
+    - Gaming requires sophisticated graphics processing, so we have to design for GPU support
+
+- Alright, with that out of the way, let's shift gears to Chapter 3: Processor Implementation!
+
+- So, we've designed our hypothetical instruction set; now how do we actually build it?
+    - The instruction set is NOT a description of how the processor should be implemented; it's just a contract between the hardware/software (like a software interface!), and allows a level of abstraction for the compiler-writer to generate assembly code for various languages
+- What's involved with processor implementation? A LOT: market pressures, thermal/mechanical efficiency, organization of the electrical components, what we're designing it for (servers, supercomputers, PCs, etc.)
+
+- Circuits
+    - Once again, combinational vs sequential logic (cares about previous states)
+    - Main hardware resources for the datapath: Memory (sneakily, both combinational AND sequential), ALU (combinational, does operations), registers (sequential), PC (sequential), instruction register (IR; sequential)
+    - Registers: give it an input, waits for the clock to actually take in the input
+        - NOTE: The clock can be seen as a square wave
+        - LEVEL TRIGGERING: outputs change whenever the clock is high (e.g. memory usually works like this)
+        - EDGE TRIGGERING: Outputs change only when the clock TRANSITIONS
+            - "Positive" edge triggering happens when we go from low to high voltage; "Negative" edge triggering happens when we go from high to low
+
+- Now, let's say we're a processor
+    - The first thing we do is FETCH: we get the next instruction
+        - The PC holds the address of the next instruction; so we get that address from the PC (and increment it at the same time), so we go to memory, get that instruction, and THEN put the instruction into the IR
+    - Next we DECODE the instruction
+        - So, we get the instruction from the IR, 
+            - NOTE: At the hardware level, the LC-2200 lets us get the values of 2 registers at the exact same time, which is   
+    - Finally, we EXECUTE the instruction
+- How many clock cycles does it take to do all of this? 
+    - Just 2 cycles!
+    - Why only 2? Well, the value of the address in PC is already there; it takes 1 cycle to get the instruction from memory and put it into the IR, but can't go any further since the IR is edge-triggered (as a rule of thumb, each register we hit takes 1 extra clock cycle since we have to wait for the next edge to toggle it)
+        - Then, in the 2nd cycle, we write the value from the IR to the registers in the register file; as soon as that value is written INTO the register, their output changes and flows to the ALU (which is combinational) and goes back to the register bank (but DOESN'T write anything to those registers yet; we have to wait another clock cycle for that)
+    - So, for the cycles:
+        1) PC -> Memory -> IR
+        2) Registers -> ALU -> Registers
+    - Keep in mind that, in the real world, you have delays between electricity flowing to different things; reading/writing to memory takes the longest, followed by reading/writing to registers
+- "This diagram on the slide is massively simplified, of course; for instance, between the IR and the registers, we need 12 wires (12 bits) minimum: 4 bits for each operand * 2 operand registers, and 4 bits for the opcode"
+
+- So, we have a LOT of wires in these circuits; how do we wire them up to minimize the number of wires we need? How can we share some of this information? How do we put components next to each other to minimize the amount of time we're waiting per clock cycle?
+    - So, one design is the "Single Bus Design", where we put a value on the bus and then (using a tri-state buffer) the components that need to either hear that value, or ignore it
+        - "If you have 2 units trying to drive the bus at the same time, you get a short circuit...and that's not great"
+        - To prevent that, the control unit manages the tri-state buffers of each component so that only 1 value goes on the bus at a time
+    - Of course, this isn't the only option; it's possible to have a "Dual Bus Design" with two components talking at the same time on different buses
+    - It's possible to expand this to connect any 2 components at any time...but it gets increasingly complex
+
+- Finite State Machine
+    - So, we see the state machine, we know the state machines for garage doors, we choose among transitions based on the current input, etc.
+    - Applying this to circuitry, we have a "Combination Logic" circuit that contains the logic for our FSM, a "State" register feeding into it holding the current state, and any inputs we need to decide on a transtion
+        - The FSM in a computer is the conductor, and the rest of the components are the orchestra
+
+- Next time, we'll go into some more detail about how the FSM interacts with our datapath - until then, get to work on your first project and keep reading the book!

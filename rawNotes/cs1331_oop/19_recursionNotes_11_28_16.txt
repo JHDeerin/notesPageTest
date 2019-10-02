@@ -1,0 +1,52 @@
+//**********************************************************//
+//**************Recursion - November 28th, 2016************//
+//********************************************************//
+
+-We beat UGA! Apparently! That's a good thing! (I think?)
+-Final is in 2 WEEKS; it will be ALL multiple choice to save Prof. Simpkins post-doc brain from grading, but DON'T THINK THAT MAKES IT EASY
+----------------------------------------------------------
+
+-We'll be going over recursion today, which'll be review for most, but is INCREDIBLY important
+
+-EVERYTHING we cover this week - INCLUDING Stacks / Queues, Recursion, JavaFX, etc. - WILL be on the final
+    -THE FINAL IS OPTIONAL - if you choose not to take the final, it WILL BE COUNTED AS AN EXCUSED ABSENCE - not a 0!!!!! Your grade will just be calculated as if the final never happened
+    -You CAN'T come in, say "wow, that's hard!" and walk out of the final - once you come into the testing room, the grade will count
+-Grades won't be rounded, so don't ask :P
+-PLEASE fill out the Teaching Survey - it's anonymous, so be honest, but don't be too mean; CoC gets annoyed if not enough people participate. This might count as a 10pt assignment or something
+
+-So, Recursion. Right. Recursion is cool.
+-You probably learned about recursion as "a function that calls itself" - which is right, but not quite the whole thing.
+-Formally, recursion is something that is defined using itself
+    -We'll talk about 2 kinds: procedural and structural recursion
+
+-Mathematics defines recursive operation, telling us how to "get" a recursive function
+-This definition translates to the "how-to" of code pretty straightforwardly (usually); you need:
+    1) A BASE CASE, where the recursion stops
+    2) Some way of converging non-basic calls to the base case
+        -Not following this results in an infinite loop, which is INFINITELY bad (results in a stack overflow error)
+
+-A "strictly evaluated" language evaluates the values of something, THEN applies them to the function they're inside
+    -this is CRITICAL in functional language, and is pretty important everywhere else
+
+    SUBSTITUTION MODEL:
+    -In practice, this is actually pretty simple; "factorial(5)" -> "5 * factorial(4)" -> "5 * 4 * factorial(3)" ...
+    -Substitution model can be used for purely functional programming language, where there are no side effects - that is, we could replace the function with a value, and the program would still work fine
+
+-Whenever a function is called/invoked, then an instance of that function is created in memory - in a place called "the stack"
+    -this includes any local variables the function needs, etc.
+    -This is called an "ACTIVATION RECORD", and each function needs its own "Stack Frame" to store its memory
+    -BECAUSE OF THIS, recursive functions need their own local variables (e.g. for a "factorial" function, the call "factorial(5)" would generate a separate stack frame for factorial(5), factorial(4), factorial(3), etc.), so they can't use outside instance variables to store their results
+        -This actually means its NOT A GOOD IDEA to use recursion to define a factorial function, since it needs to use a LOT of memory all at once to compute its result, rather than computing it in a bunch of small steps - meaning it can't compute this for large numbers
+            -Could grow the stack, limit size, etc., but all of these are compromises and brittle
+
+-Actually, ALL recursive functions can be replaced with loops
+    the loop is basically a recursive function where the end of the loop is the base case, and the termination condition (e.g. value of i in for loop) is the convergence
+-Often more natural
+
+- Tail-Call elimination
+-NOT Used by Java, but used in some other popular languages, notably functional languages (so won't be on the test)
+-In our previous factorial example, the last operation in the function is multiplication - it's in the "tail position"
+-Instead, if we have the RECURSIVE call in the tail position, something amazing happens - the stack doesn't expand!
+    -Instead, the answer accumulates in a single variable over time
+    -Works because now, with the recursive call last we don't have a function instance/Stack Frame "waiting" for an answer from the recursive call - instead, the compiler can just eliminate the previous recursive call and move on to the next one!
+        -Sadly though, Java's compiler doesn't handle this :(

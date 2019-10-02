@@ -1,0 +1,36 @@
+//****************************************************************************//
+//************** Google Maps & Persistence - October 16th, 2017 *************//
+//**************************************************************************//
+
+- 60 degrees in Atlanta...thus, the world panics. (Actually awesome weather; after multiple 80+ degree rainforest-wet days, 60 degrees might be my new favorite temperature)
+------------------------------------------
+
+- So, you WILL have to implement persistence eventually, AND you will have to show your pins on Google Maps
+    - "In JavaFX, displaying stuff on Google Maps was horribly painful and complicated and ugly...in Android Studio, it's almost trivially easy. There's even a 'Google Maps' activity that Android already comes with built-in"
+    - For Google Maps, you NEED to get an API key (just register w/ Google APIs and get it for free), and make sure your emulator has the Google API Libraries already included (shouldn't need to worry about this if you're using a recent version of Android)
+        - "When you start up the sample activity, it'll show a pin on Sydney, Australia...why they chose Sydney of all places, I have no idea."
+    - We get a "SupportMapFragment" object, then call the "getMapAsync" method on it; when we get a response from the API, it'll in turn call the "onMapReady" method in the class. We can then save the map to a variable, and do whatever we want with it. 
+        - On the "map" object, we can create a "LatLng" object for our latitude/longitude, call the "addMarker" method to add a pin on the map,the "move" method to focus the map on our LatLng object, etc.
+    - Up until this point, we really don't have to do anything ourselves; the default "Google Map Activity" gives us all this functionality!
+        - "The challenge - which shouldn't be that bad - is to load all our rat report data onto the map"
+        - "Since there is SO MUCH map data to display, it might be a good idea to let the user filter the reports somehow, so you're not just showing 5000 pins all at once"
+
+- Then, the OTHER part of M8 is persistence - actually saving the data!
+    - In this class, we'll focus on 4 options (although there are more):
+        - Binary Serialization (.bin)
+            - Strictly Java-to-Java, text isn't human-readable, but simple to use
+                - "One note: you CANNOT serialize/save static variables with this method!"
+                - The object MUST implement the Serializable interface to be saved via this method
+                - Open an "ObjectOutputStream", say "out.writeObject(...)", then "out.close()" when you're done; that's it! 
+                - When loading a binary file, we open an "ObjectInputStream", say "student = (Student) in.readObject()" or something like that, then "in.close()" when we're done
+            - Behind the scenes, this gets all the objects you specify, turns them into a tree, then saves them in a .bin file
+        - Custom .txt file
+            - Gives you complete control over what's saved, is human readable, but requires a LOT of work since you're implementing everything
+        - JSON 
+            - Actually almost as easy to use as Serialization in Android Studio (if you use Google's JSON library, called 'Gson'), lets you communicate w/ other languages; good middle-ground between Binary & Custom methods
+                - To use, we create a new "Gson" object, say "String jsonString = gson.toJson(...)", and save the JSON string that Gson generates from our object
+        - Databases/SQLite
+            - More complicated than the other methods, and usually more technical (since you need to "learn" a specific database), but often well-suited for large applications that deal with a lot of data
+    - Should probably do saving/loading inside a try-catch block, since this is one of the more error-prone parts of our code
+
+- We'll finish going over these persistence methods - especially databases - on Wednesday

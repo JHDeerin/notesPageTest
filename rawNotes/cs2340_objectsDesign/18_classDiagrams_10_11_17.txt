@@ -1,0 +1,41 @@
+//****************************************************************************//
+//************ Class Diagrams (cont.) - October 11th, 2017 ******************//
+//**************************************************************************//
+
+- Welcome back from fall break! We'll go over the last few squiggly lines for class diagrams in UML, and then move onto sequence diagrams
+    - "For reading in the data...I won't be grading based on performance at all. If this were a real app, you'd be using database techniques and using multithreading to load the stuff in the background...I'm not expecting anything like that, but keep in mind that industrial-grade apps would be using techniques like this."
+    - "And remember, the UML Class Diagrams are NOT just Domain Models; in Class Diagrams, we INCLUDE things the customer doesn't need to know about, like interfaces, databases, abstract classes, etc."
+-------------------------------------------------------
+
+- To show ABSTRACT classes, you either write the name of the class in italics, OR write "{abstract}" (in curly brackets) above the abstract's classname
+    - "Why we don't use '<<>>' like for stereotypes, I'm not quite sure"
+- To show ENUMS in class diagrams, we write "<<enumeration>>" over the enum's name, then write all the enum's states underneath it (e.g. Sunday, Monday, Tuesday, Wednesday, etc...)
+    - "To show that a class uses an Enum, we draw a line from the enum to the implementing class w/ 'has' written over it, OR we write the enum as a variable on the class"
+    - Do NOT draw a line to the class AND include it as a variable; this counts as a "double declaration", and WILL be counted as incorrect
+
+- Let's say we have a "Customer" class that can check out a "Book" object, with information about when the book was checked out, potential fines, etc.; where should that data go? On the Customer? On the Book?
+    -..., really, it belongs on the "CheckOut" object itself! So, we should put this data on an "association class", drawing a dashed line from the line connecting 2 classes
+    - How exactly these objects are tracked/created is implementation-specific; we could have an array of "CheckOut" objects on the Customer class, we could have a "Manager" class that keeps track of them, etc.
+- Finally, there's an idea called "Active Classes" w/ double-walls to show which classes are always running, which are thread-dependent, etc...we won't really use them in this class, but you should be aware of them for later on in your coursework
+    - "There are a few more rules for drawing class diagrams, but those can get a bit esoteric, so we won't worry about them in this class"
+
+- So, let's say we have our Library domain model with our "User" object (Name, ID), "Book" object (ISBN, name), and the "ChecOut" association object between them (User, Book, Data); to turn this into a Class Diagram, one way would be:
+    - Create a "User" class, with data "Name(String)" and "ID(int)"
+    - Create a "BookCopy" class (since we could have multiple copies of the same book), with a "Book(Book)" reference and a "CopyNum(int)" attribute
+        - We would have our "CheckOut" object between these 2 classes
+    - We'd have a "Book" class for each book we have in the library, with a "Name(String)", "ISBN(int)", "Author(Author)", etc.
+    -Since we, say, want the user to be able to search for books by Author, we create a separate "Author" object, with a "Name(String)" property and "Books(Array)" array of books they've written
+        - This way, when searching by author, we can just look the Author up in a hash table and get all their books, instead of iterating through all of our books and then filtering by author
+-...annnnnnnnnddddd that's class diagrams!
+
+- So, let's move onto SEQUENCE DIAGRAMS
+    - "For whatever reason, these are the ones that students tend to have the most trouble with"
+        - This is the last diagram we'll do in this class, but for reference, other common UML diagrams are State Diagrams (for FSMs), Activity Diagrams (like flowcharts), etc.
+    - To write the sequence exam for an activity, we write the names of the classes involved in the event across the top, as separate boxes
+        - We then draw the "User" (or whoever starts the activity) to the left of all the boxes; we then draw a dotted line from ALL of the object across the top down to the bottom of the page
+        - 
+    -e.g. Let's say we had a Sequence Diagram for the "Login" activity
+        - We would have, from left-to-right, a "User" figure, then boxes for the "LoginAct", "Model", and "User" class
+        - Ater drawing the dashed "lifelines" to the bottom, we would draw an "onClick" arrow from the User's line to the "LoginAct" line
+
+...annnnnnnd we'll wrap this up on Friday!

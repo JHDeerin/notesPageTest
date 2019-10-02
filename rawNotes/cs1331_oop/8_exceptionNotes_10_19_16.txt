@@ -1,0 +1,61 @@
+//***********************************************//
+//*********Exceptions - October 19th, 2016******//
+//*********************************************//
+
+-Test average was 76.8%; curve info (if any) will come later
+-Prof. Simpkins, couldn't make it, so say hi to TA Will instead!
+-DURING THE TEST: We WILL NOT assist with Gradle problems; should have Gradle 3.x
+---------------------------------------------------
+
+-Say we have an assignment "employee = initFromFile(new File(dataFile))"
+    -If "dataFile" is null, then it'll throw an exception
+    -This particular error is easy to check, but things can get complex quickly; you have to remember what methods return what, what kind of inputs methods take, etc.; or you might have users induce a runtime error
+
+-An EXCEPTION is an event that, during execution, disrupts the normal flow of program exceptions
+    -e.g. above would throw "FileNotFound" exception
+    -These are actual objects in the Java API, and we can use them
+
+-Exceptions can be CAUGHT (at point where control goes) or THROWN (from where it occurred)
+    -Also a 3rd keyword called "finally", but this won't come up until later    (next class?)
+
+e.g. "try {} catch (Exception e) {}"
+
+-Allows us to have a compiler-based form of error checking within our program (rather than having to custom-case check everything) at runtime
+
+-So, above can be written as:
+    "try {
+        employees = initFromFile(new File(dataFile));
+    } catch (FileNowFoundException e){
+        System.out.println(e.getMessage);
+    }"
+
+2 types of exceptions: CHECKED and UNCHECKED
+- So, can declare "private List<Employee> initFromFile(File data)
+                        throws FileNotFoundException, IOException {}"
+
+-(...might have to read exception documentation to make firm sense of this)
+
+-A statement is dynamically enclosed only if:
+    -It is called within a try block
+    -It is called by a method that was called within the try block
+
+-Can have subclasses of exceptions; e.g. can have "Catch (Exception e)" and it will catch EVERY possible exception (although this is bad convention since it doesn't give use very specific information on WHAT the exception is)
+
+-Goal of exceptions is to NOT HAVE PROGRAMS TERMINATE; Exceptions is how we do that, and the only way to handle specific exceptions is to try and handle specific ones (e.g. can ask "Give me the filename passed in" for the FileNotFound exception; CAN'T do this for more general types)
+
+-Can have multiple catch statements:
+    "...} catch (FileNotFoundException a) {
+        ...
+    } catch (...) {} ..."
+    -Will try to catch these exceptions in the order of the catch statements
+    -At VERY end, people will occasionally put "catch (Exception e)" as a literal "catch-all" statement
+        -Putting it earlier, of course, means no statements below it would get executed
+
+-UNCHECKED EXCEPTIONS are subclasses of "RuntimeException"
+-CHECKED EXCEPTIONS (mostly) extend "Exception"
+    -Also something called "Error", but this is a very in-depth class that shouldn't be used unless you know what you're doing (used in compiler)
+
+-Checked exceptions extend "Throwable" as well, which requires that these exceptions are handled by :
+    -a catch clause, or
+    -a "throws" declaration on the enclosing method (forwarded to somewhere that WILL handle it)
+    -This is the "Catch-or-Declare" rule (not needed for UncheckedExceptions)

@@ -1,0 +1,53 @@
+//****************************************************************************//
+//********* Convolutional Neural Nets (cont.) - September 9th, 2019 *********//
+//**************************************************************************//
+
+- ...I'm pretty frustrated that I missed VAST today :(
+
+- Okay; hopefully today will be mostly review, since you all did project 1
+--------------------------------------------------------------------------------
+
+- So, each convolution layer is a small filter; we can then stack multiple filters together, with an activation function like RELU
+    - "There's still some discussion about what the best activation function is, but really, almost everyone uses RELU right now"
+    - You can have neural nets that're 200+ layers deep right now, 
+        - Typically, we'll have layers that identify "low-level features," "mid-level features," and "high-level features"
+            - The filters get effectively bigger as they go through the different layers (I think?), since the original input image is getting smaller (I think?), so that deeper filters are trained to look for larger features
+                - "...we have to move on, but I hope you understand it"
+                - So, in the original image, a 5x5 filter would look at a 5x5 region of the original image
+                - In layer 2, we're looking 
+            - More specifically, the RECEPTIVE FIELD of the layer (the region of the image it's looking at) is growing as we go deeper
+                - You can think of this as saying "If I change a pixel in this area X, the pixels in the layers "
+        - To scale up to higher-level features, you do need many layers and these non-linear functions, even if they make learning more difficult
+    - So, we have alternating convolution/weight maps, and then there's these POOL layers placed in-between
+        - One of the reasons for doing this is just to downsize the sampled image, but it's also so that, by combining different filters together, we care less about the exact position of a feature like an eye/cup/etc.
+            - Basically, all these pools are doing is taking the maximum weights over a small 2x2 or 4x4 window, and using that max activation weight for a single pixel, so we get a smaller filter
+                - We might also take the mean/sum, but that's less common
+            - ...this seems to be a confusing topic, so they'll post a tutorial on how pooling changes the receptive field on Piazza in a day or two
+    
+- Finally, we need to talk about FC layers, or FULLY CONNECTED LAYERS
+    - These are layers that have all their neurons connected to all the previous layer's neurons; these are most common right at the end of the network, where we'll have a neuron for each classification category that we connect to all the previous layer's neurons (I think?)
+
+- So, let's now get to your homework: using convolutional neural nets (CNNs) for image processing
+    - There are some REALLY cool applications of this
+        - For instance, colorizing black-and-white image! We can train a neural net on a bunch of example images, and then feed it a grayscale image that it then applies colors to based on the patterns
+            - So, we decompose RGB images into different color/lightness channels, then train it on a network with a bunch of convolutions that then tries to 
+            - Look up "DeOldify" for an example of this on GitHub
+        - We can also make "Super-Resolution" filters, which tries to take a low-resolution image and sharpen the details in it
+            - An early CNN paper from 2016 showed how you could use this to try and reconstruct lost detail from downscaled images 
+        - We can also recover information from underexposed photos!
+            - Here, if an image is *almost* black because it was taken in low light conditions, we can try and use neural nets to get rid of the "speckles" from low light and to artificially brighten dark regions and increase the detail there
+                - They then, instead of mapping each image to each image, we try to learn the "illumination map" we need to apply to a given image based on its brightness levels
+        - As a final example, we might try to do "image reconstruction/inpainting," where we try to artificially remove branches/objects in the foreground and guess what was behind them (trying to fill in the gaps)
+
+- So, CNNs look really cool - and they are! But they CANNOT do everything
+    - Combining two linear filters, like in linear algebra, just gets us another linear filter - but not all filters are linear!
+        - A MEDIAN FILTER is where we select a median intensity to use for a given window around a pixel
+            - This is occasionally used for de-noising (even though it can mess up textures), but it isn't a linear filter! We have to sort the pixels and then pick just one!
+            - This might be possible to do in PyTorch, but it would be difficult
+        - A BILATERAL FILTER is where we try to detect edges in the image and only apply the filter to 
+            - This would also be tricky to implement with PyTorch, but it would probably be possible
+        - MORPHOLOGICAL FILTERS are things that grow/shrink regions of an image, try to apply
+            - This is old enough that it used to be coded up on punch cards!
+
+- Now, we're going to be doing some frequency analysis in this class, and we need to learn something important before we can do that: the Fourier transform!
+    - ...which we'll get to next class!

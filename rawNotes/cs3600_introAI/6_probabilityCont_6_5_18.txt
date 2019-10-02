@@ -1,0 +1,198 @@
+//****************************************************************************//
+//***************** Probability (cont.) - June 5th, 2018 ********************//
+//**************************************************************************//
+
+- Today, again, the whiteboard is etched; we read:
+    - "Finish probability
+        - (independence, conditional independence)
+    - Apply Probability to Wumpus
+    - Bayes' Net Introduction/Example"
+- (On the sideboard, grids are being drawn - likely for the Wumpus)
+
+- Alright, first project is behind us - once again, start as early as you can and your stress levels will stay manageable
+    - Project 2 is AGAIN a PacMan project, but with limited and sometimes incorrect sensors (just tells you what walls are adjacent and how far away the closest ghost is)
+    - So, this one will require Bayes' Nets to solve - and you'll find that even with these new challenges, you can still do pretty well!
+- Grades for project 1 should be up by the end of the week, but as long as you didn't cheat, the autograder will be your score
+-------------------------------------------------------
+
+- Okay, back to probability
+    - "Not all prob-stats courses cover Conditional Independence, so pay particular attention to that"
+    - Last time, we covered the "Product Rule" and the "Total Probability Rule"/"Conditioning"
+        - The Total Probability Rule (P(Y) = Sigma(P(Y|Z=z) * P(Z=z))) basically let's us marginalize out Z - we don't have to calculate it all from scratch, since we have P(Z) and are summing over all possible values of Z
+            - It's just a fancy way of doing what we did with the FJD table: to find the overall probability of the toothache, we just added up the conditional probability of a toothache for all possibilities!
+    - We also derived Bayes' Rule by applying the Product Rule to P(A and B):
+
+        P(B|A) = P(A|B) * P(B) / P(A)
+
+    - Applying this to our doctor's diagnosis example, we should already know P(D), P(S), and P(S|D) from medical reports; NOW, we want to try and find P(D|S) - the probability of a certain disease "D" given the patient's set of symptoms "S"
+        - The reason Bayes' Law is useful is that it lets us recast this problem in terms we already know:
+
+            P(D|S) = P(S|D) * P(D) / P(S)
+
+        - This makes sense, right? If a disease is rare (i.e. low P(D)), it'll be less likely UNLESS its symptoms (P(S)) are also very rare
+        - Let's come up with a practical example:
+            - "Out of the whole population, 3% have the 'Creeping Crud' virus. If someone has CC, the test will FAIL to detect it 1% of the time; if someone DOESN'T have the disease, there'll be a false positive 10% of the time. Knowing those facts, a person takes the test and gets a positive result; what're the chances they actually have the Crud?"
+                - A quick reminder: a "false positive" and a "Type I error" are interchangeable (you don't have it, but we detected it)
+                    - Similarly, a "false negative" is the same thing as a "Type II error" (you had it, but we didn't detect it)
+                
+                - First of all, what're the probabilities we do know? (T = positive test result)
+                    - P(CC) = 0.03, => P(!CC) = 0.97
+                    - P(!T|CC) = 0.01, => P(T|CC) = 0.99 
+                    - P(T|!CC) = 0.1, => P(!T|!CC) = 0.9
+                - Now, what're we asking? "The chance the person has the disease GIVEN a positive test result" - i.e., P(CC|T)
+                - Let's rewrite this using Bayes' Rule!
+
+                    P(CC|T) = P(T|CC) * P(CC) / P(T)
+
+                    - So, we have one more problem - we don't know P(T)! How can we figure that out?
+                        - Well, we can use the Total Probability Rule - we know T conditioned for all possible values of CC, so we should be able to derive T from that:
+
+                            P(T) = P(T|CC)*P(CC) + P(T|!CC)*P(!CC)
+
+                            - "Since these are boolean variables, there are only 2 possibilities for CC, so I didn't bother writing out the sigma"
+
+                            P(T) = P(T|CC) * P(CC) + P(T|!CC)*P(!CC) 
+                                = 0.99*0.03 + 0.1*0.97
+                                = 0.1267
+
+                    - Alright, plugging this back into our Bayes' Rule formula, we get:
+
+                        P(CC|T) = 0.99*0.03/(0.1267) = 0.234
+
+                    - That's our answer!...and it tells us our test is pretty darn terrible! There's only a 23.4% chance we actually have the disease if the test is positive
+                        - This is why doctor's often run multiple tests on patients, because the chance of 1 test being foolproof is honestly pretty low
+            - "This sort of question could possibly appear on an exam, so don't forget about it...plus, it'll be important for what we're about to do"
+
+- Now, let's generalize Bayes' Rule to be useful to our agents
+    - The question we REALLY care about is "given this set of effects we know about, what's the most likely cause?"
+        - In other words, P(cause|effects)?
+        - The difficult thing about this is that we have some effects that we haven't observed yet - what we'll call "latent" or "hidden" variables
+    - We'll usually try to solve this by reversing it and, for each effect, trying to find: 
+
+            P(cause|effects) = P(effect|cause) * P(cause) / P(effect)
+
+        - We'll almost NEVER know the exact P(cause) - but we can calculate it, and importantly, this is a model that can handle uncertainty
+            - How do we calculate it? Well, the same way we found P(T) in the Creeping Crud problem - we marginalize it, using the Total Probability Rule!
+        - Again, if an effect is very rare and unlikely, it'll increase the probability it's this cause
+
+- Before we start using this, though, we have to talk about independence in probability
+    - Some variables affect other variables, while others really don't matter
+        - Going back to the cavity example, you're probably more likely to have a toothache if you have a cavity, and vice-versa
+            - Number-wise, the table backed this up - the overall probability of a cavity was 0.2, but the chance of a cavity GIVEN we have a toothache was 0.6.
+            - Since those two numbers are NOT equal, we can conclude that these variables aren't independent
+                - "That's useful! We might not know for sure if we have a cavity, but if we can easily observe we've got a toothache, we might be able to deduce that we have a cavity and need to schedule a checkup!"
+        - Of course, there're variables that're not related - like your chance of having a cavity and, say, the phase of the moon
+            - Looking at a survey, we'd see P(cavity) = 0.2, and P(cavity|moon-phase) = 0.2 - they didn't affect one another. Knowing one tells us nothing about the other
+        - More generally, we say that two variables X and Y are INDEPENDENT if:
+
+                P(x) = P(x|y), OR P(y) = P(y|x)
+            
+            - From this, we can ALSO simplify the product rule for independent variables:
+
+                P(A and B) = P(A) * P(B)
+
+- Up to a point, independence is useful since it lets us reduce how many calculations we have to do
+    - Let's say we have a random variable for "the current weather in Georgia" that can be one of the following values: {rain, snow, mild, hot, spontaneously combusting} - 5 possibilities
+    - Let's say we have 3 other random variables for cavity, tooth, and catch; each of these can be true/false
+        - So, to create a FJD table for this, we'd need 5 * 2 * 2 * 2 = 40 entries
+    - If we KNOW weather and our teeth variables are independent, though then we don't have to know all the combinations, since 
+
+        P(cav,tooth,catch,weather) = P(cav,tooth,catch) * P(weather)
+
+    - SO, we can simplify the table down to 5 + 2*2*2 = 13 - we only need 13 table entries to be able to calculate all the probabilities!
+        - We don't lose ANY information by doing this, since all of the (tooth|weather) probabilities would've been redundant - they wouldn't have affected anything
+- So, we like stuff being independent, but at the same time we don't want EVERYTHING to be independent - if it is, then we can't determine how probable anything is given something else!
+
+- Now, two things are CONDITIONALLY INDEPENDENT if, knowing the value of some third random variable, then we can know the two contain no information about one another
+    - OTHERWISE, if we don't know the value of C, we can't assume if they're independent or not
+    - Formally:
+
+            Indep(A,B)|C ONLY IF P(A,B|C) = P(A|C) * P(B|C)
+    
+    - One example of this: "Is a person's height independent of their vocabulary size?"
+        - You might say at first "well, no, they're not related at all"...but what else is related to both of these? AGE! Younger children are shorter AND have smaller vocabularies!
+            - If we didn't know to include age, then we'd look at the data and say "wow, these shorter people have smaller vocabularies!"
+            - On the other hand, if we remember to check someone's age, then we can consider that in our calculations
+                - In this case, age was a potentially hidden "confounding variable"
+
+- So, all this probability stuff is kinda theoretical and out-there, but let's bring this back to AI - starting with our dear old friend, the Wumpus!
+    - Going back to the pit example, it just can't figure out where the next safe spot is, so it has to pick a spot at random - which, obviously, isn't ideal
+    - With some basic probability theory, though, and a bit of knowledge about the world, we can improve our odds
+        - Unconditionally, let's assume the rule says there's a 0.2 chance of any given square being a pit in a 4x4 grid
+        - Assuming our sensors are reliable, we know (1,1) is free of anything, and (1,2) and (2,1) don't have pits, but do have breezes
+    - Let's assign some hidden variables "P(1,1)...P(4,4)" that record the probabilities of each square being a pit
+        - We know (1,1), (1,2), and (2,1) are not pits, and there are breezes at (1,2) and (2,1)
+        - For now, we'll want to ignore hidden effects (sensor readings from squares we haven't been to yet) and just consider hidden causes
+            - So, for now, our JDT has 19 variables: the 16 squares' chances of being pits, and our 3 breeze sensor readings
+            - We now want to ask the question:
+
+                P(B11, B12, B21| P11, ..., P44) * P(P11...P44)
+
+            - In other words, "what're the chances of seeing these breeze sensor readings given some combination of pits?"
+                - We're not considering whether any of these variables are "true" or "false" yet; we're just considering them as possible variables
+                - The first part, P(B11, B12, B21| P11, ..., P44), will just be 0 or 1 depending on if the breezes are possible for that pit configuration
+                - The second part, the unconditional probability of that pit configuration, will work out to:
+
+                        0.2^n * 0.8^(16-n)
+
+                    - ...where n is the # of pits in the whole maze
+            - The question we REALLY want to ask, though, is "what's the chance that this specific square has a pit, given our gathered evidence?"; for instance: 
+
+                    P(p13|pits, breezes)
+
+                - "pits" are the all the squares that we know for SURE (in this case, (1,1), (1,2), and (2,1) - all of which don't have pits)
+                - Using a few assumptions, we can simplify things:
+                    - We can ignore our pit readings, since pits don't directly affect the chance of another pit existing in a separate square
+                        - In other words, the probabilities of all the P11, P22,...etc. variables are independent
+
+            - Right now, though, if we just checked this probability for EVERY possible maze configuration, we'd have to check 2^19 variables - that's a LOT! With a bit of clever math, though, we can avoid having to check almost all of these
+            - So, let's figure this out the slow, hard way first; then, when we get to Bayes' nets, we can solve this more quickly:
+                - P(pits = the probability of the pits we KNOW are/aren't there)
+
+                    P(p13|pits,breezes) = a * sigma{P(breezes|p13,pits,unknown) * P(p13, pits, unknown), for each unknown square}
+
+                - a is some normalization constant that we'll divide by at the very end to make this a probability, and not just a ratio
+                - Splitting up the "unknown" squares, we'll say it's the 2 "frontier" squares we're also interested in and have breeze data for (since for this case, we're trying to figure out p13, P13 will be considered its own thing and not part of the frontier), + the "other" squares we haven't visited
+
+                        = a * {{P(breezes|p13,pits,frontier,other)*P(p13,pits,frontier,other), other}, frontier}
+
+                    - We can drop the "other" from the probability, since it's independent of the chance of the breezes we know (only the "frontier" squares could affect the breezes)
+
+                        = a * {{P(breezes|p13, pits, frontier) * P(p13,pits,forntier,other), other}, frontier}
+
+                    - Simplifying further, we can pull out the first probability just into the frontier sigma, since it's not affected by "others" directly until we multiply at the end (there's no "other" term in P(breezes|...), so pulling it out won't affect it's result)
+
+                        = a * {P(breezes|p13, pits, frontier) * {P(p13)*P(pits)*P(frontier)*P(others), others}, frontier}
+
+                    - "...we're almost done, whether you realize it or not"
+                    - P(p13), p(pits), and P(frontier) are all independent of P(other), so we can pull them out of the sigma; and since {P(others), others} = 1 (since we're summing over the domain), we can get rid of that!
+
+                        = a * P(pits) * P(13) * {P(breezes|p13,pits,frontier) * P(frontier), frontier}
+
+                    - We can now consider P(pits) part of the normalization variable "a", since it's a known constant (the probability of the squares we know for sure, in this case 0.8^3 since all 3 squares we know are not pits), so we can get rid of that
+
+                        = a * P(13) * {P(breeze|p13,pits,frontier) * p(frontier), frontier}
+
+                    - Now, there are only 2 cases for P(13) (true or false; there's either a pit there or not), and only 4 cases for the frontier (i.e. the chances of pits being in the 2 frontier places that are NOT (1,3) - namely, (2,2) and (3,1), which can each either have/not have a pit) - so, we have 8 total cases to consider
+                    - So, we just have to evaluate P(breeze|p13,pits,frontier) for each of the 8 possible cases
+                        - Furthermore, for some of those 8 cases, the chance of there being our observed breezes with that configuration is 0 (it's impossible0) - which makes our job easier!
+                            - Again, we have 8 cases instead of 4 since we're trying to separately find the probability of there being a pit in p13 AND not in p13; if we were just calculating the probability of there being a pit in p13 alone, we would just assume that p13 is true, so P(p13 = true) = 0.2
+
+                        - So, for P(p13|pits,breezes), the final calculation would be:
+
+                            = <a * p(p13 is a pit, unconditionally) * (P(pit in 2,2 and not 3,1) + P(pit in 3,1 and not 2,2) + P(pit in 3,1 and 2,2) + P(no pit in 3,1 or 2,2)), (...probability p13 is not a pit)>
+
+                            = <a * 0.2 (1*0.2*0.8 + 1*0.2*0.8 + 1*0.2*0.2 + 0*0.8*0.8),
+                               a * 0.8(0.2*0.2 + 0.2*0.8)>
+                            = a * <0.072, 0.16>
+
+                        - The *1 and *0 come from the "P(breeze|...)" term; 1 means "yes, the breezes are possibly given those pits", and 0 means "no, that's impossible"
+                            - The 1st part in <,> is the probability of p13 being a pit given that configuation, and the 2nd is the probability that the pit isn't there
+                                - For boolean variables with only true/false, you can just subtract the probability from 1 to get the chance of it not being this one; if there's more than 2 possibilities, though (e.g. for the weather), you can't assume that "1 - chance of occurring" gives you the chance of something else happening
+
+                    - After normalizing this (dividing by 0.072 + 0.16, which together encompass all possibilities (both true/false)), we get a final probability of ~31%
+
+                - Doing this for the other 2 possible pit squares on the frontier, we find there's a 31% chance of the pit for each of the edge sqaures, and 86% for the middle one
+                - That saved us a LOT of computations!...but, yeah, it's a lot of complicated work in-itself
+
+- Okay, so this math is ROUGH - but luckily, Bayes' nets ensures there's an easier way!

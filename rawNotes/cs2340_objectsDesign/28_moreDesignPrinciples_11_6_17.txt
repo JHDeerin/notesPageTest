@@ -1,0 +1,74 @@
+//****************************************************************************//
+//**************** More Design Principles - November 6th, 2017 **************//
+//**************************************************************************//
+
+- So, for M12, you'll be doing an individual report on a program's architecture; PLEASE choose an example from "The Architecture of Open-Source Software" (NOTE TO SELF: THEY HAVE THE BATTLE FOR WESNOTH AS AN OPTION!)
+    - Once you've found a decent-sized example that you're interested in, you'll follow the report guidelines on T-Square and write a report critiquing the design of the program (good and bad)
+        - Exemplary papers will show evidence of having looked at the source code (e.g. on Github), external sources, and a thorough understanding of the design principles we've talked about in class, applied to these systems; "You can still get a low A as long as you've used a few different sources and demonstrate understanding of the design principles"
+    - This is due the day we get back from Thanksgiving
+---------------------------------------------------------
+
+- So, GRASP principles are well and good, but they're VERY textbook-specific; an interviewer probably wouldn't have heard of them if you named them, even though they're very good principles to follow
+- So, let's go over some of the more well-known design principles in software development
+
+- LAW OF DEMETER
+    - Basically, we should ALWAYS try to minimize coupling in our program
+        - A non-coding example: If an army team is setting up a defensive position and needs to set up a foxhole, a general doesn't tell the colonel to tell a major to tell a captain to tell a seargeant to tell a private to dig the foxhole; INSTEAD, he just says "Colonel, I need a foxhole here", and leaves it up for the colonel to decide how to do that
+            - "If you need to call a chain of twelve getters to call the method you need, it's probably a sign you're not following this law"
+    - More formally, the law says that objects should ONLY send messages to:
+        - Itself (the class is allowed to call its own methods)
+        - Objects sent as arguments 
+        - Objects created by the class' methods
+        - Objects directly accessible via the class' attributes
+    - An example of what NOT to do:
+
+        sendMsg(userId, msg) {
+            um.findUserId(userId).getConnect().getSocket().send(msg);
+        }
+
+        - NOW, this chain of calls is fragile; if we change the "Socket" class into a "Pipe" class, this method call will break, even though it shouldn't have anything to do with the class we're using to send stuff!
+    - A better way would to have a "send" method on ALL of these classes, and to instead have a chain of calls like this:
+        sendMsg(userId, msg) {
+            um.send(userId, msg)
+        }
+        ...
+        send(userId, msg) {
+            connection.send(msg);
+        }
+        ... 
+        send(msg) {
+            socket.send(msg)
+        }
+        - This is MUCH less fragile!
+    - "Now, sometimes there'll be an API that's designed this way that forces you to have to call methods via the chained-getter way...there's really not much of a way around that, but try to do minimize this kind of stuff as much as possible"
+
+- TELL, DON'T ASK (TDA)
+    - We TELL objects what to do instead of asking them about their internal state and then making decisions
+    - e.g. if we have an accounting program, our "purchase" class shouldn't just be a container for the data but do nothing else; it should be able to calculate what the total purchase is FOR US, instead of having that logic required in the calling class
+        - This way, instead of doing something like:
+            public void makePurchase() {
+                Purchase pur = getPurchase();
+                pur.total = pur.subTotal * (1 - pur.discount);
+                (...))
+            }
+        - We can say just say: "purchase.getTotal();"
+    - "If you learn about 'code smells', this is one of them"
+
+- COMMAND QUERY SEPARATION (CQS)
+    - This is a bit of a controversial one
+    - Basically, this says 
+
+- And finally, the BIG one: SOLID
+    - This is a set of 5 principles created by Robert Martin ("Uncle Bob"), and it's HUGELY popular among developers
+    - The 5 principles are:
+        - SINGLE RESPONSIBILITY PRINCIPLE
+            - Every class should have ONE overriding thing that it does (not a single method necessarily, but a single overall goal)
+            - Another way of putting it: every class should have ONE reason to change ("Major changes should be isolated from one another, so that a change in one part of the program shouldn't require changes to an unrelated part of the system")
+                - e.g. Let's say we have a "CompGeometry" class that let's us calculate the area of shapes, with a "Rectangle" class that has a length/width variable and method for calculating its area
+                    - Let's say we THEN add a "DrawShapes" class, and we say "hey, Rectangle already has some information we need to draw it, let's add a "drawRect" method to that class"
+                - The PROBLEM with this is that it means our Rectangle now depends on both the "CompGeometry" class and the "DrawShapes" class; if EITHER ONE changes, then we have to update the rectangle class, even though the change 
+                    - The solution to this, in this case, would probably be to create a new "DrawRect" class that gets information from our original Rectangle class; that way, the logic for storing information and drawing it is kept separate
+        - Open / Closed Principle
+        - Liskov Substitution
+        - Interface Segregation
+        - Dependency Inversion

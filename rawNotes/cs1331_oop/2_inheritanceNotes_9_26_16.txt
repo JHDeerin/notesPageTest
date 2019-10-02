@@ -1,0 +1,34 @@
+//********************************************************//
+//*************Inheritance - September 26th, 2016********//
+//******************************************************//
+
+-Side note: Cobb County School Board is apparently silly
+-Towards the end of the year, there'll be extra points available, as some people need a "catch-up" period to really grasp programming concepts; the system is designed to be student friendly. Practical result: don't stress out too much about the first exam.
+-For the programming quiz, just remember: you don't have to code it on paper.
+-For programming interviews: it's expensive to screw up hiring, which is why selection is so rigorous. So you'll usually have to do a coding portion (often via pair programming, which we would've done if there were enough TAs). Usually, it's not the "n-queens" problem or anything mightily hard (although sometimes they are); usually they're looking to see if you can take, interpret, and solve an intermediate-level problem as efficiently as possible without major screw-ups or constant guidance
+-Side note from Professor Simpkins: It's awesome to work at GT w/ GT students, but while I'm wrapping up my Phd. I need a lot of work. So if I can't talk for very long or seem stressed, it's not your fault. Usually.
+
+-HOMEWORK: 2 is more open ended than 1, and that trend WILL continue. These homeworks are testing your design skills as well as your coding skills. That being said: READ THE INSTRUCTIONS. These are free points if you know what they are; if you miss them, though, those are free points lost, and irl could mean annoying a client or accidentally introducing a safety hazard, so READ CAREFULLY.
+    -Later on, in classes and in industry, you'll often have to take a problem and make your own instructions out of it.
+-------------------------------------------------------------------------------
+
+-Probably, you already knew almost everything we did before (maybe in a different language). Inheritance will still be old hat for some of you, but it's the first really "new" thing for most people.
+-Java has a lot of boilerplate and some annoying stuff, but it is a GREAT language for LARGE projects. Some of the stuff that seems annoying here because of the small projects we do turn into life-savers on real, complex software systems.
+-We can deal with complexity via ABSTRACTION (hiding irrelevant details), DECOMPOSITION(decomposing into classes, functions, packages, etc) and REUSE
+-Inheritance combines all 3 of these
+
+-INHERITANCE is just deriving one class from another class
+    -Classes that inherit from another class are a "subclass" or "derived class" or "child class"
+IMPORTANT: Inheritance IS NOT ABOUT IMPLEMENTATION REUSE. Instead, it is about resusing CONCEPTS. e.g. "HourlyEmployee" is-a "Employee"
+
+-Pretend we have an employee class that has members and methods for "name", "dateOfHire", etc.
+-We can create a brand new class that EXTENDS the "Employee" class, e.g.
+    "public class HourlyEmployee extend Employee"
+-HourlyEmployee inherits all members/methods from Employee, but can't directly access private methods/members
+-Can use the "super" call to reuse the initial constructor
+
+(GOTO HourlyEmployee class)
+
+-When inheriting, you are extending the capabilities the class already had
+
+-When considering visibility modifier, there are levels for Classes, subclasses, packages, and the whole program; and public, protected, private, and no modifier modifiers; the table of what can view what is on the website, but private variables are only visible within the class

@@ -1,0 +1,112 @@
+//****************************************************************************//
+//****** Statistical Foundations for Machine Learning - September 17th ******//
+//**************************************************************************//
+
+- "Hi everyone!"
+    - Today, we're being taught by Brian Mulloch, who teaches the regular Machine Learning class here at GT
+- "I don't think anything in this lecture is particularly necessary for your current project, but hopefully you'll find it interesting"
+--------------------------------------------------------------------------------
+
+- Alright, so let's talk about probability and what the wahoo it has to do with machine learning
+
+- First up: why should we care about probability in ML at all?
+    - One big things is that it gives us a formal way to talk about both noise (via Frequentist statistics) and beliefs (bia Bayesian statistics)
+        - The important things you need to know for today are random variables, independence, conditional probability, and Bayes' Rule
+    - It's also useful to know about EXPECTATION: the expected value of the "central tendency" of a random variable
+        - Importantly, the expectation of a random variable is LINEAR, i.e.
+
+            E(X + Y) = E(X) + E(Y), and
+            E(a*X + b) = a*E(X) + E(Y)
+
+        - There's also CONDITIONAL expectation, where given a random variable that's conditional, we say:
+
+                E(X | Y) = sum over x domain{ x * p(x|y) }
+
+            - Meanwhile, the TOTAL EXPECTATION let's us calculate regular expectation by summing over the domain of all the conditional stuff:
+
+                E(X) = E_y(E_x(X|Y))
+
+                - The inner expectation returns a function, while the outer expectation returns a number
+    - You should also know about VARIANCE, i.e. how "noisy" a random variable is and how much it tends to deviate from the mean
+        - Mathematically, variance is basically the random variable minus the square of the mean:
+
+                Var(X) = E((X - E(X))^2) = E(X^2) - E(X)^2
+
+            - By some other properties, variance isn't affected by adding constant values, but it IS affected by multiplying
+
+                Var(X + a) = Var(X)
+                Var(a*X) = a^2*Var(X)
+
+- Okay, crash-course statistics aside, let's now talk about the first place where this rears its head in our ML world: the BIAS-VARIANCE TRADEOFF
+    - Let's say we have a learner that for some inputs "X" gives us the outputs "Y"; in that case, the expected error would be:
+
+            E_s((y - h(x))^2)
+
+        - ...where "y" is the actual answer and "h(x)" is our model's guess
+        - Once we work out the math, this'll come out to the following expression:
+
+            (y - E(h(x)))^2 + Var(h(x))
+
+        - How did we end up here? Well, we can add/subtract E(x), then expand the square, like this:
+
+            E_s((y - h(x))^2)
+            = E(y - E(h(x))) + E(h(x) - h(x)^2)
+            = E(y - E())
+            = (...slides moved too quickly...)
+            = (y - E(h(x)))^2 + Var(h(x))
+            = Bias(h(x)^2) + Var(h(x))
+
+    - So, what does this actually mean? It means the expected error of ANY hypotheses/learner we make is a combination of these 2 things: BIAS and VARIANCE
+        - BIAS is reduced by us increasing complexity, and is a measure of how well the model performs compared with the expected output; it's how close our model gets to the right answer
+            - So, if our bias is low, that means our model can output the right answers a lot of the time!
+        - VARIANCE is reduced by decreasing complexity, and is a measure of how "noisy" our learner is for similar inputs
+            - So, if our variance is low, then our model isn't changing much as our training data changes - we get the same amount of noise regardless of which data we train on!
+    - So, we want both of these to be low, right? Unfortunately, these are both affected by how complex the model is - and decreasing one tends to increase the other, so we often have to settle for a reasonable balance
+        - For instance, a shallow decision tree will have low variance, but high bias, since it can only change so much to accommodate all the different inputs
+        - A deep decision tree, meanwhile, will have lower bias because it has more "freedom" to grow and be more picky to match the data, but it'll have more noise and variance for that same reason: it can get closer to individual datapoints
+
+- That might seem kinda theoretical, but let's ask a related question: how do we choose the best hypothesis
+    - Going back to our math from above, we can put a lower bound on our model's loss:
+
+            (...missed derivation...)
+            E(L(h)) >= E( L(E(y|x)) )
+
+        - Where "L()" is the loss of the given function from the true output "y"
+
+    - So, in other words, the best our learner can do is to predict the expected value of Y given X - (the expected value, NOT the exact value) - that's the best we can do!
+        - So, all we're trying to do with machine learning algorithms is get as close to the conditional expectation of the input/output pairs as possible!
+
+- Now, every dataset is going to (sadly) have a small amount of noise
+    - Let's assume we've got a ground truth function "f(x) = y", but that each sample has a small amount of noise "s" from a Gaussian distribution:
+
+            y_i = f(x_i) + s_i
+
+        - In that case, we can come up with a probability of ending up with a given output point:
+
+                p((x_i, y_i) | f) = Normal(f(x_i), sigma^2)
+
+            - Where sigma^2 is the variance of the normal noise distribution
+    - So, given that, we can talk about the LIKELIHOOD that a given set of datapoints "S" came from a function "h"
+        - Assuming that our data is independent and identically distributed (which is NOT always true - stock data, for instance, is correlated with time), we can find this as:
+
+            L(h, S) = p((x_1, y_1)|h) * p((x_2, y_2)|h) * ...
+
+        - So, how do we find which hypothesis function "h" maximizes this (given a set of candidates)? Well, we can try and maximize the likelihood, which is the SAME THING as finding the minimum of the log of the likelihood:
+
+            max(L(h, S))= min(-log(L(h, s)))
+                = 
+                = (...)
+
+        - So, when we work everything out, the MLE estimate tells us the best function is minimizing the sum of squared errors, REGARDLESS of the hypothesis!
+            - Keep in mind we did assume the noise was Gaussian and that the datapoints were IID, but we didn't assume anything about 
+
+- So, what does all this show? 3 things:
+    - The error of any learning problem can be broken up into 2 components: bias and variance
+        - These terms are inversely related to the complexity of the model, and are directly at odds
+    - The best we can do with regression is to estimate the conditional expectation of a model
+    - The maximum likelihood estimate (under a Gaussian noise assumption) is equivalent to minimizing the sum of squared errors
+
+- So, that's what we're ultimately trying to do in machine learning: find the functions that minimize all this stuff
+    - Notice that ALL of this underlying math is relatively simple statistics/probability!
+
+- Alright, we'll end class a bit early today and wrap up here - hope you enjoyed the detour!

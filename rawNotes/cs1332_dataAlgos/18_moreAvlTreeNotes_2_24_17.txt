@@ -1,0 +1,55 @@
+//*****************************************************************//
+//****************AVL Trees (cont.) - February 24th, 2017*********//
+//***************************************************************//
+
+-Just one of those days, or just me? Well, the weather is fine, I have no work, and I have an impending social event...so, yeah, this day's terrifying
+-ALMOST halfway through the semester!
+    -Don't forget to start studying for test 2!
+------------------------------------------
+
+-A "left-right" rotation is a double rotation that happens when you have a node with a balance factor of 2, and a child w/ balance factor -1 (left-heavy, then right-heavy)
+    -So, like for the last double rotation, we have to straighten it out, THEN rotate it
+        -A LEFT rotation, then a RIGHT rotation
+
+        0                      0                   2
+       /                      /                   / \
+      1         ------>      2    ----->         1   0
+       \                    /
+        2                  1
+
+    -Like before, this results in some of the child subtrees getting re-assigned
+        -The left-child of "2" becomes the right child of "1"
+        -The right-child of "2" becomes the left child of "0"
+
+
+-A "right-left" rotation is a double rotation that happens when you have a node with a balance factor of -2, and a child w/ balance factor 1 (right-heavy, then left-heavy)
+    -So, like for the last double rotation, we have to straighten it out, THEN rotate it
+        -A RIGHT rotation, then a LEFT rotation
+
+        0                      0                   2
+         \                      \                 / \
+          1         ------>      2    ----->     0   1
+         /                        \
+        2                          1
+
+    -Changes the child nodes again!
+        -The LEFT child of "2" becomes the RIGHT child of "0"
+        -The RIGHT child of "2" becomes the LEFT child of "1"
+
+-Balancing Subtree PSEUDOCODE-
+    if (tree is left-heavy)
+        if (tree's left subtree is right heavy)
+            leftRightRotation() //when nodes are "top-left-right"
+        else
+            rightRotation() //when nodes are "top-left-left"
+    else if (tree is right-heavy)
+        if (tree's right subtree is left-heavy)
+            rightLeftRotation() //when nodes are "top-right-left"
+        else
+            leftRotation() //when nodes are "top-right-right"
+
+-Now, adding/removal are pretty similar to a normal BST - HOWEVER, AFTER the node is added/removed, then we have to UPDATE the balance factors / heights of the node's ancestors (parents, grandparents, etc.), and perform rotations along the way if necessary to balance the tree
+    -We do this backwards-updating RECURSIVELY so we don't have to go back down the tree a second time; otherwise, we would be doing things inefficiently!
+        -If we have to perform a rotation, then we re-update the heights/BFs again of the rotated nodes
+
+-(EFFICIENCIES FOR ALL THIS ARE ON THE SLIDES)

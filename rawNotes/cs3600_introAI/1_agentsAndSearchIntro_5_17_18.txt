@@ -1,0 +1,147 @@
+//****************************************************************************//
+//************** Agents and Intro to Search - May 17th, 2018 ****************//
+//**************************************************************************//
+
+- Towers of Hanoi are being drawn on the board...as long as we're not relearning recursion, sure. Okay. Fine.
+    - (still odd)
+- The moving marker writes and, having writ, proclaims (IN ALL CAPS):
+    - "WHAT'S AN AGENT?
+    - ...ENVIRONMENT?
+    - TOY 'CAT' PROBLEM
+    - SEARCH INTRO
+    - UNINFORMED SEARCH"
+- "Alright, 2:35, lot to get through"
+    - ...like some CS nerds, Professor Byrd admits to being a video game nerd. And an anime nerd. And...fill in the stereotype as you wish, he invites
+- The first project has been released on Canvas; PLEASE start looking at that as soon as possible! At the very least, run the code to make sure it works with your Python version; the time to figure that out is now, not 6 hours before the deadline
+    - "If you're worried that the Python programming in this class is too complicated, take a look at the code now to make sure you're comfortable staying here; I believe the drop period ends at 4pm tomorrow"
+------------------------------------------------
+
+- There are different kinds of agents for different kinds of environments; in general, since complex agents are more liable to failure, we want to have the SIMPLEST possible agent that'll get the job done for us
+    - We'll cover what agents and environments are, and an "annoying cat" example to illustrate some things agents do (how it scores what it's doing, goals, etc.)
+    - Then, we'll start getting into the "search" problem
+        - One thing to realize: search means exploring ANY arbitrary state space, not just a "physical map"
+        - We'll cover "uninformed searches", starting with a review of DFS and BFS, before we start getting into "informed searches" like "Best-First Search" and A*
+
+- So, this class should really be called "Introduction to Intelligent Agents", which begs the question...what the heck is an agent?
+    - For us, an AGENT is anything that can do 2 things:
+        - 1) Perceive its environment through some sort of "sensor"
+            - A sensor is ANYTHING that lets it get information about its environment
+        - 2) Act on that environment with some sort of "effector"/"actuator"
+            - i.e., has SOME way of changing its environment
+    - So, if you can collect information about the environment, but can't actually change anything in the environment, you're just a sensor, or at BEST an information processor
+    - If you can change the environment, but don't know anything about that environment, you aren't intelligent; you can only do random/preplanned things
+    - If you'd prefer to think of agents like a function, it takes in a state, and then maps that into an output action
+- The basic "loop" of how agents work is SENSE -> THINK -> ACT; gather information, process it, then do something
+
+- Alright, we know what an agent is - great! But how do we GET information?
+    - The information an agent gets about the environment is called a PERCEPT - any kind of information from a sensor
+        - e.g. "There's a wall to the east, but not to the north, west, and south"
+        - In the PacMan program, you'll eventually have a sensor that returns the list of walls you're near, and another that gives you the distance to the nearest ghost
+    - For our agent function, we like to think about PERCEPT SEQUENCE - the "time series" of all the percepts we've gotten since the program began
+        - This list does NOT include actions the agent does, just the things it has sensed
+        - This way, we can remember the history of what we've sensed over time
+        - e.g. Having a list of "percept-time nodes" like [0.1 seconds, <North, West>, 4 steps away]
+- From this point of view, we could also restate our "agent function" as taking in a percept sequence, and turning it into an output sequence of actions
+    - One question we have: how do we know if an action we took based on these percepts was a good idea? That'll be an idea that comes up again later
+    - "Now, percept sequences are really only needed if you're trying to formally define the agent mathematically for all possible occurances...which basically no one ever does"
+        - e.g. with just 4 wall directions and 0-4 walls near us possible, the number of possible sequences explodes exponentially
+            - Each "hasWall" boolean has 2 possibilities, 4 directions = 2^4 possibilities * 10 walls (size of a small maze for the ghost distance); if we plan out just 100 possible steps, then we'd already have more possible states than we could store on a normal computer
+- SO, what we usually use instead is an AGENT PROGRAM: code and logic that defines rules to approximate our "agent function"
+    - You can think of this almost as pattern matching, where a single rule handles how we should react for a BUNCH of possible percept sequences
+    - An example of a simple agent program with 2 rules: 
+    
+        if ghostDist(t) < ghostDist(t-1) 
+            then action = reverse(direction)
+        else 
+            action = take(randAction) s.t. doesn't reverse our last action or go through a wall
+
+- Now, let's go back to our definition of rationality as "expected optimal" actions: acting the best we can given what we know
+    - In order to KNOW if we're acting rationally (well or poorly), we need some sort of PERFORMANCE METRIC: some number that'll tell us how we're doing
+        - e.g. # of turns without dying, # of PacMan pellets eaten, etc.
+        - A good performance metric results in us getting closer to what we want; a BAD performance metric results in the agent doing the wrong thing, even though it's still "acting rationally"
+            - e.g. Prof. Byrd was an IT director before he came back to Tech, and when Microsoft switched to Vista they decided that they wanted to speed up booting. Well and good. They came up with a metric called "time to desktop" to measure this, which was literally just how long it would take before the desktop was displayed...so how did the engineers handle this? They showed a picture of the desktop IMMEDIATELY, but you couldn't interact with it for like another 30 seconds as the DLLs loaded, which was infuriating! They'd measured the wrong goal!
+        - We could also say the performance metric defines the "goals" of our agents
+            - Interestingly, these simple metrics already set up 2 somewhat conflicting goals: not dying, and eating more pellets
+            - So, if we want the agent to do both of these, our "old-fashioned" searching AI will have to have some clever mixed metric that combines how well we're doing at both of these (e.g. each dot we get is +1, but getting eaten immediately results in a -100)
+    - This way, if for any step we could've had a better number with the information we had, we know we acted irrationally during that step
+
+- Thus: the cat problem.
+    - So, what do we know about this furry-fluffy thing we call "the cat"?
+        - 1) They like to be alone
+        - 2) They like to bother people
+        - 3) They like to be lazy
+    - Now, let's imagine our environment is a very small condo with 2 rooms: A and B
+
+            -----------------------------
+            |             |             |
+            |    A        |     B       |
+            |             |             |
+            -----------------------------
+
+        - The cat can be in either room
+        - There can be 0, 1, or 2 people in the condo
+    - Furthermore, since we want our cat to be an agent, let's say it has:
+        - The following sensors:
+            - Know what room it's in (A/B), If a person is in the same room it's in (y/n)
+        - The following actions:
+            - Go left, go right, annoy people (make the person in the room the cat's in leave the house), take a nap (do nothing)
+        - Prior information: knows the layout of the house
+        - Goal: wants the maximum performance after 1000 steps
+            - Our performance metric for the goal: +1 point per empty room, per timestep
+            - "...since the cat wants to be alone"
+- Now, believe it or not, the "state space" of possible situations for this system is only 8 possible states:
+    - Cat in A, 1 person in each room; Cat in A, 1 person in A; cat in A, 1 person in B; cat in A, no people (...etc., you get the idea)
+    - Drawing out all the actions as links between the states (creating FSM), we get the full state space 
+        - So, our "goal states" are the last 2: the cat alone in the house, in either the left or right room
+- Next, to write the rationally optimal program for our cat; in this case, it's simple enough that we don't even need anything fancy:
+
+        if peopleInRoom == true
+            annoy
+        else if visitedOtherRoom == false
+            visit other room
+        else
+            do nothing
+
+    - Cool! BUT, we're making an assumptions here as the cat: people never re-enter the house after we've annoyed them
+        - BUT, if they come back after a few turns, then we need to check the other room
+    - So, let's change it so that the cat switches rooms every single time-step, i.e. it switches rooms if there's no people in its room
+    - THIS, though, assumes that there's no benefit to being lazy
+    - So, to incentivize being lazy, let's say the cat loses 1 point every time it switches a room
+        - ...it's now not quite so obvious what the right pattern is; the ideal average behavior lies somewhere in the middle
+            - We won't worry about finding the actual "right answer" for the problem; this is just to give you the idea of how an agent works, and the trade-offs involved
+- What if the cat didn't know the map of the world in advance? The house could be more than 2 rooms long; in this case, the cat would have to move left/right to try and map the house for itself, but it shouldn't move TOO much or it'll lose points for not being lazy...
+    - This'll come up again in reinforcement learning, where ALL we know are the actions we can take and our score (we don't even have any sensors beyond score)
+
+- So, as you can probably guess, there are varying levels of complexity for agents
+    - The simplest type is a REFLEX agent - it doesn't have memory, doesn't have a plan, it just says "I see this, I'll do this"; its sensors are hooked up directly to its actuators
+        - As it turns out, this is the way a LOT of insects behave; ever turn on a lightswitch and see cockroaches run for cover? Entomologists have actually found that the cockroach's light perception is more-or-less hooked up to its legs; it tries to minimize how much light it's in
+    - Next up are MODEL-BASED agents - they have some history, so they can build a model of the environment around them and use that to improve their performance
+    - Then we have GOAL-BASED agents - in addition to having a mental model of the world around it, it then tries to predict how the world is going to change and tries to get itself closer to what it wants to do
+        - If you've seen Towers of Hanoi (the whole room mentally nods), you try to move the disks all to another post; you know where you started, you know what your goal state is (getting them all onto either the 2nd or 3rd post), and we're trying to find the series of ACTIONS (NOT states directly) that will get us from our current state to the goal state
+    - The most complicated type are UTILITY agents - besides planning and prediction, they're not just trying to reach a specific goal or goals, but instead trying to maximize some sort of score - "we can't just simply say, 'we accomplished X', but 'we did X this well'"
+
+- When it comes to ENVIRONMENTS (the world the agent lives in), there are some characteristics that an environment has we need to know about:
+    - OBSERVABILITY is how much we can know about the world
+        - A fully-observable world means we can see everything, there's nothing hidden from our sensors; a partially-observable world means that we don't have perfect information (there's things that are hidden, our sensors aren't always reliable, our actions don't always work, etc.)
+            - There's no "non-visible world", since otherwise we couldn't fulfill the definition of being an agent: reacting to the world
+    - DETERMINISM is (for this class) how the world changes in response to our actions
+        - A "deterministic" world means that all the changes that happen in the world are because of OUR actions (the agent's actions), so nothing changes unless we do it; a "stochastic"/"non-deterministic" world means something changed that we didn't expect, or without us doing them
+            - We'll often model stochastic environments using probability distributions
+    - The DYNAMISM of the world is if the world changes between our sensor readings
+        - A "static" world means that it's turn based, the world doesn't change while we're thinking/deciding what to do; "dynamic" is the opposite, where the world continues to change after our last sensor readings, meaning our final answer could be "out of date"
+    - DISCRETISM is how broken into chunks the world is (how...well, discrete it is)
+        - Similar to digital vs analog, a "discrete" world is like a grid where there's a finite number of exact places/states in the world; a "continuous" world has real numbers, where there's an infinite resolution to the states in the world
+    - AGENTS is pretty simple; is it "single", where I'm the only agent, or "multiple-agent", where I have to deal with other agents that are also acting on the world?
+    - EPISODIC is if we need to know the previous states of the world for decision-making
+        - An "episodic" world means that history doesn't matter for taking the best action, we don't need to know what we've done before to act optimally (e.g. pathfinding doesn't care about where we've been, but just on where we are RIGHT NOW); a "sequential" environment is where our previous actions DO affect what the best option is, and we can't infer the best action just based on the current state
+
+- So, for the first part of this class, we want to design goal-based search agents (like in project 1)
+    - So, what do we formally mean by "search"?
+        - We do NOT mean "local search" problems like gradient descent, etc.; for this first part, we're concerned with global searches
+    - Let's say we have "S" (the set of possible states), "S0" (the initial state we're searching from), "Sf" (the set of goal states we want to reach), "A" (the set of permissible actions we can take), and "T" (the set of transitions that actions change our states into, i.e. what our actions "do")
+        - Optionally, we might also have "action costs," like graph weights; initially, these won't matter, but they'll become important quickly
+    - So, a formal SEARCH problem is this: "finding the sequence of actions that transform the intial state S0 to the accomplished set of goals Sf"
+        - This is ALSO the exact definition of a "Markov Decision Process", except MDPs also have a reward they're worried about (this won't come up for a few more weeks in the course)
+            - "This is another reason you should learn search WELL, since we'll be building off of these concepts pretty soon"
+
+- And with that...we'll start really digging into search on Tuesday. See you then!

@@ -1,0 +1,77 @@
+//****************************************************************************//
+//***************** Control Unit Basics - May 24th, 2018 ********************//
+//**************************************************************************//
+
+- Another day passes, another day I haven't started...that'll have to change pretty soon
+- On the screen right now are John Hennessey/David Patterson
+    - 2017 Turing Award winners; they literally wrote the book on computer architecture
+    - Currently, at GT, we have CRNCH - the "Center for Research in Novel Computing Hierarchies"
+        - e.g. Quantum Computing, where we have QBits that can take on states between 0 and 1
+- On T-Square, there should be a "Lecture Media Gallery" section; this has some lecture recordings from Kishore's Spring 2017 version of the course. Some of these things are slightly different, but the core content is the same - so, if you want to hear these things explained in a slightly different way, try looking at that!
+--------------------------------------------
+
+- So, let's pick back up where we left off yesterday: with an orchestra!
+    - We have ALL this circuitry in the datapath, and now we need someone to control it
+    - We have our main, 32-bit bus, and just one of the components is putting data onto/"driving" it at a time; we have our clock width wide enough to account for all the delays
+- Now, let's talk about the CONTROL UNIT: our implementation of the FSM!
+    - Depending on the current state/inputs, it moves to the correct next state and sends out outputs to control the datapath
+    - Outputs from the LC-2200 control unit include:
+        - Drive signals: DrPC, DrALU, DrREG, DrMEM, DrOFF
+        - Load signals: LdPC, LdA, LdB, LdMAR, LdIR
+        - Write memory signal: WrMEM
+            - The MAR tells us which memory address we're writing to
+        - Write registers signal: WrREG
+        - ALU function selector: func
+        - Register selector: regno
+    - In it's simplest form, our control unit has a "state register" with the current state, the ROM that holds the instructions/operations for the current state, and all of our output wires
+    - There are 3 MACROSTATES for our control unit: FETCH, DECODE, and EXECUTE
+        - So, for the FETCH stage, we load PC into the MAR (AND increment the PC by putting it into "A" of the ALU), get the instruction from memory, put it into the IR, and let the IR decompose the instruction into its different components (combinational logic stuff after instruction's loaded into the IR)
+            - This breaks down into:
+                - fetch1: PC -> MAR, PC-> A
+                    - Control signals needed: DrPC, LdMAR, LdA
+                    - Are able to do both these steps as the same time, since we don't care about the old value in the A register and only 1 value is on the bus
+                - fetch2: MEM[MAR] -> IR
+                    - Control signals: DrMEM, LdIR
+                - fetch3: -> A + 1
+                    - Control signals: func = 11, DrALU, LdPC
+            - We can represent this as a spreadsheet/matrix of EACH of the output signals for each step of the "FETCH" stage, with a "1" if the given output is on, a "0" if the given output is off, and an "x" if we don't care
+                - ...hmmmm...sounds a bit like Karnaugh maps, doesn't it?
+        - Skipping ahead, for EXECUTE, we need to do what the current instruction requires
+            - Let's use the ADD instruction as an example: we need to load the 2 operand registers into the ALU inputs, add them, then put them into the destination register
+                - add1: Ry -> A
+                    - Control signals: regSel = 01, DrREG, LdA
+                - add2: Rz -> B
+                    - Control Signals: regSel = 10, DrREG, LdB
+                - add3: A + B -> Rx
+                    - Control signals: func = 00, DrALU, RegSel = 00, WrREG
+            - We can feed the register #s from the instruction into a Mux in the control unit, then use the register select output to control which input we want for the given step
+                - In this case, we CAN'T make this any more efficient, since each input needs the bus to itself and we can't load a register/add at the same time (a "dual-bus" architecture might enable this, though)
+            - Let's use the BEQ ("branch if-equal") instruction as another example
+                - Fundamentally, this instruction says "if Rx == Ry, then branch to the instruction PC + 1 + signed offset (the offset is part of the instruction); otherwise, do nothing and go back to the FETCH state"
+                    - side-note: historically, PC-relative addressing came about so that programmers didn't have to hardcode memory addresses in their programs (which had earlier led to MASSIVE compatibility issues)
+                - At the bottom of the datapath, there's a 1-bit "Z" register that checks if the thing on the bus is equal to zero
+                - The steps for this, then:
+                    - beq1: Rx -> A
+                    - beq2: Ry -> B
+                    - beq3: A - B (loads the Z register)
+                    - IF Z IS 0, continue; otherwise, we just stop and go back to FETCH
+                    - beq4: PC -> A
+                    - beq5: Sign-extended offset from instruction -> B
+                    - beq6: A + B -> PC
+                - Now, in order to support this branching, the state controller HAS to take in the Z-register somehow as an input to know when to branch; SO, we have to add some stuff to our control unit!
+                    - Basically, we now need to include the opcode AND the Z-register (an extra 5 bits total) as inputs to the ROM
+        - Finally, for the middle-step DECODE, we want to check what the current instruction's opcode is, and then branch depending on what it is
+            - To do this, we get the first 4 bits of the instruction (i.e. the opcode), send them to the control unit, and let it use that to decide which address to jump to
+
+- NOW, these next few minutes won't be on the test, but I think it's interesting enough to warrant talking about
+    - When you're, say, trying to do state-of-the-art graphics, the single-bus design starts to feel a little bit limiting - what if we need multiple units to talk to each other very quickly?
+        - Most computers today are still single or double bus, because they're economical, but that's not a requirement!
+    - Let's say that we gave EVERY functional unit its own bus, and connected the "listener" portion of EVERY unit to the output buses of ALL the rest of the components; at EACH intersection, we'll have a switch that 
+        - So, we have the ability to connect EVERY possible combination of wires
+    - Why is this useful? Remember the gameboy project in 2110? In that project, we had just 1 memory buffer for the screen and had to do ALL the processing before the next screen was drawn? Wouldn't it have been nice to have 2 buffers: the current screen, and the one "on-deck"?
+        - For 3D graphics, there are a BUNCH of buffers: depth buffer, lighting, color, AO, etc...
+        - In a design like this, the control unit, by connecting everything to each other, avoids a LOT of waiting; it's SIGNIFICANTLY faster for applications that require these numerous buffers!
+            - The trade-off, of course, is cost...this design might be speed-efficient, but it is NOT cost-efficient; systems like this regularly cost ~$10,000 today
+- How can we optimize procedure calls with something like this? Well, let's say we have a lot of extra registers; when we call a procedure, then we put the arguments in the topmost registers, "slide" the registers up, etc.
+    - This is "hardware-supported procedure calls;" they first appeared in the MIPS workstation, and while its costly (you need a LOT of registers to make this work well without too much use of the stack), it generally works well
+        

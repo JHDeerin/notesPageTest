@@ -1,0 +1,83 @@
+//****************************************************************************//
+//******* Edge Detection and Hough Transforms - September 23rd, 2019 ********//
+//**************************************************************************//
+
+- Professor Dellaert has arisen from his Belgian slumber!
+    - "Next class, we will have our 2nd participation quiz - COME PREPARED! If you can't make it for a legitimate reason, email us BEFORE the quiz and we'll do our best to take care of you"
+- We're skipping our segmentation lectures for now so that we can revisit it when we talk about classification, and so we can start getting into your project 3 stuff on Wednesday
+--------------------------------------------------------------------------------
+
+- Now, last time we talked about SIFT and feature matching, but let's go over the rest of chapter 4: edge detection!
+    - To go from image gradients to edges, we've gotta go through some steps:
+        - First, we'll do some slight smoothing/gaussian blurring to cut down on our noise
+        - We'll then try to enhance the edges by playing around with contrast
+        - Finally, we'll determine which edges are actually edges, and which are just noise
+            - "Your brain just goes to town doing this work for you, filling in edges and gaps, doing depth perception and whatnot...we don't have that luxury when we're coding things"
+
+- One of the simplest ways to determine edges from noise is just to use a THRESHOLD value, and keep all the gradients above a certain level of contrast
+    - This'll get us a lot of edges we want, but it'll also include a lot of edges we don't actually care about in the background, etc; but if we use a higher threshold to compensate, we might end up losing legitimate edges
+        - There's also the classic, annoying problem of backgrounds which're a similar color to the thing we care about, which can lead to missing edges
+
+- Another edge-detecting algorithm is the CANNY EDGE DETECTOR
+    - "Canny is a Professor out at Stanford who actually works with robotic planning, but in my world, this is the only thing he's ever done"
+    - This algorithm has a few different steps
+        - First, we filter the image with a derivative of the Gaussian ("or the Gaussian of the derivative; it's a linear operation, so screw order"), then take the magnitude/orientation of the image's gradients
+        - We then do NON-MAXIMUM SUPPRESION; since the "edges" our gradient returns will be regions rather than single-pixel wide slivers, we have to thin them down
+            - To turn these thick lines into curve, we'll put a line along the gradient direction and check what the max pixel is across the edge
+            - This should turn the image into a pure black-and-white one, but it has the problem that not all "true" pixels survive, and there can be gaps
+        - To combat this, we'll use HYSTERESIS THRESHOLDING: the start of a new curve has to meet a high-contrast threshold, but to continue it we just need a lower threshold
+            - "...this is super annoying to program. We could assign it as a homework - I had to code it as a kid - but we'll spare you guys"
+    - Putting this all together, the hysteresis thresholding gives a much better result than either plain high/low thresholds
+
+- So, that's all well and good, but there's a problem with these sorts of algorithms: the edges they find don't line up with how humans see things!
+    - Humans tend to only draw the big, "important" edges in an image, but the algorithm just doesn't care; it'll draw any little edge that has a lot of contrast, and will occasionally miss forms that humans consider important because it isn't high-contrast enough
+        - At Berkeley, there was a research project several years ago where they had multiple people draw the boundaries they thought were correct, and tried to use that to guide their conours using color/texture/etc. gradients (well beyond what'd been done before)
+            - This worked to some extent, but it still wasn't that amazing; it was obvious which ones were done by the AI
+
+- Of course - as with everything in this world - there are people with Phds who've tried throwing this problem into the deep learning woodchipper
+    - "This 2016 paper is cool, except that it draws babies with missing eyes. Generally, people who draw babies put eyes there. We should know that. From data."
+    - Coming up with a "goodness" measure for this stuff is kinda difficult, so many of these papers focus on qualitative measures
+        - "When I want to learn about a topic, I go to Google Scholar, find a famous paper, and then see who references it and go from there"
+
+- Alright - we're about to cover a really famous algorithm known as the HOUGH TRANSFORM
+    - To talk about this, we have to first talk about a political topic: voting!
+        - Let's say we have an image, and we want to identify all the straight lines in the image - how can we do that?
+            - "This idea for object recognition has faded away, but Hough transforms themselves have started making a comeback"
+        - So, how would we define a line, parametrically?
+            - Well, a line is 2D, so we could define it with "y = mx + b", or with polar coordinates (since we only need 2 numbers: an angle and a distance)
+            - For circles, we'd need 3 numbers (the x/y of the circle's center, and the radius)
+        - Now, once we've defined this parametric model for our features, we can't just look at a single point to determine what our line/circle belongs to; instead, we have to look across the whole image
+            - Importantly, we need to worry about performance a LOT; we can't check every possible line combination
+    - Note that an assumption we're making here is that lines in photos are actually straight (i.e. the camera has been calibrated well)
+    - However, we CAN'T find straight lines with edge detection, since there's too much noise, missing pixels, etc.
+    - What can we do to handle all of these? We can use VOTING!
+            - For each pixel, we'll generate a line that we think fits it the best; we'll then pick 
+
+- HOUGH TRANSOFORMS are a way of actually dealing with this voting
+    - The main idea here is that we record a "vote" for each possible line that an edge point (found via edge detection) touches, and look for the lines that touch the most edge points
+        - To help us with this, we'll say the image is rendered in "image space" (x/y axes) and that we want to convert each line in the image space to a POINT in "Hough space" (m/b axes, for "y = mx + b")
+            - This also works the other way; for a given x/y point in image space, there'll be a LINE of m/b parameters in Hough space that all have the same value for
+    - So, EACH pixel we found using our edge detection algorithm will vote for EVERY possible line in Hough space that passes through it - and we'll then take the line with 
+        - If we look at 2 points in image space, then, the line that goes through both of them in image space will be the INTERSECTION POINT of their 2 Hough space lines
+            - Due to a bit of noise, the lines often won't exactly intersect for 3, 4, 5, etc. edge points - so, we'll have to take an average of nearly-intersecting lines instead
+    - One minor issue is that Cartesian coordinates can't represent vertical lines, so we'll instead represent our lines in polar coordinates!
+
+            x*cos(th) - y*sin(th) = d
+
+        -...where "d" is the perpendicular distance from the line to the origin at th = 0 degrees
+            - Now, points in image space will map to sinusoidal curves instead of straight lines, and vice-versa
+    - So, the formal Hough Transform algorithm will be:
+        - Initialize our polar Hough grid h[d, theta] = 0
+        - For each edge point (x,y) we found via edge detection:
+            - For theta = [theta_min, theta_max]
+            - d = x*cos(theta) - y*sin(theta)
+            - H[d,theta] += 1 // vote for this line
+        - Find where H[d, theta] is maximum, and record those line parameters (i.e. d and theta)
+        - The final detected line is given by: d = x*cos(theta) - y*sin(theta)
+
+- While Hough Transforms are most often done with lines, they can actually work for any shape you can parameterize: circles, squares, taxicabs, eyes, faces, crazy Computer Science professors, you name it!
+    - In fact, Hough voting used to be used for object recognition before deep learning took off: we would create some parametrization for a portion of an object (e.g. a cow's leg), and then take a small image patch and do Hough Voting using those images
+        - While this raw technique has fallen out of favor, a version of it IS being used with neural networks
+            - "A recent paper from Stanford and Facebook by Kaiming He shows how you can use Hough voting on 3D point clouds to get the bounding boxes for different objects"
+
+- Alright, hopefully you thought that was cool - work on your projects, and fly forth!

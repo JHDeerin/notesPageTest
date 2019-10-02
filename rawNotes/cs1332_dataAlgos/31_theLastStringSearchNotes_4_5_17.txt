@@ -1,0 +1,75 @@
+//*******************************************************************//
+//***********Rabin Karp String Search - April 5th, 2017*************//
+//*****************************************************************//
+
+-Well, when it rains, it pours...and generates tornado warnings
+    -In other news, CS 2051 test: I HAS TO STUDY NOWS!!!!
+    -...but, gripped by the endless curse of colossal laziness, I'm kinda hoping for a storm delay (which, c'mon, won't happen)
+        -Note From Future Me: It did not happen (the storm delay, I mean; the test very much did happen)
+-Test 3 is in ONE WEEK
+    -AVL Coding questions ARE FAIR GAME! Will probably focus on rotations
+    -Will include matching questions, a few where you have to trace pattern matching, and instead of 1 big coding question, 2 or 3 smaller coding questions
+        -...of course, be prepared for anything
+--------------------------------------------------------------
+
+-Well, let's start with the last pattern-matching algorithm: Rabin-Karp!
+    -Hey, I spelled it right this time!
+
+-The 3 previous searches we did:
+    -BRUTE FORCE
+        -The ONLY one we went over that has no pre-processing step
+        -It's considered a "naive" algorithm; it takes the most obvious, simple approach
+    -BOYER-MOORE
+        -Uses a last-occurrence table
+        -Starts from the back of the pattern, uses LOT to shift efficiently up
+        -Lines up matching characters, but still has to check them
+    -KMP
+        -Generates a failure table
+        -Uses prefixes / suffixes
+
+-RABIN-KARP is different from these 3 since it does NOT directly compare characters; instead, it uses a "rolling hash" to calculate a hash pattern for the text substring we're searching through, and we compare the HASHCODES
+    -NOTE: If the hashes match, it's possible we still have a collision, so we STILL have to check the characters to verify it's a valid match
+    -O(n) to generate the initial hash, but O(1) to shift it over
+
+    -To generate the initial hash for the pattern, we take the sum from 0 to m-1 of character(i) * BASE^((m-1) - i)
+        -In code:
+            String pattern;
+            int hash = 0;
+            int base = 10;
+            for (int i = 0; i < m.length; i++) {
+                hash += pattern.getCharAt(i) * pow(base, m.length - 1 - i);
+            }
+        -e.g. for the message "347," it would be hash = 3*100 + 4*10 + 7 = 347
+            -This function is sometimes called "Rabin's fingerprint function"
+    -We then calculate this hash for the substring from 0 to pattern.length - 1 in the text we're searching through
+        -To "roll" this hash to the next character, we say:
+            newHash = base * (oldHash - (oldChar * base^(pattern.length - 1))) + newChar
+    -So, let's do an example, with CHARACTERS this time around
+        -Let's say "a"  =1, "b" = 2, "c" = 3, etc., to make the math easier
+            -In your actual code, you'll just use the ASCII values of each character
+        -Let's also say our "base" is 2 (for example's sake)
+            pattern:    bac
+            text:       abcbabac
+        -The FIRST THING we should check is to see if pattern.length > text.length; if it is, then we'll NEVER find a match, so we shouldn't waste time preprocessing and should just return "false" right away
+            -In this case, "bac" is smaller than the text, so let's move on
+        -To generate the hash for "bac", we say:
+            -"hash" = "b" * 2^(3-1) + "a" * 2^(3-2) + "c" * 2^(3-3)
+                = 2*4 + 1*2 + 3*1 = 13
+        -We then do the same thing for the first 3 characters in the text, "abc," and get 11
+            -This doesn't match our pattern's hash, so we "roll" the hash over by 1
+        -"bcb"s hash = (11 - 1*2^(3-1))*2 + 2 = 16
+            -Still not match, so we keep going
+        -Once we DO find a match, then we are NOT done; we might have just happened to find a collision
+            -So, we go in and compare the characters old-fashioned style; if all the characters match, YAY! Otherwise, we have to keep looking
+        -We keep going until we hit the end of the text; at this point, the substring will be smaller than our pattern, so we're done
+
+    -So, what's performance for Rabin-Karp?
+        -The best case is O(m), where "m" is the length of the pattern string
+            -This is in the event that the first "m" characters match; this best case exists for pretty much all the sorts that we just looked through
+        -In the WORST-CASE, where we have a bad hash function and all of the hashes match, we end up with O(m*n); the algorithm basically is just brute-force search at this point
+        -In the AVERAGE case, Rabin-Karp is O(m + n)
+
+    -Another example (illustrate the worst case):
+        pattern: c a b
+        text:    a b c b a c
+    -With a base of 2, the "abc" hash is 1*4 + 2*2 + 3*1 = 11, and "cab" is

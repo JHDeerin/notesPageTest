@@ -1,0 +1,102 @@
+//****************************************************************************//
+//*************** Bezier Curves (cont.) - March 27th, 2019 ******************//
+//**************************************************************************//
+
+- Professor Turk looks like he wants to tell us something...
+    - The ACM Turing Award is basically the Nobel Prize of Computer Science, and the 2019 award has been given to 3 researchers who pioneered neural nets - so, give them a hand! And/or blame them for the flood of MASHIN LRNIN NAO!
+- On a sadder note, some students were upset that the TAs couldn't give them an extension on the 3rd project, and complained about it to them
+    - "The TAs didn't do anything wrong, guys. I'm the one who has to make that decision. If you're going to get mad, please only get mad at me."
+--------------------------------------------------------------
+
+- Alright, on Monday we started talking about Bezier curves, and SPECIFICALLY the ever-popular cubic Bezier curve
+    - We also talked about convex combinations, how we could define points inside of a convex hull by assigning weights - and this is actually how Bezier curves are made!
+
+- We figured out on Monday that the weights for a cubic Bezier curve are given by 4 basis functions - but how did Bezier figure out what these functions were? Did they come to him in a dream?
+    - Luckily for us, there's actually some intuition we can use to figure out what these basis functions are!
+        - Imagine that we draw line segments connecting the 4 control points, like this: P1P2, P2P3, and P3P4
+            - If we take the midpoints of each of those line segments, we'll end up with 3 midpoints: M12, M23, and M34 (or "L2, H, R3")
+            - If we then connect those midpoints with line segments, we'll end up with 2 line segments: M12M23, and M23M34...
+            - ...and if we repeat this and connecting the midpoints of THOSE line segments (L3 and R2, respectively) with a single line segment, and take the midpoint of that final line segment (which we'll call L4 or R1), we'll end with a single point
+            - As it turns out, that single point is EXACTLY at Q(1/2) - the halfway point along the curve!
+    - How does that help us? Well, once we know that point, we can draw the Bezier curve by dividing the curve in half into TWO curves, with control points:
+
+            (P1, L2, L3, L4)
+            (R1, R2, M34, P4)
+
+        - We can then keep doing this division until we've got enough points along the curve to draw a good-enough approximation using pixel!
+            - Is this the best way to draw a Bezier curve? Probably not - but this SUBDIVISION scheme is a good start
+
+- There's a better way of doing this Bezier subdivision, though - so let's look at the GENERAL SUBDIVISION way of drawing a Bezier curve
+    - To find the point 3/4 of the way along the curve, for instance, we won't look for the midpoint of each line segment continuously - INSTEAD, we'll take the point 3/4 of the way along each line segment!
+        - Then, EXACTLY like we did before, we'll connect those points with 2 line segments, find the 3/4 point along each of them, connect it with a line segment, and then the 3/4 point along THAT last segment will be Q(3/4) for the whole curve!
+    - How do we find the point along each line segment? Well, for the P1P2 line segment, the 3/4 point would be:
+
+            pt = P1*(1/4) + P2*(3/4)
+
+        - OR, in general, for a point "t" percentage along a line segment:
+
+            pt = P1*(1-t) + P2*t
+
+    - Once we have this point, we can use it to calculate the points for the next line segment, letting us calculate down to the actual point on the curve we care about!
+
+- With that figured out, we're finally ready to see what those Bezier basis functions look like - here we go!
+    - For the first control point, 
+            
+            B1(t) = (1-t)^3
+
+    - For the 4th/last control point, it would be:
+
+            B4(t) = t^3
+
+        - ...look familiar? This is the same weighting we had for the straight line segments! This comes directly from our general subdivision technique!
+    - For the 2nd and 3rd points, the functions look a little different, since we're "mixing" the two endpoints together:
+
+            B2(t) = 3t*(1-t)^2
+            B3(t) = 3t^2 * (1-t)
+
+    - So, the B1/B4 and B2/B3 basis functions are symmetric about t = 1/2 - they're inverses of each other!
+        - Now, I won't ask you to derive the basis functions for a quadratic or quartic Bezier curve, or anything like that - but if you understand what we're doing with the subdivision technique, you should be able to!
+            - If you want to see a really cool illustration of this, check out "Jason Davies Animated Bezier Curves" on Google
+
+- Before we carry on, why do we care about Bezier curves at all? Because in many cases, pixels just aren't good enough - we NEED curves to have shapes that look sharp at any resolution, which is important for things like font rendering, architectural drawing, etc.
+    - For cubic Beziers in particular, that "independent tangent" property is important
+
+- Now, take a look at the following sequence: "3, 4, 9, 18, 31." Do you see a pattern here? If not, don't worry - we're about to talk about POLYNOMIAL EVALUATION!
+    - For instance, take a look at the function here:
+
+            f(t) = at^3 + bt^2 + c*t + d
+
+        - How many operations does it take to evaluate this?  Well, b*t^2 takes 2 multiplies to compute, and a*t^3 takes 2 more (since it's t^2 * t), so it'll take 5 multiplies and 3 additions
+    - We can do better than this using HORNER'S RULE! For a cubic polynomial, we can cut down the number of operations by grouping things cleverly:
+
+            f(t) = ((at + b)*t + c)*t + d
+
+        - Now, we only have 3 multiplications and 3 additions - that's an improvement!
+    - Can we do any better, though? As it turns out, we can!
+        - Consider a scale between 0 and 1, split up into equally-sized pieces each of length "h"
+        - Let's suppose, then, we've got a linear function "f(t) = at + b"
+            - In that case,
+            
+                    f(0) = a*0 + b = b
+                    f(h) = a*h + b = f(0) + ah
+
+                - As it turns out, then, THIS is also true:
+
+                    f(2h) = f(h) + ah
+                    f(3h) = f(2h) + ah
+                    (...)
+
+                - We can just keep adding ah! Instead of having to recompute 
+        - Does this hold for higher-order functions, though, like quadratics? It turns out that it does!
+            - If we have a function f(t) = at^2 + bt + c, then:
+
+                    f(t+h) = a(t+h)^2 + b(t+h) + c
+                            = at^2 + 2aht + ah^2 + bt + bh + c
+                            = f(t) + 2*aht + ah^2 + bh
+
+                - Notice that this part we're adding to the function is now a LINEAR equation!
+                    - (obviously simpler, but missed if there was more significance to this?)
+        - This is known as the FINITE DIFFERENCE technique!
+    - So, what's the next number in this sequence? 48 - but how did I get that?
+        - Look at the space BETWEEN each of these numbers: 1, 5, 9, 13, 17...
+            - So, the SPACING is increasing by a linear amount, which makes the actual sequence (3, 4, 9, 18, ...) look like it's increasing quadratically! Neat!

@@ -1,0 +1,106 @@
+//****************************************************************************//
+//********************* Fractals - April 8th, 2019 **************************//
+//**************************************************************************//
+
+- So, the last lecture is rapidly coming up, and we don't have anything to talk about for it!
+    - You'll actually have an opportunity to vote on what we'll talk about for the last lecture, so think about what you want to learn!
+--------------------------------------------------------------
+
+- Today, though, is FRACTAL DAY!
+    - Fractals are, loosely speaking, infinitely detailed geometric objects
+        - They started out as mathematical oddities, but as it turns out, fractal-like patterns show up EVERYWHERE in nature (trees, rivers, mountains, coastlines, etc.)
+    - The common theme of these things are recursion and iteration on geometry
+- Way back in the 1880s, Georg Cantor (one of Professor Turk's favorite mathematicians) came up with a simple, strange pattern:
+
+        - Draw a straight line segment:
+
+                ---------------------------
+
+        - Remove the middle third of that line:
+
+                ---------         ---------
+
+        - Remove the middle third from the remaining 2 lines...
+
+                ---   ---         ---   ---
+
+            - ...continue to infinity
+
+                - -   - -         - -   - -
+                . .   . .         . .   . .
+
+    - If we keep doing this, we'll end up with a sort of FRACTAL DUST, where we have an INFINITE number of unconnected points but, surprisingly, a total length of 0!
+        - How can we have something infinite in quantity, with no length? That's mathematically crazy!
+- As it turns out, there's a 2D analogue of this known as "Sierpinski's Carpet" that was found in 1916:
+
+        - Take a square
+        - Divide it into 9 smaller squares, and remove the middle one
+        - Do the same thing for each of the 8 remaining squares, ad infinitum
+
+    - Mathematically, this means that the surface is completely covered in holes, but somehow it still remains a single connected surface
+- More usefully, however, are what are known today as PEANO CURVES
+    - Consider a square, divided into 9 sub-squares, and visited in the following order:
+
+            -------------
+            | 3 | 4 | 9 |       ----  |
+            -------------       |  |  |
+            | 2 | 5 | 8 |   =>  |  |  |
+            -------------       |  |  |
+            | 1 | 6 | 7 |       |  ----
+
+        - You know the drill by now; for EACH of these 9 squares, let's divide it into 9 smaller ones and do the same thing!
+    - This'll get us an "infinitely wiggly" curve that passes through EVERY point in the 2D square, and has no tangent - that's insane!
+        - This, as it turns out, is one type of SPACE-FILLING CURVE that can touch all the points in a 2D plane, and that are sometimes used in 3D printing (since it means we never have to lift our "pen point" to fill in something)
+- A final example of fractals is the KOCH SNOWFLAKE, where we take a straight line segment, split it into thirds, replace the middle segment with 2 lines to make a triangle-shaped "bump", and then repeat for each of the 4 resulting line segments
+    - This'll make a snowflake-like figure that's infinite in length but that has NO tangent anywhere
+
+- Those're some examples of fractals, but again: what ARE these things? To answer that, we need to consider the concept of dimensionality in geometry
+    - So, what do we mean when we say a square is a "two-dimensional" shape? Well, we mean that if we doubled the length of the square's sides, it would quadruple in area; we'd end up with 4 copies of our original square!
+        - Similarly, for a 3D cube, doubling one of the cube's sides would get us a cube 9x the volume of the original cube!
+    - Because of this, a common definition of a shape's "dimension" is the HAUSSDORF-BESICOVICH DIMENSION, which states that:
+
+            dimension = log(repetition factor) / log(linear scale factor)
+
+        - So, for a 2D square, this'd give us:
+
+            d = log(4) / log(2) = 2 * log(2)/log(2) = 2
+
+    - That's pretty common sensical, but how would this apply to our fractal examples, like the Koch snowflake?
+        - Well, each iteration of the pattern turns 1 line segment into 4, so the replication factor should be 4
+        - ...but how does the length change? Well, each of the 4 line segments will end up being 1/3 the size of the original, giving us a scaling factor of 3 (I think?)
+            - Using these numbers, we end up with a dimension of:
+
+                d = log(4) / log(3) ~= 1.2
+
+            - Not an integer dimension? That's WEIRD!
+
+- For a long time, these were just considered fun shapes to draw, but in the 1970s Benoit B. Mandelbrot noticed that these fractal patterns show up EVERYWHERE in nature, and tried to study them seriously
+    - As just a few examples:
+        - Blood vessel patterns seem VERY similar to space-filling curves
+        - Rivers seem to bifurcate in a fractal way
+        - Some star distributions seem to follow this pattern
+    - Lawrence Carpenter quickly built upon this work, and came up with an algorithm for drawing mountain-like shapes in 2D:
+        - Start out with a straight, 1D line segment of some length
+        - Add a new point at the midpoint of the line segment and raise it by a random amount
+        - For each of the 2 new line segments, add a new point in the middle as well and raise it by a random amount, cutting the "scaling factor" for the maximum height in half
+            - This decreased scaling at each iteration is CRUCIAL so that we don't just generate random noise
+        - ...continue iterating until you're satisfied
+    - We can extend this "CARPENTER MIDPOINT ALGORITHM" into 3D as well!
+        - Start out with a flat, 2D triangle
+        - Add a point to each midpoint of the 3 line segments, connect the 3 points together, and raise it by a random amount
+        - ...continue iterating until you're satisfied
+    - These sorts of mountains, and similar algorithms for them, are used pretty frequently in film and games to create procedural landscapes
+
+- As you might remember, our Julia set from Homework 4 is ALSO a fractal - let's take a look at that!
+    - If our constant we're adding is 0, we just end up with a circle of points
+    - Otherwise, it'll form a complex fractal, which might be fully connected OR turn into disconnected fractal dust
+        - Luckily, there's a way to tell which it'll end up being:
+            - If the initial point Z_i = (0, 0) at the origin ends up staying constrained near the origin, the Julia set is connected
+            - Otherwise, the set'll be disconnected!
+
+- Julia sets are very closely related to one of the most famous fractals of all: the MANDELBROT SET!
+    - In Julia sets, we change the value of Z_i but keep the value of C itself fixed
+        - In the Mandelbrot set, we do the opposite: we keep Z_0 fixed at (0, 0), but vary the value of C we're using!
+            - This means that any "C" points that are part of the Mandelbrot set will give us a connected Julia set, while any other choices of C will give us unconnected Julia sets!
+    - As it turns out, the WHOLE Mandelbrot set is connected - unlike some Julia sets, it's all one big piece
+- There're also 4D variants of the Mandelbrot known as the MANDELBULB, and they look REALLY cool!

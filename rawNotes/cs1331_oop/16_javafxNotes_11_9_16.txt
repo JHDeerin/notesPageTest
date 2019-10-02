@@ -1,0 +1,28 @@
+//****************************************************//
+//*********JavaFX Notes - November 9th, 2016*********//
+//**************************************************//
+
+-This Day in History: Trump wins the election, the world gasps
+    -Also, Prof. Simpkins was sick, so it's a Taylor day!
+-----------------------------------------------------------
+
+-Anyway, JavaFX is basically Java's "apps" frontend so that we don't have to do everything from the command line - BUT first, PREFACE!
+
+-So, FOR CS PURPOSES: A GRAPH is a data structure where the information is stored in "Nodes" and connected to other nodes by "edges"
+    -A tree is just a type of graph, where the root is at the top (because CS majors are rebels at heart) and the branches extend downward from that root (are "children"/subnodes of the root)
+
+-With JavaFX, rather than the usual class hierarchy we're used to, it has a structure of a "SCENE GRAPH"
+    -Kind of like a tree, where the top node is the STAGE (Stage.java), under that is a SCENE node (Scene.java), attached to that Scene is a ROOT node (Node.java) (confusingly-named), and then there are subnodes branching off of that Root node (from "Parent.java" nodes).
+        -Probably won't have to actually touch Node.java / Parent.java until 2340.
+
+                                STAGE
+                                 ||
+                                SCENE
+                                 ||
+                            ROOT /\PARENT Node
+                                /||\
+                        (...starts branching out)
+
+-So, now we're going to make an app that has text that says "Hello World" (Go over there!)
+-(...coding interlude...)
+-Right, anyway, this is just a bare-bones intro to JavaFX; we'll get into some more complex (and cooler) examples on Friday!

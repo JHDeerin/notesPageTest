@@ -1,0 +1,84 @@
+//****************************************************************************//
+//***************** Domain Models - September 20th, 2017 ********************//
+//**************************************************************************//
+
+- So, we were talking about user stories - ways to document what our app is supposed to do.
+    - "Nowadays, these are the principle ways people manage Agile projects, and are meant to serve as a placeholder for further discussions with customers"
+
+- For stories in the current sprint, as we said, each team member should choose ONE user story, and then:
+    - List the details and tasks needed to implement the story
+        - Examples of such details:
+            - Design the creation UI
+            - Design the assignment table for our database
+            - Actually code the UI
+            - Code the SQL for the database
+            - Create Controller/Model classes for all these
+    - List the "acceptance criteria" the story needs to do
+        - "How do we know if the story is actually working?" Well, we use the BEHAVIOR-DRIVEN DEVELOPMENT (BDD) format:
+            - We think of outlining unit tests like this: GIVEN <some initial conditions>, WHEN <the user does this>, THEN <the system does this>
+            - We should be testing both failure AND success scenarios; e.g.:
+                - "GIVEN an instructor is viewing the "create new assignment" page, WHEN the instructor enters a valid name, due date, and instructions, and hits the submit button, THEN a new assignment is created in the database and added to the list of course assignemnts"
+                    - This is a "success" scenario; a failure scenario might be what happens when the user enters a date that's already passed, forgets to type a valid name, exits from the page without submitting, etc.
+                - Another example from "dannorth.net" about withdrawing cash from an ATM (full example on website is much longer):
+                    -Story: "As an account holder, I want to withdraw cash from an ATM so that I can get money when the bank is closed"
+                    - "Scenario 1: The account has sufficient funds
+                        - Given the balance is $100, and the card is valid, and the machine contains enough money, when the account holder requests $20, the machine should dispense $20 and display the customer's new balance and reduce the customer's balance to $80"
+                    -
+    - List the "done done" criteria; at what point is the feature COMPLETELY done?
+        - So, what has the TEAM agreed must be done on this task to call it done?
+        - Well, depends on your team's standards...but a common list:
+            - All acceptance criteria met
+            - Code reviewed by another team member
+            - Test cases have been written
+            - Unit tests and UI automation tasks are written
+            - Features have been tested for accessibility
+
+- NOTE: For the homework, I tell you WHAT you have to do, but not always HOW you have to do it. Some teams might have separate login/welcome pages, some teams might do both together, etc.
+
+- So, with user stories done, let's talk about DOMAIN MODELS
+    - A DOMAIN is just a certain area or field that our project is within - like Video Games, or Sanitation, or Financial Analytics, etc.
+    - "If we're NOT familiar with the domain that we're working in, then we have to do some research to understand the domain - if an Air Force Colonel asks you to build a stick-and-ball azimuthal monitor, you can't build it until you know what that is!"
+    
+    - Thus far, we've identified external users/systems, we've described the stories of use for our system, but NOW we have to start understanding what's inside the "system box"
+    - Step 1 of that is the DOMAIN MODEL - understanding the CUSTOMER'S concepts, terms, and needs
+        - This is known as "Ubiquitous Language" in Domain-Driven Design
+        - We want to focus on what's important to the customer - NOT what's important to us programmers!
+            - "That way, when we build something for the customer, we end up making something the customer understands. When a customer asks us to build something, we shouldn't start out with "Okay, so I'll use AngularJS for the frontend, Node for the back, and..." NO! We need to start out by asking what the customer wants it to do!"
+    - Step 1: Brainstorming!
+        - The team generates a lot of ideas for possible objects/classes without too much analysis - e.g. for a board game project, we might immediately think of a "Player Class", a "Board" class, some "Dice" objects, etc.
+            - Don't think too hard or overanalyze these; record all ideas
+            - "Notice that these are terms where you DON'T need to be a programmer to recognize these things we're throwing out - the board game designers at Milton Bradley would understand these objects and concepts"
+        - There's multiple techniques for coming up with these objects/classes, like:
+            - Domain Analysis
+            - Noun Analysis 
+            - etc.
+    - At this point, these are all just "candidate classes", so now we go to STEP 2: Filtering!
+        - We need to reduce this BIG list of possible objects down to things we think are in the customer's domain
+            - REMEMBER: The customer should be able to recognize every noun we're selecting as an object; anything else is in danger of just being "Computer-speak", and we should delay that to the design phase
+        - Things to look for (and get rid of):
+            - Synonyms - two objects that mean that same thing in the customer's domain
+            - Attributes - "nouns" that are really just simple numbers or strings that should be properties of other objects
+                - e.g. "In a checkers game, red/black is a PROPERTY of the pieces or squares, not a class in itself"
+            - Implementation - nouns that represent implmentation / design decisions INSTEAD OF the customer's ideas (e.g. databases, networking, etc.; the customer DOESN'T CARE or understand anything about these)
+            - User Interface - anything related to the UI (windows, screens, dialogs, etc.) should be postponed to the design phase; these have nothing to do with the model itself, but with how customers interact with our representation of the domain
+    - Now, STEP 3: Draw the domain model!
+        - Write out all of our remaining "candidate classes" w/ their attributes and methods diagrammed
+        - We should be able to explain this to the customer - "Alright, Bob, this is how we understand your business domain: you've got a Board object with 2 Players, and all Players have 6 Pieces, and each Piece has a color property..."
+        - We should NOT have "programmer" details at this stage
+            - No public/private visibility markings
+            - No parameters, return types, etc.
+            - No types of instance data
+        - What we SHOULD provide:
+            - Basic class boxes
+            - Associations between classes (NOT inheritance or aggregation; just "logical" connections, e.g. up to 6 "Pieces" are owned by each "Player")
+                - Represent these in a UML diagram w/ lines and arrows, and brief annotations about the connections
+            - Cardinality Constraints / multiplicity information ("A player can only have 6 pieces")
+
+- Now, let's make a brief distinction between "Entity Objects" and "Value Objects"
+    - An ENTITY is something where, if the attributes change, it's still the same object
+        - "If my Job changes or my Email address changes, I'm still Bob Waters"
+    - A VALUE object is where if the value changes, it's NOT the same object
+        - "If the Latitude of a Location object changes, it is NOT the same location"
+        - We do NOT care about the instance of the object itself - just its values!
+    - Entity objects are MUTABLE, and we care about their identity (in fact, most of these have some sort of ID attribute); these have a "history" to them, and a "lifecycle"
+    - Value objects are IMMUTABLE, and we don't care about their identity; we create and destoy these without tracking their history

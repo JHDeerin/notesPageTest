@@ -1,0 +1,63 @@
+//****************************************************************************//
+//***************** What's a Profession? - August 26th, 2019 ****************//
+//**************************************************************************//
+
+- Okay, my arms are entrapped by my armrests; the servants become the enslavers. Irony.
+    - "For some of you, this might be the first day of the course. That's okay! Check out the syllabi."
+- There's also no class ALL of next week, since Monday is Labor Day and 
+    - "Our course has a slow start, but I don't want that to be *too* misleading; the stuff we're doing today and going forward will be on the midterm, and what we're doing on Wednesday actually touches some of the most important stuff we'll cover in the entire course."
+--------------------------------------------------------------------------------
+
+- Alrighty! Last week we were introducing the idea of "philosophy" and we went through 2 kinda-correct definitions
+    - The first was a crash-course, blanket-statement definition: "defending your ideas with reasons"
+    - Then we tried to define philosophy historically as a discipline, starting with Greek philosophy and going through the Medieval, Renaissance, Enlightenment/Scientific Revolution, and (possibly?) Postmodern period
+        - From this standpoint, science is really a type of philosophy - it's kind of a flattering definition
+
+- Now, let's give a 3rd definition of Philosophy that might be a bit less flattering (and in its own way misleading): "the study of the stuff science isn't good at studying"
+    - From this standpoint, philosophy is kind of "what's left" from the Scientific Revolution, stuff that didn't form its own branch like Physics, Biology, Sociology, etc.
+    - Some examples of this:
+        - Aesthetics (what counts as beauty, subjective vs objective, etc.)
+        - Politics ("yes, there's political science, but it isn't as airtight a study as stuff like Physics")
+        - Metaphysics (meaning of existence, time, etc.)
+        - Philosophy of Mind ("Psychology is how people think, this is what thought actually IS, what consciousness is, can computers ever 'think',etc.")
+        - Logic ("In a way this is the weirdest one: taking the content out of arguments and just analyzing them in terms of mathematical symbols")
+        - Philosophy of Science ("If science is making empirical observation, philosophy of science is considering what we're ACTUALLY discovering, how to interpret experiments, if our current understanding is 'truth' when we know older models have gone out of date, place of science in society, etc.")
+        - Philosophy of Technology ("A smaller but more relevant field: how does technology fit into society? What responsibilities do we have when we're making technology")
+        - ...you name it, there's probably a "Philosophy of _"
+        - AND, the really big one for this course: ETHICS!
+            - "Literally, by definition, you CAN'T have a science of ethics, since it's a claim about how things SHOULD be, rather than how it currently is. You can take a survey of opinion, but to get farther than that, you need argumentation in some sort of philosophical form"
+
+- So, we've got 3 different definitions of Philosophy here, all of them a little bit wrong and controversial and pitchfork-raising
+
+- So, with that, let's start getting into Chapter 1 of the textbook
+    - "If you called my bluff and though 'he won't test us on the 1st day,' you're right! Congratulations! But you DO need to buy the textbook if you haven't gotten it yet"
+- Today, in this "professional ethics course," we'll start talking about:
+    - What a "profession" even is ("I think the book oversimplifies this issue")
+
+- One theory of what a profession is is the SOCIAL CONTRACT THEORY
+    - This goes back to the social contract theory of people like Hobbes, where we invented society so things would be organized and suck less by agreeing to follow certain rules
+    - Under this, we say a profession is a contract between a worker and society:
+        - On one hand, the employee agrees to be highly competent and skilled at what they do, they offer competent services to those who request them, and they follow the regulations society asks of them
+            - We wouldn't say burger-flipping at McDonald's is a "profession"
+        - In return, professions are jobs with above-average pay, social prestige, and some amount of "freedom of self-regulation" (not as individuals, but as a field - "Medical doctors, for instance, get to come up with their own standards as an industry")
+    
+- Another theory is the "Professing Account" given by a guy named Michael Davis, who the book seems to really like
+    - Under his account, a "professional group" is one that has a relationship with the public, earns a living, is entered into voluntarily, has a morally desirable goal, is pursued through morally permissible means ("no Nazis"), and strives for excellence beyond the minimum standard
+
+- There's also a sociological account of Professions as a group of behaviors, including:
+    - Extensive training
+    - Possession of vital knowledge/skills
+    - A monopoly (as a group) on these services ("not just anyone can build a bridge -they have to be certified!")
+    - An unusual degree of autonomy as a group (again, they get to "self-organize")
+    - A common set of ethical standards (usually through a common code of ethics)
+
+- Now, your textbook just says "hey, Engineering passes all 3 of these tests, so it's a profession!" But I think that ignores a REALLY interesting point that older versions of the textbook used to mention
+    - If we look at the sociological definition, Engineering does NOT qualify in the same way Medicine or Law Practice does because Engineers typically:
+        - Do NOT have the same degree of autonomy as other groups; your boss might be a non-engineer, but he can still tell you what to do!
+            - Let's say you design a car, and your boss says "hey, we're having a meeting next week and we want to show the clients the prototype!" As an engineer, you can't legally say "my code of ethics requires these tests that take X amount of days"; they have a TOTALLY different set of concerns and training, and yet you're subject to them
+            - Similarly, only about 1/3 of practicing engineers are officially certified
+        - Do NOT have a common set of ethical constraints
+    - Why did the book take this point out? In Professor Rosenberg's opinion, the book from a teaching point probably wants to skip past the whole "is Engineering a profession?" debate and get to the ethics
+        - Most people would still agree that Engineering is a profession, since it meets most of these tests; one of the authors might've though it was confusing if they said Engineering was only "mostly" a profession, since they didn't want students to think they only "mostly" needed to follow these guidelines
+
+- Alright, read Chapter 3 for Wednesday (NOT chapter 2); see you then!

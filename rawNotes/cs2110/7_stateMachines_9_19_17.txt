@@ -1,0 +1,80 @@
+//****************************************************************************//
+//****************** State Machines - September 19th, 2017 ******************//
+//**************************************************************************//
+
+- "Something I usually say at the beginning of the semester, but didn't...in 2001, there was a student sitting in the back of the class I didn't even know. Anyway, about 8 years later, she spoke to me on Facebook, and said that she'd never finished at Georgia Tech...for a number of reasons, she transferred to another university in Virginia. Apparently, her father never let her live down that she had never been able to pass at Tech, so she was determined to get her Master's here...and I want you guys to know, this is a hard school. But we're not sitting in our rooms trying to figure out how to torture you; we're trying to give you a first-class education, but on some very difficult subject material. I know some Professors act like their course is the only one you're taking, but please: if you're struggling, come see us. We care. We want to help."
+----------------------------------------------------------------
+
+- So, we were talking about Sequential Logic Circuits, where both the current state AND the input determine what the next state will be; every state can have a different output, and it can switch states (or stay the same) whenever the clock pulse hits.
+    - There's a TON of state machines that are examples of this: traffic signals, combination locks, garage door openers, etc.
+    - "Has anyone installed a garage door? No? Well, I have."
+    - When the garage door is all the way up, there's a nut on the garage door that'll hit a switch to tell the system that the door's gone all the way up
+        - "I need you all to hum for this part; it's about a B-flat for the motor sound. Music majors: help the ignorant."
+        - *everyone actually hums when he draws the door going up*
+    - Then, when we hit the button again, the new state will make the door go down (*more humming*) until another nut hits the bottom switch, switching the door off and changing its state.
+
+- So, how could we describe this process, this "control logic" for the door? Well, we use something called a FINITE STATE MACHINE DIAGRAM!
+    - "What would an infinite state machine look like? I don't know; ask the math people."
+    - The idea for an "FSM" diagram is that we have a bunch of bubbles, each representing 1 state that the system could be in.
+        - NOTE: Theoretically, you are ALWAYS in one state; pretend that the transitions between states are INSTANTANEOUS.
+        - So, for our 1-button garage door, there'd be four states: "Moving up", "Moving Down", "Stopped (going up next)", "Stopped (going down next)"
+            - It is NOT enough to have just 1 "stopped" state, since then we would need 2 buttons on our controls so that we have enough information to know if we should go up or down
+    - We then need an initial "start" state that the system is assumed to be in by default; here, let's assume that we start with the door already down, but ready to go up (aka, in the "Stopped(going up)" state)
+    - Finally, we need TRANSITIONS in our diagram: how do we move from 1 state to another?
+        - In our garage door, they're our two "limit switches" that the nuts hit, and the "push button" action
+        - So, the list of transitions we need in our diagram:
+            - Stopped(up) -> Going up IF the button is pressed
+            - Stopped(down) -> Going down IF the button is pressed
+            - Going up -> Stopped(going down) IF top limit switch hit
+            - Going Down -> Stopped(going up) IF bottom limit switch hit
+        - ...is that it? Have we covered all possible cases?
+            - What if we hit the putton WHILE the door is moving up? Should the button just do nothing until the door is stopped?
+                - NO! We want our button to be able to stop the door ALONG with the limit switches; so, we modify the transition so the door stops if it hits the limit switch OR if the button is being pressed! 
+                - "You could still build the circuit the other way, of course; but we want our design to be as close to an actual garage door as possible."
+
+- So, we have our FSM; ALL FSMs can be turned into a circuit
+    - The "1-hot" design is where each state is marked by only having 1 bit on at a time; the "encoded" design assigns a binary number to each state instead, saving space but increasing complexity.
+- Basically, every transition generates a new piece of circuitry that moves you from 1 state to the next
+
+        (...dipping into Logisim to build the circuit...)
+
+- So, we have our circuit set up, BUT: there's a problem...it doesn't work!
+    - We need our circuit to stay in its current state if a transition isn't going on, so the input HAS to loop back around to our system; instead, right now, it's just instantly switching states!
+
+- So we fix that in our circuit, but there's another problem: it still doesn't work!
+    - Our register starts out w/ all zeroes, so we need to put in a value when the power is turned on. To accomplish this, we use a NAND gate so that if all the inputs from the register are 0, we can input a default value
+
+- Now, that's great, but we've got 1 last minor problem...it STILL doesn't work!
+    - On the 1st clock pulse, if you're holding the button down, it switches it to the proper state...and then you're STILL pressing the button, so it stops the door again! The system is switching states too fast!
+        - "Now, the ideal situation is to train human beings with sub-nanosecond reaction speeds...but that's kinda hard to do. Trust me. I have daughters. I've tried."
+    - We COULD slow the clock speed down, but then the door won't be as responsive... so we should instead add in something called a DUMMY STATE.
+        - Basically, when the push button is pressed, the system will stay in the "dummy state" doing nothing until the button is released (so, the dummy state'll need to look at it)
+        - Now, you just need to add a dummy state between each transition...but now there's another problem.
+            - This WORKS! BUT, it is NOT the simplest way to do it. And worse, this system would have an ELEVEN variable K-map...which is just awful to simplify by hand.
+            - "Eleven variable K-Maps...I couldn't even do that on peyote."
+
+- So, how do we simplify these FSM circuits once we have them working? Well, it'd be nice if we had a "magic button" that, when we pressed it, only stayed on for 1 clock cycle, then stayed off until we let go of the button and pressed it again. 
+    -...can we represent this as a state machine? You bet!
+        - It should have an "Off state", that it remains in as long as the push button is NOT being pressed
+        - When the push button IS pressed, it should go to the "on" state
+        - HOWEVER, we do NOT want to stay in the on-state, so NO MATTER WHAT, immediately after (i.e. after 1 clock cycle) we go to the THIRD state: "off while the button is held"
+            - We remain in this last state as long as the button is held, and THEN go back to the normal off state after the button is released.
+- So, let's go from a state machine to a truth table:
+    - (c1 = On state, c0 = Off state); (n1 / n0 = the new state)
+
+        ("Now" inputs)   |  ("future")
+        button | C1 | C0 | N1  |  N0 |  Out 
+            0    0     0 | 0      0      0
+            0    0     1 | 1      0      1
+            0    1     0 | 0      0      0
+            0    1     1 | x      x      x   //we don't care; 2 states at once
+            1    0     0 | 0      1      0
+            1    0     1 | 1      0      1
+            1    1     0 | 1      0      0
+            1    1     1 | x      x      x  //ditto; can't be in 2 states @ once
+
+    - So, for the K-Map for this, we'll have a 3-variable map w/ the P on the side and "C1 C2" on the top JUST FOR n1 (so n1 is the output)
+        - When we've simplified, we're left with N1 = C0 + PC1
+    - We then do the same steps for N0 as the output, and we get N0 = P(C1')(C0')
+    - Finally, we do that for the actual Out, which gets us Out = C0
+- So, we can now convert this boolean expression into a circuit, just like we've done before!

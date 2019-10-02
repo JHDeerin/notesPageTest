@@ -1,0 +1,116 @@
+//****************************************************************************//
+//************ Metrics & Design Patterns - November 20th, 2017 **************//
+//**************************************************************************//
+
+- So, last week, we were finishing talking about the ACYCLIC DEPENDENCY PRINCIPLE
+    - Let's say that we're programming our application, and as we're working on the "Error" package we realize that we want all errors to display the error in the UI
+        - The LAZY way of doing this is to have the "Error" package inherit from the UI; but this means that the "Error" package is depending on the UI package, and vice-versa
+        - INSTEAD, we should create a new package ("Error Dialog", or something), and have it use stuff from BOTH "Error" and "UI"
+            - That way, the Error/UI packages can't break each other when they're changed!
+    - More commonly in student code, we have a package "1" with classes A/B and package "2" with classes "X/Y", and when we want to share functionality between them, we have "A" import "X" and "Y" import "B", or something like this
+        - This creates a cyclic dependency!
+    - So, to FIX this, we should instead have A/Y use an INTERFACE with the methods we need from the other package
+- "Why are cyclic dependencies awful? Well, in Java, they're not too bad since the Java Compiler is smart about how it compiles changes...but in other lagnuages like C/C++, if you have cyclic dependencies, then it means every time ONE package in that cycle is changed, ALL the packages in the cycle have to be re-compiled"
+
+- Versioning...there's a couple ways to do it, but the most common way:
+    
+        [major update #].[minor update #].[patch #]
+
+        - e.g. "Version 4.6.19"
+    - On the whole, versioning isn't too complicated, though; many companies use alternate schemes just for the sake of it, but as long as it works, that's okay
+
+- Stable Dependencies Principle
+    - How do we measure the "stability" of a class? Well, first of all...
+        - By STABLE, we mean that the class doesn't depend on other classes at all; we can change our other classes as much as we want, and it won't affect the package's functionality
+            - If ANY change in our code changes the functionality of the class, then it's 100% unstable
+    - To measure the instability numerically (lower is better/more stable):
+
+        Instability = Co / (Co + Ci)
+
+        - Ci = incoming dependencies (other packages that depend on me)
+        - Co = outgoing dependencies (other packages I depend on)
+
+- Another "DESIGN METRIC" is "Abstractness" for a package, which we calculate as:
+
+        A = (# of abstract classes in package) / (# concrete classes)
+
+    - Ideally, something that is 100% abstract should have 0% instability, and something that's 100% concrete/unstable should be 0% abstract
+        - "Something that's 100% abstract and 100% unstable means that nothing is using that package and it isn't doing anything useful - this is the ZONE OF USELESSNESS"
+        - "Something that's 0% abstract and 0% unstable is the ZONE OF PAIN - it means the package is doing EVERYTHING on its own with no abstraction to organize it"
+
+- Other useful design metrics we don't cover in this class: Method complexity, methods per class, lack of cohesion, coupling, ineritance tree depth, Halstead/McCabe measure, etc.
+
+========================
+// Design Patterns
+========================
+
+- Design patterns are part of a larger scheme we'll call "design expertise", which are common ways of solving problems; this includes:
+    - Architectural Styles
+    - Frameworks / Class library design
+        - "Sadly, we don't have time to go over most of this"
+    - Design patterns ( ways of solving common design problem)
+        - A good resource for this is a website called BALL OF MUD (or something like that)
+    - Language idioms (e.g. avoiding "magic numbers", clean coding practices, language-specific stuff like when to us lambda expressions, etc.)
+- e.g. there are 2 reasons we use singletons: it allows global access to a model, and allows us to deal w/ classes we only want one instance of
+
+- So, here, we're going to focus on some common DESIGN PATTERNS:
+
+    - Singleton/Monostate, we already talked about earlier
+
+    - FACTORY pattern
+        - Let's say we have an "Encryption" class with a few different kinds of encryption (RSA, DES, BlowFish, etc.); how do we determine which kind of encryption we should use?
+            - Well, instead of directly calling methods on Encryption, let's have an "IEncryptFactory" interface with 1 method on it that takes in a key, specifying which type to use; then, we can handle the appropriate logic for that
+                - "Factories are one of the few cases where switch statements are perfectly acceptable"
+            - Example code for the factory:
+
+                public class EncryptionFactory {
+                    public Encryption createEncryption(Key encryptTypeKey) {
+                        String algorithm = encryptTypeKey.getAlgorithm();
+                        if (algorithm.equals("DES")) {
+                            return new DESEncryption(encryptTypeKey);
+                        } else if (algorithm.equals("RSA")) {
+                            return new RSAEncryption(encryptTypeKey)
+                        }
+                        throw new Exception("Unknown encryption type specfied");
+                    }
+                }
+
+        - Now, we might not always need a full class for the factory pattern; in that case, we can just create a static "Factory method" on the class; e.g.:
+            
+                public class Person {
+                    (...)
+                    public static makeNewPerson(String line) {
+                        (...)   //parse the line and create the appropriate person
+                    }
+                }
+
+            - This allows more descriptive naming
+
+    - BUILDER pattern
+        - This is another pattern that's meant to instantiate a new instance of a class
+        - Let's say we're creating a new User, where the name/age are mandatory and their address, email, and location are optional
+            - "We don't want to have a bunch of different constructors to handle all the different possible combinations, or to have something arbitrary like setting 'null' for optional parameters"
+            - In that case, we'd have a "UserBuilder" class with a bunch of method like this for EACH optional instance variable:
+
+                    public UserBuilder email(String email) {
+                        this.email = email;
+                        return this;
+                    }
+                    (...)
+
+            - ...and the mandatory options as part of the constructor:
+                    public UserBuilder(String name, int age) { ... }
+            - And THEN, finally, we'd have a "build" method like this on the class:
+
+                    public User build() {
+                        User u = new User(this.name, this.age);
+                        u.setEmail(this.email);
+                        (...)
+                    }
+            - To use this, we'd then say something like:
+
+                    User newUser = UserBuilder("Fred", 19).email("...").build();
+
+                - "This looks like a violation of the Law of Demeter...but again, here it's okay, since it's part of the design pattern and we're ONLY calling stuff within the class."
+                    - "This has come up as a test question before: if it ends in 'build', it is NOT a violation of the Law of Demeter"
+        

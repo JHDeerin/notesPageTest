@@ -1,0 +1,76 @@
+//****************************************************************************//
+//***************** Evaluating Designs - November 13th, 2017 ****************//
+//**************************************************************************//
+
+- So, for evaluating a design, we go through what aspects are most important to the customer - security, performance, etc. - and see how well we've met those "quality factors" the customer has labeled as important
+    - "Now, in any design, there's going to be trade-offs; you can almost never give the customer everything they want"
+
+- At the top level, there's a "trade-off triangle" between SPEED, QUALITY, and COST
+    - We can make something fast and cheap, but at a low quality
+    - We can do something of good quality for cheap (i.e. pro bono work), but it won't be done quick
+    - We can do something quickly and and of good quality, but it'll cost a LOT (hiring short-term contractors, etc.)
+        - "A BIG part of project management isn't just managing your team, but managing the customer's expectation - you have to make sure the customer doesn't think of code as this magical box where you can do anything in a month because it's 'just code'"
+
+- Another thing we have to consider is TECHNICAL DEBT
+    - From Martin Fowler, our design decisions can often be described with a square of reckless vs prudent and deliberate vs inadvertent
+        - DELIBERATE vs INADVERTANT is if we KNOW we're making bad decisions as a conscious trade-off, or if we're making them by mistake (through ignorance or otherwise)
+        - RECKLESS vs PRUDENT is if we've weighed the consequences of our bad design choices, or if we just say "We have to ship NOW!!!" and skip steps without REALLY thinking through the consequences
+- Good design avoids technical debt by keeping our progress LINEAR - we're a bit slower to get off the ground (since we have to design everything), but we can keep adding things at a steady rate
+    - With BAD designs that accumulate a LOT of technical debt, we can start coding RIGHT AWAY and make a TON of early projects, but as we add more and more functionality we have to spend more and more time on maintenance, and we get slower and slower at adding new features until we can't add anything without redesigning whole parts of the system - THAT'S technical debt
+
+- Now, when it comes to evaluating our software architecture, we can use a technique called SAAM (Software Architecture Analysis Method)
+    - First, create a set of scenarios for how the system will be used and (potentially) changed
+        - Oftentimes, the customer should be involved in this - "How do you plan to use this system? Is there anything you'd like us to add in the future?"
+    - Then, create some sort of representation of the architecture/design
+    - We then cateqgorize the scenarios as DIRECT or INDIRECT
+        - DIRECT scenarios are ones that we already can do (that're already supported by our system) - they DON'T affect our evaluation of the architecture (double-check???)
+        - INDIRECT scenarios are future features we plan to add, or things we plan to change - these ARE important for evaluating our architecture, since we should be able to add this changes straightforwardly
+    - For all the indirect scenarios, evaluate how those changes would impact our architecture; will our architecture still be good if we add those changes? Are we able to add those changes easily?
+    - Evaluate our "scenario interactions" - what parts of the software are used in our scenarios? Are there any long dependencies? Is there a clear flow of information?
+    - Finally, summarize the impacts of these potential new changes on your architecture; will your architecture survive these changes gracefully, or does it get messier and worse as you add new changes?
+- See the TopHat slides for an example of this 
+
+- For ACTUAL design reviews, we usually have a checklist we go through to verify that it meets our company's standards of good design (are errors being handled properly?, is the design understandable and testable?, etc.)
+    - An example checklist for this is available on T-Square
+
+=======================
+// UI Design Principles
+=======================
+- NOTE: The UI design homework is now for extra credit
+
+- There are 2 key questions for OO UI design:
+    - How do you create a UI software design that is maintainable, well-designed, object oriented, easy to build, and easy to change?
+    - How do we create an interface that people can actually use?
+        - This 2nd part is much more vague - and MUCH harder - than the 1st part
+
+- An actual real-world case: there was a real-world shopping site, and the company noticed a problem: people were adding a bunch of nice products to their cart, getting to the sales page, and then just NOT BUYING anything - they just left the site!
+    - So, they hired a UX engineer to see what was wrong, and it turned out the problem was this: in order to buy ANYTHING, the user had to first register with the company! They had to enter their email, name, address, date of birth...
+    - So, the UX engineer recommended one, simple change: add a "Purchase without Registering" button
+        - ...and sure enough, the company's revenue went up by $300,000,000 dollars annually
+- Know that you are NOT your users! What we engineers think is cool and easy-to-use usually isn't what our users think of as "cool" and "easy"
+    - A HUGE part of UX design is just figuring out what your users are THINKING - what they want and what they don't want
+    - Another real-world example: the "Ultra-Quiet Dishwasher"
+        - People kept complaining that their dishwasher wasn't working...because it wasn't making any noise
+
+- Microsoft's UX motto: "The experience IS the product"
+    - To the user, it doesn't matter how well the program works on the back-end; what matters is THEIR experience!
+
+- A good UX person to pay attention to: Professor Don Norman, who wrote a book called "The Design of Everyday Things" 
+    - A couple of Norman's rules for good user experience design:
+        - Create effective mental models
+            - There's 3 models of our software: the way the developers THINK it's supposed to work, the way the USER thinks it works, and the way it ACTUALLY works
+            - In a good design, ALL 3 of these should be the SAME!
+                - e.g. in MS Excel, if I click on the "Spreadsheet 1" tab, what should happen? Well, users EXPECT it to bring that spreadsheet to the front; but the way it used to work is that it would select the spreadsheet, but open it in a new window BEHIND the current window
+        - Make appropriate functionality visible
+        - Natural mappings
+            - We want the predictable, "natural" thing to happen
+                - e.g. in the light switches for this room, the light switches should have the 1st light switch turn on the closest light and the last light switch on the farthese light
+                    - The way they're ACTUALLY hooked up is a mystery man has yet to uncover...
+                - Another example: on a toaster, you turn a dial to set the heat, and there's a circle of dots around the dial, with a small dot at "0" and the largest dot at "MAX"  
+        - Use your affordances
+            - Affordances is using our percieved ideas to show us what to do - it's similar to natural mapping, but not quite the same
+                - E.g. in MS word, the users click on a magnifying glass to zoom 
+            - "Basically, affordances is following conventions that people EXPECT for things to work - e.g. having our username box come BEFORE the passwords box - there's no rule that we HAVE to do it, but it's a convention that helps the user"
+        - Use constraints
+        - Provide feedback
+        - Design with errors in mind

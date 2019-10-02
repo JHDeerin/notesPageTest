@@ -1,0 +1,19 @@
+//***************************************************************//
+//******Collections (cont.) - October 26th, 2016****************//
+//*************************************************************//
+
+-Last test: we'll add 4 points to everyone's scores, due to a few questions that were ambiguous
+    -It's really hard to write good tests!
+
+-Classes post-1331: take 1332 (:P)
+    -Simpkins actual advice: 1332 is the most logical follow-up, albeit noticeably harder than 1331; GO INTO 1332 IF YOU CAN. That being said, 1331 is a "gatekeeper" course- a TON of your later courses will be based on this class, and you could theoretically go straight to AI courses (Hint: DON'T TAKE MACHINE LEARNING UNTIL YOU'VE GOTTEN STATS UNDER YOUR BELT)
+    -After that, 2340 is the next in the logical sequence; 2110 would also make sense
+    -If you're unsure about workload, ask the TAs; they've gone through this and can tell you if you're about to do something stupid
+    -"Think of classes like a restaurant: if you see 5 courses you all like and try to eat them all, you'll get sick"
+
+-Web applications today: would use Sinatra if I had to use Java, would use Scala/Ruby if given the option
+--------------------------------------------
+
+-ANYWAY, back to Java: doing WordCount application
+    -Onto the WordCount applications themselves!
+    - (whole class spent running through a coding example of WordCount)

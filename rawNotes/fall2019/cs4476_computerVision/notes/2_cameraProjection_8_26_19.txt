@@ -1,0 +1,126 @@
+//****************************************************************************//
+//***************** Camera Projection - August 26th, 2019 *******************//
+//**************************************************************************//
+
+- Alright, last time we were talking about the different 2D and 3D transformations we could have, and their degrees of freedom
+    - Today, then, we'll get into one of the most crucial concepts in all of computer vision: how to project things from 3D to 2D!
+
+- So, for 3D translations, we're literally just adding an offset to our point
+    - One cool thing about translations, though, is that they ARE commutative if we do them with matrix multiplication!
+
+- Rotation in 3D, then, is done with a 3x3 rotation matrix (4x4 in homogenous coordinates)
+    - The rotations themselves have 3 DOF: yaw, pitch, and roll, with the columns of the 3x3 rotation matrix "R" being unit vectors that are all orthogonal to one another
+        - Rotations are NOT commutative, which is a little weird, but it's true! Doing a roll and then a pitch change is NOT the same as vice-versa!
+    - IMPORTANTLY, the inverse of this rotation matrix "R" is just its transpose!
+
+- So, to do 3D rigid transformations that combine rotation AND translation, the matrix multiplication would look something like this (remember that the leftmost matrix multiplication will happen LAST):
+
+        P' = [1 T] * [R 0] * [P]
+             [0 1]   [0 1]   [1]
+
+- So, the total "hierarchy" of 3D transformations is as follows, with each one being a subgroup of the next:
+    - Translations (3 DOF)
+    - Rigid (6 DOF)
+    - Affine (12 DOF)
+        - Affine transformations do NOT preserve angles, but they DO preserve parallel lines
+    - Projective (15 DOF)
+
+- Okay, now for the main topic of this lecture: 3D to 2D projections!
+    - What is computer vision, anyway? It's trying to take a 2D image that was taken of a 3D scene and figure out what that original 3D scene was like
+
+- How can we do this? The simplest way is an ORTHOGRAPHIC PROJECTION, where we literally just take all the depth information and get rid of it; we pretend everything is slapped against a flat plane!
+    - Transformation-wise, this'd look like this:
+
+            P' = [1 0 0 0]   [P.x]
+                 [0 1 0 0] * [P.y]
+                 [0 0 0 1]   [P.z]
+                             [P.w]
+
+        - Notice here that the Z-coordinate in this matrix is all 0s; ALL that this is doing is getting rid of the Z-coordinate!
+            - In practice, though, this'd mean we'd need an image sensor 6-feet high to capture a 6-foot-high image! So in practice we'll more often use "scaled orthographic projection", shrinking stuff down first
+
+- FAR more common for our purposes, though, is PERSPECTIVE PROJECTION, where we instead change the angle and size of stuff in our image based on its angle, and how far away it is
+    - This is like an old-fashioned pinhole camera, where the light would go through a tiny hole and be projected as a (flipped) image 
+        - Historically, these were known as "camera obscuras," and they're apparently glorious
+            - People've known about this FOREVER (literally back to the Roman days); the difference is that in the 1850s, people were able to chemically store the patterns made by this light
+        - This is also how our eyes work; our eyes work like little pinhole cameras!
+    - One thing to note is that depth is one of the key things we lose when going from 3D to 2D; if I hand you an image and ask "how high was the camera when this was taken?", we can't tell right away! We need to infer based on the vanishing point and the size of nearby objects, but that can vary based on the camera's focal length, its rotation, optical illusions, etc.
+
+- So, the FUNDAMENTAL EQUATION for pinhole cameras is this seemingly-simple equation:
+
+        (x,y,z) => (f*x/z, f*y/z) = (x', y')
+
+    - In other words, we're scaling the object's appearance based on how far away they are from us (the "Z" coordinate), assuming the origin is at our camera with Z pointing forward, Y pointing down, and X pointing towards us
+        - This is the "computer vision coordinate frame"
+    - What's "f" - the FOCAL LENGTH - in this equation, though?
+        - Well, in the olden days of pinhole cameras, it would've been the distance behind the hole to the "sheet" where the image was formed
+            - HOWEVER, this annoyingly gives us an upside-down image, so we'll instead pretend there's a virtual plane a distance "f" in front of the camera that our image falls on instead
+            - Our new coordinates (x', z'), then, are the coordinates of our new image on that virtual plane
+    - This also tells us something that's second nature to most of us: stuff that's farther away is smaller!
+- Can we do this with matrix multiplication, though? Actually, YES, we can!
+    - First, we'll get rid of the homogenous coordinate and put the Z-coordinate there instead
+
+            P' = [1 0 0 0]   [P.x] = (x,y,z)
+                 [0 1 0 0] * [P.y]
+                 [0 0 1 0]   [P.z]
+                             [P.w]
+
+    - Then, when we're getting the coordinates, we'll normalize!
+
+            u = x/z
+            v = y/z 
+
+        - This is VERY non-linear, of course, since we're doing division
+    - Where's the focal length in this transformation, though?
+        - As it turns out, the (0,0) coordinate is almost NEVER in the middle of the image data we get, but in the top-left, so we need to offset the image to be centered before we do anything
+            - We'll then 
+        - To handle this, we'll add in a "calibration matrix" K to the start of this transformation, where:
+
+                K = [a s u0]
+                    [0 B v0]
+                    [0 0 1 ]
+            
+            - Here, a ("alpha"), s is the skew factor (almost always set to 0 nowadays, since cameras are well calibrated), (missed the rest)
+        - Then, to get out our 2D coordinates, we now do the following:
+
+            u' = u/w = (a*x + s*y + u0)/z
+            v' = v/w = (B*y + v0)/z
+
+- "This is VERY important for you to understand; it's arguably the most fundamental concept in this whole course!"
+
+- So, to get the full camera transformation matrix, we'll do a "calibration X projection X extrinsics" transformation ("extrinsics" means where the camera is in terms of rotation/translation)
+    - In matrix terms, this looks like:
+
+        (u,v,w) = M*P, where "P" is our homogenous 4x1 point and "M" is the 3x4 transformation matrix:
+
+        M = K[R t]*E = [a s u0]   [1 0 0 0]   [R t]
+                       [0 B v0] * [0 1 0 0] * [0 1]
+                       [0 0 1 ]   [0 0 1 0]
+
+        - Here, "R" and "t" are the rotation/translation of the camera (I THINK???)
+    - There are 11 degrees
+- "This is ESSENTIAL, so make sure you read up on it for the midterm!"
+
+- One last note: sometimes an affine transformation is NOT enough to model a real-world camera due to radial distortions from lenses!
+    - Correcting this can't easily be done by our measly 3x3 affine transformation, but we won't get into the details here
+
+- So, that's the key equation for going from 3D geometry to 2D geometry, but pixels are WAY more than geometry: they're photons!
+    - So, dealing with stuff like lighting, reflections, and optics is called PHOTOMETRY
+
+- Lighting! "Our textbook goes into tons of detail, but I just want to show you some pretty images"
+    - One big difference is that small, point light sources give us "hard shadows," while large "area" light sources give "soft shadows" that have fuzzy edges
+        - The sun and moon in particular take up ~0.5 degrees of the sun; that might not sound like much, but it's enough to notice significant blurring
+        - Why does this happen? Because in pure shadow none of the light can reach us, but as we reach the shadow's edge we can "see" more and more of the light's area, until we're completely in the light and not in shadow at all
+    - Besides area and point lights, another common light source in computer graphics are ENVIRONMENT MAPS, which is basically putting wallpaper 360 degrees all around an object and letting it reflect that map
+
+- The 2nd photometry thing: reflection!
+    - "There are 2 models I want to cover; the 1st is REALLY easy, and the 2nd is only a little bit easy"
+- SPECULAR reflections are perfect mirror reflections, and the geometry is pretty simple: if a light ray hits an object, it will bounce off at the same angle in the opposite direction
+    - This is NOT limited to flat surfaces, though; if we have a curved mirror, then
+    - If you work through the math for this, it's basically just a dot product with the angles
+- DIFFUSE reflection is a little bit trickier, and there are 3 main models people use to approximate it (NOT get it exact):
+    - Lambertian
+    - Oren-Nayar
+    - BRDF (fully generalized technique)
+
+- ...and we'll start getting into the details for those reflection models on Wednesday!

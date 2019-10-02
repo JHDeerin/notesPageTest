@@ -1,0 +1,40 @@
+//****************************************************************************//
+//****************** Volume Rendering - April 10th, 2019 ********************//
+//**************************************************************************//
+
+- Alright, we're voting on what we should have the last lecture be on - let's go!
+    - Keep in mind that these are TECHNICALLY still lecture materials, and so a question or two on whatever topic you choose *might* still appear on the final...
+        - And, after a highly technical system of hand-raising, the winner is: GAME RENDERING METHODS!
+            - We'll also try to talk about the runners-up, which were virtual reality, procedural content generation, and fluid simulation (with maybe a little bit of non-photorealistic rendering thrown in for good measure)
+-----------------------------------------------------------
+
+- So, with half the class gone by, let's talk about VOLUME RENDERING!
+    - This is a technique that's used a lot in the medical field, and the idea is that, instead of storing a 3D object as a bunch of polygons, we store them using VOLUME DATA: values given in a 3D grid
+        - Each data point in the grid is known as a VOXEL (for "volume element"), one for each vertex of the grid
+            - ...the X, apparently, just wanted to inject some pizazz
+        - Typically, this is just a 3D rectangular grid; a typical size for a grid is in the hundreds to thousands of voxels long on a side (e.g. 128x128x128)
+    - Where does this data come from? Usually, it'll come from real-world sources where we need to know what's going on INSIDE an object as well, like CAT scans (measures X-ray permeability), MRIs (measures hydrogen), various engineering datasets like:
+        - fluid simulations with pressure, vorticity, etc.
+            - For the fluid simulation, note that we do NOT store the velocity at each point; that'd make it a vector field, which is a different beast entirely
+        - Temperature gradients for a room
+        - Stress/strain information for a building
+        - ...and so on
+
+- How do we actually render these voxels, though?
+    - There are 2 main approaches we can take:
+        - ISO-SURFACE METHODS, where we create polygons based on the voxel data, and then render those
+        - DIRECT methods, where we create a rendering directly from the voxel data (via raytracing, etc.)
+            - This is more commonly used when we need transparency
+
+- Let's look at the Iso-Surface methods first
+    - We could just put a cube wherever a voxel appears, and color it based on its data, but that'd give us a VERY blocky model - we can do better than that!
+    - Instead, we'll usually need more sophisticated techniques; let's look at a common one called the MARCHING CUBES algorithm!
+        - For simplicity, we'll look at a 2D version of it instead, called the "Marching Squares" technique
+            - Suppose we have a 2D grid of data, each voxel of which contains a single scalar value (it could be temperature, density, etc.)
+                - Arbitrarily, we'll say that any values >= 5 are "inside" our shape, and values less than that are "outside" (i.e. they'll be treated as empty space)
+            - So, we'll go through and label each of the voxels as inside/outside - and then the magic happens!
+                - Along each line segment connecting 2 of the voxels, if one voxel is inside and the other is NOT inside the surface we'll linearly interpolate our cutoff value (in this case, 5) between those 2 points
+                    - We'll then connect all of those interpolated points together with line segments so that all the "inside" points are closed into the shape
+                        - In 3D, we'd connect these points with polygons instead of a line segment, and each one of the points would be vertices instead
+
+- We'll talk more about the 3D version of this algorithm come Friday

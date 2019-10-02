@@ -1,0 +1,50 @@
+//****************************************************************************//
+//***************** Pathfinding (cont.)- February 4th, 2019 *****************//
+//**************************************************************************//
+
+- So, you survived both homework 3 AND the most boring Super Bowl ever - congratulations!
+- Homework 4 is LITERALLY just implementing A* pathfinding for the agent - so, hopefully it won't be too stressful for you
+    - However, there'll also be "gates" along the path that will randomly open and shut - in this case, the agent will need to check that its destination is still reachable and, if not, it'll have to calculate a new path
+    - So, you basically implement A*, implement re-planning detection (i.e. what to do when a gate appears), and then re-calculating the path
+        - There's also an optional part for extra credit: implementing smoothing like we talked about last week, where instead of blindly following the path nodes the agent is able to skip to the next visible node
+            - You'll have to deal with what happens if its path is blocked when it's off the grid, of course
+        - ...ANNNNNND an optional class-wide competition to collect all the resources in the most efficient path possible (i.e. least distance traveled)
+- After this, homework 5 will be on decision-making/planning, which is when our agent will finally start looking like a real, honest-to-goodness game AI
+-------------------------------------------------------------------------
+
+- So, A* - you should know how to do it by now, we expand our open/closed lists (priority queue, for the open list), use our heuristics (known cost from start + estimated cost to goal), and then exclaim hoorays as a path is begotten
+    - But, just in case any of you haven't seen it yet/are suffering from severe brain hemorrhaging, Professor Riedl will go through it in EXCRUCIATING detail
+    - (...he very much wants to make sure no one is left behind on this...)
+
+- Alright, 40 minutes of already-learned A* later ("I know, it's almost as boring as the Super Bowl"), let's introduce some complexities to this
+    - A LOT of games do have a path network that's completely known in advance - but in some games (like RTSes), you might have a "fog of war" where you can only see a small part of the map initially, and have to learn more and more of the map over time
+        - Besides not knowing what your opponent is doing, this is also a navigation problem; your agent might try to move straight towards a destination, find an obstacle in the way, and then backtrack - otherwise, it has an unfair advantage!
+        - There are a few solutions to this:
+            - Just ignore the problem, and pretend that the AI can see through the fog ("omniscient optimality" - this seems unfair)
+            - "Life-long planning," where the agent only uses what it can see/knows about and assumes everything it can't see is open space
+                - Now, as the agent sees more of the map, it will adjust its path accordingly
+                - This is still "optimal," since the agent is acting correctly based on what information it knows - "optimistic optimality"
+                    - Variants of this algorithm are what were used on the Mars rover, where it needs to plan conservative, safe paths several minutes ahead without human intervention
+        - As it turns out, there're only a few differences between A* and life-long planning:
+
+            1) Paths are contionuously being broken, so we need some measure of RE-PLANNING (i.e. running A* from scratch)
+                - Of course, running it completely from scratch is kinda inefficient, so we can often use a variant called "D*" that remembers the search tree in-between searches, saving us computation (you don't need to do this for the homework)
+            2) (...none significant enough for Professor Riedl to mention...)
+
+- Alright, and that's all we really need to know for pathfinding in this class! this is a bottomless pit of interesting techniques, though, so don't think this is all there is to say on the matter - but it's enough to be dangerous
+
+- So, with that being said, let's look at what we might want to call "advanced sterring" - ways of controlling our agent's movement that don't involve full-on pathfinding
+    - One of the big, cool ways of doing this are FLOCKING algorithms for handling large groups of agents, like schools of fish, flocks of birds, etc.
+        - This is surprisingly simple to do and get realistic-looking (although not biologically-realistic) results, involving 3 behaviors:
+            - SEPARATION: move away from other 'boids' that are too close (don't wanna crash into people)
+                - If things are too close, you compute a vector pointing the "most away" from all the too-close things, and start moving that way (vector of separation)
+                - If you want to get fancier, instead of just doing a radius check around the boid, you can use an angle to only avoid things the boid can "see"
+            - COHESION: Move toward the center-of-mass of the flock (don't wanna get eaten by predators)
+                - Instead of checking against every single boid, just check against the ones we can see in the immediate neighborhood
+            - ALIGNMENT: move in the same direction as everyone else (don't wanna be left behind)
+                - Again, instead of checking against every single boid, just check against the ones we can see in the immediate neighborhood
+        - Average all three of these vectors, throw in some basic steering for obstacle/predator avoidance, and presto! You get some cool emergent behavior!
+            - To remind you, "emergent behavior" just means a simple set of rules that results in some complex-looking behavior
+- So, 3 simple computations that result in really cool-looking behavior - cool!
+
+- We'll start looking at some even cooler steering behaviors on Wednesday - come and bend an ear to what secrets I will disclose thence!

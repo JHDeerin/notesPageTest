@@ -1,0 +1,81 @@
+//*****************************************************************//
+//****************AVL Trees - February 20th, 2017*****************//
+//***************************************************************//
+
+-The first (and hopefully only) day without my water bottle
+    - *playing Taps*
+-I still haven't finished my heaps homework (...*Taps again*...), so let's hope for the best!
+-THE WEEK WITHOUT A DISCRETE MATH HOMEWORK! :D
+    -"Because you have an exam on Thursday" :(
+-ONCE AGAIN, the new office is in CoC 104A!
+--------------------------------------------------------
+
+-AVL trees: "We told you we were going to get here, and now we're here"
+    -We're spending a WHOLE WEEK on these things!
+
+-Heaps were kinda easy to keep in order, right? Just add it at the bottom, then heapify an' swap
+    -"Yeah...AVLs aren't that easy"
+
+-AVL trees are a type of binary tree that, while not always "complete," are ALWAYS balanced, making sure the trees are as efficient as possible
+    -"A BST has ON AVERAGE O(log n) for adding/searching/removing, but a WORST-CASE of O(n)"
+    -AVL trees were made to try to always keep these times at O(log n)
+-The BIG IDEA: Whenever you're adding/removing a node, you check to see if the other nodes are balanced; if they're NOT balanced, then you make "rotations" to balance the the tree
+    -Basically, they're a subclass of BSTs that are ALWAYS balanced
+
+-A BALANCED tree does NOT mean the tree is "complete"; it's a bit more forgiving, where all of the leaf nodes are within ONE LEVEL of each other
+-Searching in an AVL tree is the EXACT same as a BST; adding/removing is *almost* them same, but ONCE a node is added/removed, you have to check if the tree is balanced
+
+-Every node now has a "BALANCE FACTOR" to tell how balanced that node's subtree is
+    -balance factor = height(leftSubTree) - height(rightSubTree)
+        -It is ALWAYS "left - right", so a POSITIVE value means the subtree is "left heavy," and a NEGATIVE value means it is "right heavy"
+-A balance factor of 0 means that subtree is PERFECTLY balanced, and we're good!
+    -If one side is "heavier" than the other, then the tree is NOT balanced, and we need to do a rotation in the direction
+-HOWEVER, if the balance factor is between -1 and 1 (inclusive), then we'll consider the subtree as "balanced" even though it's slightly not, since the extra time-complexity to perfectly balance the tree isn't worth the very small gains
+    -This is the "we're okay as long as the nodes are within 1 level of each other" factor
+
+-All "null" nodes a have a height of -1
+-All LEAF nodes have a height of 0, balance factor of 0
+-All PARENT nodes have a balance factor of "(left child height) - (right child height)"
+
+-There are 2 kinds of rotations: "single rotations" and "double rotations"
+    -"double rotations" are basically just 2 single rotations
+-A LEFT rotation happens when a node has a balance factor of -2 (i.e. it's RIGHT heavy, w/ 2 more nodes on the right than the left)
+    -When this happens, we "rotate" the subtree so the "middle" node becomes the new root of the subtree
+    -e.g.:
+
+            0                                   1
+             \                                 / \
+              1         ------>               0   2
+               \
+                2
+
+    -What if the nodes (0 or 1 or 2) have subtrees attached? What do we do with them then?
+        -If 0 or 2 has subtrees, then we don't need to tocuh them
+        -If 1 has a LEFT subtree, then that left subtree becomes the RIGHT subtree of 0 after the rotation (since all of the elements would be less than #1 but greater than #0)
+
+-Now, what if the subtree is out of balance (still -2), but is "hooked"?
+                -e.g.      0
+                            \
+                             1
+                            /
+                           2
+    -In this case, we need to first "straighten" the subtree, THEN do our normal left rotation
+    -How do we do this? TUNE IN NEXT TIME TO FIND OUT!!!
+
+------------------------
+ADDENDUM (Feb. 22):
+    Pseudocode:
+    Node rotateRight(Node a)
+        Node b = a.left
+        a.left = b.right
+        b.right = a
+        return b
+
+-Now, to straighten the "hooked" out of balance tree, we need to do a DOUBLE ROTATION
+    -This is literally just 2 rotations; we would rotate right around the "1" place once to straighten the tree, THEN rotate to the left like normal!
+
+        0                      0                   2
+         \                      \                 / \
+          1         ------>      2    ----->     0   1
+         /                        \
+        2                          1

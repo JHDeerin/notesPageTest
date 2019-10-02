@@ -1,0 +1,35 @@
+//***********************************************************//
+//******Inheritance (cont.) - September 28th, 2016**********//
+//*********************************************************//
+
+-Liskov Substitution Principle (LSP)
+    "Subtypes must be substitutable for their supertypes"
+    -That's really a weird way to put it (though fun wordplay!), so instead, consider a method like:
+    "public static Date vestDate(Employee e) {
+        Date hireDate = employee.getHireDate();
+        int vestYear = hireDate.getYear() + 2;
+        return new Date (vestYear, hireDate.getMonth(), hireDate.getDay());
+    }"
+    -We can pass ANY type of employee to this- ANY class that inherits from employee (why different than polymorphism?)
+
+There is a counterexample, though: if we have a 'Square' class that extends
+    'Rectangle'; if I have a "setWidth" and "setHeight" methods and call them on a square, the PRECONDITION that we assume is that we can set the width/ height to be different. That doesn't work here.
+
+We can specify an INTERFACE that gives any class that implements it that behavior, e.g.
+    "public class Rectangle implements 2dshape", where 2dshape is an interface
+    -An interface represent an OOP type, with a set of public method declarations (NOT implementations) that any object of the interface's type can support. E.G:
+        ``"public interface 2dshape {
+                double area();
+            }"
+    -You MUST define a class that implements the interface in order to use it; they CANNOT BE INSTANTIATED
+    -Can override methods using @Override tag above method to implement methods
+    -ALL INTERFACE METHODS ARE PUBLIC; if not given a publicity, it will be
+        assumed public; will not compile with a private interface method
+    -Cannot have a static interface method either
+    -Can implement as many interfaces as we'd like
+    -generally, use when class "has a" property, rather than "is a" object
+-2 kinds: implementation and 'interface' interfaces
+    -Extending a class means inheriting the interface and its implementation from the superclass
+    -implementing an interface means getting only the interface itself
+
+-If there are 2 methods with the same name/parameter that are NOT overridden, then the super class will win. Interfaces will clash.

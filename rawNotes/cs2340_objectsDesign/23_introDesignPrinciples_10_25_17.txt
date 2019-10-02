@@ -1,0 +1,80 @@
+//****************************************************************************//
+//************** Intro to Design Principles - October 25th, 2017 ************//
+//**************************************************************************//
+
+- Last time, we talked a little bit about security w/ SQL injection; now, we're watching a YouTube video called "SQL Injection - Walking through Walls"
+    - Basically, year after year, SQL injection is STILL the #1 vulnerability in software. The lesson - ALL USER INPUT IS SUSPECT (and do NOT rely on JS validation, since malicious users can edit the Javascript on the page to get around it)!
+    - "...and that's about as far as we go with security in this class. It's an important design topic, but as crucial as it is, it simply isn't a focus of this course"
+
+- So, we know a LOT of mechanical stuff - HOW to draw a class diagram, UML diagrams, etc., but how do we actually know if we have a GOOD design? What are some design principles we can use to not just explain our design, but make it better?
+    - "Annoyingly for you guys, design is an 'ill-structured problem'; there's no one right answer, no silver bullet, what works well in one case doesn't work well in another, and so on. What'll follow are PRINCIPLES - they're guidelines for design that people have found to work well, but they are NOT the only good way of doing something. If breaking the rules makes sense for your app, and you know why you're breaking the rules - go for it!"
+
+- COUPLING - we want to have as LOW coupling as possible, so that making a change in 1 class won't interfere with another class unnecessarily
+- Some common kinds of coupling, from worst to best (well, least bad):
+    - Worst kind: CONTENT coupling, where 1 class modifies another
+        - NEVER DO THIS (fortunately, Java makes it really hard to pull this off anyway; "Assembly programmers, resist the temptation")
+    - COMMON coupling - the classes/components share common (i.e. global) data
+        - "This is why some people HATE singletons, because if everything is relying on the singleton, then it makes it hard to pull a component out of your app and reuse it in something else, since it's dependent on that global data"
+        - Try REALLY hard not to do this unless there's literally no alternative
+    - CONTROL coupling - Use a return code to control a different method
+        - e.g. "If statusCode = 1, sortAscending, else sortDescending"
+    - Stamp/data - passes complex data or structures between modules
+        - This is stuff like passing data w/ JSON, etc.; this is the most common type of coupling, and is usually perfectly fine
+    - Best: Uncoupled, classes have no relationship!
+
+- COHESION - we want each component to have as MUCH cohesion as possible
+- From worst (least cohesive) to best:
+    - Coincidental - the class is just a lot of unrelated functions
+    - Logical - kind of like control coupling, the methods are kind of related by what they do (e.g. all the sorting methods go in one class, even if they don't sort the same kind of data, etc.) 
+    - Temporal - connected to different phases of an operation; "all of these are in the class since they happen at the same time, even if they aren't really related"
+    - Procedural - required ordering of tasks (???)
+    - Communicational - all of the methods operate on the same data set (e.g. all of the methods do some operation on our CSV file)
+    - Functional - The class/method has only ONE overriding responsibility (e.g. creating a new rat report), and EVERYTHING that component does is essential for doing that operation
+- "A REALLY good article on this topic: enterprisecraftsmanship.com/2015/09/02/cohesion-coupling-difference"
+
+- So, we want our applications to be Low Copuling, High Cohesion, Low Representational Gap (LRG), and have Separation of Concerns
+    - Low Representational Gap basically means that our code does what it appears to do - it's easy to understand (DOUBLE CHECK THIS)
+
+- Things we want to AVOID in our app:
+    - High coupling
+    - Low Cohesion
+    - Rigidity
+        - "Bob, we like the rat application, but we want to add a new report...oh, that requires me to modify this-this-and-that class..."
+        - Basically, RIGID code means it's hard to make changes to the application without rewriting siginificant parts of your application
+    - Fragility
+        - "I changed this one class, and now these 3 other features broke..."
+        - FRAGILE means that changes in one part of the code can easily cause new problems to appear
+    - Immobility
+        - 
+    - Hackability / Viscocity
+        - "This isn't really the right way to do it, but the right way's hard to do, so I'll just do this one little hack..."
+        - If your code is made up of a bunch of hacks, it'll get hard to maintain real quick
+    - Needless Complexity (YAGNI - You Ain't Gonna Need It)
+        - "Wow, the customer might want to search for rats by Facebook User, or Google plus groups, so I should add those hooks..."
+        - Basically, if you don't KNOW you need it, and there's not a high likelihood you will, don't worry about it
+    - Needless Repetition (DRY)
+    - Opacity (obscurse, obtuse, hard to understand, etc.)
+        - "When people learn C, I know they like to impress their friends with how short they can write their methods...yeah, the maintenance guys don't appeciate that"
+        - "A good motto: CLEAR code is better than CLEVER code"
+
+- We talked about RDD; it's a good thing to keep in mind
+- Now, let's talk about GRASP (General Reposibility Assignment Software Patterns)
+    - "These are NOT patterns that people will ask you about in technical interviews, like they would with, say, SOLID principles...instead, they're an elaboration of some more general design principles that are good to keep in mind"
+    - There are 9 of them:
+        - CREATOR PRINCIPLE
+            - Who's reponsible for creating a new instance of the class? 
+            - Well, some general rules - Class B should create class A if:
+                - B contains or aggregates A
+                - B records A
+                - B closely uses A
+                - B already has the data required to make A
+            - If more than one option applies, prefer aggregation! (e.g. a manager class that contains our class as a component)
+                - Examples: Who makes a Square in a Checkers game (a: board)? Who makes a RightSightingReport in our app (a: the CreateRatReport activity, some separate ReportManager class...a couple good options)? Who makes an Assignment object in T-Square? Who creates a treasure chest item in an adventure game?
+        - INFORMATION EXPERT PRINCIPLE
+        - LOW COUPLING
+        - CONTROLLER
+        - HIGH COHESION
+        - POLYMORPHISM
+        - PURE FABRICATION
+        - INDIRECTION
+        - PROTECTED VARIANTS

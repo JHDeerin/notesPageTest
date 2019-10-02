@@ -1,0 +1,145 @@
+//****************************************************************************//
+//******************** Intro to I/O - October 5th, 2017 *********************//
+//**************************************************************************//
+
+- A quick reminder: When Yale Patt designed his computer, it was first and foremost designed to be EASY TO UNDERSTAND! Some of these techniques are NOT how most computers do things anymore, but Yale Patt had the LC-3 use them anyway to make it a better teaching tool. So just remember that: the LC-3 is NOT a real computer. It would work just fine if you built it. It would NOT work in the way we do things now (not even close)
+    - "If you want to see how modern computers ACTUALLY do things, and how they deal with the stuff we don't cover (multithreading, optimization, etc.), take CS 2200!"
+-----------------------------------------------------
+
+- So, on-screen is a picture of a PDP-8 panel. Yale Patt references this, because in the days of early computers, you could literally see the state of the PC, current address, etc. displayed on the panel; it also is a great example of BOOTSTRAPPING in computers, where we load small programs onto computers which allows us to load larger programs which allows us to...etc.
+
+- Now, I/O is communication between the OUTSIDE WORLD (which is typically connected to a slow, depressing, and/or depressed human being), and the COMPUTER (which is GOTTAGOFAST FAST!)
+    - So, the computer's input would be refreshed about every nanosecond, which would mean keyboard input could be repeated a few million times every time you hit a key
+        - To fix this, we COULD slow down the clock speed, but then A) The computer would be slower, and B) You would have to type SYNCHRONOUSLY with the computer clock as it refreshes 
+    - So, we need to use some sort of asynchronous HANDSHAKING between the computer and I/O to establish how we're sharing information
+
+- So, you've all taken family vactions, right? And at some, inevitable point, you got the bright idea to ask "Are we there yet?"
+    -...and, of course, because you were such little geniuses and you knew this was hilarious, you kept asking it: "Are we there yet? Are we there yet? Are we there yet? Are we there yet? Are we there yet?"
+        - Computers sometimes do something like this, called POLLING; they just keep checking for input continuously, and once they get it, THEN they do something before going back to the "polling" state
+    - Now, at some point, your Dad/Mom got fed up with this, pulled over, and told you to shut up because they'll tell YOU when we're there
+        -...this is known as the "Interrupt-driven" I/O model, which is usually preferred, but we'll get to it later
+
+- Memory Mapped Input
+    - Instead of creating a set of special new instructions just for I/O, we instead use the existing instructions for loading/storing data in memory, but we reserve some memory addresses JUST for I/O purposes; each of these special addresses corresponds to an I/O register. This technique - of assigning special addresses to I/O data instead of creating new instructions - is called MEMORY MAPPED I/O  
+
+- In the LC-3, locations from x0000 to xFE00 are regular memory addresses, but the leftover are reserved for I/O. We have two important registers to deal with Input for I/O:
+    - Keyboard Status Register (KBSR) (assigned memory address xFE00)
+        - If someone hits ANY key, then it'll go from x0000 to xF000, which'll set the negative Condition Code so we can detect if a key was pressed or not
+            - If the CC is negative, a key's been pressed! Otherwise, no, it hasn't
+        - So, only uses 1 bit: if a key was pressed, or if it wasn't
+    - Keyboard Data Register (KBDR) (xFE02) (????)
+        - Stores the actual ASCII code for the key that was pressed
+        - Really, this only needs 8 bits, but 16 is easier to deal with since it's the full size of all out memory locations
+        - Only read from this location
+
+- "Now, I don't like the way Yale Patt explains this in the book, so here's an example"
+    - Let's store the ADDRESS of these 2 registers in our assembly program:
+        term    .fill   x001A ;CTRL/Z code
+        kbsrA   .fill   xfe00
+        kbdrA   .fill   xfe02
+        buffer  .blkw   x0100 ;this allocates a BLOCK of "#" addresses; in this case, it allocates x0100 (256) addresses (the "buffer" stores starting address of the block)
+
+    - Now, let's start the actual program:
+                .orig   x3000
+                ld      r4, term
+                lea     r2, buffer  ;initialize buffer pointer
+        start   ldi     r1, kbsrA   ;See if a char is there, i.e. what value is at the kbsrA location (memory address xfe00)?
+                BRzp    start       ;keep checking UNTIL we have a key that's pressed; this is our "Are we there yet?" polling method
+                ldi     r0, kbdrA   ;get the character
+                str     r0, r2, 0   ;Store char in buffer
+                not     r0, r0
+                brZ     quit
+                add     r2, r2, 1   ;incrment buffer pointer
+                br      start
+        quit    halt 
+    -So, that's some simple code to demonstrate I/0
+    - HOWEVER, this only stores 256 characters, which means that there's a question: what if the user types 257 characters...?
+        - We get a buffer overflow! The lesson you should learn from this: NEVER trust the user to do the right thing!
+
+- Monitor Output - what we draw to the display - also has 2 registers
+    - DSR (Display Status Register) (xFE04)
+        - This register, basically, is a 1-bit flag to tell us if the most recent character has already been written to the screen, or if we still need to wait for it to finish
+        - Transferring a character to the DDR clears DSR
+        - Waits until the character is finished displaying, THEN asks for the next character
+        
+    - DDR (Display Data Register) (xFE06)
+        - Again, this holds the ASCII code for the character we're waiting to display; written to more-or-less directly by the keyboard
+
+    - Assembly program for this:
+        dsrA        .fill       xfe04
+        ddrA        .fill       xfe06
+        buffer      .stringz    "Hello, World!" ;declare a string, stored as an array of characters; the "z" at the end of the ".stringz" signals that the LAST character will be x0000, which signals the end of the string when the computer reaches it
+    
+    - The program:
+                    .orig       x3000
+                    lea         r2, buffer  ;Initialize buffer pointer
+        start       ldr         r0, r2, 0   ;Get char into r0
+                    brz         quit        ;If we reach the x0000, STOP!
+                    sti         r0, ddrA    ;Send r0 to monitor
+        wait        ldi         r3,dsrA     ;Are we done? Has the character finished displaying?
+                    brzp        wait
+                    add         r2, r2, 1   ;Move buffer pointer over 1, to the next char
+                    br          start
+        quit        halt 
+
+- We'll talk come back to Interrupt-driven input a bit later; it's a generally better way to handle asynchronous I/O, but we need to know a few things first.
+
+- The TRAP instruction we've gone over superficially, but now we need to look at them in some more detail
+    - The TRAP instruction takes an input "vector" that points to an already written program that does something useful, does it for us, and then returns control back to our program. It's written in this format:
+        [1111 | 0000 | trapvect8]
+    - When we call a TRAP instruction, we zero-extend the trapvect8 to 16 bits and put it into the MAR
+    - We then visit that address the trapvect specifies, which SHOULD contain the address we need to jump to to start doing our task (i.e. where the instructions for the task are written). We then read that memory location into the MDR, store the PC into R7, jump and do what we need to do (????), and then use JMP to go back to R7 and restore the PC
+            - There's a hardcoded special version of JMP, called "RET", that does this for us, and automatically jumps the R7
+            - All this should be done AUTOMATICALLY when we call TRAP, as long as the TRAP program itself is correctly written
+
+- 3 questions:
+    - Why should we save a register?
+    - When should we save a register?
+    - Who should save the register?
+- Let's say we want to write a TRAP to multiply 2 positive numbers located in R0 and R1, and store the result in R0
+    - Arbitrarily, let's say it has a trapvect of 12: x0C, and we'll store the code for this procedure at x6000
+    - So, we'll write this as a TEST for our TRAP code:
+        .orig   xC      ;Pretend that this is our trapvect
+        .fill   x6000   ;We store the x6000 address, where our program starts, at the xC address
+        .END
+        .orig   x3000
+        ld      r0, x   ;Load the data we want operated on into the registers
+        ld      r1, y
+        TRAP    xC      ;Jumps to our xC location, which will then redirect to the x6000 address and begin our program
+        st      R0, Z
+        halt
+    x   .fill   4
+    y   .fill   5
+    z   .fill   0
+        .end
+
+    - NOW, to write the ACTUAL program code:
+        - Works by adding the number in R1 to itself "R0" times, which is the definition of multiplication! 
+            .orig   x6000
+            AND     R2, R2, 0
+    loop    ADD     R2, R2, R1
+            ADD     R0, R0, -1
+            BRp     loop        ;If the number isn't 0 yet, add again!
+            ADD     R0, R2, 0
+            RET     ;returns to
+            .end
+    
+    - Ah, but there's a problem with this TRAP ("A Trap in the TRAP, if you will"): it'll wipe out R2! Anything important stored in R2 will be cleared!
+        - How do we solve this? Well, we write a user manual to warn people! Done! 
+            -...annnnnnd no one actually reads it
+    - Right, so how do we ACTUALLY fix it? Well, we can save the value of R2 in memory; THEN, just before we return our multiplied value, we put the original value back into R2
+        - So, WHY should we save a register? Because it simplifies things for our users; instead of having 1000 users work around this limitation in OUR code, we just have to fix one thing in our program!
+            -...Asking "why do we save a register?" is in the same vein as asking, in other languages, "Why do we write functions or methods?"; It's so that, instead of having to write the same thing over and over and over again, we can save time by just reusing stuff. In fact, it does MORE. It saves OUR time, and it saves SPACE (since we only store the method in one spot and use references to it, instead of it taking up multiple blocks)
+                - Now, it is slightly slower, since there's some overhead to retrieve the method from memory, but engineers decided early on that that's a small price to pay for the utility of having methods
+                - Back in the day, the Engineers who built the first computers thought actually programming the thing would be relatively easy; when it wasn't, they decided "Wow, now that we've got this piece of code that actually works, we need to save it so we don't have to deal with writing the ****ing thing again!" And thus, ever since, we've had methods with us.
+        - In the LC-3, to support "methods" in assembly, we have the "Call"/"Return" instructions: JSR and JSRR
+            - "JSRR in particular is roughly how polymorphism is handled in most languages"
+                - JSR saves the PC in R7, then jumps to the address we give it
+                - JSRR does almost the same thing (missed the distinction - I think it jumps to the address in a register we give it instead of a PC-offset address)
+
+- TRAP vs JSR(R)
+    - TRAPS use the vector table, usually handle built-in system functions (and hence are written VERY carefully), and are usually protected by the system
+    - JSR(R) are used for "routine absttraction" duties by the programmers, used primarily for code reuse/libraries, are written less carefully, and don't have as many protection methods
+        
+- "Now, in the real world, it's not even this simple; how do we know what order the arguments are supposed to be in? How do we share code with other people? in the real world, we have to worry about CODE CONVENTIONS, even in Assembly; and that's what we'll be going over next week"
+    - "'Oh, i'm not gonna be an assembly programmer, I don't care about this'; but you should. What if you need to work with C later on in your career, and someone asks you if your C program can talk to their Python code? You're from Georgia Tech; you can't be the person who says 'it can't be done' without trying. You're the one people are gonna to turn to for the hard stuff. You're the one people will be counting on; You're the one that can't let them down."

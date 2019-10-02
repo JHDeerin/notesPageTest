@@ -1,0 +1,57 @@
+//****************************************************************************//
+//*********************** Git and Gradle- September 1st, 2017 ***************//
+//**************************************************************************//
+
+- SEPTEMBER! AHHHHHHH, FALL IS UPON US!!!!!...
+-----------------------------------------------
+
+- So, pretty much EVERY CS class you'll be taking from now on will involve some sort of team coding...and Git makes this much, MUCH more manageable!
+    - Now, everyone / every company has their own way of using Git, setting up branches, etc.; in this class, I won't be too picky about HOW you're using Git, as long as you're using it and it's working for you
+    - Now, a quick note about BRANCHING:
+        - In this class, our project is *pretty* small, so you could probably get away with not making branches. It might get a bit messy, but that's fine; you could all just put ALL of your code into a single branch, MASTER:
+
+            -------*-----------*------*----*-------
+                (asterisks represent commits from the team)
+
+        - Now, one pretty common branching philosophy is something called "Mainline Development," where we make sure EVERYTHING on the master branch ALWAYS compiles (it's the current "release state" )
+            - Git let's us make "branches" off of the main "master" branch, do changes on it, and THEN add it back to the master (usually after we've tested it, made sure everything's working, etc.)
+
+            --------*-----*-----\-------------------------/-------------
+                                 \--------*-----*-----*--/
+
+                - This kind of branching is sometimes called "feature branching," where we make a new branch of master, add a feature, and work on it in this "development" branch
+
+        - To actually make a new branch, all we have to do is say something like "git branch bob" or something
+            - This creates a new branch, but does NOT switch our current branch to it!
+            - So, to switch to the "bob" branch, we say "git checkout bob", or whatever the branch name is (including master)
+        - So, let's say we've added our feature in our own branch, we've tested it, it looks good, and now we're ready to merge the branch back into master
+            - So, switch BACK to your master branch, and say "git merge bob"; if there aren't any merge conflicts, then it should combine the two!
+        - "ALL of these changes, though, are JUST on your LOCAL branch; to actually let the rest of your team see these changes and see your branch (assuming you haven't merged it back), you have to push it to the 'origin'"
+
+- Now, besides that, you're going to need to set up Android Studio
+    - This has "Version Control" for Git built-in! Point it towards the Git installation path, and it should integrate itself
+        - Let's say that you're the team lead, you've just started the project, you want to share it to the rest of the team...just start a new Android project, and towards the bottom there should be a "Version Control" tab
+            - NOTE: Don't worry about the details of "howdoIactuallymakeanandroidappidontknowwhtattodo..."; we'll go over Android Studio in detail on Wednesday 
+        - Now, let's say that instead you're "just" a teammate; go to GitHub, grab the repo's URL, paste it into Android Studio's 'clone repository' box, and you should be good! There's even a GUI menu for switching branches, adding commits, pushing/pulling, etc.
+
+- So, merging is all well and good until one, small thing happens...you and your teammates edit the SAME part of the code!
+    - So, you've made the changes in your branch, they've added their changes to "master" already, and now you're trying to add yours...so you switch to master, try to "git merge bob", and then you get an ERROR message; your changes are conflicting!
+        - So, you have to settle the merge conflict; you have to decide who's change gets to stay, or add their changes to your code, etc.
+        - "Merging from the command line is NO FUN; Android Studio has a GUI showing where the merge conflicts are, options to fix it, etc.; I HIGHLY recommend you use that" 
+            - "A good way to (well, not avoid, but minimize) conflicts: ALWAYS update your code before you start working for the day. You should be CONSTANTLY pulling; don't assume the code you pulled from the rep a 'mere' 2 days ago is recent enough for you to just keep working along, only to get 157 merge conflicts because your teammate was also 'working hard'; that's no fun"
+
+- M2 is all about getting more used to Git and Gradle, so try your best at it; these are technologies where you really do learn by doing, so do!
+    - "For M2, PLEASE create a separate repository; it'll just simplify your life alot down the road to not have to deal with the M2 stuff down the line"
+
+- Now, getting the code to your teammates is half the battle, but you STILL have to get everything compiled and running; this is what GRADLE does
+    - "If you use it properly, GRADLE is made to get around the problem of saying, 'here's a 27-page manual on how to compile your changes'"
+        - Gradle is REALLY deep, and some companies literally have "build engineers" whose whole job is to maintain these complex buildfiles so everyone else can just type "build project"; we're just going to be using a basic part of the software
+- GRADLE is in the same vein of ANT, MAVEN, etc. 
+    - Ant is build-only, and is a bit archaic; Maven is a more general software management tool; other tools called Cruise Control/Jenkins/TravisCI which do cool stuff like automatic building, continuous integration, etc. (these are beyond the scope of this course, but feel free to check them out)
+    - GRADLE is based on the principal of "convention over configuration;" you don't have to set up ANY configuration files to tell Gradle where your files are, what pathfiles to look for, etc., and you write your buildfiles in a language called "Groovy" (based off of Java)
+        - The trade-off is that, unless you want to really play around with the build file, you're going to need to set up your files/folders in a specific way
+
+- So, BUILD FILES are just instructions for building all/part of the application (basically, it replaces having to type all the stuff on the command line), while TARGETs are the goals of the build (create a .jar, compile the code, etc.)
+    - Targets are sometimes called "Tasks" in Gradle
+
+- On Wednesday, we'll REALLY get started with Gradle; enjoy Labor Day!

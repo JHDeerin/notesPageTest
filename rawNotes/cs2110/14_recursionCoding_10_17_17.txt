@@ -1,0 +1,107 @@
+//****************************************************************************//
+//**************** Recursion Example - October 17th, 2017 *******************//
+//**************************************************************************//
+
+- Brandon, the ol' head TA, is back to pay a visit! Currently works for Google; will not tell us what he does at said Googley Company
+----------------------------------------------------
+
+- So, let's write a little subroutine 
+- First, let's write the program in Java; it multiplies two positive numbers using recursion:
+
+    public int mult(int x, int y) {
+        if (y == 0)
+            return 0;
+        else
+            return x + mult(x, y-1);
+    }
+
+    - So, this recursively adds "x" to itself "y" times!
+- Now, in Java, control starts at the "main" method, which is an idea it stole blatantly from C; let's use this to test our method:
+    - "While we're on the topic, can main be recursive? Can it? Well, why not! It's just another function, so of course it can be!...we won't write that just yet, though"
+
+    int main() {    //wait, is this C instead? Eh, who cares
+        int a = 9;
+        int b = 6;
+        int c;
+        c = mult(a, b)
+        return c;
+    }
+
+    - Let's write this test method as a *simple* ol' Assembly program...
+        - "This first piece isn't written as a subroutine or anything special; it's just a normal piece of assembly code somewhere in memory, like we've been writing":
+
+        .orig x3000
+        ld r6, stkinit      ;R6'll be the stack pointer (SP)
+        ld r5, fpinit       ;R5'll be the frame pointer (FP)
+                    ;;NOTE: "In Yale Patt's book, he moves the frame pointer after each iteration of the function, and stores it in the middle of the stack; why he doesn't just put it at the end or the beginning, or just keep the FP the same, I don't know. I personally don't like it, but that's the way the book does it, so that's the way I've written this program here."   
+        ld r0, a
+        ld r1, b
+        add r6, r6, -2      ;Moves the stack pointer (REMEMBER: the memory address where we're going to add the next spot to the stack) up 2 spaces; allocates space for 2 elements
+        str r1, r6, 1       ;Store b right BELOW the stack pointer
+        str r0, r6, 0       ;Store a right at the stack pointer
+        jdr mult            ;Jump to our "mult" function
+        ldr r0, r6, 0       ;Get result, stored at r6, into a register
+        st r0, c            ;Store the answer in C
+        halt
+
+    a       .fill #9
+    b       .fill #6
+    c       .fill #0
+    fpinit  .fill xbeef     ;Just some arbitrary # for the frame pointer
+    stkinit .fill x6000     ;Start of the stack
+
+    ;; Now, let's write our "mult" function; there's a few ways to do it, but in this course, we just care if it's working; we aren't too concerned about efficiency:
+
+    mult    add r6, r6, -3  ;Space for return value, return address, and old FP
+            str r7, r6, 1   ;Stores the return address on stack
+            str r5, r6, 0   ;Stores the frame pointer on stack
+            add r6, r6, -1  ;Move SP to FP position
+            add r5, r6, 0   ;Move frame pointer to SP position
+
+            add r6, r6, -2  ;Make space for 3 registers
+            str r1, r6, 2   ;Store current values of R1, R2, and R3
+            str r2, r6, 1
+            str r3, r6, 0
+
+            ;;...all the work so far is, basically, just dealing with the method header; now, let's move on to writing the meat of the function:
+
+            ldr r1, r5, 5   ;"Y" is located at FP + 5 in memory, so get that
+            BRn error       ;If it's negative, something's wrong, so like the good anal-retentive programmers we are, we check for that 
+            brp recurse     ;If Y's positive, we want to recurse, so skip all this "done" stuff
+                            ;Otherwise, Y is 0, so we should return 0
+            str r1, r5, 3   ;Set return value to zero (sets it to Y, and  = 0)
+done        ldr r1, r5, 0   ;Restore R1, R2, R3; do this whenever we return
+            ldr r2, r5, -1
+            ldr r3, r5, -2 
+            add r6, r5, 0   ;Move SP to FP
+            ldr r5, r6, 1   ;Restore the old FP to R5
+            add r6, r6, 2   ;Point the SP at the return address
+            ldr r7, r6, 0   ;Restore the return address to R7
+            add r6, r6, 1   ;Point SP at return value
+            ret
+
+recurse     ldr r1, r5, 5   ;Get the value of y
+            add r1, r1, -1  ;Calculate y-1
+            add r6, r6, -1  ;Allocate space on stack for 1st parameter ("y-1') 
+            str r1, r6, 0   ;Put 1st parameter ("y-1") on the stack
+            ldr r1, r5, 4   ;Get x
+            add r6, r6, -1  ;Allocate space on stack for last paramter (x)
+            str r1, r6, 0   ;Put last parameter on the stack
+            jsr mult        ;Call the function again; IMPORTANTLY, this will change r7 to the current memory address location; therefore, when we're done and run the "ret" function, the address will return to RIGHT HERE, and the next line to run will be the "ldr r1, r6, 0" line that stores the result...so, we don't jump RIGHT back to the original call, but instead to the previous ecursive call until the original "r7" address is loaded into memory. THIS IS THE RECURSIVE PART! This is what makes us "unpeel" the stack as we go backwards
+
+            ldr r1, r6, 0   ;Put result of the call into a register
+            ldr r2, r5, 4   ;Get x
+            add r3, r1, r2  ;Calculate x + mult(x, y-1)
+            str r3, r5, 3   ;Put result in the "return value slot"
+            BRnzp done
+
+- "Now, you're all bright, young, attractive, etc. people, so you're probably looking at this JSR function call and thinking, "Hey, I should go back and trace this to see what's happening!" DON'T DO THIS. You do NOT have a stack in your head, and trying to trace this will confuse the **** out of you. Just trust that, if you've set up the recursive logic right, this'll work. If you have to debug it, check the logic first, and then use the computer to step through it."
+    - "Repeat after me, kids: "I AM FROM GEORGIA TECH. I can do ANYTHING. Even write a recursive subroutine to multiply. Even if I cannot visualize a recursive memory stack in my head, because WHY WOULD YOU EVER DO THAT." "
+        - "...and then add, um, I solemnly swear on my honor as blah blah blah etc., etc."
+
+- "If you're confused by this, or even if you think you understand this, I HIGHLY recommend you draw out the stack for this function and run through it on paper (NOT in your head). It'll definitely help the people who're having trouble, and it'll give you a good idea of what the computer is actually doing, AND MOST IMPORTANTLY...it might be a quiz question."
+    - "Seriously, you'd do yourself a world of good if you took this code, typed it up into complx, and single-stepped through it to watch the stack changing. The first thing you'll learn is how many mistakes I made when I taught this. The second thing you'll learn is how the stack works. The third thing you'll realize is that, when you write your homework, you actually have no idea how this works, and you'll panic, and then you'll actually pay attention. And that's how you learn"
+        - "And when you DO write your homework, and you have like 15 bugs (because you will), you'll say one of two things:
+            1) ****, I'm glad I commented this code for myself.
+            2) Who wrote this!?...oh, right"
+        - "More seriously, when you debug your code for the homework, load it into complx and run through it step-by-step - but DON'T just 'look for weird-looking things'. For EVERY STEP, think about what the computer is SUPPOSED to do, hit the "step" button, and see if it did it. If it did what you expected, great; so far, so good. If it did something you didn't expect, congratulations: you know where to look for your bug. "

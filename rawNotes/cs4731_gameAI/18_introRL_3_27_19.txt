@@ -1,0 +1,109 @@
+//****************************************************************************//
+//*********** Intro. to Reinforcement Learning - March 27th, 2019 ***********//
+//**************************************************************************//
+
+---------------------------------
+
+- Alright - as we said last time, we're moving into the 3rd part of the class now where we're teaching AIs to play games as if they were humans!
+    - That means they're ONLY allowed to look at the screen and manipulate the game's controls - that's IT!
+
+- As we said, games are hard for a number of reasons, but they're ALSO hard for a very fundamental reason: there's usually an opponent trying to thwart you!
+    - The idea of AI playing "video games" as serious research is actually a pretty new idea; it really only started in the last two decades
+        - Chess and Checkers were traditional games that people knew were considered "smart" activities in culture, so AI researchers have tried tackling those for awhile
+            - "I'm sure Gary Kasparov hates that every AI class in history now has to mention he lost, but hey, that's the price of fame"
+        - Even checkers took until 2007 to formally "solve" and prove the game would always end in a draw - so these simple games are still really, really complicated!
+            - Go is even more complicated, but Google was able to get around this using the magic of neural nets, which we might get around to in a bit...
+
+- Up until pretty recently, almost all board-game-playing AIs used the MINIMAX algorithm
+    - The basic idea is that we view this game as a planning problem, just like we did in behavior planning! We're trying to find the sequence of actions that get us 
+        - The problem with this is that the opponent is ALSO making moves after we make them - so the environment is changing as we make this plan!
+            - To deal with this, we'll play with an ADVERSARY, with us making a move, then the "adversary" making a move, then us making our next step, and so forth...
+            - But we don't know what moves the opponent will do!
+    - So, we can't do sequential search in this wya, since we have no way of knowing what moves our opponent is going to make; instead, we need to do something called ADVERSARIAL SEARCH, or MINIMAX
+        - This looks type of search doesn't look like a sequential search at all; in fact, it looks more like a tree
+            - For this type of search, we start from the starting state, then create a node for each possible move we can make; for each of THOSE nodes, we'll have a child for each possible move by the opponent, and so forth
+        - Let's imagine that our game has a score, and it's the S.T.U.P.I.D. game: we make one of 3 moves, then our opponent makes a move, and that's it!
+
+
+                            S   (start, our move)
+                            |
+                    -----------------
+                    |       |       |
+                    s1     s2       s3       (opponent's move)
+                   /|\     /|\      /|\
+                  / | \   / | \    / | \
+                 9 -6 0  0  2  1  -4 -3 1     (our final score)
+
+        - Now, we want to maximize our score, but our opponent is trying to get us the least possible score; that means that if we go straight for the highest score (9), our opponent will take the move that makes us lose!
+            - So, what we want to find instead is the LEAST WORST score - the "maximum minimum" score, so that we're in 
+        - To do this, we'll do the following:
+            1) Start at the 2nd-from-bottom level of the tree; since this is our OPPONENT'S move, for each node, choose the smallest leaf as our worst possible score
+            2) Go up one level; since this is now OUR move, choose the highest possible score as our optimal move
+            3) Repeat this alternating "choose worst score," "choose best score" until we reach the root of the tree
+
+- If you've taken Intro. to AI, you might recognize that this isn't a planning algorithm per se; instead, it's a POLICY
+    - A policy maps ANY given state we're in to the optimal action in that state
+- The problem with this, though, is that it requires an exhaustive search; that worked for Checkers, and with some heuristics and "alpha-beta pruning" it got us through Chess, but it didn't scale up for Go - there were just too many combinations!
+    - To get around this, we need some way of figuring out the parts of our search space that are more promising, and spend our computation time just exploring there
+        - ...if you've taken Intro to AI, you know where this is going
+
+- MiniMax works great for basic board games, but it doesn't scale - to get anywhere close to playing video games, we need to do REINFORCEMENT LEARNING (RL)
+    - Reinforcement learning is based off of a MARKOV DECISION PROCESS, where we know 4 things about the world:
+        - S: the set of all possible states in the world (or at LEAST some way of enumerating those states)
+        - A: the state of all possible actions we can take
+        - T: A TRANSITION FUNCTION that tells us the probability of being in a state "s'" if we take action "a" while in state "s"
+            - In mathematical notation, P(s'|a,s)
+            - In deterministic games, these probabilities will all be 0 or 1
+        - R: A REWARD FUNCTION that tells us what the "score" of taking an action in a given state is (e.g. R(s,a))
+            - This is similar to our fitness function from genetic algorithms, where it returns a number saying how "good" or "bad" our action/
+    - Now, in Intro AI you probably talked about "Value Iteration," where you can perfectly solve a given MDP...
+        - ...but there's a BIG problem with this in most games: we usually don't know what T is!
+            - For instance, what's the probability that Mario will die if he jumps? What if he's one pixel to the left? There're too many states!
+        - What can we do instead, then? Instead of computing the transition function up-front, we can just play the game to figure out what'll happen!
+    - This is called TRIAL-AND-ERROR LEARNING; we can go back to the same game state, try a different action, and hopefully learn patterns over time ("hmmmm, every time I walk into a Goomba, I die! But jumping on the Goomba, I don't die!")
+        - To be clear, we're NOT trying to calculate the whole transition function; we're just trying to figure out the utilities of taking certain actions in certain states
+        - What if something bad doesn't happen immediately, but later on (e.g. we make a mistake in chess, but the consequences don't happen until several turns later)?
+            - RL deals with this by doing "credit/blame assignment," which we'll get to in a bit
+
+- So, over time, we can figure out the best actions to take - but where's the opponent? How do we model our opponent?
+    - As it turns out, we DON'T! We pretend the opponent doesn't exist!
+        - That didn't work at ALL for MiniMax, but here, the consequences of our opponent's move will end up being part of our transition function
+    - So, in the "real" game, we take an action and end up in some state, then our opponent takes an action and puts us in some state, etc.
+        - Instead of actually modeling this, we'll pretend that our successor state after taking an action is the state AFTER our opponent has moved
+            - "This is a lot of head-bendy stuff I'm throwing at you - don't worry, it gets worse"
+
+- One of the most common RL algorithms used in games right now is Q-LEARNING, so let's take a peek
+    - What's Q? It's the utility of doing an action in a certain state (i.e. Q(s,a))
+        - "Utility" is NOT the same thing as the reward function; instead, it's a measure of our FINAL score (with some probability) far in the future; it's our "expected final score" if we take this action
+            - Say, for instance, that Mario can choose to walk straight ahead, or jump on top of a platform - neither of them has any immediate reward
+                - If the platform has some coins a few steps later, though, then it's better in the long run to jump on the platform!
+                - So, theoretically, jumping on the platform should have a higher Q value!
+                    - "Why is it called Q? It's...really stupid. They wanted to use U, for 'utility,' but that was taken by another algorithm they were researching, so they just took the next letter"
+                        - "...once we run out of letters, I'm expecting emojis to start showing up in research papers any day now. And then, when mathematicians start taking the square root of poop, I will smile."
+    - So, our Q-TABLE will be a 2D array of all action-state pairs, all initially set to 0
+        - Once we HAVE the table filled out, though, then our policy is just based on this table - for any given state we're in, we'll just look up all the possible actions for that state and choose the one with the highest Q value
+            - How do we fill in this table? We'll talk about that in a bit
+            - Also, what if our state space is HUGE - way too big to store reasonably on a hard drive? Then we'll need to approximate it in some way
+
+- Alright, this Q-table stuff sounds great - so HOW do we fill in this table in the first place?
+    - We know we start out with the table initially set to all 0s
+    - To start filling it in using our trial-error method, let's assume we start out in a state S_t
+        - Let's then pick an action "a_t" to do (for now, assume this is chosen randomly)
+            - Can we REALLY learn something just by taking random actions against a non-existent opponent? Well, yes!
+        - We'll then transition to state S_t+1, and receive some reward "r"
+            - Even if the reward is just our score going up by 1 point in Mario
+        - To update our Q-values, we'll use a hairy-scary equation known as the Q-UPDATE EQUATION:
+
+                Q(s_t, a_t) += a*(r + g*maxOfAllActions(Q(s_t+1, action))
+                                - Q(s_t, a_t))
+
+            - Notice here we're updating the Q-value of the state we came FROM
+                - What do all these parameters mean, though?
+                - "a" is the learning rate (between 0 and 1) that says how heavily we want to weight new data
+                - "r", as we mentioned, is the reward from the action we just took
+                - "g" is the "discount factor" from 0 to 1, and says how heavily we want to weight outcomes in the future
+                - The "max" part is where we're getting the utility of the best action we can take in our NEW state
+                - The subtraction part is the "temporal difference," 
+            - SO, the gist: we're in a state, we take an action, we get some reward, and then we ask "gee, was that a good action or a bad action?" We'll look one step into the future to see how good our new state is, and then say this new state's value is its immediate reward plus its future utility
+
+- Next class, we'll walk through an example of this and dig deeper into the details - in the meantime, finish your homework and enjoy the weekend!

@@ -1,0 +1,101 @@
+//****************************************************************************//
+//*********** Bezier Patches / Subdivision - April 1st, 2019 ****************//
+//**************************************************************************//
+
+- I'm feeling very foolish today, but not in the jovial sense
+-----------------------------------------------------------------
+
+- Alright, on Friday we started talking about 3D curves - and today, we'll be extending Bezier Curves into 3D BEZIER PATCHES
+    - Instead of being in 2D, of course, this is 3D - and instead of having just 4 control points, there are 16 control points - WHOA!
+        - That's a lot, but basically, the surface is defined by 4 different Bezier curves, each of which requires 4 control points
+    - Using these patches, though, we can make just about any smooth 3D surface by hooking them together (cue the apparently-famous Utah teapot!)
+
+- Let's start looking at CUBIC BEZIER PATCHES in more depth, now
+    - As we said, 4 Bezier curves define a Bezier patch, with a total of 16 3D control points
+        - We can define a regular Bezier curve in 2D or 3D, but with Bezier patches, it really only makes sense to define them using 3D points
+    - There are 2 parameters this time: S and T!
+        - Each of these parameters are in the range [0, 1]
+        - We'll label all our control points from P00 ... Psdir,tDir ... P33
+        - We'll then say that all the points with the same "S-index" define a single Bezier curve (e.g. P00 to P03 defines a single curve P0(t)), giving us the points for 4 different Bezier curves!
+            - Now, you might think that our 3D surface would smoothly go through each of these 4 curves, right? But that's NOT usually the case - oftentimes the surface won't even touch the 2 middle curves!
+            - As it turns out, if we define our Bezier curves in the "S-direction" instead, it'll still create the exact same surface
+        - So, with these 4 Bezier curves, how do we create our Bezier surface?
+            - Well, for a given T value, we'll find the 3D point on each Bezier curve for that value:
+
+                p0 = P0(t), p1 = P1(t)
+
+            - We'll then use THOSE 4 points to define a new Bezier curve, which gives us the points on the surface!
+    - So, lay this out EXPLICITLY, here's how we find a given point Q(s, t) on our Bezier patch:
+
+        1) Create 4 Bezier curves using our points: G1(t), G2(t), G3(t), G4(t)
+        2) Calculate 4 points on each of these curves based on the T parameter (P1)
+        3) Create a NEW Bezier curve using those 4 points
+            - ALL the points on this new Bezier curve will be on the final Bezier patch 
+        4) Calculate point Q(s,t) on that new curve, using S as our parameter
+
+- So, which points does this surface actually pass through?
+    - Well, it's only guaranteed to go through the 4 corners of our patch - but then how can we "stitch" 2 different Bezier patches together so their edges meet up?
+        - To do this, we need the 4 control points defining the "edge" of the Bezier patch to be the same for both patches
+        - If we ALSO want the transition between the 2 surfaces to be smooth, we need to make sure the tangents of the 2 patches line up, so the adjacent Bezier curve to that edge on each patch needs to ALSO match up
+- "There'll probably be 1 or 2 questions on these patches on the final, so make sure you've got the gist of these things"
+
+- Alright - Bezier patches take a LOT of work to define, with 16 control points and whatnot, and they also mean our surface has to be divided up into these roughly-quadrilateral smooth areas
+    - Those are definitely some restrictions, and Bezier patches end up not being used much outside of CAD modeling
+    - Instead, modern animations and games tend to use a different kind of curve instead, known as "subdivision surfaces"
+
+- Why do animators prefer these types of curves? What makes SUBDIVISON SURFACES any better?
+    - Well, Bezier patches have the following problems:
+        - You have to somehow chop up surfaces into quadrilateral patches, even if they're not very rectangular
+        - Getting a smooth, continuous surface is messy - you basically need 12 out of 16 control points to match up EXACTLY with their neighbors
+    - In contrast, subdivision surface schemes can turn ANY polygonal mesh into a smooth surface (depending on your algorithm), continuity comes for free from the algorithm, and it's generally pretty easy to program!
+        - This technique first appeared in 1978, and was independently discovered by the research pairs Catmull-Clark and Dao-Smith
+            - Dao/Smith's version is
+            - Clark would later found Netscape (which would become Mozilla), and Catmull is currently serving as the President of Pixar
+        - Even though this is an older technique, though, it took until the 1990s for mathematicians to prove the algorithm had these nice properties, which led to them catching on with animators
+
+- There're a few different variations of subdivided surfaces; let's look at them in turn
+    - The first is the LOOP SCHEME (invented by Charles Loop), which only works with triangles but has "C2 continuity" (i.e. you can take 2 derivatives of the surface and still have it be continuous everywhere)
+        - To do this, suppose we have an original surface with 3 triangles and 5 vertices, like this:
+
+              * --- *
+              /\    /\
+             /  \  /  \
+            /____\/____\
+           *     *      *
+
+        - We'll then add a vertex roughly to the midpoint of every line segment (though NOT quite), turning each triangle into 4 smaller Triforce-like triangles
+        - From there, here's what we'll do to actually subdivide:
+
+            1) Compute the locations of the new vertices on the edges
+                - To compute this point, for a line segment in the middle of 2 adjacent triangles, we'll say the position is:
+
+                    V = 3/8(v2 + v4) + 1/8(v1 + v3)
+
+                             v2
+                             /|\
+                            / | \
+                        v1 /  |  \ v3
+                           \  |  /
+                            \ | /
+                             \|/
+                             v4
+
+                - Notice that we have 2 weights 3/8 and 2 weights 1/8, adding up to 1.0 - this is a convex combination, so the vertex'll stay in our surface's convex hull!
+            2) Move the positions of the old vertices
+                - Basically, we're trying to smooth the surface by smooshing these new vertices together
+                - To do this, we'll move them based on the VALENCE of a point (i.e. the # of triangles around a given vertex)
+                    - Most commonly, there will be 6 triangles around the vertex (i.e. a valence of 6), meaning the point is totally surrounded by triangles
+                - For each point, if the point has a valence of "k," the new position will be:
+
+                        V' = V*(1 - k*b) + b*(v1 + v2 + ... + vk)
+
+                    - Where "V" is the position of the original vertex, "k" is the number of triangles around the point, v_1 ... v_k are the positions of the vertices around our point, and beta is the weight 
+                        - There are several values for b, but the original value was b = 3/(8*k) for k > 3 and b = 3/16 if k=3
+                - If the point has k =/= 6, we call them EXTRAORDINARY POINTS, and they're annoying to deal with; they'll only have C1 continuity
+            3) Make smaller triangles again (i.e. the midpoint-1-to-4 thing)
+
+        - We'll keep doing this until the surface is smooth enough
+            - Luckily, we usually don't need to call this many times to end up with a pretty smooth surface, since the # of triangles increases by a factor of 4 each step!
+- So, remember that Loop subdivision requires a triangular mesh, it has a polygon growth factor of 4, etc.
+
+- Alright, we'll get to Catmull-Clark subdivision next time!

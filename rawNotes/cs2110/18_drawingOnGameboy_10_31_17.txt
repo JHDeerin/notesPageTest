@@ -1,0 +1,166 @@
+//****************************************************************************//
+//************* (cont.) Drawing on GameBoy - October 31st, 2017 *************//
+//**************************************************************************//
+
+- "Going to any Halloween parties? No? Some jerk gave you too much CS homework? Well, sucks to be you folks."
+---------------------------------------
+
+- So, let's create a little demo for the GameBoy, where we create a bouncing square; assume we have our setPixel function and drawRect function from last time (NOTE: points are defined w/ row, column; i.e. (y, x); this is an arbitrary convention, so you're welcome to do something different for your homework)
+
+    int main() {
+        int row = 80;
+        int col = 120;
+        int yVel = 1;
+        int xVel = 1;
+        int size = 5; 
+
+        while(1) {
+            row = row + yVel;
+            col = col + xVel;
+            drawRect(row, col, size, size, YELLOW)
+        }
+    }
+
+- This'll draw a rectangle that moves to the bottom right corner of the screen. That's great...but let's make it bounce. Modifying the while loop:
+
+    while(1) {
+            (...)
+            if (row > 159) {
+                row = 159;
+                yVel = -yvel;
+            }
+            if (row < 0) {
+                row = 0;
+                yVel = -yVel;
+            }
+            if (col > 2)
+        }
+
+- That's great, but this doesn't erase anything between frames! It draws a line on the screen! ...so, let's cover up the old rectangle after every frame:
+
+    while(1) {
+        drawRect(row, col, size, size, BLACK)
+        (...)
+        drawRect(row, col, size, size, YELLOW)
+    } 
+
+- Great! But one, small problem: the rectangle moves so fast it could probably induce SEIZURES! That's fun in it's own right, but we want to actually watch it bounce; let's create a delay function by just doing something a bunch of times:
+
+    void delay (int n) {
+        int size = 0;
+        for (int i = 0; i < n*5000; i++) {
+            size = size + 1;
+        }
+    }
+
+    -...this will not work
+    - WHY does it not work? Well, the C compiler is SMART: it sees this code would, boiled down into assembly, just take a value from a register, put it into a local register, do some stuff with it, and then never return it to anything or permanently alter any values. So, C, the annoying chap, says "hey, you don't need this! It doesn't alter anything! I'll just ignore it for you, it won't change anything."
+    -...fortunately, C respects us as developers, and gives us an out: the "volatile" keyword
+        - This basically tells the compiler, "This thing's important, shut up and do what I tell you, I KNOW WHAT I'M DOING!"
+
+            void delay (int n) {
+                volatile int size = 0;
+                (...)
+            }
+
+- Now, if we run this code, it works. Hooray!...but it's not perfect
+    - If it hits the edges right, it looks like the square briefly "clips" to the other side; this is because the square is of size 5, but it doesn't bounce until the center goes past the screen's edge. Because of how the drawPixel method works, those pixels on the other side will be interpreted as being on the other side of the screen (due to the order of the "videoBuffer" memory addresses)
+
+    - We can fix this in a few ways, but let's fix this by having it detect hits from the EDGE of the square:
+
+        if (row > 159 - size + 1) { //+1 is required due to the way we're drawing the rectangle...it makes sense if you draw it out
+            row = 159 - size + 1;
+        }
+        (...)
+
+- Moreover, we want this to be a GAME, not a screensaver! So, we need to access the user's input; for the GameBoy, that means looking at the buttons:
+    - The button register is located at 0x4000130, with the default, unpressed value stored there being a "-1" (1111111111...) and changing based on what button has been pressed 
+    - Let's define some simple macros to detect if a button is being pressed
+
+    #define BUTTON_RIGHT    (1<<4)
+    #define BUTTON_LEFT     (1<<5)
+    #define BUTTON_UP       (1<<6)
+    #define BUTTON_DOWN     (1<<7)
+    #define BUTTON_R        (1<<8)
+    #define BUTTON_L        (1<<9)
+
+    #define KEY_DOWN_NOW(key) (~(BUTTONS) & key)
+    #define BUTTONS *(volatile unsigned int *) 0x4000130
+
+    - Now that we can detect input, let's do some simple stuff with it:
+
+        while(1) {
+            if (KEY_DOWN_NOW(BUTTON_UP)) {
+                size++;
+                if (size > 150) {
+                    size = 150
+                }
+            }
+        }
+
+    - BUT, the compiler will IGNORE this, since it doesn't see any of our code that alters the value inside of the x4000130 address (since the button presses are a wholly external thing), so it'll just ignore this code. To fix this, we have to declare the BUTTONS pointer as volatile, to tell that compiler "I'm the boss"
+
+- Now that it's a BIG rectangle, though, we can see a new problem: the rectangle is BLINKING!
+    - This is because EVERY TIME we draw a frame, we're trying to get the pixels stored in the video memory to use in our code logic; AT THE SAME TIME, at the hardware level, the MONITOR's PPU is trying to access that memory to draw the pixels on the screen. Two things can't access the same piece of memory at the same time (think the datapath), 
+        - This is a historical limitation of the GameBoy related to how CRT monitors worked, with drawing each pixel sequentially on the screen from top-left to bottom-right, then re-drawing the frame. With the gameboy, it'll draw 308 horizontal pixels and 228 vertical pixels
+            - "But that's bigger than the screen size!" RIGHT! That means we have 68 pixels worth of time when the screen is NOT being redrawn at all (Vertical/Horizontal blank); can we do all of our drawing logic in there? Well, let's try!
+
+    - Let's define a new symbol called "SCANLINE_COUNTER", which'll point to the "scanline counter" register (the current vertical pixel that the screen is drawing)
+
+        #define SCANLINE_COUNTER *(unsigned short *) 0x4000006
+
+    - We'll then use polling to detect when this counter turns to "160", showing that the screen is on it's VBlank period:
+
+        void waitForVblank() {
+            while (SCANLINE_COUNTER < 160) {
+                //do nothing - this "freezes" our code from running while the screen is drawing
+            }
+        }
+
+    - Now, what happens if at the EXACT moment we call this function, it's at, say, line #289; then it'll let our code run, but the screen will already start drawing before we're done changing the screen, causing the flickering again!
+    - We'll fix this by ALSO waiting until the SCANLINE_COUNTER is under 160:
+        -...AND, since this doesn't return anything, DON'T FORGET to make the SCANLINE_COUNTER variable volatile so it's not ignored by the compiler
+
+            #define SCANLINE_COUNTER *(volatile unsigned...)
+
+            void waitForVblank() {
+                while (SCANLINE_COUNTER > 160);
+                while (SCANLINE_COUNTER < 160);
+            }
+
+- Now, as it turns out, the Gameboy has just under 60 vertical blanks per second, so this technique of drawing only during the vertical blank will give us a 60fps refresh rate; not too bad!
+
+- So, we've done all this work...now, let's run it!
+    - ...but the continuous line appears again!
+    - Have to fix our line-covering code w/ the black box to record the box's old position AND size (since if the box gets smaller, it won't cover up it's whole trail from previous frames)
+
+- Alright, we've done all that...and it's working! No flickers, nothing! It's great!
+    - ONE slight problem, though...if we make the square too big, it will stop drawing, because there's not enough time in the Vblank to draw the whole thing.
+    - Can we fix this? Probably...but let's not worry about it right now
+
+- But there's still ANOTHER problem with this game...there's no score! WE DON'T KNOW IF WE'RE WINNING!!!
+    - All of the storage in the GameBoy is in the cartridge
+- So, we need to load in a font to show what the score is!
+    - One of the old TAs in this class converted an ENTIRE 6x8 pixel font into a LONG 1-dimensional array of 1s and 0s; the "1" means the pixel should be lit, "0" means it should be transparent, and it's split up into chunks of 48 numbers per char (6x8 = 48) 
+
+- Once we have this font loaded into memory, we need to know WHERE to draw the character and WHAT color it is
+    - We'd then treat every character like a 6x8 box, except that we draw the CHARACTER we're passed in instead of a box:
+
+    void drawChar(int row, int col, char ch, unsigned short color) {
+        for (int r = 0; r < 8; r++) {
+            for (int c = 0; c < 6; c++) {
+                //reuse the offset thing we used for our screen pixels to get the current bit for the char in the font array; the "ch*48" part moves us to the correct character in the font array, the OFFSET part moves us to the correct bit for the character's pixel 
+                if (fontdata_6x8[OFFSET(r, c, 6) + ch*48] == 1) {
+                    setPixel(row + r, col + c, color);
+                }
+            }
+        }
+    }
+
+- Alright, and that's it, coded up and ready to run! Are you ready to see it in action?...well, then come back Thursday!
+
+- NOTE: To the compiler, "const" means "never let this variable go on the left side of an equals sign"
+- NOTE: Pointers are NOT the same thing as arrays. Repeat after me: THEY ARE NOT THE SAME
+    - Arrays, when declared, find an unused space in memory that'll hold X bytes, split it up into however many pieces we need for the array, and then gives a pointer back to the start of that memory block
+    - For pointers, the square brackets just use the array NOTATION as a convenient shortcut to jump X addresses ahead, but they don't do any memory allocation themselves when declared; "the bracket notation for pointers is just syntactic sugar"
+

@@ -1,0 +1,169 @@
+//****************************************************************************//
+//**************** DMA and Structures - November 7th, 2017 ******************//
+//**************************************************************************//
+
+- Suppose I had a machine with 100 instructions, and each instruction takes 1 nanosecond to execute. How long would this take to execute?
+    - ...100 nanoseconds? That's fair, right? BUT, WHAT IF we have as one of those instructions...
+            (...)
+            while(1)
+            (...)
+        - ...NOW how long will this take?
+    - So, what matters for how long a program will take to run isn't JUST "how many instructions are there", but "how many times are those instructions run?"
+
+- A case in point: our bouncing-square program! When the square gets BIG, the program noticeably slows down and stops rendering part of the square! So, how can we speed this up?
+    - We COULD buy a better processor - but that's expensive, and for the GameBoy, it isn't an option
+    - Alternatively, we could use a BETTER ALGORITHM
+        - Right now, for instance, we're redrawing the WHOLE black box to erase our box, and then redrawing the WHOLE yellow box, EVERY FRAME...why not just draw the pixels that change, and leave the rest as-is? 
+
+    - So, to fix this, let's travel to the mysterious cult of Electrical Engineering land
+        - We ask the EE guys what we should do, and they tell us that they can do VERY SIMPLE things MUCH faster
+
+- Example: a MEMORY COPY...
+
+    for (int i = 0; i < n; i++) {
+            a[i] = b[i];
+    }
+
+    - ...or a memory FILL:
+
+        for (int i = 0; i < n; i++) {
+            a[i] = k;
+        }
+
+- Right now, in our program, we're using a MEMORY FILL to draw boxes; we're taking ALL of these array indexes and individually copying the SAME value into them
+    - We ask the EE cult what they can do, and they tell us that they have a way of speeding up both the "memory copy" operation and our "memory fill" operation
+    - The guys come over and say "Look, you've got a processor and you've got memory, with an MAR and an MDR, and every time we want to share information between them we have to go through the MAR/MDR chain. That takes up time"
+        - "So, let's build a special circuit with a 32-bit register for the 'Source Address' SAD  (the array we want to copy stuff FROM), a 32-bit register for the 'Destination Address' DAD (the array we want to copy stuff TO), a 32-bit register for 'CNT' (the number of times we want to change something), and a simple state machine for the logic"
+        - We have this circuit put BETWEEN the processor and the MAR; every clock cycle, the SAD and DAD registers are incremented, the CNT address is decremented, and we continue to add the SAD data to the DAD memory address until the "CNT" register is 0
+            - This way, we bypass having to use the registers in the processor, and we don't have to fetch instructions from memory to figure out what to do (since it's built into the state machine) - because of that, this method is about 5x-10x faster than just writing our old code
+    - As it turns out, the GameBoy has FOUR of these things (1 and 2 are reserved for sound, 3 is for general purpose) - they're known as DMA units, for "Direct Memory Access", with a total of 32kb of "WRAM"
+- One example where this DMA would be useful: Reversing an array!
+    - You could also NOT increment/decrement the source/destination address at all (e.g. if we want to write an array of sound data to the register for a single speaker, we would leave the DAD constant)
+
+- So, we want this stuff in our bouncing-box game; how can we do it?
+    - Well, the following are the registers for all the DMA stuff:
+
+        #define REG_DMA0SAD *(volatile u32*)0x40000B0   //source address
+        #define REG_DMA0DAD *(volatile u32*)0x40000B4
+        #define REG_DMA0CNT *(volatile u32*)0x40000B8
+
+        (... similarly for R1, 2, and 3; memory address keeps adding 4)
+    - What's that weird "u32" thing, though? Well, in C, they decided it would be a good idea to let us declare our own variable types with a keyword called "typedef"
+        - e.g.
+
+            typedef int length;
+            typedef int *LengthPtr;
+            (...)
+            length x;
+            LengthPtr p = &x;       //because of the * we put intfront of LengthPtr's declaration, 'p' is automatically declared as a ptr
+
+- Now, the way DMA is setup is:
+    - index 31 to 0
+        [ 31 to 25: | 23/24: used for sound | 22/21: increment code | 20 to 16: | 0...15: # in count register ]
+            - For 22/21, if it's the DAD or SAD register, we can have:
+                00 : increment register (default behavior)
+                01 : decrement register
+                10 : fixed (don't change address/num in register)
+
+- Now, let's actually start using this in our program:
+
+    u16 bgColor = GRAY;
+    (...)
+
+    - Now, RIGHT BEFORE our "while(1)" loop:
+
+        REG_DMA3SAD = (u32) &bgColor;   //casting ONLY because C throws an error when we're trying to assign an address to a register
+            - NOTE: Since the register NEEDS an address, we can't just say "REG_DMA3SAD = BLACK", since a macro doesn't have an address
+        REG_DMA3DAD = (u32) videoBuffer;  //write to the screen
+        REG_DMA3CNT = (160 * 240) | DMA_ON | DMA_DESTINATION_INCREMENT | DMA_SOURCE_FIXED; //let's us change how we're writing this with some options
+    
+- Now, this is fascinating..."but Bill, they don't make GameBoys anymore..."
+    - BUT BUT BUT, DMA's are NOT a GameBoy specific thing; they're used for special-purpose calculations in MANY modern computers!
+
+- Anyway, back to GameBoy land, though: we should use DMA for things that we're drawing a LOT, one thing we're doing a lot in this program: DRAWING RECTANGLES
+
+    drawRect(...) {
+        for(int r = 0; r < height; r++) {
+            for(int c = 0; c < width; c++) {
+                setPixel(row + r, col + c, color);
+            }
+        }
+    }
+
+    - Now, for DMA to work, it HAD to be contiguous locations in memory; because of that, we can't replace both loops with DMA...but we CAN replace the inner loop with it!
+
+    drawRect(...) {
+        for (int r = 0; r < height; r++) {
+            REG_DMA3SAD = (u32) &color;
+            REG_DMA3DAD = (u32) &videoBuffer[OFFSET(row + r, col, 240)] //represents the address of the current pixel
+                - ALTERNATIVELY, could write (...) = (u32) (videoBuffer + OFFSET(row+r, col, 240)) , and it would do the EXACT same thing
+            REG_DMA3CNT = (width) | DMA_ON | DMA_DESTINATION_INCREMENT | DMA_SOURCE_FIXED; //now, makes "width" transfers; we "fix" the source because we want to use the same color for all of the pixels in the row
+        }
+    }
+
+    - ...and now, it'll run a LOT faster!
+
+- So, suppose you have a dog named Fluffy, and you take a great picture of Fluffy, convert the image into a bmp, run it through the bmp2c program, and BOOM, you've turned Fluffy into a C array of shorts
+    - Taking the same code as for our rectangle, do you think you could use DMA to draw the image?...I bet you can
+
+- Now, in Java, I'm sure you all had a mental model of what an "object" should be. And if they asked you to draw a UML diagram, you could draw out what variables and parts composed the box...but what is the box object, really, in memory?
+    - ...they're JUST BITS! There's no variable names, no pointers, NOTHING. It's just a bunch of 1's and 0's. These abstractions that we create to help us understand and work with the data (like programming languages themselves) don't actually exist to the machine; to it, it just boils down to a long chain of 1s and 0s
+- Now, in C, there's a thing called a "structure"; like all the other stuff we've learned in C, it's an abstraction, but it all boils down to 1s and 0s
+    - FOR THE LOVE OF GOD, READ KERNIGHAN AND RICHIE ABOUT THIS! They've got a lot more to say about structures than I do
+- Let's declare a simple structure:
+
+    struct Point {
+        int x;
+        int y;
+        int char[10];
+    } a, b, c;  //defines the new "struct Point" datatype and declares 3 "Point"s a, b, and c
+
+    struct Point d = {3, 4, "Point 1"}; //creates a new "Point" struct
+    a = d;
+
+- Now, writing "struct Point" is a little annoying, so C let's us use typedef to simplify this:
+
+    typedef struct Point {
+        (...)
+    } POINT;
+
+    POINT a, b, c;  //declaring new POINT types, which are internally just "struct Point"'s
+    a.x = 67;
+    a.y = 56;
+    strcpy(a.label, "Point 2")
+
+    sizeof(POINT);  //gets the size, in bytes, of our POINT datatype; DO NOT TRY TO CALCULATE THIS AHEAD OF TIME, since C doesn't have standardized datatypes across systems; if you need the size of the struct, use "sizeof"
+
+    - "...couldn't we just use a macro for this? NO. 'typedef' gets special treatment from the compiler, and does some stuff internally that macros can't do"
+- "Now, structures aren't magical little bento boxes that we can't understand the internal workings of..."
+    - One thing to know: if we declare a struct like:
+
+        struct stuff {
+            int a;
+            char b;
+            int c;
+        };
+        
+        - ...it'll try to allocate 4 bytes for "int a", then allocate 1 byte for the char, SKIP 3 BYTES because it wants to keep the spacing the same, and then use 4 bytes for "int c"
+            - ALWAYS order you variables in a struct from smallest to biggest to minimize this; details of WHY this happens are in your textbook
+
+- VOID POINTERS are where we want a generic pointer that doesn't have a specific type; it just holds an address and doesn't care about the type 
+    - Because it's generic, we don't know the size of the thing it's pointing to, so we CANNOT dereference a void pointer
+
+- So, using this stuff, we can clean up our DMA code just a bit:
+
+    typedef struct {
+        const volatile void *src;
+        volatile void *dst;
+        unsigned int cnt;
+    } DMA_CONTROLLER;
+
+    #define DMA ((volatile DMA_CONTROLLER *) 0x040000B0)
+
+    - since this datatype SHOULD be the same size as our DMA addresses in memory, we can access the 3rd DMA by saying something like:
+
+        DMA[3].src = (...)
+
+- ...so, hopefully, that helped :)
+
+- I'll see you all on Thursday!

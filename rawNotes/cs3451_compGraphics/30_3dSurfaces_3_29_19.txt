@@ -1,0 +1,90 @@
+//****************************************************************************//
+//********************** 3D Surfaces - March 29th, 2019 *********************//
+//**************************************************************************//
+
+- Alright, project 4 has been posted and you should start it as soon as you can!
+    - As you know, there'll be 5 total projects in this course, each worth 14% of your total grade
+    - This project doesn't have two different parts, but it's still a relatively challenging assignment (although it should be easier than the raytracer) - so make sure you're giving yourself time!
+        - Specifically, this project is all about writing GLSL shaders, and you're going to be writing shaders to accomplish 4 different kinds of effects
+---------------------------------------------------------
+
+- Now, for your homework, let's briefly leave this rational plane for a world of imagination (but not "pure" imagination) - complex numbers!
+    - As I'm sure you remember, complex numbers are numbers that have both a real and an imaginary part, like this:
+
+            Z = a + b*i
+
+        - We can graph complex numbers on a 2D ARGAND DIAGRAM, where we plot the real part (a) on the X-axis and the imaginary part's coefficient (b) on the Y-axis
+    - To multiply complex numbers, we have to multiply both terms of it, per the ancient distributive rule you might recall from algebra; for instance,
+
+            Z^2 = (a + bi)^2 = a^2 - b^2 + 2abi
+
+        - So, "a^2 - b^2" is the real part, and "2abi" is the non-real part
+    - If we graph "z^2," we'll see that complex numbers with a "length" less than one will go towards the origin, but numbers with a length greater than one will DIVERGE and keep growing farther away
+        - If we continue squaring the number iteratively, this trend will continue
+        - (if the length = 1, of course, it'll just stay put!)
+
+- So, that's what happens if we iterate a function f(z) = z^2, but what about for different functions?
+    - Take a function where we just add a constant complex number "C" to z^2, for instance:
+
+            f(z) = z^2 + C
+
+        - If we iterate this function, will it stay near the origin, or diverge? It's actually tough to say ahead of time!
+    - To draw shapes, people will often iterate functions like this for awhile, and then shade it one color if it diverges and another color if it stays near the origin
+        - In particular, this function above will get us a JULIA SET, a type of fractal!
+            - "z_0", our initial z-value input for the function, will come from the screen position/texture coordinates, where the complex coefficients (a, b) will be based on our pixel coordinates (x,y)
+                - For Julia sets in particular, you'll usually want to keep the values for both "a" and "b" within the [-1.5, 1.5] range
+            - Different values of C will get us different Julia sets, but for a given fractal C will NOT change as we iterate, or change pixels, or anything - it just stays the same
+
+- Okay, so that's all the fractal knowledge you need to finish your homework - now let's get back to Bezier curves!
+    - How do we actually draw these things in the first place? There are a few ways we can do this:
+        - 1) We COULD directly solve the cubic basis functions (using Horner's rule to speed it up)
+        - 2) If we know the values of H we're using, we can use the finite difference method to draw this even faster
+            - This is usually the most common method, but the other two have their place in certain situations
+        - 3) We could do a recursive version of curve subdivision - keep subdividing until we get to an acceptable smallness, and then just draw the pixel at the midpoint/ three-quarters point/etc.
+
+- ...so, that's 2D Bezier curves, but where do we go from here? To 3D curves, and 3D curved surfaces!
+    - That's quite a jump to make, though, so before we dive straight into 3D curves, let's instead talk about PARAMETRIC SURFACES first
+        - Remember parametric lines? For a given t-value in the 1D range [0,1], we'd be able to map that value to a distance along a line segment between 2 points
+            - What, though, if that "parameter space" for t wasn't 1D, but 2D? What if we had TWO values (t, s), each with a [0, 1] range, that formed a box of possible parameter values?
+        - Well, if we have 3 points P1, P2, and P3, then we have enough information to define a 3D plane/parallelogram - and we can use (s, t) to define any point on that plane!
+            - How does that work? Well, assuming P1 is in-between the two other points, let's say the parallelogram is defined by 2 vectors:
+                - The "T vector" from P1 to P3 = P2 - P1
+                - The "S Vector" from P1 to P2 = P3 - P1
+            - We'll then say that P1 is the corner of our parallelogram, and that we'll have some delta values for both S and T in all 3 directions:
+
+                    dx_s = p2.x - p1.x      dx_t = p3.x - p1.x
+                    dy_s = p2.y - p1.y      dy_t = p3.y - p1.y
+                    dz_s = p2.z - p1.z      dz_t = p3.z - p1.z
+
+                - Using that information, we can then define any point "Q" on that parallelogram as:
+
+                    Q(s, t) = P1 + 
+
+- How can we make 3D surfaces out of this, though? Well, let's see...
+    - Let's start with a simple surface: a cylinder!
+        - If we think about it, a cylinder is just a rolled-up plane; so, how can we "roll up" our S-T plane to get a cylinder?
+        - Let's say that any point on the cylinder is defined as:
+
+                Q(s, t) = [x(s,t), y(s,t), z(s,t)]
+
+            - Where:
+
+                x(s,t) = cos(s)
+                y(s,t) = sin(s)
+                z(s,t) = t
+
+        - So, S defines our position AROUND the circular end of the cylinder, and T defines our height!
+    - So, if we can draw a curved surface like that, why don't we try drawing a "doubly-curved surface" - a SPHERE!
+        - Here, we'll say our ranges for T and S are slightly shifted, so that:
+            - T is in the range [-pi/2, pi/2]
+            - S is in the range [0, 2*pi]
+        - If we think about this like a globe, T will be our latitude (the "height"), and S will be our longitude around the sphere
+            - With that, then, we can define our x, y, and z positions as:
+
+                x(s,t) = r(t) * cos(s) = cos(t) * cos(s)
+                y(s,t) = r(t) * sin(s) = cos(t) * sin(s)
+                z(s,t) = sin(t)
+
+            - Where "r" here is the radius of the sphere - which, if we think of any slice of the sphere as a circle, will just be cos(T)! (not sure I see this?)
+
+- Alright, we've just dipped our toes into the world of 3D surfaces, so come Monday to keep diving in (and experience the slimy joys of increasingly strained metaphors from me)!

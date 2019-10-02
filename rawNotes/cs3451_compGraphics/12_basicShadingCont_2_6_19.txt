@@ -1,0 +1,82 @@
+//****************************************************************************//
+//************** Basic Shading (cont.) - February 6th, 2019 *****************//
+//**************************************************************************//
+
+- Lastly, we learned light
+    - Thusly, we'll learn...well...um...
+- Anyway, we're doing stuff. Probably.
+- Also, project 2A is up on canvas, where we're making some object/character that we're planning on animating in part 2B
+    - You are NOT allowed to make a snowman or the Android logo, because SO many people made them last year - be creative!
+----------------------------------------------------
+
+- Yup. Last time we talked about diffuse surfaces, where if the surface is "looking" at the reflected ray: brightness! Otherwise: darkness!
+- Specular surfaces (read: shiny) look shiny because they have these bright spots we see (known as HIGHLIGHTS), which occur when we're looking at the reflected light head-on, per the Phong illumination equation:
+
+        C = Cl * max(0, E*R)^p
+
+- How do we calculate this R vector, the reflected light ray?
+    - Well, one of the simplest ways is to project the L vector onto the normal vector, doubling its scale like so:
+
+            x = 2 * N(N*L)
+
+    - ...and THEN subtracting from the L vector to reflect it (that's why we doubled its length above)
+
+            R = L - x
+
+    - All together, then:
+
+            R = L - 2N(N*L)
+
+- Now, that's the Phong model, and it's all well and good, but it's not the most physically accurate model in the world. ANOTHER model for specular surfaces is the BLINN HALF-ANGLE model, and it goes something like this:
+    - The "halfway vector" is some unit vector that points halfway between the eye and the light, like so:
+
+        H = L+E / |L+E|
+
+    - A researcher named Blinn noticed that if the angle "b" between H and the normal vector is small, then the eye is exactly mirroring the light's position - otherwise, the eye isn't at the right location to see a glint!
+    - So, we can model this by saying the strength of the light is:
+
+            (H*N)^p = (cos(b))^p
+
+        - Which gets us a final color of:
+
+            C = Cl * (H*N)^p
+
+- "This is a little more realistic than the Phong model, but really, most people don't care all that much"
+
+- So, we've got an equation for diffuse surfaces and some equations for specular surfaces - let's start putting them together!
+    - Here's our Big Scary Hairy Final Color Equation:
+
+            C = Cr*(Ca + Cl * max(0, N*L)) + Cl*Cp(H*N)^p
+
+        - What does all this mean? Well,
+            - Cr is the diffuse color of the surface
+            - Ca is the ambient light color
+            - Cl is the color of the light
+            - Cp is the color of the specular highlight
+                - "Plastics tend to have sharp white highlights, regardless of the diffuse color, while metals tend to have somewhat fuzzy highlights that are closer to the color of the metal"
+                    - Metals tend to have somewhat-rough surfaces that reflect light, but still have a diffuse component that absorbs some colors, giving them that colored highlight
+                    - Plastics, on the other hand, are actually transparent materials with pigments inside of them - the transparent outer part reflects the photons with little change, while the ones that make it through to the pigment are colored instead
+            - p is the specular exponent, controlling how shiny the surface is (larger values are more shiny, smaller values are rougher/less shiny)
+        - All of these colors will be scalars (for a given RGB color channel), while N,L, and H will be vectors whose dot products are used
+
+- Now, where do we actually apply this shading equation? In the middle of each polygon? Per-pixel? Well, there're 3 common options:
+    - Per-polygon basis
+        - This is known as "flat shading"
+    - Per-vertex (aka Goraud interpolation)
+    - Per-pixel (aka Phong interpolation)
+- To go over each one in more detail:
+    - Per-polygon shading is where we use just 1 normal for the whole polygon (usually a triangle), and apply the same color to the whole polygon
+        - This is fine for flat, boxy surfaces, but when we use it for curves surfaces, it doesn't really work - you can see abrupt shading changes as the curve goes around
+    - Per vertex shading, then, is what we start looking at when we need to render these more curved surfaces, by doing the following:
+        - We calculate the surface normal at each vertex
+        - We apply the shading equation for each vertex to get its color
+        - For each pixel, we then interpolate the color at each point on the polygon based on the color of its 3 vertices
+            - So, the key is that we do color on a PER-VERTEX basis, and then just interpolate between them, weighting the colors by the point's distance from each vertex
+                - e.g. On the vertical edge of a triangle with color C1 at the bottom and C2 at the top, we'd use:
+
+                    Color = C1 + (y-y1)/(y2-y1) * (C2 - C1)
+
+                - This is just linear interpolation, weighted by distance - nothing too fancy
+            - This is still pretty fast to calculate, but it gives us a much smoother look - neat!
+
+- Alright, we'll finish going over this on Friday. That's all.
