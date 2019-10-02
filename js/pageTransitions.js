@@ -12,8 +12,9 @@ let currentOriginalText = main.querySelector('.main-note-text').innerText;
 let cache = {};
 let newPageLoading = false;
 
-// When our 1st page is loaded, wrap its text
+// When our 1st page is loaded, wrap its text and go to the 
 wrapElementText(main.querySelector('.main-note-text'));
+changeSelectedNoteLink(document.body, scrollBehavior='auto');
 
 async function loadPage(url) {
     if (cache[url]) {
@@ -22,42 +23,45 @@ async function loadPage(url) {
         });
     }
 
-    const response = await fetch(url, {
-        method: 'GET'
-    });
+    const response = await fetch(url, { method: 'GET' });
     cache[url] = response.text();
     return cache[url];
 }
 
+function isLocalPage() {
+    return location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname === "";
+}
+
 function changePage(isLinkToAnotherNote) {
-    if (newPageLoading === false) {
-        var url = window.location.href;
-        
-        if (isLinkToAnotherNote) {
-            newPageLoading = true;
-
-            loadPage(url).then(function(responseText) {
-                var wrapper = document.createElement('div');
-                wrapper.innerHTML = responseText;
-            
-                var oldContent = document.querySelector('.main-note-text');
-                var newContent = wrapper.querySelector('.main-note-text');
-
-                // Wrap new lines
-                currentOriginalText = newContent.innerText;
-                wrapElementText(newContent);
-
-                resetSideLinks(wrapper);
-                changeSelectedNoteLink(wrapper);
-
-                main.appendChild(newContent);
-                animate(oldContent, newContent);
-            });
-        } else {
-            //for now, just load non-note links like normal without any effects
-            window.location.href = url;
-        }
+    if (newPageLoading) {
+        return;
     }
+    if (isLinkToAnotherNote) {
+        //for now, just load non-note links like normal without any effects
+        window.location.href = url;
+        return;
+    }
+
+    var url = window.location.href;
+    newPageLoading = true;
+
+    loadPage(url).then(function(responseText) {
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = responseText;
+    
+        var oldContent = document.querySelector('.main-note-text');
+        var newContent = wrapper.querySelector('.main-note-text');
+
+        // Wrap new lines
+        currentOriginalText = newContent.innerText;
+        wrapElementText(newContent);
+
+        resetSideLinks(wrapper);
+        changeSelectedNoteLink(wrapper);
+
+        main.appendChild(newContent);
+        animate(oldContent, newContent);
+    });
 }
 
 function wrapElementText(element) {
@@ -98,13 +102,13 @@ function resetSideLinks(newHtmlWrapper) {
     currentSideLinks[1].setAttribute('href', newSideLinks[1].getAttribute('href'))
 }
 
-function changeSelectedNoteLink(newHtmlWrapper) {
+function changeSelectedNoteLink(newHtmlWrapper, scrollBehavior='smooth') {
     const linkListElements = document.querySelectorAll('ul.note-links-slider li');
-    linkListElements[getSelectedLinkIndex(document)].classList.remove("active-note-page");
-    
     const newSelectedPageIndex = getSelectedLinkIndex(newHtmlWrapper);
+
+    linkListElements[getSelectedLinkIndex(document)].classList.remove("active-note-page");
     linkListElements[newSelectedPageIndex].classList.add("active-note-page");
-    linkListElements[newSelectedPageIndex].scrollIntoView({behavior: "smooth"});
+    linkListElements[newSelectedPageIndex].scrollIntoView({behavior: scrollBehavior});
 }
 
 function getSelectedLinkIndex(htmlWrapper) {
@@ -149,8 +153,13 @@ document.addEventListener('click', function(e) {
 
     if (el) {
         e.preventDefault();
-        history.pushState({}, "", el.href);
+        if (isLocalPage()) {
+            // Since fetch doesn't work offline, just load page normally
+            window.location.href = el.href;
+            return;
+        }
 
+        history.pushState({}, "", el.href);
         isLinkToAnotherNotePage = el.classList.contains("is-note-link")
         changePage(isLinkToAnotherNotePage);
         return;
