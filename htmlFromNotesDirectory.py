@@ -109,7 +109,8 @@ def createHtmlFromNotesDir(htmlBaseFileName,
     '''
     Creates HTML files based on the .txt files found in the given directoryPath,
     using the base file as a template; all output files placed in the given
-    output directory
+    output directory. Creates a backup copy of the original notes in
+    the rawnotesDirectory.
     '''
 
     # TODO: Find a more robust way of making sure it's a directory

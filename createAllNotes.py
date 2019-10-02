@@ -78,6 +78,25 @@ notesToCreate.append(ClassNoteEntry(
     'cx4230',
     "Intro. Modeling/Simulation"))
 
+# Senior Year
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/fall2019/cs4476_computervision/notes',
+    'css/cs4476Theme.css',
+    'cs4476_compVision',
+    "Computer Vision"))
+
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/fall2019/cs4635_knowledgeAI/notes',
+    'css/cs4635Theme.css',
+    'cs4635_knowledgeAI',
+    "Knowledge-Based AI"))
+
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/fall2019/cs4646_MLforTrading/notes',
+    'css/cs4646Theme.css',
+    'cs4646_MLforTrading',
+    "Machine Learning for Trading"))
+
 #===============================================================================
 #===============================================================================
 
