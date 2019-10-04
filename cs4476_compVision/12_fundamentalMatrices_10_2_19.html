@@ -1,0 +1,141 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li class="active-note-page"><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="11_poseEstimation_9_30_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*************** Fundamental Matrices - October 2nd, 2019 ******************//
+//**************************************************************************//
+
+- Alright, there's some scary-looking linear algebra in the slides today...
+    - ...somewhere in the world there's a math major, looking at these same slides, cackling behind my back
+- "Did you guys hear about Jeff Dean! No? OH, you guys!"
+    - Jeff Dean is the head of AI at Google, and he came to give a talk yesterday - if you missed him, sorry!
+    - Also, Skydio (the startup Professor Dellaert worked on for about a year) released v2 of their drone yesterday, and they managed to get it down to the not-so-low price of $999
+        - There are 6 4k 360 degree cameras, giving the drone "trinocular stereo" (3 cameras on the top, 3 on the bottom)
+        - This drone actually does use a HarrisNet to extract features, uses an epipolar-patch variant of SIFT to match stuff, and then uses SLAM to figure out its position
+            - So, the stuff you learn in this class has direct uses in this stuff!
+    - "I don't think DJI is to be mocked - they make great products at reasonable prices, which is a hard engineering thing to do - but quality-wise, this drone blows their tracking out of the water"
+- Project 3 is out today, and it deals with fundamental matrices, which is NOT an easy concept
+- Also, a note about the midterm: on Monday, we'll do an in-class practice exam to give you a way of seeing where you are; the exam itself will be on Wednesday
+--------------------------------------------------------------------------------
+
+- So, we just started talking about epipolar geometry yesterday!
+    - When we take a picture of something, we don't know at what depth an object is, so it has to lie somewhere along the ray going from the camera through that object
+        - Therefore, if we move our camera to another position "M'," we can calculate the line along which that object must appear
+        - The initial position of our camera corresponds to an identity matrix with all 0s for the homogenous last column
+
+                M = [I|0]
+
+        - When the camera moves via translation/rotation, it'll then be at the new position M' (relative to the original position M):
+
+                M' = R_t*[I|-t]
+
+            - Where "R_t" here is the transpose of any rotation matrix that happened to the camera
+    - ALL such lines converge to the EPIPOLE: the center of the OTHER camera's position as seen from the current camera
+        - So for our 1st camera, the epipole is where the 2nd camera appears in the image (or the coordinates it would appear at, if it's out-of-frame); for the 2nd camera, it's where the 1st camera would appear
+            - On the slides, you can see that all the points in the 1st image lie along the epilines emanating from its epipole, and all the SAME points in the 2nd image also lie along lines emanating from its epipole
+            - "...but how the heck do we compute these epipolar lines in the first place? That's what we're spending the rest of this lecture on!"
+
+- Alright, assuming calibrated cameras, let's try and do this
+    - First up, how do we find our epipole in the 1st image? That's actually pretty easy!
+
+            e = M*[t] = [I|0] * [t] = t
+                  [1]           [1]
+
+        - Where "e" refers to the epipole position of the 1st camera, and "t" is the translation of the 2nd camera from the 1st camera's position
+            - The epipole is just a point in the image, so it has 2 degrees of freedom and requires 3 coordinates
+    - Then, for the epipole in the 2nd image, it's position is:
+
+            e' = [R_t -R_t*t][0] = -R_t * t
+                             [1]
+
+    - Then, to find the point at infinity "x" a given point "p'" (what is p'? I *think* it's where the object appears in camera 2's view??) would appear if it were infinitely far away from the camera, for a camera M' = [A|a] (I *think* A is the 3x3 camera matrix?), it'd be:
+
+            p'  = [A a]*[x] = Ax
+                        [0]
+                =&gt; x = A^-1 * p'
+
+        - A^-1 means an "infinite homography" (???), so that:
+
+                x = R*p'
+
+    - Okay - we've now got the center position of our epipole "e," and our point at infinity "x"
+        - Now, to calculate the epipolar line going through this, we just need to join these 2 points, which you might remember we can do using a cross-product!
+
+                I = t X x = t X Rp'
+
+        - So, to convert this cross-product formula into a more-efficient matrix multiplication, we can convert t into a "skew-symmetric matrix," meaning a matrix that has 0s on the diagonal and is then flipped along the diagonal, like this:
+
+                        [0   -t_z  t_y]
+                [t]_x = [t_z   0  -t_x]
+                        [-t_y  t_x   0]
+
+            - This ONLY works for 3D vectors, although you can get it to work at different dimensions using tensors
+        - So, mapping from p' to our line "I" can be done like this:
+
+                I = t X Rp' = [t]_x * R * p' = E*p'
+
+            - ...where E is the 3x3 ESSENTIAL MATRIX ("essential" since it isn't yet calibrated)
+                - Now, because "p" must lie on the line I, we have the following (why?):
+
+                    p_t * E * p' = 0
+
+                - This essential matrix has 5 degrees of freedom (because rotation + translation gives 6 degrees, but there's no depth (I think?), so only 5)
+
+        - Mapping from 
+            - What do we do with the calibration matrix?
+
+        - Okay, so what're some properties of this Fundamental Matrix?
+            - Well, the multiplication "F * p' " maps the point in the 2nd image to the line where it could appear in the 1st image
+                - This is probably the main goal of a fundamental matrix!
+            - "F_t * p" is the epipolar line associated with "p" (i.e. point in the 1st image to )
+            - Both F_t*e = 0 and F*e' = 0
+            - The fundamental matrix itself is a singular matrix
+
+- ...okay, let's talk about what you need for your homework
+    - To estimate the fundamental matrix, we'll use non-linear least-squares optimization to minimize the error of the distance between the point "p_i" and the estimated position of the point using a fundamental matrix, where the error equation looks like:
+
+            sum( d^2(p_i, F*p'_i) + d^2(p'i))
+
+        - Where "d(p, I)" is the distance equation of the point "p" from the line "I":
+
+                d(p, I) = (ax + by + cw) / sqrt(a^2 + b^2)
+
+            - ...and "d^2(...)" is literally just this distance squared
+                - ALWAYS use 1.0 for w in this class
+
+- Previously, we used to talk about something called the "Eight-point algorithm" and the "rank 2 matrix constraint," but we'll skip it this time
+    - Rank 2 matrix maps a point to a "pencil" of lines (all the lines going through a single point)
+    - Rank 1 matrix maps a point to a single line
+    - Rank 0 matrix collapses, and maps a point to a single point
+        - For your homework, we won't impose any of these constraints; you could end up with a rank 3 matrix
+    - Also, for 3-view geometry, the equivalent of a fundamental matrix is a 3x3x3 fundamental tensor (this is what Skydio uses, for instance)
+
+- ...okay, this is a LOT, but we're NOT yet at structure from motion - but all the pieces are in place for us to start; we'll start getting into the gory details on Monday</pre>
+</article>
+<a class="side-link is-note-link" href="12_fundamentalMatrices_10_2_19.html"></a>
+</main>
+</body>
+</html>

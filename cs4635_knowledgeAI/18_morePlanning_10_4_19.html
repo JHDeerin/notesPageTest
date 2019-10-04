@@ -1,0 +1,112 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. </a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li><li class="active-note-page"><a class="is-note-link" href="18_morePlanning_10_4_19.html">17. Planning (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//****************** Planning (cont.) - October 4th, 2019 *******************//
+//**************************************************************************//
+
+- Alright - yesterday, we mentioned the "society of mind" theory of intelligence, where our intelligence is actually made up of a number of extremely simple interacting agents
+    - We also wanted to start talking about PLANNING, and making good plans to achieve a goal
+        - We'll assume that logic gives us the right notation to identify dependencies between different plans
+        - We'll also assume this society of mind theory, where we'll have gents that generate plans, others that critique those plans, and others that fix the critiques
+
+- Let's assume we start off in this initial state:
+
+        On(Robot, Floot) AND
+        Dry(Ladder) AND 
+        Dry(Ceiling)
+
+    - We'll then have a goal state we want to get to:
+
+        Painted(Ceiling) AND
+        Painted(Ceiling)
+
+    - To do stuff, we need to give our agent things it can do - OPERATORS!
+        - Each operator will have a set of pre-conditions and post-conditions, known as the STRIPS notation
+            - For instance, a "climb-ladder" condition might look like this:
+
+                climb-ladder:
+                    PRE:
+                        On(Robot, Floor)
+                        Dry(Ladder)
+                    POST:
+                        On(Robot, Ladder)
+
+        - We'll assume that the postcondition will NEVER have a negation (this is just a convention STRIPS notation uses, and we can get the same effect by altering the preconditions)
+            - Notice that explicitly stating the ladder must be dry means we can figure out exactly what operations we can do at any given time!
+    - We make plans all the time - but why do our plans work most of the time? What enables us to make good plans - what to have for lunch, how to get back home today, and so forth?
+        - If I were to ask you, you probably wouldn't know; you don't explicitly think about these pre/post-conditions
+            - This is part of what's sometimes called the QUALIFICATION PROBLEM in AI: there may be MANY pre-conditions we don't think about explicitly that're actually relevant (e.g. "house-not-on-fire", "has-paint"), and we somehow know which ones we can ignore/assume in certain situations
+    - So, a few other operators we might have:
+
+            paint-ceiling:
+                PRE:
+                    On(Robot, Ladder)
+                POST:
+                    Painted(Ceiling)
+
+            descend-ladder:
+                PRE:
+                    On(Robot, Ladder) AND
+                    Dry(Ladder)
+                POST:
+                    On(Robot, Floor)
+
+            paint-ladder:
+                PRE:
+                    On(Robot, Floor)
+                POST:
+                    Painted(Ladder)
+
+        - "How does the robot know these are the relevant operators? Aren't we cheating by giving the robot these in advance? The answer is yes - but that's not what we're worrying about just yet. The question NOW is given these list of operators, can the agent choose which ones to do"
+            - We'll also give the agent some CONTROL KNOWLEDGE, letting the agent choose what to do first
+                - We'd all agree the robot should climb the ladder first - but how do we know that?
+            - One way we know these operators are relevant is that they end in "Painted(Ceiling)" and "Painted(Ladder)," which are part of the goal state!
+
+- Alright, with our operators figured out, we can now use PARTIAL-ORDER PLANNING
+    - Once we have our goals state, each part becomes a SUBGOAL; we then try to ask "How do I paint the ceiling? What are the preconditions?", and try to figure out what to do from there
+    - So, we'll ignore the dependencies between each subgoal for now and just consider the "paint-ceiling" goal, and ask "What preconditions need to be fulfilled to do that?"
+        - We need to be on the ladder, so we search what methods gets us on On(Robot, Ladder) as a post-condition, find climb-ladder does and so we do that first!
+            - We then check what "climb-ladder" has for preconditions, find it's already fulfilled, and so that becomes our plan for this goal!
+    - However, if we do the same thing for our "paint-ladder" subgoal, there's a conflict between them - we can't paint the ceiling if the ladder is painted!
+        - How do we recognize that conflict? It's amazing our minds are so good at this!
+            - One thing we can do is look at all the post-conditions of both the "Painted(Ceiling)" and "Painted(Ladder)" goal, and see if any conflict the other's pre-conditions
+                - Sure enough, we see the "Painted(Ladder)" condition conflicts with the "Dry(Ladder)" condition of Painted(Ceiling)'s "climb-ladder" operation, so we can't do Painted(Ladder) before Painted(Ceiling)
+        - Figuring out these conflicts from pre/post-conditions is EXTREMELY powerful!
+            - "For instance, if you need to be thought of as a nice person to be a Georgia Tech Professor, but robbing a bank would make everyone think I'm a mean person, that means I can't rob a bank if my goal is to keep my job!"
+    - So, we decide to fulfill the "Painted(Ceiling)" goal first, then do the "Painted(Ladder)" goal second
+        - And finally, to fulfill the pre-conditions for the 2nd subgoal, we realize that we need to "descend-ladder" first, so we do that!
+            - If it can't find a transition operator like this, what can we do? That might be where creativity has to come into play
+
+- Amazingly, your mind can do this kind of partial-order planning in SECONDS, even in extremely complex scenarios! That's amazing!
+    - ...assuming, of course, this is how our minds work
+
+- Alright, we'll revisit this next time; don't forget to finish your midterm essay over the weekend!</pre>
+</article>
+<a class="side-link is-note-link" href="18_morePlanning_10_4_19.html"></a>
+</main>
+</body>
+</html>

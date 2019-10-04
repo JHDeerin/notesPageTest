@@ -1,0 +1,82 @@
+//****************************************************************************//
+//************** EFTs and Mutual Funds - October 3rd, 2019 ******************//
+//**************************************************************************//
+
+- Alright, let's start the day off with a couple of reminders!
+    - Project 4 is due this Sunday; it really isn't that hard of a project, but make sure you don't forget it
+    - Also, the practice quiz is online NOW, and due over the weekend; it should give you a feel for where you're at, as well as the style of the exam
+        - The exam itself is going to be NEXT THURSDAY, and'll be 30 multiple-choice and true/false questions; on-campus students are only expected to know what we talked about in-class, but I can ask about ANYTHING I've said in class up until the exam day
+            - Most of the important stuff is in the PDF lecture notes, so take a look at those if your notes seem thin
+            - You may have to do some math/remember a formula, but all of the answers will be multiple-choice (mostly due to the TAs not having enough time to grade open-ended questions)
+--------------------------------------------------------------------------------
+
+- Now, yesterday we said an investment fund is a group of people pooling their money together to do stuff they couldn't easily do alone (due to lack of money by themselves for certain investments/portfolio types, management reasons, etc.)
+    - Let's dive a little deeper into each one
+
+- EXCHANGE TRADED FUNDS (ETFs) are just a basket of "securities" (i.e. any investment assets - stocks, bonds, etc.) that trades on the stock market
+    - Many people think these are kinda boring, but it actually has some neat mechanics
+        - Since it's on the stock market, it also has an order book like regular stocks (with the same type of quotes, etc.)
+    - Importantly, ETFs have a stock price SEPARATE from their constituent stocks/securities
+        - So, the ETF price doesn't have to be the average of all its stocks or some formula based on them - it can be different!
+        - What keeps ETFs at the correct price, then? ARBITRAGE!
+            - If the ETF ever deviates from the price it "should be," you could make money by buying/selling it and then selling/buying all the underlying stocks instead
+    - There are 2 major types of ETFs: INDEX ETFs (made up of stocks that are already on the stock market), and ETFs for stuff that isn't on the exchange (e.g. foreign stocks, non-traded commodities, etc.)
+        - How do ETFs track the price of non-stock entities, like gold? They'll try to buy stocks that're closely correlated/anti-correlated, like gold mining companies, etc.
+        - The complication people often forget about is that every ETF trades on 2 completely separate markets:
+            - The PRIMARY MARKET is the market where you can place "basket orders" to create/destroy new ETF shares by buying/selling the ETF's underlying stocks
+                - e.g. "I'm going to give up these stocks in exchange for a share of the ETF", or "I want to redeem a share of this ETF for all the underlying stocks instead"
+                - This usually isn't a stock market, and all the basket orders only execute once per day (different for each ETF)
+                    - The ONLY people who can place these orders are "authorized participants," or "APs," who the ETF managers have given permission to trade on this primary market
+                    - These APs are where arbitrage comes in a BIG way, since they can do so with little risk
+                        - Let's say they went long on the ETF but went short on the underlying constituent stocks; if the stock value goes too high, then the AP can submit a basket order and turn it into stocks, using it to close their short position
+                        - Basically, they can afford to be direction-neutral when doing this stuff
+            - The SECONDARY MARKET is the stock market itself, where the ETF can be bought and sold like a stock by regular folks
+    - ETFs can generally be run with an algorithm, since anyone can estimate the NAV (net asset value) of the ETF to determine what it should be worth with its formula
+    - A couple other unique characteristics of ETFs:
+        - ETFs are HIGHLY transparent compared to other fund types, since their value is basically just a formula of the underlying stock values
+            - They also have a publicly-available price all day
+            - Their holdings are public and made known daily
+                - So, you know what they're holding, you know what their price is, and you know the formula they use to calculate said price - that's pretty open!
+        - ETFs are also "highly liquid," meaning you can buy a lot of them without significantly affecting the price (and they trade at a fairly high frequency)
+    - Finally, let's talk about ETF managers and investors
+        - ETF managers are usually employees at banks or mutual funds, running it for profit
+            - All these managers do is choose the underlying securities to meet some target ("perform well when the stock market is bad," "represent tech companies," etc.)
+            - These managers DON'T have to handle creating/destroying shares; that's handled by the primary market and is almost fully automated
+                - This is one of the reasons ETFs don't charge as much: there isn't nearly as much manual maintenance to run them
+        - How do they get paid, then?
+            - They'll usually get paid via an "expense ratio of assets-under-management (AUM) per year"
+                - So, if there's $100 million AUM invested in the fund, and the expense ratio is 0.1%, I'll make $100,000
+                    - The "expense ratio" is just the cut of money the manager takes in exchange for running the fund
+                    - This expense ratio is usually well below 1%
+                - ETFs, therefore, end up *slightly* underperforming compared to the actual stocks every day; that gap will widen over time, but you get the benefits of a professional manager
+
+- So, let's now talk about the other kinds of funds; they're pretty similar, so we'll concentrate on the differences
+
+- MUTUAL FUNDS are more "actively managed"
+    - With ETFs, you basically write a formula and then let it go
+    - With mutual funds, the managers claim that they have 'expertise" and can beat the stock market
+        - Most of the time, these people are WRONG - Warren Buffet famously won a bet claiming just investing in the S&P 500 gave better returns than mutual funds
+    - There are ~5x as many mutual funds as ETFs
+    - Mutual funds only trade once per day, usually AFTER the stock market closes
+        - This can be good or bad
+        - The fund will calculate the current holding value of the fund after the market closes, then distribute the money equally across all shares (NAV)
+        - After this calculation, all trades happen immediately at that NAV price
+    - Mutual funds also have minimum investment requirements
+        - Unlike ETFs, you can't just buy 1 share of a mutual fund; they'll often say something like "You must invest at least $5000 to use our fund"
+    - Let's get to some unique characteristics
+        - Mutual funds are less transparent than EFTs, since you don't know the price until the end of each day
+            - "Ah, but I can calculate it for myself, right, since I know their holdings!" No, you DON'T - mutual funds only HAVE to disclose their holdings once per quarter, and anything else is voluntary - and between these disclosings, you don't know what stocks they actually own!
+                - The fund does need to publish a PROSPECTUS, saying what the fund's high-level strategy and past performance is, but they don't need to reveal specific stocks until the quarterly meeting
+        - Mutual funds are tied to a single managing broker
+            - So, if you want to get into a fund, you need to contact the owner directly (or find a broker who knows a guy)
+        - Mutual funds also usually ONLY use stocks and bonds, and are typically not allowed to short stuff
+            - They'll also usually only trade in "reputable stocks," not penny stocks or things they're afraid will disappear tomorrow
+                - This is because mutual funds are usually used by LARGE investors who want a safe, reliable payment backNAV
+    - Alright, who's managing these things?
+        - The BIG difference is that the managers claim they have special expertise to know what to invest in, and so they usually charge higher rates
+            - Unlike the small % range, 
+                - They'll sometimes put this in terms of BASIS POINTS or "bips," each of which is 0.01%
+        - As mentioned, mutual fund investors are usually larger companies or endowments that want a "safe" investment to make money
+            - There're also funds of OTHER mutual funds
+
+- Alright - we'll get to hedge funds next week on Tuesday, and don't forget you have a quiz over the weekend! Ciao!
