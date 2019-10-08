@@ -16,7 +16,7 @@
             - Social contract account / sociological account
             - Engineers and licenses
             - Prohibitive, preventative, aspirational ethics
-                - It will NOT be about people, but concepts; I won't ask you questions about Jeremy Bentham, but you SHOULD know the authors we read in case I
+                - It will NOT be about people, but concepts; I won't ask you questions about Jeremy Bentham, but you SHOULD know the authors we read in case I ask about them
             - Branches of philosophy: metaphysics, philosophy of mind, ethics, etc.
         - Responsibility
             - Standard of care

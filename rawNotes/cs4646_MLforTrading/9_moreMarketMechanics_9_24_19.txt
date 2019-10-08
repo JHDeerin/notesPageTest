@@ -6,15 +6,41 @@
     - 1st slide says "How do prices happen? How do trades happen?"
 --------------------------------------------------------------------------------
 
-- So, people can put a stock up for sale at ANY price they want; but the only ones most people really care about are the lowest asking price and the highest bid price
+- Due to my tardiness, I had to retroactively fill this space in with Professor Byrd's notes (which, fortunately, he publishes on Canvas after class):
+    - What's in a basic stock order? A few different things:
+        - Whether you want to buy/sell the stock
+        - Which stock you want to buy/sell (i.e. the stock symbol, like "GOOG" for Google)
+        - How many shares you're buying/selling
+            - Historically people tried to round these to increments of 100 shares or so, but thanks to computers we are past those dark days
+                - ...now, instead, we get to worry about floating-point errors.
+        - If it's a market/limit order
+        - LIMIT ORDER ONLY: what the limit price is
+            - So, an example order might look like this:
+
+                MKT BUY 100 IBM
+                LIMIT SELL 250 MSFT @ $74.85
+
+    - So, if that's how orders get placed, how do they actually execute - and how do we decide what a stock's price is anyway?
+        - To decide a stock's price, we'll usually use the BIG-ASK MIDPOINT: the average between the lowest sell price and the highest buy price
+            - In general, a stock's price goes up if most people are trying to buy it, and it falls if most people are trying to sell it
+        - If we place a market sale order for X stocks, then all the highest X buying bids will get fulfilled by our sale and taken off the order book
+            - That means the total EXECUTION PRICE we'd get from the sale would be the total value of all those bids we fulfilled, and the average stock price would just be an average weighted by each bid's price
+                - For instance, if we had an order for "MKT SELL 175 IBM" and 100 shares sold at $99.95 and $75 sold at $99.90, the average sold share price'd be:
+
+                    (100*(99.95) + 75*(99.90)) / 175
+
+        - We'd then re-calculate the stock price based on the bid-ask midpoint formula again after the transaction!
+            - These "bids" we find all come from the "limit order book" on the exchange, which keeps track of all the limit orders
+
+- So, people can put a stock up for sale at ANY price they want; but the only ones most people really care about are the lowest asking price and the highest buying bid price
     - "Occasionally, you will hear about people putting stocks for sale at higher-than-normal prices and hoping a big firm won't do their homework and'll just hoover up 10,000 stocks, theirs included"
 
 - Okay, what other kinds of order? Well, there's technically one more type: an "opening/closing cross"
     - You might've heard me say the order book goes away at the end of the day, since orders that haven't been executed yet
-    - So, markets open with an OPENING CROSS - an auction
-        - The details vary between exchanges, but the idea here is that some bids will come in for the first 30 min or so the exchange is open
-            - LIMIT ON OPEN bids are basically an order book for before the market opens, and say what price they're willing to pay
-            - MARKET ON OPEN bids say "I don't care what the final auction price is, I want to buy 100 shares of X at its opening price"
+    - So, markets open with an OPENING CROSS - an auction to determine the opening stock price!
+        - The details vary between exchanges, but the idea here is that some bids will come in for the first 30 min or so before the exchange is actually open
+            - LIMIT ON OPEN orders are basically an order book for before the market opens, and say what price they're willing to pay
+            - MARKET ON OPEN orders say "I don't care what the final auction price is, I want to buy 100 shares of X at its opening price"
         - So, when the opening cross starts at 9:30, the exchange tries to maximize the number of transaction ("since they're paid on a per-trade basis"), and that becomes the opening price of the stock!
             - So, they'll use an algorithm to find the price where the most shares will get traded, and that becomes the opening price of the stock
             - What if no one puts up bids? That'll sometimes happen with penny stocks, but it's very rare for what we're talking about
@@ -22,14 +48,20 @@
                 - More important stocks are on the actual exchange
                 - The most important stocks are on indices, like the S&P 500
     - CLOSING CROSSES are similar, but generally have a lot more trades; this is where we determine the closing price for the stock
-        - There are 
+        - Any unfulfilled "LIMIT ON CLOSE" orders disappear after the end of the day
 
 - So, those are the "official" orders we can do directly on the exchange; now, let's talk about some order types that don't "really" exist, but that are offered by many brokerage firms
-    - STOP trades basically mean there's an if statement based on the stock price (e.g. "If MSFT is at price 90, then ...")
+    - STOP trades basically mean there's an if statement based on the stock price (e.g. "If MSFT is at price 90, then make a market order for 100 MSFT")
         - STOP LOSS/GAIN trades are the same thing, we're
-            - STOP LOSS is where we're trying to exit and cut losses 
-            - STOP GAIN is where we're trying to buy more stocks at a certain price
-        - Why do this instead of limit orders? Because it's guaranteed to execute if the stock even briefly touces a price, and avoids disclosing your strategy to the exchange (your broker knows it, but the exchange doesn't need to )
-    - STOP LIMIT may not execuse at all, since it submits things as a limit order, meaning that it'll wait until there are enough shares at a given price, etc.
-        - It's very similar, though
+            - STOP LOSS is where we're trying to exit and cut losses when a stock goes the wrong way
+            - STOP GAIN is where we're trying to buy more stocks at a certain price to lock in our profits
+        - Why do this instead of limit orders? Because it's guaranteed to execute if the stock even briefly touches a price, and avoids disclosing your strategy to the exchange (your broker knows it, but the exchange doesn't need to have it listed on their books for all to see)
+    - STOP LIMIT may not execute at all, since it submits things as a limit order, meaning that it'll wait until there are enough shares at a given price, etc.
+        - It's very similar, though, to the above - but when it goes to the actual exchange, it becomes a limit order instead of a market one
     - TRAILING STOPs are more useful for long-term traders
+        - These are where we expect a stock to go up/down for awhile, plateau, and then start moving the other way
+            - Instead of adjusting all our STOP orders every time to stock price changes too much, we can instead use a trailing stop to say "Hey, wait until IBM falls more than $2/5%/etc. from its high today, then sell"
+                - Here, the order "follows" the stock price when it rises, but not when it goes down (or vice/versa for selling the stock)
+                - Trailing buys are especially common when "shorting" a stock
+
+- Alright, next time we'll start a-chattin' about short-selling an leverage - hear all about it on Thursday!

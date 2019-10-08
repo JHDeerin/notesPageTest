@@ -61,8 +61,9 @@
         - You're probably used to hearing 1 number on the news ("Google's work $1021", or something), but there's a lot of nuance here
             - If the stock market is currently open, there's a pretty simple formula for this:
 
-                (best bid + asking price) / 2
+                    (best bid + asking price) / 2
 
+                - Here, the "best bid" is the lowest sale price, and the "best ask" is the highest "will buy" price
             - If the stock market is closed ,though, we don't have this information, and so there's 2 ways to do this:
                 - The naive way of doing it is to use the last trade price when the market WAS open
                 - More sophisticatedly, we can use STOCK FUTURES
@@ -82,22 +83,23 @@
         - MARKET ORDERS, where you say "I want to buy X shares of company Y NOW, regardless of the price"
             - Basically, this means you buy/sell immediately at the best available price, whatever that price is
         - LIMIT ORDERS, where you say "I want to buy X shares of company Y, but I refuse to pay more than $Z" (or "less than Z" if you're selling)
-            - 
+            - So, you wait until the stock gets to your desired price, then sell/buy when it hits that
     - Market orders have the advantage that they're carried out immediately, but you're not GUARANTEED to get a certain price
         - You'll probably have a pretty good idea, since you looked at the price a minute ago, but this can matter if the stock is fluctuating rapidly
-    - Limit orders are great because you
-        - Early traders often have the idea of "hey, I'll only use limit orders so I don't get screwed on price," but what if you were a little bit off and 
+    - Limit orders are great because you know what price you're getting, but can result in you missing trades
+        - Early traders often have the idea of "hey, I'll only use limit orders so I don't get screwed on price," but what if you were a little bit off and the price goes the wrong direction? Then you don't get ANY profit whatsoever!
 - So, if you make an order and it doesn't get executed immediately, how long do they last?
     - At NASDAQ, the most common answer is "until the end of the day" - but you actually do have a few options:
-        - TIME IN FORCE orders let you specigy the time, and say "if I can't get a trade in 5 seconds, cancel my order"
+        - TIME IN FORCE orders let you specify the time, and say "if I can't get a trade in 5 seconds, cancel my order"
             - If this is 0 seconds, that's an IMMEDIATE OR CANCEL order, where they'll trade as many shares as they can IMMEDIATELY
-            - 99998 seconds means "until the primary exchange closes" (e.g. if you're trading a Japanese stock, until)
+                - Buying a partial number of shares IS ALLOWED here; if you ask to by 1000 shares but only 528 are available at your price, it'll just buy 528 and cancel
+            - 99998 seconds means "until the primary exchange closes" (e.g. if you're trading a Japanese stock, until the NISEI closes)
             - 99999 seconds means "until NASDAQ closes today"
     - "But haven't I made trades that last for weeks before?" Maybe, but that's your BROKER doing that - they automatically renew your order at the beginning of the next day
     
 - How do we know all this stuff about NASDAQ? Because they publish their APIs publicly!
     - NASDAQ offers an API called "ITCH" that lets you get outbound data from them like price quotes, trade tickers, etc.
-    - There's also a bidirectional order protocol alled OUCH, which lets you place/modify/cancel orders, receive market open/close notifications
-        - "...what do these silly acronyms stand for? NOTHING! They were created by an engineer at an equity firm, and he was annoyed at them creating creating 4-letter acronyms - so he made his own meaningless 4-letter acronyms to make fun of them, and they got so popular they stuck"
+    - There's also a bidirectional order protocol called OUCH, which lets you place/modify/cancel orders, receive market open/close notifications
+        - "...what do these silly acronyms stand for? NOTHING! They were created by an engineer at an equity firm, and he was annoyed at them constantly creating 4-letter acronyms - so he made his own meaningless 4-letter acronyms to make fun of them, and they got so popular they stuck"
 
 - So, we'll keep going into this finance stuff next week - don't forget your projects are due THIS SUNDAY!

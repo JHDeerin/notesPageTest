@@ -1,0 +1,130 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. Classification Basics</a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li><li><a class="is-note-link" href="18_morePlanning_10_4_19.html">17. Planning (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="19_knowledgeEngineering_10_7_19.html">18. Knowledge Engineering</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="18_morePlanning_10_4_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//**************** Knowledge Engineering - October 7th, 2019 ****************//
+//**************************************************************************//
+
+- What? Professor Goel isn't here?
+    - Instead, a man unknown to me gazes at the class
+- Spencer Rugaber is going to be talking to us - "about pizza-based AI!"
+
+- In this lecture, we'll talk about:
+    - Knowledge representations
+    - Terminology
+    - 
+--------------------------------------------------------------------------------
+
+- Imagine you've decided to open a pizza restaurant - what do you need to do?
+    - You need to print menus, decide what types of pizza you're going to serve, what ingredients to order, etc.
+    - Let's start with a more fundamental question, though: what IS a pizza?
+        - "Things on bread" is too broad; "edible things" narrows it down, but is still WAY too broad
+            - To refine it, let's say pizza is a layered food with dough as a base, then food toppings
+                - Are there any toppings that are required? Cheese and tomato sauce seem to be defaults, but what about white-sauce pizzas? Desert pizzas?
+        - What REALLY makes something pizza? It's hard!
+
+- As another example, Dell originally started as a "just-in-time" manufacturer, where they wouldn't build a computer until you ordered one
+    - That reduced inventories, but meant that Dell has to rapidly communicate with their suppliers to get things out
+        - That requires a precise language to communicate this information quickly and accurately
+    - This means building an "ontology" - which is what KNOWLEDGE ENGINEERING is all about!
+
+- First off, let's define some terms we're going to use today:
+    - DATA is the result of some sort of sensory input (whether it's a human or non-human sensor)
+        - We should expect some of this data to be noisy and inconsistent, right? That's why "data wrangling" is a part of data science!
+    - INFORMATION is the data sufficient to make decisions
+        - A BIT is the smallest unit of information that tells us about the outcome of a 50/50, "true or false" choice
+    - KNOWLEDGE is a set of information that's been grouped or structured together in some way
+    - WISDOM is where we know how to apply this knowledge effectively, often gathered through experience
+
+- Now, we want to represent this knowledge so it can support different applications
+    - There are 3 main "orders" of knowledge representations:
+        - VOCABULARY is the agreed set of "words" representing concepts that we'll use
+            - Note that words are NOT the same as a concept; there can be synonyms, words for different levels of abstraction, etc
+        - A TAXONOMY is where we have a hierarchy of concepts
+            - For instance, we can have "hypernymy" or "is-a" relationships (similar to a parent class in OOP, where the subclass is called a "hyponym")
+                - For instance, "meat" is a hyponym of "food"
+            - We can represent this taxonomy as a DAG (not quite a tree, since we can have multiple superclasses for a single subclass)
+        - Finally, an ONTOLOGY is a set of concepts and their relationships
+            - Hierarchies are just one type of relationship, but there are other kinds!
+                - A "part-of" or "has-a" relationship is different from an "is-a" relationship, for instance
+            - For instance, we might say a pizza is composed of multiple slices, each of which has some number of calories
+                - We might also say water has a "does-not-mix-with" relationship with oil
+            - There are a couple standards for expressing ontologies, like OWL or RDF
+    - Why might we want to break things into ontologies like this? There're a few different reasons:
+        - We might want to better understand a domain
+        - We might want to reuse our domain knowledge, which we can do more easily by structuring our knowledge
+            - for instance, if we ask Wikipedia "what was the phase of the moon when Michael Jackson was born?", it can't do that; DBPedia, though, has all that information saved as a database, so it can!
+        - We might want to provide standards for supporting interoperability, like HTML
+            - If W3 hadn't standardized HTML, web browsers would be a mess - they'd have to support ridiculous numbers of custom language!
+
+- So, ontologies are great! How can we make them?
+    - First, we have to decide the SCOPE of our ontology - what's the domain we care about modeling?
+        - For our pizzeria example, we might decide we're not modeling the customers, or the pricing, our our logistics with other businesses
+    - We then want to decide what CONCEPTS and TAXONOMIES we need
+        - CONCEPTS are base units of knowledge in the domain, and represent a collection of examples with similar properties
+            - For instance, "whale," "pizza," "fluke," "baleen," "pod," etc.
+            - Concepts are then organized into taxonomies
+    - We'll then characterize these concepts with ATTRIBUTES and VALUES, similar to variables on objects in OOP
+        - For instance, a whale might have a "lifespan" attribute with a value of "90 years"
+        - Attributes are part of the concept itself, while values are specific to individual instances of that concept
+            - INSTANCES are specific, individual examples of a concept (e.g. instances of a whale might be Moby Dick, Shamu, your favorite Killer Whale at Seaworld, etc.)
+                - Note that an instance of a concept is ALSO an instance of any of that concept's superclasses/hierarchies
+        - We might also have INTRINSIC and EXTRINSIC concepts
+            - INTRINSIC concepts have their definition inherent in the concept itself (e.g. "blowhole")
+            - EXTRINSIC concepts are dependent on outside factors; for instance, what "endangered" means might vary from country to country
+    - We'll then define the RELATIONSHIPS between our concepts and any CONSTRAINTS on their attribute values
+        - A RELATIONSHIP is just any connection between different concepts (e.g. a humpback is-a whale, dolphins sometimes travel-with whales, etc.)
+        - CONSTRAINTS just limit what possible values an attribute can have (e.g. a porpoise's fin shape MUST be triangular, a human must have an age between 0 and 150 years, etc.)
+    - One common tool that's used to make ontologies is PROTEGE, which is a freely available tool from Stanford
+
+- That's generally how we come up with ontologies of knowledge, but there are a few issues that can come up with this
+    - (TODO:)
+
+- In general, the lifecycle of an ontology looks something like this:
+    - ACQUISITION is where you try to get the knowledge you need to start modeling things
+        - Manually doing this is time-consuming and expensive, especially if you converse with subject matter experts (SMEs)
+        - Automated approaches are good, but often run into limitations
+    - ANALYSIS is where you try to make sure your ontology is correctly defined and appropriate
+        - You can try doing this by checking for semantic consistency (any broken constraints, any cycles in the hierarchy, undefined terms, etc.), and looking for some red flags tha
+    - You'll then EVALUATE your ontology by building application with it, checking with SMEs to see if it fits their needs, and iterating
+    - Finally, you'll have to deal with MAINTENANCE and keeping your ontology relevant as things change and requirements evolve
+        - You may have to merge two ontologies together (for instance, if there's a company merger), or create a brand new ontology if 
+
+- Why do we care about these ontologies, again? The killer app for it is something called the SEMANTIC WEB
+    - Currently, HTML gives pretty shallow knowledge about what a webpage is actually ABOUT, and just focuses on how the document should look and be organized; the hope is that we can eventually add more structured knowledge to websites and take advantage of that knowledge
+        - XML was an early attempt at this by adding some structure and constraints; RDF tried to add some relations to this, while OWL added heavier constraints and is attempting to formalize this knowledge more strictly
+            - RDF and OWL are both heavily in use for ontologies
+
+- This is all fancy stuff, but really, knowledge engineering its simplest is just labeling stuff in a fancy way so we know what we're looking at, and what we can do with it
+
+- Alright, thank you very much for listening! There're some resources on my website if you're interested in this stuff, but that's all!
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="19_knowledgeEngineering_10_7_19.html"></a>
+</main>
+</body>
+</html>

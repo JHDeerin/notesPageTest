@@ -1,0 +1,89 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li class="active-note-page"><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="12_fundamentalMatrices_10_2_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*********** Midterm Review &amp; Fear-Mongering - October 7th, 2019 ***********//
+//**************************************************************************//
+
+- Alright, here's where my knowledge debt hopefully gets called in (i.e. at the practice test, i.e. BEFORE the actual exam)
+
+- On Wednesday, the actual exam will be on paper; it should be 8 questions (some of which may have multiple parts)
+    - In the meantime, take the practice midterm on Canvas! You're free to use reference materials (since, y'know, it doesn't count for a grade), but I think that'd rob you of a good reflection of your actual knowledge
+
+--------------------------------------------------------------------------------
+
+- "Alright, the TAs told me this was a medium quiz - did you think it was hard?"
+    - Collective class: YES.
+    - The questions should all be from the slides; some're based on recall, others are based off of reasoning and thinking through stuff
+
+- Okay, so here're the questions from the practice midterm:
+    1. How do you compute a line joining 2 points "p" and "q" in homogenous coordinates?
+        - ANSWER: The cross product! p X q
+        - I got this right!
+    2. Give the 3x3 matrix form of a 2D similarity transform using the symbols s, R, and t (and 0/1 as constants)
+        - ANSWER:
+        
+                [s*R t] OR [R   t]
+                [0   1]    [0 1/s]
+
+            - I got this right!
+                - Remember, non-uniform scaling is an AFFINE transformation!
+    3. How many degrees of freedom does this 2D similarity transform have?Explain why.
+        - ANSWER: 4 degrees - 1 from scaling, 1 from 2D rotation, and 2 from translation
+    4. The phong shading model augments the Lambertian model with...
+        - ANSWER: This adds an ambient term AND a specular term!
+            - I forgot the ambient term :(
+    5. What's the benefit of max-pooling in convolutional networks? How does it affect the receptive field of neurons in successive layers?
+        - ANSWER: The pooling itself helps by making the analysis more robust and saying "hey, as long as I saw a feature within this 5x5 window, we're good," rather than depending on pixel-exact locations for each feature. This grows the receptive field as we go down the pipeline (approximately doubling it) and leading to looking at higher-level features.
+            - In general, layers get smaller as we go through the pipeline, but the receptive field gets bigger
+            - I...kinda got this right (got the )
+    6. A bilateral filter is a nonlinear filter; explain what it does and why it's useful.
+        - ANSWER: This filter figures out where edges are and gets rid of noises only on one side of the edge, making it useful for not destroying edges.
+            - I got this wrong :(
+    7. Give another nonlinear filter and explain why it's useful.
+        - ANSWER: Median filter, etc.
+    8. Given the 2nd moment matrix formula in the Harris detector, explain what it means and how it's used in the Harris corner detection
+        - ANSWER: Here, "M" - the 2nd moment matrix - is the 2nd derivative of how much intensity values have changed around our pixel, letting us get a quadratic view of how these values change to figure out how "corner-like" they are
+            - x/y are coordinates of the pixel in our windows (I think?), w is our windowing function giving weights, and then I_x/I_y are the image gradients in the x/y directions
+    9. What determines the dimensions of the Jacobian J associated with a 2D point match in least-squares fitting? What do the columns mean?
+        - "Okay, here I probably should've given you the least-squares algorithm formula to help you"
+        - ANSWER: so, the idea here is we're mapping a point "p" in one image to a point "p'" in another image; thre size of this point determines the size of the Jacobian. If |p| = 6, then, "J" would be 2x6 (I believe because it's 2D, so x/y coordinates?); the columns of the Jacobian would be the partial derivative of the output point with respect to the derivative (missed this, but I think how much the output image should change for that coordinate in p?). for the Hessian, then, the Jacobian would be 2x6, while the Hessian "A" would be 6x6 (I think since it's the derivative of the Jacobian?).
+            - ...I was not particularly close (I need to go through the slides again)
+            - "View P as a set of 6 knobs, where if you move one of those knobs, everything in the image moves; J tells us how sensitive to be to each of those knobs."
+    10. Which of the following statements is true about estimating a Euclidean transform between two 3D coordinate frames (i.e. 3D point -&gt; 3D points) (basically, degrees of freedom, linear/non-linear, )?
+        - ANSWER: 6 degrees of freedom, non-linear least squares (because rotation involves sines/cosines), 3 matches needed (6 degrees of freedom, each point gives 3 degrees - HOWEVER, could spin it on the axis between the 2 points)
+            - I got the correct DOF, forgot the sine/cosine non-linearity, screwed up the matches needed
+    11. Draw the epipolar lines/points for this diagram
+        - I can't draw here, but I did actually get it right! Things to watch out for:
+            - e/L line are on the left image, e'/l' are on the right image
+
+- *Professor Delleart tries to keep us for learning, realizes it's 10 minutes past the end of class, frantically apologizes*
+    - Okay, be here for the exam on Wednesday! Study hard!</pre>
+</article>
+<a class="side-link is-note-link" href="13_midtermReview_10_7_19.html"></a>
+</main>
+</body>
+</html>
