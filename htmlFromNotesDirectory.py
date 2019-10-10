@@ -29,6 +29,24 @@ def getFilesInDir(directoryName):
     sort_naturally(directoryFiles)
     return directoryFiles
 
+def getTitleAndDateFromTitleLine(notesTitleLine):
+    '''
+    Returns the title and date from the given line in the following format:\n
+
+    //****** <TITLE> - <DATE STRING> **********//\n
+
+    Returns them as a tuple: (titleString, dateString)
+    '''
+    titleLine = notesTitleLine.strip().strip('/').strip('*').strip()
+
+    # Assume everything after the last '-' is a date, and everything before is
+    # part of the title
+    titleLinePieces = titleLine.split('-')
+    titleString = '-'.join(titleLinePieces[:-1]).strip()
+    dateString = titleLinePieces[-1].strip()
+
+    return (titleString, dateString)
+
 def getTitleOfNoteFile(notesFilename):
     '''
     Returns the title written INSIDE the given file in the following format:\n
@@ -39,11 +57,8 @@ def getTitleOfNoteFile(notesFilename):
     notesTextFile = open(notesFilename, 'r')
     titleLine = notesTextFile.read().split('\n')[1]
     notesTextFile.close()
-    titleLine = titleLine.strip().strip('/').strip('*').strip()
-
-    # Assume everything after the last '-' is a date, and everything before is
-    # part of the title
-    return '-'.join(titleLine.split('-')[:-1]).strip()
+    
+    return getTitleAndDateFromTitleLine(titleLine)[0]
 
 def stitchHtmlSideLinksTogether(outputDirectoryName):
     '''
