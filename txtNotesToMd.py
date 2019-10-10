@@ -21,7 +21,19 @@ def convertNoteTextToMarkdown(noteText):
     noteTextLines = noteTextLines[3:]
 
     outputMarkdown += f'# {titleString}\n\n## {dateString}\n\n'
+    isCodeBlock = False
     for line in noteTextLines:
+
+        # Handle code block/formulas case
+        strippedLine = line.lstrip()
+        indentation = len(line) - len(strippedLine)
+
+        wasCodeBlock = isCodeBlock
+        isCodeBlock = len(strippedLine) > 0 and not strippedLine.startswith('-')
+
+        if (not wasCodeBlock and isCodeBlock) or (wasCodeBlock and not isCodeBlock):
+            outputMarkdown += "```\n"
+
         outputMarkdown += f'{line}\n'
 
     return outputMarkdown
