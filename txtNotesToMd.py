@@ -35,14 +35,6 @@ def convertNoteTextToMarkdown(noteText):
         if (not wasCodeBlock and isCodeBlock) or (wasCodeBlock and not isCodeBlock):
             outputMarkdown += "```\n"
 
-        '''
-        # Change tabbing to Google's Markdown style
-        if not isCodeBlock and len(strippedLine) > 0:
-            roundedIndentation = math.ceil(indentation / 4) * 4
-            spacedLine = f'-   {strippedLine[1:].strip()}'
-            line = (' ' * roundedIndentation) + spacedLine
-        '''
-
         outputMarkdown += f'{line}\n'
 
     return outputMarkdown
