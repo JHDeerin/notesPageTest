@@ -1,0 +1,111 @@
+//****************************************************************************//
+//******************** Hedge Funds - October 8th, 2019 **********************//
+//**************************************************************************//
+
+- Alright, we'll wrap up hedge funds an valuation
+    - Concerning the exam...
+        - There are 30 total questions: 19 on finance, 9 on machine learning, and 3 on "programming" topics (pands/numpy/python/etc.)
+            - Several of the questions are related to your projects, to make sure you actually understood what you did
+            - The exam guide for the online sections is slightly different from what we covered in class; it might be helpful, but it isn't a perfect match
+                - Most exam questions are drawn from the lecture slides
+        - The exam is THIS THURSDAY!
+    - Also, project 5 is due NEXT WEEK, so start working on it!
+        - We'll talk about it in class, but you should know everything you need to finish it
+        - It's similar to our portfolio optimizer project, except that the holdings can change now based on trades
+
+- Alright, let's quickly go over your practice quiz!
+    1. The best way to fill in the gaps is forward, THEn backward!
+    2. Native python code is NOT faster - numpy is faster!
+    3. nd[0:4] = 6 would set elements 0, 1, 2, and 3!
+    4. Consulting the data would be an instance learner, but not knowing the distribution would be discriminative!the
+    5. FALSE! You do NOT want the errors to cancel out, so it shouldn't be signed!
+    6. A big weakness of KNN is that it can't extrapolate
+    7. To generalize, the best model would have the lowest out-of-sample error!
+    8. The stock could've sold ANYWHERe between $95 and $98, since STOP orders lodge market orders, which don't guarantee you any price; it'd just be sold somewhere on the way down
+    9. BUY orders would be matched with the ASK side, and SELL orders would be matched with BIDS; 
+    10. You would LOSE $1000 in a short sale where the stock price goes up
+
+--------------------------------------------------------------------------------
+
+- So, we've gone through ETFs and mutual funds; NOW, let's talk about the final type of fund: hedge funds!
+    - "We'll talk about the 2 easy ones, and ignore the final, complicated one that deals with time-value of money and blah-blah-blah - that'll get covered after the exam"
+
+- We mentioned that ETFs are pretty passively managed; it's usually set up to track some target (which can be ANYTHING), but ETFs have to do that by tracking stocks
+    - They NEED to do this since they have to have a price throughout the day
+    - Mutual funds are a little more flexible; they're still composed of stocks and bonds, but they're actively managed and can change their composition
+
+- HEDGE FUNDS, though, are a little different
+    - This has the same idea as a mutual funds (people pooling money), but it is "a limited partnership of investors," with a manager and investment partners
+        - LIMITED PARTNERS are people who aren't actively involved in managing the fund, but are just investing it
+            - The active partners basically get a salary from the fund's profits, while limited partners 
+    - So, these things basically operate like a private company!
+        - That means you CAN'T force people to let you buy a hedge fund; it'd be like barging into Google's office and screaming "HIRE ME!"
+        - Instead, you have to find the hedge fund, contact them, and convince them to let you in
+            - All purchases/sales in the fund have to be done through individual contracts
+            - This private-stuff means hedge funds do NOT have stock tickers; instead, they'll just have full names
+    - Where did this name come from, by the way?
+        - For a long time, hedge funds were the only type of fund that could do shorting and other types of risky investments, and would "hedge" against market downturns and do risky investments
+
+- So, why would we ever join a hedge fund over a mutual fund?
+    - There're a few plausible reasons:
+        - "Stability of investors" - because of the contracts, people can't just randomly start selling off their investments any time they want
+        - Limited transparency - mutual funds, while not as transparent as ETFs, still have to disclose their strategy, release their holdings once a quarter, etc.
+            - Hedge funds don't have to do ANY of that - they never have to disclose their strategy, holdings, who their manager is, etc., not even to their investors!
+            - They DO have to privately report some of this to the SEC or federal government
+    - So, hedge funds can do extreme leverage and make crazy-risky investments without having to EVER tell people what you're doing - that's risky! You can get crazy returns but also get crazy screwed!
+        - "Someone could literally walk up to you and say 'Hey, I need $50 million to start a strategy that reliably generates 40% returns in all market conditions I can simulate - but I can't tell you how it works, because then you might steal my idea'"
+            - Because of that, reputation and trust is EXTREMELY important to these investors
+        - Unfortunately, the way current regulatory laws work in the U.S., you don't really get screwed for ripping off middle-class folks - but screw a rich person? That'll get you in prison FAST.
+    - What can hedge funds invest in? ANYTHING!
+        - Many mutual funds can't invest in stocks with prices under $5, but hedge funds can get into penny stocks, shorting, land, foreign currencies, etc.
+
+- What do hedge fund managers look like, then?
+    - These guys manage their funds VERY actively; unlike mutual funds, they don't just set the strategy, but have to make every single trade and choose each investment, and sign off on every contract
+        - Hedge funds also need to do marketing, which is backwards from the other funds; they have to seek out wealthy clients and convince them to invest in their fund
+    - Because of that extra work, hedge fund managers are usually the best-compensated of the lot
+        - Traditionally, they get paid "2 and 20" - in other words, 2% expense ratio (i.e. 2% of the assets under management) + 20% of the fund's profits every year
+            - Since 2008, this has declined to an average of 1.65% and 16.69% - doesn't have the same ring to it, but that's what's happened"
+    - ALL of these factors mean that hedge funds encourage risky behavior: the manager wants to chase the highest profit possible to get the 20%, while if the fund goes bust it usually doesn't cost him more than a reputation hit
+
+- Naturally, because of how risky this type of fund is, there're limits on who can get involved
+    - "I love these words, they don't mean anything"
+    - Hedge funds are limited in size to either:
+        - 99 ACCREDITED INVESTORS
+            - These are people with $1 million net worth EXCLUDING their primary residence ("otherwise everyone in California would count"), OR with an annual income of $200,000 (or $300,000 if you're married and file jointly) for the past 2 years + expected future
+                - How do you report your "expected future income?" Basically, this just means your financial situation isn't likely to nosedive anytime soon, and hasn't substantially changed
+                - Since this is an "easier" qualification to get, it's limited to a smaller number of people
+        - 499 QUALIFIED PURCHASERS
+            - These are people with $5 million in investments ALONE (excluding their primary residence), along with some additional requirements
+            - Some other things (like funds of funds) can also qualify here
+    - Violating these restrictions can result in the fund losing its hedge fund status; the idea behind having these restrictions at all is to keep hedge funds from getting too big and tanking the entire U.S. economy if they make a bad play
+
+- Before we go, let's try and answer a kinda-important question: how do I know how much a company is actually worth?
+    - you'll sometimes hear people saying a company is "overvalued" or "undervalued," but why"?
+    - Thee're a TOn of ways to evaluate a company, but we'll talk about 3 of them:
+        - MARKET CAPITALIZATION
+            - A company's market cap is literally just a formula:
+
+                    stock price * # of "outstanding shares"
+
+                - ...where "outstanding shares" just means shares that're available on the market (so, not counting company-owned stock, etc.)
+            - "As you can imagine, a measure based on stocks isn't useful for figuring out what your stock SHOULD be worth"
+                - However, for other stuff, it's great! The stock market is basically a crowdsourced opinion from the world on what your company is worth!
+            - One thing we might as well mention: a stock split does NOT change the market cap of a company!
+                - A company often does a stock split because they think their stock price is too high and scaring Regular Joes from buying (most companies aim for a price between $50 and $200)
+                    - So, to fix this, a stock split replaces everyone's share with 2 new shares, each worth half the original stock's price
+                    - You'll occasionally also see "reverse stock splits," where stocks are combined to raise the price; this is usually seen as a desperation move to save the stock
+                - Some companies just don't care about stock splits, especially because you can now buy fractional shares
+        - BOOK VALUE
+            - This is basically "how much is the company's stuff worth, forgetting about their dividends and income and so on? If the company sold everything they owned and closed TODAY, how much would that be?"
+            - This is fairly easy to calculate, and can be done in 2 ways
+                - The first is "TANGIBLE ASSETS - LIABILITIES"
+                    - "Tangible assets" are things we could actually sell to someone else like factories, machines, real estate, actual bars of gold, etc. (as opposed to "intangible assets" that are harder to evaluate like reputation, patents, trademarks, expertise, etc.)
+                        - Intangible assets might have a value attached to them (e.g. patents), but aren't counted because their value is far more in flux
+                    - "Liabilities" are debts, etc. that we owe to other people
+            - As a brief example of this, let's say "ByrdCo" owns 4 $10 million factories, 3 major patents worth $5m each, and a loan with $10 million outstanding - that would have a book value of $30 million
+                - As another example, let's say "QuizCo" owns 10 $10 million airplanes and has a $20 million dollars loan, giving it a book value of $80 million. If it has a market cap of $75 million, then, BUY IT! It OWNS more money than it's trading for!
+                    - Heck, you could buy this company itself and sell it for scrap, and you would make money! (Assuming you got it at the stock price)
+        - INTRINSIC VALUE
+            - This will NOT be on the midterm, because it's complicated - we'll cover it next week
+
+- Alright, the exam'll be on Thursday! See you then!

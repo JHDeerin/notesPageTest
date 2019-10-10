@@ -17,7 +17,7 @@
 <li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Computer Vision</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature</a></li><li class="active-note-page"><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li class="active-note-page"><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="10_imageAlignment_9_25_19.html"></a>
@@ -51,29 +51,34 @@
 
 - So, what's pose estimation?
     - POSE ESTIMATION is where we try to take some 2D points in an image that we know the corresponding 3D points for, and try to map a camera matrix that'll fit there
-        - The 3D to 2D projection, in particular, looks like this:
+        - The 3D to 2D projection, wayyyyy back from our projection lesson, looks like this:
 
-                X = K * R|t * X = PX
+                X = K * [R|t] * X = PX
 
-    - Geometrically, "t" is a vector from an origin we choose to the camera (??)
-        - R, though, is the 3x3 rotation matrix that converts from camera coordinates to absolute world coordinates, with each column mapping a single axis (X/Y/Z)
-            - A rotation matrix should be "wRc," then; from the camera coordinates to the world
+    - Geometrically, "t" is a vector from an origin we choose to the camera
+        - R, though, is the 3x3 rotation matrix that converts from camera coordinates to absolute world coordinates, with each column mapping to a single camera axis (X/Y/Z)
+            - A rotation matrix should be "wRc," then; from the world coordinates to the camera's
                 - "Remember, an inverse is just a transpose for a rotation matrix"
-        - In homogenous coordinates, we do this mapping from a 3D camera point "X" to a 2D world point "x" as (I THINK?):
+        - In homogenous coordinates, we do this mapping from a 3D world point "X" to a 2D camera point "x" as (I THINK?):
 
-                x = K * R * [I| -t] * X = P*X
+                x = K * R * [I|-t] * X = P*X
+
+            - Or, from the camera to the world (might have that backwards?):
+
+                x = K * [R|t] * X = P*X
+
             - Essentially, though, 
         - How many parameters are in the right side? 11, right - P is a 3x4 matrix, but scale doesn't matter. On the left side, K has 5 DoF (since scale doesn't matter) and the rotation
     - So, what do the columns of P mean?
         - The vector [0, 0, 0, 1] would get us the image of the origin in homogenous coordinates - so, the 4th column is the origin
             - Similarly, the 1st column is at infinity on the X-axis, the 2nd column is the point at infinity on the Y-axis, etc.
-            - So, the columns of P are basically the 3 vanishing points of the image + the arbitrary position of the origin
+            - So, the columns of P are basically the 3 vanishing points of the image's x/y/z coordinates + the arbitrary position of the origin
                 - What do the rows mean? That's an exercise I'll leave to you
 
-- So, if we want to do pose estimation, can't we just slap 4 points into a 3x4 matrix and call it a day?
-    - Unfortunately, NO, since this doesn't work; each point only has 2 degrees of freedom (why?), so 4 points only gets us 8 DoF - short of our goal of 11
-        - So, we need at LEAST 6 points (since this gets us 12 pieces of information, which is )
-        - Once we have 6 points that we know the 3D/2D coordinates for, look at the 2D points, estimate from our model where the 3D coordinates are, find the least-squares error from the actual guess, and minimize until we get close
+- So, if we want to do pose estimation, can't we just slap 4 points (the 3 vanishing points and origin) into a 3x4 matrix and call it a day?
+    - Unfortunately, NO, since this doesn't work; each point only has 2 degrees of freedom (since it'd a 2D point in the image), so 4 points only gets us 8 DOF - short of our goal of 11
+        - So, we need at LEAST 6 points (since this gets us 12 pieces of information, which is &gt;= 11)
+        - Once we have 6 points that we know the 3D/2D coordinates for, we look at the 2D points, estimate from our model where the 3D coordinates are, find the least-squares error from the actual guess, and minimize until we get close to the correct "P" matrix
             - You can use nonlinear least squares to do this, which we will NOT ask you to implement since sci-py can do it for you
 
 - Alright, that's pose estimation - let's now start looking at structure from motion!

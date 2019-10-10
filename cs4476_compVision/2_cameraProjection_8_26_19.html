@@ -17,7 +17,7 @@
 <li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Computer Vision</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li class="active-note-page"><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li class="active-note-page"><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="1_projectiveGeometry_8_21_19.html"></a>
@@ -107,24 +107,25 @@
                     [0 0 1 ]
             
             - Here, a ("alpha"), s is the skew factor (almost always set to 0 nowadays, since cameras are well calibrated), (missed the rest)
-        - Then, to get out our 2D coordinates, we now do the following:
+            - This calibration matrix has 5 degrees of freedom (alpha, s, u0, v0, and B)
+        - So, to get out our 2D coordinates, we now do the following:
 
             u' = u/w = (a*x + s*y + u0)/z
             v' = v/w = (B*y + v0)/z
 
 - "This is VERY important for you to understand; it's arguably the most fundamental concept in this whole course!"
 
-- So, to get the full camera transformation matrix, we'll do a "calibration X projection X extrinsics" transformation ("extrinsics" means where the camera is in terms of rotation/translation)
+- So, to get the full camera transformation matrix, we'll do a "calibration X projection X extrinsics" transformation ("extrinsics" means where the camera is in terms of rotation/translation, so we're mapping from world space to our camera space)
     - In matrix terms, this looks like:
 
         (u,v,w) = M*P, where "P" is our homogenous 4x1 point and "M" is the 3x4 transformation matrix:
 
-        M = K[R t]*E = [a s u0]   [1 0 0 0]   [R t]
-                       [0 B v0] * [0 1 0 0] * [0 1]
-                       [0 0 1 ]   [0 0 1 0]
+        M = K*[I 0]*E = [a s u0]   [1 0 0 0]   [R t]
+                        [0 B v0] * [0 1 0 0] * [0 1]
+                        [0 0 1 ]   [0 0 1 0]
 
-        - Here, "R" and "t" are the rotation/translation of the camera (I THINK???)
-    - There are 11 degrees
+        - Here, "R" and "t" are the rotation/translation of the camera
+    - There are 11 degrees of freedom here now (since K has 5 DOF, and the extrinsic matrix E is rotation/translation in 3D (i.e. a 6 DOF euclidean transformation))
 - "This is ESSENTIAL, so make sure you read up on it for the midterm!"
 
 - One last note: sometimes an affine transformation is NOT enough to model a real-world camera due to radial distortions from lenses!

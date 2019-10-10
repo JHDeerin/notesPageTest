@@ -81,24 +81,25 @@
                     [0 0 1 ]
             
             - Here, a ("alpha"), s is the skew factor (almost always set to 0 nowadays, since cameras are well calibrated), (missed the rest)
-        - Then, to get out our 2D coordinates, we now do the following:
+            - This calibration matrix has 5 degrees of freedom (alpha, s, u0, v0, and B)
+        - So, to get out our 2D coordinates, we now do the following:
 
             u' = u/w = (a*x + s*y + u0)/z
             v' = v/w = (B*y + v0)/z
 
 - "This is VERY important for you to understand; it's arguably the most fundamental concept in this whole course!"
 
-- So, to get the full camera transformation matrix, we'll do a "calibration X projection X extrinsics" transformation ("extrinsics" means where the camera is in terms of rotation/translation)
+- So, to get the full camera transformation matrix, we'll do a "calibration X projection X extrinsics" transformation ("extrinsics" means where the camera is in terms of rotation/translation, so we're mapping from world space to our camera space)
     - In matrix terms, this looks like:
 
         (u,v,w) = M*P, where "P" is our homogenous 4x1 point and "M" is the 3x4 transformation matrix:
 
-        M = K[R t]*E = [a s u0]   [1 0 0 0]   [R t]
-                       [0 B v0] * [0 1 0 0] * [0 1]
-                       [0 0 1 ]   [0 0 1 0]
+        M = K*[I 0]*E = [a s u0]   [1 0 0 0]   [R t]
+                        [0 B v0] * [0 1 0 0] * [0 1]
+                        [0 0 1 ]   [0 0 1 0]
 
-        - Here, "R" and "t" are the rotation/translation of the camera (I THINK???)
-    - There are 11 degrees
+        - Here, "R" and "t" are the rotation/translation of the camera
+    - There are 11 degrees of freedom here now (since K has 5 DOF, and the extrinsic matrix E is rotation/translation in 3D (i.e. a 6 DOF euclidean transformation))
 - "This is ESSENTIAL, so make sure you read up on it for the midterm!"
 
 - One last note: sometimes an affine transformation is NOT enough to model a real-world camera due to radial distortions from lenses!

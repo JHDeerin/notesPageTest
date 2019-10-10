@@ -40,7 +40,10 @@ def getTitleOfNoteFile(notesFilename):
     titleLine = notesTextFile.read().split('\n')[1]
     notesTextFile.close()
     titleLine = titleLine.strip().strip('/').strip('*').strip()
-    return titleLine.split('-')[0].strip()
+
+    # Assume everything after the last '-' is a date, and everything before is
+    # part of the title
+    return '-'.join(titleLine.split('-')[:-1]).strip()
 
 def stitchHtmlSideLinksTogether(outputDirectoryName):
     '''

@@ -42,9 +42,9 @@
 - So, CNNs look really cool - and they are! But they CANNOT do everything
     - Combining two linear filters, like in linear algebra, just gets us another linear filter - but not all filters are linear!
         - A MEDIAN FILTER is where we select a median intensity to use for a given window around a pixel
-            - This is occasionally used for de-noising (even though it can mess up textures), but it isn't a linear filter! We have to sort the pixels and then pick just one!
+            - This is occasionally used for de-noising (even though it can mess up textures) since it isn't as affect by outliers as much as taking the mean, but it isn't a linear filter! We have to sort the pixels and then pick just one!
             - This might be possible to do in PyTorch, but it would be difficult
-        - A BILATERAL FILTER is where we try to detect edges in the image and only apply the filter to 
+        - A BILATERAL FILTER is where we try to detect edges in the image and only apply the filter to just one side of the edge, preserving the all-important edges
             - This would also be tricky to implement with PyTorch, but it would probably be possible
         - MORPHOLOGICAL FILTERS are things that grow/shrink regions of an image, try to apply
             - This is old enough that it used to be coded up on punch cards!

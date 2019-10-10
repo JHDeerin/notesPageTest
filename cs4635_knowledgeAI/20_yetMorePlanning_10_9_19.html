@@ -1,0 +1,70 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../css/testStyle.css" rel="stylesheet"/>
+<link href="../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../js/wrapText.js"></script>
+<script defer="" src="../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means-End Analysis</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case-Based Reasoning</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case-Based Reasoning (cont.)</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. Classification Basics</a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li><li><a class="is-note-link" href="18_morePlanning_10_4_19.html">17. Planning (cont.)</a></li><li><a class="is-note-link" href="19_knowledgeEngineering_10_7_19.html">18. Knowledge Engineering</a></li><li class="active-note-page"><a class="is-note-link" href="20_yetMorePlanning_10_9_19.html">19. Planning (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="19_knowledgeEngineering_10_7_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//****************** Planning (cont.) - October 9th, 2019 *******************//
+//**************************************************************************//
+
+- Okay - we're discussing planning, so here's the planning scene from Ocean's 11!
+    - First, they're talking about the goal and the requirements they need - what casinos they want to rob!
+        - Then, they're specifying the operators they need and their constraints: getting past the locked doors, slipping into the elevator, etc.
+            - The objects themselves are the constraints (e.g. the 6-digit code-locked door), while the acts we do on 
+        - They also talk about unavailable operators that won't work: tunneling, forcing way past the guard, etc.
+    - Now, these multiple goals could be OPPORTUNISTIC (i.e. one goal's plan helps to achieve the other) or CONFLICTING (i.e. one goal's plan prevents/hurts us from achieving the other)
+        - For the former, if you leave your house to get milk and pick up a newspaper on the way, you've accomplished 2 goals just by trying to get the milk!
+        - For the latter, getting the newspaper from your front lawn and reading it would conflict with going out to get milk!
+            - Negative examples like this are much harder to deal with
+--------------------------------------------------------------------------------
+
+- So, we're talking about PARTIAL-ORDER PLANNING - how is that different from something like A*?
+    - Well, A* only gets us to 1 goal, while partial-order planning tries to accomplish multiple goals
+    - All of these methods also require some kind of knowledge to work
+        - For A*, you need a graph with distances and a heuristic estimate of how far we are from the goal, but it guarantees an optimal solution!
+            - So, if we don't have a single goal
+        - For means-end analysis, we can have multiple interacting goals, but we need a (simple) distance heuristic and clearly-defined states, and its solutions are greedy and not guaranteed to be optimal OR completely correct
+        - For partial-order planning, there can be multiple interacting goals, but we need operators with explicit pre/post-conditions, and it generates correct (but not necessarily optimal) solutions
+    - "Hopefully you can also see where we're going with meta-cognition; we'll have all these planning methods in store, try to see what knowledge we have available, and pick the best method"
+
+- Also, a quick correction from last lecture: in STRIPS notation, it's the PRE-CONDITION that never has any negative conditions, rather than the post-condition
+    - You can get the same results using either one, but this is the STRIPS convention
+
+- Now, the difficulty in partial-order planning is detecting conflicts between our different goals
+    - To do this, we first generate a plan for each goal
+    - We then look at the post-conditions of the current plan and check if they conflict with any of the pre-conditions of the operators in the other plans
+        - If there is such a conflict, we swap the order of our operators, check for conflicts again, then add any operators to connect our different goals together
+
+- Now, whenever you're building a theory of intelligence, you're making some commitments to the knowledge, algorithm, and architecture
+    - The architecture in this planning algorithm is that we have a BUNCH of small agents working simultaneously
+        - This implies we should use some type of BLACKBOARD ARCHITECTURE, where all the agents write all of their data (problems/solutions/etc.) on a shared "blackboard" memory, and each agent just does its job on the blackboard without directly talking to the other agents (instead interacting by altering what the other agents have written)
+    - Which one is right? Should we go with our production system architecture? This society of mind, blackboard style? There's no agreement among AI researchers!
+        - The general consensus now is that we'll probably find that different architectures are best for different levels of thinking, but that's still just speculation
+
+- Alright, we'll stop here for today - ciao!</pre>
+</article>
+<a class="side-link is-note-link" href="20_yetMorePlanning_10_9_19.html"></a>
+</main>
+</body>
+</html>

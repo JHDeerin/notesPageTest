@@ -17,7 +17,7 @@
 <li class="link-with-slash"><a href="../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Computer Vision</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li class="active-note-page"><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li class="active-note-page"><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="0_firstDay_8_19_19.html"></a>
@@ -107,7 +107,8 @@
 
         - Notice here that there's only 1 degree of freedom here, since there's only 1 free number we can "actually" modify (theta)
             - As a side-note, theta is a WORSE notion of rotation than this matrix itself; why?
-                - Well, it does mean you need 4 numbers instead of 1, but matrices have the advantage of having a 1-to-1 relationship of matrices and rotations; in contrast, there are MANY thetas that correspond to the same thing! (0 = 360 = 720 = ...) 
+                - Well, it does mean you need 4 numbers instead of 1, but matrices have the advantage of having a 1-to-1 relationship of matrices and rotations; in contrast, there are MANY thetas that correspond to the same thing! (0 = 360 = 720 = ...)
+            - Importantly, a rotation matrix's inverse is just its transpose!
 
 - So, matrices are convenient for doing these transformations, but how do we do translation in a 2x2 matrix?
     - WE CAN'T! So, if we can't do it with 2 numbers, we'll use homogenous coordinates to do it with 3 numbers!
@@ -121,15 +122,18 @@
 
 - What about degrees-of-freedom, then?
     - Translations have 2 degrees of freedom, Euclidean have 3 (add a translation), and similarities have 4 (add scaling)
-    - Affine transformations still have 4 DOF, BUT it preserves parallel lines, meaning points at infinity stay at infinity
+    - Affine transformations have 6 DOF, since we can also skew things on the x/y axes
+        - BUT these also preserves parallel lines, meaning points at infinity stay at infinity
     - Finally, PROJECTIVE transformations, the most general kind, need 9 numbers but only have 8 degrees of freedom (why? something about scaling)
         - This transformation also does NOT preserve parallel lines, aspect ratios aren't preserved, etc.
 
 - So, those're 2D transformations, but what about for 3D?
     - Translation would be 3 degrees (x/y/z)
     - Euclidean/rigid transforms would be 6 degrees-of-freedom, since we have translation + yaw/pitch/roll ("latitude, longitude, and spinning around")
+        - You can also think of this as a single point having 3 DOF (just translation), a 3D line would have 5 DOF (translating 1st point + 2nd point can rotate around 1st point in latitude/longitude fashion (but has to maintain distance), 3rd point adds 1 more DOF (can rotate around line, but has to maintain distance from other 2 points))
     - Similarity would then be 7, since we add a scale
     - Affine translations would be 12 degrees of freedom (the top 3 rows of a 4x4 homogenous matrix, ignore the bottom row)
+        - We have the 6 DOF from Euclidean transforms, and then also scaling in 3D (+ 3 DOF) and skewing in #D (+ 3 more DOF)
     - For projective, we now need a 4x4 matrix (i.e. 16 numbers), but we're no longer scaling our object, so it'd be 15 DOF
 
 - Alright, that's the geometry we're starting out with - come back next week to dive deeper into things!
