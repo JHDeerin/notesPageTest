@@ -5,10 +5,9 @@ To run from the command line:\n
 '''
 
 from bs4 import BeautifulSoup
+from htmlFromTxtNotes import HtmlFromTxtNotes
 from textUtils import getTitleAndDateFromTitleLine
 
-
-import htmlFromTxtNotes
 import ntpath
 import os
 import re
@@ -144,7 +143,10 @@ def createHtmlFromNotesDir(htmlBaseFileName,
             # Create copy of the raw notes for GitHub
             shutil.copy2(notesFilename, rawNotesDirectoryName)
 
-            htmlFromTxtNotes.createHtmlFromTxt(htmlBaseFileName, notesFilename, outputDirectoryName)
+            # Create HTML file
+            outputHTMLFilename = ''.join(filename.split('.')[:-1]) + '.html'
+            outputHTMLFilename = os.path.join(outputDirectoryName, outputHTMLFilename)
+            HtmlFromTxtNotes.fromNotesFile(notesFilename, outputHTMLFilename, htmlBaseFileName)
             txtNoteTitles.append( getTitleOfNoteFile(notesFilename) )
 
     createdSomeFiles = len(txtNoteTitles) > 0
