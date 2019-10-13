@@ -4,6 +4,7 @@ Creates (or recreates) all the HTML note files added as entries in this file
 
 from bs4 import BeautifulSoup
 import htmlFromNotesDirectory
+import multiprocessing
 import os
 
 #===============================================================================
@@ -141,5 +142,5 @@ def convertNoteDirectory(classNotesInfo):
     print('\nNotes for %s created!' % (classNotesInfo.outputDirectory))
     print('========================================')
 
-for noteInfo in notesToCreate:
-    convertNoteDirectory(noteInfo)
+with multiprocessing.Pool() as process_pool:
+    process_pool.map(convertNoteDirectory, notesToCreate)
