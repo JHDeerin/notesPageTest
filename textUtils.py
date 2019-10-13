@@ -3,6 +3,16 @@ Contains general-purpose methods for operating on strings of text related to my
 .txt notes
 '''
 
+import re
+
+def sort_naturally( l ):
+    """ Sort the given list of alphanumeric strings in the way that humans expect
+        (i.e. numbers in numerical order instead of by ASCII number)
+    """
+    convert = lambda text: int(text) if text.isdigit() else text
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
+    l.sort( key=alphanum_key )
+
 def getTitleAndDateFromTitleLine(notesTitleLine):
     '''
     Returns the title and date from the given line in the following format:\n

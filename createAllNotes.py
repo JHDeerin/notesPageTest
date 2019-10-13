@@ -3,7 +3,8 @@ Creates (or recreates) all the HTML note files added as entries in this file
 '''
 
 from bs4 import BeautifulSoup
-import htmlFromNotesDirectory
+from htmlFromNotesDirectory import HTMLFromNotesDir
+
 import multiprocessing
 import os
 
@@ -134,7 +135,9 @@ def convertNoteDirectory(classNotesInfo):
     currentBaseFile.write(str(basePageHtml))
     currentBaseFile.close()
 
-    htmlFromNotesDirectory.createHtmlFromNotesDir(currentBaseFileName, classNotesInfo.pathToNoteDirectory, classNotesInfo.outputDirectory)
+    HTMLFromNotesDir.createFiles(classNotesInfo.pathToNoteDirectory,
+                                 outputDirectoryName=classNotesInfo.outputDirectory,
+                                 baseFileName=currentBaseFileName)
 
     # Delete the temporary base
     os.remove(currentBaseFileName)
