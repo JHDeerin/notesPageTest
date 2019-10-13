@@ -5,12 +5,15 @@ To run from the command line:\n
 '''
 
 from bs4 import BeautifulSoup
-import sys
+from textUtils import getTitleAndDateFromTitleLine
+
+
+import htmlFromTxtNotes
 import ntpath
 import os
-import shutil
-import htmlFromTxtNotes
 import re
+import shutil
+import sys
 
 def sort_naturally( l ):
     """ Sort the given list of alphanumeric strings in the way that humans expect
@@ -28,24 +31,6 @@ def getFilesInDir(directoryName):
     directoryFiles = os.listdir(directoryPath)
     sort_naturally(directoryFiles)
     return directoryFiles
-
-def getTitleAndDateFromTitleLine(notesTitleLine):
-    '''
-    Returns the title and date from the given line in the following format:\n
-
-    //****** <TITLE> - <DATE STRING> **********//\n
-
-    Returns them as a tuple: (titleString, dateString)
-    '''
-    titleLine = notesTitleLine.strip().strip('/').strip('*').strip()
-
-    # Assume everything after the last '-' is a date, and everything before is
-    # part of the title
-    titleLinePieces = titleLine.split('-')
-    titleString = '-'.join(titleLinePieces[:-1]).strip()
-    dateString = titleLinePieces[-1].strip()
-
-    return (titleString, dateString)
 
 def getTitleOfNoteFile(notesFilename):
     '''

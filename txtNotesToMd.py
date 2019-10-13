@@ -2,10 +2,11 @@
 Converts my original .txt notes to Markdown
 '''
 
+from htmlFromNotesDirectory import getTitleAndDateFromTitleLine
+from textUtils import softWrapTextLine
+
 import math
 import sys
-
-from htmlFromNotesDirectory import getTitleAndDateFromTitleLine
 
 def isPossibleCodeLine(line):
     '''
@@ -14,39 +15,6 @@ def isPossibleCodeLine(line):
     '''
     strippedLine = line.lstrip()
     return len(strippedLine) > 0 and not strippedLine.startswith('-')
-
-def softWrapTextLine(line, indentation, maxLineLength=80):
-    '''
-    "Soft wraps" a line to the given maximum length (such that the wrapped part
-    matches the given indentation level)
-    '''
-    outputLine = ''
-    textRemaining = True
-    isFirstLine = True
-    while textRemaining:
-        if len(line) <= maxLineLength:
-            outputLine += line
-            textRemaining = False
-        else:
-            indexToSplitOn = 0
-            for word in line.split(' '):
-                newLineLength = indexToSplitOn + len(word) + 1
-                if isFirstLine:
-                    newLineLength += indentation
-                if newLineLength <= maxLineLength:
-                    indexToSplitOn += len(word) + 1 # +1 to include spaces
-                else:
-                    if len(word) + 1 > maxLineLength - indentation:
-                        # special case for if the word itself is too long
-                        # to fit on one line
-                        indexToSplitOn = maxLineLength
-                    break
-
-            isFirstLine = False
-            outputLine += line[0 : indexToSplitOn] + '\n'
-            # add padding to the beginning of the new line
-            line = (' ' * indentation) + (line[indexToSplitOn:].lstrip())
-    return outputLine
 
 def convertLineToGoogleMarkdownStyle(line):
     '''
@@ -126,5 +94,3 @@ if __name__ == "__main__":
     notesTextFileName = sys.argv[1]
 
     convertTxtNoteFile(notesTextFileName)
-
-
