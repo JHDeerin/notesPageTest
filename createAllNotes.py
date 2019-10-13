@@ -117,26 +117,29 @@ baseHtmlFile = open(baseHtmlFileName, 'r')
 basePageHtml = BeautifulSoup(baseHtmlFile, "html.parser")
 baseHtmlFile.close()
 
-for noteInfo in notesToCreate:
+def convertNoteDirectory(classNotesInfo):
     # Setup base HTML page for the current class
-    cssPathFromOutputFile = '../' + noteInfo.pathToStylesheet
+    cssPathFromOutputFile = '../' + classNotesInfo.pathToStylesheet
     noteStylesheetTag = basePageHtml.find(id='class-theme-styles')
     noteStylesheetTag['href'] = cssPathFromOutputFile
     pageTitleTag = basePageHtml.find('title')
-    pageTitleTag.string = basePageTitle + noteInfo.pageTitle
+    pageTitleTag.string = basePageTitle + classNotesInfo.pageTitle
     titleLink = basePageHtml.find(id='class-title-link')
-    titleLink.string = noteInfo.pageTitle
+    titleLink.string = classNotesInfo.pageTitle
 
     # Create a temporary new base file so we don't modify the original
-    currentBaseFileName = noteInfo.outputDirectory + '_basePage.html'
+    currentBaseFileName = classNotesInfo.outputDirectory + '_basePage.html'
     currentBaseFile = open(currentBaseFileName, 'w')
     currentBaseFile.write(str(basePageHtml))
     currentBaseFile.close()
 
-    htmlFromNotesDirectory.createHtmlFromNotesDir(currentBaseFileName, noteInfo.pathToNoteDirectory, noteInfo.outputDirectory)
+    htmlFromNotesDirectory.createHtmlFromNotesDir(currentBaseFileName, classNotesInfo.pathToNoteDirectory, classNotesInfo.outputDirectory)
 
     # Delete the temporary base
     os.remove(currentBaseFileName)
 
-    print('\nNotes for %s created!' % (noteInfo.outputDirectory))
+    print('\nNotes for %s created!' % (classNotesInfo.outputDirectory))
     print('========================================')
+
+for noteInfo in notesToCreate:
+    convertNoteDirectory(noteInfo)

@@ -49,11 +49,8 @@ def stitchHtmlSideLinksTogether(outputDirectoryName):
     Edits the previous/next links to point to the previous/next HTML note files
     for all HTML note files in the given directory
     '''
-    print("Stitching HTML side links together...")
-
     outputHtmlFiles = getFilesInDir(outputDirectoryName)
     for i in range(0, len(outputHtmlFiles)):
-        print("Linking %s..." % (outputHtmlFiles[i]))
         currentHtmlFile = open( os.path.join(outputDirectoryName, outputHtmlFiles[i]),
                 'r')
         updatedHtml = BeautifulSoup(currentHtmlFile, "html.parser")
@@ -70,18 +67,13 @@ def stitchHtmlSideLinksTogether(outputDirectoryName):
         currentHtmlFile.write(str(updatedHtml))
         currentHtmlFile.close()
 
-    print("All side links stitched together successfully!")
-
 def setupHtmlHeaderLinks(outputDirectoryName, noteTitles):
     '''
     Adds links to all HTML note files in the directory to the header of each
     HTML note file in the directory
     '''
-    print("Setting up HTML header note links...")
-
     outputHtmlFiles = getFilesInDir(outputDirectoryName)
     for i in range(0, len(outputHtmlFiles)):
-        print("Setting up %s..." % (outputHtmlFiles[i]))
         currentHtmlFile = open( os.path.join(outputDirectoryName, outputHtmlFiles[i]),
                 'r')
         updatedHtml = BeautifulSoup(currentHtmlFile, "html.parser")
@@ -102,8 +94,6 @@ def setupHtmlHeaderLinks(outputDirectoryName, noteTitles):
         currentHtmlFile.write(str(updatedHtml))
         currentHtmlFile.close()
 
-    print("All header links setup successfully!")
-
 def createHtmlFromNotesDir(htmlBaseFileName, 
                            directoryPath,
                            outputDirectoryName='notesToHtmlOutput',
@@ -120,10 +110,7 @@ def createHtmlFromNotesDir(htmlBaseFileName,
         directoryPath += '/'
     filesInDirectory = getFilesInDir(directoryPath)
 
-    print('Found the following files in directory "%s":' % (directoryPath))
-    print(filesInDirectory)
-    print()
-    print('Converting .txt files...')
+    print('Converting .txt files in "%s"...' % (directoryPath))
 
     txtNoteTitles = []
     # Setup directories for HTML output and copying raw notes
@@ -137,28 +124,26 @@ def createHtmlFromNotesDir(htmlBaseFileName,
 
     for filename in filesInDirectory:
         # Check if file is an actual notes file
-        if filename.endswith('.txt'):
-            notesFilename = os.path.join(directoryPath, filename)
+        if not filename.endswith('.txt'):
+            continue
 
-            # Create copy of the raw notes for GitHub
-            shutil.copy2(notesFilename, rawNotesDirectoryName)
+        notesFilename = os.path.join(directoryPath, filename)
 
-            # Create HTML file
-            outputHTMLFilename = ''.join(filename.split('.')[:-1]) + '.html'
-            outputHTMLFilename = os.path.join(outputDirectoryName, outputHTMLFilename)
-            HtmlFromTxtNotes.fromNotesFile(notesFilename, outputHTMLFilename, htmlBaseFileName)
-            txtNoteTitles.append( getTitleOfNoteFile(notesFilename) )
+        # Create copy of the raw notes for GitHub
+        shutil.copy2(notesFilename, rawNotesDirectoryName)
+
+        # Create HTML file
+        outputHTMLFilename = ''.join(filename.split('.')[:-1]) + '.html'
+        outputHTMLFilename = os.path.join(outputDirectoryName, outputHTMLFilename)
+        HtmlFromTxtNotes.fromNotesFile(notesFilename, outputHTMLFilename, htmlBaseFileName)
+        txtNoteTitles.append( getTitleOfNoteFile(notesFilename) )
 
     createdSomeFiles = len(txtNoteTitles) > 0
     if createdSomeFiles:
         # NOTE: ASSUMES ONLY THE JUST-CREATED FILES ARE IN THE OUTPUT DIRECTORY!
-        print("Initial files all created successfully!")
-        print(txtNoteTitles)
-        print()
-
         stitchHtmlSideLinksTogether(outputDirectoryName)
-        print()
         setupHtmlHeaderLinks(outputDirectoryName, txtNoteTitles)
+        print('Converted %d files successfully!' % (len(txtNoteTitles)))
     else:
         print("No .txt files found. Aborting operation...")
 

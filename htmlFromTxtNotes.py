@@ -54,8 +54,6 @@ class HtmlFromTxtNotes(FileFromNotes):
         htmlBaseFile.close()
         notesTextFile.close()
 
-        print('Wrote note text into "%s" successfully!' % (outputFileName))
-
 #===============================================================================
 # -------------------- Actually Executed Part Below ----------------------------
 
