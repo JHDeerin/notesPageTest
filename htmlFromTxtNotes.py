@@ -4,46 +4,62 @@ To run from the command line:\n
 'python htmlFromTextNotes.py <path to HTML template> <path to note file>'
 '''
 
+from bs4 import BeautifulSoup
+from fileFromNotes import FileFromNotes
+
 import os
 import sys
 import ntpath
-from bs4 import BeautifulSoup
 
-def createHtmlFromTxt(htmlBaseFileName, notesTextFileName, outputHtmlFileDestFolder):
-    '''
-    Converts the given text file and HTML template into an HTML file with the
-    .txt's content copied into any element in the template with the
-    'main-note-text' class; saves the file in the given directory with 
-    '''
-    if not os.path.exists(outputHtmlFileDestFolder):
-        os.makedirs(outputHtmlFileDestFolder)
+class HtmlFromTxtNotes(FileFromNotes):
 
-    htmlBaseFile = open(htmlBaseFileName, 'r')
-    notesTextFile = open(notesTextFileName, 'r')
+    def fromNotesText(noteText):
+        '''
+        Takes the given note's text content as a string and returns a string
+        containing the new, converted text
+        '''
+        pass
 
-    outputHtml = BeautifulSoup(htmlBaseFile, "html.parser")
-    # soft wrap the notes so the output HTML matches how they look in VS Code
-    textContainers = outputHtml.find_all(class_ = "main-note-text")
-    noteText = notesTextFile.read()
-    for element in textContainers:
-        element.string = noteText
+    def fromNotesFile(notesFileName, outputFileName, baseFileName=''):
+        '''
+        Converts the given text file and HTML template into an HTML file with the
+        .txt's content copied into any element in the template with the
+        'main-note-text' class; saves the file in the given directory with 
+        '''
+        if not notesFileName[-4:] == '.txt':
+            print(f'***{notesFileName} is not a .txt file!***')
+            return
 
-    notesFileNameWithoutExtension = ntpath.basename(ntpath.splitext(notesTextFileName)[0])
-    outputHtmlFile = open(os.path.join(outputHtmlFileDestFolder, 
-            notesFileNameWithoutExtension + '.html'), 'w')
-    outputHtmlFile.write(str(outputHtml))
-    outputHtmlFile.close()
+        if not outputFileName[-5:] == '.html':
+            print(f'***{outputFileName} is not a .html file!***')
+            return
 
-    htmlBaseFile.close()
-    notesTextFile.close()
+        outputFileDestFolder = os.path.dirname(os.path.abspath(outputFileName))
+        if not os.path.exists(outputFileDestFolder):
+            os.makedirs(outputFileDestFolder)
 
-    print('Wrote note text into "%s.html" successfully!' % (notesFileNameWithoutExtension))
+        htmlBaseFile = open(baseFileName, 'r')
+        notesTextFile = open(notesFileName, 'r')
+
+        outputHtml = BeautifulSoup(htmlBaseFile, "html.parser")
+        textContainers = outputHtml.find_all(class_ = "main-note-text")
+        noteText = notesTextFile.read()
+        for element in textContainers:
+            element.string = noteText
+
+        outputHtmlFile = open(outputFileName, 'w')
+        outputHtmlFile.write(str(outputHtml))
+        outputHtmlFile.close()
+
+        htmlBaseFile.close()
+        notesTextFile.close()
 
 #===============================================================================
 # -------------------- Actually Executed Part Below ----------------------------
 
 if __name__ == "__main__":
-    htmlBaseFileName = sys.argv[1]
-    notesTextFileName = sys.argv[2]
+    notesTextFileName = sys.argv[1]
+    outputHtmlFileName = sys.argv[1]
+    htmlBaseFileName = sys.argv[3]
 
-    createHtmlFromTxt(htmlBaseFileName, notesTextFileName, "notesToHtmlOutput")
+    HtmlFromTxtNotes.fromNotesFile(notesTextFileName, outputHtmlFileName, htmlBaseFileName)
