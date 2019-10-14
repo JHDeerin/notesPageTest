@@ -1,0 +1,120 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Game AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4731Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Game AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_gameVsRegularAI_1_9_19.html">1. Game AI vs Regular AI</a></li><li><a class="is-note-link" href="2_introPathfinding_1_14_19.html">2. Intro to Pathfinding</a></li><li><a class="is-note-link" href="3_pathNetworks_1_16_19.html">3. Path Networks</a></li><li><a class="is-note-link" href="4_morePathNetworks_1_23_19.html">4. Path Networks (cont.)</a></li><li><a class="is-note-link" href="5_pathfindingBasics_1_30_19.html">5. Pathfinding Basics</a></li><li><a class="is-note-link" href="6_pathfindingCont_2_4_19.html">6. Pathfinding (cont.)</a></li><li><a class="is-note-link" href="7_groupsDecisions_2_6_19.html">7. Groups and Decision Making</a></li><li><a class="is-note-link" href="8_moreDecisionMaking_2_11_19.html">8. Decision Making (cont.)</a></li><li><a class="is-note-link" href="9_behaviorTrees_2_13_19.html">9. Behavior Trees</a></li><li><a class="is-note-link" href="10_rulesPlanning_2_18_19.html">10. Rules and Planning</a></li><li><a class="is-note-link" href="11_behaviorPlanning_2_20_19.html">11. Behavior Planning (cont.)</a></li><li><a class="is-note-link" href="12_hierarchicalTaskNetworks_2_27_19.html">12. Hierarchical Task Networks</a></li><li><a class="is-note-link" href="13_introProceduralGen_3_4_19.html">13. Intro. to Procedural Generation</a></li><li><a class="is-note-link" href="14_moreProcGen_3_6_19.html">14. Procedural Generation / Terrain Generation</a></li><li><a class="is-note-link" href="15_optimizationAlgos_3_11_19.html">15. Optimization Algorithms</a></li><li class="active-note-page"><a class="is-note-link" href="16_geneticAlgos_3_13_19.html">16. Genetic Algorithms (cont.)</a></li><li><a class="is-note-link" href="17_playerModeling_3_26_19.html">17. Player Modeling</a></li><li><a class="is-note-link" href="18_introRL_3_27_19.html">18. Intro. to Reinforcement Learning</a></li><li><a class="is-note-link" href="19_moreQLearning_4_1_19.html">19. Q-Learning (cont.)</a></li><li><a class="is-note-link" href="20_evenMoreRL_4_8_19.html">20. More Q-Learning/Intro. Deep Reinforcement Learning</a></li><li><a class="is-note-link" href="21_deepLearning_4_10_19.html">21. Deep Learning (cont.)</a></li><li><a class="is-note-link" href="22_deepRL_4_15_19.html">22. Deep Reinforcement Learning (cont.)</a></li><li><a class="is-note-link" href="23_contextFreeGrammars_4_17_19.html">23. Context-Free Grammars</a></li><li><a class="is-note-link" href="24_grammarsStories_4_22_19.html">24. Grammars (cont.) / Story Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="15_optimizationAlgos_3_11_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************ Genetic Algorithms (cont.) - March 13th, 2019 ****************//
+//**************************************************************************//
+
+- "I'm not tired, YOU'RE tired" - me to my reflection, right now
+- A few announcements from Professor Riedl:
+    - Homework 5 grades have been released for about 2 hours, and there've only been about, eh, 80 regrade requests so far..."so, BIG SUCCESS!"
+        - We ran each of the 3 maps 3 times; most students' stuff ran in about 15 minutes, but several student homeworks were taking literally HOURS to run - "most of these agents would just get stuck in a horrible loop, but we gave them the full 5000 ticks to make sure we gave people a fair chance"
+            - A common theme in the low-scoring submissions is that people didn't test their stuff on all the maps, or from both sides of each map, but there were a few weird cases where the minions literally just...didn't move
+                - The TAs just discovered a bug in the autograder if you didn't use your own pathfinding code, so now THAT'S being dealt with 
+        - Now, there's randomness involved here, so we know weird stuff happens; if you genuinely believe your grade was just a bad fluke, you're welcome to bring your own laptop and demonstrate the code to the TAs (you'll have to re-download it from Canvas, of course, to make sure you didn't add anything)
+            - "Did the TAs leave comments on their grades? They didn't? No? Well, crud..."
+            - Seriously though, feel free to submit regrade requests; we want to make sure everyone gets the grade they deserve, and we honestly do try to err towards helping you
+- "We ARE planning to delay exam 2...like, a LOT..." *everyone claps*
+    - "As in, we're thinking about just bundling the exam 2 content in with the final"
+        - *clapping dies*
+    - You'll have the full 3 hours for the final, and we'll literally just add the questions from exam 2 onto the final
+        - Format will be the exact same as for exam 1 (open note), so you should know our exams aren't intended to be tricky, or long
+        - Because of this, the final will now be worth 30% of your grade to account for it "absorbing" exam 2; and remember, the final was supposed to be cumulative ANYWAY, so hopefully this shouldn't be too much extra work
+--------------------------------------------------------
+
+- Okay, we were talking about genetic algorithms yesterday, where we splat some random solutions out, evaluate them, and then "mutate" the solutions and combine the best ones until we're satisfied
+    - This is more-or-less an algorithm doing dumb things in a smart way; it doesn't know WHY certain solutions are better, it just keeps trying things that are working
+        - Similarly, cross-over knows which solutions are "fit," but it doesn't know which parts of their DNA are the "good parts" and the "bad parts," so it just mix and matches the pieces at random and hopes it all goes well - if it does, it survives and keeps breeding! Otherwise, the "failed" solutions eventually get killed off and removed from the pool
+            - Again, cross-over is OPTIONAL, but it can sometimes help speed up the simulation by letting us smash two good solutions' parts together, instead of only doing bit-by-bit mutations
+                - This way, we can "jump" forward to a new, better hill that would've taken a long time to reach through slow mutation (or even wouldn't have been reached at all!)
+            - The counter-argument is that instead of doing cross-over, some people think it's easier and equally effective to just increase your initial population size
+        - As for forcing the children to compete vs just taking the "n" best solutions:
+            - The rationale for the more complicated option is that parents will be pretty similar to their children, but if a set of parents and children are BOTH pretty good, and we take the simple road, then we might end up with all of our solutions in the same "family" - i.e., a less diverse population!
+                - Putting it in terms of the hill analogy, if we just eliminate the lowest-scoring individuals then we might end up with a bunch of solutions all on the same "hill" - whereas if we have the "related" solutions that are on the same hill fighting each other instead, we're going to have solutions that are on more hills, increasing our chances of one of the solutions being on a very good hill instead of getting stuck
+- One reason people like genetic algorithms is that it's a good template to build off of - there're a LOT of choices we can make to tweak how our particular algorithm works, so us designers have a decent amount of control
+
+- Alright, we've competed, gotten our population back down to N, and so we'll repeat with the mutate/cross-over/eliminate/repeat loop - but when do we stop?
+    - There are, as per usual, multiple ways of doing this
+        - The most common way is to stop when the average population fitness CONVERGES - i.e. over the past several generations of individuals, the average fitness hasn't increased significantly
+            - There will be normal, small plateaus where it might take several generations for the population to shuffle around before it finds a good solution again
+                - Eventually, though, this plateau will be long enough that you've probably "reached the top of the hill" - so if we've gone, say, 1000 generations without more than 0.01% improvement, then we'll just stop and return the best solution we've got
+                    - Again, this is NOT guaranteed to be the global maximum - we can't guarantee that without doing an exhaustive search!
+                        - Just like fishing, there's always the chance that the next step after we stopped would've been "The One"
+        - Another option is that we just stop when we get a "good enough" solution (i.e. one of the individuals has a fitness greater then "k")
+            - This way, if we find a really good solution early on, we can avoid having to wait for the solution to converge
+        - Finally, you can just stop after a fixed number of generations
+            - This won't get you as good of a solution, but if you NEED an answer within a certain amount of time then this is often necessary (if only for sanity)
+    - Of course, there's nothing stopping you from combining these criteria...
+        - ...and remember, for your homework, you ONLY need a solution with fitness &gt;= 0.8
+
+- So, that's genetic algorithms in a nutshell, but let's analyze these choices a little more
+    - For instance, what's REALLY the difference between mutation and crossover?
+        - Mutation is a form of local search: we're checking out our neighborhood by gradually changing the solutions we've had
+            - Odds are this isn't going to be a massive jump, but just a slight, hopefully-better tweak
+        - Cross-over, on the other hand, is an attempt to make BIG jumps all at once and "discover new hills"
+            - This is aiming for "Cambrian explosion" instead of slow-and-steady progress; we're trying to smash two solutions together and hoping a super mutant will come out of it, but there's a chance it'll be a deformed, cancerous mass instead that we end up just throwing away
+
+- Now, the stuff you kids probably care about: MARIO!
+    - Half of your problems in this assignment are solved if you have a good DNA representation, so what can we do to ensure that?
+        - Our first option is to have a loooooooong String object that just has a symbol for each type of block, and we write the 2D map array into this String
+            - In this homework, this is a BAD idea, since we're not taking advantage of what we ALREADY KNOW about Mario levels!
+                - This'll just randomly put Goombas in the sky and coins underneath the ground, and it'll take the algorithm a WHILE before it "realizes" that these solutions are nonsensical (i.e. give bad fitness results) and converges to something decent
+                - This also means our crossover point will be flipping the top and bottom of the level - not good!
+                    - Even if we change it to flip the left and the right sides, practically, that doesn't make a lot of intuitive sense - are we making symmetrical levels?
+            - "This WILL eventually get a good answer, but it'll take until sometime next year to actually get there"
+        - You could also just literally use a grid operation - no encoding needed!
+            - "That's allowed?" Yes, it's allowed!
+            - This still has our "nonsensical cross-over" problem, though - it doesn't fix that
+        - Alright, so we have this intuition of patterns that should recur in Mario - think of all the things we know are in each level! How can we take advantage of this?
+            - Just as a short list, we KNOW most levels have:
+                - Continuous rows of coins
+                - Pyramid-like blocks of stairs
+                - "Hills" with coins on top
+                - Rows of Goombas/Koopas stuck together
+                - Pipes of varying height that you need to jump on top of
+                - Floating platforms over gaps
+                - The gaps themselves!
+                - "Smash" puzzles, where you have to smash a block to jump
+                - "Jump puzzles" of individual blocks you have to jump back-and-forth between
+                - "Coin rainbows" you need to jump through
+            - These patterns appear OVER and over again, but with variations; there might be big gaps or short gaps, long Goomba lines or short Goomba lines, tall stairs and short stairs - how can we represent this? How can we take advantage of all this knowledge we've got?
+                - Well, maybe we'll have a letter for each PATTERN instead, along with some parameters - for instance, we could say "C" represents a rectangular block of coins, and "C23" means "a 2x3 block of coins"
+                    - Similarly, "G32" could mean a gap that's 3 blocks across and 2 blocks deep, "S3" could mean "a block of stars 3-high", "P34" could mean "3 pipes that successively go up to height 4," etc.
+                - Now, you still have issues here - for instance, how do we do cross-over properly so we don't disrupt these structures? How do we avoid illegal/unsolvable combinations? - but this is generally what Professor Riedl did in his solutions
+
+- Now, to make sure this level is actually playable, we need to do VIABILITY ANALYSIS on our results
+    - The TA autograder - "which you will NOT have" - will run A* to make sure the level is beatable
+    - This does NOT mean you're screwed - you know how far and high Mario can jump, so you can either:
+        a) Set the fitness to 0 if there's an illegal combination
+        b) You can do "post-processing" on the level to fix playability issues (e.g. remove a wall that's too high, or add a block in the middle of a too-large gap)
+            - This'll probably be the faster solution for your homework
+
+- ALRIGHT! And with that, 4:15 is here, and Professor Riedl is legally required to stop - "good luck, and have a wonderful spring break!"</pre>
+</article>
+<a class="side-link is-note-link" href="17_playerModeling_3_26_19.html"></a>
+</main>
+</body>
+</html>

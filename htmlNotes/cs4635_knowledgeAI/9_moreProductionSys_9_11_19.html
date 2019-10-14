@@ -1,0 +1,89 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means-End Analysis</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li class="active-note-page"><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case-Based Reasoning</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case-Based Reasoning (cont.)</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. Classification Basics</a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li><li><a class="is-note-link" href="18_morePlanning_10_4_19.html">17. Planning (cont.)</a></li><li><a class="is-note-link" href="19_knowledgeEngineering_10_7_19.html">18. Knowledge Engineering</a></li><li><a class="is-note-link" href="20_yetMorePlanning_10_9_19.html">19. Planning (cont.)</a></li><li><a class="is-note-link" href="21_understandingCommonSense_10_11_19.html">20. Understanding and Common-Sense</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="8_productionSys_9_9_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************* Production Systems - September 11th, 2019 *******************//
+//**************************************************************************//
+
+- Suppose an alien asked us "How does this building work?" What would you tell him?
+    - Perhaps we would break it down, and say that this is a building where classes are taught, and there are many such classes, and then we can go through each room
+    - How does a phone work, then?
+        - We might start at a high-level, saying it's a communication device that lets us talk to other phones, and then we can go into the details of how to use the screen, how the antennae communicate with unseen signals, how the microchips and integrated circuits work (if we're EEs), that it has software people write that runs on the phone (if we're CS students), and so on
+        - So, some people might talk about the phone's hardwares, others about the software, others about how to use the screen, others about how the RF signals work, others about how to charge it, and so on
+- We might ask the same question about people: what is the mind? How does it work?
+    - We could talk about neurons and chemicals, or knowledge structures, or psychological rules, and so on
+        - ALL of these descriptions are right, but they fulfill different purposes: how it works internally, or how to use it, or how to write software for it, and so forth
+    - When it comes to mind, each school of AI - computer vision, ML, etc. - might all be right, but they might only be capturing one facet of intelligence
+- So, the description we give of something depends on WHY the information is needed, and what level of abstraction is most important
+--------------------------------------------------------------------------------
+
+- So, as we were talking about last time, these layers of abstractions can be applied to a cognitive architecture, which might be for humans, robots, aliens, animals, etc.
+    - In this class, we won't talk too much about the reaction layer, or the long-term metacognitive layer, but instead the middle DELIBERATION layer: thinking through things over several seconds or tens of seconds, but not many years
+
+- Think about Newton's 2nd law of motion, "F = ma"; the form of this is mathematics, while the content is the equation itself
+    - What was content at one level becomes an architecture for the level above it; transistors become the architecture for a computer, while computers become the architecture for programs, and programs become the architecture for solving problems like "how much work do I need to do to get an A in this class?"
+    - Conversely, those problems are the content of computer programs, which are themselves the content we write into computer, which are themselves the content encoded into the transistors and circuits, and so on
+
+- Let's now go back to our baseball-pitch-choosing problem from last time
+    - First, we perceive a bunch of information about the scene: which bases are loaded, which batter is up, what the score is, that sort of thing
+    - From there, we might go into our rule system and start applying different rules, like:
+        - If my goal is to escape the inning, I perceive 2 outs, I perceive a runner on 2nd and no runner on first, then...
+            - ... I should intentionally walk the batter
+        - If my goal is to escape the inning, I perceive &lt; 2 outs or a runner is on 1st, or no runner is on 2nd, or there are no runners, then...
+            - ...I should intentionally try to strike the batter out by PITCHING
+        - If my goal is to intentionally walk the batter, then...
+            - ...I should throw an intentional walk
+        - If my goal is to throw a pitch, and I perceive a new better who is left/right handed, then...
+            - ...add to my frame batter=not_out, balls=0, strikes=0, bat_hand=left/right
+        - If my goal is to pitch and the batter is "not_out", then...
+            - ...suggest throwing a curve ball
+        - If my goal is to pitch and the batter is "not_out", then...
+    - This might seem very programmatical, but NO programming language works like this! At the same time, though, it is very much like a type of custom language!
+        - 
+        - The architecture are the rules themselves, the content 
+
+- Now, what if more than 1 rule could apply in a given situation? What should we do?
+    - Back in 1994, Professor Goel was part of a competition to try and get robots to collect hockey pucks; the Georgia Tech team's bot could quickly identify where a puck was, but whenever it got close to an obstacle it would start moving backwards
+        - So, what happened? The robot would try and follow both rules - which meant whenever it would get close to an obstacle, it would stand still!
+            - "...we did not win that particular competition"
+    - In this school of AI, choosing which rule to use is the single most important problem
+        - Here, if the agent doesn't know what to do, we call it an IMPASSE (either because it doesn't have a rule or because it can't choose among multiple rules)
+        - To get around this, we might use EPISODIC KNOWLEDGE: our knowledge of past events
+            - e.g. "I'm not sure what to do, but last time the plane was late I called the Delta help desk and got on board; I'll try that again"
+            - For our Pitcher example, it might've been that the last time the pitcher had a left-handed batter with a .25+ batting average, he threw a fastball, and the batter hit a home run!
+                - So, the pitcher will decide not to throw a fastball right now
+                - As a rule, then, we'll create a new rule: if 2 operators could be selected, and one had the previous result "home run", we'll prefer the other rule
+            - This is called CHUNKING: a process of extracting a rule from past events that can resolve an impasse by telling us what to do in this new situation
+                - Is that all there is to learning? Really? According to this school of AI, YES, it is!
+                - This is different from ML, where we learn as soon as we get new information ("eager learning"); instead, in production systems, we do "lazy learning," where we just store this knowledge and bring it up when we have a failure (like an impasse)
+                    - What if there are many, conflicting examples? We'll get to that later; for now, we're focusing on ONE-SHOT LEARNING
+
+- Alright, we'll keep talking about this more on Friday!</pre>
+</article>
+<a class="side-link is-note-link" href="10_caseBasedReasoning_9_13_19.html"></a>
+</main>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li class="active-note-page"><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="2_cameraProjection_8_26_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******** Reflectance Models / Real-World Images - August 28th, 2019 *******//
+//**************************************************************************//
+
+- "Okay, I'm going to speed up a little bit during lectures to get through stuff, so it's up to you to read up on anything you don't understand from this"
+    - Next Wednesday, the goal is to start getting into deep learning, and we can't do that until we see a little bit of image processing
+    - *20 minutes before class ends*
+        - "...okay, I'm clearly not going to get to image processing today, so I might skip it to get straight to deep learning (which you need for your project)"
+- Also, he's thought about how to grade participation!
+    - There'll be 2-3 mini-quizzes between now and the first midterm; it'll be announced, and it won't be graded harshly, but it WILL be graded somewhat to make sure you're understanding the lectures
+- Also, on Piazza, PLEASE mention what system you're running the project on
+--------------------------------------------------------------------------------
+
+- So, right now we're still talking about image formation, and we we just started talking about "photometrics" with lighting and shading and reflections
+    - Images are typically formed in a pinhole-type camera, with the light falling onto a retina, a digital sensor or pixels, etc.
+    - Environment maps are used to represent the whole 360-degree light field that falls on an object
+
+- So, now for reflectance models when we don't have perfect specular reflections!
+    - A REFLECTANCE MODEL really just tells us what a surface is supposed to look like 
+    - One of the more basic ones is the LAMBERTIAN MODEL
+        - In this model, it basically says the only thing that matters is the angle between the normal of the surface, and the direction to the light source; it says that the light is scattered equally
+            - The formula looks like this:
+
+                    kd(lambda) + sum_over_lights { L_i(lambda) * [v_i * normal]}
+
+            - We have a scaling factor "kd" for how well it reflects the light, and a factor "Li" for the intensity of the given current light source "i"
+                - V_i is the direction of the light source from our surface, and we take the dot product of that with our surface's normal vector
+                - Remember, light is additive!
+            - If the light is BELOW the surface, though (i.e. if the dot product isn't positive), we'll just make it 0
+                - Remember, the dot product basically tells us how much two vectors are pointing in the same direction (1.0 if pointing the same way, 0 if perpendicular)
+        - This looks like a complicated model, but trust me, it isn't that bad!
+            - ...especially compared to some other stuff that's out there
+            - We won't get into what the units of this equation is right now, since it's kind of complicated; it basically tells us how many photons are hitting the camera sensor
+        - One thing to notice here is the concept of FORESHORTENING: the less the light direction/normal vector line up, the darker the surface is
+        - If you look up Lambertian models on the web, there are MANY confused models of it; don't be confused by confusion about the cosine (?)
+    - One counter-example of the Lambertian model, though, is the moon! If you look at it, nearly the whole thing is illuminated, but the Lambertian model predicts it should be dark near the edges
+
+- To more accurately model the effects we see on the moon, there's the OREN-NAYAR model, which takes surface roughness and smoothness into account
+    - Rougher surfaces will scatter more light, whereas a perfectly smooth model would look just like the Lambertian stuff
+
+- To combine reflections and light scattering, we have the PHONG REFLECTANCE MODEL
+    - This literally just combines the specular and diffuse equations
+        - To help control how reflective things are, we'll add a small specular coefficient "ks" from 0 to 1, where higher coefficients result in larger, less sharp highlights
+    - This also often adds in an ambient light component, which literally just adds the same color to the whole surface
+
+- Finally, we have a SUPER general reflectance model known as BDRF: the "bidirectional reflectance distribution model"
+    - This is a function that literally gives us an output for any possible 4D input (camera direction, light direction, surface normal vector, )
+    - WHY do we need this? Well, for certain surfaces like silk, you actually need a model like this to capture all the different ways the light can look
+
+- So, there's a LOT of complicated ways of modeling light - but, perhaps surprisingly, Lambertian is by FAR the most commonly used in computer vision!
+
+- So, let's go on to properties of cameras!
+    - For pinhole cameras, the size of the aperture has sort of a "Goldilocks size;" if the aperture is too large, the image will look blurry because there's too much light, but if the aperture is too small it will also start getting blurry
+        - "If you make the aperture small enough, you can actually start getting into quantum effects; that's WAYYYYY outside the scope of what we're trying to do"
+- However, a VERY small aperture is needed for a simple hole to get a small image, which means we can't capture very much light - so we'll fix that using lenses!
+    - LENSES are pieces of glass that can take light traveling in a certain direction and focus it onto a particular point; this lets us capture more light, but it means we need to make sure we find the "focus point" where all the light is gathered to a point
+        - There's a well-known equation called the "thin lens model," which models a 0-thickness lens and looks like this:
+
+                1/z_0 + 1/z_i = 1/f
+
+            - z_0 is the "object distance," the distance of the object from the lens
+            - z_i is the distance from the lens to the "image plane," where our image sensor/wall/etc. will be
+                - If this is equal to the focal length, then the focal plane will appear to be at infinity!
+                - If we increase z_i to be a little bit bigger, though, the focal plane will move back closer to us
+            - f is the "focal length" of the lens, the distance from our lens to its focus
+        - If the object/our image sensor isn't perfectly in focus, then, we get a partially-blurry depth-of-field effect!
+            - This is VERY difficult to get with small cameras (although you do get it on DSLRs), so most smartphones nowadays fake DOF effects with postprocessing (particularly deep-learning on 2 stereo cameras, so they can estimate distances)
+
+- So, that's some camera stuff; let's briefly talk about the human eye ("after all, cameras are trying to mimic our vision, right?")
+    - The human eye actually IS a pinhole camera, with some muscles that change the focus length of the lens, an aperture (the pupil) whose size is controlled by the iris, and our "image sensor" (the retina at the back of the eye)
+        - Some nerves at the back of the eye handle post-processing the image, and then send it on to the brain - and those nerves are placed in FRONT of the actual photoreceptors ("Octopuses have a superior vision system to us!")
+    - There are two types of photoreceptors: CONES handle color vision, while RODS just respond to a single green-ish wavelength and are more sensitive to low-light conditions
+        - You can occasionally see some weird colors at dusk because only some of your cones are activated, while others aren't triggered at all
+        - Cones are concentrated at the fovea, a high-resolution spot in our retina ("everything else is low resolution, but has better night-vision")
+
+- Okay, light is formed by electromagnetic waves, which have an inverse relationship between wavelength and frequency
+    - Lasers give off only a single wavelength, fluorescent lights are more blue/tungsten lights are more red, and normal daylight is pretty even (weighted a bit blue when it's cloudy, a bit red when it's sunny)
+    - So, every illumination source has an ILLUMINATION SPECTRUM of wavelengths it emits
+    - Similarly, objects have a REFLECTANCE SPECTRUM of wavelengths they reflect
+        - So, bananas are yellow because they reflect yellow/red light, grapes are actually purple because they reflect BOTH blue/red/indigo, and so on
+        - Some other materials do weird stuff like capturing the light and emitting it later (phosphorescence), etc.
+    - The 3rd important spectrum: the CAPTURE SPECTRUM of colors our sensors can actually see!
+        - In our eyes, we have "red", "green", and "blue" cones (more red/green than blue; "evolutionarily, we likely only had two types of cones before the red/green cones split")
+        - Some animals have more cones/colors they can see than us (*cough* Mantis Shrimp *cough*), others have less
+
+- So, what are digital cameras? Really, they're just normal cameras that have electronic sensors instead of chemical film!
+    - First, light goes through the aperture/lens/shutter to reach the sensor
+    - Once the light reaches the sensor, it takes a continuous field of light and discretizes it into a 2D grid of pixels
+        - One important theorem: if we have a high-resolution field of light, but we don't have enough pixels (or enough resolution) to capture enough of that light, we'll run into SHANNON'S SAMPLING LAW: if we don't have at least 2x as many sensors as there are sharp black/white transitions (like a checkerboard or a plaid shirt), then the image will appear to have aliasing artifacts
+            - So, we want cameras that have a high "field factor," with high-resolution sensors
+
+- Alright, we'll start getting into deep learning next week! Have a great labor day!</pre>
+</article>
+<a class="side-link is-note-link" href="4_filterNeuralNets_4_9_4_19.html"></a>
+</main>
+</body>
+</html>

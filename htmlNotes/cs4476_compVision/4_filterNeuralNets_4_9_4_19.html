@@ -1,0 +1,105 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li class="active-note-page"><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="3_reflectanceModelsImages_8_28_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******** Image Filtering / Intro. Neural Nets - September 4th, 2019 *******//
+//**************************************************************************//
+
+- Okay, we'll have a small quiz at the end of today to test participation, so
+hopefully you're all here!
+--------------------------------------------------------------------------------
+
+- Last week, we were talking a little bit about digital sensors; we'll finish that discussion, and then start jumping into the exciting part of this class: deep learning! (As well as a little bit of image filtering, so you know how to do your project)
+
+- So, we talked about how if you don't have a sensor with enough resolution, Shannon's theorem tells us that we're going to get aliasing, which is a very common artifact in digital folders
+    - Another common artifact is the ROLLING SHUTTER artifact: because not all of the pixels on the sensor are taken at the same time, moving objects can appear "smeared" across the image
+        - "If you live in an advanced country, like Belgium, you'll notice this all the time in the trains"
+        - Some high-end cameras do have "global shutters" that expose all the pixels at once, but they're quite expensive
+    - How do we capture all the colors of light hitting the camera? Unless you have a VERY high-end camera, we do this by using a BAYER GRID on the image sensor: we have 3 low-resolution grids of RGB pixels spread evenly across the sensor, and then we "de-Bayer" the image by combining the color channels into a single high-resolution color image
+        - There are better algorithms/patterns for doing this, but this is a common one
+    - How are these images themselves represented? Well, by a large 2D array with (y, x, channel) coordinates, with the top-left pixel at (0, 0, :)
+        - Sometimes the colors for each channel are stored integers (smaller), and other times they're floats (more precise)
+        - RGB is the most common color scheme, but there are others that're used for different purposes (compression, ease of use, etc.)
+
+- One interesting question to ask: is "intensity" (brightness) or color more important for our senses?
+    - Well, if you look at an image where all the colors have the same intensity, it's actually really hard to tell what's going on! But if we look at a grayscale image, it looks pretty clear!
+        - Some compression schemes (like JPEG) take advantage of this by compressing color more than brightness information, since differences in color are less noticeable to us
+
+- Alright; before we can get into deep learning, we need to first go through a wildly fast crash-course through image filtering/processing
+    - There are 2 important POINT OPERATORS (i.e. scalar changes to a single pixel) that you should know about:
+        - CONTRAST can be increased/decreased just by multiplying all the color channels by a constant, stretching/compressing the colors
+        - BRIGHTNESS is just, well, how bright something is - and it's even easier! We just add/subtract a constant to all the pixels' colors!
+            - These 2 operations are pretty simple, since we don't need to look at any neighboring pixels to do it (it's an "embarrassingly parallel" process), but they can have a HUGE impact on how we perceive images
+    - However, a MUCH more interesting class of transformations is IMAGE FILTERING, where we can look at the pixels around the current one and use that information to change what we do!
+        - There are TONS of uses for this! We can enhance an image, extract information (e.g. edge detection), detect patterns (nowadays this is better done by ML), and more!
+        - As an example, if you take the same picture at two different times, it'll still look different because of noise!
+            - Noise can come from a ton of sources: the sensor itself, 
+            - There are several different types of noise:
+                - SALT-AND-PEPPER noise is just random occurrence's of black-white pixels that aren't working
+                - IMPULSE NOISE is random occurrences of white pixels
+                - GAUSSIAN NOISE are variations in intensity of each pixel, drawn from a Gaussian distribution
+                    - Sampling from a Gaussian distribution isn't actually that obvious, but it's been fairly well-studied
+        - How can we reduce this noise, then?
+            - If we have a burst of different images, we can just average all of their pixels together and the different variations should hopefully cancel out!
+        - If we only have a single image, though, we can take this mean by doing filtering!
+            - The basic idea here is that we can take a "moving average": we'll take a small window of data, average all the pixel values, and then use that color - and that'll result in a smoother image
+                - Keep in mind you do NOT need to weight each pixel equally
+            - So, the basic idea of image filtering is that we compute a function using a pixel's local neighborhood to do something!
+                - We'll almost always use an odd-dimensioned filter so that our filter/neighborhood has a middle pixel
+        - "As a side-note, notice that the price of reducing noise is always blurring, giving us less-defined edges"
+    - The simplest example of a blurring filter like this is a BOX FILTER, which weights all pixels equally
+        - In contrast, literally the most used filter in existence is a GAUSSIAN FILTER, which weights pixels in the middle of the filter more heavily than those at the edges (using the normal distribution)
+        - This filter has less artifacts than the box filter, since the box filter can "drag" bright pixels along the whole filter, leaving "boxy" imprints
+            - IMPORTANTLY, the 2D Gaussian filter is also separable into 2 different 1D-functions, which are MUCH more performant
+    - There are other types of filters exist, of course
+        - The SOBEL filter, for instance, can identify vertical/horizontal edges (although admittedly not perfectly) by trying to cancel out things
+            - Deep learning has made inroads past this, but edge detection is still a tricky problem
+
+- One important term to define: applying a filter across an entire image means we're "convolving" that filter with the image; CONVOLUTION just means applying a filter to an image
+    - That's it! It's just taking a neighborhood of pixels, applying a filter to it, and then summing all the resulting values to get an output pixel
+    - Importantly, we can often do this in parallel, so take advantage of that sweet, sweet speed when you can!
+
+- Alright, the moment you've been waiting your entire natural lives for: Neural Nets!
+    - Back in the day at Bell Labs, in 1990, Yann LeCun successfully used neural nets to help the postal service identify handwritten digits; but, alas, this was in the day when neural nets were regarded with skepticism, and he couldn't get his paper published
+        - In 2012, though, the field completely flipped - and nowadays, you can barely find a paper that doesn't mention neural nets! ("LeCun is quite bitter about this, of course")
+    - What actually are these CONVOLUTIONAL NEURAL NETS, though?
+        - Well, we first apply a number of different filters to an input image
+        - In the next layer, we'll then do a RELU ("rectified linear unit"), which basically just means "if an input pixel is less than some cutoff, make it a 0"
+            - This is a non-linear function, meaning we can't combine it with another layer. That seems bad ("combining stuff means we could do this all in one step!"), but it importantly allows us to do MASKING and only work with certain parts of the image 
+    - Originally, neural networks were trying to mimic neurons, but if we wanted to have a neuron for EVERY single pixel and every single color channel, the number of possible connections EXPLODED! a 200x200 image would need 40,000 neurons and 2 BILLION neurons (i.e. hidden units)
+        - To try and stop this, people started using LOCALLY CONNECTED LAYERS, which chopped the image up and only looked at small parts of the image
+            - With a 10x10 filter size, this can get us down to ~ 4 million parameters, which is MUCH better
+            - This is good for some things, but it often isn't needed
+        - However, this means we have to separately learn everything for different regions - but this isn't needed, since our input images aren't changing! (I THINK?) So, we'll have CONVOLUTIONAL LAYERS
+            - To fix this, and share a neuron's weights  people instead started using (???)
+            - Even better, we can learn the FILTERS instead of the image itself! If we have 100 10x10 filters, then, that brings us down to 10,000 parameters, which is FANTASTIC!
+    - So, with convolutional layers, we're learning the filters we're using to process the image, NOT the output image itself! (I THINK?)
+        - Note that the output image from these filters will be smaller than the original image, since we can't slide our "window" past the edges of the image (think of sliding a 3x3 block around an 8x8 chessboard - there are only 6x6 possible positions the block can have!)</pre>
+</article>
+<a class="side-link is-note-link" href="5_moreCNN_9_9_19.html"></a>
+</main>
+</body>
+</html>

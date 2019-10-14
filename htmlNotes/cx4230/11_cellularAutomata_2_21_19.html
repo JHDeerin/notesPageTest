@@ -1,0 +1,132 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. Modeling/Simulation</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4230Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. Modeling/Simulation</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_introConceptualModels_1_8_19.html">0. Introduction / Conceptual Models</a></li><li><a class="is-note-link" href="1_complexSystemBasics_1_10_19.html">1. Complex System Basics</a></li><li><a class="is-note-link" href="2_mathReview_1_15_19.html">2. Math Review for Modeling</a></li><li><a class="is-note-link" href="3_stabilityBifurcations_1_17_19.html">3. Stability and Bifurcations</a></li><li><a class="is-note-link" href="4_1dBifurcations_1_22_19.html">4. 1D Bifurcations (cont.)</a></li><li><a class="is-note-link" href="5_2dDiffEqs_1_24_19.html">5. 2D Differential Equations</a></li><li><a class="is-note-link" href="6_2dLinearStability_1_31_19.html">6. 2D Linear System Stability</a></li><li><a class="is-note-link" href="7_2dBifurcations_2_5_19.html">7. 2D Bifurcations</a></li><li><a class="is-note-link" href="8_hopfBifurcations_2_12_19.html">8. Hopf Bifurcations</a></li><li><a class="is-note-link" href="9_chaosIteratedMaps_2_14_19.html">9. Chaos and Iterated Maps</a></li><li><a class="is-note-link" href="10_moreIteratedMapsCellAuto_2_19_19.html">10. Iterated Maps (cont.) / Cellular Automata</a></li><li class="active-note-page"><a class="is-note-link" href="11_cellularAutomata_2_21_19.html">11. Cellular Automata (cont.)</a></li><li><a class="is-note-link" href="12_discreteEventSim_2_28_19.html">12. Discrete Event Simulation</a></li><li><a class="is-note-link" href="13_queueProcessScheduling_3_5_19.html">13. Queuing and Process Scheduling</a></li><li><a class="is-note-link" href="14_processSchedulingImpl_3_7_19.html">14. Process-Scheduling Implementation</a></li><li><a class="is-note-link" href="15_activityScanningRNG_3_12_19.html">15. Activity Scanning / Random Number Generation</a></li><li><a class="is-note-link" href="16_inputAnalysis_3_14_19.html">16. Input Analysis</a></li><li><a class="is-note-link" href="17_outputAnalysisValidation_3_26_19.html">17. Output Analysis / Validation</a></li><li><a class="is-note-link" href="18_FELIntroParallel_3_28_19.html">18. Future Event List / Intro. to Parallel</a></li><li><a class="is-note-link" href="19_lookaheadSynchronous_4_2_19.html">19. Lookahead and Synchronous Algorithms</a></li><li><a class="is-note-link" href="20_timeWarp_4_4_19.html">20. Time Warp</a></li><li><a class="is-note-link" href="21_timeWarpGlobalControl_4_9_19.html">21. Time Warp Global Control</a></li><li><a class="is-note-link" href="22_hla_4_11_19.html">22. High-Level Architecture</a></li><li><a class="is-note-link" href="23_exam2Review_4_23_19.html">23. Exam 2 Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="10_moreIteratedMapsCellAuto_2_19_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//********** Cellular Automata (cont.) - February 21st, 2019 ****************//
+//**************************************************************************//
+
+- Professor Vuduc has forgotten his microphone - "So, I'll do my usual blah-blah-blah thing"
+
+- We're coming to the end of the first half of the class, where we're thinking about state variables (continuous or discrete) with respect to time - mostly on the continuous side
+    - We just started getting into discrete maps last week, as we looked at how Lorenz started analyzing chaotic systems by viewing their state variables(i.e. height) as continuous, but sampled at discrete points
+        - For ALL of these systems, we always want to know 2 things: are there any fixed points, and are those points stable or unstable?
+- And then, just last lecture, we started talking about Cellular Automata, where the state space itself is discrete - but what does that mean for our beloved fixed points? What does a "fixed point" look like in these CA systems, and how do we analyze them?
+    - As we'll see more in the 2nd half of the course, we'll often use continuous techniques to study discrete models, and vice-versa
+    - Hopefully, as you study/panic for the midterm, you'll start seeing how all these things connect - "I realized from office hours that a lot of you weren't seeing the big picture for what we were doing, so...I hope that helped a little"
+--------------------------------------
+
+- Last time, we were studying the behavior of a 1D CA system where each cell has 2 states, with its behavior depending on it and its immediate neighbors, giving us 8 total rules for how to map these cells and 2^n possible states (where "n" is the number of cells)
+    - Because the system is discrete, we can often get oscillatory or chaotic-looking behavior, which we'd NEVER expect in a continuous 1D system!
+    - Unlike for continuous differential equation-type systems, though, no one really agrees on a classification system for "fixed points" in Cellular Automate; roughly, though, we could classify them into 4 groups:
+        - "Fixed Points" - A state that stays as itself, and doesn't change
+        - Periodic - A state that loops through some set sequence of states over and over, before returning to itself and repeating
+        - Chaotic - Most initial states lead to pseudorandom states
+        - Complex - Random-seeming behavior, yet with clear, ordered patterns emerging
+    - Similarly, the notion of a "trajectory" in a CA system doesn't really exist in the same way, although there are parallels in FSM-type graphs showing how the state transitions flow between different states
+
+- So, if you're analyzing CA systems, you can try and analyze what the cycles are, if they go to a fixed point, etc.
+    - "This stuff won't be on the midterm; we're just going into some 'fun' stuff now"
+
+- An example of this (that multiple teams are doing for their project): the spread of forest fires!
+    - (...that sounds a lot easier than what we're doing, but okay)
+    - The idea behind this simple cellular automata is that it tries to model the rate a forest fire spreads at based on the density of the "trees" in the model
+        - A given cell is either a tree, empty space, or on fire
+        - For each step, if a cell is on fire, it spreads to any adjacent trees and then becomes "extinguished" (i.e. open space)
+    - So, the "fixed points" for this kind of system would be when the fire has burned some number of trees, and then gone out
+        - If we plot the results of this system Monte-Carlo style, (choose random tree positions/densities over many simulations), we see that there's a certain "critical density" that acts almost like a critical point; below that point, the fire doesn't spread too much, but past that point the fire spreads SIGNIFICANTLY more!
+            - You can imagine, of course, how people have added on to this model: random spreading, factors like winds, different types of plants and burn factors, etc.
+    
+- If we wanted to keep analyzing this system, what else might we do?
+    - One simple thing we could try is MEAN FIELD ANALYSIS, where we calculate the probability of each cell being a tree, fire, empty space, etc., and then answer probability-ish questions
+        - For instance, if a given cell is on fire, we can say "the probability of an adjacent cell being on fire is (probability of cell being tree)*(probability of tree catching fire)"
+            - "...actually, I just realized my notes for this example don't make sense, so...exercise?"
+            - This is in Sayama Chpt. 12, or something
+
+- Another thing we could do is RENORMALIZATION; the basic idea is that we're trying to model how the system's behavior changes as the scale of the model grows, e.g. from a 2x2 grid to a 10x10 grid, so we can model how larger systems will behave
+    - If we have a 1x1 domain, for instance, the probability that a fire starting on the left side of the cell spreads all the way to the right side is just the probability the 1x1 cell is a tree
+    - If we have a 2x2 domain, though, which configurations would allow the fire to spread from left to right?
+        - Well, we would need at least one tree on the left and one tree on the right, so there'd be 4 "flammable" configurations with 2 trees, 4 configurations with 3 trees, and 1 configuration with 4 trees, out of 16 possible states (4 squares, 2 possibilities (tree or empty space) for each, so 2^4)
+            - i.e., there's a 9/16 chance of the fire being able to spread left-to-right
+    - Then, we'd enumerate them all like this again for the 3x3 case
+    - For the 4x4 case, it's starting to get impractical to enumerate EVERY possible state, so we'll instead APPROXIMATE it by considering it to be a 2x2 grid of 2x2 cases, with the probability the fire spreads to each "cell" on its right being the probability it'll do so for the 2x2 case
+        - In general, for an "SxS" system, this'll work out to (might ONLY be for this fire example?):
+
+            P_s+1 = P_s^4 + 4*P_s^3(1 - P_s) + 4*P_s^2(1 - P_s)
+
+        - We can then continue doing similar things for larger cases (e.g. 16x16 = four 8x8 cases, etc.); these equations won't get us the exact answer, but their approximations are usually pretty good
+    - So, we're trying to get to the point where we can relate different scales to each other using an iterated map
+
+- If the model is stochastic, yet another thing you can do is a RANDOM WALK
+    - In the 1D case, let's assume there's a very flat, restricted 1D person, who can only walk left or right
+        - We'll assume he'll choose whether to step left or right randomly, according to some probability we set; assume he's rather drunk, or something
+    - At every step, the walker flips a (perhaps biased) coin, checks it, and then takes one step to either the left (negative) or right (positive)
+        - Starting to analyze this isn't too bad; we'll assume each step choice is independent from the others, so if the chance of stepping right is "a," the expected "value" of the walker after "k" steps is:
+
+                E(Sk) = sum(value*prob.) = 1*a + -1*(1-a) = 2a - 1
+
+            - So, this value is the "mean step" of our walker
+        - The variance of our walker's value would thus be:
+
+                Var(Sk) = 1 - E(Sk)^2 = StdDev(Sk)^2
+
+    - Now, let's suppose we've plotted a BUNCH of random walkers, each of which ended up at some location "Si," and we want to guess the location "Xk" of our walker at time k; what would this be?
+        - Well, Xk would be equal to the sum of all the previous locations (CHECK THIS?)
+
+                Xk = sum (Si)
+
+        - The expected value/variance would be would be:
+
+            E(Xk) = E(Sk) * k
+            Var(Xk) = Var(Sk) * k
+
+    - So, with all this, what's the probability the walker is at some location "i" at some time step "k?"
+        - Well, if we assume a = 0.5, then at the previous step (k-1), it had an equal chance of being at either "i-1" or "i+1," which'd get us:
+
+            P(k, i) = 0.5*P(k-1, i-1) + 0.5*P(k-1, i+1)
+
+        - This is still an iterated map, but what if we wanted to have a CONTINUOUS approximation for this? 
+            - Well, let's start off by treat P(k,i) as a probability distribution
+                - This means we can apply our good old probability rules here!
+
+                    P(a*k, i) = a*P(k,i)
+                    P(k, bi) = b*P(k, i)
+
+                - From there, to make it approximately continuous, let's take the average of each timestep (missed this):
+
+                    dK = k/t
+
+                - ...which'll get us:
+
+                    p(t,x) = 0.5 * P(t - dt, x - dx) + 0.5*P(t - dt, x + dx)
+
+            - From there, if we do some algebra magic, we get a very famous equation as dx and dt go to 0: the DIFFUSION equation!
+
+- Alright, with that, good luck on your midterm! Study hard!</pre>
+</article>
+<a class="side-link is-note-link" href="12_discreteEventSim_2_28_19.html"></a>
+</main>
+</body>
+</html>

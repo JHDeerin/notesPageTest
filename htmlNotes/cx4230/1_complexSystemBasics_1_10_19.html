@@ -1,0 +1,107 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. Modeling/Simulation</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4230Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. Modeling/Simulation</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_introConceptualModels_1_8_19.html">0. Introduction / Conceptual Models</a></li><li class="active-note-page"><a class="is-note-link" href="1_complexSystemBasics_1_10_19.html">1. Complex System Basics</a></li><li><a class="is-note-link" href="2_mathReview_1_15_19.html">2. Math Review for Modeling</a></li><li><a class="is-note-link" href="3_stabilityBifurcations_1_17_19.html">3. Stability and Bifurcations</a></li><li><a class="is-note-link" href="4_1dBifurcations_1_22_19.html">4. 1D Bifurcations (cont.)</a></li><li><a class="is-note-link" href="5_2dDiffEqs_1_24_19.html">5. 2D Differential Equations</a></li><li><a class="is-note-link" href="6_2dLinearStability_1_31_19.html">6. 2D Linear System Stability</a></li><li><a class="is-note-link" href="7_2dBifurcations_2_5_19.html">7. 2D Bifurcations</a></li><li><a class="is-note-link" href="8_hopfBifurcations_2_12_19.html">8. Hopf Bifurcations</a></li><li><a class="is-note-link" href="9_chaosIteratedMaps_2_14_19.html">9. Chaos and Iterated Maps</a></li><li><a class="is-note-link" href="10_moreIteratedMapsCellAuto_2_19_19.html">10. Iterated Maps (cont.) / Cellular Automata</a></li><li><a class="is-note-link" href="11_cellularAutomata_2_21_19.html">11. Cellular Automata (cont.)</a></li><li><a class="is-note-link" href="12_discreteEventSim_2_28_19.html">12. Discrete Event Simulation</a></li><li><a class="is-note-link" href="13_queueProcessScheduling_3_5_19.html">13. Queuing and Process Scheduling</a></li><li><a class="is-note-link" href="14_processSchedulingImpl_3_7_19.html">14. Process-Scheduling Implementation</a></li><li><a class="is-note-link" href="15_activityScanningRNG_3_12_19.html">15. Activity Scanning / Random Number Generation</a></li><li><a class="is-note-link" href="16_inputAnalysis_3_14_19.html">16. Input Analysis</a></li><li><a class="is-note-link" href="17_outputAnalysisValidation_3_26_19.html">17. Output Analysis / Validation</a></li><li><a class="is-note-link" href="18_FELIntroParallel_3_28_19.html">18. Future Event List / Intro. to Parallel</a></li><li><a class="is-note-link" href="19_lookaheadSynchronous_4_2_19.html">19. Lookahead and Synchronous Algorithms</a></li><li><a class="is-note-link" href="20_timeWarp_4_4_19.html">20. Time Warp</a></li><li><a class="is-note-link" href="21_timeWarpGlobalControl_4_9_19.html">21. Time Warp Global Control</a></li><li><a class="is-note-link" href="22_hla_4_11_19.html">22. High-Level Architecture</a></li><li><a class="is-note-link" href="23_exam2Review_4_23_19.html">23. Exam 2 Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="0_introConceptualModels_1_8_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*************** Complex System Basics - January 10th, 2019 ****************//
+//**************************************************************************//
+
+- Got the QB buzzers ready-to-go right after this class
+    - ...and I'm dangerously close to the front row (instinctive fear of standing out, activate!)
+- And promptly at 4:30, we go!
+    - "Thanks for braving the cold to get here - let's get started"
+---------------------------------------------------------------------
+
+- So, we'll be talking a bit about complex systems today - but before that, let's recall some stuff we did yesterday:
+    - We talked about CONCEPTUAL MODELS, which are the abstractions we create of the real-world systems in preparation for making our model
+        - "The whole first part of the course will basically be a survey of these different modeling and simulation techniques, and the basics of implementing them"
+
+- Now, what is a complex system?
+    - Well, there's a few different definitions floating around, but our working definition for this class comes from Herb Simon (a Turing award-winning economist): "A COMPLEX SYSTEM is one made up of a large number of parts that interact in a non-simple way"
+        - Basically, the resulting aggregate behavior of the system is "hard to predict" just from knowing how the individual parts work
+
+- For example, on the screen right now is a map of Atlanta with colored dots representing different ethnicities - an "urban segregation" plot
+    - In the graph, most African Americans live in the southwest, while most Caucasians live in the northeast - but why? What individual behaviors could lead to this?
+    - Well, in the 1960s a Harvard professor named Thomas Schelling tried to make a simple model to represent this: he hypothesized that each ethnicity wants to live where their neighbors are, say, at least 30% of their own ethnicity (pretty tolerant for the time), and will try to move otherwise
+        - So, to model this, he created a grid of cells with different colored tokens to represent each race; he distributed the chips randomly, and then made the following rules for each discrete step of time:
+            - If at least 30% of the cell's nearest neighbors are its own ethnicity, it's "happy" and doesn't change
+            - Otherwise, the cell is "unhappy" and will try to move to a random different spot
+        - If we run this simulation, we find that a roughly even distribution of cells will start to separate more and more into their own distinct neighborhoods
+            - So, how did Schelling interpret this? Well, he decided that it meant that even if individuals don't particularly want to be segregated, they'll still often end up in segregated neighborhoods!
+    - "Obviously, this is a grossly simplified model of human behavior - but it is a good example of complex systems, where the macroscopic behavior is surprising"
+        - While Schelling's model is almost 50 years old at this point, it took until 2012 before some researchers finally came up with an analytic analysis of this system (surprisingly finding that the sizes of the segregated neighborhoods was independent of the population size, i.e. didn't grow with more cells) - even though it seems like a simple Markov system, it took a long time to understand this model theoretically!
+        - "So, even for this very simple system, simulation lets us study it much more intuitively than traditional mathematical analysis"
+- This Schelling model is an example of a CELLULAR AUTOMATA
+
+- Now, when you read about complex systems, you'll often come across the idea of "emergent properties" of the system
+    - This is another one of those terms that has competing definitions, but essentially means some macroscopic characteristic of the system that is "hard to explain" just from knowing the microscopic properties
+    - Similarly, a system is SELF-ORGANIZING if it yields these emergent properties dynamically over time
+        - "Again, these are kind of fluffy, vaguely-defined terms, but they come up again and again in this field"
+
+- One research frontier where this is relevant: PROGRAMMABLE MATTER!
+    - The idea here is that we can have a material that we can program to control its shape, density, conductivity, etc.
+    - At the time it was proposed (in the ancient, long-forgotten 1990s), this seemed like science fiction, but nowadays new research (some of it here at Georgia Tech!) is coming up with smart materials composed of many small, controllable components
+        - To reason about how this stuff might actually behave, some people at ASU came up with an "Amoebot" model to say that each "particle" (or "smarticle", if you embrace the cringe) in the material can do 2 things: expand one cell over (to "stretch" across 2 cells), and "contract" back into a single cell
+            - This lets the particles combine, move around, etc.
+            - Using this model, the ASU researchers began experimenting to see how they could program the individual cells to get the whole mass to behave how they want (in their case, to move away from a light), before they started constructing the actual physical components (which is still ongoing)
+                - "If we have the simulator, why do we have to do the experiment?" Well, our simulator is just an abstraction! We still have to make sure everything checks out in the real world
+
+- Another complex systme is a complex ADAPTIVE system - a system where the behavior of the parts changes over time
+    - Some examples of these are evolutionary systems, cities, etc. - systems that "learn" and "adapt" over time
+
+- So, traditional science analysis has had a reductionist approach, where you take a complex thing and try to break it down into its individual parts
+    - "Complexity science," on the other hand, tries to analyze how individual parts interact together to create a whole - it has a focus on "interactions" rather than parts
+
+- In the next few weeks, we'll be looking in-depth at cellular automata, and some other techniques, new and old, like:
+    - Non-linear dynamical systems (ODEs, etc.)
+    - Discrete-time dynamic systems
+    - PDEs
+    - Markov chains/queuing models
+    - Network-based dynamic systems (e.g. graphs)
+    - ...etc.
+
+- Okay, and with that discussed, let's talk a little bit about your first project
+    - You'll be randomly assigned to teams of 3 - "in the spirit of Schelling, you have to swap with someone else before you leave your team - you can't just jump ship"
+        - Currently planning on segregating grad/undergrad students, but we will allow mixing if you want to swap between teams (and if you let us know)
+        - If you have issues with someone in your team, PLEASE let us know before checkpoint 1 - otherwise, you'll just be stuck with each other until the next project
+    - For the project itself, you'll have to do a few things:
+        - Create at LEAST 1 tutorial demonstrating your model and explaining how you came up with it/why it works (in a Jupyter notebook or other "live code" document)
+            - "You can submit this as a PDF if you really need to, but it should be in the style of mixing code and explanation"
+            - There's an example prjoect of this on Canvas, where a disease-spreading model is done from 3 different perspectives (cellular automata w/ monte-carlo for different conditions, a markov chain process w/ outcome probabilities, and a continuum ODE model for how the number of infected/healthy/recovered people and their rates changes over time)
+                - "There's also a book called 'Mathematical Modeling of Zombies', which is exactly what it sounds like"
+        - You'll have to demonstrate at least 2 different simulation techniques in your project (cell automata, differential equations, etc.), either for different problems or the same
+- "You will have to read a bit ahead to do this - you'll have to start working on the project before we'll get to every technique in class, but it shouldn't be too extreme"
+    - The expectation is that you'll have some different backgrounds - some people have a coding background, others a math/science background, etc. - so make sure to play off each other's strengths (there's tons of talent, and forgotten math, in this room)!
+    - "...is this okay?...are you all okay?" - Prof. Vuduc
+- Good question: "What do we do if we don't have some ground truth data to compare our model against?"
+    - For this first project, we're not too concerned with the model being 100% accurate (although that'd be awesome) - instead, we're just expecting you to make abstract models "inspired" by real-world phenomenon and start getting a feel for these processes
+    - "We're trying not to be too demanding, at least for this first project"
+
+- Okay, so that should give you guys a big-picture idea of what your project will eventually looks like - now, going forward, we'll dive more into these individual techniques and their ins-and-outs. Stay tuned!</pre>
+</article>
+<a class="side-link is-note-link" href="2_mathReview_1_15_19.html"></a>
+</main>
+</body>
+</html>

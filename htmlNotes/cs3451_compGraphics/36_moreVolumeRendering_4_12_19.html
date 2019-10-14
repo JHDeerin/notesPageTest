@@ -1,0 +1,97 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull-Clark Subdivision</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li class="active-note-page"><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li><li><a class="is-note-link" href="38_virtualReality_4_17_19.html">38. Virtual Reality</a></li><li><a class="is-note-link" href="39_gameRendering_4_19_19.html">39. Game Rendering</a></li><li><a class="is-note-link" href="40_proceduralContent_4_22_19.html">40. Procedural Content Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="35_volumeRendering_4_10_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************* Volume Rendering (cont.) - April 12th, 2019 *****************//
+//**************************************************************************//
+
+- (blank)
+    - ...
+    - ...
+    - BOO! I HAVE SCARED THEE!
+----------------------------------------
+
+- So, on Wednesday, we started to talk about volume rendering, where our model is stored as a 3D array of "voxels"
+    - We began talking about how we might render these models using the "marching cubes" algorithm, and went through a 2D version of it!
+
+- This 3D version, the MARCHING CUBES algorithm, is one of the most cited in all of computer graphics, so let's talk about it!
+    - Assume we're looking at a "neighborhood" of 8 different voxels, each forming the vertex of a cube, and each one considered to be either "inside" or "outside" of the surface
+        - Because this is now in 3D, there're more possible cases for us to consider (about 14 or 15 in all), but the idea is the same: based on which vertices are inside/outside, we draw a different kind of polygon to connect them, eventually "enclosing" all of the inside vertices in a polygonal shell
+            - Probably the most complicated case is where we have 4 inside vertices in a tetrahedral pattern, which'll result in a hexagonal polygon
+        - Eventually, because of the rules for these different cases, all of the polygons we create will link up with one another to form a continuous surface - and then we can render that!
+
+- So, that's the isomorphic way of rendering these volumes, but what about the DIRECT rendering approach?
+    - There are several different techniques to do this; we'll be mostly considering the raytracing approach, but most of them work using a similar several-stage process:
+        1) Classify each voxel
+            - Is the voxel representing bone? Air? Skin? Muscle?
+            - Based on this data, we can determine what we need to render the surface (e.g. its surface color, opacity, reflectance, etc.)
+        2) Calculate the voxel's shading
+            - This is where we figure out what its normal is, any lighting/reflections, the color it should be rendered as, etc.
+        3) Actually render the voxel
+            - This is where we do visibility checks (is the voxel hidden?), etc, and actually draw the voxel on a screen
+    - Usually, we'll assume that each voxel is filled with a bunch of tiny, identical, opaque particles of its material
+        - Each individual voxel will have an OPACITY value between 0 and 1 (0 is transparent, 1 is opaque) representing the chance that a light ray will pass through the voxel, and a COLOR (i.e. the color of the voxel after lighting, etc. is taken into account)
+            - Usually, the voxel's color will be calculated using something like this:
+
+                    finalColor = a_i*c_i + (1 - a_i)*(everything else)
+
+                - Where "a_i" is the opacity of the voxel and c_i is the color we've calculated for the voxel's surface
+                    - What's this "everything else," though? Well, it's the color of everything BEHIND the voxel, letting us handle transparency
+                        - For a given ray, this might mean recursively calculating that color by shooting another ray behind the voxel (a la reflection from earlier in the semester)
+
+- How can we actually use raytracing to directly rendered these voxels, though? How do the pieces all come together?
+    - Oftentimes, we'll have a ray that's going diagonally through a bunch of voxels, and that means we can't render every same-material voxel the exact same (e.g. the corners of an amber cube are more translucent than the center, because they're thinner)
+        - Because of this, we'll need to interpolate our opacity/color within each voxel using TRI-LINEAR INTERPOLATION to figure out how transparent, etc. the voxels are
+    - Where do these opacities come from, though? We mentioned it came from the "classification" step, but what does that actually mean?
+        - Let's say we have some data from a CAT scan, and each voxel has a floating-point value associated with its density
+            - Air might have a very low density value, while muscle has a certain density "range" and bone has another density range
+                - What if two of these density ranges seem to overlap? (e.g. it's very difficult to distinguish, from the data, if something is tough muscle or weak bone?)
+                    - That's a very real-world issue, and with the Broom of Fuggedaboutit Professor Turk is choosing to push it underneath the Rug of Ignorance (ostensibly within the Room of Messy Graphics?)
+            - Once we've figured out what the voxel should be, we give it the corresponding color/opacity for its material
+    - How do we figure out the surface normals? Well, trust me, PLENTY of techniques exist - but alas, we don't have enough lecture time to get to them
+
+- So, that's a wrap for volume rendering, and now we can start getting into some of the fun stuff YOU guys chose to bring upon yourselves - starting off with NON-PHOTOREALISTIC RENDERING!
+    - The goal here, oftentimes, are to try and capture the hand-drawn feel of traditional animation and art
+        - One common feature of early animations were these thick outlines for the characters, which directly inspired a style of rendering called CEL SHADING!
+            - There are 2 especially prominent features at play here:
+                - Dark outlines/silhouettes for the objects
+                    - To actually make these silhouettes, Professor Turk is aware of two general approaches:
+                        - To render the object normally, then do edge detection on the pixels (using a Laplacian filter, perhaps, where we try to )
+                            - A "Laplacian" basically means taking a 2nd derivative in 2D/3D, and'll be relevant when we get to fluid simulation
+                        - To identify possible silhouettes based on the polygon normals
+                            - The idea here is that if a polygon's normals are facing towards the eye, it's "front-facing," while if it's facing away from the eye it'll be a "back-facing" polygon
+                                - Wherever a forward/back facing polygon are adjacent, we say that edge where they meet is a silhouette edge, and render it as a dark line!
+                - Simple shading with relatively few colors
+                    - The idea here is to use the traditional shading equation where "V = N*L," but to NOT render V as a continuous range of colors
+                        - Instead, we'll categorize it into discrete categories and render ALL the values within that range as a single color (e.g. 0 &lt;= V &lt;= 0.2 is dark green, 0.2 &lt;= V &lt;= 0.5 is regular green, etc.)
+        - One of the first video games to use real-time Cel shading was "The Legend of Zelda: The Wind Waker," which looks distinctly more cartoony than a traditional 3D shader
+
+- Alright, next week we'll start going through more end-of-year lecture material - hurrah!</pre>
+</article>
+<a class="side-link is-note-link" href="37_fluidSimulation_4_15_19.html"></a>
+</main>
+</body>
+</html>

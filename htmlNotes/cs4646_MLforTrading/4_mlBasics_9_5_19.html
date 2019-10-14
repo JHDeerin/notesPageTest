@@ -1,0 +1,140 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Machine Learning for Trading</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4646Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Machine Learning for Trading</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_numpyCrashCourse_8_22_19.html">0. Numpy Crash-Course</a></li><li><a class="is-note-link" href="1_pandasReturns_8_27_19.html">1. Pandas / Return Basics</a></li><li><a class="is-note-link" href="2_returnsRisksSharpes_8_29_19.html">2. Returns, Risk, and Sharpe's Ratio</a></li><li><a class="is-note-link" href="3_optimzationBasics_9_3_19.html">3. Optimization Basics</a></li><li class="active-note-page"><a class="is-note-link" href="4_mlBasics_9_5_19.html">4. Machine Learning Basics</a></li><li><a class="is-note-link" href="5_moreMLBasics_9_10_19.html">5. Machine Learning Basics (cont.)</a></li><li><a class="is-note-link" href="6_testDecisionTrees_9_12_19.html">6. Testing, Ensembles, and Decision Trees</a></li><li><a class="is-note-link" href="7_mlStatistics_9_17_19.html">7. Statistical Foundations for Machine Learning</a></li><li><a class="is-note-link" href="8_stockFinanceBasics_9_19_19.html">8. Stock Finance Basics</a></li><li><a class="is-note-link" href="9_moreMarketMechanics_9_24_19.html">9. More Market Mechanics</a></li><li><a class="is-note-link" href="10_moreMarketMechsShort_9_26_19.html">10. Market Mechanics (cont). / Stock Shorts</a></li><li><a class="is-note-link" href="11_leverageFunds_10_1_19.html">11. Leverage and Funds</a></li><li><a class="is-note-link" href="12_EFTMutualFunds_10_3_19.html">12. EFTs and Mutual Funds</a></li><li><a class="is-note-link" href="13_hedgeFunds_10_8_19.html">13. Hedge Funds</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="3_optimzationBasics_9_3_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************ Machine Learning Basics - September 5th, 2019 ****************//
+//**************************************************************************//
+
+- Professor Byrd got the microphone working! "To those who were enjoying a nice nap during lecture: my apologies."
+- We've assigned each of you to a TA for this class; you're free to go to any TA for help, but these'll be the TAs handling your grading
+    - PLEASE go to the TAs first, since there's hundreds of you and only 1 Professor Byrd
+- Project 2 is due THIS SUNDAY - please do it!
+    - Make sure you constrain portfolio allocations to be EXACTLY 1.0 for this assignment
+    - Remember: when you write your helper function to return cumulative returns, Sharpe ratios, etc., it's all relative to your portfolio; you should NOT need to deal with individual stocks for this assignment
+    - AND remember that this project WILL be run on buffet, so make sure to test your code on that to double-check it works (non-working code will be given a 0, and we don't like doing that)
+
+- ML IDEA: predict a movie's Rotten Tomato score from its trailer
+    - Incorporating sound AND video into this would be complicated, so maybe just do a shrunk video version?
+    - Easier way might be to do this via the movie's poster?
+--------------------------------------------------------------------------------
+
+- So, today we're going to briefly go over machine learning for project 3
+    - In project 3, you'll be building your own decision tree/random tree learners from scratch
+- After a few lectures on this, we'll then dive into an overview of finance stuff before
+    - "If you've taken introduction to AI - especially with me - I apologize, because some of this is going to be repetitive"
+
+- So: what does it mean to be a "learning algorithm" anyway? What distinguishes machine learning from the rest of AI?
+    - At a high level, a LEARNING ALGORITHM is just a computer program that improves its performance at some specific task as it's exposed to more data
+        - We've got lots of programs that do stuff with data, and even AI programs that can automate stuff, but if it can't improve on its own then it is NOT a learner
+        - The idea here, then, is that the program will get better without a human having to change ANY of the code; the program can self-improve
+            - Most of these programs start off really, really bad, but as we expose it to more data and tell it what it SHOULD be doing, it should get better and better
+    - The broad idea of ML, then, is to create DATA-CENTRIC MODELS
+        - This means that we don't need to have a strong theory of how things work written into our program that we update ("theory-centric models"); instead, we just throw a bunch of data at our program and let it figure it out
+            - The problem with data-centric models, though, is that they're much more difficult to explain than theory-centric models; they'll get better as black boxes, but we can't explain how it does so
+                - Computer vision researchers have had some success visualizing networks and their activation patterns, but this hasn't really generalized to other ML fields
+                - In finance ML (Professor Byrd's area of research), this is a HUGE problem, since you have to explain to the government and to investors WHY you're making your decisions ("Why did you decline that loan?"); this is especially relevant to prevent algorithms from accidentally discriminating against people
+
+- Even more broadly, a MODEL is something that we can give observations of the world and it'll spit out predictions
+    - Predictions don't have to be guesses about the future; they're just any information that's hidden from us
+    - In machine learning, we attach a "learning algorithm" to our model
+        - We then ALSO feed our learner observations AND the correct predictions it should be making, and then use it to update our model accordingly
+    - Importantly, we need to make sure we don't give our learning algorithm ALL of our data, because then we can't test it, since it'll know the "answer" it should give for that exact input
+        - "All we've done if we do this is make an overly-complicated database"
+- So, how can we come up with models in the first place?
+    - One way is machine learning, but this is NOT the only way
+    - We could also use the scientific method, where we generate a hypothesis, run an experiment, evaluate the results, and improve our hypothesis based on that
+        - This is fairly reliable, but it's pretty slow
+    - Finally, we could just base it off of human experience, where we ask someone "how do I do this job?" and use experience to generate rules and guidelines
+        - This is what goes on in "expert systems," which work really well in specific domains, but tend to be pretty brittle
+    - ...and there are probably others!
+- What about finance, though? Are there any models that aren't based on machine learning? Of course there are!
+    - One famous one is the BLACK-SCHOLES MODEL, a model based on painstaking trial-and-error analysis over several decades
+        - This model tries to predict what price a stock option should be to be worth buying, based on the stock's volatility, "time-to-expiration," risk-free rate of return, "strike price," and the option type (sell or buy)
+            - The idea here with options is that we can pay a fee to purchase a stock at a given price we agree upon now, for some months in the future
+                - The "strike price" is the price we agreed to buy the stock at
+                - The "time-to-expiration" is how long we have to buy/sell the stock at that price
+        - What this model does, then, is tell us what a fair strike price is for the given stock, and it's been found to work fairly well - no ML required!
+
+- Now, there's a TON of machine learning terminology out there that professors like to assume makes sense to normal humans beings
+    - It's NOT normal, so let's go through some of those terms now so you're not sitting confused in your chair forever
+
+- First off, there's two broad categories of machine learning problems:
+    - REGRESSION learners are those that try to predict a continuous value; the answer can be any real number(e.g. stock price, percent of DNA, etc.)
+    - CLASSIFICATION learners are those that try to pick what "bucket" their answer should fall into; the set of answers is discrete and finite (e.g. type of cat in an image, star rating from 0 to 5 for a movie, etc.)
+        - In both of these, the distinction is the OUTPUT answer the learner gives and whether the answer set is discrete or not - anything that goes on internally isn't important for this distinction
+
+- Learning algorithms themselves fall into 3 main categories right now:
+    - SUPERVISED learning is the most common, where we give our learner input data AND the correct answers it should give for each input
+        - We usually express this as a mathematical function:
+
+            f(x) = y
+
+        - In other words, given an input "x", our model spits out a prediction "y"
+    - UNSUPERVISED learners are only given observations without any correct answers; it's just trying to determine the distribution of our inputs
+        - This might not seem as useful, but it lets us do a ton of statistics stuff like saying how likely a given input is, etc; that lets us do clustering, detect likely-fraudulent purchases, etc.
+        - This also lets us sample from a distribution to get new data, which is HUGE in some fields like medical machine learning (since you can't use actual people's medical records, you can instead generate random synthetic records)
+            - This data tends to be "locally accurate" for certain populations or statistics, but falls apart outside of that
+    - REINFORCEMENT learners are where we define a "reward function" to say how good/bad an action is, and the set of actions we can take/world states we can end up in
+        - The problem with supervised learning is that we need correct answers, and the problem with unsupervised learning is we don't know what the right answers are!
+            - If we throw unsupervised learning at a board game, for instance, it can tell us if a board game is likely to come up in a real game or not, but it can't tell us what to do
+            - Supervised learning might get us farther, but if we show it a state it's never seen before, it's VERY difficult to interpolate what it should do
+        - In RL, though, we can take actions and reward the algorithm for doing "good"
+            - This is different from supervised learning because we don't know the exact right answer; instead, we're trying to evaluate how "good" or "bad" something is
+                - Here, one of the biggest problems is creating a good reward function; RL can theoretically solve any problem, but there are many problems where it isn't clear how to say what's good/bad
+            - This maps SUPER well to a lot of real-world problems the other two don't work as well at, like video games
+
+- There are 3 ways of categorizing learners by how they treat their parameters
+    - PARAMETERS are the actual variables our ML algorithm is changing as we train it; HYPERPARAMETERS determine how our learning algorithm itself behaves (learning rate, etc.), and that it can't change by itself
+        - "Basically, you define hyperparameters, your algorithm figures out parameters"
+    - The 3 categories are:
+        - PARAMETRIC learners, which have a fixed number of parameters whose value it plays around with
+            - It can't ever create or delete parameters; it can just fiddle with values it was given
+            - The nice thing about these is that they don't take up much space once you finish training them; you just need to remember the final parameter values and the equation to combine them, and presto! You've got your answer
+        - NON-PARAMETRIC learners, which have the same # of parameters as the examples it's given (i.e. the number of parameters can grow as we give more examples)
+            - Here, every time we're given a new piece of data, 
+                - This takes up more
+            - One example of this is KERNEL DENSITY ESTIMATION, an unsupervised technique which takes a bunch of data points and then estimates a function combining all of them to figure out how likely a given input is
+                - It does NOT remember the data points itself, but remembers a parameter for each input
+        - INSTANCE learners, which actually DO memorize all the examples you give it
+            - K-NEAREST NEIGHBORS is a classic example of this, where we store all the data we're given and average it all together to get our answer
+
+- Next up is a BIG, somewhat confusing distinction between learners based on what function they use to learn
+    - DISCRIMINATIVE learners learn the probability of "y given x"; we only 
+        - These have the disadvantage that we don't know ANYTHING about X's distribution, but they're practically VERY effective and the most common type
+        - Basically, discriminative answers can ONLY make predictions
+            - They usually run faster, and all they're doing is dividing up the input space ("above this line is a cat, below this line is a dog")
+    - GENERATIVE learners learn the joint probability distribution  P(y,x); we need BOTH pieces of information, 
+        - The great thing about this is that we can sample from our input distribution!
+            - If we learn the probability of words/word-orders in French, for instance, we could try to sample from it and generate likely French sentences
+            - Discriminative learners, on the other hand, could only answer "Is this sentence French?"
+        - These also tend to perform better with sparse data
+
+- Okay; we'll continue going over machine learning basics next week. Don't forget you've got a project due this weekend! Adios! </pre>
+</article>
+<a class="side-link is-note-link" href="5_moreMLBasics_9_10_19.html"></a>
+</main>
+</body>
+</html>

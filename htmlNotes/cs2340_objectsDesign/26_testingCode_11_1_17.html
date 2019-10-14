@@ -1,0 +1,112 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Objects and Design</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs2340Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Objects and Design</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_21_17.html">0. First Day of CS 2340</a></li><li><a class="is-note-link" href="1_workingInTeams_8_23_17.html">1. Working in Teams</a></li><li><a class="is-note-link" href="2_teamExercise_8_25_17.html">2. NASA Team Exercise</a></li><li><a class="is-note-link" href="3_introToAgile_8_28_17.html">3. Agile Development / Zenhub</a></li><li><a class="is-note-link" href="4_sourceControl_8_30_17.html">4. Intro to Git/Version Control</a></li><li><a class="is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html">5. Git and Gradle</a></li><li><a class="is-note-link" href="6_gradleAndAndroid_9_6_17.html">6. Gradle and Intro. Android</a></li><li><a class="is-note-link" href="7_introToAndroid_9_8_17.html">7. Intro. to Android</a></li><li><a class="is-note-link" href="8_moreAndroidStudio_9_13_17.html">8. Android Studio (cont.)</a></li><li><a class="is-note-link" href="9_introProgrammingParadigms_9_15_17.html">9. Intro to Programming Paradigms/OOP</a></li><li><a class="is-note-link" href="10_OOPDesignUserStories_9_18_17.html">10. User Stories OOP Design</a></li><li><a class="is-note-link" href="11_domainModels_9_20_17.html">11. Domain Models</a></li><li><a class="is-note-link" href="12_moreDomainAndRDD_9_22_17.html">12. Domain Models (cont.) and RDD</a></li><li><a class="is-note-link" href="13_googleCleanCode_9_25_17.html">13. Google Clean Code</a></li><li><a class="is-note-link" href="14_basicAnalysis_9_29_17.html">14. Basic Analysis</a></li><li><a class="is-note-link" href="15_introToArchitecture_10_2_17.html">15. Intro to Software Architecture</a></li><li><a class="is-note-link" href="16_moreSoftwareArchitecture_10_4_17.html">16. Software Architecture (cont.)</a></li><li><a class="is-note-link" href="17_umlDiagrams_10_6_17.html">17. UML Diagrams</a></li><li><a class="is-note-link" href="18_classDiagrams_10_11_17.html">18. Class Diagrams (cont.)</a></li><li><a class="is-note-link" href="19_sequenceDiagrams_10_13_17.html">19. Sequence Diagrams</a></li><li><a class="is-note-link" href="20_mapsAndPersistence_10_16_17.html">20. Google Maps &amp; Persistence</a></li><li><a class="is-note-link" href="21_persistenceAndSafety_10_18_17.html">21. Persistence(cont.) &amp; Safety</a></li><li><a class="is-note-link" href="22_contractsAndExceptions_10_20_17.html">22. Contracts &amp; Exceptions</a></li><li><a class="is-note-link" href="23_introDesignPrinciples_10_25_17.html">23. Intro to Design Principles</a></li><li><a class="is-note-link" href="24_graspPrinciples_10_27_17.html">24. GRASP Principles</a></li><li><a class="is-note-link" href="25_codeReviews&amp;Testing_10_30_17.html">25. Code Reviews and Unit Tests</a></li><li class="active-note-page"><a class="is-note-link" href="26_testingCode_11_1_17.html">26. Testing Code</a></li><li><a class="is-note-link" href="27_moreUnitTests_11_3_17.html">27. More Unit Tests</a></li><li><a class="is-note-link" href="28_moreDesignPrinciples_11_6_17.html">28. More Design Principles</a></li><li><a class="is-note-link" href="29_SOLID_11_8_17.html">29. SOLID Principles (cont.)</a></li><li><a class="is-note-link" href="30_evaluatingDesigns_11_10_17.html">30. Evaluating Good Designs</a></li><li><a class="is-note-link" href="31_moreEvaluatingDesigns_11_13_17.html">31. Evaluating Designs</a></li><li><a class="is-note-link" href="32_UIDesignPrinciples_11_15_17.html">32. UI Design Principles</a></li><li><a class="is-note-link" href="33_packages_11_17_17.html">33. Packages</a></li><li><a class="is-note-link" href="34_metricsDesignPatterns_11_20_17.html">34. Metrics &amp; Design Patterns</a></li><li><a class="is-note-link" href="35_moreDesignPatterns_11_27_17.html">35. More Design Patterns</a></li><li><a class="is-note-link" href="36_exam2Review_11_29_17.html">36. Exam 2 Review</a></li><li><a class="is-note-link" href="37_finalExam_12_4_17.html">37. Final Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="25_codeReviews&amp;Testing_10_30_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******************* Testing Code - November 1st, 2017 *********************//
+//**************************************************************************//
+
+- TAs are nice and gave us a break, the homework is all turned in. Life is good.
+    - Until the next homework, of course
+-------------------------------------------------
+
+- Now, we'll go over Whitebox/Blackbox testing, but one thing you should be aware of is BEHAVIOR-DRIVEN TESTING (BDT), which has been gaining popularity
+    - Main advantage is that these tests are VERY similar to user stories, making it easy to go over tests w/ customers
+
+- "The hardest part of writing unit tests is just coming up with all the test cases - we're TRYING to break our code and find all the bugs, which is backwards from our usual development work"
+    - "We CAN'T just test every possible input (an 8-character textbox would have 256^8 possibilities!)"
+    - Testing CANNOT prove that no bugs exist in our code; it just lets us see if the specific cases we test have bugs or not
+- Testing often gets pushed back to the end of the project, especially because managers who aren't familiar with testing might feel that writing test code is "unproductive" - this is NOT ideal
+
+- One common way of writing tests is WHITEBOXING, where we base our tests directly on the code itself
+    - There are 3 different levels of "strength" for comprehensive whitebox testing:
+        - Ideally, if we're writing a test for a method, we try to write a series of tests that will execute EVERY LINE of that method at least once
+            - This is known as STATEMENT COVERAGE
+        - More generally, we want to cover all possible BRANCH DIRECTIONS - every possible conditional that could change the program's behavior
+            - This is what you should shoot for in your M10 tests; basically, everything that could be true/false, we write 1 test where it's true and 1 test where it's false
+        - Most generally and LEAST preferably, we just test for "plausible faults" - we look at the code, think "what could cause a problem with this?", and then only test what we think are the "problem" cases
+
+- Here's an example piece of Java code:
+
+    public int factorial(int n) {
+        if (n &lt; 0) throw new IllegalArgumentException("No negative numbers");
+        if (n == 0) return 1;
+        return n * factorial(n-1);
+    }
+
+    - Let's try and come up with some tests that have "statement coverage" of this method:
+        - testNegNumber
+        - testZero
+        - testPoNumber
+
+- So, Whitebox testing is GREAT, but once we start testing chunks of code larger than individual methods, trying to test every possible line of code becomes impractically large
+- So, once we move onto testing larger pieces, we start using BLACKBOX testing - where we base our tests on the SPECIFICATION for the class
+    - What responsibilities does the class have? What method contracts? Are there special values that might cause issues (e.g. Y2K)? Test that ALL of these perform as expected 
+- So, we base our tests on the "specifications" for the code chunks instead of looking directly at the code itself, and we create tests to cover:
+    - "Plausible faults" (specific inputs you expect will cause problems)
+    - EQUIVALENCE PARTITIONS (...??)
+        - For each possible "type" / "partition" of input we recieve, we make sure all the the inputs that are part of that group are handled the same way
+            - e.g. In 1331, you often have to write the "Number guessing game", which tells you if your guess was high, low, or correct, and let's say guesses have to be in the range [1, 10]. So, we need to make sure that all the numbers IN the range 1-10 are treated equivalently, and all the numbers OUTSIDE that "partition" are also treated equivalently (as an incorrect input)
+            - "You DON'T have to check EVERY input from the partition, but enough to be reasonably sure that the program is correct"
+    - Limit cases
+        - BOUNDARY CONDITIONS (on the boundary of our valid inputs)
+            - for instance, for our "Equivalence partition" tests, there's a boundary between the "valid" conditions (1-10) and the invalid inputs; we would want to check that 0 and 11 are rejected as invalid, and 1 and 10 are treated as valid inputs
+        - Edge cases (extreme limits of valid inputs, e.g. 359 degrees, INTEGER.MAX) 
+        - Corner Cases (due to multiple possible inputs???)
+    - "Decision table" testing 
+        - Kind of like an adjacency matrix in graph theory, we draw out all the variables we're testing on an axis, write all the cases we're testing for on the other, and write what the correct output should be for each intersection
+    - State transition (does it go to the next correct method/screen? Draw an FSM, and make sure it actually moves to the correct state) 
+
+- A quick example of a Blackbox test:
+    - "Each user must be logged into the system by entering a username and password. The username must be 8-12 characters long and contain only alphanumeric characters. The 1st character must be a letter. The passwrod must be 8-22 characters and contain at least 1 number and 1 letter. Three invalid login attempts will cause the user to be logged out."
+        - So, for testing the username length, we'd check the BOUNDARY CONDITIONS: 7 chars long, 8 chars long, 12 chars long, 13 chars long
+        - For the alphanumeric characters, we'd test a string of all numbers, string of all chars, string w/ 1 char at the beginning then all numbers, a bunch of crazy symbols, etc.
+
+- Another one (pretend these facts are true): "The first leap year began in 1582. Our system should handle dates until 2576; leap years occur in integer multiples of 4 unless the year is also a multiple of 100; multiples of 400 are leap years method signature: isLeapYear(int year) =&gt; boolean"
+    - Well, we should immediately check our boundary conditions: 1581, 1582, 2576, 2577
+    - Then, for thre multiple of 4 test, we should check 1 thing in the set and 1 thing not in the set: 1957, 1640
+    - Check a multiple of 4 that's divisible by 100, and one that isn't: 1644, 1900
+        - Similarly, 1957, 1900
+    - Finally, check multiples of 400: 1900, 2000
+
+- Now, for BDT, we specify the desired behavior of the system given certain examples; there's a few different frameworks that have ways of doing it, but one example:
+
+- Now, when we write our unit tests, sometimes we realize that we HAVE to make design changes to allow for testing (e.g. need to add a getter to a class to ensure a variable is being set correctly)
+- EVERYONE nowadays does automated testing; programmers write the test, then we can just run a single "test" command and the computer will run through all of the test cases
+    - This is ESPECIALLY important for "regression tests" - running our PREVIOUS tests after we change the code to make sure we didn't break anything in the program
+
+- In this class, we'll be using JUnit 4 for our automated testing
+- Syntax is pretty simple:
+    @Test before a method specifies that the method is a test
+    @Before identfies methods that we need to run BEFORE running any of our testing code (e.g. "SetUpStackForTesting")
+    @After (identify a method to run AFTER we've run all of our tests)
+
+- On Friday, we'll go through some examples of JUnit testing code, and finish up our discussion of testing
+</pre>
+</article>
+<a class="side-link is-note-link" href="27_moreUnitTests_11_3_17.html"></a>
+</main>
+</body>
+</html>

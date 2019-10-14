@@ -1,0 +1,60 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - OOP</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs1331Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">OOP</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_classNotes_9_14_16.html">0. Classes</a></li><li><a class="is-note-link" href="1_moreClassNotes_9_16_16.html">1. Classes (Cont.)</a></li><li><a class="is-note-link" href="2_inheritanceNotes_9_26_16.html">2. Inheritance</a></li><li><a class="is-note-link" href="3_moreInheritanceNotes_9_28_16.html">3. Inheritance (cont.)</a></li><li><a class="is-note-link" href="4_polymorphismNotes_9_30_16.html">4. Polymorphism</a></li><li><a class="is-note-link" href="5_morePolymorphismNotes_10_3_16.html">5. Polymorphism (cont.)</a></li><li><a class="is-note-link" href="6_objectSuperclassNotes_10_5_16.html">6. The Object Superclass</a></li><li><a class="is-note-link" href="7_moreObjectSuperclassNotes_10_7_16.html">7. Object Superclass (cont.)</a></li><li><a class="is-note-link" href="8_exceptionNotes_10_19_16.html">8. Exceptions</a></li><li><a class="is-note-link" href="9_moreExceptionNotes_10_21_16.html">9. Exceptions (cont.)</a></li><li><a class="is-note-link" href="10_collectionsNotes_10_24_16.html">10. Java Collections</a></li><li><a class="is-note-link" href="11_moreCollectionNotes_10_26_16.html">11. Collections (cont.)</a></li><li><a class="is-note-link" href="12_collectionAlgorithms_10_31_16.html">12. Collection Algorithms</a></li><li><a class="is-note-link" href="13_iteratorNotes_11_2_16.html">13. Iterators</a></li><li><a class="is-note-link" href="14_lambdaNotes_11_4_16.html">14. Lambda Expressions</a></li><li><a class="is-note-link" href="15_hashedNotes_11_7_16.html">15. Hashed Collections</a></li><li class="active-note-page"><a class="is-note-link" href="16_javafxNotes_11_9_16.html">16. JavaFX Notes</a></li><li><a class="is-note-link" href="17_JavaFXNotes_11_11_16.html">17. JavaFX (cont.)</a></li><li><a class="is-note-link" href="18_test3Review_11_14_16.html">18. Test 3 Review</a></li><li><a class="is-note-link" href="19_recursionNotes_11_28_16.html">19. Recursion</a></li><li><a class="is-note-link" href="20_linkedListNotes_11_30_16.html">20. Linked Lists</a></li><li><a class="is-note-link" href="21_stackQueueNotes_12_2_16.html">21. Stacks &amp; Queues</a></li><li><a class="is-note-link" href="22_closingNotes_12_5_16.html">22. Closing Time</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="15_hashedNotes_11_7_16.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************//
+//*********JavaFX Notes - November 9th, 2016*********//
+//**************************************************//
+
+-This Day in History: Trump wins the election, the world gasps
+    -Also, Prof. Simpkins was sick, so it's a Taylor day!
+-----------------------------------------------------------
+
+-Anyway, JavaFX is basically Java's "apps" frontend so that we don't have to do everything from the command line - BUT first, PREFACE!
+
+-So, FOR CS PURPOSES: A GRAPH is a data structure where the information is stored in "Nodes" and connected to other nodes by "edges"
+    -A tree is just a type of graph, where the root is at the top (because CS majors are rebels at heart) and the branches extend downward from that root (are "children"/subnodes of the root)
+
+-With JavaFX, rather than the usual class hierarchy we're used to, it has a structure of a "SCENE GRAPH"
+    -Kind of like a tree, where the top node is the STAGE (Stage.java), under that is a SCENE node (Scene.java), attached to that Scene is a ROOT node (Node.java) (confusingly-named), and then there are subnodes branching off of that Root node (from "Parent.java" nodes).
+        -Probably won't have to actually touch Node.java / Parent.java until 2340.
+
+                                STAGE
+                                 ||
+                                SCENE
+                                 ||
+                            ROOT /\PARENT Node
+                                /||\
+                        (...starts branching out)
+
+-So, now we're going to make an app that has text that says "Hello World" (Go over there!)
+-(...coding interlude...)
+-Right, anyway, this is just a bare-bones intro to JavaFX; we'll get into some more complex (and cooler) examples on Friday!
+</pre>
+</article>
+<a class="side-link is-note-link" href="17_JavaFXNotes_11_11_16.html"></a>
+</main>
+</body>
+</html>

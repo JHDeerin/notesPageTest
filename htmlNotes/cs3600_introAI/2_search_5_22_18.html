@@ -1,0 +1,172 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. to AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs3600Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. to AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_AIHistoryAndAgents_5_15_18.html">0. CS 3600 First Day</a></li><li><a class="is-note-link" href="1_agentsAndSearchIntro_5_17_18.html">1. Agents and Intro to Search</a></li><li class="active-note-page"><a class="is-note-link" href="2_search_5_22_18.html">2. Search</a></li><li><a class="is-note-link" href="3_searchCont_5_24_18.html">3. Search (cont.)</a></li><li><a class="is-note-link" href="4_cspAndLogic_5_29_18.html">4. CSP and Logic Agents</a></li><li><a class="is-note-link" href="5_introProbability_5_31_18.html">5. Intro to Probabilistic Agents</a></li><li><a class="is-note-link" href="6_probabilityCont_6_5_18.html">6. Probability (cont.)</a></li><li><a class="is-note-link" href="7_introBayesNets_6_7_18.html">7. Introduction to Bayes' Nets</a></li><li><a class="is-note-link" href="8_dynamicBayesNets_6_12_18.html">8. Dynamic Bayes Nets</a></li><li><a class="is-note-link" href="9_introMachineLearning_6_14_18.html">9. Introduction to Machine Learning</a></li><li><a class="is-note-link" href="10_moreMachineLearning_6_19_18.html">10. Intro. Machine Learning (cont.)</a></li><li><a class="is-note-link" href="11_decisionTrees_6_21_18.html">11. Decision Trees/Review</a></li><li><a class="is-note-link" href="12_moreDecisionTrees_6_28_18.html">12. More Decision Trees</a></li><li><a class="is-note-link" href="13_markovDecisionProc_7_5_18.html">13. Markov Decision Processes</a></li><li><a class="is-note-link" href="14_policyAlgos_7_10_18.html">14. Policy Algorithms</a></li><li><a class="is-note-link" href="15_introRL_7_12_18.html">15. Reinforcement Learning</a></li><li><a class="is-note-link" href="16_localSearch_7_17_18.html">16. Local Search</a></li><li><a class="is-note-link" href="17_introNeuralNets_7_19_18.html">17. Introduction to Neural Networks</a></li><li><a class="is-note-link" href="18_backpropagation_7_24_18.html">18. Backpropagation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="1_agentsAndSearchIntro_5_17_18.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*********************** Search - May 22nd, 2018 ***************************//
+//**************************************************************************//
+
+- "SEARCH ALGOS", (the board intones),
+    - "UNINFORMED:
+        - RANDOM
+        - BFS
+        - DFS
+        - UCS
+    - INFORMED:
+        - BEST FS
+        - A*"
+- (off to the right, a bunch of dots and edges apparently representing a graph are present. They will not be drawn here. Due to tedium)
+
+- "You might be underestimating the difficulty of this first project if you're just thinking 1332-style BFS and DFS. You should be starting pretty soon; in particular, I'd recommned getting all the uninformed searches done by this week, since A* heuristics tend to be the most complicated part of this for students"
+----------------------------------------------------
+
+- Alright, let's keep rolling with our introduction to uninformed search
+     - Specifically relevant to your project, I'll be talking about successor functions and how you can use them instead of transition matrices
+     - In particular, we'll try to show how all of these uninformed algorithms could be implemented using the same structure - including UCS (Uniform Cost Search)
+
+- Last time, we introduced a search problem as this: "Given S (a set of states), S0 (an initial state), Sf(a goal state/states), 'A' (a set of actions we can take), and optionally T(the set of transitions that result from actions) and C(the cost of the transitions between states)...find a sequence of actions such that we get from S0 to Sf"
+    - REPEAT: we're finding a sequence of ACTIONS, NOT a sequence of states
+        - In some scenarios, there's not much difference (e.g. a list of nodes in pathfinding is pretty similar), but for the PacMan program, you can't assume this
+            - "One of the most difficult parts of this project is to find a path through all 4 corners, since if you just try to find the nearest corner you might oscillate between 2 corners; so you need some way of tracking which of the 4 corners you've been to"
+    - T might not be needed if the result of a given action is predictable, but otherwise is needed in some form (e.g. handling boundary conditions for a move action)
+
+- Now, the number of possible states is S * A (i.e., the # of possible states * # of possible actions)
+    - For the cat game, there were 8 possible board states (representing the location of the cat and the people)
+        - We wanted to get to either (A, ()), or (B, ()) (i.e. the cat alone in the house); this is our goal state
+    - Now, to get to the goal state, we could create a TRANSITION MATRIX that covers EVERY possible state we could reach from a given state - but that could explode quickly, since we have to think of all possible actions for every possible state (think of all the possibilities for a chessboard)
+    - Instead of this, we could create a SUCCESSOR FUNCTION - a function that takes in a state and ALL possible actions right now, and tells you what the possible resulting states are
+        - "This function, basically, is what tells your agent where it can go next"
+    - So, let's make a function like this for our cat game:
+
+        catSuccessors(s, A):
+            succ = []
+            for a in A:     # for each possible action
+                s' = copy(s)
+                if a == 'goLeft':
+                    if s.room == 'B':
+                        s'.room = 'A'
+                    # otherwise, do nothing, since we hit a wall
+                elif a == 'goRight':
+                    if s.room == 'A'
+                        s'.room = 'B'
+                elif a == 'annoy':
+                    s'.ppl = false
+                succ.push((a, s'))  # NOW, for every action, we know what the resulting state will be!
+
+    - For any non-trivial search problem, a function like this is MUCH easier than listing every possible case
+        - We'll see this come up again later on, e.g. in local search
+
+- So, with that preface laid down, let's talk about uninformed searches
+    - UNINFORMED SEARCHES assume they have NO outside information - that is, they only have the information given in the formal definition of search 
+        - Also called "brute-force search," since without any hints it has to check every possibility
+- NOTE: I won't be going over Big-O for these searches, since almost all of them are exponential, but we should still consider 2 things for these searches:
+    - COMPLETENESS: Will it always find a solution if one exists?
+        - i.e., can it visit all states?
+    - OPTIMALITY: Is it always guaranteed to find the "best" solution according to our criteria (least distance, money spent, etc)? 
+- Furthermore, for now, we'll assume that these environments are all deterministic, fully observable, static, and discrete - if the environments aren't like this, then these search algorithms will NOT work
+    - "We're essentially pretending that the entire search is in our head"
+    
+- Now, assuming we have a successor function that said "here are the states you can go to," what's the simplest search algorithm we could come up with?
+    - ...RANDOM search: just pick a random state we can reach, and go to it!
+    - The PROBLEM with this search (besides it being horribly inefficient) is that you can end up in an infinite loop, just going between the same 2 states forever
+    - So, Pros:
+        - Easy to code
+        - Practically zero memory requirements (we don't have to track previous state)
+            - For stuff like local search, where we can't remember everything, we do stuff surprisingly similar to this
+    - Cons:
+        - Not complete, since it could get in an infinite loop (although given infinite time, it could "technically" reach any state eventually)
+        - Not optimal by any means, since a) it's random b) it's not guaranteed to find a solution at all!
+
+- Now, we could improve random search by adding a rule like "don't visit past states" - with that one change, we've stopped the infinite loops, so it would be complete and eventually visit every state
+    - Now, on a physical map, you could end up in a scenario where you lock yourself into a corner and can't go back, and a naive implementation of this would have that problem, but again, our searching problem is NOT physically moving - it's PLANNING to move
+        - "Every semester, people say they have problems with handling backtracking with PacMan, but again, PacMan shouldn't be moving while you're searching for a path - you should explore the possible paths, find it, and THEN move"
+- We could also improve it by having it NOT be random - instead, having some sort of system to choose the next state we want to get to
+
+- QUICK NOTE: BFS and DFS do NOT use costs/edge weights, so we'll ignore those for now
+
+- Alright, let's now assume our problem is to get from a state 'A' to another state 'B' somewhere else in the graph, and we explore the successor states in alphabetic order (really only important on exams, but hey, we'll assume it here)
+    - NOTE: I say EXPLORE the nodes in alphabetical order, not "add them to the open list in alphabetical order"
+
+- Using these improvements to random search, we can come up with the rudiments of BREADTH-FIRST SEARCH (BFS)
+    - In BFS, we have an "open" list of states we haven't yet visited but are considering, and a "closed" list of states we've already visited
+        - For BFS, the open list is a FIFO queue
+    - Then, to actually do BFS, we do this:
+        1) Add our initial state to the open list
+        2) Get the next state from the open list; this is the "current" state
+        3) Get all of the states we can reach from the "current" state, and add them to the open list IF they haven't already been added to the closed list
+            3.5) Check if any of the nodes we're adding to the open list is the goal; if it is, we're done!
+                - This is ONLY okay for BFS/DFS, since we don't care about weights, so jumping straight to the goal node from our current state is guaranteed to be the shortest path; BFS just minimizes the number of "hops" we do
+                - If you wanted to be safe, you could wait until the goal itself became the "current" node (like the rest of the algorithms), and it would result in the exact same path; it would just run for a few extra steps
+        4) Remove the current state from the open list, and add it to the closed list
+        5) Repeat until we find the goal, or the open list is empty
+    - To recreate our path from this search, there are 2 main ways of doing it
+        - The "classic" way is to create a search tree as we go, where we have the initial state as the root, and when we add a new node to the open list we make it a "child" of the current state; then, we just go back up the tree to the root to find the path we need to take
+        - Another way is that, instead of adding the state itself to the open list, we add a tuple of (state, [listOfPreviouslyVisitedStates]) to the open list instead; this is less memory-efficient, but isn't a problem for modern systems and can simplify your code (since you don't have to worry about managing the tree)
+- BFS is guaranteed to get us the shortest path, but it might be 
+- If we wanted to be more formal, the result of this search should be the list of actions we took to get the final path of states, but for simple examples, this isn't necessary
+- BFS is complete, and it's optimal...but ONLY for an unweighted graph
+
+- Alternatively, we can do DEPTH-FIRST SEARCH
+    - It's the EXACT same as BFS, EXCEPT that instead of having a FIFO queue, we use a LIFO stack for our open list
+    - By doing this, we try to "run away" from the start as fast as we can
+    - DFS tries to FIND its path as quickly as possible, but isn't guaranteed to give us the shortest path
+        - On average, it runs a little faster than BFS, but the paths it gives aren't at all guaranteed to be the shortest
+- So, DFS is complete, but it's NOT optimal
+- "So, BFS vs DFS: it's finding a short path vs (usually) having a short search"
+    - Other than that, literally the only difference is whether you pass in an empty queue or empty stack for the open list
+
+- Alright, so those algorithms are good, but their major downside is that they can't deal with costs...so, let's start exploring algorithms that can deal with those costs
+
+- The first one we'll look at is UNIFORM COST SEARCH
+    - This should look similar to Dijkstra's if you've done that (except that it's only searching for one location), and it's VERY similar to A*...but not quite there
+    - So, starting with BFS, how can we modify that to look at the lowest-cost weight FIRST?...we'll use a PRIORITY QUEUE for the open list!
+        - So NOW, when we add states to the open list, we add them as a tuple of (someObject, costToReach)
+    - So, running through this:
+        1) Add our starting node to the open list with zero weight (i.e. as "(A, 0)")
+            - Alternatively, instead of adding the state object, you can still add it as a "(state, [pathToReachState])" tuple to keep track of the path as you go
+        2) Get the first element from the open list as our current state
+        3) Check if the "current" state is our goal; if it is, we're done!
+        4) Add all of the states we can reach from the current state NOT already in the closed list to the open list
+            3.5) In order to do this, remember that the weight has to be the TOTAL COST from our start to where we are; to do this, the "weight" to get to the node we're adding will be "weightOfCurrentNode + weightOfNeighborBeingAdded"
+        5) Move the "current" state to the closed list
+        6) Repeat from step 2 until we've found the goal or the open list is empty
+    - So, when we're done, if we're using the list method, then the most efficient path will be the first to reach B (thanks to the priority queue), and then we can just pull out the list we get from the search! 
+        - If we're using the search tree method, then we'd have to rotate the parents when we find a lower cost path and...it gets complicated. I wouldn't recommend it
+
+- So, this is pretty good...but these algorithms all have a huge restriction in that we can ONLY use the formal definition of the search problem. We want to find the best solution (which we can do), but we want to do it with the least amount of computation, and in order to do that, we can try using additional information to help out the algorithm...
+    - This, fundamentally, is the idea behind INFORMED search - using extra information WE know ("domain knowledge") to optimize our search to look at the most promising directions first
+
+- Probably the simplest example of an informed search is BEST FIRST SEARCH (BestFS...since we can't have two BFS's)
+    - The idea behind this is simple: if we're trying to find a goal, why don't we try to search the nodes closest to the goal first?
+    - Remember how UCS had a priority queue of "cost so far" weight for the open list? NOW, instead of that, we'll say that the weight is "cost so far + estimated distance from the goal"; since this is just an estimate, we'll say that this is the minimum possible cost of this node
+        - How do we get our estimated distance? We need to come up with a function that gives us a rule-of-thumb guess (i.e. our HEURISTIC)
+            - One example of a common heuristic for actual, physical maps would be straight-line physical distance; this will NEVER overestimate the distance, so it gives us a useful minimum to aim for (overestimated distances can lead to non-optimal paths)
+
+- Next time, we'll finish talking about heuristics, considering if they're "admissible" and "consistent", and then finish up going over these search algorithms - until then, get started on your projects!</pre>
+</article>
+<a class="side-link is-note-link" href="3_searchCont_5_24_18.html"></a>
+</main>
+</body>
+</html>

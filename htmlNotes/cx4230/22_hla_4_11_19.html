@@ -1,0 +1,181 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. Modeling/Simulation</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4230Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. Modeling/Simulation</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_introConceptualModels_1_8_19.html">0. Introduction / Conceptual Models</a></li><li><a class="is-note-link" href="1_complexSystemBasics_1_10_19.html">1. Complex System Basics</a></li><li><a class="is-note-link" href="2_mathReview_1_15_19.html">2. Math Review for Modeling</a></li><li><a class="is-note-link" href="3_stabilityBifurcations_1_17_19.html">3. Stability and Bifurcations</a></li><li><a class="is-note-link" href="4_1dBifurcations_1_22_19.html">4. 1D Bifurcations (cont.)</a></li><li><a class="is-note-link" href="5_2dDiffEqs_1_24_19.html">5. 2D Differential Equations</a></li><li><a class="is-note-link" href="6_2dLinearStability_1_31_19.html">6. 2D Linear System Stability</a></li><li><a class="is-note-link" href="7_2dBifurcations_2_5_19.html">7. 2D Bifurcations</a></li><li><a class="is-note-link" href="8_hopfBifurcations_2_12_19.html">8. Hopf Bifurcations</a></li><li><a class="is-note-link" href="9_chaosIteratedMaps_2_14_19.html">9. Chaos and Iterated Maps</a></li><li><a class="is-note-link" href="10_moreIteratedMapsCellAuto_2_19_19.html">10. Iterated Maps (cont.) / Cellular Automata</a></li><li><a class="is-note-link" href="11_cellularAutomata_2_21_19.html">11. Cellular Automata (cont.)</a></li><li><a class="is-note-link" href="12_discreteEventSim_2_28_19.html">12. Discrete Event Simulation</a></li><li><a class="is-note-link" href="13_queueProcessScheduling_3_5_19.html">13. Queuing and Process Scheduling</a></li><li><a class="is-note-link" href="14_processSchedulingImpl_3_7_19.html">14. Process-Scheduling Implementation</a></li><li><a class="is-note-link" href="15_activityScanningRNG_3_12_19.html">15. Activity Scanning / Random Number Generation</a></li><li><a class="is-note-link" href="16_inputAnalysis_3_14_19.html">16. Input Analysis</a></li><li><a class="is-note-link" href="17_outputAnalysisValidation_3_26_19.html">17. Output Analysis / Validation</a></li><li><a class="is-note-link" href="18_FELIntroParallel_3_28_19.html">18. Future Event List / Intro. to Parallel</a></li><li><a class="is-note-link" href="19_lookaheadSynchronous_4_2_19.html">19. Lookahead and Synchronous Algorithms</a></li><li><a class="is-note-link" href="20_timeWarp_4_4_19.html">20. Time Warp</a></li><li><a class="is-note-link" href="21_timeWarpGlobalControl_4_9_19.html">21. Time Warp Global Control</a></li><li class="active-note-page"><a class="is-note-link" href="22_hla_4_11_19.html">22. High-Level Architecture</a></li><li><a class="is-note-link" href="23_exam2Review_4_23_19.html">23. Exam 2 Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="21_timeWarpGlobalControl_4_9_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*************** High-Level Architecture - April 11th, 2019 ****************//
+//**************************************************************************//
+
+- Alright, we're up to the last "real" topic we're going to cover in this class: taking simulations that've been developed separately and somehow getting them to work together
+    - This is often done in a last-minute, ad-hoc way, but some serious effort has been spent on trying to do this systematically - in particular, via the "High-level architecture"
+        - We'll spend a bit of the class talking about this problem in general, and then dive as deep as we can into HLA specifically - let's do it!
+
+- Why, though, would we EVER want to tie two different simulations together?
+    - Think about this example: suppose we're an urban planner, and we're trying to figure out how self-driving electric cars will affect quality-of-life factors in our neighborhood
+        - One thing that might affect this is where people will live given this new transportation method, so we need a tool to look at how land use evolves over time (UrbanSim, PECASE, etc.)
+        - We'll also want to know what that means for traffic, so we'll need some sort of traffic model
+        - We might also want to know how this affects greenhouse gas emissions for our city, so that's another simulation we need (PowerWorld, environmental stuff, etc.)
+            - ...and, of course, the list keeps going
+    - There's been a LOT of work in all of these areas, so why start from scratch? Instead, it'd save us a LOT of time if we could reuse these existing simulations for our own use!
+        - This problem, where we're interested in a "system-of-systems" that deals with multiple different, complex factors, comes up a LOT
+            - It goes by a lot of different names ("federated simulations," "coupled simulations," etc.), but they all refer to this problem
+        - It'd also be REALLY nice if this system could run in a distributed way, for performance and convenience reasons
+    - How hard can this be, though? As it turns out, connecting 2 simulations is VERY difficult for a number of reasons:
+        - Simulations tend to developed for different PROBLEM DEFINITIONS, and it's very likely that 2 different simulations are actually trying to solve 2 completely different problems w/ different scopes and scales
+        - They likely use different conceptual models, making different assumptions, simplifications, and abstractions
+        - The SIMULATION MODELS themselves probably represent their entities differently, use different ways of representing time progressing, etc.
+        - And finally, having 2 separate, working simulators does NOT mean that their combined simulation is immediately verified and validated - we have to re-validate the whole thing again!
+
+- As you can see, this is a VERY scary problem, and not all parts of it have been solved
+    - When it comes to tying 2 different simulations together, there are actually different levels of integration they can have
+        - The most basic level is INTEGRATEABILITY, where the physical computers themselves can talk to each other (use the same network protocols, compatible hardware, etc.)
+            - By-and-large, this is a solved problem, although it was a major issue for many years and still comes up occasionally
+        - Next up is INTEROPERABILITY, where we need to make sure the software programs themselves can talk to each other (use compatible APIs, consistent datatypes, etc.)
+            - This is an even more difficult problem, but it can be solved by the programs using common libraries, compatible software architectures, etc.
+        - Finally is the idea of COMPOSABILITY, where the simulation models themselves work together seamlessly (shared objectives and assumptions, common abstractions, etc.)
+            - The goal here is for the models to be "composable" in the same way as mathematical functions, and this has proved notoriously difficult - very little progress has been made here
+
+- One of the biggest attempts to tackle the 2nd "interoperability" program in the simulation world is the HIGH-LEVEL ARCHITECTURE standard
+    - Why did this thing come about?
+        - Well, back in the 1980s, the U.S. military had a problem: their computers were rife with STOVEPIPED SYSTEMS that couldn't communicate with one another and were only made for one specific use
+            - This meant that existing software was hard to reuse for new tasks, and a lot of reinventing the wheel came about as a result - it was EXPENSIVE to build all these separate systems for similar tasks, and to have to re-build the systems every few years
+    - To deal with this, the military wanted a common simulation infrastructure that would support the "interoperability and reuse of simulations" across the board
+        - In particular, they cared about 3 categories of simulations that they wanted to work together:
+            - ANALYTIC SIMULATIONS (e.g. doing "wargame" tests for different battle outcomes)
+            - TRAINING SIMULATIONS (e.g. flight simulations, commander scenario training, etc.)
+            - TEST/EVALUATION SIMULATIONS (e.g. testing hardware)
+    - Because they figured it was impossible to build a single "megasimulation" that could handle all of these tasks at once, HLA was designed to promote simulations that would work together to create "systems of systems" with reusable pieces
+        - The hope was that FEDERATIONS of individual simulations (or "federates") could be created that would all work together, with 4 main types of simulations:
+            - CONSTRUCTIVE simulations are totally software, without any human intervention
+            - HUMAN-IN-THE-LOOP are software simulations with human inputs (e.g. flight simulators)
+            - LIVE simulations involve outputs in the real world (e.g. blinking red light, hardware testing)
+            - The holy grail is the LVC - "Live, Virtual, Constructive simulation" - that would combine all of these types of simulations seamlessly and effectively (e.g. a training scenario with human soldiers, AI-controlled enemies, and real guns with virtual feedback)
+    - HLA itself is composed of several pieces, all working together:
+        - There are RULES that each of the simulations/federates must follow to achieve proper interaction
+        - The OBJECT MODEL TEMPLATE defines the format for objects that need to be passed between federates or that are common to the whole federation, along with their attributes and relationships
+            - This is documented in the "Federation Object Model (FOM)"
+        - The INTERFACE SPECIFICATION provides an interface to the RUN-TIME INFRASTRUCTURE (RTI), the program that coordinates all of the individual systems together
+            - When running, each of the individual federates will pass information/receive commands from the RTI, which will then handle message-passing between the different federates
+
+- So, HLA doesn't define the the software itself at all, but the interfaces that the software uses to communicate with the outside world
+    - There are these 3 parts, but what are the rules that HLA simulations need to follow?
+        - As it turns out, there are only 10 rules we need to do this! Here're just a few of the important ones:
+            - The federation as a whole needs to have some sort federation-wise object model that's "safe ground" for all systems to use
+            - All of the state variables for the simulation need to reside in the federates themselves, NOT the runtime infrastructure itself
+                - This means the RTI is stateless, and can be reused MUCH more easily
+            - Federates MUST interact with each other through the interfaces ONLY (no backdoors!)
+            - Federates need to be able to manage their own local time in a way that lets them coordinate with the other processes
+                - Does this sound similar to the parallel synchronization we've been doing? Because it should sound SUSPICIOUSLY similar...
+
+- What about the Object Model Template (OMT)?
+    - The best way to think about this is that it's a common object model; all the class hierarchies in the simulation 
+        - There are are few different object models:
+            - Each individual simulation has a "Simulation Model Object" (SOM) that describes its internal objects that can be accessed by other federates
+            - The "Federation Object Model (FOM)" is defined for the WHOLE federation, and describes all the shared objects in the federation and their relationships/attributes 
+        - Again, the standardized thing is NOT the content of these tables, but their format
+    - The OMT itself is a documentation format for describing these things (?), and is defined using tables for the objects and their attributes/relationships, probably the most important of which is the CLASS STRUCTURE TABLE
+        - This defines the classes and class hierarchies that all the federates in the federation can safely use and pass to a different simulation; if it isn't defined in this table, it has to stay strictly inside a single simulation alone
+        - Another important table is the ATTRIBUTE TABLE, which says what the attributes/variables within each class are and the possible values they can take on
+
+- Finally, and arguably most importantly, is the Interface specification
+    - Broadly, there are 6 categories of services defined in the HLA:
+        - FEDERATION management services, which manage the execution of the system itself (e.g. for starting/ending new federates, for individual simulators joining the federation, pausing/resuming the sim, etc.)
+        - DECLARATION management, where each simulation says what type of information it can send/receive or import/export
+            - For instance, if we're making a driving simulator, the screen component might say that it wants to receive car position info, but doesn't output anything to the rest of the federates
+        - OBJECT management services are what we'll use to actually pass data between different simulations, and to change values on objects
+        - OWNERSHIP management allows us to change what federate "owns" a particular object
+        - TIME management are the services we use to keep the different federates in sync
+        - DATA DISTRIBUTION management is used to efficiently route/transfer data through the system
+    - Broadly, here's what a typical federation run will look like:
+        - First, the federation will be initializes
+            - One of the federates will create the federation, then the other simulations will join it
+        - Then all the federates will declare the objects that are going to be shared
+            - Each of the federates will say what information they're sharing AND what information they want to "listen to," using the declaration management
+        - For the rest of the simulation, the federates will be exchanging data (updating object values w/ Object management, advancing time, etc.)
+        - Finally, when the simulation is done, we'll terminate the federation
+
+- Message passing isn't a big focus, but here are the important bits you should know about:
+    - In a normal program, we always know who we're sending a message to - but that's NOT true in a federation! We don't know who's supposed to get our messages, or who needs that information!
+        - We could BROADCAST and send the message to EVERYONE, and let them deal with it, but that's pretty naive - most of the network traffic ends up being wasted on "junk mail"
+        - Instead, a more efficient scheme to do this is the PUBLICATION-SUBSCRIPTION model
+            - Here, each "producer" thread has a way of saying what kind of data it's making, and each receiver has a way of saying what kind of data it's looking for
+                - e.g. Calling "PublishOCA(Car, position)" on one simulation and "SubscribeOCA(Car, position)" on another
+                    - Now, every time The 1st federate updates a car's position, the RTI will check to see who's subscribed to (Car, position) and then send that information to federate 2!
+            - Using that scheme, we'll only send data from a given federate to the simulations that actually need it - neat!
+
+- Alright - at a high level, that's what the High-Level Architecture is, why it exists, and how it works
+    
+- The goal of HLA is to take all of these simulations and tie them together, but one of the most difficult parts of this is TIME SYNCHRONIZATION
+    - Each individual federate might be a multithreaded program with its own local synchronization techniques, and then, on top of that, we need to coordinate all of these federates with each other!
+        - Each of the simulation might be running at a different speed, too!
+            - FAST-AS-POSSIBLE simulations don't worry about wall-clock time, and just try to run as fast as they possibly can
+            - REAL-TIME simulations try to advance at the same rate as wall-clock time
+            - SCALED REAL-TIME advances in sync with wall clock time, but with some scaling factor, like 2x as fast, or 1/3 as fast
+    - A big part of this problem is MESSAGE ORDERING
+        - So far, we've been trying to send these messages in time-step order
+            - Keeping the messages in order prevents temporal artifacts, but can lead to higher latency
+        - For real-time simulations, though, we just want to use RECEIVE ORDER, passing the messages to the simulation as fast as we possibly can
+            - This minimizes latency, but means that we can end up with weird effects, so it's not used when we need precise analyses
+    - To deal with this problem, HLA provides a specification for TIME MANAGEMENT SERVICES
+        - This has two parts:
+            - An EVENT ORDERING part that runs on the RTI and keeps track of which messages need to be sent in time-stamp order
+            - An interface for synchronizing message delivery between the RTI and individual federates
+        - There are 3 important specific services:
+            - TIME ADVANCE REQUEST advances simulation time for time-stepped federates
+                - Here, the local simulation requests that it wants to advance its time forward to a particular amount (e.g. to T=20 seconds)
+                    - When the RTI receives that request, it'll then deliver all of the messages it has stored for that federate that have a time stamp less than 20 seconds
+                    - When the RTI knows that all TSO messages for that federate have been received, it sends it a time-advance grant message to actually forward the federate's time
+            - NEXT MESSAGE REQUEST advances simulation time for event-based federates
+                - The goal here is to process all the messages in time-stamp order; to do this, the federate looks at the next smallest event in its future event list
+                    - We then want to either process that event, OR the smallest incoming event (if an incoming message has a smaller timestamp)
+                - To do this, the federate makes a next message request with its locally smallest event
+                    - When the RTI receives that message, it'll check if it has any messages for that federate smaller than that timestamp
+                        - If there are, it sends all of those events to the timestamp and grants its request
+                        - Otherwise, it advances the federate's time to that timestamp and grants its request
+                - REMEMBER, we had a lookahead creep problem back in CMB, and having the smallest local event time let us get around it
+                    - HERE, the RTI wants to know our smallest local event's timestamp via next-message request, allowing it to avoid lookahead creep
+            - TIME ADVANCE GRANT is a message the RTI sends to the federate to let it know that it's allowed to advance forward in time
+
+- So, this seems pretty great, but what about Time Warp? It can send out wrong messages to simulators that don't know ANYTHING about rollback!
+    - How can we prevent optimistic simulations from "leaking" wrong messages out to the other systems?
+        - In HLA, we want the simulations to not care about what the others are doing for synchronization; they should "just work" without needing to know about that (i.e. SYNCHRONIZATION TRANSPARENCY)
+    - For the conservative federates, we just need to know the lower time bound on messages that we can send, and we're good
+        - The RTI will only deliver messages w/ timestamps &lt;= the LBTS for that federate
+    - For the optimistic simulations, though, it's a little bit more tricky:
+        - It's okay for 2 optimistic simulations to send wrong messages to each other, since they can roll back - but it's NOT okay to send wrong messages to conservative federates
+            - The way we deal with this is a "FlushQueue" service that holds messages that could possibly end up being wrong; each federate can choose whether it wants to receive these messages or not
+            - We'll also have a "Retract" message that allows us to send anti-messages to the FlushQueue
+            - (some more details)
+
+- OKAY - so, this time-management management stuff is complicated, but it's crucial to make sure our simulation works
+
+- ...and that's really it for lecture material in this course! A week from today is the test, and the week after that your projects are due; study hard, and we'll see you later!
+    - *screaming internally from instant carpal tunnel, as my fingers frantically try to keep up with machine-gun Fujimoto*
+</pre>
+</article>
+<a class="side-link is-note-link" href="23_exam2Review_4_23_19.html"></a>
+</main>
+</body>
+</html>

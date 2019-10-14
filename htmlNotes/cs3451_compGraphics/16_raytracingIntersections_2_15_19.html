@@ -1,0 +1,120 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li class="active-note-page"><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull-Clark Subdivision</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li><li><a class="is-note-link" href="38_virtualReality_4_17_19.html">38. Virtual Reality</a></li><li><a class="is-note-link" href="39_gameRendering_4_19_19.html">39. Game Rendering</a></li><li><a class="is-note-link" href="40_proceduralContent_4_22_19.html">40. Procedural Content Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="15_colorRaytracing_2_13_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************* Raytracing Intersections - February 15th, 2019 **************//
+//**************************************************************************//
+
+- This is the lull before the wave of work...is that a scientifically correct description?
+    - *One Google search later* Ah, this is truly the trough before the crest (unless we're talking about my emotional state, in which case reverse the terms, reader)
+    - Wherefore bringeth such labor much strain and stress upon us mortals? Soft, what cause moves us to make so much of passing moments, and to heap our souls on idols of the world?
+        - (...yeah.)
+- THE SCREEN HAS CHANGED. INITIATE PROFESSOR TURK ACTIVATION SEQUENCE.
+    - PERFORMING QUESTION ANSWERING SEQUENCE IN 3...2...1...
+        - Okay, for homework 2b:
+            - Object instancing just means creating multiple copies of an object, using the matrix stack to move/position them in different ways
+--------------------------------------------------------------
+
+- Alright, yesterday we started talking about ray tracing, and how it's the favored technique for animators - "but, like, who?"
+    - Blue Sky Animation, who created the Ice Age movies, started using Ray Tracing alllllll the way back to the first Ice Age movie 
+    - Pixar actually was late to the ray tracing game - they didn't start predominantly using Ray tracing until "Monsters University" in 2013!
+        - They did use it for small bits in previous films (reflections in "Cars," etc.), but not predominantly by any means
+    - Literally EVERY special effects company since ~2005 uses ray tracing for the vast majority of their effects
+
+- We also started talking about how SURFACES are defined in ray-tracing, and how they're usually defined using implicit equations to help us tell when a ray collides with them
+    - For a unit sphere, for instance, we usually define it with the implicit equation:
+
+            x^2 + y^2 + z^2 = 1
+
+        - If we want to calculate where the ray pointing in direction (dx, dy, dz) and of length "t" actually intersects the sphere, then we can change this equation to:
+
+            (x0 + t*dx)^2 + (y0 + t*dy)^2 + (z0 + t*dz)^2  - 1 = 0 
+
+        - Simplifying a bit, we can rewrite this equation as:
+
+            t^2*(dx^2 + dy^2 + dz^2) + 2t*(x0dx + y0dy + z0dz) + x0^2+y0^2+z0^2 - 1 = 0
+
+        - This is a quadratic equation, since x0/y0/z0 are all constants! So, we can solve for t using the quadratic formula!
+
+                t = (-b +/- sqrt(b^2 - 4ac)) / 2a
+
+            - This +/- means that there are TWO points where the ray intersects the sphere's surface: one through the front of the sphere, and the other out the back!
+                - It's like a severe bullet wound - it goes in, but it must also come out!
+                    - ...there are probably alternative analogies
+                - (Professor Turk's microphone died; he promptly began rummaging through his backpack saying "Here battery, battery, battery...")
+
+        - ...and finally, for a general sphere of radius "r", centered at (xc, yc, zc), we'll define it as:
+
+                (x-xc)^2 + (y-yc)^2 + (z-zc)^2 = r^2
+                
+            - Now, graphics programmers don't like calling square roots, since they're MUCH more computationally intensive then multiplication! So, we usually just compare the result against r^2 instead of r if we can get away with it
+
+- That's great for a sphere and everything, but how do we figure out where a ray intersects with any polygon in general?
+    - Well, a polygon is a 2D shape, right? So maybe we can simplify this problem by projecting our ray onto the 2D plane the polygon lies in, and then figure out the 2D problem of if the point lies within that polygon
+    - So, ONE way of figuring this out is to:
+
+        1) Calculate the ray's intersection with the infinite 2D plane the polygon lies in
+        2) Project the triangle/polygon and the point of intersection onto that 2D plane
+        3) Figure out if, in 2D, the intersection point is inside the polygon (the "point-in-polygon" test)
+
+- So, that sounds like a plan!...but how do we calculate the intersection of a ray with a 3D plane, anyway?
+    - Sure enough, we can define a plane implicitly in 3D with the following equation:
+
+            ax + by + cz + d = 0
+
+        - Basically, what's going on here is that d is a vector that defines the position/center point of the plane, and the vector (a,b,c) is a vector that's normal to the plane
+    - To calculate where the ray INTERSECTS, we'll again factor the ray into this equation:
+
+            a(x0 + t*dx) + b(y0 + t*dy) + c(z0 + t*dz) + d = 0 =&gt;
+            t*(a*dx + b*dy + c*dz) + ax0 + by0 + cz0 + d = 0 =&gt;
+            t = -(ax0 + by0 + cz0 + d) / (a*dx + b*dy + c*dz)
+
+        - So, we can solve for t - great! HOWEVER, what if the denominator of this equation ends up being 0? That's not allowed, so how do we prevent it?
+            - Well, since (a,b,c) is the normal vector to the plane, and (dx,dy,dz) is the direction of the ray, the denominator is actually the dot product of those two vectors - and if it's zero, that means the the ray is perpendicular to the normal and PARALLEL to the plane, so we can just assume it doesn't hit!
+
+- Alright, that's the intersection figured out, but how do we handle the 2D projection part of this?
+    - So, we know where the intersection point is on our 3D plane (missed the rest)
+
+- And then, finally, we have to figure out if our point is inside the triangle - easy right?
+    - Well, it's pretty easy for us to just look at a point and say "that's inside something" or "that's outside something" - but when we try to think about HOW we do this, it isn't obvious! So how do we tell our computer to do this?
+        - One bad way is the CROSSING test, where you shoot a ray out from the point and count how many times it intersects a line in the polygon
+            - The idea is that if the point is inside the polygon, it will only cross the polygon's lines ONCE, but if it's outside it'll either cross twice (entering one side and leaving the other) or not at all
+            - But this misses an important edge case: if the point's ray is tangent to the polygon, this method will falsely think it's inside!
+        - A slightly better way is the WINDING METHOD: we draw 3 rays out from the corners of the triangle (or 4 for a square, etc.), and count up the angles the rays make with each other while going ONLY IN ONE DIRECTION (clockwise or counter-clockwise)
+            - If the point is inside the polygon, we can draw all ray-angle pairs by just moving in a circle, so the angles won't cancel out and'll be some non-zero value (almost always the sum of the polygon's internal angles)
+                - HOWEVER, if the point is outside of the polygon, the last angle/ray pair will have to go backwards in the opposite direction, which'll cancel out and result in a total angle sum of 0
+            - This method has problems too, though: what if the point is on a line? Is it inside or outside? That now becomes inconsistent! And it's pretty cumbersome, too
+        - The method Professor Turk recommends, then, is the HALF-PLANE test
+            - Here, we draw a line (our "plane") for EACH side of the triangle, and say that the point is "positive" if it's to the left of the line (i.e. towards the inside of the triangle) and "negative" if it's to the right (i.e. outside the triangle)
+                - If the point is negative for ANY of the lines, then it can't be inside the polygon
+                - Otherwise, if it's positive for all of them, it must be inside the triangle!
+
+- On Monday, we'll give the actual equation for doing the half-plane test - keep on until then!</pre>
+</article>
+<a class="side-link is-note-link" href="17_moreRaytracing_2_18_19.html"></a>
+</main>
+</body>
+</html>

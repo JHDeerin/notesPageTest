@@ -1,0 +1,66 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - OOP</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs1331Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">OOP</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_classNotes_9_14_16.html">0. Classes</a></li><li><a class="is-note-link" href="1_moreClassNotes_9_16_16.html">1. Classes (Cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="2_inheritanceNotes_9_26_16.html">2. Inheritance</a></li><li><a class="is-note-link" href="3_moreInheritanceNotes_9_28_16.html">3. Inheritance (cont.)</a></li><li><a class="is-note-link" href="4_polymorphismNotes_9_30_16.html">4. Polymorphism</a></li><li><a class="is-note-link" href="5_morePolymorphismNotes_10_3_16.html">5. Polymorphism (cont.)</a></li><li><a class="is-note-link" href="6_objectSuperclassNotes_10_5_16.html">6. The Object Superclass</a></li><li><a class="is-note-link" href="7_moreObjectSuperclassNotes_10_7_16.html">7. Object Superclass (cont.)</a></li><li><a class="is-note-link" href="8_exceptionNotes_10_19_16.html">8. Exceptions</a></li><li><a class="is-note-link" href="9_moreExceptionNotes_10_21_16.html">9. Exceptions (cont.)</a></li><li><a class="is-note-link" href="10_collectionsNotes_10_24_16.html">10. Java Collections</a></li><li><a class="is-note-link" href="11_moreCollectionNotes_10_26_16.html">11. Collections (cont.)</a></li><li><a class="is-note-link" href="12_collectionAlgorithms_10_31_16.html">12. Collection Algorithms</a></li><li><a class="is-note-link" href="13_iteratorNotes_11_2_16.html">13. Iterators</a></li><li><a class="is-note-link" href="14_lambdaNotes_11_4_16.html">14. Lambda Expressions</a></li><li><a class="is-note-link" href="15_hashedNotes_11_7_16.html">15. Hashed Collections</a></li><li><a class="is-note-link" href="16_javafxNotes_11_9_16.html">16. JavaFX Notes</a></li><li><a class="is-note-link" href="17_JavaFXNotes_11_11_16.html">17. JavaFX (cont.)</a></li><li><a class="is-note-link" href="18_test3Review_11_14_16.html">18. Test 3 Review</a></li><li><a class="is-note-link" href="19_recursionNotes_11_28_16.html">19. Recursion</a></li><li><a class="is-note-link" href="20_linkedListNotes_11_30_16.html">20. Linked Lists</a></li><li><a class="is-note-link" href="21_stackQueueNotes_12_2_16.html">21. Stacks &amp; Queues</a></li><li><a class="is-note-link" href="22_closingNotes_12_5_16.html">22. Closing Time</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="1_moreClassNotes_9_16_16.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//********************************************************//
+//*************Inheritance - September 26th, 2016********//
+//******************************************************//
+
+-Side note: Cobb County School Board is apparently silly
+-Towards the end of the year, there'll be extra points available, as some people need a "catch-up" period to really grasp programming concepts; the system is designed to be student friendly. Practical result: don't stress out too much about the first exam.
+-For the programming quiz, just remember: you don't have to code it on paper.
+-For programming interviews: it's expensive to screw up hiring, which is why selection is so rigorous. So you'll usually have to do a coding portion (often via pair programming, which we would've done if there were enough TAs). Usually, it's not the "n-queens" problem or anything mightily hard (although sometimes they are); usually they're looking to see if you can take, interpret, and solve an intermediate-level problem as efficiently as possible without major screw-ups or constant guidance
+-Side note from Professor Simpkins: It's awesome to work at GT w/ GT students, but while I'm wrapping up my Phd. I need a lot of work. So if I can't talk for very long or seem stressed, it's not your fault. Usually.
+
+-HOMEWORK: 2 is more open ended than 1, and that trend WILL continue. These homeworks are testing your design skills as well as your coding skills. That being said: READ THE INSTRUCTIONS. These are free points if you know what they are; if you miss them, though, those are free points lost, and irl could mean annoying a client or accidentally introducing a safety hazard, so READ CAREFULLY.
+    -Later on, in classes and in industry, you'll often have to take a problem and make your own instructions out of it.
+-------------------------------------------------------------------------------
+
+-Probably, you already knew almost everything we did before (maybe in a different language). Inheritance will still be old hat for some of you, but it's the first really "new" thing for most people.
+-Java has a lot of boilerplate and some annoying stuff, but it is a GREAT language for LARGE projects. Some of the stuff that seems annoying here because of the small projects we do turn into life-savers on real, complex software systems.
+-We can deal with complexity via ABSTRACTION (hiding irrelevant details), DECOMPOSITION(decomposing into classes, functions, packages, etc) and REUSE
+-Inheritance combines all 3 of these
+
+-INHERITANCE is just deriving one class from another class
+    -Classes that inherit from another class are a "subclass" or "derived class" or "child class"
+IMPORTANT: Inheritance IS NOT ABOUT IMPLEMENTATION REUSE. Instead, it is about resusing CONCEPTS. e.g. "HourlyEmployee" is-a "Employee"
+
+-Pretend we have an employee class that has members and methods for "name", "dateOfHire", etc.
+-We can create a brand new class that EXTENDS the "Employee" class, e.g.
+    "public class HourlyEmployee extend Employee"
+-HourlyEmployee inherits all members/methods from Employee, but can't directly access private methods/members
+-Can use the "super" call to reuse the initial constructor
+
+(GOTO HourlyEmployee class)
+
+-When inheriting, you are extending the capabilities the class already had
+
+-When considering visibility modifier, there are levels for Classes, subclasses, packages, and the whole program; and public, protected, private, and no modifier modifiers; the table of what can view what is on the website, but private variables are only visible within the class
+</pre>
+</article>
+<a class="side-link is-note-link" href="3_moreInheritanceNotes_9_28_16.html"></a>
+</main>
+</body>
+</html>

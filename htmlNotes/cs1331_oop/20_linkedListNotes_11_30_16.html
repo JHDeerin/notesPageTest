@@ -1,0 +1,138 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - OOP</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs1331Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">OOP</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_classNotes_9_14_16.html">0. Classes</a></li><li><a class="is-note-link" href="1_moreClassNotes_9_16_16.html">1. Classes (Cont.)</a></li><li><a class="is-note-link" href="2_inheritanceNotes_9_26_16.html">2. Inheritance</a></li><li><a class="is-note-link" href="3_moreInheritanceNotes_9_28_16.html">3. Inheritance (cont.)</a></li><li><a class="is-note-link" href="4_polymorphismNotes_9_30_16.html">4. Polymorphism</a></li><li><a class="is-note-link" href="5_morePolymorphismNotes_10_3_16.html">5. Polymorphism (cont.)</a></li><li><a class="is-note-link" href="6_objectSuperclassNotes_10_5_16.html">6. The Object Superclass</a></li><li><a class="is-note-link" href="7_moreObjectSuperclassNotes_10_7_16.html">7. Object Superclass (cont.)</a></li><li><a class="is-note-link" href="8_exceptionNotes_10_19_16.html">8. Exceptions</a></li><li><a class="is-note-link" href="9_moreExceptionNotes_10_21_16.html">9. Exceptions (cont.)</a></li><li><a class="is-note-link" href="10_collectionsNotes_10_24_16.html">10. Java Collections</a></li><li><a class="is-note-link" href="11_moreCollectionNotes_10_26_16.html">11. Collections (cont.)</a></li><li><a class="is-note-link" href="12_collectionAlgorithms_10_31_16.html">12. Collection Algorithms</a></li><li><a class="is-note-link" href="13_iteratorNotes_11_2_16.html">13. Iterators</a></li><li><a class="is-note-link" href="14_lambdaNotes_11_4_16.html">14. Lambda Expressions</a></li><li><a class="is-note-link" href="15_hashedNotes_11_7_16.html">15. Hashed Collections</a></li><li><a class="is-note-link" href="16_javafxNotes_11_9_16.html">16. JavaFX Notes</a></li><li><a class="is-note-link" href="17_JavaFXNotes_11_11_16.html">17. JavaFX (cont.)</a></li><li><a class="is-note-link" href="18_test3Review_11_14_16.html">18. Test 3 Review</a></li><li><a class="is-note-link" href="19_recursionNotes_11_28_16.html">19. Recursion</a></li><li class="active-note-page"><a class="is-note-link" href="20_linkedListNotes_11_30_16.html">20. Linked Lists</a></li><li><a class="is-note-link" href="21_stackQueueNotes_12_2_16.html">21. Stacks &amp; Queues</a></li><li><a class="is-note-link" href="22_closingNotes_12_5_16.html">22. Closing Time</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="19_recursionNotes_11_28_16.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//***********************************************//
+//*******Linked Lists - November 30th, 2016*****//
+//*********************************************//
+
+-We get Taylor today!
+
+-About the homework: there's a general panic going around: TA lab is flooded, getting a ton of emails, etc. Yes, it's a lot, there's a lot of stuff to look through, it's DENSE, you have to understand code you haven't written, etc. BUT: The POINT of the homework is to handle the GUI and show a basic understanding of JavaFX. If I can hit "Start" and the map pops up, and there's some sort of menu showing, AND I can sort-of interact with the map, then that's already a pretty good grade!
+    -I haven't even written the rubric since I wasn't sure how hard this would be! Trust me, if most people are struggling, you won't get an "F" for getting a basic interactable map to show up (now, would it be a "B"?)
+    -The due date will NOT be extended, though; you had 2 weeks to do this. MORE IMPORTANTLY, we want to finish grading by the end of the semester
+-MAKE SURE TO COMPILE HOMEWORK 6 CORRECTLY; there will most likely be NO REGRADE CHANCES due to how close to the end we are
+-------------------------------------------------------
+
+-So, we start with data structures now!
+-In real life, data structures are really important. MORE IMPORTANTLY (kinda):
+    -Linked lists appear ALL THE TIME in job interviews. You're expected to know these things forwards and back, along with the rest of the major data structures; problems involving these will be a MAJOR way companies
+
+-So, arrays are a list of spaces for objects all in one contiguous set of memory; the problem though, is that we can have gaps in these spaces, so the array indices themselves have NO IDEA where the next piece of data is
+-A LINKED LIST is a collection of data where each piece of data has a reference (usually a pointer) to the next piece of data in the list
+
+    [data] -&gt; [data] -&gt; [data]
+
+-So, in order to iterate through this, we just follow the data pieces to wherever each points next!
+-These data pieces are each called NODES; the first node if called the HEAD
+    -Head is usually stored in a reference variable; if the head is null, then there are NO elements in the list
+    -The last element in the list is called the TAIL;
+        -If there's only one item in the list, it is both the head AND the tail
+
+-Now, there is a tradeoff: if we want to just get, say, the 3rd piece of data, we can't just jump there like in an array; we'd have to iterate through the list until we find the piece of data
+
+-There are many variations to the linked list; instead of having a TAIL variable, we can just check if the pointer to the next node is "null", in which case, we're at the end of the linked list!
+    -Head, though...you always need somewhere to start, so basically every implementation has a Head variable
+-The one we've discussed is a "Singly Linked List", as there's only a single reference in each node to its neighbors
+-There's also a "Doubly Linked List", each node has a reference to both the next AND previous node, allowing us to go both forward and backwards
+    -HEAD usually doesn't have a link to the TAIL, though (except in one, specific case...which you'll learn about in 1332 :)   )
+
+    [HEAD] &lt;-&gt; [node] &lt;-&gt; [node] &lt;-&gt; [node] &lt;-&gt; [TAIL]
+
+-So, as far as actually coding this thing:
+    -The data could be an object, a primitive, etc.; it could be ANYTHING
+        -In practice, it'll always technically be an object, if only due to wrapper classes
+    -So, it can be ANYTHING? Sounds like a job for...Generics!
+
+    public class Node&lt;E&gt; {...}
+
+    -So, we'll have TWO pieces of instance data (for a singly-linked list)- A reference to the next node ("private Node&lt;E&gt; next") and something to actually hold the data ("private E data")
+    -Along with that, we'll need getters and setters for the data, and a constructor to actually instantiate a node:
+
+    public Node(E data) {
+        this.data = data;
+        next = null;
+    }
+
+    public Node(E data, Node next) {
+        this.data = data;
+        this.next = next;
+    }
+
+    //getters / setters self-explanatory
+
+    -Okay, so we've coded the Node class! Now, though, we have to make the actually class for the LinkedList itself (public class LinkedList&lt;E&gt;)
+    -The class itself should just NEED one piece of instance data: a reference to the head
+
+    "public class LinkedList&lt;E&gt; {
+        Node head = null;
+
+        public LinkedList(E head) { //just have to pass in a data; the user doesn't even have to know what a linked list is
+            this.head = new Node(head);
+        }
+
+        public LinkedList() {
+            this.head = null;
+        }"
+
+        -So, we've got the basic data structure; now we want to be able to add things to the LinkedList!
+            -To do this, we need to get to the end of the list, then add our piece of data as the next
+
+        "public void add(E data) {
+            Node curNode = head;
+            while(curNode.next() != null) { //starts at head, then goes to the end of the list
+                curNode = curNode.next();
+            }
+            curNode.setNext(new Node(data));
+        }"
+
+    -Great! We can make a new LinkedList, we can add stuff to it...but what if we want to remove something from the list?
+
+    "public void remove(E data) {
+        Node curNode = head;
+        while(!curNode.getData().equals(data) &amp;&amp; curNode.next != null) { //keep going until we reach the node we're looking for, or the end of the list
+            curNode = curNode.next();
+        }
+        ...
+    }"
+
+    -Now we have a problem, though: once we remove the node, the node before it, that used to be pointing at the node we removed, won't be pointing at anything; that'll break the list! So, we have to make the previous node point to the next node instead:
+
+    ...[node] -&gt; [node] -X *poof* [node] -&gt; ...
+    ...[node] -&gt; [node] --------&gt; [node] -&gt; ...
+
+    -So, we need a 2nd pointer to keep track of the node we just looked at
+        -Don't have to worry about setting curNode to null, as in Java, any object with no references to it (no way of reaching it) will be automatically removed
+    -EDGE CASES: What if data isn't in the list?
+                    -Program won't know what to do! Could do something like, "if (curNode.getData())"
+                -What if we remove the head? Then the list doesn't know where the head is!
+                    -We'll just have an "if (curNode.equals(head))" and set the next node to be the new head
+    -ALWAYS consider the edge cases; in real life, you will ALWAYS have to deal with them, and in job interviews, catching the edge cases is what makes a good programmer stand out
+</pre>
+</article>
+<a class="side-link is-note-link" href="21_stackQueueNotes_12_2_16.html"></a>
+</main>
+</body>
+</html>

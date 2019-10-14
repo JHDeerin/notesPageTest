@@ -1,0 +1,122 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs2110Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li class="active-note-page"><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="0_firstDay_8_22_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//***************** Datatypes (cont.) - August 24th, 2017 *******************//
+//**************************************************************************//
+
+-And Prof. Leahy takes the stage once again...
+---------------------------------------------------
+
+-So, LAST TIME on 2110...
+    -We were talking about 2's complement; what's the big idea?
+        - Well, "2's complement signed integers" are a type of datatype
+        - So, how do we convert a decimal integer into binary "2's complement" form?
+            - If it's a positive number...just convert it to binary!
+                - "And what's the easiest way to convert to binary? That's right: use a calculator!"
+                -SINCE TIME IMMEMORIAL, Microsoft's calculator has had a "programmer mode" that lets you convert to binary
+                - You can't convert these numbers to binary in your head...YET
+                    - Well, to do it in your head, if the last digit is ODD, then the 1st binary digit is 1; otherwise, it's 0
+                    -...etc.
+            - If it's a NEGATIVE number...convert it to binary, flip all the bits, and ADD 1!
+        - Now, when you subtract binary numbers from each other, well, when you subtract a 1 from a 1, you get 0, and when you subtract a 0 from 1, you get 1
+            - So, someone figured, well, we can just flip all the binary digits to subtract and get its opposite!...but it didn't work, because when we carry over a number (from the left, during subtraction), we're actually carrying over a 2!
+                - Therefore, when we flip the number, it's almost like subtracting 1111...111 from it, which ROTATES the number all the way back around...BUT, because of the whole "carry 2" subtraction thing, it'll be 1 off!
+            - So, if we FLIP the number and add 1 to it, we get its CORRECT! 2's complement! THAT'S where the formula comes from!
+                - "Now, even if you ask a senior engineer from MIT, 'why does this way of computing 2's complement work?', I guarantee you 99% of them will say 'I have no idea'; but the reason it works is just because it's a shortcut method of subtracting!"
+                    - Disclaimer from Prof. Leahey: "I have actually asked MIT engineers this, and they've almost all had no idea why it works"
+            - Now, some people will say "BUT WAIT! What about this special case!":  0001
+                    +1111 = 10000
+                - "We end up with an extra 1! We can't just throw that out, can we?" Well, YEAH, we can!
+                - Binary numbers (in 2's complement form) work like a car's odometer with 3 digits; it might count up to 999, but when you drive an extra miles, it DOESN'T just get an extra dial for that digit; INSTEAD, it wraps back around to 000
+                    - So, when this happens in a car, you'd have to add a sticky note saying "add 1000 miles" to the dashboard, right?
+        - Now, since a 1st digit of "0" means "positive" and "1" means "negative" in 2's complement, BIT LENGTH MATTERS. "00011010" DOES NOT EQUAL "11010"
+            - You HAVE to know this if you're converting from binary to decimal, or you WILL get a wrong answer
+
+- Now, when you multiply 7 * 10, you automatically get 70, right? You just add a 0 to the bottom, BECAUSE you're multiplying by the base (decimal base = 10)
+    - Similarly, in binary, if you multiply a number BY 2, you just ADD A ZERO to the 1st digit!
+        - This is known as a "left-shift," since you're essentially just shifting the number one digit to the left
+        - If this results in it needing an extra digit (e.g. 4 bit number goes to a 5 bit number, 1000 * 2 = 10000), since you ONLY have room for 4 digits, the leftmost digit gets cut off (1| 0000 =&gt; 0000)
+- In 2's complement binary, 4-bit numbers can represent #s from -8 to +7
+    - "So, can you represent 6+6?" NO!
+    - This would result in OVERFLOW
+        - When you add two positives, you can get a carry INTO the sign bit
+            e.g. 0100 + 0100 = 1000 ("aka, 4 + 4 = -8")
+        - WHENEVER an overflow occurs, the sign of the result changes; this is an easy way for us to detect if overflow has occured
+            - If we add 2 positive numbers (leading bit of 0) and we somehow get a result w/ a "sign-bit" of 1, overflow ocurred
+            - If we add 2 negative #s (leading bit of 1) and get a result w/ a leading 0, overflow occured
+    - You CAN'T get an overflow by adding numbers of different signs, since the magnitude will always be less than or equal to what you started with
+
+- (something about representing fractions/decimals in binary via floating point #s; floating points are a distinct datatype and not represented via 2's complement)
+
+-SIGN EXTENSION: If you're adding, say, a 4-bit number to an 8-bit number, then, as we discussed, we NEED to know the sign of the number; otherwise, it would get screwed up
+- Therefore, in order to add these numbers properly so that 2's complement still works, we need to make these numbers the same bit-size!
+    - A SIGN EXTENDER is just a component you add to the SMALLER-bit number when you add them so that they're the SAME LENGTH
+        - If the SIGN DIGIT (aka leading digit) is a 0 (positive), it pads the smaller number with all 0s to the left
+        - If it's 1 (negative), then it's padded with all 1s
+            - " In the same way that leading 0s don't affect the value
+                of a positive number, leading 1s don't affect the value of a negative number."
+    - "On the first test I ever gave in this course, I asked students to draw a sign extender on the circuit (you just have the smaller number's padding share the leading bit's value); so, you MIGHT want to know this"
+
+-------------------------
+// Datatypes II
+-------------------------
+
+- So, you've all programmed in Java, and I'm sure you've wondered when you're programming your "if" statements why you use a DOUBLE ampersand ("&amp;&amp;") for AND?
+    - Well, it's because the SINGLE ampersand is already taken for the BITWISE AND operator
+- All the BITWISE operators act on a variable and transform their binary
+    - e.g. "&amp;" would return a "1" where both of the variables have a binary "1", and "0" where they are either BOTH 0 or different
+- In addition, there are SHIFT operators ("&gt;&gt;" or "&lt;&lt;")
+    - These shift the binary to the right or left, filling open spots with 0s
+    - So, for example, "5 &gt;&gt; 2" shifts the binary for the # 5 2 places to the right and replaces those 2 open spots with 0s (which, numerically, is the same as dividing by 4)
+        - One negative of this: let's say you have the 2's complement # "1110" (aka, -2)
+        - If you right shift this 1 spot, you SHOULD divide by 2; in practice, you get "0111", which is 7
+            - People didn't like this, so NOWADAYS, they preserve the sign (but there are some annoying hardware differences here)
+- Now, how would you negate a number just using bitwise operators and the plus sign?
+    - Well, you'd use the bitwise NOT operator + 1! (in java, "~x + 1")
+
+- BIT VECTORS
+    -Sometimes, for reasons of efficiency, we want to use a single bit to represent if something is true/false (e.g. if something is occupied/unoccupied)
+        - To do this, we can use a pattern called a BIT VECTOR, which can keep track of "n" true/false value using a binary string "n" bits long
+    -Let's say you're making a game with Snow White and the seven dwarves, and you need to represent whether or not a character is in the room
+    - Well, we assign "Snow White = 1", "Doc = 2", "Happy = 4", "Bashful = 8", ..., "Sneezy = 128"
+        - aka, in binary:
+                           ... |   1   |  0  |    0       |
+                           ... | happy | doc | snow white |
+
+        - "0" means they are NOT in the room, while "1" means that they are
+    - Now, let's say we want to add Happy to the room, so we say "x = Happy"
+    - Now, to TURN A BIT ON via binary operators, we bitwise OR it with a MASK of which bit we want to turn on (e.g., to add "Grumpy", we'd say "x = x | Grumpy")!
+        - A MASK filters for a specific bit or bits, and can be achieved by using the AND operator, where "10000001" would be a mask that would ONLY check for Snow White and Sneezy (the rest, if we AND them with this mask, will always be 0, but the first/last bit will represent the true value of the room's bit vector)
+            - In the case of the "updating grumpy" operation "x = x | Grumpy", "x" would be the bit vector that represent the room and "Grumpy" would be a mask of all 0s except for a 1 where grumpy is (e.g. "00100000"); this would only turn on Grumpy, and preserve the rest of the room's values as unchanged
+                - It would not be able turn off Grumpy, however; an AND mask would be more appropriate for doing that
+        - Why do this? Because bitwise operators are SUPER efficient (I think)
+- Bit vectors are a COMPLETELY separate datatype from 2's complement integers; they're concerned with an array of true/false values, and have no relation to normal integers or numbers</pre>
+</article>
+<a class="side-link is-note-link" href="2_floatingPoints_8_29_17.html"></a>
+</main>
+</body>
+</html>

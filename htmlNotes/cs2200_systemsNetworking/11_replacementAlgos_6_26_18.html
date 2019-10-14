@@ -1,0 +1,113 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Systems and Networks</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs2200Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Systems and Networks</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_5_15_18.html">0. CS 2200 First Day</a></li><li><a class="is-note-link" href="1_processorBasics&amp;Stack_5_17_18.html">1. Processor Basics / Calling Stack</a></li><li><a class="is-note-link" href="2_processorDesignBasics_5_22_18.html">2. Processor Design Basics</a></li><li><a class="is-note-link" href="3_controlUnits_5_24_18.html">3. Control Unit Basics</a></li><li><a class="is-note-link" href="4_interrupts_5_29_18.html">4. Interrupts</a></li><li><a class="is-note-link" href="5_improvingPerformance_5_31_18.html">5. Performance Basics</a></li><li><a class="is-note-link" href="6_introPipeline_6_5_18.html">6. Introduction to Pipelining</a></li><li><a class="is-note-link" href="7_introScheduling_6_12_18.html">7. Scheduling and Multiprogramming</a></li><li><a class="is-note-link" href="8_schedulingAlgos_6_14_18.html">8. Scheduling Algorithms</a></li><li><a class="is-note-link" href="9_introMemManagement_6_19_18.html">9. Memory Management</a></li><li><a class="is-note-link" href="10_paging_6_21_18.html">10. Paging</a></li><li class="active-note-page"><a class="is-note-link" href="11_replacementAlgos_6_26_18.html">11. Page Replacement</a></li><li><a class="is-note-link" href="12_caching_7_2_18.html">12. Caching</a></li><li><a class="is-note-link" href="13_introMultithreading_7_5_18.html">13. Intro to Multithreading</a></li><li><a class="is-note-link" href="14_moreMultithreading_7_10_18.html">14. Multithreading (cont.)</a></li><li><a class="is-note-link" href="15_diskIO_7_12_18.html">15. Disk and I/O</a></li><li><a class="is-note-link" href="16_introFiles_7_17_18.html">16. Introduction to Filesystems</a></li><li><a class="is-note-link" href="17_errorChecking_7_19_18.html">17. Error Checking</a></li><li><a class="is-note-link" href="18_conclusion_7_24_18.html">18. Concluding Remarks</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="10_paging_6_21_18.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******************** Page Replacement - June 26th, 2018 *******************//
+//**************************************************************************//
+
+- Okay, CS 3600 test is today...feeling okay about it, but still definitely nervous
+- Also, only 7 people in this class today - what the heck! I know it's test week, but WOW!
+
+- NOTE: This stuff we do today will NOT be on the test on Thursday; it'll definitely be on the final, but don't worry about it for this Thursday
+- A super-fast overview of what'll be on the test:
+    - Understand Pipelining! That includes stuff like:
+        - Architecture (how is it different from our single-bus design? What're the stages? What do they do?)
+        - Different types of hazards (structural vs data vs control); be able to identify them and explain WHY they're a problem
+        - Mechanics of the pipeline (If I give you a logical paging address, show what steps we have to do on the datapath to get the physical address)
+    - Processes!
+        - Know different scheduling algorithms
+            - In PARTICULAR, know FCFS, SJF, and Round Robin w/timeslices
+            - Be able to draw CPU burst and I/O burst timelines
+        - Be able to calculate different metrics like waiting time, throughput, etc.
+        - Understand different states processes can be in, and what they mean
+    - Memory Management
+        - Understand paging/page faults
+--------------------------------------------------
+
+- Alright, last time we went through a paging example, looking at how we go from VPNs to frame numbers, running through this in the pipeline, etc...
+    - ...but we left on a cliffhanger: this whole paging process requires 2 memory accesses! That's a significant slowdown!
+        - Furthermore, EVERY TIME we have a page fault we have to run back to the disk and do an access; that's a SIGNIFICANT slowdown, even if we only have a page fault once every 1000 instructions or so
+    - We also have another problem: what'll we do if all of the frames are taken up?
+- Hopefully, all of these questions will be answered today
+
+- Now, from a high-level perspective, all of these page requests are coming from the different processes themselves; each of these processes wants their own frames, so they have their own page table, etc.
+    - Now, after ~40-50 processes, these page tables will start to take up a large chunk of memory...so, how can we avoid that?
+        - Well, when the logical addresses were too big for the physical memory, we created a page table; now that our page tables are getting too big, let's make an inner page table INSIDE of our current page table!
+    - This idea is called MULTILEVEL PAGE TABLES - basically, we have a page table for our page table!
+        - NOW, the PTBR will point towards an outer page table that'll tell us if the "inner page table" is in memory
+            - If it isn't, that's a page fault, so we go to disk and get THAT, load it into memory, and then decode that into our physical frame number
+    - The issue with this is that we now require THREE memory accesses for each instruction - not great!
+        - This gets even more compounded with higher-address count architectures, like x64
+- How can we get around this? We'll come back to it in a bit
+
+- For now, though, let's look at how we choose which page we're gonna evict when all the physical frames are for - our "page replacement policies"
+    - One observation: programs typically run their instructions in sequence, or in a loop, and stay in the same 1 or 2 pages for a good while; they don't just randomly jump around all that often - this is referred to as "locality"
+    - So, ideally, we want our algorithm to do 2 things:
+        1) Minimize future page requests
+        2) Minimize processing time
+    - So, let's look at 3 algorithms for doing this:
+        - BELADY'S MIN: This is a theoretical "best-case" algorithm where we choose the page that'll be unused for the longest time in the future
+            - Now, to actually do this, of course, we'd need Dr. Strange-style time-traveling powers, so it's NOT practically possible
+            - ...but, for theoretical purposes, it's a good minimum for us to aim for
+        - FIRST-IN FIRST-OUT: This is where, like a circular queue, we write to whatever frame our pointer is pointing to and then move the pointer forward every time there's a page fault
+            - If there's no page fault, we don't move the pointer
+            - So, in other words, we just cycle through each frame in a circle!
+                - As nice and intuitive as this is, though, FIFO has a nasty property where sometimes, if you add MORE frames to the system, the fault rate INCREASES - that's not what we want!
+                    - This is known as "Belady's Anomaly"
+        - LEAST-RECENTLY USED (LRU): This algorithm is based on the idea of "TEMPORAL LOCALITY," where if we've used a page recently, we probably will need it again, so we should kick out the frame that's gone untouched for the longest
+            - Basically, we're trying to estimate Belady's Min by using our past data as an estimate of the future!
+            - Practically, we do this with a stack equal to the number of frames; every time we use a frame, it gets pushed to the top of the stack, and when we need to evict a frame we look for the one at the bottom of the stack
+                - The issue with this full implementation, though, is that we have to do a LOT of work, even if we don't have a page fault - we have to rearrange the stack to put the most recent frame on top, and that takes processing time!
+                - Furthermore, LRU actually does a bad job in one particular, common scenario: accessing N+1 pages in a processor with N frames, which is fairly common when dealing with large arrays and such
+            - So, while it's intuitively nice, the full version of LRU is too slow to actually implement
+        - So, what're some alternate schemes for LRU?
+            - We can add a REFERENCE BIT to the page table for each process, and an n-bit "counter" for each frame
+                - If we've accessed that page, we set its reference bit to 1
+                - Every so often, a "daemon" process will flush these bits, put them in a counter, and right-shift the counter number
+            - This way, the frame with the largest counter is the most recently accessed, and the smallest is the least recently accessed - we can keep track of which was most recent without dealing with the stack!
+                - This is "approximate LRU"
+        - Another, pretty good variant is SECOND-CHANCE REPLACEMENT LRU - also known as the "clocksweep algorithm"
+            - Basically, we have our FIFO circular queue, but add a reference bit to each page that we set to 1 whenever it's accessed or added
+                - If the reference bit is 0, great! We can use it, set the reference bit to 1 to show we've used it recently, and advance the pointer like in FIFO
+                - If the reference bit is 1, we'll give that page a "second chance" since it was recently used," set the reference bit to 0, and pass on to the next page
+- These are the 3 algorithms (and 2 variants of LRU - but ESPECIALLY 2nd chance) that we'll mostly care about
+
+- Now, throughout this whole process, one thing we really want to avoid is THRASHING - when we spend more time handling paging and page faults than actually running the program!
+    - All these paging algorithms take time, and if there's enough processes, we might spend more time on process context-switching and I/O and memory management than we do on useful CPU work
+    - How can we manage this?
+        - Well, we keep track of things like "memory pressure," and if it gets too high (missed this, think we reduce process switching somehow)
+
+- Another thing we have is the "Translation Look-aside Buffer" - this is a buffer that can keep track of MULTIPLE values and, for a limited number of values, keeps track of the several most recently used page VPNs and the frame # they map to
+    - Before we go to memory, now, we check to see if that page # is in the TLB - and if it is, great! We can use that and we don't have to go to memory! WE SAVED OURSELVES A TRIP TO MEMORY!
+    - You may not know it yet, but this is actually just a special case of the next topic we're going to cover - caching!
+- To speed us up further, by the principle of "spatial locality," there's a pretty good chance the next instruction will just be the previous # + 1 - if that's true, we can just jump ahead (CHECK THIS!)
+
+- Alright, on that note, good luck on the Thursday exam - study hard and see you then!</pre>
+</article>
+<a class="side-link is-note-link" href="12_caching_7_2_18.html"></a>
+</main>
+</body>
+</html>

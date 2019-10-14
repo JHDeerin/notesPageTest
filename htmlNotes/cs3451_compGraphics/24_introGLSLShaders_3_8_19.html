@@ -1,0 +1,106 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li class="active-note-page"><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull-Clark Subdivision</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li><li><a class="is-note-link" href="38_virtualReality_4_17_19.html">38. Virtual Reality</a></li><li><a class="is-note-link" href="39_gameRendering_4_19_19.html">39. Game Rendering</a></li><li><a class="is-note-link" href="40_proceduralContent_4_22_19.html">40. Procedural Content Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="23_bumpMapsGPU_3_6_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************* Introduction to GLSL/Shaders - March 8th, 2019 **************//
+//**************************************************************************//
+
+- "If you're coming into the room right now, yes, it's unbearably hot - the AC's broken"
+    - They're trying desperately to prop open the the doors to get some air flowing in...
+- "If you're curious about if you have raytracing in your GPU, just ask yourself the following question: 'Did I pay more than $1000 for this piece of hardware?'"
+----------------------------------------------------------
+
+- Alright, we talked a bit about the architecture of current graphics cards yesterday - now, we're going to switch gears a little bit and talk about the software we can write for these cards
+    - In particular, there're "shading languages" we can use to write programs for these cards, like the GLSL language (for OpenGL), HLSL (for DirectX), etc.
+        - In this class, we'll mostly be focusing on the GLSL language
+    - Here's a basic overview of how information "flows through" the programs we'd write in GLSL:
+        - We start out by getting some OpenGL input variables from our graphics program, like the screen-space vertex positions, color, normals, and texture coordinates
+        - A VERTEX PROGRAM we write in GLSL then takes that information for each vertex and spits out the 2D vertex position and the colors for the front/back faces of the polygons, and passes along the texture coordinates (usually unaltered)
+            - Realistically, separate front/back colors for a polygon aren't used very often
+        - From there, the output is passed along to the rasterizer, which interpolates those color/texture values across the polygon and turns them into fragments, containing the color and texture information for each pixel (amongst other things)
+        - Finally, those fragments go into a FRAGMENT PROGRAM, which operates on them and changes a given fragment however we'd like before it goes to the screen
+    - At a lower level, of course, each of these stages might have multiple sub-stages, physical components, different nuances, etc., but this is the general "pipeline" we can think about
+
+- That's the "process" for how a GLSL program is used, but what IS GLSL anyway?
+    - Well, it's a C-like programming language that's used to define these graphic operations we care about
+        - It has some standard datatypes like int, float, bool, etc., but also some graphic specific ones:
+            - Vec2 (e.g. texture coordinates)
+            - Vec3 (3D positions, normal vectors, RGB colors, etc.)
+            - Vec4 (homogenous coordinates, RGBA colors w/ transparency, etc.)
+            - mat3/4 (3x3 matrix and 4x4 matrix datatype, respectively, used for transformations)
+            - uniform sampler2D (e.g. texture maps)
+                - "This is a LOUSY name for a datatype, if you ask me; it should've just been called a texture map, since that's what it's almost always used for"
+                    - The 'uniform' keyword means we're going to use the same value for every fragment/pixel, which makes sense for things like textures; 'varying' means the information will get passed through the rasterizer and be interpolated for EACH pixel separately (e.g. normals will be interpolated on a per-pixel basis, etc.)
+                - Also, yes, this is two separate words
+        - Similarly, it's got your standard operators like +, -, *, %, =, etc., BUT some of the operators are overloaded (for instance, * will multiply two matrices by default, scale vector by a scalar, etc.)
+            - There are some standard functions you can use without importing anything, like sin/cos, abs, floor/ceil, min/max, pow, sqrt, etc.
+            - There are also plenty of vector operators, like length, dot, cross, and normalize
+            - There are also some WEIRD ones, like "inversesqrt" (which is typically used to get )
+                - Another weird one is "texture2D," which takes in a sampler and a texture map
+
+- Let's look at an example GLSL program for implementing a diffuse shader - "most hardware nowadays supports this natively anyway, but it's a good teaching example"
+    - Typically, when you write a vertex shader, you'll also write a fragment shader - you don't typically get one without the other
+    - Here's what the vertex program would look like:
+
+            varying vec3 normal; // varying means this'll be different for each pixel
+            varying vec3 vertex_to_light;
+
+            // Note that variables like "gl_Normal" are predefined and implicitly passed to the shader without us needing to explicitly specify them as inputs/outputs
+
+            void main() {
+                gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex; //transforms our polygon's vertices into 2D; this matrix is pre-defined in the language
+                normal = gl_NormalMatrix * gl_Normal; //converts the normals to 2D
+                vec4 vertex_modelview = gl_ModelViewMatrix * gl_Vertex; //converts it to a 3D position, but does NOT project it to 2D yet - we'll use this to get a vector to our light source
+                vertex_to_light = vec3(gl_LightSources[0].position - vertex_modelview)
+                // we won't bother normalizing these variables, since the rasterizer output isn't unit-length anyway
+            }
+
+    - Here's the corresponding fragment program:
+
+            # PROCESSING_COLOR_SHADER //required in Processing-flavored GLSL; says we're making a shader instead of a texture mapper
+
+            //import our vertex shader's outputs explicitly
+            varying vec3 normal;
+            varying vec3 vertex_to_light;
+
+            void main() {
+                const vec4 diffuse_color = vec4(1.0, 0.0, 0.0, 1.0); //red, opaque
+                vec3 n_normal = normalize(normal);
+                vec3 n_vertex_to_light = normalize(vertex_to_light);
+
+                // Calculate red * (N*L) lighting equation
+                float diffuse = clamp(dot(n_normalize, n_vertex_to_light), 0.0, 1.0); //'clamp' restricts result to [0, 1] range
+                gl_FragColor = diffuse * diffuseColor;
+            }
+
+        - Notice that the output here is just assigning to the predefined variable "gl_FragColor"
+
+- Okay, keep working on your raytracers, and we'll chug along on Monday!</pre>
+</article>
+<a class="side-link is-note-link" href="25_moreGLSLShaders_3_11_19.html"></a>
+</main>
+</body>
+</html>

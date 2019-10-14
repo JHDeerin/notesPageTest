@@ -1,0 +1,72 @@
+//****************************************************************************//
+//********** Understanding and Common-Sense - October 11th, 2019 ************//
+//**************************************************************************//
+
+- Ah, the day before fall break: predictably, the room is emptier than usual
+
+- Today, we're going to start talking about a new topic: UNDERSTANDING, and common-sense reasoning
+    - We'll start with a rather controversial clip from a movie called "JFK" - "I only show this to illustrate common-sense reasoning, and not for any political message"
+        - *Man rants about how much fishy stuff there was on the day of JFK's assassination, and from that complex information begins abducing a conspiracy theory*
+        - "Even in the very last clip, when he mentions the 'establishment,' we all know what he means! We're VERY good at getting what people are talking about in movies like this, but common-sense reasoning is something no AI has even today"
+            - When people worry about AI's taking over the world in 10 years, it's just hype; you can do machine-learning and computer vision and all that, but if you can't get a machine to have "common-sense," many AI researchers think you can't have a thinking machine
+                - Many people believe this is THE central tenant of AI, but no one knows how to get there
+    - What even is common-sense, though? What do we even mean when we say a robot "understands" something?
+        - To briefly summarize, common sense knowledge is knowledge we're "all" expected to have within a group (be that physicists or your family or all of society)
+        - Common-sense REASONING is reasoning that occurs based on how we represent/use that knowledge
+            - Defining these terms axiomatically is a bit trickier, and not as agreed on - though we will have a definition we use in-class
+--------------------------------------------------------------------------------
+
+- Earlier, when we talked about frames, we saw that they had a BIG problem: frames don't tell us how to disambiguate the meaning of sentences! If we just use word frequency or something else, we can re-arrange the words to get a completely different meaning!
+    - How can we understand sentences, then? This is a necessary precursor to using common-sense, and even to being creative
+
+- One way to understand sentences is through THEMATIC ROLES
+    - Consider the sentence "Ashok made pancakes with a griddle;" we all understand the sentence, but if it was instead "Ashoke made pancake with a shovel," we'd feel a rule had been broken!
+        - Marvin Minsky famously said he'd know AI was real when it could make him laugh with a joke
+    - To help understand this sentence, we can have a "thematic role" frame containing information about the sentence:
+
+            making-pancakes-thematic-role:
+                verb: make
+                agent: Ashok
+                thematic object: pancakes
+                instrument: griddle
+
+    - Here, I'm assuming you already know something about pancakes and griddles and making; in other words, that we all have the same type of common-sense knowledge
+        - IMMEDIATELY, my background knowledge starts filling in stuff I know about these things: pancakes are usually made for someone to eat (not just to throw away fro fun), they're usually made on a griddle or other hot surface, and so on
+        - Each thematic role only has a certain number of slots for things that should go with the role; we don't have a "director" or "actress" slot for making pancakes
+            - These slots are a from of ONTOLOGY from earlier this week: a set of concepts and the relationships between them!
+    - We can use stuff we know about the English language to figure out which word goes into each of these slots!
+        - In the preposition "by," for instance, we're usually referring to either an agent, object, or location - so we can narrow that down!
+            - We might then know from our knowledge base/ontology that "People" are types of agents, and that "Ashok" is a person we know!
+                - Therefore, since there's no other possible agent we know about in the sentence, Ashok must be the agent!
+    - One complication of this is that words can mean different things; the word "take," for instance, could mean "to bring," "to steal," "to measure," "to ingest medicine," etc.
+        - To figure out which interpretation we should use, we'll assume that each meaning has its OWN thematic role!
+
+                take1:
+                    agent:
+                    object:
+                
+                take2:
+                    agent:
+                    object:
+                    source:
+
+                take3:
+                    agent:
+                    quantity:
+
+                take4:
+                    agent:
+                    medicine:
+
+                (...)
+
+        - It's AMAZING that all humans have this kind of knowledge! It's an ASTONISHING amount!
+            - So, if we consider the sentence "I took the candy from the baby," this could mean we stole the candy OR that we were worried about the baby choking! We'll ignore that exact distinction for now, but how do we figure out which ones could apply? 
+                - From the word "candy," we can immediately rule out the last 2 definitions, since they don't have objects, and candy is an object
+                - The word "from," then, implies there's a "source" we're taking the candy from! So, we can eliminate the 1st definition!
+                    - Therefore, we'll deduce that you must be STEALING the candy!
+    - So, given all the interpretations we know about, wre can figure out which one applies - but what if we don't have the correct knowledge ahead of time? That's tricky!
+        - We don't know how to figure out which knowledge we need to start off, or how to learn these common-sense relationships and knowledge as we go on
+            - The current theory is to start with an initial base amount of knowledge, then use machine learning to grow our knowledge base; alas, the details remain elusive
+
+- We'll continue with this next week - have a good break!

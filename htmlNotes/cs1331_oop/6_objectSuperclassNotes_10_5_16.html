@@ -1,0 +1,69 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - OOP</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs1331Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">OOP</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_classNotes_9_14_16.html">0. Classes</a></li><li><a class="is-note-link" href="1_moreClassNotes_9_16_16.html">1. Classes (Cont.)</a></li><li><a class="is-note-link" href="2_inheritanceNotes_9_26_16.html">2. Inheritance</a></li><li><a class="is-note-link" href="3_moreInheritanceNotes_9_28_16.html">3. Inheritance (cont.)</a></li><li><a class="is-note-link" href="4_polymorphismNotes_9_30_16.html">4. Polymorphism</a></li><li><a class="is-note-link" href="5_morePolymorphismNotes_10_3_16.html">5. Polymorphism (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="6_objectSuperclassNotes_10_5_16.html">6. The Object Superclass</a></li><li><a class="is-note-link" href="7_moreObjectSuperclassNotes_10_7_16.html">7. Object Superclass (cont.)</a></li><li><a class="is-note-link" href="8_exceptionNotes_10_19_16.html">8. Exceptions</a></li><li><a class="is-note-link" href="9_moreExceptionNotes_10_21_16.html">9. Exceptions (cont.)</a></li><li><a class="is-note-link" href="10_collectionsNotes_10_24_16.html">10. Java Collections</a></li><li><a class="is-note-link" href="11_moreCollectionNotes_10_26_16.html">11. Collections (cont.)</a></li><li><a class="is-note-link" href="12_collectionAlgorithms_10_31_16.html">12. Collection Algorithms</a></li><li><a class="is-note-link" href="13_iteratorNotes_11_2_16.html">13. Iterators</a></li><li><a class="is-note-link" href="14_lambdaNotes_11_4_16.html">14. Lambda Expressions</a></li><li><a class="is-note-link" href="15_hashedNotes_11_7_16.html">15. Hashed Collections</a></li><li><a class="is-note-link" href="16_javafxNotes_11_9_16.html">16. JavaFX Notes</a></li><li><a class="is-note-link" href="17_JavaFXNotes_11_11_16.html">17. JavaFX (cont.)</a></li><li><a class="is-note-link" href="18_test3Review_11_14_16.html">18. Test 3 Review</a></li><li><a class="is-note-link" href="19_recursionNotes_11_28_16.html">19. Recursion</a></li><li><a class="is-note-link" href="20_linkedListNotes_11_30_16.html">20. Linked Lists</a></li><li><a class="is-note-link" href="21_stackQueueNotes_12_2_16.html">21. Stacks &amp; Queues</a></li><li><a class="is-note-link" href="22_closingNotes_12_5_16.html">22. Closing Time</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="5_morePolymorphismNotes_10_3_16.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//*******************************************************//
+//******* The Object Superclass - October 5th, 2016*****//
+//*****************************************************//
+
+-So, wrapping up polymorphism:
+    -We can declare something as an "Animal" (e.g. "Animal x = new Cat();") even though Animal is an interface; it defines a type just like a class, even though it itself can not be instantiated.
+        -Can call ONLY methods defined in interface (checks at compile time for methods in the interface; can get around it by casting); can make an "Animal" object out of anything that implements the interface
+        -ANYTHING the class implements or derives from IS A SUPERTYPE of that class; we'll see this soon with the "Object" class
+        -SIDE NOTE: Don't use "Duck Typing" in Java- won't run
+
+-"Cracker vs Hacker" comment- Hacker "traditionally" means anyone who very much enjoys figuring out how things work out of curiosity, not for nefarious purposes. Hackers tend to think of ways to get around the system- i.e. casting twice to try and get around Java's compiler
+
+- WHEN YOU WANT TO FIGURE OUT HOW SOMETHING WORKS, TRY IT!!!!
+
+-Common question: "Why use an interface instead of an abstract class?"
+    -Because it lets us be more flexible with polymorphism; there's nothing here that you COULDN'T do in an abstract class, but interfaces are much less rigid (can implement multiple interfaces, don't have to be a subclass of the abstract class to use polymorphism w/ interfaces, etc.)
+
+-To get a private variable from a parent class:
+    -could change it to a protected variable (WRONG WAY, as you could shadow the variable)
+    -Could add a getter method (right way!)
+
+-When should polymorphism be used? Isn't it fraught with peril?
+    -It really isn't; as long as you're not class-casting all over the place, polymorphism should be fine. Any time you have methods that aren't going to change but different ways of doing things (e.g. multiple breeds of dogs), then "subtype" polymorphism (class inheritance poly) makes sense. In CS 2340, you'll get deeper into when it makes sense to use polymorphism vs data-oriented objects vs whatever else they teach
+
+...right, we got really off track talking about dogs and casting
+
+-ANYWAY,
+    -EVERY class in Java inherits from a class called "Object" in the Java.lang.Object location, with a bunch of default methods that are designed to be overridden (toString, hashCode, equals, etc.)
+    -This class hierarchy sometimes called an "Object Oriented Framework," where the base class provides a guide on how to create new subtypes
+    -the .toString() method is a good example:
+
+"@Override
+public String toString() {
+    return "Ha! I now say something!";
+}"
+
+    -Now, when we just print the Object, it will print whatever the toString method is!
+</pre>
+</article>
+<a class="side-link is-note-link" href="7_moreObjectSuperclassNotes_10_7_16.html"></a>
+</main>
+</body>
+</html>

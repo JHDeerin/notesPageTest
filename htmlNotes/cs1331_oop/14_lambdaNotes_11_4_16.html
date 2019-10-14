@@ -1,0 +1,101 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - OOP</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs1331Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">OOP</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_classNotes_9_14_16.html">0. Classes</a></li><li><a class="is-note-link" href="1_moreClassNotes_9_16_16.html">1. Classes (Cont.)</a></li><li><a class="is-note-link" href="2_inheritanceNotes_9_26_16.html">2. Inheritance</a></li><li><a class="is-note-link" href="3_moreInheritanceNotes_9_28_16.html">3. Inheritance (cont.)</a></li><li><a class="is-note-link" href="4_polymorphismNotes_9_30_16.html">4. Polymorphism</a></li><li><a class="is-note-link" href="5_morePolymorphismNotes_10_3_16.html">5. Polymorphism (cont.)</a></li><li><a class="is-note-link" href="6_objectSuperclassNotes_10_5_16.html">6. The Object Superclass</a></li><li><a class="is-note-link" href="7_moreObjectSuperclassNotes_10_7_16.html">7. Object Superclass (cont.)</a></li><li><a class="is-note-link" href="8_exceptionNotes_10_19_16.html">8. Exceptions</a></li><li><a class="is-note-link" href="9_moreExceptionNotes_10_21_16.html">9. Exceptions (cont.)</a></li><li><a class="is-note-link" href="10_collectionsNotes_10_24_16.html">10. Java Collections</a></li><li><a class="is-note-link" href="11_moreCollectionNotes_10_26_16.html">11. Collections (cont.)</a></li><li><a class="is-note-link" href="12_collectionAlgorithms_10_31_16.html">12. Collection Algorithms</a></li><li><a class="is-note-link" href="13_iteratorNotes_11_2_16.html">13. Iterators</a></li><li class="active-note-page"><a class="is-note-link" href="14_lambdaNotes_11_4_16.html">14. Lambda Expressions</a></li><li><a class="is-note-link" href="15_hashedNotes_11_7_16.html">15. Hashed Collections</a></li><li><a class="is-note-link" href="16_javafxNotes_11_9_16.html">16. JavaFX Notes</a></li><li><a class="is-note-link" href="17_JavaFXNotes_11_11_16.html">17. JavaFX (cont.)</a></li><li><a class="is-note-link" href="18_test3Review_11_14_16.html">18. Test 3 Review</a></li><li><a class="is-note-link" href="19_recursionNotes_11_28_16.html">19. Recursion</a></li><li><a class="is-note-link" href="20_linkedListNotes_11_30_16.html">20. Linked Lists</a></li><li><a class="is-note-link" href="21_stackQueueNotes_12_2_16.html">21. Stacks &amp; Queues</a></li><li><a class="is-note-link" href="22_closingNotes_12_5_16.html">22. Closing Time</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="13_iteratorNotes_11_2_16.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//********************************************************************//
+//**************Lambda Expressions - November 4th, 2016**************//
+//******************************************************************//
+
+-To recap: iterators "decouple" the iteration of a data structure from said structure's internal details, and are implemented via the "Iterable" interface.
+
+-Java 8 added "Lambda expressions," which are so new that you probably will still find professional programmers who don't use them yet.
+
+-Let's go back to Comparators. Let's say we only use the Comparator interface in ONE PLACE- we can just create and implement a new interface implementation right there by making an ANONYMOUS INNER CLASS:
+    e.g.:
+    "..., new Comparator&lt;Trooper&gt;() {
+        public int Compare(Trooper a, Trooper b) {
+            if(a.hasMustache() &amp;&amp; !b.hasMustache()) {
+                return 1;
+            } else if(b.hasMustache() &amp;&amp; !a.hasmustache()) {
+                return -1;
+            } else {return a.compareTo(b)}
+        }
+    }"
+    -"ANONYMOUS" since it doesn't have a name
+
+-BEFORE we get to Lambda expressions, though, we have "Functional Interfaces" - interfaces with just a SINGLE, ABSTRACT method (not counting inherited methods).
+    -Occasionally abbreviated "SAM" - single abstract method type
+    -Like @Override, we can use "@FunctionalInterface" to have the compiler check if something is a functional interface
+
+Functional Interfaces are nice because they're easy to define via Anoymous Inner Classes, but we can do even better: a LAMBDA EXPRESSION
+-A LAMBDA EXPRESSION is a shortcut Java gives us to define the abstract method of a functional interface AND instantiates an abstract class for it
+    -Defined like THIS:
+        (T1 x1, T2 x2, ... , Tn xn) -&gt; {method_body}
+    -This is useful because, over time, it gets rid of a LOT of boilerplate code
+    -However, (for now), they're just "syntax sugar" - they don't let us do anything new, they just make it easier to type
+    -If the "method body" is just ONE LINE, we can ommit the curly braces
+
+-Let's say we have a method:
+    static interface Bar {
+        int compare (Trooper a, Trooper b);
+    }
+
+    static void foo(Bar b) {...}
+    -We can put the lambda expression INSIDE the call for Foo, e.g.:
+        "foo((Trooper a, Trooper b) -&gt; {
+            if...(same code as for AIC example)...
+        });"
+    -This creates an instance of the "Bar" interface using the lambda expression
+    -How does Java know it's a "Bar"? Because the TARGET TYPE of "foo"'s method header ONLY takes Bar, the compiler uses TARGET TYPING to figure out that the Lambda Expression has to be a Bar
+        -If we had, say, 2 "foo()" methods that both took 1 parameter with different types, then Java couldn't figure out which type the Lambda Expression should be and would throw an error
+        -Could get around this by actually casting the Lambda Expression itself to "Bar"
+        -Could also bind the Lambda Expression to a variable with the desired type, e.g.:
+            Comparator&lt;Trooper&gt; compy = (Trooper a, Trooper b) -&gt; 1;
+
+-So, a Lambda Expression is fundamentally a notation for creating an AIC as quickly as possible
+-A METHOD REFERENCE (need to look this up)
+
+-Let's say we have a functional interface "foo" with a method "String bar(object x);"
+    e.g. doo(System.out::println) IS THE SAME AS doo(x -&gt; System.out.println(x))
+
+-3 kinds of method references:
+    -"object"::"instanceMethod"
+    -
+    -
+
+-By using method references in combination with existing methods, it's possible to get EXTREMELY condensed, very nice-reading code (example in slides)
+
+-SIDE NOTE:
+    -Top-Down Development:
+        -Define the broad structure of the program (e.g. method headers), then implement all the methods / pieces to get it actually working
+    -Bottom-Up Development
+        -Make all the pieces, then stitch them together
+    -Different projects/ languages are more suited for each
+</pre>
+</article>
+<a class="side-link is-note-link" href="15_hashedNotes_11_7_16.html"></a>
+</main>
+</body>
+</html>

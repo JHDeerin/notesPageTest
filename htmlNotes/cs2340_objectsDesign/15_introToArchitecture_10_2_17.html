@@ -1,0 +1,98 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Objects and Design</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs2340Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Objects and Design</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_21_17.html">0. First Day of CS 2340</a></li><li><a class="is-note-link" href="1_workingInTeams_8_23_17.html">1. Working in Teams</a></li><li><a class="is-note-link" href="2_teamExercise_8_25_17.html">2. NASA Team Exercise</a></li><li><a class="is-note-link" href="3_introToAgile_8_28_17.html">3. Agile Development / Zenhub</a></li><li><a class="is-note-link" href="4_sourceControl_8_30_17.html">4. Intro to Git/Version Control</a></li><li><a class="is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html">5. Git and Gradle</a></li><li><a class="is-note-link" href="6_gradleAndAndroid_9_6_17.html">6. Gradle and Intro. Android</a></li><li><a class="is-note-link" href="7_introToAndroid_9_8_17.html">7. Intro. to Android</a></li><li><a class="is-note-link" href="8_moreAndroidStudio_9_13_17.html">8. Android Studio (cont.)</a></li><li><a class="is-note-link" href="9_introProgrammingParadigms_9_15_17.html">9. Intro to Programming Paradigms/OOP</a></li><li><a class="is-note-link" href="10_OOPDesignUserStories_9_18_17.html">10. User Stories OOP Design</a></li><li><a class="is-note-link" href="11_domainModels_9_20_17.html">11. Domain Models</a></li><li><a class="is-note-link" href="12_moreDomainAndRDD_9_22_17.html">12. Domain Models (cont.) and RDD</a></li><li><a class="is-note-link" href="13_googleCleanCode_9_25_17.html">13. Google Clean Code</a></li><li><a class="is-note-link" href="14_basicAnalysis_9_29_17.html">14. Basic Analysis</a></li><li class="active-note-page"><a class="is-note-link" href="15_introToArchitecture_10_2_17.html">15. Intro to Software Architecture</a></li><li><a class="is-note-link" href="16_moreSoftwareArchitecture_10_4_17.html">16. Software Architecture (cont.)</a></li><li><a class="is-note-link" href="17_umlDiagrams_10_6_17.html">17. UML Diagrams</a></li><li><a class="is-note-link" href="18_classDiagrams_10_11_17.html">18. Class Diagrams (cont.)</a></li><li><a class="is-note-link" href="19_sequenceDiagrams_10_13_17.html">19. Sequence Diagrams</a></li><li><a class="is-note-link" href="20_mapsAndPersistence_10_16_17.html">20. Google Maps &amp; Persistence</a></li><li><a class="is-note-link" href="21_persistenceAndSafety_10_18_17.html">21. Persistence(cont.) &amp; Safety</a></li><li><a class="is-note-link" href="22_contractsAndExceptions_10_20_17.html">22. Contracts &amp; Exceptions</a></li><li><a class="is-note-link" href="23_introDesignPrinciples_10_25_17.html">23. Intro to Design Principles</a></li><li><a class="is-note-link" href="24_graspPrinciples_10_27_17.html">24. GRASP Principles</a></li><li><a class="is-note-link" href="25_codeReviews&amp;Testing_10_30_17.html">25. Code Reviews and Unit Tests</a></li><li><a class="is-note-link" href="26_testingCode_11_1_17.html">26. Testing Code</a></li><li><a class="is-note-link" href="27_moreUnitTests_11_3_17.html">27. More Unit Tests</a></li><li><a class="is-note-link" href="28_moreDesignPrinciples_11_6_17.html">28. More Design Principles</a></li><li><a class="is-note-link" href="29_SOLID_11_8_17.html">29. SOLID Principles (cont.)</a></li><li><a class="is-note-link" href="30_evaluatingDesigns_11_10_17.html">30. Evaluating Good Designs</a></li><li><a class="is-note-link" href="31_moreEvaluatingDesigns_11_13_17.html">31. Evaluating Designs</a></li><li><a class="is-note-link" href="32_UIDesignPrinciples_11_15_17.html">32. UI Design Principles</a></li><li><a class="is-note-link" href="33_packages_11_17_17.html">33. Packages</a></li><li><a class="is-note-link" href="34_metricsDesignPatterns_11_20_17.html">34. Metrics &amp; Design Patterns</a></li><li><a class="is-note-link" href="35_moreDesignPatterns_11_27_17.html">35. More Design Patterns</a></li><li><a class="is-note-link" href="36_exam2Review_11_29_17.html">36. Exam 2 Review</a></li><li><a class="is-note-link" href="37_finalExam_12_4_17.html">37. Final Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="14_basicAnalysis_9_29_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************ Intro to Software Architecture - October 2nd, 2017 ***********//
+//**************************************************************************//
+
+- So, we've finished our OOA stage, and we understand WHAT the customer wants us to build; NOW, we have to start thinking about HOW we're going to implement this on a computer
+
+- Now, a SYSTEM is an integrated composite of:
+    - People
+    - Products (both software AND hardware)
+    - Processes
+- ...to satisfy a stated objective
+    - "System engineers, like ISYE majors, care a LOT about the big-picture stuff like this."
+
+- "So, since I'm from the military, I like to give practical examples. Let's think about a UFO Defence System."
+    - The hardware people will be building the aircraft and submarines, the ISYEs are organizing the logistic reponse systems, the EE majors are wiring up the electronic alert systems, and us CS people are just writing the code to manage our small part of the system
+        - "Usually, the picture of the system is bigger than just us"
+
+- This is known as the "System Architecture": how the overall system with ALL of its parts are organized. In the CS world, OUR small part of this is SOFTWARE ARCHITECTURE
+    - "Software architecture for a program or computing system consists of the structure(s) of that system, which comprise elements, the externally visible properties of those elements, and the relationship between them"
+    - "Good software architecture..."
+
+- Now, for Architectural VIEWS - a VIEW is a representation of a set of system elements, and the relationships between them. Views are representations of the many system structures present at once in software systems
+    - A few "standard views":
+        - Conceptual/logical/functional
+            - Easiest to think about; laying out a big-picture idea of what each part of a system should DO, e.g. in MVC, we would have 3 boxes, 1 for each "responsibility". 
+                - "This is the only one we're having you do for homework in this class."
+                - "When you're listing your components, don't use 'developer speak', like front-end vs back-end; be general, e.g. 'UI'"
+        - Process/runtime
+            - This architecture is where every "box" in our diagram represents a different process/thread that we're planning to run; "Used when we're concerned with performance, or when we're dealing with parallel applications and we have to figure out how different threads will talk to each other."
+        - Physical
+            - We represent every physical device we're running the software on, or having the software interact with, and the connections between them.
+                - "Not too important in this class since, well, we're ONLY really using our phone; but at other times, if we have to figure out how we're coordinating all of these physical devices, it can be important to think about this."
+        - Module/implementation
+            - Either 1) How the codebase is going to be layed out, like a folder system ("/linux is the root folder, with /kernel /doc /device subfolders..."), OR 2) Showing how the software will integrate with other 3rd-party products, like APIs. 
+        - User interaction/Use case
+        - Security
+        - Performance
+
+- So, the views are helpful, but they're certainly not everything. Another big part are architectural STYLES    
+    - "Fortunately, you are NOT the first people to develop software like this, and there are a LOT of existing architctural styles that have been devised to help manage software projects"
+    - Some common ones:
+        - Client-Server
+            - "A bunch of clients are connected to a central server"
+            - "Thin" variants mean that most of the processing is done on the server, and the client just sees the view (e.g. T-square, most internet sites that aren't super JS heavy)
+            - "Fat" client variants mean that most of the processing is done by the CLIENT (e.g. downloading software on your phone) 
+                - A disadvantage of this system: what happens if the server's down? You can't use the app then!
+                - "Fat clients have less of a problem with this, but it still is an issue"
+        - Peer-to-peer
+            - EVERYONE is considered an equal, and connected to one another; if we're playing a game, then EVERYONE has all of the game state information, and if someone drops out, then the game doesn't break like it would if a server broke!
+                - The problem here is that we need to make sure users can connect to each other, "discover" each other, etc., which can be pretty darn complicated
+        - Blackboard/Shared Memory
+            - Used alot in AI applications; basically, we have a central "data store" where all of our data is, and then we have a bunch of smaller "knowledge stores" that can each solve a small part of the problem, then put it back in the data store (e.g. in a cryptography breaker, KS1 might do pattern-recognition, KS2 might find the letter E, KSN might try to combine all the letters, etc.)
+                - A problem with this is that we have to check when information updates
+        - Pipe &amp; Filter
+            - "This is the way we did it in the punchcard days"; One part of the app does the 1st part of the task, then passes the data along to the 2nd part of the app, which does its part, then passes it to the 3rd part...and if we want to change the process, we add a new step in-between 2 things
+                - "Linux's PIPE syntax in BASH is inspired by this"
+                - Another example: image processing! We layer these image filters on top of one another
+        - MVC
+            - We've already beat this to death; we'll look at variants of this down the road
+        - n-tier
+            - We have a set number of tiers, each with a set focus; e.g., we have a "data tier", "data access tier", "business tier", etc.
+        - Layered
+            - Similar to n-tier, but tiers are less separated (might have to look this up again)
+        - Event-driven/Implicit Invocation
+            - We put in an event like "Rat sighted" w/ its data, and then the relevant objects for that event use the data, while the non-relevant objects ignore the data. "So instead of having a bunch of separate methods, we instead broadcast an 'event' to every object, and each object then handles its own repsonsibilities for those events"
+            - "Again, this is a big deal in modeling &amp; simulation applications; HLA is a good example, which the Mod &amp; Sim people will probably learn about later on"
+                - Great for keeping things VERY decoupled</pre>
+</article>
+<a class="side-link is-note-link" href="16_moreSoftwareArchitecture_10_4_17.html"></a>
+</main>
+</body>
+</html>

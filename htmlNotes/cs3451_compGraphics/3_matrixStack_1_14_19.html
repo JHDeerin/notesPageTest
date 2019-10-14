@@ -1,0 +1,168 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li class="active-note-page"><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull-Clark Subdivision</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li><li><a class="is-note-link" href="38_virtualReality_4_17_19.html">38. Virtual Reality</a></li><li><a class="is-note-link" href="39_gameRendering_4_19_19.html">39. Game Rendering</a></li><li><a class="is-note-link" href="40_proceduralContent_4_22_19.html">40. Procedural Content Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="2_composingTransformations_1_11_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//***************** Matrix Stack Basics - January 14th, 2019 ***************//
+//**************************************************************************//
+
+- Paper handouts? In this digital age?! MADNESS!!!
+- On the intro project: ...well, it looks like luckily I did it correctly, so yay?
+---------------------------------------------------------------
+
+- Alright, first things first, let's talk about OpenGL - "the library that Processing, and many other apps, use to draw things"
+    - You'll be creating your own basic implementation of this (and the matrix stack) for project 1 - so pay attention!
+
+- Let's say we want to draw a simple line - how'll we do this? Well, we'll start off doing this:
+
+        glBeginShape(GL_LINES);
+
+        // place the endpoints of the line
+        glVertex(100.0, 400.0);
+        glVertex(100.0, 100.0);
+
+        glEnd(); // more important for filling the shape later on
+
+    - We can use this same strategy to draw more complicated shapes; for instance, to draw two CONNECTED lines:
+
+        glBeginShape(GL_LINES);
+        glVertex(100.0, 400.0);
+        glVertex(100.0, 100.0);
+        //if we add more lines, because of the GL_LINES param, it'll draw a DIFFERENT line between the 3rd/4th vertex, 5th/6th, etc., so we need to put another vertex on top of the previous one to connect them
+        glVertex(100.0, 400.0);
+        glVertex(400.0, 400.0);
+        glEnd();
+
+    - And here's how we would draw a circle (basically: little lines):
+
+        void unitCircle() {
+            glBeginShape(GL_LINES);
+            xOld = 1, yOld = 0;
+            int numVertices = 20;
+            for (int i = 1, i &lt;= numVertices, i++) {
+                theta = 2*PI* i / ((float) numVertices);
+                int x = cos(theta), y = sin(theta);
+
+                gtVertex(x, y);
+                gtVertex(xOld, yOld);
+
+                xOld = x;
+                yOld = y;
+            }
+            glEnd();
+        }
+
+- "But this unit circle would be 2 pixels across - that's tiny! You can't even see it!"
+    - So, to fix this problem, we'll use something called the matrix stack
+
+- The MATRIX STACK, basically, lets us perform different transformations on things and work with them in a translated state
+    - It has a few different components:
+        - The "current transformation matrix" - CTM - represents the current topmost transformation that's applied to what we're drawing
+        - glPushMatrix() copies the CTM and pushes the copy onto the top of the stack
+        - glPopMatrix() will pop off the top of the matrix stack - we just throw the removed matrix away
+            - "You should always have 1 push for each pop - no more, no less. They're like parentheses that way; they have to be balanced."
+        - glTranslate(x, y, z) - translates the component
+        - glTranslate(x, y, z) - scales the component
+        - glRotate(?) - ...for now, just pretend this rotates by some angle
+            - "Each of these 3 commands creates a transformation matrix AND multiplies it on the right-hand side of the CTM"
+        - glVertex(x, y) - position multiplied by the CTM before drawing
+    
+    - e.g. to translate our line combination, we'd say:
+
+        glPushMatrix();
+        glTranslate(200, 0);
+        glBeginShape();
+        (...do our vertex placing...)
+        glEnd();
+        glPopMatrix();
+
+    - "Why didn't we just add to the X and Y coordinates?" In this example, we could've done that - but for more complicated operations, we want the matrix stack to handle all that for us
+        - For instance:
+
+            void circleImage() {            // 1
+                glPushMatrix();             // 2
+                glTranslate(0.5, 0.5);      // 3
+                glScale(0.5, 0.5);          // 4
+                circle();
+                glPopMatrix();
+                
+                glPushMatrix(); // Now, we're altering our ORIGINAL matrix stack, since popping reset the stack
+                glTranslate(0.5, 0.25);
+                glScale(0.5, 0.5);
+                circle();
+                glPopMatrix();
+            }
+
+        - What does the stack actually look like after first calling "pushMatrix" and Translate/Scale, then?
+
+        1)              -----------------
+              CTM       |Identity Matrix|      =&gt;
+
+        2)              -----------------
+              CTM       |Identity Matrix|
+                        -----------------
+                        |Identity Matrix|      =&gt;
+
+        3)              -----------------
+              CTM       |I * Translate  |
+                        -----------------
+                        |Identity Matrix|      =&gt;
+
+        4)              -----------------
+              CTM       |I*T * Scale    |
+                        -----------------
+                        |Identity Matrix|
+
+    - "So, push says that we're getting ready to transform things; it creates a fresh copy of the current state for us to work with, so that when we pop, the stack goes back to the original state!"
+        - A quick side-note: Professor Turk likes giving matrix stack traces/drawing the matrix stack as exam problems, so be aware!
+
+- So, there are 3 big uses for a matrix stack:
+    1) Changing the coordinate system we're using
+    2) Instantiation (object re-use, basically)
+    3) Hierarchy creation (i.e. objects composed of sub-objects)
+        - ...this is what our next example illustrates:
+        - Let's say we want to draw a stick figure with OpenGL, with a torso, two arms, a hand for each arm, and two fingers for each hand
+            - You can view this as a dependency tree, where our overall "stick figure" object is the parent of the torso, the torso is the parent of 2 arms, each of which is the parent of a hand, each of which is the parent of 2 fingers
+        - "The source code for this is given in the handout/on Canvas, so make sure you look at that!"
+            - Here, we have a "square" command that just draws a box centered at the origin - but by using the matrix stack, we can translate, scale, and rotate this square to draw all of our stick figure's components!
+                - And since the matrix stack is persistent, we can then push, say, a rotation on the stack, then call a "drawHand()" method, and all of its drawing methods will be rotated accordingly!
+                    - So, we can rotate the whole component thanks to the MS without having to change our original methods!
+            - e.g.:
+
+                void drawHand() {
+                    pushMatrix();
+                    rotate(PI/4.0);
+                    scale(1.0, 0.25);
+                    translate(1.0, 0.0);
+                    drawBox();
+                    popMatrix();
+                }
+
+- Okay, we'll finish this example (and keep pushing on) on Wednesday.</pre>
+</article>
+<a class="side-link is-note-link" href="4_matrixStackCont_1_16_19.html"></a>
+</main>
+</body>
+</html>

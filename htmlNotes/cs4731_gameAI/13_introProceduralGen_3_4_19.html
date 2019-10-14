@@ -1,0 +1,155 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Game AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4731Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Game AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_gameVsRegularAI_1_9_19.html">1. Game AI vs Regular AI</a></li><li><a class="is-note-link" href="2_introPathfinding_1_14_19.html">2. Intro to Pathfinding</a></li><li><a class="is-note-link" href="3_pathNetworks_1_16_19.html">3. Path Networks</a></li><li><a class="is-note-link" href="4_morePathNetworks_1_23_19.html">4. Path Networks (cont.)</a></li><li><a class="is-note-link" href="5_pathfindingBasics_1_30_19.html">5. Pathfinding Basics</a></li><li><a class="is-note-link" href="6_pathfindingCont_2_4_19.html">6. Pathfinding (cont.)</a></li><li><a class="is-note-link" href="7_groupsDecisions_2_6_19.html">7. Groups and Decision Making</a></li><li><a class="is-note-link" href="8_moreDecisionMaking_2_11_19.html">8. Decision Making (cont.)</a></li><li><a class="is-note-link" href="9_behaviorTrees_2_13_19.html">9. Behavior Trees</a></li><li><a class="is-note-link" href="10_rulesPlanning_2_18_19.html">10. Rules and Planning</a></li><li><a class="is-note-link" href="11_behaviorPlanning_2_20_19.html">11. Behavior Planning (cont.)</a></li><li><a class="is-note-link" href="12_hierarchicalTaskNetworks_2_27_19.html">12. Hierarchical Task Networks</a></li><li class="active-note-page"><a class="is-note-link" href="13_introProceduralGen_3_4_19.html">13. Intro. to Procedural Generation</a></li><li><a class="is-note-link" href="14_moreProcGen_3_6_19.html">14. Procedural Generation / Terrain Generation</a></li><li><a class="is-note-link" href="15_optimizationAlgos_3_11_19.html">15. Optimization Algorithms</a></li><li><a class="is-note-link" href="16_geneticAlgos_3_13_19.html">16. Genetic Algorithms (cont.)</a></li><li><a class="is-note-link" href="17_playerModeling_3_26_19.html">17. Player Modeling</a></li><li><a class="is-note-link" href="18_introRL_3_27_19.html">18. Intro. to Reinforcement Learning</a></li><li><a class="is-note-link" href="19_moreQLearning_4_1_19.html">19. Q-Learning (cont.)</a></li><li><a class="is-note-link" href="20_evenMoreRL_4_8_19.html">20. More Q-Learning/Intro. Deep Reinforcement Learning</a></li><li><a class="is-note-link" href="21_deepLearning_4_10_19.html">21. Deep Learning (cont.)</a></li><li><a class="is-note-link" href="22_deepRL_4_15_19.html">22. Deep Reinforcement Learning (cont.)</a></li><li><a class="is-note-link" href="23_contextFreeGrammars_4_17_19.html">23. Context-Free Grammars</a></li><li><a class="is-note-link" href="24_grammarsStories_4_22_19.html">24. Grammars (cont.) / Story Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="12_hierarchicalTaskNetworks_2_27_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*********** Intro. to Procedural Generation - March 4th, 2019 *************//
+//**************************************************************************//
+
+- Okay, homework 4 has been re-graded; most people's grades have gone up, but you're still welcome to talk to the TAs if you have any concerns
+- All the exams have been graded, but it turns out that Professor Riedl's answer key had an error when he was grading question 10, so the TAs are hard at work regrading everyone's work there
+    - In almost everyone's case, people should've now gotten full credit for that question now
+
+- Answers for the first exam, then:
+    - 1) Following about FSMs vs. Behavior Tress
+        - It takes a little extra time to compute things in a behavior tree, so this was FALSE
+        - FSMs are Turing complete, so this was TRUE - FSMs can do anything behavior trees can
+        - YES, both FMS and behavior trees require the designer
+        - YES, hierarchical decomposition does make it easier to design behavior
+
+    - 2) FSMs vs behavior trees
+        - NO, behavior trees aren't any faster
+        - NO, it is possible to design FMS plans (just harder)
+        - YES, behavior trees are easier to design plan-like sequences in
+        - YES, hierarchical decomposition does make it easier to design behavior
+            - (question here about hierarchical FSMs)
+
+    - 3) Rule systems vs behavior trees
+        - YES, rule systems are better for unexpected stuff
+        - NO, they're not better for goals
+        - NO, rule systems require more computation than behavior trees on average
+        - YES, rule-based systems allow for emergent behavior
+
+    - 4) Behavior planning vs Behavior trees
+        - YES, planning makes more realistic enemies
+        - YES, makes enemies less predictable
+        - NO, behavior planning doesn't lead to patterns of behavior (see above)
+        - YES, it does reduce the amount of time to implement new NPCs (that was one of the reasons it was invented!)
+
+    - 5) When would we choose A* vs Floyd-Warshall?
+        - If the world's dynamic, A*!
+        - If the world is static and we have TONS of storage, Floyd-Warshall (i.e. "All-Pairs Paths")
+        - If the world is static but we don't have much storage, well, A* is still better
+        - And again, if the world is dynamic, A*!
+
+    - 6) "How can formations reduce computation time in pathfinding?" One way is for a single leader to pathfinding, then a formation can just follow the leader
+
+    - 7) Path network vs grids
+        - a) One advantage of path networks: sparser network w/ fewer nodes
+        - b) Simpler to deal
+
+    - 8) Differences between A* for pathfinding and behavior planning: the heuristics are very different, behavior actions are more complex/different, non-spatial effects in planning, preconditions for behaviors, etc.
+
+    - 9) From this behavior tree, there was a *little* ambiguity, but there were basically 4 parts to answering this:
+        - The priority list will NOT select the first sequence, since the daemon is never invisible
+        - It WILL select the 
+            - The original answer was C, D, E (sequence ends when door fails), then G, H when the sequence fails
+            - ...BUT, some students figured "well, if the sequence fails, the door sequence won't be executed," so it would execute C (try to open the door), fail, then bounce to G, H
+        - J will NEVER execute
+
+    - 10) NOW, the horrible, no-good rule-based messy one
+        - You could either work this from the bottom-up or the top-down; basically, the rules will work out to:
+            - Rule 1: Z attack Y
+            - Rule 1: W attack Y
+            - Rule 2: X attack Y
+
+- Again, if you feel you got an answer right and want the TAs to take another look at your exam, you have a week to submit a regrade request
+----------------------------------------------------------------
+
+- Alright, we FINALLY finished up planning last class, and began moving into our procedural content generation (PCG) unit of the course
+    - We've been doing all this hard work by hand, and want robots to do our dirty design work for us, be it inside the game or just as studio tools before a game is ever shipped
+
+- In the beginning of the class, we looked at some different genres of games and how each of them used AI - now, we're going to look a few examples of procedural content in games
+    - Let's look at a few specific games in particular
+        - First up, the infamous No Man's Sky, which randomly produces a bajillion planets without the designer having to manually design any of them
+        - Left 4 Dead, which places the zombies dynamically based on how well the player is doing
+            - Professor Riedl has talked to some of the designers who worked on this game, and the zombies are ALWAYS spawned behind the players
+        - Borderlands, which randomly generates ALL the weapons in the game
+            - 5 minutes into playing this game, Professor Riedl got a "weak" gun that happened to have a 30% chance of electrocuting enemies instantly, and it made the game WAYYYYYY too easy
+            - As designers, we have to be careful about what combinations we allow to happen
+        - Star Trek Online, which generates new alien races, star systems, etc. - "It's like No Man's Sky but without the credit"
+        - The Diablo series, which randomly generates all the dungeons every time you play
+        - From Dust, which is a civ-type game that dynamically generates the terrain
+        - Elder Scrolls II: Daggerfall, which generated a MASSIVE number of towns and NPCs
+            - They experimented with face generation for the NPCs, but it resulted in asymmetrical faces that really creeped a lot of people out
+        - Fuel, which has a game world the size of Connecticut, and is able to store a world that size only by generating part of it on the fly
+        - Skyrim, which procedurally generates quests - "but only very simple quests, like go to X, kill Y, return to Z" 
+        - ALL the rogue-like games (like...Rogue) (or Moria, Angband, etc.)
+            - Rogue was interesting for a lot of reasons, but mostly 2:
+                - It used procedural generation to deal with permadeath, since going through the EXACT same maze each time you died was boring (other games just solved this with, y'know, checkpoints, but this was 1980 and memory constraints were TIGHT)
+                - The second thing, which has escaped Professor Riedl at the moment
+        - A TON of indie games, like "Minecraft" (which he won't show us) or "Robot Unicorn Attack" (which he will show us)
+            - "...lecturing while playing this game is hard, but don't worry; I've been practicing all day"
+            - Really, though, indie developers do this mostly to save effort on designing the game; small studios can't afford dozens of level designers, so they create algorithms to do it for them
+
+- In early games, procedural generation was SUPER popular, then it almost died off with the rise of larger studios, and now it's come roaring back in the past 10 years or so
+    - The "traditional" game design model is where non-technical designers come up with what they want, hand it off the programmers, and the programmers make it interactive; this process is repeated iteratively, ad infinitum
+    - Nowadays, though, programmers have a LOT more power: they create the engines, build tools to help the designer, and then designers use the tools to create things, and then developers help refine them (ad infinitum)
+
+- Level generation was pretty prominent in the early days of games, spurred on by a lack of professional designers and the limited storage space of most computers (the more you could generate on the fly, the less you had to store)
+    - For dealing with random numbers, we could either use a different seed every time we play the game (based on the clock or something like that), or specify the seed we want so we get the same content every time
+        - Specifying the seed allows us to "store" levels by saving seed values
+        - Hopefully, the algorithm is cheap enough that we could generate everything we need on the fly
+    - As storage space got cheaper and cheaper, game designers worried less and less about this, and it got more and more common to just hire designers to do everything
+
+- The take-away message here is that content is KING: it's why people come back to games, and it's the domain of the designer
+    - Sometimes new innovations result in entirely new genres, but really, we've mostly been playing the same basic games since the 1990s with updated content
+    - With PCG, then, we can get content without needing everything to go through the headspace of a human designer; what does that get us?
+        - Cost savings compared to hiring more designers
+        - Improved replayability (no one'll watch the same movie endlessly without getting bored, but PCG can )
+        - Customization and adaptation in your game (the experience can be tailored for YOU specifically, e.g. difficulty adjustment)
+        - Dynamically adapting the difficulty
+            - If you've ever heard of "Flow" theory, there's a graph with 2 axes - "skill" and "difficulty" - and humans operate best in the "zone of proximal development," where they're doing something that matches their skill level
+                - If the difficulty is too low compared with their skill, people get bored; if it's too difficult, they get frustrated
+                - This is made more complicated by the fact that skill isn't a constant; people can get better/worse at doing something
+            - Traditionally, games ask players to decide their own skill level in advance before they've ever played the game
+
+- Nowadays, there are two big ways we use PCG in games:
+    - DESIGN-TIME algorithms that speed up the design process of our game and help the designers
+        - Constructing new 3D models and assets, for instance, is the most time consuming part of game development by a good margin; we use the same game engine, just with different pieces of content
+        - To make all this content requires hundreds of developers, so saving costs by not hiring developers sounds GREAT!
+            - ...but algorithms can be stupid and do things that aren't fun for the player, so game designers don't want to let go of the wheel
+            - No Man's Sky, famously, had this problem, where there could be 10 boring planets in a row; version 2 of the game actually toned the PCG DOWN so that the player experience was more consistent
+        - The 3 most common places where PCG is used today are all design-time applications: designing trees, designing city buildings, and terrain generation
+            - Even movies are starting to get in on the terrain generation, since it saves quite a bit of time
+            - The player, hopefully, will never realize these things weren't designed by a human
+    - RUN-TIME algorithms that actually change every time we run the game, e.g. for customizing things dynamically, generating a new map each time, etc.
+
+- All right, we'll start diving into the algorithms to actually start doing all this stuff on Wednesday!</pre>
+</article>
+<a class="side-link is-note-link" href="14_moreProcGen_3_6_19.html"></a>
+</main>
+</body>
+</html>

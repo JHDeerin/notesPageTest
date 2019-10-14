@@ -1,0 +1,145 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="5_moreCNN_9_9_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//********* Crash-Course Fourier Transforms - September 11th, 2019 **********//
+//**************************************************************************//
+
+- Oh boy, I'm feeling the busy-ness, even though I haven't had to do all that much work
+
+- Some quick class announcements:
+    - The project due dates have been shifted a bit, since project 2 has only been released today
+        - So, project 2 will now be due on Friday, Sept. 27th - but to make up for this, we're going to split the project into 2 parts
+            - The hope is that this'll reduce your procrastinastic tendencies - "we got a lot of questions over the weekend last time"
+    - Keep in mind that project 2 is going to be HARDER than project 1, so PLEASE start as soon as possible!
+        - The gist of it is that you're implementing a Harris feature-detecting filter in PyTorch, as well as a pipeline known as SIFT (which is still right up there with state-of-the-art stuff)
+    - Project 3 has now been shifted to be after the Fall break, but we HIGHLY recommend you finish it before then
+--------------------------------------------------------------------------------
+
+- Okay, let's briefly go back to the receptive field from last time and try to clean up that mess
+    - In the first layer, let's suppose a given neuron will be influenced by 3 input pixels
+
+            1
+            2   -&gt;  x1
+            3
+
+        - The neuron next to it will also be influenced by 3 pixels, but it's window of pixels will be shifted down one pixel - and the same thing with the one after that!
+
+                1
+                2
+                3   -&gt;  x1 (1,2,3)
+                4       x2 (2,3,4)
+
+            - So, a given group of "N" adjacent neurons would be affected by "N+2" pixels (since we consider ALL the input pixels that affect it) - in other words, the receptive field would be "N+2" as it goes through this first layer!
+    - Once it reaches a pool layer, though, the receptive field would TRIPLE if we're compressing from a 3x3 window to a single pixel, since all 3 of these neurons would be sampled and affect just 1 pool neuron!
+
+            x1
+            x2  -&gt;  p1
+            x3
+
+    - Okay; we'll make slides on this available
+
+- Last lecture, we talked about 3 non-linear filters:
+    - Median filters
+    - Bilateral filters
+    - Morphological filters
+
+- Now, this lecture we're going to be doing a crash-course tour of a HUGE image processing topic: the Fourier transform
+    - "Read the textbook for this; it's pretty decent"
+        - Remember how the gaussian filter gave us a smooth image, but the box filter looked all blocky? Why was that?
+        - Another related question: why can we understand downscale image? What information do we actually lose when we shrink images?
+            - As it turns out, BOTH of these are related to frequency
+    - Joseph Fourier, besides dying by tripping down the stairs, had a BRILLIANT idea: that you could make ANY univariate function out of sines and cosines!
+        - How should we think about that? Well, imagine a sound wave of someone talking: there'll be different amplitudes/volumes and frequencies at each second on the Y-axis, and then the recording time in seconds on the X-axis
+            - The Fourier Transform of this soundwave, though, would have the frequencies of all these soundwaves on the X-axis, and the amplitude in decibels on the Y-axis!
+    
+- As an example, let's think of adding 2 sine waves in the time domain
+    - Let's suppose we're adding a regular sine wave "sin(2*pi*f*t)", and a smaller but 3x more frequent wave "1/3*sin(s*pi*3f*t)"
+        - In that case, their composite would be:
+
+                g(t) = sin(2*pi*f*t) + 1/3*sin(s*pi*3f*t)
+
+            - After doing
+    - This idea, though, is CRAZILY powerful; we can actually approximate a square wave with arbitrary closeness by just adding more and more frequent sine waves, like this:
+
+            square_wave(t) = sum(1/k * sin(2*pi*k*t))
+
+        - ...where we're summing from k = 1 to infinity
+            - Obviously
+        - If we were to transform this, then, and look at the FREQUENCY graph, we'd see a down-sloping curve from low frequencies to higher ones
+
+- The cool thing here, though, is we can do this with images!
+    - Because sines/cosines have a 0 mean, they'd ordinarily give us positive/negative values - so to get this into the [0, 1] image range, we need to usually add a constant offset
+        - In the Fourier transform of an image, low frequencies are in the center, and high frequencies are farther away
+            - *In the example image, there are 3 dots*; "I'm not going to get into why there are 3 dots or why this is mirrored, since it's frankly a long-*** talk that we don't need to cover now"
+            - The frequency transform also seems to have information about the direction of the image
+                - As it turns out, EVERY image can be decomposed into different sums of these 2D gratings - which is crazy, but true!
+    - In this first man-made "real" image we're looking at, we can see strong lines in the frequency domain; each of those lines is perpendicular to the feature that caused it, which in this case re the strong color contrasts between the light/shaded areas (which acts similarly to a step function/square wave, since it's a sharp, sudden change)
+        - You'll also notice a cross-shape in the image, which is common in many digital images due to how camera sensors work
+
+- The REALLY cool thing we can do with this is that we can apply filters to the frequency domain!
+    - That means we can remove certain frequencies, or do things to the frequencies
+        - Remember in the homework when we were doing "low-pass" filters? That meant we were getting rid of all the high frequencies - or, in Fourier transform terms, we were getting rid of all the frequencies outside of a small circle from the center!
+            - So, the box filter and gaussian filter are low-pass filters
+        - Similarly, a high-pass filter (it blocks low frequencies and let's high frequencies "pass")
+    - This is a SUPER powerful way of studying what filters actually do!
+
+- One important thing you HAVE to understand for image processing is the CONVOLUTION THOEREM
+    - We know convolving is just a fancy word for applying a filter across an image, where we multiply the two together
+
+            g * h
+
+        - So, we can do this with a big for loop, finding the window and moving it a pixel each iteration, etc.
+    - But the CRAZY thing here is that the Fourier transform of this final, filtered image is the EXACT SAME as multiplying the filter's Fourier transform element-wise with the image's Fourier transfrom!
+
+            F(g * h) = F(g)*F(h)
+
+    - We can then take the inverse of this to get the final, output filtered image - and often MUCH more quickly!
+
+            g*h = F^-1(F(g)*F(h))
+
+        - In other words, convolution in our regular ol' spatial domain is the SAME THING as multiplication in the frequency domain!
+            - This is a SUPER important idea!
+
+- So, we've talked about what the Fourier transform is, but not how to actually do it - one important algorithm for this is the FAST FOURIER TRANSFORM (FFT)
+    - We won't go into the details here, but this is an algorithm that can do a Fourier transform in O(n * log(n)) time, which is fantastic!
+        - This algorithm is what made Fourier transforms practical in the real world
+
+- Now, if convolution is just regular multiplication in the frequency domain, can we undo that multiplication to undo convolution? In other words, could we use Fourier transforms to un-apply filters?
+    - Sure enough, in ideal cases, we can DECONVOLUTE filtered images by taking the final image's transform, dividing the filter's transform by it, and then translating it back to the spatial domain with an inverse Fourier transform
+        - This'll get us back the original image!
+    - Practically, though, this is screwed up quite a bit by noise; the noisier the image (and every real image has noise), the more artifacts we get by deconvoluting things
+        - You also need to know the original filter that transformed the image (or at least figure out one that gets you good results), which isn't always easy to figure out
+        - This is known as BLIND DECONVOLUTION, and it's an area of active research - but even if you know the filter, it's still pretty difficult
+            - Deep learning has made some inroads in this, but it's still by no means a solved problem
+
+- So, that's the bare minimum you need to know about Fourier transforms - what're we going to go through next class?
+    - Well, we're going to go into chapter 4 of the textbook, and ESPECIALLY 4.1 with feature-detection. Come back next week and read all about it - and START YOUR PROJECTS!</pre>
+</article>
+<a class="side-link is-note-link" href="7_featuresHarris_9_16_19.html"></a>
+</main>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li class="active-note-page"><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="7_featuresHarris_9_16_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*********** SIFT and Feature Matching - September 18th, 2019 **************//
+//**************************************************************************//
+
+- Okay, Professor Dellaert is unfortunately sick, so TA John Lambert'll be covering for him today!
+--------------------------------------------------------------------------------
+
+- So, we're going to keep diving into feature detection today
+    - The first thing we need to do is DETECT the interest points we want
+        - This is what we've been doing with our Harris algorithm/homework
+    - We'll then want to DESCRIBE each interest point so we know what's unique about it
+    - Finally, we want to MATCH interest points together across different images
+
+- Feature detection has a history going back to at least the 1980s, when Dr. Moravec at Stanford tried to do some image-detection stuff for robot navigation
+    - The Harris Corner-finding algorithm plopped onto the scene in 1988, while the algorithm we're going to cover today - SIFT - is from 2004
+        - People have, of course, tried to apply deep learning to this stuff in algorithms like TILDE
+
+- So, yesterday we talked about one way to handle detecting these points - but how can we describe them?
+    - Our goal here is to get the same points, in different images, to have very similar descriptors so that we can match them later on
+        - We also want this description to be as compact as possible, so we can minimize how much computation we need to do and optimize the heck out of it
+    - To do this, let's briefly talk about some different ways we can represent images...well, ONE way at least
+        - A HISTOGRAM is just a distribution of some features of the image (usually color/intensity, but it could be texture or other things)
+            - For instance, we might have the X-axis be the possible brightness values of a pixel, and the Y-axis be how many pixels of that color there are
+                - This would be a MARGINAL histogram, since
+            - We could also have 2D histograms for multiple different features in the image, and then try to clump them into bins, etc.
+
+- So, what sort of things do we compute histograms for? Lots of stuff - but SIFT is a particularly helpful way!
+    - SIFT is an algorithm for computing a "histogram of oriented gradients" (i.e. how fast a pixel's values are changing, and in what direction)
+        - How does this work? Let's say we have a keypoint from our Harris algorithm that we're interested in
+            - We'd first take a 16x16 pixel window around that pixel, and then compute the X/Y gradients for each of those window pixels
+                - Why 16x16? Literally, it's just an arbitrary size that people have found works pretty well
+            - We'd then compress this down into a 4x4 descriptor by combining different gradients together, with each descriptor "point" having 8 different magnitudes (for the 8 different directions)
+    - One BIG requirement is that we want these gradients to be rotation/scale invariant, so that we'll get the same descriptor for images that've been rotated a bit
+        - To do this, we'll try to estimate what a given point's orientation is in the image, using "difference of Gaussians"
+        - We'll also try to normalize these gradients to account for brightness changes between different images
+
+- Another image descriptor algorithm is SURF: Surface *something something*
+    - Basically, SIFT was too slow for a lot of people's tastes, so SURF tried to speed that up
+        - To get the sum of a window's intensity values, we take the intensity's of the 4 corners, like a box filter
+            - ...not sure I'm understanding this properly?
+    - Anyway, this ends up being 6 times faster than SIFT for basically no loss in accuracy
+
+- Another algorithm is the "Shape Context" descriptor, where we're trying to describe a shape instead of a single point
+    - This is where we essentially do some edge detection on an image, and then choose a point and create a "log bin" using polar coordinates (so that farther away, the bins get larger)
+        - Using that bin, we then can use it to compare...(again, I'm not sure?)
+            - This is another algorithm that isn't very mathematically rigorous, but that does seem to work well
+
+- So, some big overall takeaways:
+    - Keypoints HAVE to be repeatable and distinctive; we want to find the same keypoints in different images
+    - Descriptors should be robust and selective; spatial histograms like SIFT are super important, and're some of the most heavily cited papers in computer vision
+
+- Of course, many people have turned to deep learning to try and handle these descriptors instead of traditional "handcrafted" algorithms
+    - One such algorithm is LIFT, which trains 3 separate neural networks (not great) to recognize different features
+    - A very recent one from the Magic Leap corporation is the "SuperPoint" algorithm, which has state-of-the-art performance at some things
+
+- Alright - once we've got these descriptors going, how do we actually match points together?
+    - The simplest approach would be to do a KNN thing, where we just pick the nearest neighbor...but there's a TON of photos that have multiple similar-looking regions
+        - Think of a row of greek columns - each column looks a LOT like the others, so how can we tell them apart?
+        - At the same time, if there's a big gap between the 1st and 2nd nearest neighbor, that's a good sign!
+    - So, what we'll use is the nearest-neighbor RATIO
+        - This is where we take the 1st and 2nd nearest descriptors to our chosen keypoint (in the other image) and divide the 1st by the 2nd, and we can sort all our keypoints by this ratio to figure out which points we're the most/least confident about matching
+            - To actually get this difference, we just take the vectors from each of our 4x4 descriptors and subtract them from the point we're comparing
+            - (Not sure why probability is higher in the middle, rather than with a )
+
+- So, that's all we have for today - see you guys next week!</pre>
+</article>
+<a class="side-link is-note-link" href="9_edgeDetectionHough_9_23_19.html"></a>
+</main>
+</body>
+</html>

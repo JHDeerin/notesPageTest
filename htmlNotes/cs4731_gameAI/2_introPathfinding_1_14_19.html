@@ -1,0 +1,105 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Game AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4731Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Game AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_gameVsRegularAI_1_9_19.html">1. Game AI vs Regular AI</a></li><li class="active-note-page"><a class="is-note-link" href="2_introPathfinding_1_14_19.html">2. Intro to Pathfinding</a></li><li><a class="is-note-link" href="3_pathNetworks_1_16_19.html">3. Path Networks</a></li><li><a class="is-note-link" href="4_morePathNetworks_1_23_19.html">4. Path Networks (cont.)</a></li><li><a class="is-note-link" href="5_pathfindingBasics_1_30_19.html">5. Pathfinding Basics</a></li><li><a class="is-note-link" href="6_pathfindingCont_2_4_19.html">6. Pathfinding (cont.)</a></li><li><a class="is-note-link" href="7_groupsDecisions_2_6_19.html">7. Groups and Decision Making</a></li><li><a class="is-note-link" href="8_moreDecisionMaking_2_11_19.html">8. Decision Making (cont.)</a></li><li><a class="is-note-link" href="9_behaviorTrees_2_13_19.html">9. Behavior Trees</a></li><li><a class="is-note-link" href="10_rulesPlanning_2_18_19.html">10. Rules and Planning</a></li><li><a class="is-note-link" href="11_behaviorPlanning_2_20_19.html">11. Behavior Planning (cont.)</a></li><li><a class="is-note-link" href="12_hierarchicalTaskNetworks_2_27_19.html">12. Hierarchical Task Networks</a></li><li><a class="is-note-link" href="13_introProceduralGen_3_4_19.html">13. Intro. to Procedural Generation</a></li><li><a class="is-note-link" href="14_moreProcGen_3_6_19.html">14. Procedural Generation / Terrain Generation</a></li><li><a class="is-note-link" href="15_optimizationAlgos_3_11_19.html">15. Optimization Algorithms</a></li><li><a class="is-note-link" href="16_geneticAlgos_3_13_19.html">16. Genetic Algorithms (cont.)</a></li><li><a class="is-note-link" href="17_playerModeling_3_26_19.html">17. Player Modeling</a></li><li><a class="is-note-link" href="18_introRL_3_27_19.html">18. Intro. to Reinforcement Learning</a></li><li><a class="is-note-link" href="19_moreQLearning_4_1_19.html">19. Q-Learning (cont.)</a></li><li><a class="is-note-link" href="20_evenMoreRL_4_8_19.html">20. More Q-Learning/Intro. Deep Reinforcement Learning</a></li><li><a class="is-note-link" href="21_deepLearning_4_10_19.html">21. Deep Learning (cont.)</a></li><li><a class="is-note-link" href="22_deepRL_4_15_19.html">22. Deep Reinforcement Learning (cont.)</a></li><li><a class="is-note-link" href="23_contextFreeGrammars_4_17_19.html">23. Context-Free Grammars</a></li><li><a class="is-note-link" href="24_grammarsStories_4_22_19.html">24. Grammars (cont.) / Story Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="1_gameVsRegularAI_1_9_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//**************** Intro to Pathfinding - January 14th, 2019 ****************//
+//**************************************************************************//
+
+- Alright, further on we go!
+- Professor Riedl is fiddling with the OneNotes, while I'm...sitting. Standard pre-lecture position.
+    - 3:04 - the fiddling continues
+
+- "Apologies for the delay - the smartboard pen wasn't working, but luckily I remembered by iPad. For once."
+- A number of people just got added thanks to some last-minute TA signups - "congratulations, you survived the Hunger Games version of phase II"
+- Homework #2 (cleverly named "homework 3") will be released on Wednesday
+------------------------------------------------------------------------
+
+- Alright, so we're talking about how game AI is done in the industry, large studios, etc.
+    - For MOST games, AI is broken up into 2 main components:
+        - Making decisions (combat planning, behavior trees, etc.)
+        - Moving things around/pathfinding (bots, etc.)
+    - These are the "pillars" of most game AI
+        - "Arguably pathfinding is just a subclass of decision problems, but it's so important that it's often treated as its own thing"
+- For the first part of the class, we'll assume that there's some magical algorithm that handles decision making for us, and focus on the second of these: pathfinding
+    - ...but first, let's dig down a little bit into these problems
+
+- First up, let's talk about decision making
+    - We call the BEHAVIOR of an agent the visible/observable actions of an entity
+        - "Your AI might be having a deep existential crisis, but all the player sees is a bot staring into a wall until he shoots its head off"
+        - Some examples of behavior:
+            - Moving a pawn in chess
+            - Speaking to a character
+            - Moving to a position
+            - Shooting at something
+    - Decision planning is just trying to answer the question "What behavior should I do now?"
+        - Oftentimes, this takes the form of BEHAVIOR PLANNING: a sequential problem where the right thing to do might depend on what states we can reach in the future, which might require several steps to reach
+
+- Pathfinding, on the other hand, is where we try to figure out HOW to get somewhere after deciding to move
+    - Really, pathfinding IS just a form of behavior planning, but it's so common that we break it off into its own special group
+    - "Doing pathfinding poorly is the fastest way to break a player's immersion - you'd be surprised at how many hours game developers spend working on pathfinding"
+- To do pathfinding well, we have to think about 2 things:
+    - Representations of the world we can use to plan 
+    - Algorithms to manipulate those representations
+
+- Think about the game world (for now) as a 3D, continuous environment - well, dealing with continuous spaces is HARD
+    - So, to make this easier, we can discretize the environment into pieces we can understand - our representation!
+        - Robotics has the advantage that movement doesn't have to look
+        "realistic," but games have the advantage of total information about the world
+    - There are 2 common representations/"topologies" for doing this in games: grids and path networks
+        - GRIDS are where we split the space up into a set of discrete squares, bit masking the obstacles so that any grid cells with obstacles in them are marked impassable
+            - The pros are that grids are simple to deal with (one agent per square!), are very good/performant for large numbers of agents (e.g. RTS), and A* works really well on it (difficult to create "fake shortcuts" in a grid)
+            - The cons are that grids waste a LOT of space (obstacles take up more space than they should, redundant cells, etc.), agents are confined to cells and cell-based movement (which can look quite robotic, although smoothing is possible), there's a lot of nodes in the search space (which can tank the performance of A* and others), and the discretization is simply too "gross" - it's too obvious that the agent is using a grid
+            - "So, grids are sometimes okay, but often not the best idea"
+        - PATH NETWORKS are a grid alternative that tries to conserve a sense of continuous space
+            - Basically, we have a 2-tier navigation system: a local/continuous system (deals with simple/nearby environments), and a remote, discrete system (deals with complex/far-away environments - basically a sparse network of waypoints)
+            - So, we'd have a set of waypoints placed strategically throughout the map
+                - If we're within a certain radius/"bubble" of a waypoint (or have line-of-sight to the waypoint), we know there're no nearby obstacles and can use our local system; if we want to go outside the bubble, we need to use the discrete system instead
+                    - "It's like how when you're in your neighborhood, you'll use your local roads, but if you're traveling to Chicago then you're going to get on the highway until you get back into the neighborhood roads"
+                    - Airplane navigation systems also use a similar technique
+            - The pros here: compared to grids, there are a LOT less nodes (meaning A* works even better), and movement seems more natural
+
+- So, path networks seem great, but they leave a lot of questions unanswered:
+    - How do we do continuous local movement (i.e. "steering")?
+    - How do we follow the path network?
+    - Where/how do you place the waypoints?
+    - Which waypoints should be connected?
+        - Too many waypoints, and our branching factor (O(b^n)) goes up, and performance goes down; too few, and the agent won't move around realistically
+- "Right now, the homeworks give you all the waypoints, and you just have to connect them - in the next homework, you'll have to deal with actually placing the waypoints themselves"
+
+- So, a pretty common way of handling local continuous movement is STEERING
+    - Here (at least for our game engine), the agent has an x/y position, an angle it's pointed in, a current speed, and a max-speed
+        - To move, the agent will then interpolate along a direction vector at a given speed (e.g. move X pixels forward)
+        - To turn, the agent will interpolate the change in its angle position (based on its turn speed)
+    - Putting them together, though, is HARD - we're moving forward and rotating at the same time, so the agent can end up "orbiting" the spot it wants to get to, and we have to calculate where the agent will end up
+        - To avoid this, we'll usually do movement and turning independently of one another - instead of trying to ONLY move forward and turn appropriately, we'll let the AI strafe sideways/at an angle, and then just rotate so it looks okay
+            - "Fortunately, humans aren't cars, so this looks pretty believable for most games. Racing games usually end up doing some clever tricks to get around this."
+
+- Alright, Homework 3 will become a debutante on Wednesady - I'll see you all there (here (you know what I mean)).</pre>
+</article>
+<a class="side-link is-note-link" href="3_pathNetworks_1_16_19.html"></a>
+</main>
+</body>
+</html>

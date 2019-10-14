@@ -1,0 +1,167 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li class="active-note-page"><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull-Clark Subdivision</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li><li><a class="is-note-link" href="38_virtualReality_4_17_19.html">38. Virtual Reality</a></li><li><a class="is-note-link" href="39_gameRendering_4_19_19.html">39. Game Rendering</a></li><li><a class="is-note-link" href="40_proceduralContent_4_22_19.html">40. Procedural Content Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="16_raytracingIntersections_2_15_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//**************** Raytracing (cont.) - February 18th, 2019 *****************//
+//**************************************************************************//
+
+- Midterm is NEXT WEEK - details will begin to emerge fairly soon, but keep an eye on it!
+------------------------------------------------------------
+
+- So, last week we ended by talking about the HALF-PLANE TEST for figuring our if a point is inside a triangle, where we make sure the point is on the right side of all the lines making up the triangle's edges - but how do we actually calculate this mathematically? I'm glad you asked!
+
+- First off, we know the equation for a given line is:
+
+        f(x,y) = ax + by + c = 0
+
+    - If we have two points p1 and p0, then, how do we calculate a, b, and c?
+    - Well, we can get the vector pointing along the line pretty easily:
+
+        V = P1 - P0 / |P1 - P0|
+
+    - We can also get a vector "W" that's perpendicular to this vector VERY easily:
+
+            W = (-vy, vx)
+
+        - Essentially, this is the same thing as rotating the V vector 90 degrees (try multiplying it by a rotation matrix to make sure)
+    - SO, as it turns out, this already gets us a and b - they're the components of W!
+
+            w = (a, b)
+
+        - But what's 'c', then? Well, it's the distance of the line to the origin - and since we know a and b already, we can solve for it by just plugging in one of our known points for x/y and then solving for c!
+- That's well and good, but if we have 3 points, how would we get the equation for a plane?
+    - As we know, the equation for a plane is:
+
+            f(x,y,z) = ax + by + cz + d = 0
+
+        - If we have 3 points, we can get 2 vectors pointing along the edges, and then calculate the normal vector for the plane based on that!
+
+            E1 = P1-P0/|P1-P0|
+            E2 = P2-P0/|P2-P0|
+
+            N = E1 X E2 / |E1 X E2|
+
+        - This normal vector will give us the coordinates for a, b, and c - great!
+            
+            N = (a, b, c)
+
+        - ...and, now that we know those coefficients, we can just plug in one of our original points for x/y/z and then solve for 'd'
+
+- So, MATH (yay, I know). But why do we care? How does this help us figure out out our half-plane test?
+    - (...Professor chooses to ignores this question in favor of a ray-tracing tangent)
+    - Well, I suppose I'll have to put on my thinking cap and deduce the logic myself!
+        - For a 2D triangle, we can compute the line equation for each pair of the triangle's vertices, giving us 3 lines (or "half-planes")
+            - For each line, the points on the line will equal 0 when plugged into the equation; there'll then be one side of the line that's positive for plugged-in points, and another that's negative
+            - We just have to make sure the point is on the correct side of each line, and bam! We know if it's inside our triangle or not!
+    - Here's some example code, courtesy of Stack Overflow:
+
+        float sign (fPoint pt, fPoint v1, fPoint v2)
+        {
+            return (pt.x - v2.x) * (v1.y - v2.y) - (v1.x - v2.x) * (pt.y - v2.y);
+        }
+
+        bool PointInTriangle (fPoint pt, fPoint v1, fPoint v2, fPoint v3)
+        {
+            float d1, d2, d3;
+            bool has_neg, has_pos;
+
+            d1 = sign(pt, v1, v2);
+            d2 = sign(pt, v2, v3);
+            d3 = sign(pt, v3, v1);
+
+            has_neg = (d1 &lt; 0) || (d2 &lt; 0) || (d3 &lt; 0);
+            has_pos = (d1 &gt; 0) || (d2 &gt; 0) || (d3 &gt; 0);
+
+            return !(has_neg &amp;&amp; has_pos);
+        }
+
+- Let's say we're in a 3D scene with orthonormal coordinate axes (u, v, w), and a "focal length" of distance 'd' away from our camera, which is positioned at some point 'e' in the scene
+    - At the focal-length distance d away from our camera, we'll have our view plane, representing the pixels on our monitor. If we assume our camera is pointed in the -U direction, and our monitor has pixel dimensions (w, h) and the view plane is from [-1, 1] in the UV plane, how do we go from one coordinate to the other?
+        - Well, pretty simply, as it turns out; for a given pixel coordinate on the screen (i, j), we can translate it to the view plane like so:
+
+            u = -1 + 2i/w
+            v = -1 + 2j/h
+
+    - With that done, how do we calculate our "eye rays" shooting out from the camera for a perspective projection?
+        - Well, ALL of the rays will have their origin at the eye's position, 'e'
+        - The ray direction vector will then be based on scaling the different orthonormal vectors:
+
+                dir = a*w + b*u + c*v
+
+            - Where a = d (our focal length), b = u (the U-coordinate of the pixel in our VIEW PLANE), and c = v (ditto for the V-coordinate of the pixel in the view plane)
+                - Specifically, it would be "-dw + Uu + Vv" in this case, since 
+
+        - Since the view plane goes from [-1, 1], and the distance from the camera to the plane is 'd', we can calculate our field of view for the camera 'theta' (the total angle from the eye to the top/bottom of the view plane) using the equation:
+
+                tan(theta/2) = 1/d =&gt;
+                d = 1/tan(theta/2)
+
+    - "We can do orthographic projections with ray tracing too, of course, but it's not too different from what we did here, and it's very seldom done in practice with ray tracing"
+
+- Now, there's on more thing that's ESSENTIAL for proper ray tracing that you might not think about at first: recursion!
+    - Why is recursion important? Well, think of reflections: if we're looking at a point in the mirror, how do we calculate reflections using ray tracing? By bouncing a second ray from where our original 'eye ray' hit!
+        - So, the origin of this ray'll just be where we hit on the object, but how do we calculate the reflection direction for this ray? It's actually the VERY similar to the math that we did for Phong reflection! Look here:
+
+            R = E - 2(N*E)N
+
+            - Where R is the reflected ray we want, N is the normal vector, and E is the original eye vector that hit the surface (N/E should both be unit vectors)
+    - When we're calculating the color for any given pixel in ray tracing, we usually consider it as the combination of a few different things:
+
+        color = ambient + diffuse + specular + k_refl*c_refl
+
+        - Where 'k_refl' is the reflection coefficient (how close is the surface to a perfectly reflective mirror?), and 'c_refl' is the color of the reflected ray
+            - Sometimes, we might also want to include color/coefficient terms for the 'TRANSMITTED' or REFRACTION ray (we'll talk about this in more detail later, when we talk about transparent surfaces)
+    - This color equation is where the recursion for ray tracing comes in: in order to calculate the 'c_refl' color, we need to call the color function again, shooting off a new ray - which might then lead to another ray, which might then require ANOTHER ray, and...
+        - So, we need to decide how long this ray-bouncing recursion can go on before we stop it, and there are two main schools of thought on when we should stop:
+            - When the "depth" of the ray-tracing recursion hits some maximum value (i.e. we just say '6 reflections are good enough', and stop recursing past this point)
+            - When the contribution to the 1st ray becomes too small to care about (i.e. when the overall change to k_refl becomes small)
+                - Practically, most people use the first one, but you can go either way
+
+- So, as we've described this algorithm, ray tracing actually seems BACKWARDS from how the real world works: instead of photons bouncing into our eyes, we're shooting rays out of our eyes like a superhero!
+    - This REALLY bothers some people, and there are alternative algorithms that actually do involve bouncing light rays into the camera - but for the most part, people view this eye-ray-shooting as a good-enough compromise
+
+- So, this is great for diffuse surfaces. It's great for shiny surfaces. But what should we do about TRANSPARENT surfaces?
+    - Let's say we have some transparent object we'd like to render, like an ice cube; how does light behave when it hits this object?
+        - Well, per refraction, the light will BEND: a small part of the light will be reflected (depending on the angle), but the rest of the light will go through the object and shoot out the other side - and because light travels at different speeds through the material, the light will bend based on how slowly light travels through the material:
+
+                Index-of-Refraction = speed of light in vacuum / speed of light in medium
+
+            - Some common IORs:
+                - Vacuum: 1.0
+                - Air: 1.0003
+                - Water: 1.33
+                - Ice: 1.309
+                - Glass: ~1.5
+                - Diamond: 2.417
+        - So, this index controls how much the light bends in the material: the higher the index, the more the light bends!
+
+- We'll dive into the details of how we calculate this next class - in the meantime, adieu!
+</pre>
+</article>
+<a class="side-link is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html"></a>
+</main>
+</body>
+</html>

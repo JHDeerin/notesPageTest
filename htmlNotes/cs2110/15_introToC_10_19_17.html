@@ -1,0 +1,161 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs2110Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li class="active-note-page"><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="14_recursionCoding_10_17_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******************* Intro to C - October 19th, 2017 ***********************//
+//**************************************************************************//
+
+- 3:05, room is packed, no sign of Prof. Leahy...it shall be known as "The Day Without A Leahy"
+- 3:06, Brandon enters the room!
+    -...Brandon is not teaching the class
+- 3:07, LEAHY HAS ENTERED THE ROOM. WE ARE GO. WE ARE GO.
+    - Words flash on the screen: "Introduction to Programming in C"
+-----------------------------------------------------------
+
+- "Do NOT switch your brain over to C! We're not done with assembly yet"
+- The WORST thing you could do right now is to forget everything you've learned about assembly, the datapath, logic circuits, binary...C is built upon all of these, and if you understand everything we've done before, you'll understand why C works the way it does.
+
+- Now, going to a high-level language should be making everything simpler, right?
+    - Give names to our values (Variables)
+    - More expressive / readable
+    - Abstraction of hardware
+- "You all know the quadratic formula, right? I want you to write that program in Assembly tonight - "
+    - *general groan*
+    - "- and THEN, grab your roommate and demand, WHAT DOES THIS THING DO?!?"
+        -...they'll have no clue
+    - "THEN, write it in Java, and show them. Chances are, even if they've never programmed in their life, they can figure out"
+- So, yeah! C is a MASSIVE help...
+- ...but but but BUT, C IS NOT A MAGIC BULLET. C doesn't magically fix all our problems. 
+
+- "The CS program at Georgia Tech is kinda like a really bad flight school. We start you off with Python, riding a simple glider...then we move you to a smooth, sleek, impressive-performing Cessna called Java...that is not where we are now, kids. C is a biplane. If you want to make it turn, you have to get on the wings and push."
+
+- C is a language that will let you do ANYTHING - literally ANYTHING - the machine can do. It's used to write OS code, languages, low-level drivers, etc.; it's written for SPEED, first and foremost
+    -...it is NOT your friend
+    - There's no error checking, no friendly compiler messages, etc.
+    - "C is also incredibly cryptic...there's these weird symbols, and ALL the weird symbols mean something"
+    - C DEMANDS you know what you're doing
+- "So basically, we're one step above being steam-operated, folks"
+
+- TEST. YOUR. CODE.
+    - People get their code finally running, and act like oh, it's a precious jewel of art, I must wrap it in gauze and keep it safe and nice and warm and well-fed...
+        - "NO! Take it out to the shed and beat the s*** out of it! And if you don't, well, trust me, the grading TAs will."
+            - Learn to be a defensive programmer! Wrote a program that adds two numbers? Great; ask it to add 1 and 1. Then 1 and -1. Then 49008.988. Then oqcm9m2rcj2o8.
+
+- C is a COMPILED language.
+    - Interpreted languages compile as they run, like Python; they're awesome for testing and tasks where speed isn't needed, but are slower than compiled languages
+    - Compiled languages are compiled FIRST to machine code, and THEN run directly; the computer doesn't have to figure out what the program means before it runs.
+        - "Java has a foot in both camps; it's compiled into a special form called "Java Bytecode", and then interpreted by the Java Virtual Machine."
+- The C compiler's a pretty complex piece of software
+    - First, it gets run through the preprocessor
+        - The PREPROCESSOR does 4 things:
+            1) Includes the header files
+                - These are the ".h" files you'll see with "include" statements; they include function prototypes, declarations, etc., but no actual implementation code
+                - Can write it as:
+                    #include &lt;stdio.h&gt;
+                        or
+                    #include "thing.h" //if it's a local file, not a library
+                - The preprocessor sees the include statements, grabs that file, and sticks it into the file
+                    - SIDE NOTE: In C, functions MUST be declared before they are called, since the compiler needs to know that function calls are correct (have the right # of parameters, etc.) when it's going through the code
+                    - You can get around these by writing "function prototypes" at the top of the file, like "int even(int n);" then, you can define the function at the end of the file
+            2) Macro expansion
+                - Let's say we have a "max(a, b)" function, and we need it for ints, floats, etc.; do we have to write a separate function for each datatype?
+                    - INSTEAD of doing that, we can write a MACRO that will work for all these types!
+
+                        #define max(a, b) ((a) &gt;= (b) ? (a) : (b) )
+
+                    - Now, when you write "max(a, b)" somewhere, the compiler REPLACES all of those with the full macro text itself
+                        - It doesn't 'call' the Macro; it literally copy-pastes the text wherever that 'max(a, b)' appears
+                - "Macros save time, but take up more space than functions; functions take more time, but save memory space"
+            3) Conditional Compilation
+                - If a certain part of the program won't be used, it'll be ignored by the preprocessor and compiler; if we tell it to only compile a line, say, when x &gt; 10, then it'll throw it out if x &lt;= 10:
+
+                    #if x &gt; 10
+                        (...)
+                    #endif
+
+            4) Line Control (???)
+        - "Remember the Java preprocessor? No? That's because it doesn't have one, because it's a TERRIBLE idea. It confuses people, and really shouldn't be needed. It was bolted onto C years after it was in general use."
+    - Then, it enters the actual "Compiler" stage, with two parts
+        - Source code analysis says "Oh, that's a for loop. That's a variable. That's an add operation"...etc
+        - The Target Code Synthesis step then takes all those parts and converts it into a tree of operations
+            - Both of these use a symbol table to keep track of the program's parts
+    - The LINKER then takes that tree and puts all the pieces together into a coherent machine-language program
+- Of course, assembly languages differ from machine to machine, so an ARM processor needs different machine code than an Intel processor
+- Example: A Gameboy! 
+
+- Speaking of Gameboy...some people have written an emulator for the Gameboy, and we're gonna develop a C program for it. Keep that somewhere in the back of your mind
+
+- In this class, our C assignments must:
+    - Build cleanly
+    - Exit gracefully whenever it stops running
+    - Produce useful output wherever applicable
+    - Be well-documented with comments where appropriate
+        - "We're gonna require you to compile with all the warnings turned on, because that's how real programmers work. Also, because we're terrible people."
+- When you build C programs in this class, we'll provide you with "makefiles" to help out 
+    - We save our source code as "&lt;filename&gt;.c"
+    - Then, we compile it with the command "gcc &lt;filename&gt;.c"
+        - This'll create a new file called "&lt;filename&gt;.o", the object file
+    - If we then type "gcc &lt;filename&gt;.o -o file.exe", it'll create an executable file named "file.exe"
+    - Alternatively, say "gcc &lt;filename&gt;.c -o file.exe" to do the whole thing from the C file
+        - Include the "-save-temps" option to see all the intermediate files the compiler creates
+    - "GCC has about 10000 other options to explore, so if you want to look at that, have at it."
+    - To run it, just say "./ &lt;filename&gt;"
+
+- Now, for a bit of history:
+    - Dennis Ritchie and Brian Kernighan were working at Bell Labs on an operating system called MULTEX; up until this point, OS's were being written in ASSEMBLY! And it was every bit as painful as it sounds
+    - So, they were also working with a higher-level language called BCPL at the time, and they wondered: can we write our OS's in THIS instead?
+        - They modified BCPL into a language they called "B", and lo and behold, they could use it to write their OS's!
+    - But finally, later on, they decided B could be improved upon. So Brian Kernighan and Dennis Ritchie worked on it and, lo and behold, they improved it. And with their boundless creativity, they called it...C
+- "In 1974, they wrote a book introducing the language, and it took off like nuts"
+    - In 1989, ANSI came around and standardized the C language, with major updates in 1994 and 1999; "We'll be working with the 1999 version; NOT because it's old, but, on the contrary, because it's the most widely used version of C to date. Most C programs written today are still using it."
+- "Every so often you hear people say, why is C still around? Isn't it terrible? Isn't it awful? And to all those people, I have one answer:"
+    - *spits on the ground*
+
+- Now, C programs are built around FUNCTIONS
+    - Execution always starts in a function called "main"
+- To print something to the screen, you call "printf", which takes a string and then a list of arguments for what to insert
+    - Use %d for integer, %f for floating-point numbers, %x for hexadecimal, etc., just like Java's printf function
+    - This is a library function, so you need to include the library with the line:
+
+        #include &lt;stdio.h&gt; //put at the top of the file
+
+        - NEVER include a .c file in a .c file; you can do it, but it's NOT a good idea
+        - Can also write " #include "somefile.h" "; this checks in the local directory for the file you specify, instead of the standard library
+        
+- There's also a basic input function called "scanf"
+    - This is the first place you realize that you're NOT in Kansas anymore, because we call scanf like this:
+        scanf("%c", &amp;someChar)  //The &amp; says that we want to pass scanf the ADDRESS of a variable, NOT the variable itself
+    - "Be aware that scanf is WEIRD; it'll behave in ways you don't expect"
+- THERE ARE NO BOOLEANS IN C; instead, you use integers
+    - "0" evaluates to false
+    - Everything else is true
+- Make sure you know that C is NOT C++; there are some syntax differences
+</pre>
+</article>
+<a class="side-link is-note-link" href="16_moreC_10_24_17.html"></a>
+</main>
+</body>
+</html>

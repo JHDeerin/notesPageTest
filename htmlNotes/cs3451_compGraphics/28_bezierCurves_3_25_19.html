@@ -1,0 +1,115 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li class="active-note-page"><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull-Clark Subdivision</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li><li><a class="is-note-link" href="38_virtualReality_4_17_19.html">38. Virtual Reality</a></li><li><a class="is-note-link" href="39_gameRendering_4_19_19.html">39. Game Rendering</a></li><li><a class="is-note-link" href="40_proceduralContent_4_22_19.html">40. Procedural Content Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="27_cornerPolyhedra_3_15_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******************** Bezier Curves - March 25th, 2019 *********************//
+//**************************************************************************//
+
+- Alright, today we're going to be shifting gears into a different world of graphics: curves!
+    - The book chapter on this section is quite good, so make sure to take a peek at it if you're interested
+
+- First off, let's start with a definition: a CONVEX HULL for a set of points is the smallest convex shape that contains all those points
+    - This is a simple concept, but it's important!
+    - A CONVEX COMBINATION is a point that can be expressed as a "convex" combination of other points in a set
+        - For a line segment p1/p2, for instance, a point "a" is a convex combination of points p1/p2 if it can be written as:
+
+                a = w1*p1 + w2*p2
+
+            - Where w1 + w2 = 1 and the weights are non-negative, meaning a is on the line segment
+        - For a triangle defined by points p1/p2/p3, we say a point "b" is a convex combination of those points if it can be expressed as:
+
+                b = w1*p1 + w2*p2 + w3*p3
+
+            - Where w1 + w2 + w3 = 1 and all the weights are non-negative, meaning b is inside the triangle
+        - "Think of a convex combination like this: each of the points has a rope attached to our point, and they're all pulling their ropes tight. If we can get our point by pulling on the ropes like this, then it's a convex combo!"
+    - Generalizing this combination definition, we can say that for a set of "n" points p1...pn, and a given point "c" written as:
+
+            c = w1*p1 + ... + wn*pn
+
+        - ...we can say that c is INSIDE the convex hull if all the weights are non-negative and sum up to 1!
+            - Hold on to your eyeballs, because that's an important fact!
+
+- Building a bit weirdly off of this, let's talk about some mysterious thing called "barycentric coordinates"
+    - For a triangle ONLY, the convex weights w1/w2/w3 for a given point "g" are called the BARYCENTRIC COORDINATES of that point
+        - If we know where our point is, then we can figure out these weights based on the area of the different triangle and it's interior sub-sections:
+
+          p1 --------------- p2
+            \      a3      /
+             \    \   /   /
+              \ a2  *  a1/
+               \    |   /
+                \   |  /
+                 \  | /
+                  \ |/
+                   \/
+                   p3
+
+            - Where the total area A = a1 + a2 + a3, and the individual weights'll be:
+                - W1 = a1/A
+                - W2 = a2/A
+                - W3 = a3/A
+
+    - These coordinates have a lot of nice properties we won't get into right now, but trust me, they're there!
+
+- Now, let's start using these points to talk about a really common, useful type of curve, called BEZIER CURVES
+    - These are a whole family of curves named after the mathematician Pierre Bezier, but we'll mostly be talking about CUBIC, or "degree 3," Bezier curves
+    - For this curve, we'll have a start point, an end point, and 2 intermediate "control points" that define how the curve is shaped as it goes from the start to the endpoint
+        - What're a few properties of this curve?
+            - Bezier curves INTERPOLATE through p1/p4 (the start/end point)
+            - The curve is tangent at its endpoints to the line segments P1/P2 and P3/P4
+            - ALL points on the curve are inside the convex hull of p1, p2, p3, and p4
+            - Cubic bezier curves give independent control of the endpoints and tangents (i.e. we can change where the endpoint is without affecting the tangent, and vice-versa)
+                - We can't do that with a line segment, or even with quadratic Bezier curves - it's the lowest-degree curve that gives us this control! This is a big reason cubic Bezier curves specifically are popular among CG people
+        - If we want to, we can then chain multiple of these curves together into multiple, longer curves
+    - "Now, equations sometimes strike fear into people's hearts, but we've got to look at them - so here we go"
+        - Recall that the parametric line segment equation was where we had 2 points P1/P2, and a point on that line q(t) was defined:
+
+                q(t) = (x(t), y(t)) =&gt;
+                     = (x1*(1-t) + x2*t, 
+                        y1*(1-t) + y2*t)
+                     = P1*L1(t) + P2*L2(t)
+
+            - Where L1(t) = 1-t, and L2(t) = t (our "basis functions")
+                - Notice that L1(t) + L2(t) will add up to 1 for ANY value of t - and remember how convex combination weights should add up to 1 as well? We can consider L1 and L2 to be the weights of this equations!
+                    - We can use this general idea of control points, multiplied by weights, to define our Bezier curve itself
+                    - ...and remember: technically, this IS a degree-1 Bezier curve!
+        - For cubic Bezier curves, then, what can we do?
+            - Well, we've got four total control points (including the endpoints), and we will have four basis functions/"weights" B1 to B4
+            - Therefore, a point on our curve q(t) will look like:
+
+                    q(t) = B1(t)*P1 + B2(t)*P2 + B3(t)*P3 + B4(t)*P4
+
+                - What ARE these basis functions, though? We need them to add up to 1 and be non-negative for values of t between 0 and 1, so in general:
+                    - B1 will start at 1, then sharply drops off to 0 
+                    - B2/B3 will be "humps" in the middle values of t, indicating the curve will be tugged towards them
+                    - B4 will be a flipped version of B1, starting off at 0 and curving exponentially to 1
+
+- So, the big ideas for today are the idea of convex combinations and their non-negative weights, and the idea of using basis functions that meet this requirement to define curves. We'll go over what EXACTLY these equations look like for a Bezier curve...next time!</pre>
+</article>
+<a class="side-link is-note-link" href="29_moreBezierCurves_3_27_19.html"></a>
+</main>
+</body>
+</html>

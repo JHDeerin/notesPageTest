@@ -1,0 +1,123 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs2110Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li class="active-note-page"><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="8_introVonNeumann_9_21_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************* Introduction to Datapath - September 26th, 2017 *************//
+//**************************************************************************//
+
+- Battery at low percentage. 1.25 hour class. 54 min of battery remaining. This is about to get interesting.
+- Closing auxillary system processes. Turning brightness down to minimum. I literally can't see what I'm typing right now.
+    -...I hope there aren't spelling mistakes. That would be bad, because I can not fix them. Because I cannot see. :(
+----------------------------------------------------------------------
+
+- Yesterday, in lab, you shouldd've been given a brand-new version of the LC3 datapath. Did you all get the general idea of the datapath? Of how numbers are moved around? No? Okay. Let's try and go over some of it.
+    - "I DON'T have the whole thing in front of me, but i'll try and draw some of it, and explain it."
+    - So, we start by putting the hexadecimal value of "3000" in the PC - this is the MEMORY ADDRESS #3000. How does it get in the PC? In an actual computer, there are a couple of ways...for now, we'll just manually type it in.
+    - So, we take this value of 3000 from the PC and put it on the BUS. This holds the 3000 value temporarily; we then turn on the "LDMAR" button ("Load MAR"); this does NOT automatically set the value, but instead means that the value will go into the MAR the next time the clock pulses.
+    - So, the clock is pulsed, the value goes into the MAR, and now memory location 3000 is accessed in the MEMORY that's hooked up to the MAR; we've got it!
+    - On the next clock pulse, we then close the "LDMAR" button and activate the "LDMDR" button; this opens the "MDR" register to store the currently active value in the memory. When the clock pulses, the value stored at location 3000 will  be copied to the MDR.
+        - We CAN'T have both MDR and MAR open at the same time, since then we risk either the MDR or the MAR being written to before their value updates due to the slight delay in the circuit, which means we might get the wrong value.
+        - However, this delay is actually useful to us; It means that we can read a value from the PC AND run the adder to incrmeent the memory address on the PC at the same time, and it won't cause an error; the value from the PC will be read, and then a fraction of a second later, the PC will increment.
+            - "In the real world, the output is NEVER instantaneous; there's always a short delay, even if it's measured in nanoseconds."
+- Hopefully that helped clear up some tuff, but if you're still confused, see the TAs. They'll be happy to help.
+
+- So, we were talking about Von Neumann computers, and we now need to talk about a new instruction: the LDR, or "Load Register" instruction
+    - "Let's say I want you to go to the bookstore, get me something, and go to the CoC. What are you gonna get when you get there?"
+        - "...what's that? You need me to tell you what to get? I DON'T want some random **** from the bookstore?"
+        - "What's that? You need to know WHERE to put it in the CoC? Really!"
+    - So, we need to know 2 things: WHAT we want to get, and WHERE we want to put it.
+    - THe LOAD REGISTER, LDR, is what handles this in our datapth; it tells us what register to look in for our data, and which register to store the result in.
+        - The LDR has an "instruction" of 16 bits (since our computer, the LD3, is 16 bits); the first 4 are the OPCODE for the LDR, the next 3 are the "destination register (DR)" where we store the data, and...
+            - We want the last part to be a 16-bit memory address for the data we want; BUT, we don't have enough space for that!
+                - "But I really want that data! I want it even more than a pony!"
+            - So INSTEAD, we say the next 3 bits are our "base register" that has the address of the data, and specify where the data we want to get is
+                - "...HOW!!!!" some of you screech in confusion and anger; trust me, we'll get to it, but take me on faith for now.
+            - So, we have a 4-bit opcode, 3-bit DR, 3-bit base register, and 6 bits we seem to not be using; we can represent a number there from -32 to +31 (in 2s complement), so let's say that AFTER we've gotten the contents of the base register, we're going to take the number in our last 6 bits, add it to the address we got from the base register, and THAT'S where our data is
+                - "WHAT THE ****" some scream in bewilderment; trust me, it makes sense. It works kind of like an array; in that we can count by an offset from some base...stay with me
+            - What we do is, we take the contents of the base register and ADD IT to the value of our last 6 bits (the "offset") - we cal lthis number the EFFECTIVE ADDRESS. We then go to the memory address of th effective address, get that data, and store it into our DR.
+                - Mentioned that this instruction is in the IR, but doesn't require a clock tho get it? Is it not stored in the IR?
+                -...oh. This isn't a component; it's justa TYPE of instruction run by the computer, stored in the IR. Hence the opcode.
+                    -...I can b st0_opid @times. Tick tock. Ding.
+
+- "Who do you like more: pirates or ninjas?"
+    - That's right, PIRATES! Not only because they have a ride at Disney world, but because they have treasure maps!
+    - "But as computer scientists, we already have a treasure map! Do you want to see it? Yes? You do? Alright!"
+        - *flashes an absurdly complicated diagram of a computer's schematic on the screen*
+        - "Now, this is the LC3 datapath that you will know and love and probably have nightmares about after this class, but let's go through this"
+        - Now, in order to add the base register's content to the 6-bit offset, we need a sign-extender first; after we've gone through the sign extender, though, and gone through the adder, we've gotten our effective result! So we come to a crossroads in the wire: PCMUx, or MARMUX
+            - "You're like Indiana Jones: which way, which way?!"
+            - Ah, but then you remember: we're getting memory! We want to go to the MAR MUX!
+        - So, we then go to the MAR, get our data, and put it in our destination register!
+    - "So, where do you think this diagram come from? It came from a designer who said, 'okay, I need to do this instruction so I'll hook up the components to do that instruction'. They get to the 2nd instruction, and say 'do I have enough wires to do this?' If yes, hooray! If not, we add extra wires...the point is, they kept doing this, building it up piece-by-piece. This diagram is just a roadmap on how to execute different instructions. There are no extra wires to fool you here. They're there because someone needed them."
+
+    - So, we have to talk about "Flow Control" for this. Normlly, we execute instruction one after the other., but when might we NOT do this? During if statements! 
+        - Here, we're skipping OVER a statement. Similarly, with loops, we DON'T move on, but go back to the top!
+    - Right now, our processor is set up to do one instruction after another; what if we don't want to do this? We need to change the PC, so that we're not just adding 1 to our next instruction!!
+    
+    - This involves the JUMP instruction (JMP, because screw vowels)
+        - The 1st 4 bits, again are the opcode, 
+        - This time, when we leave the IR, we DON'T go left to the MARMUX; we go right to the PCMUX
+            - "Just a side note: this computer was optimized for readability (laugh all you want, scary as it is now) over performance. It was meant as a teaching tool, not to be super-performant. So as you learn more about it, if you say "hey, we could do things faster if we wired them up this way", you're probably right."
+
+    - Now, how do we stop a processor? Well, basically, you have a latch that be a "1" or a "0" set up to the clock; nothing would lose its value if you did this! You could pause operation and then restart it, no problem!
+
+    - So, in the textbook, Yale Patt created an imaginary processor called ()as we've mentioned) the LC-3. This is a simplified processor, since a proper ARM or Intel processor has instruction manuals about 3-foot thick.
+    - One thing processor's need to have: an ISA, Instruction Set Architecture
+        - The ISA specifies all the information about the computer that the software needs to be aware of
+            - It specifies stuff like Opcodes, how much memory does it have, what are valid memory addresses, how many bits everything is, details of memory, details of the register, etc.
+        - "Java programmers do NOT use ISAs; C programmers don't. ISAs are used by people who write compilers, OS programmers, Assembly programmers, chip manufacturers, people who make drivers, etc."
+    - Imagine you've just taken a job with a company, and they've decided to use the LC-3 chip. So you go up to Boston and sit at the info session from the LC-3 corporation about the cip.
+        - The LC-3 has a 16-bit address space (0 to 65536)
+        - The addressability is 16-bits long; there's NO such thing as a byte in this machine, it's just bits
+        - The LC-3 has 8 General Purpose Register
+            - Is the PC considered a GPR? NO. It's a SPECIFIC purpose register
+                - this is NOT true for all processors, but it is true for the LC-3 in this course
+        - Even though they're general purpose, though, there might be conventions on how certain ones are SUPPOSED to be used
+        - Opcodes: 3 classes of them
+            - Operate instructions, work with data in register files (ADD, etc.)
+            - Data movement instructions, moves data between memory and registers
+            - Data control operations, like JUMP
+        - List the different datatypes
+        - Lists the type of addressing modes
+
+    - Now, imagine a salesman comes up to you and tells you that their computer is AMAZING! It has HUNDREDS of instruction, so your assembly programmers can do anything they need! It's like programming in a high-level language!
+        - What's the catch? "Well, our computer is really slow. In fact, it's slow as ****"
+        - In the early days of computers, this happened, where designs had many, many instructions. Programmers liked this, since it made it super convenient to program, but having all of these tiny instructions that COULD be made by a combination of simple instructions instead slowed down the computer. Instructions that required 2 or 3 words slowed them down
+            - So, assembly programming became tedious, but computers got faster. And now, people are largely replaced by compilers for this, which handles the boring, repetitive parts of programming in assembly.
+            - This is called RISC architecture - "Reduced Instruction Set (something)", and is the predominant architecture today
+                - "Now, reduced still means like 200 instructions, but it's better than the 2000+ ones in old computers, where you could practically write 1 line of Fortran with 1 line of assembly"
+
+    - Now, where do we find the data these instructions operate on? In the registers? In the memory? In the instructions? Those are ALL right, and those are the big three!
+
+    - Some addressing modes: immediate (or literal) (info is written in the instruction itself, don't need to fetch anything), register (access register via its #), PC-relative (based on the address in the PC), indirect (commonly used; we tell them a register where an address is stored instead of the address for the data itself), base+offset (what we used for the LCR)
+
+    - Last note: EVERY time a General-Purpose Register is written to, there's a set of 3 registers we call the CONDITION CODE that are set. Each of the 3 registers is 1-bit, and are called N, Z, and P: Negative, Zero, or Positive. If the data stored in the most recently written-to GPR is Negative, the N register is set and the other 2 are cleared; ditto if it's zero or positive, respectively. Why is this important? Well, you'll find out...
+</pre>
+</article>
+<a class="side-link is-note-link" href="10_introToAssembly_9_28_17.html"></a>
+</main>
+</body>
+</html>

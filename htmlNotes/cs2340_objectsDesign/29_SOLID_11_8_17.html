@@ -1,0 +1,148 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Objects and Design</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs2340Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Objects and Design</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_21_17.html">0. First Day of CS 2340</a></li><li><a class="is-note-link" href="1_workingInTeams_8_23_17.html">1. Working in Teams</a></li><li><a class="is-note-link" href="2_teamExercise_8_25_17.html">2. NASA Team Exercise</a></li><li><a class="is-note-link" href="3_introToAgile_8_28_17.html">3. Agile Development / Zenhub</a></li><li><a class="is-note-link" href="4_sourceControl_8_30_17.html">4. Intro to Git/Version Control</a></li><li><a class="is-note-link" href="5_gitBranchingGradleIntro_9_1_17.html">5. Git and Gradle</a></li><li><a class="is-note-link" href="6_gradleAndAndroid_9_6_17.html">6. Gradle and Intro. Android</a></li><li><a class="is-note-link" href="7_introToAndroid_9_8_17.html">7. Intro. to Android</a></li><li><a class="is-note-link" href="8_moreAndroidStudio_9_13_17.html">8. Android Studio (cont.)</a></li><li><a class="is-note-link" href="9_introProgrammingParadigms_9_15_17.html">9. Intro to Programming Paradigms/OOP</a></li><li><a class="is-note-link" href="10_OOPDesignUserStories_9_18_17.html">10. User Stories OOP Design</a></li><li><a class="is-note-link" href="11_domainModels_9_20_17.html">11. Domain Models</a></li><li><a class="is-note-link" href="12_moreDomainAndRDD_9_22_17.html">12. Domain Models (cont.) and RDD</a></li><li><a class="is-note-link" href="13_googleCleanCode_9_25_17.html">13. Google Clean Code</a></li><li><a class="is-note-link" href="14_basicAnalysis_9_29_17.html">14. Basic Analysis</a></li><li><a class="is-note-link" href="15_introToArchitecture_10_2_17.html">15. Intro to Software Architecture</a></li><li><a class="is-note-link" href="16_moreSoftwareArchitecture_10_4_17.html">16. Software Architecture (cont.)</a></li><li><a class="is-note-link" href="17_umlDiagrams_10_6_17.html">17. UML Diagrams</a></li><li><a class="is-note-link" href="18_classDiagrams_10_11_17.html">18. Class Diagrams (cont.)</a></li><li><a class="is-note-link" href="19_sequenceDiagrams_10_13_17.html">19. Sequence Diagrams</a></li><li><a class="is-note-link" href="20_mapsAndPersistence_10_16_17.html">20. Google Maps &amp; Persistence</a></li><li><a class="is-note-link" href="21_persistenceAndSafety_10_18_17.html">21. Persistence(cont.) &amp; Safety</a></li><li><a class="is-note-link" href="22_contractsAndExceptions_10_20_17.html">22. Contracts &amp; Exceptions</a></li><li><a class="is-note-link" href="23_introDesignPrinciples_10_25_17.html">23. Intro to Design Principles</a></li><li><a class="is-note-link" href="24_graspPrinciples_10_27_17.html">24. GRASP Principles</a></li><li><a class="is-note-link" href="25_codeReviews&amp;Testing_10_30_17.html">25. Code Reviews and Unit Tests</a></li><li><a class="is-note-link" href="26_testingCode_11_1_17.html">26. Testing Code</a></li><li><a class="is-note-link" href="27_moreUnitTests_11_3_17.html">27. More Unit Tests</a></li><li><a class="is-note-link" href="28_moreDesignPrinciples_11_6_17.html">28. More Design Principles</a></li><li class="active-note-page"><a class="is-note-link" href="29_SOLID_11_8_17.html">29. SOLID Principles (cont.)</a></li><li><a class="is-note-link" href="30_evaluatingDesigns_11_10_17.html">30. Evaluating Good Designs</a></li><li><a class="is-note-link" href="31_moreEvaluatingDesigns_11_13_17.html">31. Evaluating Designs</a></li><li><a class="is-note-link" href="32_UIDesignPrinciples_11_15_17.html">32. UI Design Principles</a></li><li><a class="is-note-link" href="33_packages_11_17_17.html">33. Packages</a></li><li><a class="is-note-link" href="34_metricsDesignPatterns_11_20_17.html">34. Metrics &amp; Design Patterns</a></li><li><a class="is-note-link" href="35_moreDesignPatterns_11_27_17.html">35. More Design Patterns</a></li><li><a class="is-note-link" href="36_exam2Review_11_29_17.html">36. Exam 2 Review</a></li><li><a class="is-note-link" href="37_finalExam_12_4_17.html">37. Final Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="28_moreDesignPrinciples_11_6_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************ SOLID Principles (cont.) - November 8th, 2017 ****************//
+//**************************************************************************//
+
+- So, we just started looking at the SOLID principles, and finished going over the "S"; let's finish this up
+
+    - OPEN-CLOSED PRINCIPLE
+        - Basically, we say that objects "are open for extension but closed for modification"
+        - e.g. Here's a method that does NOT follow this principle:
+
+            public double computePay(int employeeType) {
+                switch (employeeType) {
+                    case SALARIED: this.computeS(); break;
+                    case HOURLY: this.computeH(); break
+                    case BONUS: this.computeB(); break;
+                }
+            }
+
+            - Now, EVERY TIME we have to create a new employee type, we have to modify this class and add a new method for calculating that employee's salary
+                - "Switch statements are often - although NOT always - a sign that you can be designing something better"
+                - In C, since C doesn't have inheritance, alot of C programmers do something like this
+        - To do this in a way that follows the open-closed principle, let's make this method work with a generic "Employee" class, and then just have each of the employee types inherit from "Employee"
+
+            computePay(Employee emp) {
+                e.calcPay();
+            }
+
+        - Similarly, in Robert Martin's book, let's say we have a method called drawShape:
+
+            drawShape(int shapetype) {
+                switch() {
+                    case CIRCLE: drawCirc();
+                    case SQUARE: drawSquare();
+                    (...)
+                }
+            }
+
+            - Again, this means that every time we add a new shape, we ALSO have to modify this class
+            - ...and again, we can redesign this by having a "Shape" class all these shapes inherit from, with a "draw()" method on it
+
+    - LISKOV-SUBSTITUTION PRINCIPLE
+        - Created by Barbara Liskov, a programming language researcher and Turing-award winner
+            - "She didn't win it; she EARNED that award"
+        - Canonically, this means that "Subclasses should be substitutable for their base classes"
+            - The most common way to tell we're violating this (at least in Java) is if we have to use the instanceof class. Let's say we have a Rectangle class, and we're testing how it calculates area:
+
+                validate(Rect r) {
+                    r.setWidth(5);
+                    r.setHeight(6);
+                    assert(r.area() == 30);
+                }
+
+            - This works great! BUT, we want to add a square, so we have it inherit from the Rect class and to make sure it stays a square, we change the getter to:
+
+                setWidth(int w) {
+                    width = w;
+                    height = w;
+                 }
+
+            - NOW, if we put the square through the validate() method, this assert will FAIL, since a square can't have a width of 5 and a height of 6
+            - So, to fix our test, we just say "well, let's check to make sure it's a square, then do something different":
+
+                if (r instanceof Square) {
+                    assert (r.area() == 30);
+                } else {
+                    assert(r.area() == 36);
+                }
+
+                - "Now, instanceof isn't always bad, but oftentimes it's a sign that we can better design something"
+                - In this case, doing this for just 2 different types isn't too bad...but what if we need to add test conditions for trapezoids, parallelograms, rhombuses, etc.? This method will start getting messy - and fragile - FAST!
+
+            - To fix this, we should design our classes so that on INHERITING classes, pre-conditions cannot be strengthened (must be able to take same input as the base class' methods) and the postconditions cannot be weakened (must be able to take on all the values that the base class can)
+
+    - DEPENDENCY INVERSION PRINCIPLE
+        - "Depend on abstractions, not concretions"
+        - Basically, assume the least/most general requirements you can and use the MOST ABSTRACT class possible; use "List" instead of "ArrayList" if possible to make your methods less fragile
+            - "If we decide a month later to use a LinkedList instead of an ArrayList, then if we're following this principle, we only have to change it where we create the list instead of EVERY place where we used the ArrayList"
+        - Use Interfaces instead of direct implementations if you can; that way, if you have to change the implementation, it doesn't wreck everything; it's easy to "swap out" the interface implementation
+
+        - An example:
+            - "Hey Bob, the people up in accounting want a program that'll take a file from console and print it"
+                - Well, using our design techniques we've learned, we figure out we need a Console class, a FileParser, a Copy, and a Printer class
+                - So, we write the "Copier" method like:
+
+                    public void copy() {
+                        Console console = new console();
+                        Printer p = new Printer();
+                        while (!c.endOfFile()) {
+                            c.write()
+                        }
+                    }
+
+            - A week later: "Hey Bob, that copy program was great! Could you make one that prints stuff that we have stored on a disk?"
+                - So, we need to keep our current method working, so we just create a new class "Disk" and copy-paste a new method:
+
+                    public void copy2() {
+                        Disk disk = new disk();
+                        (...all copy paste...)
+                    }
+            - Then a week later, we get a request to print from word documents...then excel spreadsheets...then...
+                - "Soon enough, we've got like 6 methods that're bascially copy-pastes of each other! If anything changes in how we want to read in our data, we're gonna have to edit ALL of them! So, instead of doing that, let's just create an interface like this:"
+
+                    IReader() {
+                        public void readNext();
+                    }
+
+                - "...now, have all of our 'Disk', 'Console', etc. classes implement this interface, and have our copy method just use the 'IReader' interface instead...and then BOOM, we only have to use one method! And adding new things to read from is SUPER easy!"
+            - Another thing to look into for this principle: DEPENDENCY INJECTION!
+                - We won't get into DI too much in this class, but it's used very frequently in the real world, so it wouldn't hurt to read up on the basics of it
+
+    - INTERFACE SEGREGATION PRINCIPLE (Yes, we cover the 'I' last)
+        - Basically, don't make large, multi-purpose interfaces - instead, use several small, focused-purpose ones
+        - Don't make clients depend on interface they don't use
+        - Classes should depend on each other through the smallest possible interface
+            - One example from a student a few years ago: they were making an online "Go" board game, with the classes "ChatClient", "Player", and "Commentators" all depending on the "GoServer" class; instead, we should write 3 interfaces "IChat", "IGame" and "IComment" that the Server implements instead of 1 massive interface (wait, so what depends on what?)
+                - ...we'll finish going over this on Friday 
+</pre>
+</article>
+<a class="side-link is-note-link" href="30_evaluatingDesigns_11_10_17.html"></a>
+</main>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs2110Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li class="active-note-page"><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="3_logicGates_8_31_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******* Adders &amp; Boolean Simplification - September 5th, 2017 *************//
+//**************************************************************************//
+
+- So, you know how we're on a 15 minute schedule this year? Well, a consequence of this is that lectures are 5 minutes shorter, but I still need to cover the same amount of material...so PLEASE, until I stop talking, DON'T PACK UP. The class ends at 4:15, NOT at 4:10; I've had problems with the noon class with this, and I'd rather it didn't happen twice in the same day
+- QUESTION: The basic multiplexor has...
+    3) 1 output, n control lines, and 2^n inputs
+        - Now, if you wanted a multiplexor with 7 inputs, you would use a multiplexor with 8 inputs and just not use one
+- Decoders don't have "control wires" per se, just multiple inputs
+-----------------------------------------------
+
+- So, last time, we covered logic gates and said, "Well, great, but what can we do with them?"
+    - If you want to take a binary # and turn it into an output(s), we can use a DECODER
+    - If you have some "n" inputs, and you want to select 1 of them, you can build a MULTIPLEXOR to do that!
+- Today, we're going to get the computer to do something special: MATH!
+    - Even MORE specifically, we're going to be breaking this down into a single sub-problem that we want to solve: binary addition! Because HOPEFULLY, if we can solve this, we can solve the problem of how to do ALL kinds of math on computers
+
+- So, the table of binary addition looks something like this:
+    + | 0 | 1
+    ---------
+    0 | 0 | 1
+    1 | 1 | 10
+
+    - We want to construct a HALF-ADDER to do this, something like this:
+        - The "carry out" is so that, if we add 2 ones, we can CARRY the 1 digit to the next half-adder for the next digit
+
+                        (carry in) //handles the PREVIOUS half-adder
+                            |
+    -------------A------|------|
+                        |      |------out-------
+    -------------B------|------|
+                            |
+                        (carry out)
+
+        - So, if we turn this component on its side, and hook up the "carry-ins" on the right and the "carry-outs" on the left (so that A-B are on the top), we get a FULL ADDER for an 4-bit number if we hook 4 of these up!
+
+
+
+- So, the truth table for this (half-adder) should look like:
+
+    A | B | Carry-In ||| Out | Carry Out |
+    --------------------------------------
+    0 | 0 |    0     ||| 0   |    0      |
+    0 | 0 |    1     ||| 1   |    0      |
+    0 | 1 |    0     ||| 1   |    0      |
+    0 | 1 |    1     ||| 0   |    1      |
+    1 | 0 |    0     ||| 1   |    0      |
+    1 | 0 |    1     ||| 0   |    1      |
+    1 | 1 |    0     ||| 0   |    1      |
+    1 | 1 |    1     ||| 1   |    1      |
+    --------------------------------------
+
+- Now, we have to construct the circuit to match this truth table - "Okay, so if I get an input of 0, 1, 0, I want an output of 1 and a carry out of 0...", etc.
+    - So, we'd have 4 3-input AND gates hooked up like this:
+        -!A, !B, CI (ci = "carry in")
+        -!A, B, !CI
+        -A, !B, !CI
+        -A, B, CI
+    -...and then all hooked up their outputs to a 4-input OR gate; the output of this OR gate is our regular "Out" output!
+    - Then, to get our "Carry Out's" output, we have 4 3-input AND gates hooked up like this, and then outputs all hooked together to a 4-input OR gate:
+        - A, B, CI
+        - !A, B, CI
+        -
+        -
+- Notice that we have as many AND gates as we have 1s in the truth table, hooked togeter to OR gates to get the output; this is a VERY specific algorithm, actually; there's a set "cookbook" on how to setup adders to support N-bit numbers
+
+    - "Now, the good students tonight are going to go home and excitedly google 'full adder', look up how it works, how it's set up..."
+    - "The bad students...and you know who you are...are going to get drunk and possibly get a tattoo"
+        - "BUT, if I can make a suggestion for the tattoo..." (*flashes a tattoo of a half-adder someone built with XOR gates...and actually put onto their arm*)
+            - Using XOR gates, "we could SIMPLIFY the circuit to minimize it's complexity, which requires less components to build, which saves us money, saves you time on your homework, and gives you more time to, I don't know, get more drunk and get further tattoos"
+
+- Now, we can express the logic for this adder's truth-table in terms of boolean logic:
+    OUT = A'B'C + A'BC' + AB'C' + ABC
+- So, bringing the tattoo thing back here leads us to the topic of BOOLEAN SIMPLIFICATION, where we try to rewrite these complicated boolean expressions into simpler forms
+    - One way is by looking for patterns: 
+        - A + A' = 1; it's ALWAYS true
+        - AA' = 0; it's ALWAYS false
+        - ABC + AB'C' = A(BC+B'C')
+            - "If you're scratching your head and saying, gee professor, I don't really know why that works, try writing out the truth tables for these; it'll help"
+            - "Also, for those in the back...I have a question: why are you taking pictures of slides I've already posted on the internet?"
+        - A*1 = A
+        - A*0 = 0
+        - A + 0 = A
+        - A + 1 = 1
+        - AB + A' = B + A'
+
+- One classic simplification example:
+    F = A'B'C' + A'B'C + AB'C' + AB'C
+    F = A'B'(C' + C) + AB'(C' + C)
+    F = A'B' + AB'
+    F = B'(A + A')
+    F = B'
+- Now, it's HARD to just look at truth tables and do this simplification; even with boolean expressions, it isn't always obvious if it can be simplified
+
+- There's a technique called "Karnaugh Maps", invented by an electrical engineering professor called Maurice Karnaugh
+    - "You'll often hear these called K-Maps; I like to call them Karnaugh maps, since the man is still alive, after all"
+    - These are built around the idea that we can replace a 1-variable truth table with this:
+        - (didn't actually copy this down correctly; good explanation of KMaps in the UToronto PDF I downloaded and put in the 'recitations' folder)
+        A
+        A'
+    - In 2 variables:
+            B'  | B
+        A'| A'B'|A'B
+        A | AB' |AB
+    - So, let's say that we have a table:
+            B'  | B
+        A'| 1   |0
+        A | 0   |1
+        - This table CANNOT be simplified; it's in simplest form
+    - BUT, with THIS table, where OUT = A'B' + AB':
+            B'  | B
+        A'| 1   |0
+        A | 1   |0
+        -...here, we can factor out the function: B'(A'A) = B'(1) = B'; so we CAN simplify this!
+
+- SEGUE! Suppose you had to give a series of 3-bit codes to disarm the detonation sequence of a nuclear device
+- There would be 8 codes (0 - 7), and they all have to be entered in a specific sequence; any deviation from the sequence would result in an immediate detonation
+    - If the codes were just the sequence from 0 to 7, though, we have a problem; at some point, we have to get straight from 001 to 010; this requires us to flip TWO bits at the same time, which human reactions aren't fast enough to do!
+        - So INSTEAD, to be a proper sequence, it needs to be something called a "GRAY CODE SEQUENCE"; a sequence where, to get from one point to the next, we ALWAYS only need to flip 1 bit
+            - These are called "Gray codes" because it was invented by a guy named Gray...yeah, that's it
+- Historically, this comes from an input problem with "optical encoders", where they needed to be able to go through all these sequences by just turning a knob, which meant only altering 1 bit at a time (I THINK; might've misheard the exact reason why)
+
+- So, why do WE care about these "Gray Code" sequences? Well, if we make a 3-variable Karnaugh Map for A'B'C + A'BC + ABC:
+
+        (00)   (01)  (11) (10)
+        B'C' | B'C | BC | BC'
+    A'| 0    |  1  |  1 |  0
+    A | 0    |  0  |  1 |  0
+
+    -Now, since 2 ones line up in the K-Map (twice, actually, horizontally and vertically), we know that we can eliminate something to simplify (since 2 one's next to each other means that changing a variable didn't have an effect on the output); in this case, we can factor out a BC and a A'C:
+        A'B'C + A'BC + ABC
+        A'C(B' + B) + ABC
+        A'C + ABC
+        C(A' + AB)
+        - (...not sure if there were further steps, or if I copied this down right; need to verify)
+
+- GRAY CODES ensure that, when we're putting these sequences into truth tables, we are GUARANTEED to ONLY be changing 1 variable at a time
+    - Because of how these sequences work, therefore, these K-Maps WRAP when they're properly setup; so if we have a map for A'B'C' + ABC' + AB'C' + A'BC':
+        (00)   (01)  (11) (10)
+        B'C' | B'C | BC | BC'
+    A'| 1    |  0  |  0 |  1
+    A | 1    |  0  |  0 |  1
+    - We say "Oh, we can immediately eliminate the 1st and the 4th column..." (A and A', and ) but since it WRAPS, there's also a HORIZONTAL link between the 1-columns as well! They're actually NEXT to each other thanks to how Gray's sequence works!
+- Basically, Karnaugh Maps work by looking at the columns/rows of 1s, and you eliminate whatever we have every possible combination of (VERIFY THIS)
+
+- You can use Karnaugh maps for 4 variable (shows an example, goes through it for a few minutes), 5 variable, 6 variable maps...beyond 6 variables, you *can* do it, but it gets pretty darn complicated. After 6 variables, as nice as they are for homework problems, we use computer algorithms to generate and process these maps.</pre>
+</article>
+<a class="side-link is-note-link" href="5_introToMemory_9_7_17.html"></a>
+</main>
+</body>
+</html>

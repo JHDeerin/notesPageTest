@@ -1,0 +1,163 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Game AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4731Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Game AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_gameVsRegularAI_1_9_19.html">1. Game AI vs Regular AI</a></li><li><a class="is-note-link" href="2_introPathfinding_1_14_19.html">2. Intro to Pathfinding</a></li><li><a class="is-note-link" href="3_pathNetworks_1_16_19.html">3. Path Networks</a></li><li><a class="is-note-link" href="4_morePathNetworks_1_23_19.html">4. Path Networks (cont.)</a></li><li><a class="is-note-link" href="5_pathfindingBasics_1_30_19.html">5. Pathfinding Basics</a></li><li><a class="is-note-link" href="6_pathfindingCont_2_4_19.html">6. Pathfinding (cont.)</a></li><li><a class="is-note-link" href="7_groupsDecisions_2_6_19.html">7. Groups and Decision Making</a></li><li><a class="is-note-link" href="8_moreDecisionMaking_2_11_19.html">8. Decision Making (cont.)</a></li><li><a class="is-note-link" href="9_behaviorTrees_2_13_19.html">9. Behavior Trees</a></li><li class="active-note-page"><a class="is-note-link" href="10_rulesPlanning_2_18_19.html">10. Rules and Planning</a></li><li><a class="is-note-link" href="11_behaviorPlanning_2_20_19.html">11. Behavior Planning (cont.)</a></li><li><a class="is-note-link" href="12_hierarchicalTaskNetworks_2_27_19.html">12. Hierarchical Task Networks</a></li><li><a class="is-note-link" href="13_introProceduralGen_3_4_19.html">13. Intro. to Procedural Generation</a></li><li><a class="is-note-link" href="14_moreProcGen_3_6_19.html">14. Procedural Generation / Terrain Generation</a></li><li><a class="is-note-link" href="15_optimizationAlgos_3_11_19.html">15. Optimization Algorithms</a></li><li><a class="is-note-link" href="16_geneticAlgos_3_13_19.html">16. Genetic Algorithms (cont.)</a></li><li><a class="is-note-link" href="17_playerModeling_3_26_19.html">17. Player Modeling</a></li><li><a class="is-note-link" href="18_introRL_3_27_19.html">18. Intro. to Reinforcement Learning</a></li><li><a class="is-note-link" href="19_moreQLearning_4_1_19.html">19. Q-Learning (cont.)</a></li><li><a class="is-note-link" href="20_evenMoreRL_4_8_19.html">20. More Q-Learning/Intro. Deep Reinforcement Learning</a></li><li><a class="is-note-link" href="21_deepLearning_4_10_19.html">21. Deep Learning (cont.)</a></li><li><a class="is-note-link" href="22_deepRL_4_15_19.html">22. Deep Reinforcement Learning (cont.)</a></li><li><a class="is-note-link" href="23_contextFreeGrammars_4_17_19.html">23. Context-Free Grammars</a></li><li><a class="is-note-link" href="24_grammarsStories_4_22_19.html">24. Grammars (cont.) / Story Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="9_behaviorTrees_2_13_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//**************** Rules and Planning - February 18th, 2019 ****************//
+//**************************************************************************//
+
+- My computational physics homework does not compute. AGGGGGHHHHHH (boop)
+- "Guess who forgot to change the microphone batteries, children? THAT'S RIGHT, SO NOW I'M YELLING!"
+
+- We're now cruising into Homework 5, which is due Wednesday next week - cool
+    - NO autograder is being released for this homework - not because Professor Riedl had so much trouble with the last one, but because the evaluation for this one is really simple: if you beat the enemy 3 times, you get full credit. Otherwise you don't. "This is a once-in-a-lifetime chance to be your own autograder!"
+
+- Exam 1 will be next week, and'll be a mix of multiple-choice and short answer questions
+    - By "short answer," we literally mean 1-2 sentences, not paragraph-length mini-essays or anything
+    - There *might* be a walk-through-the-algorithm sort of problem, but Professor Riedl is leaning against it. Questions about comparing algorithms ("which of these 2 path networks is better given criteria X?") will still be fair game
+    - It'll be open note ("To give you comfort"), so there won't be any "what's the definition of X?" type questions
+        - How should you prepare for the exam? Honestly, just read your notes and be familiar with the concepts - ESPECIALLY the trade-offs between different techniques (i.e. which technique is best for this situation?)
+        - "I don't want this to be soul-crushingly difficult or anything; it's basically just a bunch of 10-minute quiz questions stapled together"
+-----------------------------------------------------------------------------
+
+- Previously, us the designers were giving the agent all the structure for its decision making through decision trees, FSMs, etc.
+    - Rule systems are different - they tell the agent "these are the things you can do, this is when you can do them, make up your own mind!"
+        - So, you've lost control of the agent and don't know what it'll do, but that's kinda the point - if it's too hard to write out what the agent should do in ALL circumstances, you have to give the agent some autonomy
+    - There're 2 main phases to the rule system:
+        - ACTIVATION (deciding which rules are possibly applicable in the current situation)
+        - Choosing which rule we're going to actually apply
+
+- So, for rule systems to work, we need to know facts about this world our agent is in
+    - How can we represent this? We usually have some data structures with fields for everything important the agent should care about
+    - After we have those facts, we then have a bunch of IF...THEN... style rules that tell the agent what to do
+        - The "IF" part is where we put together all the facts that need to be true for the rule to apply (e.g. IF whisker.health &lt; 15 AND whisker.isHoldingRadio)
+            - These are basically just used for the activation part of the rule systems
+            - We might have "wildcards" that check if the rule applies for any object the agent knows about, e.g. "IF (?anyone.health &lt; 15)"
+        - The "THEN" part is basically a function call where the agent takes some appropriate action (e.g. THEN radioForHelp())
+            - We can have multiple actions in the THEN part, of course (e.g. IF whisker.health == 0 AND whisker.isHoldingRadio, THEN Remove(whisker.radio), Add(radio on ground), SpawnObject(radio))
+                - The "Remove" and "Add" parts update our agent's facts about the world, while the final part actually put the radio itself into the world again
+- So, the action an agent can do at any moment in time can be decided by this rule - but there are practical problems; how can we sort through all these thousands of rules and facts quickly to make a decision? How can we search through them quickly? This is a big problem, but there are several ways of dealing with it, like the RETE ALGORITHM
+    - In general, though, here are the pros for rule systems:
+        - Don't need to specify responses/plans in advance for every situation
+        - Allows the agent to respond to novel situations the designer didn't anticipate (i.e. allows for emergent behavior)
+            - "It's amazing when the player does something REALLY weird and the AI just handles it gracefully"
+    - There are some drawbacks, though:
+        - Hard to actually create a robust rule system; if there aren't any applicable rules for the situation, or you specified the conditions incorrectly, the agent won't behave properly
+        - Tradeoff between emergence and over-engineering; if you make your rules too specific, then you've basically just implemented a behavior tree the hard way. If you make it too general, your agents can do really weird things/not have appropriate rules
+        - In general, rule systems are pretty hard to debug, since you can't exhaustively test all possible combinations of rules (especially because you probably started using rule systems in the first place BECAUSE your other techniques were getting too complex)
+    - "In general, these systems are amazing if you get them right, but can be frustrating to actually build"
+
+- We mentioned the Rete algorithm, but how does it actually work? Let's take a look
+    - Let's suppose we know the following facts:
+
+            whisker.health = 12
+            whisker.covering = sale
+            whisker.hasRadio = true
+            captain.health = 50
+            captain.covering = johnson
+            sale.health = 9
+            johnson.health = 46
+
+    - Let's say we also have the following 2 rules:
+
+        IF (?person1.health &lt; 15) AND (radio .held-by ?person) AND (?person2.covering = ?person1)
+            (missed this, rest of it is on the slides)
+
+    - So, let's turn this all these rules into a giant directed tree:
+        - There are 4 root conditions: (radio.held-by ?p1), (?p1.health &lt; 15), (?p2.health &gt; 45), (?p2.covering = ?p1)
+        - With the intermediate nodes, let's connect the conditions that go together, e.g. the two health rules, 2 health rule intermediate node and the covering condition, and the 2 health rule node and the radio-held-by check
+        - These'll then connect to the appropriate actions, i.e. the leafs
+            - All of this would be set up during the preprocessing stage
+    - Let's step through this tree of rules for 1 step
+        - It's the activation stage, so let's go through all the roots/conditions:
+            - For the first condition, it's a wildcard, so we step through all the people; only whisker has the radio, so the only possibility for that rule is whisker
+            - For the 2nd condition, either whisker or sale have less than 15 health, so it can only apply to them
+            - For the 3rd condition, it can only apply to the captain/johnson
+            - For the 4th condition, there are 2 wildcards; the p1 could be either johnson or sale (being covered), while the other
+        - Then, we go to the next level, and check all of the intermediate nodes
+            - For the middle one, there're 4 combination between condition 2/3 that we might have to check: (whisker/captain) OR (sale/captain) OR (whisker/johnson) OR (sale/johnson)
+            - For the first one, then, the first condition is only true for whisker, so we only need to consider if the (whisker/captain) and (whisker/johnson) rules apply
+            - (...etc.)
+
+- So, doing this, we've decided what rules are active during this stage - but how do we choose WHICH active rule to use? Here're a few options:
+    - Choose the first active rule we find - this is NOT a good choice (since it makes the agent's actions pretty repetitive), so you should almost never do this
+    - Choose the least-recently used rule that's active
+    - Choose a random action among the one that's applicable
+    - Choose the active rule with the "most specific conditions" (i.e. the active rule that has the most conditions in its IF statement)
+        - This is probably the best one for most circumstances; the reasoning behind this is that if a rule has, say, 12 conditions in its statement, then its probably been created for a very specific situation and should be taken when its available; otherwise, we'd just take the boring "shoot" option most of the time instead of the "throw grenade when grenade is available and player is behind obstacle" when it gets a chance
+    - Choose rule with the highest priority (i.e. designer ranked rules by priority manually beforehand)
+- If there are ever any ties between 2+ different rules, they're usually just broken randomly
+    - "so, the designer still has to add in a lot of the agent's intelligence, but we've definitely taken a step back from specifying out everything"
+
+- One semi-common example of rule systems in actual games are BARKS: when AI characters shout at voice lines to each other
+    - For example, in Batman: Arkham City, here're some actual example rules, going from general to most specific:
+        - "If player is visible, say 'Look! It's Batman!'"
+        - "BUT, if the player in shadow, say 'I think I see Batman'"
+        - "BUT if this is Penguin's Hideout, say 'Quack! I think I see Batman!'"
+        - "BUT If this is Penguin's Hideout and there are no friends around, say 'Oh no! I'm alone with Batman!'"
+        - (...)
+            - "Imagine if there wasn't a 'most specific' selection criteria here; it'd just be an endless loop of 'Look!, It's Batman!'"
+    - Another pretty famous example is the Left 4 Dead games; we might, for instance, have the current facts about the world:
+
+            {who: nick, concept: onHit, map: Circus, health: 0.66, nearAllies: 2, hitBy: zombieClown}
+
+        - With the following possible rules:
+
+            {who=nick, concept: onHit, map: *} -&gt; "Ouch!"
+            {who=nick, concept: onHit, map: }
+
+    - Even more cool is that we can set up automatic conversations between characters this way, e.g.
+
+        Rule1: Cond.(...), Act.: say X
+        Rule2: Cond(said-x), Act: say Y
+        Rule3: Cond(said-x), Act
+
+    - The same concept can be used for context-specific voicelines (e.g. 'Spy!' callout in TF2, with rules like {action=callSpy, char=scout, lookingAt=})
+
+- Alright, rules are really cool (at least to Professor Riedl), but it just kind of goes through all these different states aimlessly; what if there's a specific state we WANT to get our agent to? For this, we need to a different technique; we need BEHAVIOR PLANNING
+    - "If you played the game F.E.A.R. in 2005, it was the first ever game to use behavior planning, and you had to fight off against these AI-controlled military-ish people"
+        - The designers wanted to make the player paranoid, and so they made the player fragile AND wanted to create an AI that seemed very strategic and would hunt the player down
+            - Side-note: Professor Riedl knows the guy who designed the F.E.A.R. AI; he was on his dissertation committee!
+        - To do this, the designers didn't use behavior trees, or FSMs - instead, the agents are given the "Kill_Player" goal, and then search through all the actions they can take to get to that goal!
+            - FSMs tell the agent WHAT to do; with planning, the agent is just given a goal, and then figures out what states it needs to go through to get there
+    - The motivation for the guy who came up with this technique was that he worked at a game company for ~10 years, and EVERY time a new enemy had to be added he had to write a new Finite State Machine from scratch; even though the enemies were REALLY similar, he couldn't reuse his work (the "mimes vs mutants" problem)! And he was FED UP!
+        - So instead, he wrote a planner so that he could just have a set of states for the agents, and then choose which ones the agent could use and what the goal of the agent was, instead of rewriting everything
+        - ...but the re-planning algorithm had the side-effect of making the AI pretty smart, and they ended up basing F.E.A.R. off of what he did
+
+- Hold up - is behavior planning different than path planning? What's the difference?
+    - As it turns out, they both use A* to find a plan/path from A to B, so they're *kinda* the same thing - but there ARE differences
+        - With pathfinding, the actions we have are pretty limited: it's basically just moving from one node to the next, usually along a pre-defined path network
+        - With behavior planning, there are FAR more actions, all of which are pretty different from each other (move, shoot, swap-weapon, talk, retreat, cry, etc.)
+            - To handle this, we'll usually have a data structure with 3 pieces of information for each action:
+                - What's the identifier/name of the action?
+                - What're the preconditions for using the action?
+                - What'll be the effects of doing this action?
+
+- On Wednesday, we'll talk about how we can take this data structure and apply the A* algorithm to it for our (nefarious?) planning purposes - until then!</pre>
+</article>
+<a class="side-link is-note-link" href="11_behaviorPlanning_2_20_19.html"></a>
+</main>
+</body>
+</html>

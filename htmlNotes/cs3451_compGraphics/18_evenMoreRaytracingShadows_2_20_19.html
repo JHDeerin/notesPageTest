@@ -1,0 +1,116 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li class="active-note-page"><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull-Clark Subdivision</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li><li><a class="is-note-link" href="38_virtualReality_4_17_19.html">38. Virtual Reality</a></li><li><a class="is-note-link" href="39_gameRendering_4_19_19.html">39. Game Rendering</a></li><li><a class="is-note-link" href="40_proceduralContent_4_22_19.html">40. Procedural Content Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="17_moreRaytracing_2_18_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//********* Ray Tracing Shadows &amp; Effects - February 20th, 2019 *************//
+//**************************************************************************//
+
+- Alright, the midterm is going to be THIS MONDAY, February 25th
+    - Weirdly, for the first time ever, we'll be taking the test online on Canvas, so BRING YOUR LAPTOP! It'll be open-note and open-book!
+        - The test will be based on the topics we've covered in lecture, up to the stuff on Friday's lecture
+        - Most of the questions will be multiple-choice/short-answer, with a few true/false questions ("what does this code snippet do?", etc.)
+            - Most of the questions will be conceptual, but there might be a few along the lines of "do these matrix transformations," "what does the final matrix stack look like after these function calls?", etc.
+            - Mercifully, Professor Turk has said he doesn't know how to add long text boxes to the online quizzes, so he won't ask any coding questions
+-------------------------------------------------------------------------
+
+- Alright, we left off yesterday by trying to figure out how raytracing can deal with transparent surfaces, like glass or water (or a glass of water)
+    - Part of the ray is reflected, like with specular surfaces, but the other part of it is TRANSMITTED through the surfaces - and due to the speed of light being different in different materials, it'll bend by a certain amount based on its index of refraction (IOR)
+    - How much will it bend by, though? That's based on something you might remember from physics called SNELL'S LAW:
+
+            sin(theta_incident) / sin(theta_trans) = IOR_trans / IOR_incident
+
+        - Where "theta_incident" is the angle that the ray makes w/ the normal before it enters the material, and "theta_trans" is the angle the transmitted ray will make with the surface normal as it passes through
+            - In general, a ray passing into a material with a higher IOR will bend towards the normal, and vice-versa
+    - Another feature of these materials, though, is a thing called "total internal reflection:" if a ray is traveling through a material and is about to enter another one, but the angle is above some "critical angle," it'll actually bounce off instead and stay in the material!
+        - This is critical to how fiber optic cables work, for example
+    
+- So, with all this stuff considered, what should the color of our eye ray be now?
+    - Here's our updated equation (I think? DOUBLE CHECK THIS):
+
+        color = ambient + diffuse + specular + k_refl*c_refl + c_trans
+
+- Alright, so we've spent a lot of time talking about light in this class - but what about its opposite? What about SHADOWS? Well, let's shine a "light" on the topic now (HAHAHAHAHA -_-)
+    - We'll start off with "hard shadows," with clearly defined, non-blurry edges
+        - Let's suppose we have some point light source in our scene, and there's an object in front of another object that should be casting a shadow - what can we do?
+        - Basically, when we first shoot an eye ray onto a surface, we shoot a "shadow ray" from the impact point to each light source in the scene - if we can reach the light's pont without hitting anything, hooray! The point is lit up!
+            - If our shadow hits another object BEFORE it reaches the light, though, that means that we can't "see" that light source from that point - so we don't add its contribution to the lighting at that point
+    - Cool! But more commonly in the real world, we see SOFT SHADOWS that are darker near the center of the shadow, then fade out to light towards the edges
+        - This occurs when we have light sources that aren't just infinitesimal points, but have a non-zero area &lt;insert outdated thine-mother joke here&gt;, like a fluorescent tube
+        - For these shadows, there'll be an area of darkness where can't see ANY of that light source's parts, known as the UMBRA (total shadow)
+            - As we move out from behind the object's shadow, though, part of the light source's area will become "visible," and the surface will only be partly in shadow - this is the shadow's PENUMBRA (partial shadow)
+    - Alright, these are the two types of shadows, so how do we calculate what a light's contribution to a point is NOW? Well, like THIS:
+
+            Final Color = Cl * Cr * (N*L) * Visible(P,L)
+
+        - Where:
+            - Cl is the color of the light
+            - Cr is the surface color
+            - N is the surface normal, L is the vector to the light
+            - Visible(P,L) is 0 if the light 'L' is blocked and point 'P', 1 if the light is unblocked
+                - We COULD write this as an if statement, but being able to have fractional values between 0 and 1 for this'll be useful
+                - Determining visibility is easy in the hard shadow case (just shoot a ray from P to L, 0 if blocked, 1 if unblocked), but how do we determine what percentage of the light is visible for an area light?
+                    - Well, for an area light, we'll shoot "n" shadow rays to equally-spaced points along the light source, and record if the light is visible or not for each ray
+                    - Then, we'll average their visibilities like so:
+
+                        Visible(P,L) = 1/n * sum{CLi * Visible(P, Li)}
+
+                    - This is one form of "distribution ray tracing," which is also done for other effects like motion blur, blurred reflections, depth-of-field blur, etc.
+                        - If we shoot too many rays, it'll really slow stuff down; if we don't shoot enough rays, the penumbra will look grainy and discretized ("it just looks like multiple point lights are lighting it")
+                        - "Why would we want motion blur, though? It makes my real-world photos look blurry, Greg!" Well, because it makes the image look more realistic - perfectly in-focus images look fake to our object, ESPECIALLY in the VFX world where you have to merge CGI with real footage
+
+- So, which type of shadow is faster to render? HARD SHADOWS, since we only have to shoot one ray to each light source!
+    - Soft shadows, though, tend to look much more realistic; we get the effect of shadows getting blurrier with distance for free, and in general it just matches real life a lot better
+
+- Now, shadows are certainly very important, but how can we use distribution ray tracing to do other effects?
+    - Let's think about glossy reflections, for instance, where we don't have perfectly smooth reflections
+    - The "traditional" way of getting the surface color for a reflective surface is something like this:
+
+            C = ambient + diffuse + specular + k_refl*Cr
+
+        - Where 'Cr' is the reflect color (based on the reflected ray), and 'k_refl' is the coefficient for how much of that reflection should come through
+    - To do it the distributed way, we do ALMOST the same thing, but replace the single "k_refl*Cr" with the average of multiple rays, to simulate the scattering of the reflected light:
+
+            C = (...) + 1/n * sum{ k_refl * Cri}
+
+- Cool! Now, what about motion blur?
+    - To do this, we need to distribute our rays not in space, but in TIME; our ray might hit the object at T=0 but miss it at T=1, for instance, and if we want that to show up in our frame as motion blur we need to average the two colors together
+    - So, we'll go from our "traditional" color:
+
+            C = Cl*Cr*(N*L)
+
+    - To this:
+
+            C = 1/n * sum(Cl*Cr_t * (N_t*L_t))
+
+        - As we advance the object in time, we need to average the color of the pixel across these "n" different times, which'll change if the object is moving
+            - Usually, you'll need at least n ~= 20 so the blur effect looks smooth, instead of like a weird ghost-like object hovering over your scene
+
+- That's all the time we've got today, so FLEE!</pre>
+</article>
+<a class="side-link is-note-link" href="19_raytracingOptimzation_2_22_19.html"></a>
+</main>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Game AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4731Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Game AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_gameVsRegularAI_1_9_19.html">1. Game AI vs Regular AI</a></li><li><a class="is-note-link" href="2_introPathfinding_1_14_19.html">2. Intro to Pathfinding</a></li><li><a class="is-note-link" href="3_pathNetworks_1_16_19.html">3. Path Networks</a></li><li class="active-note-page"><a class="is-note-link" href="4_morePathNetworks_1_23_19.html">4. Path Networks (cont.)</a></li><li><a class="is-note-link" href="5_pathfindingBasics_1_30_19.html">5. Pathfinding Basics</a></li><li><a class="is-note-link" href="6_pathfindingCont_2_4_19.html">6. Pathfinding (cont.)</a></li><li><a class="is-note-link" href="7_groupsDecisions_2_6_19.html">7. Groups and Decision Making</a></li><li><a class="is-note-link" href="8_moreDecisionMaking_2_11_19.html">8. Decision Making (cont.)</a></li><li><a class="is-note-link" href="9_behaviorTrees_2_13_19.html">9. Behavior Trees</a></li><li><a class="is-note-link" href="10_rulesPlanning_2_18_19.html">10. Rules and Planning</a></li><li><a class="is-note-link" href="11_behaviorPlanning_2_20_19.html">11. Behavior Planning (cont.)</a></li><li><a class="is-note-link" href="12_hierarchicalTaskNetworks_2_27_19.html">12. Hierarchical Task Networks</a></li><li><a class="is-note-link" href="13_introProceduralGen_3_4_19.html">13. Intro. to Procedural Generation</a></li><li><a class="is-note-link" href="14_moreProcGen_3_6_19.html">14. Procedural Generation / Terrain Generation</a></li><li><a class="is-note-link" href="15_optimizationAlgos_3_11_19.html">15. Optimization Algorithms</a></li><li><a class="is-note-link" href="16_geneticAlgos_3_13_19.html">16. Genetic Algorithms (cont.)</a></li><li><a class="is-note-link" href="17_playerModeling_3_26_19.html">17. Player Modeling</a></li><li><a class="is-note-link" href="18_introRL_3_27_19.html">18. Intro. to Reinforcement Learning</a></li><li><a class="is-note-link" href="19_moreQLearning_4_1_19.html">19. Q-Learning (cont.)</a></li><li><a class="is-note-link" href="20_evenMoreRL_4_8_19.html">20. More Q-Learning/Intro. Deep Reinforcement Learning</a></li><li><a class="is-note-link" href="21_deepLearning_4_10_19.html">21. Deep Learning (cont.)</a></li><li><a class="is-note-link" href="22_deepRL_4_15_19.html">22. Deep Reinforcement Learning (cont.)</a></li><li><a class="is-note-link" href="23_contextFreeGrammars_4_17_19.html">23. Context-Free Grammars</a></li><li><a class="is-note-link" href="24_grammarsStories_4_22_19.html">24. Grammars (cont.) / Story Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="3_pathNetworks_1_16_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*************** Path Networks (cont.) - January 23rd, 2019 ****************//
+//**************************************************************************//
+
+- I seem to be approaching completion of the physics homework...alas, I have not reached the threshold of victory's gate as yet
+- Also, Riedl has nearly killed us with microphone squeals. All the pain.
+--------------------------------------------------------------------------
+
+- Okay, today we're going to be talking about automatic path networks: we want to take a map we don't know stuff about, figure out where to put the path networks, and then connect them all up
+    - "I've posted a tutorial covering some of this on Piazza, so please use that as a reference!"
+- Sadly, this is something that SOUNDS really simple, but that actually has many, many pitfalls for you to discover
+    - They're also kind of a pain to debug, so there's a utility that lets you click on your navmesh stuff to highlight the polygons
+
+- Right: PATH NODE PLACEMENT!
+    - As we said last time (forever-ago), many games choose to have designers put down the pathnodes manually, but placing them automatically can save time during the design phase
+        - Placing the nodes automatically also lets you put path networks in dynamic environments
+
+- To do this, we'll go over a version of the path node algorithm: the "greedy navmesh algorithm"
+
+- First up, though: what IS a navigation mesh?
+    - Well, it's "a set of convex polygons such that each polygon is an unobstructed space"
+        - And remember, a convex polygon is one where the (exterior) angle between any 3 points is greater than 180 degrees
+        - "This is really useful, since it means that we can go anywhere inside the polygon without encountering any obstacles, as well as travel to adjacent convex polygons"
+- So, convex polygons are our friends, but how do we create them? Well, here's the GREEDY NAVMESH ALGORITHM to do it
+    - Here's what we're going to do:
+        1) Find a triangle
+            - "Triangles are lovely - they're always convex, and they're the simplest shape"
+            - To do THIS, we'll randomly pick a starting point on some obstacle
+            - From there, we'll find 2 SUCCESSOR points such that they are successors of each other
+                - For our purposes here, a "successor" is any point we find by either moving along the edge of the obstacle, or by moving through "freespace" (i.e. we can draw a straight line to it)
+                - By "successors of each other," we mean that the starting point can see the successor, and the successor can see the starting point
+            - And with that, we have 3 points - bingo! We've found a triangle!
+        2) Find a second triangle, from that same starting point
+            - We do this using the same algorithm as last time
+            - "But how do we avoid overlapping triangles?" Ideally, the triangle we created should block our raycasts from the start point      - "Anytime you make a new triangle, just pretend you made a new obstacle"
+                - ...annoyingly, this means You can't save the successors you found. For this algorithm, you have to find them from scratch for each step
+            - Another edge case: how do we avoid creating a BIG triangle that has an obstacle inside? Or another triangle?
+                - (my current idea: somehow check that there are no points inside our triangle?)
+                - ...you'll find out there's a lot of these edge cases in the homework
+        3) Continue finding triangles until we can't make any more new ones from our starting point
+        4) Pick a new starting point; go back to 2/3 for this new point
+        5) Continue until we've tried to use every obstacle point as a starting point
+    - After we run this (assuming we handled all the edge cases correctly), every single free space should be filled in with a triangle! Cool!
+    
+- ...buuuuuut this algorithm tends to create a LOT of small triangles, which is less efficient for our algorithm
+    - So what'll we do? We MERGE our triangles!
+        - So, we'll look for any 2 adjacent triangles, check if the resulting merger is still convex, and if so, merge it!
+            - "I think I gave you a function to check concavity, but really, you just walk around the edges and check their angles"
+        - From there, we can merge a triangle onto ANY other convex shape, so we just keep doing that - for any shape, we check the adjacent triangles, then merge
+    - One thing to keep track of: make sure your newly-merged polygons preserve the ORDER of your points
+        - If you mess up the order, it'll be drawn incorrectly and "twist", and that's no fun (for you or the autograder)
+
+- So, that's part 1 of this homework: we've created our navmesh, and hopefully it's all stitched together nicely (don't worry, it'll probably be a mess anyway)
+
+- NOW, we've got to determine where we're actually putting our path nodes
+    - Because these shapes are convex, we can use them to our advantage - but there are MULTIPLE ways of placing these down, all of them valid (well, if you do them correctly)
+        - "So, I'll list some of the options, and then you get to decide"
+    - OPTION #1 - Place a waypoint in the center of every convex polygon
+        - This is simple, but it's NOT guaranteed to give you a fully connected path network, since it's possible for the points to be put too close to an obstacle if the navmesh is a skinny triangle
+        - So, if you're dealing with weird spaces (*cough* your homework), this might not be the best option
+    - OPTION #2 - Place a waypoint between the edges of adjacent navmesh polygons
+        - Because these are convex polygons, we KNOW we can move to these points, so the graph'll be fully connected!
+            - "You CAN still end up too close to obstacles here, but you'll usually have other options to move around them"
+        - The issue, though, is that this tends to create more points/paths to search through, which can slow down your actual search algorithms
+    - OPTION #3 - Put waypoints at the corners of obstacles!
+        - This will lead to the agent hugging the corners of obstacles (much like Freshman Jake)
+        - The difficulty here is that you have to offset your waypoints from the corners, so your agent doesn't try to actually run inside the obstacle
+    - OPTION #4 - Hybrid schemes
+        - For instance, you can do corners AND edges - "this'll lead to a LOT of lines in your path network"
+        - Center and edges is Professor Riedl's favorite - "this is a good mix between giving you plenty of options, and not creating too many points"
+- In general, you want the simplest path network that's still fully connected, striking a balance between your agent being able to reach everywhere and your search algorithms still being performant
+
+- So, that's that - solutions up to about O(N^4) should still run in just a few seconds, but any more than that and it'll start to be strained
+
+- Now, this is all well and good for a static environment, but this is 2019 we're talking about (this statement will sound very outdated pretty soon) - games are dynamic with explodey and breaky things! How can we deal with this?
+    - Well, if our environment is drastically changing in ways we can't predict until runtime, we have to start worrying about REPATHING: 
+        - Say, for instance, that a giant boulder falls down onto our navmesh - now the agent's assumption they can move anywhere on the mesh without obstruction isn't true!
+        - To deal with this, we'll re-run our navmesh generator INSIDE the affected polygon, rebuilding the mesh around the obstacle so that our agent now knows how to get around the obstacle
+            - The hope is that this is a fairly small polygon, so we can run the algorithm pretty quickly, even at runtime
+    - "I don't know of many games that're actually dynamic in this way - it's not that we can't do it, it's just that it's a whole new can of development worms to deal with, and most games don't need it"
+
+- Alright - you've got the goods to do your homework now, so go forth! We'll meet again next week!
+</pre>
+</article>
+<a class="side-link is-note-link" href="5_pathfindingBasics_1_30_19.html"></a>
+</main>
+</body>
+</html>

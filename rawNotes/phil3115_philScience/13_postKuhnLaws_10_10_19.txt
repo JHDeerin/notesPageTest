@@ -1,0 +1,55 @@
+//****************************************************************************//
+//************ Laws in a Post-Kuhn World - October 10th, 2019 ***************//
+//**************************************************************************//
+
+- Alright - we missed class on Tuesday due to some unknown pathogen assaulting our professor, so we've got some catching up to do!
+    - We'll cover our reading from Tuesday, and then hopefully get to Giere's paper for today
+    - We'll then talk about what's expected from you for your midterm
+
+- So, let's talk about your midterm!
+    - The exam should be available later tonight; there are 4 questions on it, with instructions on Canvas on what to do
+        - PLEASE follow the instructions, like not putting your name on pages beside the title page so they can be graded blindly, and following the length restrictions
+            - I'd recommend getting close to the maximum length if you're worried about not going in-depth enough, but don't go over! Still try to be concise!
+        - The exam is open-note and open-book; as long as you're not plagiarizing or stealing ideas from another student, you're good!
+--------------------------------------------------------------------------------
+
+- As a backdrop to these papers, let's talk about REDUCTIONISM
+    - This is basically the idea that "reality is hierarchical and there's no downward causation" - in other words, we can always explain higher-level ideas in therms of lower-level ones
+        - Classical example: if we knew all the laws of physics, we could deduce
+    - This is a metaphysical/epistemological thesis that if only we knew the most basic laws of fundamental physics, we could predict and explain how everything else works: biology, economics, and so forth
+        - This sounds a little like what the logical empiricists thought about laws (true, testable statements that have "nomic necessity" (i.e. they're not "accidental" facts) and can be used in explanations)
+        - Sometimes a 3rd criterion is added here, saying that laws can be confirmed by a small number of positive instances (i.e. it becomes pointless to keep testing it after awhile, because it's a universal law!)
+            - After all, how many pieces of copper do you need to test before you figure out copper is a conductor?
+                - Here, we'd say these tests are "projectible" to general conclusions
+            - On the other hand, we'd hesitate to say you could quickly do this kind of induction with "accidental" facts (e.g. saying all sheep are white after just counting 50 or so), or even for 
+    - Many scientists hope that, one day, science will get to this point, where we can explain EVERYTHING with just a few basic laws
+        - Both of our readings today, though, challenge this idea
+
+- Okay, on to Brandon's paper: "Does Biology Have Laws?"
+    - First off, look at figures 1 and 2 - why does Brandon reject the 1st one for the 2nd?
+        - Here, Brandon says that there are 2 dimensions to experiments: 
+            - You can have studies that are trying to prove hypotheses or just collect data
+            - You can manipulate the experiment, or just study it observationally without interfering
+        - Brandon 
+    - Brandon also argued that in "evolutionary biology, more experimental is not always better;" why is that? And how does it relate to his claim that biology doesn't have "laws" in a logically empirical sense?
+        - For the first one, in biology a big concern is how things actually happen in nature, and if things in a laboratory are "too artificial," people might question if your results are how things actually work in the "real world"
+            - Brandon thinks that, unlike physics, biological phenomena aren't super projectible; the phenomena are more specific to given 
+                - Part of this is because biology is FUNDAMENTALLY contingent, since we can imagine creatures having evolved in different ways, etc.
+                - Because of that, biology isn't inferior to physics, but it is DIFFERENT; physics is studying fundamental stuff, while biology is studying contingent stuff that could've happened in any number of ways
+            - In his words, these laws are "contingent," and can't be made fundamental
+                - The law of natural selection, for instance, is a law about probability, but we don't have any reason to think it'd hold if we traveled to a different planet
+        - Therefore, Brandon thinks that biological "laws" fail the "nomic necessity" part of the logical empiricist's definition; it isn't necessary for aliens to have DNA or ribosomes or have genetic drift! Things could've happened differently!
+            - The only possible candidates for fundamental laws in biology are some of the probabilistic stuff, but again, those laws are probabilistic: they don't force anything on us!
+    - What does this mean for reductionism?
+        - Many people think it's at least problematic for it; if we can't describe how the laws work at one level, then this whole hierarchy starts to get wobbly
+
+- That kinda-sorta bring us to Giere's paper, where he argues that science doesn't give us exact, universal laws, but models that more-or-less approximate how the real world works
+    - So, what lessons does Giere draw from looking at standard physics textbooks, and how are "models" central to his discussion?
+        - So, logical empiricists view theories as these axiomatic laws that we can "derive" things from
+        - However, Giere notes that in physics textbooks theories are NOT presented like this
+            - Instead, theories seemed to be viewed more as "approximate models" of how the real world works; Newton's 2nd law, for instance, describes how ideal particles behave if we ignore thermodynamics and friction and blah-blah-blah
+        - Under Giere's view, models aren't strictly "true" or "false;" they're just more or less similar to the real world
+            - Here, science is less a quest for the grand discovery of the universe's secrets and more a pragmatic attempt to get theories that are "good enough"
+    - This is definitely a rebuke against reductionism, too, because it's claiming that we can't get to exact, universal laws themselves! We're stuck just getting "close enough" - and we might get pretty close, but never all the way there
+
+- Alright, go forth an do your homework! Goodbye!

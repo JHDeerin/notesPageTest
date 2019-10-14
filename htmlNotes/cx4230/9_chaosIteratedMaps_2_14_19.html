@@ -1,0 +1,136 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. Modeling/Simulation</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4230Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. Modeling/Simulation</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_introConceptualModels_1_8_19.html">0. Introduction / Conceptual Models</a></li><li><a class="is-note-link" href="1_complexSystemBasics_1_10_19.html">1. Complex System Basics</a></li><li><a class="is-note-link" href="2_mathReview_1_15_19.html">2. Math Review for Modeling</a></li><li><a class="is-note-link" href="3_stabilityBifurcations_1_17_19.html">3. Stability and Bifurcations</a></li><li><a class="is-note-link" href="4_1dBifurcations_1_22_19.html">4. 1D Bifurcations (cont.)</a></li><li><a class="is-note-link" href="5_2dDiffEqs_1_24_19.html">5. 2D Differential Equations</a></li><li><a class="is-note-link" href="6_2dLinearStability_1_31_19.html">6. 2D Linear System Stability</a></li><li><a class="is-note-link" href="7_2dBifurcations_2_5_19.html">7. 2D Bifurcations</a></li><li><a class="is-note-link" href="8_hopfBifurcations_2_12_19.html">8. Hopf Bifurcations</a></li><li class="active-note-page"><a class="is-note-link" href="9_chaosIteratedMaps_2_14_19.html">9. Chaos and Iterated Maps</a></li><li><a class="is-note-link" href="10_moreIteratedMapsCellAuto_2_19_19.html">10. Iterated Maps (cont.) / Cellular Automata</a></li><li><a class="is-note-link" href="11_cellularAutomata_2_21_19.html">11. Cellular Automata (cont.)</a></li><li><a class="is-note-link" href="12_discreteEventSim_2_28_19.html">12. Discrete Event Simulation</a></li><li><a class="is-note-link" href="13_queueProcessScheduling_3_5_19.html">13. Queuing and Process Scheduling</a></li><li><a class="is-note-link" href="14_processSchedulingImpl_3_7_19.html">14. Process-Scheduling Implementation</a></li><li><a class="is-note-link" href="15_activityScanningRNG_3_12_19.html">15. Activity Scanning / Random Number Generation</a></li><li><a class="is-note-link" href="16_inputAnalysis_3_14_19.html">16. Input Analysis</a></li><li><a class="is-note-link" href="17_outputAnalysisValidation_3_26_19.html">17. Output Analysis / Validation</a></li><li><a class="is-note-link" href="18_FELIntroParallel_3_28_19.html">18. Future Event List / Intro. to Parallel</a></li><li><a class="is-note-link" href="19_lookaheadSynchronous_4_2_19.html">19. Lookahead and Synchronous Algorithms</a></li><li><a class="is-note-link" href="20_timeWarp_4_4_19.html">20. Time Warp</a></li><li><a class="is-note-link" href="21_timeWarpGlobalControl_4_9_19.html">21. Time Warp Global Control</a></li><li><a class="is-note-link" href="22_hla_4_11_19.html">22. High-Level Architecture</a></li><li><a class="is-note-link" href="23_exam2Review_4_23_19.html">23. Exam 2 Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="8_hopfBifurcations_2_12_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************* Chaos and Iterated Maps - February 14th, 2019 ***************//
+//**************************************************************************//
+
+- Some of you are starting to worry about the midterm; let's talk about it
+    - We'll cover a little bit of new material next week, but it will NOT be on the midterm
+    - The midterm itself is on February 26th, and will basically cover from day one stuff up to all of the content we'll cover TODAY; the exam will then be variations of the practice problems we've posted on the repo
+        - ...so, if you want to prepare for the exam, DO THOSE PRACTICE PROBLEMS! Most of the problems on the exam will just be variations on those problems with numbers/situations slightly changed out
+    - You WILL be allowed 1 cheat sheet of paper, which you're allowed to write on both sides of in as small a print as your hands can manage; besides that, no laptops/phones/friends/etc.
+---------------------------------------------------------------------------
+
+- Okay, last time we were talking about Hopf bifurcations, and (horror of horrors) Professor Vuduc made an error!
+    - The equation we had for r* actually SHOULD have been for r*^2; practically, the qualitative picture doesn't change because of this (stable origin and 2 limit cycles), but it still should've been caught
+
+- But, we were doing another momentous thing last time as well: moving from 2D to 3D, starting off with the Lorenz equations!
+    - The in-depth analysis for this is pretty hairy, but the two points I wanted to get across were:
+        - This is an ACTUAL model for a physical system (the water wheel)
+        - Even though the model seems simple, it can lead to ENORMOUS complexity
+
+- In fact, when we look at this water-wheel system, we begin to realize that it's more than just complicated - it's CHAOTIC!
+    - When we talk about "chaos" in models, we mean deterministic models that can exhibit complicated, non-periodic behavior, even if the model seems like it should be straightforward
+    - To break that down, there are 3 particular traits of mathematical chaos:
+        - The model is deterministic
+        - Its behavior is NON-PERIODIC; there isn't an obvious pattern or cycle in how it develops as the parameter changes
+        - Sensitive dependence on initial conditions; if we start at an initial position just a *tiny* bit away from our original position, we can end up getting a COMPLETELY different result
+            - This means that even if we have a perfect model for the real world, but our measurements are just a little bit inaccurate (let's say "temperature to +/- 0.0000001", for instance), our model will still diverge from the real world remarkably quickly
+            - In Strogatz, there's an example where even if we increase our measurement accuracy from 10^-7 to 10^-13 (a MILLION times increase), we'll only be able to get an accurate estimate 2.5 times farther into the future - yikes!
+- Lorenz saw all this complexity and realized that if his SIMPLE model was this crazy, what must real weather systems be like? Predicting the weather in the real world must be insanity!
+
+- Specifically, when Lorenz punched his system into the 1960s MIT computer, he saw what we nowadays call the "strange attractor" spiral: despite itself, the system wasn't behaving randomly, but was still orbiting around some set points (verify this?)
+    - Each of the individual graphs (for x, y, and z) seemed like random wiggly lines - so, what he did was he got ALL of the local maximums for each curve, and then plotted each of them relative to the previous peak (e.g. zK+1 vs Zk) (basically, he just looked at some discrete data as an "iterated map")
+        - Surprisingly, he found that this wasn't random - there was an almost regular curve-like structure in how these maxima changed, and the average slope of the "curve" was always greater than 1
+            - Why did Lorenz do this? He was interested in if there were any closed orbits - if there were any Zk where Zk=Zk+1, that would mean there was probably a fixed point there, and if that fixed point was stable, it'd be a closed orbit!
+            - However, since the slope was always greater than one, Lorenz argued that none of the fixed points in this system could be stable - he didn't have a proof, but it was a strong hint (the proof validating hi theory would come along ~30 years later)
+    - So, Lorenz looked at this particular feature of the system, looked at how it was changing, and was able to make a useful analysis - neat!
+
+- So, just like how Lorenz moved from continuous to discrete in his analysis, we'll be doing the same - going from continuous functions to discrete ITERATED MAPS!
+    - "In some ways these are easier than differential equations, and in other ways they're harder"
+    - What is an iterated map? It's a discrete-time system with some state variable (usually time) that defines the "steps"/iterations of the map, and then some other variables that change in response to that (x1, x2, ..., xk)
+        - We say the map is of "order K," and just like before, we can convert it into a first-order vector system
+            - "A LOT of stuff from the continuous realm carries over pretty smoothly to discrete systems - but because variables can jump around now, we can get chaotic and crazy behavior a lot more easily, even in 1D systems"
+        - As an example:
+
+                x_t = x_t-1 + (x_t-2)^2 + sin(x_t-3)
+
+            - To convert it into a first-order system, we'll say: 
+                
+                y_t = x_t-1
+                z_t = y_t-1 = x_t-1
+
+            - ...which means we can rewrite this as the vector system:
+
+                [x_t] = [x_t-1 + (y_t-1)^2 + sin(z_t-1)]
+                [y_t] = [x_t-1                         ]
+                [z_t] = [y_t-1                         ]
+
+- So, how do we analyze these maps?
+    - Just like in the continuous case, iterated maps have fixed points, which we say are when the value of the map doesn't change from step to step (i.e. f(x_t) = f(x_t-1) means x_t = x*)
+    - From there, we can classify if the point is stable or unstable
+        - The exact way we do that is similar to what Lorenz did; we take the absolute value of the derivative at the fixed point |f'(x*)|, and see how it changes:
+            - If &lt; 1, then it's STABLE, since the change is getting smaller over time and converging
+            - If &gt; 1, it's UNSTABLE, since the absolute amount of change is growing!
+            - If = 1, then we DON'T KNOW what it's doing
+
+    - e.g.
+            x_t = (x_t-1)^2
+
+        - So, we can see right away the fixed points for this are x* = {0, 1}
+        - To check the stability, the derivative will be:
+
+            f'(x) = 2x
+
+        - So, for x*=0, |2*0| = 0, which is less than 1 - whaddya know, the 0 point isn't changing
+        - For x=1, |1*2| = 2 &gt; 1; so, that critical point is UNSTABLE
+
+- How do we analyze these iterated maps visually? Well, we use a COBWEB plot!
+    - (according to Professor Vuduc, these are actually called "CO-WEB" plots, but I refuse to accept this obvious digression in logic (and spelling))
+    - Here, we plot the "derivative" of the map by plotting x_t+1 vs x_t (i.e. x_t on the x-axis, x_t+1 on the y) (I think? double-check this)
+        - We'll start by drawing an imaginary "reference line" where x_t = x_t+1, then plotting the actual system's values
+        - For some initial starting point x0, then, we'll find the 
+            - Eventually, these lines will start wrapping around and converging to a certain point if it's stable for that given starting point
+
+    - If you want an exercise to do on your own, try creating a cobweb plot for "x_t = sin(x_t-1)", and analyzing it at x*=0
+
+- What's a specific example of these maps, though? I'm glad you asked, because an old friend of ours has joined us in the discrete world - the logistic curve has an analogue called the logistic MAP!
+    - Specifically, in the discrete world, this system now looks something like this:
+
+            x_t = r*x_t-1*(1 - x_t-1) = f(x_t-1)
+
+    - "You may not know this if you're using Jupyter Notebooks for your project, but if you are, there's a set of notebooks Microsoft and Google have as examples, and one of them is the '1d-discrete-map.ipynb' file. Let's try and see that in action!"
+        - (Microsoft notebook fails, Google one works)
+        - "...well, I suppose there's a moral in that story"
+    - Just like in the continuous case, we don't just want to ask what the fixed points are, but if they're stable/unstable, where they bifurcate, etc.
+        - In this case, for low values of r, we see the system is oscillating but slowly decaying, eventually converging to the middle of the graph
+        - With r = 3.4, though, we don't see this decay; instead, the system just oscillates between two critical points; huh...
+        - If we go to 3.5, it's still oscillating, but there's now two other intermediate values that are part of the cycle - so now there's 4 critical points!
+            - This is called PERIOD DOUBLING, where the number of critical points seems to double as we bifurcate
+                - It can increase/decrease in other ways besides doubling, of course, but this is a common occurrence
+            - And sure enough, in the cobweb plot, there seem to be 4 points the system is bouncing between
+        - As we increase the value of r gradually, there's still 4 points, but the different critical points start spacing out
+        - Then, all of a sudden, the number of critical points EXPLODES!
+    - This is a super-simple system, but it seems like it has a LOT more complexity than we first thought
+- We can analyze cycles (i.e. f(p) = q, f(q) = p) by creating a new function g(x) = f(f(x))
+
+- Anyway, we'll keep studying these next week - this should be it for the material on the first test, so start preparing for that! And keep working on your projects! ANNNNNNNNDDDDD...have a good weekend!</pre>
+</article>
+<a class="side-link is-note-link" href="10_moreIteratedMapsCellAuto_2_19_19.html"></a>
+</main>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li class="active-note-page"><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull-Clark Subdivision</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li><li><a class="is-note-link" href="38_virtualReality_4_17_19.html">38. Virtual Reality</a></li><li><a class="is-note-link" href="39_gameRendering_4_19_19.html">39. Game Rendering</a></li><li><a class="is-note-link" href="40_proceduralContent_4_22_19.html">40. Procedural Content Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="20_rasterEffects_2_27_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******************* Texture Mapping - March 1st, 2019 *********************//
+//**************************************************************************//
+
+- February officially went cold on the operating table, so now it's March's turn! Give it a hand!
+---------------------------------------------------------------
+
+- Alright, we started talking about texture mapping on Wednesday - let's take a look at the gory details!
+    - As mentioned, there are 3 steps to this: interpolating the S/T values across the polygon, looking up the color at that point, then rendering it
+
+- Let's begin at the beginning with interpolating the S-T values
+    - Now, sadly, perspective projection makes this a little more complicated than straight-up Goraud interpolation; we instead do the following steps:
+
+        1) Divide S/T by |Z| to get s' and t'
+        2) Interpolate s' and t' linearly during rasterization, just like Goraud!
+        3) Divide by Z' per-pixel
+        4) Look up the color of the textured surface
+
+    - If we don't do this, we get weird effects where the texture looks like it's sliding around from different perspectives, etc.; we can't just interpolate
+
+- Texture lookup should be easy though, right? We just take color of our texture at the given S/T value, right?
+    - NOPE! If we just did that and took the nearest color in the texture to our coordinates, we'd get a blocky/pixelated effect, which usually isn't desirable
+    - To fix this, we'll instead use BILINEAR INTERPOLATION to take the weighted average of these colors
+        - For instance, let's suppose we have a tiny 4x4 texture image - "remember, we're using S and T coordinates, not x and y"
+        - If we have an S-T coordinate of, say, (1.7, 1.2), then instead of just taking the color of pixel (2, 1) and calling it a day, we'll instead interpolate between the colors of the 4 nearest pixels (i.e. (2,1), (1,1), (1,2), (2,2))
+            - Here, we'll have a ratio "a" for our percentage distance to the right pixel (e.g. in this case, 1.7 - 1 / (2 - 1) = 0.7), and "b" for the percentage towards the top pixel (i.e. 1.2 - 1 / (2 - 1) = 0.2)
+            - With this, the bottom horizontal color "r0" and the top horizontal color "r1" will be found as weighted averages for the top/bottom pairs, e.g.:
+
+                r0 = r00 + a*(r10 - r00)
+                r1 = r01 + a*(r11 - r01)
+
+            - Then, the final color will be the interpolated average of THOSE averages using the vertical ratio:
+
+                r = r0 + b*(r1 - r0)
+
+- This interpolation is ESPECIALLY important when we're close to an object, where the blockiness of our textures becomes really obvious (known as "texture magnification")
+    - The opposite of this is texture MINIFICATION, where a texture is so far away that only a few pixels of it are showing on-screen
+        - The problems with this minification problem aren't as obvious, but they're definitely there!
+            - Imagine you're on a spaceship that's blasted off from earth, and you're watching the earth shrink smaller and smaller in the rear-view mirror (...of your spaceship...yes...) - we'd imagine that the earth should be predominantly blue and green and white, right?
+            - But if we don't properly shrink the texture as you get farther away, the colors from the texture will get chosen at random, and it'll "sparkle" as we get really far away and appear noisy
+                - In extreme cases, they can result in Moire patterns for textures with parallel lines (which is fun, but NOT what we want)
+    - How do we deal with this? Basically, we'll create multiple textures of different sizes, known as "MIP-MAPPING" or an "image pyramid"
+        - Mip-mapping, specifically, is a technique created by Lance Williams, where we successively scale down our texture while averaging its pixels
+            - For instance, if we start out with a 128x128 pixel texture, we would create a smaller 64x64 version by making each new pixel's color the average of its corresponding 2x2 group of 4 pixels in the original
+            - Then, we'd create a 32x32 image from the 64x64 one, then a 16x6 one...etc.
+        - The image pyramid technique comes from a different way of viewing this as "stacking" these different sized images together
+            - ...and if we ALSO use our different image-size "layers" to calculate the color of our texture (i.e. we interpolate between the next-largest layer's color, using a distance-based factor as our ratio), we end up with TRILINEAR interpolation, which helps prevent the "sparkling effect" event more
+    - How do we choose which size texture to use at a given time? Well, to be hand-wavey about it, it's based on a function of your distance from the texture
+        - To give some more detail, what we're trying to mimic with all this work is - for a given pixel on our monitor - to "project" that square pixel from screen space onto the surface where our texture is, then pretending that stretched/distorted pixel is on our texture itself (i.e. in "texture space") and finding the average color it should be
+        - To approximate this, we'll pretend that projected pixel is an ellipsoid, calculate how "stretched" the ellipse is on its two axes, and say the distance factor "d" is ~= sqrt(ds/dx^2 + dt/dy^2)
+    - Furthermore, though, how do we STORE all these extra textures efficiently? Lance Williams came up with a decent way of doing it:
+        - Each image has 3 color channels, right (RGB)? Well, we'll make a new image and divide it into fourths, then put our original image's RGB values SEPARATELY into a box for each color, with the fourth square left empty; we'll then repeat this process for the smaller texture, putting it in the empty square, then repeat...
+
+- Some of you might end up taking classes latter that talk about using "low-pass filters" (e.g. the Gaussian filter) to blur these image colors in a more sophisticated way than the bilinear interpolation we're using
+
+- Now, mipmaps are great and efficient and supported by most graphics cards today at a hardware level, but they're not the only game in town by a longshot - there are other, more elaborate methods that try to have better quality
+    - Similarly, there're LOADS more color interpolation techniques than just bilinear vs trilinear that try to be more performant, or better-looking, etc.
+
+- Switching gears a bit, in raytracing, reflections were GREAT - we got them almost for free! - but they're harder to do for real in raster rendering. Instead, we'll try to cheat and fake our reflections with "cubemaps"
+- We'll talk about that - and more! - on Monday</pre>
+</article>
+<a class="side-link is-note-link" href="22_environmentMaps_3_4_19.html"></a>
+</main>
+</body>
+</html>

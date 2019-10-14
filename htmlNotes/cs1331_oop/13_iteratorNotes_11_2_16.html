@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - OOP</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs1331Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">OOP</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_classNotes_9_14_16.html">0. Classes</a></li><li><a class="is-note-link" href="1_moreClassNotes_9_16_16.html">1. Classes (Cont.)</a></li><li><a class="is-note-link" href="2_inheritanceNotes_9_26_16.html">2. Inheritance</a></li><li><a class="is-note-link" href="3_moreInheritanceNotes_9_28_16.html">3. Inheritance (cont.)</a></li><li><a class="is-note-link" href="4_polymorphismNotes_9_30_16.html">4. Polymorphism</a></li><li><a class="is-note-link" href="5_morePolymorphismNotes_10_3_16.html">5. Polymorphism (cont.)</a></li><li><a class="is-note-link" href="6_objectSuperclassNotes_10_5_16.html">6. The Object Superclass</a></li><li><a class="is-note-link" href="7_moreObjectSuperclassNotes_10_7_16.html">7. Object Superclass (cont.)</a></li><li><a class="is-note-link" href="8_exceptionNotes_10_19_16.html">8. Exceptions</a></li><li><a class="is-note-link" href="9_moreExceptionNotes_10_21_16.html">9. Exceptions (cont.)</a></li><li><a class="is-note-link" href="10_collectionsNotes_10_24_16.html">10. Java Collections</a></li><li><a class="is-note-link" href="11_moreCollectionNotes_10_26_16.html">11. Collections (cont.)</a></li><li><a class="is-note-link" href="12_collectionAlgorithms_10_31_16.html">12. Collection Algorithms</a></li><li class="active-note-page"><a class="is-note-link" href="13_iteratorNotes_11_2_16.html">13. Iterators</a></li><li><a class="is-note-link" href="14_lambdaNotes_11_4_16.html">14. Lambda Expressions</a></li><li><a class="is-note-link" href="15_hashedNotes_11_7_16.html">15. Hashed Collections</a></li><li><a class="is-note-link" href="16_javafxNotes_11_9_16.html">16. JavaFX Notes</a></li><li><a class="is-note-link" href="17_JavaFXNotes_11_11_16.html">17. JavaFX (cont.)</a></li><li><a class="is-note-link" href="18_test3Review_11_14_16.html">18. Test 3 Review</a></li><li><a class="is-note-link" href="19_recursionNotes_11_28_16.html">19. Recursion</a></li><li><a class="is-note-link" href="20_linkedListNotes_11_30_16.html">20. Linked Lists</a></li><li><a class="is-note-link" href="21_stackQueueNotes_12_2_16.html">21. Stacks &amp; Queues</a></li><li><a class="is-note-link" href="22_closingNotes_12_5_16.html">22. Closing Time</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="12_collectionAlgorithms_10_31_16.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//**************************************************************//
+//***************Iterators - November 2nd, 2016****************//
+//************************************************************//
+
+Prof. Simpkins is sick, so we get Taylor teaching today instead
+----------------------------------------------------------------
+
+-Comparable / Comparator: know that these are TWO DIFFERENT THINGS
+    -Comparable is an interface that, when implemented, allows it to be compared to any other object that implements "Comparable"
+        -Defines a default - or NATURAL - ordering
+    -COMPARATOR is a tool to define a different way of sorting things (e.g., by 2 criteria)
+
+-All collections are, by default, ITERABLE; i.e., we can call a "for-each" loop on it
+    -how does it know how to cycle through these collections? By how we implement the "Iterable" interface
+    -Why is this necessary? Why can't we just go to the next one? Because Collections AREN'T NEXT TO EACH OTHER IN MEMORY; they're stored in separate data structures, so the compiler can't tell what order everything is in by itself
+
+-The Iterable interface has 1 sub-interface: "Iterator", which has 3 methods (2 that we care about):
+    -"hasNext()"; tells us if there's still another element in the collection
+    -"next()"; returns the next element
+    -"remove()": default method as of Java 8, so we don't need to worry about this any more; removes the most recently returned element
+
+-ALWAYS call hasNext() before calling next()
+    e.g. "while (Collector.hasNext()) {
+            object x = Collector.next();
+            }"
+
+-Should usually have a counter variable for what the next element is in the backing structure; e.g.
+    "public boolean hasNext() {
+        return counter &gt; 0;
+    }
+
+    public E next() {
+        if(hasNext()) {
+            E next = get(counter);
+            counter--;
+            return next;
+        }
+    }"
+
+-Not too hard conceptually, but if it is, it's VERY straightforward in practice
+</pre>
+</article>
+<a class="side-link is-note-link" href="14_lambdaNotes_11_4_16.html"></a>
+</main>
+</body>
+</html>

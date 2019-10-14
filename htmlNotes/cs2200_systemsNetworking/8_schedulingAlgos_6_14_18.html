@@ -1,0 +1,92 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Systems and Networks</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs2200Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Systems and Networks</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_5_15_18.html">0. CS 2200 First Day</a></li><li><a class="is-note-link" href="1_processorBasics&amp;Stack_5_17_18.html">1. Processor Basics / Calling Stack</a></li><li><a class="is-note-link" href="2_processorDesignBasics_5_22_18.html">2. Processor Design Basics</a></li><li><a class="is-note-link" href="3_controlUnits_5_24_18.html">3. Control Unit Basics</a></li><li><a class="is-note-link" href="4_interrupts_5_29_18.html">4. Interrupts</a></li><li><a class="is-note-link" href="5_improvingPerformance_5_31_18.html">5. Performance Basics</a></li><li><a class="is-note-link" href="6_introPipeline_6_5_18.html">6. Introduction to Pipelining</a></li><li><a class="is-note-link" href="7_introScheduling_6_12_18.html">7. Scheduling and Multiprogramming</a></li><li class="active-note-page"><a class="is-note-link" href="8_schedulingAlgos_6_14_18.html">8. Scheduling Algorithms</a></li><li><a class="is-note-link" href="9_introMemManagement_6_19_18.html">9. Memory Management</a></li><li><a class="is-note-link" href="10_paging_6_21_18.html">10. Paging</a></li><li><a class="is-note-link" href="11_replacementAlgos_6_26_18.html">11. Page Replacement</a></li><li><a class="is-note-link" href="12_caching_7_2_18.html">12. Caching</a></li><li><a class="is-note-link" href="13_introMultithreading_7_5_18.html">13. Intro to Multithreading</a></li><li><a class="is-note-link" href="14_moreMultithreading_7_10_18.html">14. Multithreading (cont.)</a></li><li><a class="is-note-link" href="15_diskIO_7_12_18.html">15. Disk and I/O</a></li><li><a class="is-note-link" href="16_introFiles_7_17_18.html">16. Introduction to Filesystems</a></li><li><a class="is-note-link" href="17_errorChecking_7_19_18.html">17. Error Checking</a></li><li><a class="is-note-link" href="18_conclusion_7_24_18.html">18. Concluding Remarks</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="7_introScheduling_6_12_18.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//**************** Scheduling Algorithms - June 14th, 2018 ******************//
+//**************************************************************************//
+
+- 9 whole people in class today...well, nice n' cozy then, I suppose
+    - (now 10; the crowd is growing!)
+- 10:09 - We still haven't begun...I guess we're waiting for a few more humans to show up
+----------------------------------------------
+
+- Alright, so last time we left off on a cliffhanger: what're these scheduling algorithms we need, and how do they work? 
+    - Remember, there's an alternation in the processes between CPU bursts and I/O bursts: a given process will run on the CPU for a bit, then handle I/O, then go back to the CPU, then handle I/O, etc.
+    - How do we measure how well our CPU is doing? Well, we came up with a couple of metrics (these terms are defined differently based on which textbook you use, so they're specific to our book):
+
+            ///| P1 |////| P2 |//|  P3  |
+            2    3    4    3    2    5      (&lt;--- length in ms)
+
+        - CPU UTILIZATION is just, overall, how efficient are we at getting work done - specifically, what percentage of time was the processor busy over a block of time?
+            - e.g., "11ms of execution / 19ms total time"
+        - THROUGHPUT is how many processes we execute in a set amount of time
+            - e.g. "3 processes / 19ms"
+        - AVERAGE TURNAROUND TIME is the average amount of time it takes for a job to COMPLETE, given a set starting point
+            - e.g. "(5ms + 12ms + 19ms) / 3 processes"
+        - AVERAGE WAITING TIME is similar to turnaround, but we ONLY consider the time that the process wasn't running - it's a measure of how long our processes (on average) had to wait before they started running 
+            - e.g. "(2ms + 9ms + 14ms) / 3 processes"
+            - If turnaround and wait time are so similar, why do we use both of them? 
+        - We also do have this idea of "Response Time," a user-centric metric, but we won't focus on it quite as much
+            - Intuitively, what makes a computer "feel fast" is that it responds immediately (or almost immediately) to user input
+            - Many older systems (think punch-card days) were very good at maximizing these other "system-centric" measures, using techniques like batch processing - but the problem is that, while the computer was handling all these jobs and doing all these processes, they weren't accepting any input - which was frustrating to users
+
+- Now, for the main course - what are these "scheduling algorithms" we've been craving?
+    - Remember, we have a CPU queue AND an I/O queue; for these examples, let's say we have 3 processes: P1, P2, and P3, each with the respective CPU/IO runtimes:
+
+             P1          P2      P3
+            10/10   |   1/2 |   2/3
+
+    - FIRST-COME FIRST-SERVE (FCFS) is an algorithm that acts like a priority queue: the first process to get in the queue is assigned the first one to run, we let it run completely until it's ready to relinquish control, and then let the next one on the queue hop on to the CPU or I/O devices
+        - To be clear, this is NOT FIFO: since P1 is the first process to start, it will be assigned priority #1 until it completely terminates, and will ALWAYS be the first in line if it's in the CPU queue (similarly, P2 will always be behind P1 but ahead of P3 in the CPU queue, etc.)
+        - Practically, this gives us something like this:
+
+            CPU:      P1 |P2|P3|///|  P1  |P2|P3|////
+
+            I/O:    /////|  P1     |P2|P3|///|  P1 |
+
+        - So, this seems fair, everything gets a chance to run...but is there a problem here?
+            - What's the average turnaround/waiting times? Well, for the CPU and I/O combined...
+                - Turnaround: (40ms + 31ms + 33ms) / 3 = 34.667ms
+                - Waiting: (0ms + 27ms + 26ms) / 3 = 
+                    - 27ms since the process P2 ends at 31ms, and executes for 4ms; similar logic for P3's 26ms
+        - So, a pretty big problem with this is the CONVOY EFFECT: long processes are allowed however long they want, so they can keep short, quick-to-finish processes waiting for awhile
+    - SHORTEST JOB FIRST (SJF) turns this on its head, and always lets the job with the shortest CPU burst time run first 
+        - How do we know how long a job will take? Well, really, we don't know for sure - in a real computer, we just have to estimate how long it'll take based on some heuristic
+        - The issue with THIS one, though, is that longer processes can get starved - the shorter processes can keep cutting in line in front of the long ones, and so the long ones can take a long time (or, in extreme cases, FOREVER) to actually get executed
+    - ROUND ROBIN (RR), then, was created to solve 2 issues with SJF - the starving issue and the time-estimation issue. With RR, we say something like "every unit gets 2 units on the CPU and 2 units on the I/O" - if it's still running, then it gets booted to the back of the line (switching from the CPU queue to the I/O queue, though, is still a process-controlled thing (I think?))
+- The book mentions a few other algorithms, but these are the 3 that we'll focus on the most
+
+- Now, we're going to run a small Python simulator - open the folder, run Python, say "import asm10," and it'll start running - after that, you can run any of the commands listed in the accompanying PDF
+    - e.g., you can say "asm10.load('file.txt')" to load the program, say "asm10.watch()" to observe the current state/memory, 
+    - In the PDF, there are suggestions for what to do. I'd reccommend trying "B" and "C", and then considering the questions in "D"b
+        - Basically, "dispatch.txt" switches between the 2 program's memory locations just fine, but doesn't preserve their state, so they're reset every time they switch; the FULL dispatch does preserve their state, so they can keep running fine indefinitely!
+- One thing to notice: ALL of the dispatching is handled by SOFTWARE! We don't have to put all this logic in the hardware!
+    - Now, this dispatcher only works for 2 processes, though; where do we store the information for 3 threads? 10? 100? That'll be what we start covering next week, when we get into memory - until then, finish your projects! And as always, enjoy the weekend!</pre>
+</article>
+<a class="side-link is-note-link" href="9_introMemManagement_6_19_18.html"></a>
+</main>
+</body>
+</html>

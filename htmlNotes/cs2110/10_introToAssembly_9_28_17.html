@@ -1,0 +1,155 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - CS 2110</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs2110Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">CS 2110</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_22_17.html">0. CS 2110 First Day</a></li><li><a class="is-note-link" href="1_dataTypes_8_24_17.html">1. Datatypes (cont.)</a></li><li><a class="is-note-link" href="2_floatingPoints_8_29_17.html">2. Floating Points</a></li><li><a class="is-note-link" href="3_logicGates_8_31_17.html">3. Logic Gates</a></li><li><a class="is-note-link" href="4_addersBooleanSimplification_9_5_17.html">4. Adders &amp; Boolean Simplification</a></li><li><a class="is-note-link" href="5_introToMemory_9_7_17.html">5. Intro to Memory</a></li><li><a class="is-note-link" href="6_memorySequentialLogic_9_14_17.html">6. Memory and Sequential Logic</a></li><li><a class="is-note-link" href="7_stateMachines_9_19_17.html">7. State Machines</a></li><li><a class="is-note-link" href="8_introVonNeumann_9_21_17.html">8. Intro to Von Neumann</a></li><li><a class="is-note-link" href="9_tempName_9_26_17.html">9. Introduction to Datapath</a></li><li class="active-note-page"><a class="is-note-link" href="10_introToAssembly_9_28_17.html">10. Intro to Assembly</a></li><li><a class="is-note-link" href="11_moreAssemblyInstructions_10_3_17.html">11. More Assembly Instructions</a></li><li><a class="is-note-link" href="12_introToIO_10_5_17.html">12. Intro to I/O</a></li><li><a class="is-note-link" href="13_stacksAndRecursion_10_12_17.html">13. Stacks and Recursion</a></li><li><a class="is-note-link" href="14_recursionCoding_10_17_17.html">14. Recursion Example</a></li><li><a class="is-note-link" href="15_introToC_10_19_17.html">15. Intro to C</a></li><li><a class="is-note-link" href="16_moreC_10_24_17.html">16. More About C</a></li><li><a class="is-note-link" href="17_gameboyDisplay_10_26_17.html">17. Gameboy Display</a></li><li><a class="is-note-link" href="18_drawingOnGameboy_10_31_17.html">18. (cont.) Drawing on GameBoy</a></li><li><a class="is-note-link" href="19_CMemoryAndStrings_11_2_17.html">19. C Memory and Strings</a></li><li><a class="is-note-link" href="20_DMAAndStructs_11_7_17.html">20. DMA and Structures</a></li><li><a class="is-note-link" href="21_CArrays_11_9_17.html">21. Arrays</a></li><li><a class="is-note-link" href="22_malloc&amp;DynamicMemory_11_14_17.html">22. Malloc &amp; Dynamic Memory</a></li><li><a class="is-note-link" href="23_linkedListsFunctionPointers_11_16_17.html">23. Linked Lists &amp; Function Pointers</a></li><li><a class="is-note-link" href="24_interrupts_11_21_17.html">24. Interrupts</a></li><li><a class="is-note-link" href="25_COddsAndEnds_11_28_17.html">25. C Odds &amp; Ends</a></li><li><a class="is-note-link" href="26_ioAndSecurity_11_30_17.html">26. I/O and Security</a></li><li><a class="is-note-link" href="27_lastLecture_12_5_17.html">27. Last Lecture</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="9_tempName_9_26_17.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//****************** Intro to Assembly - September 28th, 2017 ***************//
+//**************************************************************************//
+
+- The rain comes, pours, but then it passes. So it is with school.
+----------------------------------------------
+
+- So, at the VERY end of last time, we were talking about the "condition code" registers (N, Z, P) - these are set whenever we store a value in our registers
+
+- Now, we're about to go to assembly language, but we MUST make it clear: what is stored in a memory address is NOT the same as the address itself
+    e.g. Consider "int x = 10; x = x + 2;"
+        - What's the value of x? 12, right? NOT in assembly; in assembly, x is ONLY the address that holds the value 10
+    - "I know that sounds really basic, but trust me, it's a common confusion once we start programming"
+
+- OPERATE INSTRUCTIONS
+    - When Yale Patt wrote his book, he wrote to teach new Computer Engineering students at UIUC programming; because of that, he spends a whole chapter talking about "machine language". It's AWFUL; it's a REAL pain in the butt, and THEN he introduces Assembly Language as an "easier way".
+        - Since you are NOT brand new programmers, I don't think you'll get too much value from just learning machine code. So we'll go over Machine Code and Assembly at the same time.
+        - Quick Overview: Assembly is basically machine code, except that it's in ENGLISH instead; you literally tell the computer where to store things in memory, etc., at a very low level
+            - Once you've written your code, you give it to the "assembler", which converts your code to machine code. "Assemblers are really basic; you could write it in Java as a homework assignment if you wanted to."
+            - So, ASSEMBLE is when we convert our Assembly program into machine code, THEN we use the machine code during runtime.
+                - "In Java, the Java code is compiled to BYTECODE, then run."
+- An example of an "operate" instruction: NOT
+    - e.g. "NOT R1, R2"
+        - This would say "run the bitwise NOT operation on register 1, and store it in register 2"
+        - This would be converted the machine-language code: 1001 001 010 111111
+            - The 1's at the end are just padding; they're not read by the computer
+        - This is a REGISTER addressing mode, since we're directly 
+
+- ADD/ AND
+    - These are VERY similar, and they EACH have 2 variants
+        - ADD
+            - The first ADD is like the one we've already talked about; we specify a destination in register and 
+                - e.g. ADD R5, R3, R2 means "add the values in R3 and R2, and store the result in R5"
+            - The 2nd variant is the same EXCEPT, instead of a register address, the 2nd register is a 5-bit number that is added to the 1st
+                -e.g. ADD R5, R3, 2
+                - "This exists so that we can easily, say, add 1 to a variable without needing a 2nd register"
+        - AND 
+            - Again, the 1st version is a bitwise AND operation that takes 2 registers and stores the AND result in a 3rd register
+                -e.g. AND R5, R3, R2 does a bitwise AND and stores the result in R5
+            - The 2ns variant, again, lets us replace the 2nd register with a number:
+                - AND R5, R3, 0
+            - We can clear a register is way by "AND"ing it with a "0"
+    - The addressing mode for the 1st variant of both is "register"; the 2nd is "IMMEDIATE", since it uses a value we've already specified (check this)
+
+- There is NO subtract instruction; instead, we use a combination of the NOT and AND instructions to do bitwise complement
+- Similarly, multiplication is done via repeated addition
+- There is NO "Or" instruction; we use DeMorgan's law instead
+
+- Now, when we are getting information from the memory, we say we're "loading" it; when we want to write something to memory, we say we're "storing" it
+    - This leads us on to the topics of data movement instructions (7 of them):
+
+- All of these instructions share the same format:
+    - 4 bit op-code | (3 bits) Register we want to load/store | 9 bits ; uses PC to get to items stored near memory address (???)
+        - "The processor takes the 9-bit number, adds it to the PC, and that's the location of the data we want to address"
+        - This is known as PC-RELATIVE ADDRESSING
+
+- Now, let's imagine some simple sample pseudocode, like this:
+    "a = 5
+    b = 11
+    c = 0
+    c = a + b"
+    - So, if we give this to the assembler as Assembly language, what do we need to do? Well, the first thing it'll want to know is, "Where in memory do you want to start?"
+        - So, we'll start with the line "ORIG x3000", which tells it to put as at hexadecimal address # 0x3000
+    - THEN, we want to say:
+        "LD R1, A
+        LD R2, B
+        ADD R3, R1, R2
+        ST R3, C"
+            - "Wait, where are A, B, and C started?" Right! Let's do that in our assembly:
+        "A .FILL 5
+        B .FILL 11
+        C .FILL 0"
+            - ".FILL" just means "store this number on the right in the address on the left"
+    - Then, finally, let's tell the program we're done:
+        ".END"
+- Now, if we pass this to the assembler, it'll run it through 2 passes. The FIRST pass will assign each line of our instruction to an address in memory
+    - e.g. "LD R1, A" will be stored at x3000, "LD R2, B" will be stored at x3001, etc.
+    - "When the Assembler reaches our first variable, or 'symbol', it'll stop and say ''wait a minute, that's a memory location"
+        - So, the assembler will creeate a "Symbol Table" that assigns each of the variables an address in memory
+- The SECOND pass will convert all this to machine code
+    - So, for the 1st line, the Register will have assigned a value of "x3004" as A's memory location, and it will be translated to:
+        "0010 001 000 000 011"
+            - respectively, the op-code, the 1st register address, and the relative address of A (our current x3001 address + 3)
+        - All told, the machine code conversions will look like (picture I'm taking; missed some stuff )
+    - Now, once the program has finsihed doing the "ST" instruction, it will KEEP GOING and overwrite our the data we just wrote!
+    - So, we need to write a HALT instruction to tell the program to stop running code past this point (although the assembler will keep going past it):
+        "...
+            ST R3, C
+            HALT
+        ..."
+        - Why don't we write our variables at the top? "You know that introductory stuff teachers tell you before they tell you the truth? Yeah. We're at that point now."
+    - Bunch of problems were not addressing here: "What if another program uses adress x3000? ,etc."...for now, we're keeping things simple. We're assuming we're only running 1 program at a time.
+
+- Now, when we start coding assembly, we're going to be using a program called "COMPLEX" that one of our past TAs wrote, which works as an assembler and assembly tester.
+    - Therefore, these slides are NOT in the book.
+    - So, I just told you 
+    - In OUR assembly, you can force an offset using syntax like "#3", which lets us force the relative address we want to use; e.g., we could replace
+        "LD R1, A" with "LD R1, #3" (adds 3 to current address, uses that)
+
+- LEA is the "Load Effective Address" instruction; arguably, this shuold NOT be considered a data movement instruction
+    - e.g. "LEA R1, A" says "Load the address of A, and put it into R1"
+        - So, R1 now has whatever address value A had, so R1 is basically now a pointer to A; in contrast, LDR replaces the data in registers, rather than the address
+    - This uses IMMEDIATE mode addressing
+    
+- Now, our LDR and STR instructions don't use PC-offset addressing (like LD and ST); INSTEAD, they use BASE+OFFSET addressing!
+    - Here, we have a "base" register that holds our "base" address, and then we add our specified offset to it to get the address
+
+- Now, we'll go back over LDI and STI when we get to I/O later on, but I'll go over them now:
+    - For LDI and STI, these use INDIRECT addressing; we specify 
+    - e.g. "LEA R1, A       //address x3000; A has address x3004
+            LD R2, B        //address x3001
+            LDI R3, C"      // assigns R3 the ADDRESS in C
+                - So, LEA assigns R1 (register 1) an address of x3004
+                - Then, we load store B's value in R2
+                - Then for (something abot)
+            - "If you're confused about how this works, or why it's useful don't panic; we'll go over it again when we talk about I/O"
+
+- "So, to recap for the data instruction, LD, LDR, and LDI basically all do the same thing, just with different ways of determining the address; ditto for St, STR, and STI"
+
+- Brief note: the "." in assembly is the Pseudo-operator (except when it's not...we'll get to that when we talk about the "TRAP" instruction ("Yes, it's a trap..."))
+
+- (Me at the end of this lecture: got a bit confused when he started writing the assembly code, then data stuff I *mostly* followed, but was about 30 seconds behind him the whole time and probably missed some details; NEED to read the textbook to really grasp it)
+
+</pre>
+</article>
+<a class="side-link is-note-link" href="11_moreAssemblyInstructions_10_3_17.html"></a>
+</main>
+</body>
+</html>

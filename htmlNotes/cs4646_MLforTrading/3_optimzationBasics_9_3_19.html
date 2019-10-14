@@ -1,0 +1,130 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Machine Learning for Trading</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4646Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Machine Learning for Trading</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_numpyCrashCourse_8_22_19.html">0. Numpy Crash-Course</a></li><li><a class="is-note-link" href="1_pandasReturns_8_27_19.html">1. Pandas / Return Basics</a></li><li><a class="is-note-link" href="2_returnsRisksSharpes_8_29_19.html">2. Returns, Risk, and Sharpe's Ratio</a></li><li class="active-note-page"><a class="is-note-link" href="3_optimzationBasics_9_3_19.html">3. Optimization Basics</a></li><li><a class="is-note-link" href="4_mlBasics_9_5_19.html">4. Machine Learning Basics</a></li><li><a class="is-note-link" href="5_moreMLBasics_9_10_19.html">5. Machine Learning Basics (cont.)</a></li><li><a class="is-note-link" href="6_testDecisionTrees_9_12_19.html">6. Testing, Ensembles, and Decision Trees</a></li><li><a class="is-note-link" href="7_mlStatistics_9_17_19.html">7. Statistical Foundations for Machine Learning</a></li><li><a class="is-note-link" href="8_stockFinanceBasics_9_19_19.html">8. Stock Finance Basics</a></li><li><a class="is-note-link" href="9_moreMarketMechanics_9_24_19.html">9. More Market Mechanics</a></li><li><a class="is-note-link" href="10_moreMarketMechsShort_9_26_19.html">10. Market Mechanics (cont). / Stock Shorts</a></li><li><a class="is-note-link" href="11_leverageFunds_10_1_19.html">11. Leverage and Funds</a></li><li><a class="is-note-link" href="12_EFTMutualFunds_10_3_19.html">12. EFTs and Mutual Funds</a></li><li><a class="is-note-link" href="13_hedgeFunds_10_8_19.html">13. Hedge Funds</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="2_returnsRisksSharpes_8_29_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*************** Optimization Basics - September 3rd, 2019 *****************//
+//**************************************************************************//
+
+- 'aight; the sun is shining (heavily), the room is filling (moderately), and once again Professor David Byrd is preparing to impart some knowledge to us unlearned masses
+- Some administrative announcements:
+    - The first assignment was due, um, yesterday, so hopefully you all got that turned in!
+        - We'll be pretty lenient this time with incorrect filenames, etc., but that will become MUCH more important when we use the autograder
+    - The second homework is due THIS SUNDAY, and is intended to get you used to the buffet servers and the autograders
+        - Again, it's only worth 3% since it's intended to be an introductory assignment
+- This class started out as being pretty evenly distributed between undergrads and graduate students, but older graduate students have apparently stopped coming!
+    - "I'd like to take attendance to see if me talking actually makes a difference to student's grades, but I feel like I'd probably be depressed about the results"
+--------------------------------------------------------------------------------
+
+- Okay, today we'll start talking about the SciPy library and using it to handle optimization, and then on Thursday we'll start getting into Machine Learning proper
+    - In this class, you WILL actually build all of your learners, rather than using learning libraries
+
+- Previously in this class, the first project used to be "assessing a portfolio"
+    - The idea here was that we'd give you a list of stocks and a list of "allocations" (the percentage of money you put into each stock), a start and end date, and a starting amount of money
+    - Assuming you didn't sell or buy any new stocks, then, it would return what your return/Sharpe's ratio/etc. would be over the given time period
+- Project 2, then, will involve calculating portfolio statistics over a VARYING allocation portfolio
+    - Given this date range, our initial cash, and the stocks we can use, we
+    then want to figure out what the best allocation is to...
+        - Maximize cumulative return
+            - This is actually pretty easy: since we're looking backwards and know all the historical data, just find the best-performing stock and put ALL of your money in it!
+                - This has the obvious issue, though, of not trying to minimize risk/volatility
+        - Minimize the risk/volatility
+            - This is more interesting, but really the least risky thing to do is not to invest any money at all! Minimizing risk alone doesn't guarantee us returns
+        - Maximize the Sharpe ratio
+            - This is better, since it naturally tries to find a balance between risk and returns
+
+- How do we maximize the Sharpe ratio, then? We use an OPTIMIZER!
+    - An OPTIMIZER is a program that searches a parameter space and tries to find the input parameters for a function that'll minimize/maximize a given criteria
+        - So, we give this optimizer some function "f(x1, x2, ...) = y", and it'll then try to minimize/maximize y
+            - In this class, our optimizers will ONLY minimize Y, and using it for maximization involves rewriting our Y
+        - Essentially then, this is just doing LOCAL SEARCH internally (of which hill-climbing, gradient descent, etc. are examples)
+            - This is contrasted with "global search," which guarantees us the absolute best possible answer
+            - Instead, to avoid a gigantic exponential runtime, local search algorithms just look at a subset of the space, look at neighboring states, and pick the best one that they're aware of
+                - ...but since this doesn't look at all possibilities, we're NOT guaranteed a correct answer, and we can get stuck in "local minima"
+        - Because of that, these local search algorithms work great on "convex functions," but not on non-convex ones
+            - CONVEX here means that if we pick ANY 2 input points and draw a line between their two output points, the entire line should be above/inside the function curve
+                - If this is true everywhere, then it means there's only one local minimum that's the SAME as its global minimum, meaning local search will always converge (within some error, due to computing constraints/machine precision)
+        - ...which is a problem, because most of the interesting functions we'll deal with are not even CLOSE to complex
+
+- Now, a neural net is just a function; it's a stupidly complex function, but each neuron is just a weighted linear regression function passed through a squashing function, and each layer is just a function that combines those other functions
+    - Most other learners, too, are just functions of varying ridiculousness
+    - The difference here is that we don't want to minimize the output itself, but an "error" or "loss" function we choose to help us make predictions
+        - This is what you do in TensorFlow or other libraries; calling "tf.fit()" is just telling a library to do function optimization!
+    - So, using our learner's predictions and the actual answers we want, we need to create some sort of optimization function that will tell us how close to the right answer we are:
+
+        ```
+        def optimizationFunc(yGuess, yActual):
+            (...)
+        ```
+
+    - We need to be careful to make sure our optimization function actually measures the thing we want it to measure
+        - For instance, if we just add errors together, errors on opposite sides of a line can cancel each other out!
+            - We could use mean absolute error, but then the function isn't differentiable, and it doesn't penalize huge errors more than a bunch of tiny errors
+            - To fix this, we could use sum of squared errors (which is SUPER common, because it's simple and works fairly well)
+            - There's also RMSE, and that's similar (but works slightly better/worse in different cases)
+
+- So, we don't have to deal with loss functions in P2 - we just have to optimize a function DIRECTLY (we're trying to minimize the Sharpe Ratio, not make predictions!)
+    - So, we want to write a function like this:
+
+        ```python
+        f(allocs):
+            (...)
+            return allocationWithBestSharpeRatio
+        ```
+
+    - So, once we have our dataframe with stocks and their adjusted close prices, we can get a list of the daily value of our portfolio by turning prices into cumulative return percentages, applying our allocation, adjusting for our starting cash, and summing all our stocks' dollar values:
+
+        ```python
+        prices /= prices[0]
+        prices *= allocs
+        prices *= starting_cash
+        portfolio_values = prices.sum(axis=1)
+        ```
+
+    - Now, we need to optimize the Sharpe's ratio for these values - how?
+
+- To do this optimization, we'll use SciPy!
+    - Specifically, we'll use the `scipy.optimize.minimize()` function
+        - This has a TON of optional parameters; the 5 you need to worry about are:
+            - A FUNCTION to optimize (defined as a python function/lambda)
+            - The INITIAL VALUES for that function, in the form of a 1D numpy array
+                - Again, because this is doing local search, you'll get different values for different starting states
+            - The METHOD of optimization to use (gradient descent? ADOM? something more advanced?)
+                - For Project 2, you'll use SLSQP, since it supports bounds/constraints on the parameters (this means we can make sure our allocations add up to 1.0 AND have no negative allocations)
+                    - ...negative allocations actually make sense if we can short stocks, but we won't worry about that yet
+            - The BOUNDS on our input (given as a list of 2-tuple pairs, containing the min/max value for each parameter)
+            - The CONSTRAINTS on our input, given (strangely) as a list of dictionaries
+                - Each parameter requires a dictionary with 2 things: 
+                    - fun ("The constraint function, not a balloon party or something")
+                    - type (Either equality or inequality to 0, "eq" or "ineq")
+                - So, let's say we know our constraint function is "x1 + x2 &lt;= 1.0"
+                    - To get this in terms of 0, we'd rewrite this as "-(x1 + x2) + 1 &gt;= 0"
+
+- So, that should be all you need to finish project 2 (due THIS Sunday); get a move on, good luck, and goodbye!</pre>
+</article>
+<a class="side-link is-note-link" href="4_mlBasics_9_5_19.html"></a>
+</main>
+</body>
+</html>

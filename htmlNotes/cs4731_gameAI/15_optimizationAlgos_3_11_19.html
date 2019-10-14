@@ -1,0 +1,152 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Game AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4731Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Game AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_gameVsRegularAI_1_9_19.html">1. Game AI vs Regular AI</a></li><li><a class="is-note-link" href="2_introPathfinding_1_14_19.html">2. Intro to Pathfinding</a></li><li><a class="is-note-link" href="3_pathNetworks_1_16_19.html">3. Path Networks</a></li><li><a class="is-note-link" href="4_morePathNetworks_1_23_19.html">4. Path Networks (cont.)</a></li><li><a class="is-note-link" href="5_pathfindingBasics_1_30_19.html">5. Pathfinding Basics</a></li><li><a class="is-note-link" href="6_pathfindingCont_2_4_19.html">6. Pathfinding (cont.)</a></li><li><a class="is-note-link" href="7_groupsDecisions_2_6_19.html">7. Groups and Decision Making</a></li><li><a class="is-note-link" href="8_moreDecisionMaking_2_11_19.html">8. Decision Making (cont.)</a></li><li><a class="is-note-link" href="9_behaviorTrees_2_13_19.html">9. Behavior Trees</a></li><li><a class="is-note-link" href="10_rulesPlanning_2_18_19.html">10. Rules and Planning</a></li><li><a class="is-note-link" href="11_behaviorPlanning_2_20_19.html">11. Behavior Planning (cont.)</a></li><li><a class="is-note-link" href="12_hierarchicalTaskNetworks_2_27_19.html">12. Hierarchical Task Networks</a></li><li><a class="is-note-link" href="13_introProceduralGen_3_4_19.html">13. Intro. to Procedural Generation</a></li><li><a class="is-note-link" href="14_moreProcGen_3_6_19.html">14. Procedural Generation / Terrain Generation</a></li><li class="active-note-page"><a class="is-note-link" href="15_optimizationAlgos_3_11_19.html">15. Optimization Algorithms</a></li><li><a class="is-note-link" href="16_geneticAlgos_3_13_19.html">16. Genetic Algorithms (cont.)</a></li><li><a class="is-note-link" href="17_playerModeling_3_26_19.html">17. Player Modeling</a></li><li><a class="is-note-link" href="18_introRL_3_27_19.html">18. Intro. to Reinforcement Learning</a></li><li><a class="is-note-link" href="19_moreQLearning_4_1_19.html">19. Q-Learning (cont.)</a></li><li><a class="is-note-link" href="20_evenMoreRL_4_8_19.html">20. More Q-Learning/Intro. Deep Reinforcement Learning</a></li><li><a class="is-note-link" href="21_deepLearning_4_10_19.html">21. Deep Learning (cont.)</a></li><li><a class="is-note-link" href="22_deepRL_4_15_19.html">22. Deep Reinforcement Learning (cont.)</a></li><li><a class="is-note-link" href="23_contextFreeGrammars_4_17_19.html">23. Context-Free Grammars</a></li><li><a class="is-note-link" href="24_grammarsStories_4_22_19.html">24. Grammars (cont.) / Story Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="14_moreProcGen_3_6_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************* Optimization Algorithms - March 11th, 2019 ******************//
+//**************************************************************************//
+
+- Once again, here's proof that I'm a simple man: I see Mario on a slide and I get slightly excited
+
+- Before we dive into class, here're a few announcements:
+    - Homework 5 grading took FOREVER, since we didn't have an autograder; we're finalizing the grades right now, so you should have them before the end of the week. Expect homework 6 to similarly take 2 weeks to grade instead of the usual 1.
+    - Tonight (hopefully), we'll be releasing instructions for the "student bot tournament," where you can submit updated versions of your homework 5/6 bot to try and win the base-beating competition from homework 5 against other students
+        - This almost always means you'll have to update your hero to play the actual game; the strategies to try are wide open, so go nuts!
+            - Please DON'T just submit your homework 5/6 submissions unless you've actually put some effort it
+        - Once you've submitted your new heros/bots, they'll compete round-robin style against the other submissions
+            - Again, this is COMPLETELY optional, so only do it if you want to
+    - Exam 2 is going to be delayed several days - "NOT because I like you guys, but because I want to cover a few extra topics"
+
+- Finally, homework 7 is going to be released this week - and it's in Java! "I know, some of you are booing, some of your are cheering"
+    - (...actually, there's very little reaction at all to this news)
+    - In Homework 7, you'll be creating a procedural level generator for a very simple game: Super Mario!
+        - The maps in Mario are laid out in a grid style, with each cell being "land," "air," "coins," etc.
+    - What makes a mario level "good?" Well, we'll have 5 secret functions that'll each take in your map and give you a rating from a certain type of "player":
+        - The Scrooge function: rates your map based on how many coins there are
+        - The Killer function: rates your map based on how many enemies there are
+        - The Jumper: rates your map based on how much jumping is involved
+        - The Cloud Climber: rates your map based on how high the average platform is
+        - The Killer-Scrooge: A hybrid of the first 2
+            - ...along with an A*-type algorithm that makes sure your level is actually completable, and that there aren't any unreachable coins, floating enemies, etc.
+    - Using these functions as feedback (any combination of these might be used to grade your level), you'll create a genetic algorithm that tailors the level's design to whatever fitness function it's passed in
+        - Generally, if you can do well on the first 4 without any programming specific to those functions, then your algorithm'll handle hybrids pretty well
+    - The autograder for this is NOT being given out; your code shouldn't take more than ~30 seconds to generate a decent level
+-----------------------------------------------------------
+
+- SO, since you need to learn about genetic algorithms for your next homework, let's start talking genetic algorithms!
+    - Normally, after talking about emergent systems in this class, we would start talking about "grammars" - but instead, since your homework involves genetic algorithms, we'll jump straight onto "optimization search," then hopefully work our way back
+        - You might've seen this type of search before in your other classes (*cough* Intro to AI *cough*) as "hill climbing"
+
+- In OPTIMIZATION SEARCH, you don't have a specific initial state or goal state you're trying to get to; all you know is that the "world" can be configured, and that some configurations are better than others
+    - Furthermore, unlike A*, we assume there are too many possible combinations to check them all exhaustively; instead, we need to be smart about how we check this thing
+        - One way of thinking about this is as an infinite plain of possible worlds, each of them with a different "score" that's equivalent to the "height" of the solution
+        - Looking at it this way, this space would look like a bunch of rolling hills, with some solutions being hills of varying height (i.e. high-scoring), and others valleys (i.e. low-scores)
+    - If we think about solutions like this, then some of the worlds in this space are very close to each other, differing by a single feature
+        - If we start at a given world, then, and look at our "neighbor" solutions that are just configured slightly differently (add a coin, subtract a bad guy, etc.), we can see which of our neighbors has a higher score than us, then jump to it - and we keep doing that until we reach a local maximum!
+            - The simplest implementation of this is the BLIND HILL-CLIMBING algorithm, which goes like this:
+
+                1) Start at a random configuration - "we don't know what configuration would be good/bad, so we'll just start anywhere"
+                2) Generate ONE neighboring configuration by "tweaking" our starting point's parameters
+                    - The reason we don't generate all neighbors is because (depending on how many variables our "world" can have) there might be a very large number of possible neighbors
+                    - There's a variant of this called "beam-search," where instead of generating just 1 neighbor, we generate some small number "K" neighbors instead and take the best amongst all of those 
+                3) If the neighbor is "uphill," then it becomes our new current!
+                4) Repeat until we haven't moved uphill for some time
+
+            - Great! BUT, there are two major problems with this algorithm that prevent most people from using it:
+                - It has a tendency to get stuck on local maxima, where it will go to the top of a "little hill" and never try to move back down, even to get to a much better solution nearby
+                - It can fall into the "plateau problem," where it ends up with a bunch of equally-scoring solutions nearby and falls into a near-infinite loop of just checking similar solutions
+
+- How can we fix these problems with blind hill search? There're a few solutions:
+    - Do random restarts! After we finish hill-climbing, just choose a new random point and repeat the algorithm "N" times, saving the best solution from each run and taking the maximum at the end!
+        - This seems pretty obvious - kinda dumb, even - but in general, the more restarts we do, the better the solution will get
+            - At some point, though, this turns into exhaustive search, which is a LOT more computation then we need - so you need to find a balance between checking a reasonable number of points and not taking forever
+            - This solution is also still pretty blind; we have to "re-learn" the environment each run, with no information shared or reused
+
+- To deal with that problem, we have GENETIC ALGORTIHMS - "which is really just a fancy, scary name for 'parallel hill climbing with information sharing'"
+    - (this is a much more boring name, and apparently why Professor Riedl isn't a name-maker-person)
+    - The idea here is that instead of restarting our hill searches, we instead start a bunch of potential solutions at once - our POPULATION of "individual" potential solutions
+        - Each solution will start off doing its own hill-climbing search in parallel with the others
+            - The reason this whole thing is called "genetic" is because it borrows some ideas from evolution - specifically the concept of "survival of the fittest," where the least fit species die off and the most fit ones survive
+        - So, as these solutions start to climb, we "kill off" the ones that aren't climbing very well
+        - We'll then take the surviving solutions and create a GENOME from them
+            - Each individual will be represented by a "DNA" string of symbols, representing the instructions for making that individual's final object/PHENOTYPE (e.g. the 2D grid for how to make a Mario level)
+                - For instance, if we said for a Mario level that 0 = nothing, 1 = land, and 2 = coin, then we can represent the level:
+
+                        0 0 0 0 0
+                        0 0 1 0 0
+                        0 1 1 0 2
+                        1 1 1 0 1
+
+                - As:
+
+                        0,0,0,0,0 | 0,0,1,0,0 | 0,1,1,0,2 | 1,1,1,0,1 =&gt;
+                        00000001000110211101
+
+                - "Don't actually write your Mario representation this way; this is just an example"
+            - We'll have some code that takes in this string and turns it into the final phenotype
+        - We'll then say a given individual's NEIGHBORHOOD are all the individual's whose DNA differs from the solution by one change to the DNA strand
+        - Finally, we'll have a FITNESS FUNCTION (or "evaluation function" if you'd prefer to avoid Darwininan terms), which takes in a given DNA string and spits out a score for how "good" it is
+    - With all these pieces, the final genetic search algorithm is actually pretty simple:
+
+        0) Generate the initial population (i.e. "N" random individuals)
+            - Hopefully these solutions start off pretty good, but usually we're just hoping for "bad in different-enough ways"
+        1) Produce M new individuals; there're 2 possible steps to this:
+            - Select some individuals for MUTATION: we randomly choose some proportion of the population, and for each one, we copy its DNA, randomly change one element in the copied DNA, then add that mutated copy to the population
+                - "...this isn't really mutation, but more like asexual reproduction, or budding"
+                - To be clear, we keep both the original AND the mutated copy around
+            - Optionally, we do CROSS-OVER: we select the K best individuals from the population to "breed" and try combining their DNA (some people think this is important, others think it's inessential)
+                - "This is more like sexual reproduction" (children, avert your eyes!)
+                    - "...remember, we're just talking about data points here. Otherwise, this is going to sound really...well..."
+                - We throw our K best/most-fit individuals into a "breeding room"
+                - According to some probability distribution, where the probability of picking more fit individuals is higher than picking less fit individuals, we pick 2 of the individuals in our room to "breed" and combine their DNA
+                    - To actually combine their DNA, we choose some cross-over point in the string (usually in the middle, but sometimes weighted or random), and then "swap" the pieces of DNA to produce 2 new children
+                        - e.g. If we have 2 pieces of DNA like:
+
+                            1: a b c d e f g h
+                            2: i j k l m n o p
+
+                        - It'll become:
+
+                            1: a b c d| e f g h
+                            2: i j k l| m n o p
+
+                            =&gt; a b c d | m n o p
+                            =&gt; i j k l | e f g h
+
+                - Add those 2 new children to the population 
+        2) We now have a population of N + M, so we need to "cull" the population back down to N
+            - There're a few ways of doing this, but here're the 2 most common ones:
+                - Have the children compete with their parents, where we take each child/mutated unit and compare it with the individual it came from, and then keep the one with the higher fitness
+                    - "It's a little morbid, but if I have a weak child, it dies. If my child is stronger than me, I die."
+                    - If you have multiple children for a single parent, you can just choose the best child to compete with the parent, or do something different - "then it becomes a family squabble!"
+                - Just take the N best/most fit individuals in the population, and then delete the rest
+                    - This is the simplest option, and, really, it's usually good enough
+        3) Repeat until stopping criteria is met
+            - We are OUT OF TIME, so we'll talk more about what this actually means tomorrow - er, Wednesday!</pre>
+</article>
+<a class="side-link is-note-link" href="16_geneticAlgos_3_13_19.html"></a>
+</main>
+</body>
+</html>

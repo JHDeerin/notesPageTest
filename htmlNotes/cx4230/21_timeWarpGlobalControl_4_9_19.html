@@ -1,0 +1,141 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. Modeling/Simulation</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4230Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. Modeling/Simulation</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_introConceptualModels_1_8_19.html">0. Introduction / Conceptual Models</a></li><li><a class="is-note-link" href="1_complexSystemBasics_1_10_19.html">1. Complex System Basics</a></li><li><a class="is-note-link" href="2_mathReview_1_15_19.html">2. Math Review for Modeling</a></li><li><a class="is-note-link" href="3_stabilityBifurcations_1_17_19.html">3. Stability and Bifurcations</a></li><li><a class="is-note-link" href="4_1dBifurcations_1_22_19.html">4. 1D Bifurcations (cont.)</a></li><li><a class="is-note-link" href="5_2dDiffEqs_1_24_19.html">5. 2D Differential Equations</a></li><li><a class="is-note-link" href="6_2dLinearStability_1_31_19.html">6. 2D Linear System Stability</a></li><li><a class="is-note-link" href="7_2dBifurcations_2_5_19.html">7. 2D Bifurcations</a></li><li><a class="is-note-link" href="8_hopfBifurcations_2_12_19.html">8. Hopf Bifurcations</a></li><li><a class="is-note-link" href="9_chaosIteratedMaps_2_14_19.html">9. Chaos and Iterated Maps</a></li><li><a class="is-note-link" href="10_moreIteratedMapsCellAuto_2_19_19.html">10. Iterated Maps (cont.) / Cellular Automata</a></li><li><a class="is-note-link" href="11_cellularAutomata_2_21_19.html">11. Cellular Automata (cont.)</a></li><li><a class="is-note-link" href="12_discreteEventSim_2_28_19.html">12. Discrete Event Simulation</a></li><li><a class="is-note-link" href="13_queueProcessScheduling_3_5_19.html">13. Queuing and Process Scheduling</a></li><li><a class="is-note-link" href="14_processSchedulingImpl_3_7_19.html">14. Process-Scheduling Implementation</a></li><li><a class="is-note-link" href="15_activityScanningRNG_3_12_19.html">15. Activity Scanning / Random Number Generation</a></li><li><a class="is-note-link" href="16_inputAnalysis_3_14_19.html">16. Input Analysis</a></li><li><a class="is-note-link" href="17_outputAnalysisValidation_3_26_19.html">17. Output Analysis / Validation</a></li><li><a class="is-note-link" href="18_FELIntroParallel_3_28_19.html">18. Future Event List / Intro. to Parallel</a></li><li><a class="is-note-link" href="19_lookaheadSynchronous_4_2_19.html">19. Lookahead and Synchronous Algorithms</a></li><li><a class="is-note-link" href="20_timeWarp_4_4_19.html">20. Time Warp</a></li><li class="active-note-page"><a class="is-note-link" href="21_timeWarpGlobalControl_4_9_19.html">21. Time Warp Global Control</a></li><li><a class="is-note-link" href="22_hla_4_11_19.html">22. High-Level Architecture</a></li><li><a class="is-note-link" href="23_exam2Review_4_23_19.html">23. Exam 2 Review</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="20_timeWarp_4_4_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************** Time Warp Global Control - April 9th, 2019 *****************//
+//**************************************************************************//
+
+- The 2nd exam, as you might've noticed, is 9 days from now, on April 18th
+    - The scope of the exam will be ANYTHING Professor Fujimoto has covered, i.e. the parallel simulation stuff and the modeling lifecycle
+        - Both will be covered, but there is more emphasis on the parallel stuff in the test
+            - The project should hopefully cover a LOT of the lifecycle stuff, so make sure you're doing that as you go
+        - Some sample problems should be released before the beginning of the next class
+    - The exam is CLOSED BOOK, but you will be allowed a letter-size cheat sheet - handwritten, computer-generated, microfilm, whatever you'd like
+- There's actually only 1 more lecture on parallel computing, which'll happen on Thursday
+    - Next week, instead of a lecture, we'll just have a study session for the exam and go through the solutions to the Sample problems (so make sure you do those over the weekend!)
+    - Then we have the exam, then one more lecture to review the exam, and that's it! We're done!
+- The TA checkpoint feedback should be released before next lecture
+---------------------------------------------------------------------
+
+- So, we started talking about TIME WARP(!) last time, and especially the "local control system" where we handle errors; now, we're talking about the "global control system" that's needed to speed some of this stuff up, and particularly SAMADI'S ALGORTIHM that highlights the issues we need to deal with
+    - As we mentioned, this isn't the most efficient algorithm for the task, but it's a good example of the issues we need to deal with for calculating the "global virtual time" (GVT, the lower bound on how far we can roll back)
+
+- We came up with a pretty good way of dealing with transient messages: wait for an acknowledgement that the message has been received!
+    - In doing this, we say that the sending LP is still responsible for including that message's timestamp in its GVT calculation until it knows something else has got it
+
+- The second problem we didn't get to was the SIMULTANEOUS REPORTING PROBLEM, which is a bit more subtle
+    - The problem is this: we're asking all of these processes to calculate their own minimum times, but all of them receive that "calculate time" request at slight different wall-clock times - and that means their GVT calculations might be slightly different!
+        - For instance, if we make a GVT request at timestamp 80ms to 2 different processes, but the request message to the 2nd process is delayed by 20ms, that 2nd LP might process a message with a timestamp of 90ms in the interval
+            - Then, when it gets the GVT request, it'll incorrectly return the smallest unprocessed timestamp as LARGER than 90ms!
+    - So, who's responsible for handling this sort of error?
+        - Process 1 didn't have this time stamp 90 message, so it couldn't account for it
+        - But process 2 was counting on process 1 accounting for this!
+    - Do message acknowledgements get us out of this issue?
+        - Not necessarily; that acknowledgement to LP2 might've been received before the GVT request, which means the 90ms message still wouldn't have been included in the GVT calculation for LP1
+        - However, they do give us a hint on how we CAN solve this problem!
+            - If we mark acknowledgements that have been sent AFTER a local min time has been calculated (but before receiving the new GVT from the controller), then we know there's a chance something like this could happen!
+                - If we haven't received that acknowledgement back yet, it'll be included in our min calculations
+                - If we receive such an acknowledgement back, then, we can include that message's timestamp in LP2's calculations until we receive the new global GVT!
+
+- These 2 things - acknowledgements and marked acknowledgements give us SAMADI'S ALGORITHM
+    - In broad terms, the algorithm works like this:
+        - A controller thread broadcasts the "start GVT calculation" message
+        - Each process reports the minimum time stamp among its local unprocessed messages, unacknowledged sent messages, AND marked acknowledgements it's received
+        - The controller thread then computes the global minimum among all those local minimums, and sends this out as the new GVT value
+    - Samadi's algorithm works - it'll always compute the correct GVT value!
+        - However, there are a few things that make it problematic in the real world:
+            - Requiring a central controller means we have a single thread that could end up being a bottleneck, especially if we have a LOT of processors
+            - It also requires acknowledgement messages, which DOUBLE the number of messages we need to send - that can get expensive quickly!
+
+- Practically, this means Samadi's algorithm is almost never used today - but one type of algorithm that IS still in use is DISTRIBUTED SNAPSHOTS!
+    - Back when we first saw the GVT, we mentioned it'd be REALLY easy to find if we had a snapshot of the system's global state - but, alas, it's impossible to compute this for the same instant across the entire system...
+        - ...but can we do something similar if we only had "local" snapshots for each process? As it turns out, we can!
+            - This'll be an asynchronous process, meaning that it doesn't require LPs to block while it's running, and it doesn't require ANY acknowledgement messages at all!
+                - Historically, it's related to Mattern's algorithm, but that's not too relevant for this class
+    - To do this, we need to find something called a CONSISTENT CUT!
+        - In each LP, it's possible for us to define an arbitrary CUT POINT: a time that divides the LP's computations into "past computations" and "future computations"
+        - A CUT is just a set of all the cut points for the system (i.e. one cut point from each LP)
+            - This divides the ENTIRE simulation into a "past" part and a future part
+            - A CUT MESSAGE, meanwhile, is a message that "bridges" this cut; it's a message that was sent in the past, but hasn't been received in the "future" part yet
+        - What's a CONSISTENT CUT, then? It's a cut where ALL the messages that cross the cut are cut messages!
+            - In other words, it's a cut where there are no messages from the "future" part that are received in our "past"
+    - From all this stuff, we can compute a CUT VALUE that's the minimum among all the cut messages' time stamps AND the local minimum timestamp of each LP at its cut point (i.e. pretending the "cut point" is the LP's current time)
+        - As it turns out, this cut value will be a valid GVT for the system!
+            - How can we prove that? Well, let's go through a few things:
+                - First of all, it turns out that any non-cut messages (i.e. future to past) can be ignored, since their timestamp values will always be larger than at least one cut value
+                    - There are 3 types of non-cut messages:
+                        - Sent before any cut messages have been received, meaning its timestamp is greater than the cut point of its own LP, which is considered for the cut value
+                        - Sent in-between cut messages; this is still greater than the cut point, but it's also later than the cut message that's received!
+                        - Sent after the latest cut message - this is STILL greater than the previous 2, AND it's also greater than the latest message's sending timestamp!
+                            - (Unsure when a non-cut message wouldn't fall under the 1st type, so why are the other 2 needed?)
+                - If we consider Samadi's algorithm, and pretend each cut point is when the LP received the "calculate GVT" message, we can see that this algorithm is actually doing the same thing!
+            - So, this "cut value" will end up giving us the same result as Samadi's algorithm, meaning it MUST be a valid GVT!
+
+- Okay, so that's a proof that this scheme can work, but how do we actually compute it?
+    - Well, each LP will set its own cut point and then find the local minimum of its "unprocessed" message's timestamps (i.e. the messages after this timestamp)
+        - What if we receive a new, earlier message while we're computing this? Then we'll just recompute the minimum!
+    - Compute the global minimum from all of this/the cut messages
+        - How can we compute this global minimum asynchronously? Well, do you remember the Butterfly barrier? We can use that barrier to compute this!
+            - We'll extend this Butterfly algorithm so that instead of just sending an "I'm at the barrier" message, we ALSO say what our LP's local minimum was when it sent that message!
+            - Each LP will then compute the new "current minimum" between its own minimum and the incoming message we received, and send THAT minimum in the next step
+                - This is known as a REDUCTION COMPUTATION!
+        - So, after log(n) steps, we'll have computed the the global minimum AND have sent the global minimum to each process
+
+- This leaves us with a few problems, but fortunately, all of them are solvable:
+    - How do we identify cut messages in the first place?
+        - Well, if you remember back to your graph theory, we can consider this cut as a LITERAL cut in the graph, with the "past" section set to one color and the "future" section set to another color
+            - So, we'll add a flag to each message for if it was sent from the past or the future; if a "future" section of an LP has a "past" message it's received, then that's a cut message!
+    - How do we know when we've received all the cut messages?
+        - Well, each process can keep track of how many "past" messages it's sent, and how many past messages it's received
+            - In this case, when the sum of ALL the LPs "sent" counters equals the sum
+            - How can we calculate this sum, though? Just like we did previously, we can use the Butterfly method to pass this sum!
+                - So, the Butterfly is now ALSO summing up these counters as it goes along!
+                - If the counters don't match when we're done, that means we still need to wait for some transient messages to be received, so we'll just compute this again until the counters match up
+    -...the notes have some more gory details about this, but those're the main idea behind how this works
+
+- Now, you might notice that computing the GVT here is pretty similar to computing the lower-bound time step in YAWNS for the future event list - in fact, they're EXACTLY the same thing!
+    - So, we can use this EXACT same GVT scheme to calculate the LBTS value in YAWNS!
+        - Historically, people didn't realize this for a good while, which led to some confusing mixed terminology and assumptions...but, hopefully, we've now got that worked out
+- There are a TON of variant algorithms for computing the GVT, but this as far as we'll go in our class
+
+- Alright, with that, let's quickly go through some important general stuff about parallel computation
+    - How do we measure how much faster a program is running? The traditional way is to calculate the SPEEDUP, which is just:
+
+            speedup = (sequential execution time) / (parallel execution time)
+
+        - There's also a LOT of overhead for parallel computing (rollbacks, barriers, etc.), and so we might also just want to know how fast the event processing itself - WITHOUT this overhead - is being sped up (since we can try and reduce the overhead, this'll give us a theoretical best-possible speedup)
+            - We can calculate this using our old (not-so-dear) friend, the DEPENDENCY GRAPH!
+                - If you'd be so kinda as to notice, any sequence of events that are NOT dependent on each other can be safely run concurrently without issues
+                - Ignoring the details, the important thing here is that the minimum execution time will be the longest path through this graph, since this'll mean the path with the most number of processes that we NEED to deal with sequentially
+                    - This is known as the CRITICAL PATH!
+                    - If the critical path is just as long as the sequential program, that means there's no point trying to parallelize it; it'll NEVER get faster, no matter how much of the overhead we eliminate
+
+- We'll talk more about some high-level stuff - pros and cons of conservative vs optimistic algorithms, benchmarking stuff, etc. - on Thursday!</pre>
+</article>
+<a class="side-link is-note-link" href="22_hla_4_11_19.html"></a>
+</main>
+</body>
+</html>

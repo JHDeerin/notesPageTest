@@ -1,0 +1,79 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Graphics</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs3451Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Graphics</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_2dTransformations_1_9_19.html">1. Basic 2D Transformations</a></li><li><a class="is-note-link" href="2_composingTransformations_1_11_19.html">2. Composing 2D Transformations</a></li><li><a class="is-note-link" href="3_matrixStack_1_14_19.html">3. Matrix Stack Basics</a></li><li><a class="is-note-link" href="4_matrixStackCont_1_16_19.html">4. Matrix Stack (cont.)</a></li><li><a class="is-note-link" href="5_projectionBasics_1_18_19.html">5. Projection Basics</a></li><li><a class="is-note-link" href="6_arbitraryRotations_1_23_19.html">6. Arbitrary Rotations</a></li><li><a class="is-note-link" href="7_viewingTransform_1_25_19.html">7. Viewing Transformation</a></li><li><a class="is-note-link" href="8_displaysLines_1_28_19.html">8. Displays and Lines</a></li><li><a class="is-note-link" href="9_introRasterization_1_30_19.html">9. Intro to Rasterization</a></li><li><a class="is-note-link" href="10_hiddenSurfaces_2_1_19.html">10. Hidden Surfaces</a></li><li><a class="is-note-link" href="11_basicShading_2_4_19.html">11. Shading Basics</a></li><li><a class="is-note-link" href="12_basicShadingCont_2_6_19.html">12. Basic Shading (cont.)</a></li><li><a class="is-note-link" href="13_colorPerception_2_8_19.html">13. Color Perception</a></li><li><a class="is-note-link" href="14_colorSpaces_2_11_19.html">14. Color Spaces</a></li><li><a class="is-note-link" href="15_colorRaytracing_2_13_19.html">15. Color Space(cont.) / Intro to Raytracing</a></li><li><a class="is-note-link" href="16_raytracingIntersections_2_15_19.html">16. Raytracing Intersections</a></li><li><a class="is-note-link" href="17_moreRaytracing_2_18_19.html">17. Raytracing (cont.)</a></li><li><a class="is-note-link" href="18_evenMoreRaytracingShadows_2_20_19.html">18. Ray Tracing Shadows &amp; Effects</a></li><li><a class="is-note-link" href="19_raytracingOptimzation_2_22_19.html">19. Raytracing Optimization</a></li><li><a class="is-note-link" href="20_rasterEffects_2_27_19.html">20. Rasterization Effects</a></li><li><a class="is-note-link" href="21_textureMapping_3_1_19.html">21. Texture Mapping</a></li><li class="active-note-page"><a class="is-note-link" href="22_environmentMaps_3_4_19.html">22. Reflections and Environment Maps</a></li><li><a class="is-note-link" href="23_bumpMapsGPU_3_6_19.html">23. Bump Maps and GPUs</a></li><li><a class="is-note-link" href="24_introGLSLShaders_3_8_19.html">24. Introduction to GLSL/Shaders</a></li><li><a class="is-note-link" href="25_moreGLSLShaders_3_11_19.html">25. More GLSL Shaders</a></li><li><a class="is-note-link" href="26_polyhedraOperations_3_13_19.html">26. Polyhedra Operations</a></li><li><a class="is-note-link" href="27_cornerPolyhedra_3_15_19.html">27. Corner Polyhedra Representation</a></li><li><a class="is-note-link" href="28_bezierCurves_3_25_19.html">28. Bezier Curves</a></li><li><a class="is-note-link" href="29_moreBezierCurves_3_27_19.html">29. Bezier Curves (cont.)</a></li><li><a class="is-note-link" href="30_3dSurfaces_3_29_19.html">30. 3D Surfaces</a></li><li><a class="is-note-link" href="31_bezierPatchSubdivision_4_1_19.html">31. Bezier Patches / Subdivision</a></li><li><a class="is-note-link" href="32_catmullClaark_4_3_19.html">32. Catmull-Clark Subdivision</a></li><li><a class="is-note-link" href="33_platonicSolids_4_5_19.html">33. Platonic Solids</a></li><li><a class="is-note-link" href="34_fractlas_4_8_19.html">34. Fractals</a></li><li><a class="is-note-link" href="35_volumeRendering_4_10_19.html">35. Volume Rendering</a></li><li><a class="is-note-link" href="36_moreVolumeRendering_4_12_19.html">36. Volume Rendering (cont.)</a></li><li><a class="is-note-link" href="37_fluidSimulation_4_15_19.html">37. Fluid Simulation</a></li><li><a class="is-note-link" href="38_virtualReality_4_17_19.html">38. Virtual Reality</a></li><li><a class="is-note-link" href="39_gameRendering_4_19_19.html">39. Game Rendering</a></li><li><a class="is-note-link" href="40_proceduralContent_4_22_19.html">40. Procedural Content Generation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="21_textureMapping_3_1_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//********** Reflections and Environment Maps - March 4th, 2019 *************//
+//**************************************************************************//
+
+- ALL THE WORK AGGGHHHHHHHHHHHHHHHH!
+- Alright, some things to note for the raytracing homework:
+    - When you do the ray-sphere intersection, sometimes it's useful to return a "hit" data structure containing the point of intersection, the parameter "t" along the line where the intersection was, the normal of the surface we hit, and a reference to the object's material
+        - "But Greg, I want to know the color of the sphere!"...but that's usually better done later on in the process, so you can separate intersection and shading
+        - So, we might have a "shade_intersect(hit)" function later on
+            - "You don't have to do your raytracer this way, but it'll make a few things easier for part 2"
+    - A few questions:
+        - Our eye is looking in the -W direction, V is pointing "up," and U is pointing to the side
+            - So, the direction of the eye ray is "dir = -dW + uU + vV"
+        - How do you debug this thing? You DON'T print out all the coordinates where the ray hit, since there'll be waaaaay too many; instead, make some global flag for a particular pixel and ONLY print out the ray/hit information for that particular ray; that way, you can calculate what should be happening by hand
+        - For part A, just do N*L for each light source and don't worry about visibility; in part B, though, you'll need to start worrying about shadows
+    - If you have any questions later, please visit the TAs - they're ready-to-go in office hours, and they want to help!
+- As a side-note: PLEASE start the raytracing homework tonight if you haven't started yet; it's a challenging homework, and I don't want any of you to get overwhelmed because you started it Friday night!
+---------------------------------------------------
+
+- If you remember back to Friday ("I barely can"), we were talking about texture lookup, where we were doing bilinear interpolation to get the color values for our texture
+    - In that case, we were interpolating the colors of our texture, but here's a thought: what if, instead, we did the same thing for heights?
+        - Imagine if the image were a heightmap, with each of the color values at the pixel representing a height (like a bunch of bars sticking out a certain amount)
+        - In that case, bilinear interpolation would get us a curved surface that connects all of those sticking-out rods
+- As it turns out, bilinear interpolation is used EVERYWHERE in computer graphics, not just to interpolate colors!
+    - So, having a good idea of the shape of the bilinear surface is really useful to have
+    - Keep this thought in the back of your skulls...
+
+- Now, we also talked on Friday about how we wished we could "fake" reflections in our raster scenes - let's talk about that more now, using ENVIRONMENT MAPPING
+    - As we mentioned in raytracing, reflection is when we have a ray "R" that hits a surface and bounces off
+    - Environment mapping is where we instead imagine that we take a bunch of pictures of the environment around a point, and paste those photographs onto the walls of a giant sphere
+        - After that, we can take away all the actual objects and just leave the wallpapered-on sphere, and if we're standing in the center of the sphere, we can't tell the difference!
+    - As it turns out, this technique is enough to fake reflections without having to do any raytracing!
+        - Here, we'll take the view vector from our eye to a given point on the reflective surface, and then calculate its "bounce direction" using the normal vector to get a vector 'r' 
+        - Once we've got that bounce direction, we'll use it to look up the color from the environment map we want - this'll be our "reflected" color for the surface!
+    - Using an actual sphere for the environment map, though, is difficult, since it's hard to "unfold" a sphere to put textures on without distortion (think of all the weird projections mapmakers use!)
+        - Instead, most implementations actually use a cube map instead of a sphere, "unfolding" the 6 faces of the cube and rendering the scene 6 times, in the 6 different directions for the cube
+- The reason this is "fake," of course, is that we're pretending all of the reflected objects in the scene are infinitely far away and flat, instead of adjusting our reflection based on the actual positions and depth of the objects - we couldn't use this for dynamic reflections, since everything is "stuck" in the position we rendered it at (although you can try to re-render it on the fly)
+    - Because of this, environment mapping works great for scenes where everything's far away, but looks a little bit off if we're supposed to be close to the object
+    - Still, this was a good enough solution that many films used it for early CGI effects, and most games still use it today
+
+- So, that's reflections, making an object look shiny and smooth - but what if we wanted to make an object look bumpy? How could we do that?
+    - The "most correct" answer is to make a bunch of new, tiny polygons - but that's expensive!
+        - WHY do those extra polygons make a difference to how our object looks, though? Because they give us different surface normals, right?
+    - So, in 1978, the same Blinn who came up with our lighting equation decided to try approximating these little changes in the normals WITHOUT creating new polygons. Instead, the way the normals should change are defined in an image called a BUMP MAP
+        - The idea behind this is that we can have an image that shows the "heights" of our object's surface; we can then find the slope/derivative of that imaginary surface, calculate a fake normal from that, and then add those normals to our object's real normal for the given pixel!
+        - This let's us change the shading of a surface JUST using an image - that's great!
+
+- What does the math behind this actually look like, though? That's something we'll look at a bit more closely on Wednesday; come hear all about it then!</pre>
+</article>
+<a class="side-link is-note-link" href="23_bumpMapsGPU_3_6_19.html"></a>
+</main>
+</body>
+</html>

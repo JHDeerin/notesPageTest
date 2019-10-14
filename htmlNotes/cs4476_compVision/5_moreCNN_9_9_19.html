@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li class="active-note-page"><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="4_filterNeuralNets_4_9_4_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//********* Convolutional Neural Nets (cont.) - September 9th, 2019 *********//
+//**************************************************************************//
+
+- ...I'm pretty frustrated that I missed VAST today :(
+
+- Okay; hopefully today will be mostly review, since you all did project 1
+--------------------------------------------------------------------------------
+
+- So, each convolution layer is a small filter; we can then stack multiple filters together, with an activation function like RELU
+    - "There's still some discussion about what the best activation function is, but really, almost everyone uses RELU right now"
+    - You can have neural nets that're 200+ layers deep right now, 
+        - Typically, we'll have layers that identify "low-level features," "mid-level features," and "high-level features"
+            - The filters get effectively bigger as they go through the different layers (I think?), since the original input image is getting smaller (I think?), so that deeper filters are trained to look for larger features
+                - "...we have to move on, but I hope you understand it"
+                - So, in the original image, a 5x5 filter would look at a 5x5 region of the original image
+                - In layer 2, we're looking 
+            - More specifically, the RECEPTIVE FIELD of the layer (the region of the image it's looking at) is growing as we go deeper
+                - You can think of this as saying "If I change a pixel in this area X, the pixels in the layers "
+        - To scale up to higher-level features, you do need many layers and these non-linear functions, even if they make learning more difficult
+    - So, we have alternating convolution/weight maps, and then there's these POOL layers placed in-between
+        - One of the reasons for doing this is just to downsize the sampled image, but it's also so that, by combining different filters together, we care less about the exact position of a feature like an eye/cup/etc.
+            - Basically, all these pools are doing is taking the maximum weights over a small 2x2 or 4x4 window, and using that max activation weight for a single pixel, so we get a smaller filter
+                - We might also take the mean/sum, but that's less common
+            - ...this seems to be a confusing topic, so they'll post a tutorial on how pooling changes the receptive field on Piazza in a day or two
+    
+- Finally, we need to talk about FC layers, or FULLY CONNECTED LAYERS
+    - These are layers that have all their neurons connected to all the previous layer's neurons; these are most common right at the end of the network, where we'll have a neuron for each classification category that we connect to all the previous layer's neurons (I think?)
+
+- So, let's now get to your homework: using convolutional neural nets (CNNs) for image processing
+    - There are some REALLY cool applications of this
+        - For instance, colorizing black-and-white image! We can train a neural net on a bunch of example images, and then feed it a grayscale image that it then applies colors to based on the patterns
+            - So, we decompose RGB images into different color/lightness channels, then train it on a network with a bunch of convolutions that then tries to 
+            - Look up "DeOldify" for an example of this on GitHub
+        - We can also make "Super-Resolution" filters, which tries to take a low-resolution image and sharpen the details in it
+            - An early CNN paper from 2016 showed how you could use this to try and reconstruct lost detail from downscaled images 
+        - We can also recover information from underexposed photos!
+            - Here, if an image is *almost* black because it was taken in low light conditions, we can try and use neural nets to get rid of the "speckles" from low light and to artificially brighten dark regions and increase the detail there
+                - They then, instead of mapping each image to each image, we try to learn the "illumination map" we need to apply to a given image based on its brightness levels
+        - As a final example, we might try to do "image reconstruction/inpainting," where we try to artificially remove branches/objects in the foreground and guess what was behind them (trying to fill in the gaps)
+
+- So, CNNs look really cool - and they are! But they CANNOT do everything
+    - Combining two linear filters, like in linear algebra, just gets us another linear filter - but not all filters are linear!
+        - A MEDIAN FILTER is where we select a median intensity to use for a given window around a pixel
+            - This is occasionally used for de-noising (even though it can mess up textures) since it isn't as affect by outliers as much as taking the mean, but it isn't a linear filter! We have to sort the pixels and then pick just one!
+            - This might be possible to do in PyTorch, but it would be difficult
+        - A BILATERAL FILTER is where we try to detect edges in the image and only apply the filter to just one side of the edge, preserving the all-important edges
+            - This would also be tricky to implement with PyTorch, but it would probably be possible
+        - MORPHOLOGICAL FILTERS are things that grow/shrink regions of an image, try to apply
+            - This is old enough that it used to be coded up on punch cards!
+
+- Now, we're going to be doing some frequency analysis in this class, and we need to learn something important before we can do that: the Fourier transform!
+    - ...which we'll get to next class!</pre>
+</article>
+<a class="side-link is-note-link" href="6_fourierTransform_9_11_19.html"></a>
+</main>
+</body>
+</html>
