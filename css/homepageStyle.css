@@ -1,17 +1,18 @@
 body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
     background: #21252B;
 }
 
 main {
-    margin: 0 auto;
-    padding: 0;
-    padding: 1em;
+    margin: 0;
+    padding: 1em 0;
 
-    width: 90%;
+    width: 100%;
     height: 100%;
 
     text-align: center;
-
     background: #21252B;
 }
 
@@ -25,7 +26,7 @@ main p {
 
 main > header {
     margin: 0 auto;
-    width: 100%;
+    width: calc(100% - 1em);
     max-width: 80ch;
 
     font-size: 1em;
@@ -47,7 +48,7 @@ article {
     margin-bottom: 1em;
     padding: 1ch;
 
-    width: 100%;
+    width: calc(100% - 2em);
     font-size: 1em;
 
     background: #282c34;
