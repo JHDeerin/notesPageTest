@@ -83,7 +83,7 @@ class FilesFromNotesDirectory(ABC):
         # Setup directories for final output and copying raw notes
         if not os.path.exists(outputDirectoryName):
             os.makedirs(outputDirectoryName)
-        rawNotesDirectoryName += '/' + outputDirectoryName
+        rawNotesDirectoryName += '/' + ntpath.basename(outputDirectoryName)
         if not os.path.exists(rawNotesDirectoryName):
             os.makedirs(rawNotesDirectoryName)
         outputDirectoryName += '/'
