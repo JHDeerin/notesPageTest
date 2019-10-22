@@ -1,0 +1,76 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means-End Analysis</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case-Based Reasoning</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case-Based Reasoning (cont.)</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. Classification Basics</a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li><li><a class="is-note-link" href="18_morePlanning_10_4_19.html">17. Planning (cont.)</a></li><li><a class="is-note-link" href="19_knowledgeEngineering_10_7_19.html">18. Knowledge Engineering</a></li><li><a class="is-note-link" href="20_yetMorePlanning_10_9_19.html">19. Planning (cont.)</a></li><li><a class="is-note-link" href="21_understandingCommonSense_10_11_19.html">20. Understanding and Common-Sense</a></li><li><a class="is-note-link" href="22_commonSense_10_16_19.html">21. Common-Sense Reasoning (cont.)</a></li><li><a class="is-note-link" href="23_fractalReasoning_10_18_19.html">22. Fractal Reasoning</a></li><li class="active-note-page"><a class="is-note-link" href="24_explanationReasoning_10_21_19.html">23. Explanation-Based Reasoning</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="23_fractalReasoning_10_18_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************ Explanation-Based Reasoning - October 21st, 2019 *************//
+//**************************************************************************//
+
+- Okay class; today we'll be focusing on explanation-based reasoning, so here's a clip from the 2014 movie "Lucy"
+    - There are generally 2 kinds of explanations: self-explanations, and world explanation
+        - A SELF-EXPLANATION is when you're explaining something about your own mind, such as "I got angry at the postman because he was late delivering my mail!"
+            - This is what many people want from AIs: machines that can explain their reasoning processes and WHY they choose to do certain things
+        - WORLD-EXPLANATIONS are explanations about how stuff in the world work, like "Mount St. Helens"
+
+- As a side-note, how was the class on Friday?
+    - The agent seemed really cool, but it wasn't clear how it actually worked
+        - "Many of these talks are 'hooks' to get you to learn more, with the details being available out there; I'm sure the Professor would be happy to talk with you if you sent him an email"
+    - One of the hardest problems in AI is to figure out what level of abstraction to use for a problem; the fractal reasoning method can handle this automatically, which is REALLY powerful
+        - We're not sure if we can generalize this past visual learning yet, but it's extremely interesting
+    - "One criticism of many, many classes on AI - including this one - is that the professor assumes a given level of abstraction and stays fixed on that - but how do we decide that level? We never say!"
+--------------------------------------------------------------------------------
+
+- So, why are explanations useful?
+    - One reason is because they're useful for learning in a creative way; if I tell a robot to make me a cup of coffee and it can't find a cup, it may find an empty bowl and fill that with coffee instead
+        - How did it know that would work? It may have done so by explaining it to itself!
+    - We'll talk a little about concept spaces, and making analogies
+
+- If I give you cardboard box, you can tell me it wouldn't work as a coffee cup - why?
+    - We may say that a cup is "a stable object that enables drinking"
+    - We can then look at, say, a porcelain jug and say "this object is made of porcelain, it has a decorative drawing, is concave, and have a flat bottom"
+        - Can we prove this porcelain jug is a cup?
+        - We know we can use a water bottle as a paperweight, but not the TV bolted to a wall - how?
+    - We can do this via explanations, by using a LOT of prior knowledge we already have!
+        - Let's say we're trying to figure out if a brick works as a cup, where a brick is "a heavy object that has a flat bottom"
+            - We know a brick is stable BECAUSE it has a bottom and that bottom is flat
+                - We can represent this with semantic networks
+            - We also know a brick is heavy; not because we explain it, but because it's a property inherent to our definition of "brick"
+        - We may say something "enables drinking" if it's liftable and can carry liquids
+            - Something can "carry liquids" IF it has concavity, and is "liftable" if it's light and has a handle
+        - Therefore, a brick is NOT a cup, since it isn't light!
+
+- Many robots today can do useful things, but can't explain how they do them, which is a CRITICAL issue!
+
+- How does a robot know how to do things, like how to hold a tool?
+    - We know to hold a knife by the handle, not the blade, BECAUSE the blade is the useful part and holding it would prevent the blade from touching things we want to cut!
+        - How could we analogize this idea to something like pens, where holding them by the "working tip" also wouldn't be productive?
+        - Transferring knowledge is a VERY powerful skill
+
+- Alright; we'll stop here, and continue talking about this next time</pre>
+</article>
+<a class="side-link is-note-link" href="24_explanationReasoning_10_21_19.html"></a>
+</main>
+</body>
+</html>

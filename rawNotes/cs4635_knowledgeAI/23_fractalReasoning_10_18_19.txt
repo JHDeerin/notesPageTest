@@ -1,0 +1,99 @@
+//****************************************************************************//
+//*************** Fractal Reasoning - October 18th, 2019 ********************//
+//**************************************************************************//
+
+- Alright, Professor Goel is NOT teaching today - instead, we have a guest lecture from Professor Keith McGreggor!
+    - Dr. McGreggor is a professor both in the College of Computing and in the entrepreneurship department of the College of Business, and is one of the founders of Georgia Tech's Create-X startup program
+        - "I got my start writing chess-playing programs back in the 80s, then got into case-based reasoning, worked as a roboticist at Lockheed Martin for a few years, and then got pulled back into academia"
+        - One of his current research topics is working with Professor Goel to not just create an AI teaching assistant, but an AI TEACHER that can create new classes and so forth
+            - "It's super interesting, and SUPER hard"
+        - "This class is on the fringey parts of AI, and my research is very much on the fringe with stuff like AI consciousness, perception, and so on"
+--------------------------------------------------------------------------------
+
+- Today we're gonna talk about FRACTAL REASONING, which came from some research folks were doing into visual reasoning
+    - Say we've got a 3x3 grid; which thing doesn't belong?
+
+            O O O
+            O X O
+            O O O
+
+        - The X, right? We can tell that right away! But there are more complex puzzles where the answer isn't nearly as obvious
+    - From the day we're born, we're trying to interpret all this visual data and form relationships and build off of it - maybe your parents taught you math, and then your teachers did some more of it, and so forth
+        - When we see images, it seems we can quickly label things and figure out what a tree is and such
+            - Isn't deep learning doing this stuff? Up to a point - but the relationship goes both ways. What we see informs what we think about, but we think about ALSO affects what we see
+            - It seems people are kinda hardwired to think like this; if we look at wall outlets, we can see faces in some inanimate objects, and we can't stop ourselves from doing it!
+    - So, how do we get a real agent in a real environment handle all this automatically?
+        - This is DEEPER than deep learning; it's building an AI that can work generally, anywhere we send it, not just in a laboratory or a subset of images it knows
+
+- If we look around the room, we can see a lot of circles and squares and so forth, but geometry as a concept has only existed for several thousand years
+    - Most AI research COMPLETELY overlooks 2 big common-sense superpowers we all have as humans, but don't think about:
+        1. We're REALLY good at noticing NOVELTY, when something in a scene isn't right or doesn't fit with the rest of things
+            - Do you know how hard it would be to create an AI that can hunt Easter egss? Any 5 year old can do this common problem without being told to look for it, but we have no idea how to get an AI to notice "that person in the photo is the only one who forgot their hat"
+                - Could we do this with machine learning? Probably - but us humans probably haven't pre-trained for a "detect missing hat" problem; we just do it
+        2. We're good at ABSTRACTION, and viewing things at the right level of detail - think of something like "Starry Night"
+            - If we see a picture of Atlanta-area cars with a massive lamppost in the foreground, we ALL recognize the important part is the traffic, NOT the stupid light!
+    - These two factors aren't really used at all in deep learning today, but it seems like they SHOULD! It seems we use them in our vision!
+        - We're able to quickly see things that don't belong, know things we don't know ("you know you don't have Bill Gate's phone number, unless you're much cooler than I am"), etc. - but HOW?
+
+- How can we do this? It's tricky, but comparing things with analogies seems to be a part of it
+    - Raven's matrix problems are part of it, where we're able to tell what the relevant transformation is for the problem
+        - This is easy for us, but when we start trying to put it into a formula or code it's HARD
+        - We could try to specify a "similarity" formula, and do it rationally, but it seems most of us don't work like us
+            - As it turns out, the answer is often a statistical outlier; if a Raven's matrix answer "stands out" to us, and is the easiest to recall, we tend to lean towards it as our first guess!
+    - So, novelty seems like it could do something to kick our problem-solving features into gear
+
+- Eventually, this kind of thinking can lead us towards FRACTALS - not just Mandelbrot's and snowflakes and stuff, but generally
+    - Fractals can take a BUNCH of forms, like L-systems, random fractals, classic "escape-time" fractals, etc.
+        - The word fractal actually comes from "fractional dimension," where Mandelbrot made 2 critical observations about stuff in the natural world
+            1. The world seems to have recurring patterns
+                - "Look at the tables, or chairs, or this awful carpet - it's all the same! There're patterns all around us!"
+            2. Similarity occurs at different scales
+                - "We don't look at a picture of a sunflower field and say 'wow, there are some big sunflowers and some little sunflowers far away' - we recognize that comes from depth!"
+        - We can see this in ferns, the vein patterns of leaves, and so forth
+
+- So, we've got 3 principles so far:
+    1.  The design of our mind reflects the design we see in the world
+    2.  Similarity and analogy form the core of intelligence
+    3.  The world seems to be in fractal patterns
+
+- One fall day, a math professor (Dr. Barnsley) at Georgia Tech was walking over from Skiles, saw a maple leaf on the ground, and suddenly he had a crazy-mathematician-lightning moment: "this maple leaf looks like a copy of itself that just got rotated!"
+    - So, what would the world look like
+    - From this, he formed the COLLAGE THEOREM: any real-world image can be formed by taking the original image and modifying it
+        - "You didn't know you're a fractal, but you are - at least your picture is"
+    - Not convinced? Let's see how we can do this to get a picture of Dr. Goel
+        - We can start with a plain gray image, and then apply some transformation on it to get a blurry, blocky picture of him
+            - If we then apply this SAME transformation to each of the blocks we made, we'll get a sharper image of Dr. Goel! And then AGAIN!
+    - So, instead of writing down pixel colors and so forth, we can define the "fractal DNA" of an image
+
+- In our lab, we did something similar to this with Raven's matrices
+    - If we look at a door and a wooden plank, we'd say they're similar because they're both rectangles that're kinda the same color
+    - In THIS theory, though, they're similar because the fractal transforms we define for each one are similar
+        - So, fractal representations meet our test for abstract reasoning: we can use it as our similarity metric
+            - The math for this is WEIRD, but it's doable!
+
+- So, FRACTAL REASONING allows us
+    - How do we handle ambiguity? Well, first of all, WHY are answers ambiguous?
+        - One reason could be becaue there's too many answers
+        - It could be because there's too many, or too few, features
+    - To deal with this, we need to look at and form these representations at te right level of abstraction
+        - So, when something's ambiguous, we need to re-represent it at a different level by combining different fractal codes, changing the granularity of our encoding ("What do you do when you want to examine it? Move closer and make it bigger, right?")
+            - So, one thing that blew my mind was that you can AUTOMATICALLY find the right level of abstraction by converging on it - no deep learning required
+
+- So, how'd we handle a Raven's matrix problem with this?
+    - In any given matrix problem, we have to recognize the relationships that are going on
+        - "This algorithm scored pretty well; in fact, it scored better than any previous AI algorithm, and in the 75th percentile compared to U.S. adults!"
+        - This was with a general purpose algorithm that wasn't hardcoded for Raven's matrix problems either!
+    - When the algorithm did make errors, it turns out that it made them in a similar way as humans, which is AWESOME!
+        - For the Necker
+
+- There are some other problems we have to deal with here, some of which we've solved and some that're still being worked on
+    - For instance, novelty is often dependent on the context of a problem; a lion at a circus isn't weird, but in a city street it is!
+        - We can partially deal with this by creating MUTUAL FRACTALS, combining fractals for other things in the scene 
+
+- So, we'll settle now on 4 principles for AI reasoning:
+    1.  The design of our mind reflects the design we see in the world
+    2.  Similarity and analogy form the core of intelligence
+    3.  The world seems to be in fractal patterns
+    4.  
+
+- Alright, that's the talk! If you're interested about this stuff, I'm around!

@@ -1,0 +1,45 @@
+//****************************************************************************//
+//************ Explanation-Based Reasoning - October 21st, 2019 *************//
+//**************************************************************************//
+
+- Okay class; today we'll be focusing on explanation-based reasoning, so here's a clip from the 2014 movie "Lucy"
+    - There are generally 2 kinds of explanations: self-explanations, and world explanation
+        - A SELF-EXPLANATION is when you're explaining something about your own mind, such as "I got angry at the postman because he was late delivering my mail!"
+            - This is what many people want from AIs: machines that can explain their reasoning processes and WHY they choose to do certain things
+        - WORLD-EXPLANATIONS are explanations about how stuff in the world work, like "Mount St. Helens"
+
+- As a side-note, how was the class on Friday?
+    - The agent seemed really cool, but it wasn't clear how it actually worked
+        - "Many of these talks are 'hooks' to get you to learn more, with the details being available out there; I'm sure the Professor would be happy to talk with you if you sent him an email"
+    - One of the hardest problems in AI is to figure out what level of abstraction to use for a problem; the fractal reasoning method can handle this automatically, which is REALLY powerful
+        - We're not sure if we can generalize this past visual learning yet, but it's extremely interesting
+    - "One criticism of many, many classes on AI - including this one - is that the professor assumes a given level of abstraction and stays fixed on that - but how do we decide that level? We never say!"
+--------------------------------------------------------------------------------
+
+- So, why are explanations useful?
+    - One reason is because they're useful for learning in a creative way; if I tell a robot to make me a cup of coffee and it can't find a cup, it may find an empty bowl and fill that with coffee instead
+        - How did it know that would work? It may have done so by explaining it to itself!
+    - We'll talk a little about concept spaces, and making analogies
+
+- If I give you cardboard box, you can tell me it wouldn't work as a coffee cup - why?
+    - We may say that a cup is "a stable object that enables drinking"
+    - We can then look at, say, a porcelain jug and say "this object is made of porcelain, it has a decorative drawing, is concave, and have a flat bottom"
+        - Can we prove this porcelain jug is a cup?
+        - We know we can use a water bottle as a paperweight, but not the TV bolted to a wall - how?
+    - We can do this via explanations, by using a LOT of prior knowledge we already have!
+        - Let's say we're trying to figure out if a brick works as a cup, where a brick is "a heavy object that has a flat bottom"
+            - We know a brick is stable BECAUSE it has a bottom and that bottom is flat
+                - We can represent this with semantic networks
+            - We also know a brick is heavy; not because we explain it, but because it's a property inherent to our definition of "brick"
+        - We may say something "enables drinking" if it's liftable and can carry liquids
+            - Something can "carry liquids" IF it has concavity, and is "liftable" if it's light and has a handle
+        - Therefore, a brick is NOT a cup, since it isn't light!
+
+- Many robots today can do useful things, but can't explain how they do them, which is a CRITICAL issue!
+
+- How does a robot know how to do things, like how to hold a tool?
+    - We know to hold a knife by the handle, not the blade, BECAUSE the blade is the useful part and holding it would prevent the blade from touching things we want to cut!
+        - How could we analogize this idea to something like pens, where holding them by the "working tip" also wouldn't be productive?
+        - Transferring knowledge is a VERY powerful skill
+
+- Alright; we'll stop here, and continue talking about this next time

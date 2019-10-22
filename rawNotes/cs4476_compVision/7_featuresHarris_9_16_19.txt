@@ -36,21 +36,32 @@
         - If we're on an edge, we can at least tell we're at a boundary, but we can't tell WHERE on the edge we are...
         - But if we're at a corner, where the color changes whichever direction we move, then we're good!
     - Mathematically, how do we tell how "cornery" something is? By trying to tell how different the pixels will be if we move around a little!
-        - More specifically, we say the difference score for a pixel at (x,y) is:
+        - More specifically, we say the difference score for a WINDOW of pixels at (x,y), shifted by (u,v), is:
 
                 E(u,v) = sum over window's pixels { w(x,y) * (I(x+u, y+v) - I(x,y))^2}
 
             - Where:
-                - I(x,y) is the intensity of the original pixel
-                - I(x+u, y+v) is the intensity of the pixel shifted by (u,v) (i.e. a different pixel inside the window)
-                - W(x,y) is the "window function" telling us how to weight each pixel in the window (Gaussian to weight center pixels, mean to weight each equally, etc.)
-            - So, this is essentially giving us the sum of squared differences in brightness over all the pixels around our original pixel ("the chosen pixel"), within a given window
-        - How does this match up with our corner classifications?
-            - If we're on a flat, uniform-colored area of the image, the score would be 0 - there's no differences anywhere in the image, so we can't tell where we are!
+                - I(x,y) is the intensity of the original pixel at (x,y) in the window
+                - I(x+u, y+v) is the intensity of that pixel shifted by (u,v)
+                - W(x,y) is the "window function" telling us how to weight each pixel at (x,y) in the window (Gaussian to weight center pixels, mean to weight each equally, etc.)
+            - So, this is essentially giving us the sum of squared differences in brightness over all the pixels around our original pixel ("the chosen pixel"), between two different windows: our "original" window and the "shifted" window
+                - So, for E(0,0), the difference score will be 0 since we're subtracting our original window's brightness sum by itself!
+                    - If we shift the window by (u,v), then, the score will get higher the more different it is from our original window!
+        - How does this match up with our corner classifications? Suppose we compute these difference scores over a small range of window shifts (say 8x8), with "black" being a score of 0 and white being very high difference scores
+            - If we're on a flat, uniform-colored area of the image, this 8x8 scoring image would be totally black - there's no differences anywhere in the image, so we can't tell where we are!
             - On the edge, if we choose a pixel right in the middle of a smooth edge, we'd have 0 difference along the edge but increasing difference as we move from the side; we'd end up with a U-shaped tube
-            - On the point, though, we'd still have 0 difference in the middle, but around it the difference would quickly rise, like a bowl
+                - Or, in 2D terms, there'd be a black "line" of no difference along the edge in our 8x8 image, but lighter colors to the side, since those areas are different
+            - On the corner, though, we'd still have 0 difference in the middle, but around it the difference would quickly rise, like a bowl!
                 - So, this equation successfully identifies corners as being the "best"!
-        - So, that equation looks like a good bet - but it's HORRIBLY inefficient
+
+- So, that equation looks like a good bet - but it's HORRIBLY inefficient
+    - Not only do we have to iterate over every pixel in the image, but we have to compute these windows for EACH ONE, and for each pixel we need to compute multiple windows for our "shift range"
+        - If we have a 600x600 image, and we're using an 11x11 window size and an 11x11 "shift range" to get this grid of scores, we'd end up with:
+
+                O(image_width^2 * window_size^2 * shift_size^2)
+                = 600^2 * 11^2 * 11 ^2
+
+            - ...in other words, we need to do 11^4 = 14,641 pixel-difference calculations for each pixel in the image - not great!
 
 - So, how can we speed this equation calculation up?
     - Remember Taylor expansions from calculus? We can approximate a function by summing together it's derivatives, right?

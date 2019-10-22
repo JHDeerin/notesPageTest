@@ -1,0 +1,73 @@
+//****************************************************************************//
+//******** Ihde's Phenomen(ologic)al Technology - October 21st, 2019 ********//
+//**************************************************************************//
+
+- Okay, we've got a quiz today, so prepare thyselves!
+    - ...y'know, with a pen or something
+- So, what's going on? We're in the middle of our philosophy of technology unit!
+    - Last week we read Borgmann, while this week we're reading Ihde's thoughts on stuff
+    - On Wednesday, we'll start switching gears and looking at the management part of this class, how ethics there is distinctive to engineers, and specific cases that exemplify that
+    - After a week and a half or so of that, we'll move on towards the course's next unit
+--------------------------------------------------------------------------------
+
+- So, we're looking at Don Ihde's philosophy of technology, who Professor Rosenberger actually knows personally!
+    - "His work is actually pretty similar to what I do"
+    - The philosophy that Ihde works in his called PHENOMENOLOGY, which involves describing human experience of something
+        - Isn't that what EVERY philosopher does? Actually, no! Most philosophies start with some common-sense or default assumptions about how stuff works - "How do I see the table? Well, the photons bounce off of it into my eyeballs and trigger nerve receptors in said eyeballs and..."
+            - Phenomenology is different; it tries to describe ONLY what we directly experience rather than bringing in these prior ideas like photons, nerves, etc.
+            - Similarly, wearing glasses is something most people don't think about at all, but they change your entire field of vision! They RADICALLY change what we see, but somehow it fades into the background!
+                - A classic phenomenological description: let's say you wake up really early, come to this classroom, and decide to study really early. How are you experiencing yourself?
+                    - You're probably not thinking about yourself at all; you're just focused on your work
+                    - Then, when another person comes in, maybe you realize "oh, I'm not alone," and you start to notice that you're being loud or sitting weirdly or something, and so on...
+    - So, phenomenology has to do with stuff we perceive and stuff we ignore, and trying to describe everything that's going on in our day-to-day life experiences
+        - This field was heavily shaped by the Hs: Hegel and Heidegger and Husserl, as well as some existentialist people later on
+
+- One of the main thing that Ihde focuses on, specifically, is TECHNOLOGICAL MEDIATION
+    - What this means is that technology isn't just another thing "in" the world; instead, it's something that comes in-between us and the world and changes how we relate to it, like glasses!
+
+            I --- Technology --- World
+
+        - While not in our reading, Ihde came up with 3 different types of mediation:
+            - EMBODIMENT relations are things that change our bodily experience of the world, and that tend to disappear as we get used to them
+
+                    (I - Technology) --- World
+
+                - Glasses are a classic example, but this could also be stuff like hearing aids, or binoculars, or keyboards ("Your mouth gets replaced with Twitter - you're not thinking about which buttons to press, you're thinking about what to say)
+                    - These are basically technologies that "extend" our body
+            - HERMENEUTIC relations are where we're 
+                - "Hermeneutics" is the philosophy of meaning and how ideas get interpreted (e.g. differences in translations, etc.), and actually comes out of the Christian tradition of translating the Bible and debates over how meaning can change when we do this
+                - Ihde uses this to mean that we're experiencing the world through the technology, and after awhile the technology melts into the background of the WORLD
+
+                        I --- (Technology - World)
+
+                    - Examples of this could be a clock on a wall (which eventually becomes synonymous with time), or MRI scans and weather reports
+            - ALTERITY relations are when we experience the world by interacting with technology like we would with a person
+                - How does THIS work? Well, it's stuff like automated phone callers, or dialog boxes on a computer, or Clippy ("...I guess Siri for you young'uns")
+                    - We're not tricked into thinking these things are actually people, but we do have some kind of relationship with them in a different way we do with stuff that's obviously part of the world, like rocks or tools
+
+- One thing that this idea of mediation leads to is MULTISTABILITY, where technologies
+    - This is NOT some post-modern idea that technologies can "mean" anything at all, but is more modestly saying that technologies can be used for multiple purposes
+        - This has a few different shades of meaning
+            - A phone could be "multistable" in the sense that it has multiple, planned uses: a GPS, an internet browser, and even (on occasion) as a phone!
+            - More importantly, something can be multistable in the sense of having multiple UNPLANNED uses: a pencil was designed as a writing tool, but you could turn it into a stabby-weapon pretty easily!
+
+- In the particular article we read today, Ihde uses this to bring up a weird wase: PROGNOSTIC ANTIMONY!
+    - A "prognosis" is what we PREDICT something is going to do ("if we don't treat your rash, it will double in size in the next month")
+    - "Antimony" is a contradiction that comes from seemingly correct reasoning; it's where we think 2 different things seem right, but together, they conflict!
+        - Kant LOVED these: a classic example he used was free will vs. determinism, where both seem intuitively correct to us, but they can't both be true!
+    - Ihde says that technologies present us such an antimony
+        - On the one hand, we have to do our best to predict the effects of new technologies before we create them
+        - On the other, new technologies are VERY difficult to predict the effects of because they're multistable, and can be used in ways we never planned for!
+            - Think of the "paperless office" from the 1990s; we thought computers were going to get rid of paper forever,
+    - Ihde warns us about the "designer fallacy" of thinking that the only legitimate use for a technology is what the designer intended
+
+- How do we deal with this predicament?
+    - Ihde doesn't have any hard answers, but he does give some pragmatic advice to mitigate the problem:
+        1. Avoid both technological optimism AND pessimism
+        2. Expect side effects from your technology, and imagine if those were amplified - what's the worst that could happen?
+        3. Think about multiple-use trajectories
+            - "...I honestly don't know how this is different from #2"
+        4. Experiment with different kinds of users: the people you designed it for AND completely different people you never thought of when making your thingy!
+            - In some fields, this is totally normal advice, while in others it's almost alien
+
+- Okay - for Wednesday, you're going to have a reading from your textbook (Chapter 3, section 10). See you then!

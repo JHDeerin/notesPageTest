@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means-End Analysis</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case-Based Reasoning</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case-Based Reasoning (cont.)</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. Classification Basics</a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li><li><a class="is-note-link" href="18_morePlanning_10_4_19.html">17. Planning (cont.)</a></li><li><a class="is-note-link" href="19_knowledgeEngineering_10_7_19.html">18. Knowledge Engineering</a></li><li><a class="is-note-link" href="20_yetMorePlanning_10_9_19.html">19. Planning (cont.)</a></li><li><a class="is-note-link" href="21_understandingCommonSense_10_11_19.html">20. Understanding and Common-Sense</a></li><li class="active-note-page"><a class="is-note-link" href="22_commonSense_10_16_19.html">21. Common-Sense Reasoning (cont.)</a></li><li><a class="is-note-link" href="23_fractalReasoning_10_18_19.html">22. Fractal Reasoning</a></li><li><a class="is-note-link" href="24_explanationReasoning_10_21_19.html">23. Explanation-Based Reasoning</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="21_understandingCommonSense_10_11_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//********* Common-Sense Reasoning (cont.) - October 16th, 2019 *************//
+//**************************************************************************//
+
+- *Video about how common-sense reasoning has fallen out of favor in AI research, but is still extremely important for solving issues 'Big Data' doesn't tackle*
+    - "Since the founding of AI in the 1950s, people have come to recognize common-sense reasoning as central to intelligence, human or otherwise; and it's turned out to be a very difficult problem no one is quite sure how to tackle"
+        - About 20 years ago, there was a shift in AI research; people started using large amounts of data to compensate for a lack of common-sense knowledge and side-step the issue, making some progress - but now, we're starting to realize that approach has limitations
+            - These AIs have very large amounts of data, allowing them to recognize some patterns and make basic inferences, but are unable to explain their reasoning or use logic
+        - In the last 5 years, people have begun to realize this, and are trying to combine machine learning and other methods with common-sense reasoning
+    - How do we give AIs this common-sense knowledge? It isn't clear or agreed upon!
+        - It seems we could try to hardcode all this knowledge ourselves (which is ridiculously time intensive), create a learning machine that can learn relationships on the fly (which we don't know how to do), or go with a hybrid approach (which we still don't know how to do)
+    - So, most of the hype about AI is really all coming from outside of AI, rather than inside it
+        - "Go waste some time and watch science fiction! It's fun, and that's how you'll get into this stuff!"
+--------------------------------------------------------------------------------
+
+- Now, how can common-sense reasoning help us in thematic frames to figure out the meaning of different words? One approach we talked about was to have these different frames/schemas for each definition of a word, and then check which slots apply for this sentence to get the correct meaning
+    - How do we learn these frames? We're not sure!
+    - AI researchers recognize how AWESOME human intelligence is; it's taken 70 years of the world's greatest minds to NOT figure out what 7 billion humans do every day!
+
+- Now, we've been talking about common-sense reasoning in the context of understanding; now, let's think of another way we use common-sense
+
+- How do we deal with synonyms, different words that all imply the same concept?
+    - We might say that all of these words share the same PRIMITIVE CONCEPT
+        - In fact, some researchers think that humans actually think in terms of a relatively small number of primitive concepts/actions, with our rich vocabularies just representing this set of actions in different ways
+    - So, we might have a primitive action "ingest" that's associated with the words "ate", "consumed", "devoured", etc.
+        - Once we have this concept, we can replace all its varied expressions with the primitive itself, simplifying the interpretation; this may still involve using some context with frames/slots
+            - e.g. The sentence "John fertilized the field" might have the frame:
+
+                    Action Frame
+                        primitive: move-object
+                        agent: John
+                        object: fertilizer
+                        destination: field
+
+        - We can then break down more complex sentences into multiple frames, with the action frame having "sub-actions" for constituent actions (e.g. the word "put" might imply closing a hand, moving an object, and opening a hand)
+    - We also often have a common-sense notion of STATE CHANGE; when Ashok eats a frog, we know the frog isn't alive anymore after that's done!
+        - The issue with this is that the outcome is HIGHLY context dependent
+
+- This theory of AI, however, has fallen out of favor - why? Because it requires a LOT of knowledge to decide which concepts apply in different contexts, and we aren't sure how to capture that!
+
+- Okay; we'll stop here, and continue on Friday!</pre>
+</article>
+<a class="side-link is-note-link" href="23_fractalReasoning_10_18_19.html"></a>
+</main>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Machine Learning for Trading</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4646Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Machine Learning for Trading</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_numpyCrashCourse_8_22_19.html">0. Numpy Crash-Course</a></li><li><a class="is-note-link" href="1_pandasReturns_8_27_19.html">1. Pandas / Return Basics</a></li><li><a class="is-note-link" href="2_returnsRisksSharpes_8_29_19.html">2. Returns, Risk, and Sharpe's Ratio</a></li><li><a class="is-note-link" href="3_optimzationBasics_9_3_19.html">3. Optimization Basics</a></li><li><a class="is-note-link" href="4_mlBasics_9_5_19.html">4. Machine Learning Basics</a></li><li><a class="is-note-link" href="5_moreMLBasics_9_10_19.html">5. Machine Learning Basics (cont.)</a></li><li><a class="is-note-link" href="6_testDecisionTrees_9_12_19.html">6. Testing, Ensembles, and Decision Trees</a></li><li><a class="is-note-link" href="7_mlStatistics_9_17_19.html">7. Statistical Foundations for Machine Learning</a></li><li><a class="is-note-link" href="8_stockFinanceBasics_9_19_19.html">8. Stock Finance Basics</a></li><li><a class="is-note-link" href="9_moreMarketMechanics_9_24_19.html">9. More Market Mechanics</a></li><li><a class="is-note-link" href="10_moreMarketMechsShort_9_26_19.html">10. Market Mechanics (cont). / Stock Shorts</a></li><li><a class="is-note-link" href="11_leverageFunds_10_1_19.html">11. Leverage and Funds</a></li><li><a class="is-note-link" href="12_EFTMutualFunds_10_3_19.html">12. EFTs and Mutual Funds</a></li><li><a class="is-note-link" href="13_hedgeFunds_10_8_19.html">13. Hedge Funds</a></li><li class="active-note-page"><a class="is-note-link" href="14_intrinsicValue_10_17_19.html">14. Intrinsic Value / Time Value of Money</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="13_hedgeFunds_10_8_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******** Intrinsic Value / Time Value of Money - October 17th, 2019 *******//
+//**************************************************************************//
+
+- 'aight, here we go!
+- "I hope you enjoyed fall break. I did not - don't do a Phd. if you enjoy time off, vacation, or anything other than research, really."
+    - The midterm grades are almost done; you should have your grades back by next week, at which point you'll have a week to lodge any regrade requests
+    - Project 5 is due THIS SUNDAY, and it's basically assessing a portfolio where you now have a list of trades you're making
+        - We recommend calculating portfolio stats to make sure you're doing things right, but that's NOT mandatory
+        - To do things correctly, you'll also need to take into account TRANSACTION COSTS
+            - In this project, that takes the form of two things: a fixed-rate commission fee for each trade you make, and an "impact" percentage of money you lose per trade (due to the market changing because of your trade, etc. - we just consider this a "catch-all" factor for a bunch of stuff)
+    - Next week, Brian's going to give another guest lecture (since Professor Byrd'll be out of town). UNLIKE last time, the material he's teaching WILL be testable, and'll be about Q-learning
+        - Later on in this class, we'll be applying this type of "reinforcement learning" to trading for your projects, so pay attention!
+
+- Let's briefly go over Project 5 and give you some pointers
+    - Let's say you have a VERY simple list of orders, where you start with $1,000,000, buy 1500 shares of APPL, and then sell them 15 days later
+        - Let's say there's a constant $9.95 charge for each trade you do (regardless of how many shares you buy), and an "impact" of 0.5%
+        - The values we return for each day will be AFTER all the trades for that day are done
+    - So, we start with $1,000,000
+        - On the 1st day, we then buy 1500 shares of APPL at a price of $332.57 per share
+            - If there were no transaction costs, we'd then have for the 1st day:
+
+                Cash: $1,000,000 - 1500*332.57 = $501,145
+                Stock: 1500*332.57 = 
+                Total: $1,000,000
+
+            - HOWEVER, since there ARE transaction costs, we have to subtract additional money to account for that!
+
+                Transaction Cost: 9.95 + (1500*332.57 * 0.005) = 2494.275
+                Cash: $501,145 - 2494.275 = $498,640.775
+                Total: $997,495.775
+
+            - This is the most explicit way to handle transaction costs, by calculating the total transaction cost and then subtracting it out of our total
+                - You could also do it by just changing the stock price by the impact price (i.e. multiply it by 1.005 if buying, or 0.995 if selling)
+        - The next day, time advances, and we don't make any trades
+            - Therefore, our CASH value remains the same, but the stock price might've gone up or down!
+                - To do the numpy, vector-y way and do this really quickly, you can convert these stock prices into daily returns and multiply whatever our previous stock value was by that daily return:
+
+                    Stock: 498855 * 0.99918 = 498,450
+                    Total: (...)
+
+        - So, for each subsequent day, we're just modifying the stock price by the daily returns for that stock price!
+        - Finally, when we do the "Sell" order, we calculate the price of our stock like normal:
+
+                Stock: $496,890
+
+            - We'll then calculate how much money we'll gain from selling the stock, which'd be altered by our transaction cost:
+
+                Cash: Cash + (496,890 * 0.0995) - 9.95 = Cash + 494405.55 - 9.95
+                Stock: $0
+                Total: $993,036.375
+        - So, implement this in code, and you're good!
+--------------------------------------------------------------------------------
+
+- So, we've already talked about 2 ways of evaluating a company's value: its MARKET CAP (basically a crowdsourced guess based on stock prices), and BOOK VALUE
+    - Market caps aren't useful for trading strategies since they're based on a company's stock, so it doesn't help us determine if the stock is higher or lower than it should be
+        - Stock prices also tend to be noisy, if for no other reason than that people are fearful and greedy ("I need to sell this now, I don't wanna lose money!")
+    - Book value is useful for putting a floor on a company's value, but it tends to undervalue how much the company is actually worth - "companies don't just buy stuff and sit on it, they DO STUFF"
+        - It gives us consistent, non-noisy answers, but it doesn't always match our needs
+
+- So, we'll look at one more valuation method in this class (there are MANY others): INTRINSIC VALUE
+    - At least in Western capitalism, companies exist to make money, get a profit, and return those profits to shareholders - so why not value a company based on THAT?
+        - DIVIDENDS are a regular income the company pays us per stock in return for holding it every year
+        - So, if the company pays us out of its profits, that seems like a reasonable thing to go off of!
+    - Dividends clearly have value, but how can we quantify that?
+
+- To talk about that, we first have to talk about the TIME VALUE OF MONEY
+    - In a healthy economy, there's always going to be some inflation, and that means that money is becoming LESS valuable as time goes on
+        - Otherwise, if you knew your money would get MORE valuable, people would just hold onto their money for as long as possible, and that means less people spend money, which means companies goes out of business, which means bad things happen
+            - So, in the U.S., the Federal Reserve tries to maintain a small, predictable rate of inflation each year
+    - Because of that, the "time value of money" involves applying a penalty to any future money we get
+        - This often means inflation, but it can ALSO involve other stuff like quantifying some risk that we won't get that money, which can be HARD
+    - To do this, we'll try and use something called NET PRESENT VALUE: how much is a sequence of regular, future returns worth in today's dollars?
+        - From finance, we can say the "present value" in today's money of a given future return is:
+
+                present value = R_t / (1 + DR)^t
+
+            - ...where R_t is the money value AT the time we're paid, "t" is the time period into the future that we're paid, and "DR" is the discount rate
+                - The discount rate is what makes this seem kinda complicated; it includes inflation, but it also includes a risk term of how likely we are to actually get this money, and the riskier it is, the higher the discount rate'll be
+                    - *microphone dies*; "I will try to talk loudly while I change the batteries"
+                    - This is part of what killed Greece during their financial crisis; other countries were using an extremely high discount rate when they were loaning Greece money because they weren't sure if they would get their money back!
+                        - How to actually calculate this risk is a complicated thing accountants like to argue about, so in this class, we'll just tell you what the rate is if it ever comes up
+        - As a simple example of this, let's say you'll give me X dollars today, and I'll give you $1 per year for the next 3 years in return. If the inflation rate is 2% annually and I'm guaranteed to pay you, what should your maximum bid be?
+            - Well, let's plug it into our equation! We'll do separate values for the 1st year payment, the 2nd year, and the 3rd year
+
+                    PV_1 = 1 / (1 + 0.02)^1 = 1/1.02 ~= 0.9804
+                    PV_2 = 1 / (1 + 0.02)^2 = 1/1.02^2 ~= 0.9612
+                    PV_3 = 1 / (1 + 0.02)^3 = 1/1.02^3 ~= 0.9423
+
+            - Therefore, the max value you should be willing to pay is:
+
+                    PV = PV_1 + PV_2 + PV_3 = 2.8839
+
+        - Needless to say, this is a SUPER simplified example: "I'm not guaranteed to pay you! I could get run over by a bus!"
+            - One thing that heavily factors into the discount rate is comparing an investment to other, safer investments we know we could make, and letting that guide us
+
+- Now, if we buy a stock, we want to assume we'll get paid FOREVER (or, y'know, until we decide to sell)
+    - Let's say a (very silly) company decides to pay a total $1 dividend per year across ALL shares; how much should I be willing to pay for that entire company TODAY using intrinsic value?
+        - Well, to compute this, we need a discount rate; let's assume our actuary tells us 5% is reasonable
+        - So, the 1st dividend payment will be:
+
+                PV_1 = R_1/(1 + DR)^1 = 1/1.05 = 0.952
+
+            - So, if we hold the stock for "N" years, the total value of holding the company for "N" years will be:
+
+                NPV = sum from 1 to N {R_t / (1 + DR)^t}
+
+            - If we say N = infinity, this looks an awful lot like a TAYLOR SERIES!
+                - "...every time I say that, I get flashbacks to freshman calculus, and it was terrible"
+            - Specifically, I've been told it looks like the Taylor Series for 1 / (x-1) ("if you want to come to office hours and prove this to me, please do, because I forget"); therefore, the NPV will be:
+
+                NPV = R / ((1 + DR) - 1) = R / DR
+
+        - So, if we hold this company forever and assume our discount rate is correct, we can say the value of this company is just:
+
+                NPV = $1/0.05 = $20
+
+            - So, from this, we'd say this company is worth $20!
+                - ...keep in mind that this is a VERY
+    - Similarly, if a company pays a $2 dividend PER SHARE with a 4% discount rate, how much is each SHARE worth?
+        - Well, we just plug it into our formula!
+
+                2 / 0.04 = $50 per share
+
+    - As a side-note, this does NOT need to be an annual rate as long as we use a fixed period; if we use a weekly rate, we just need to make sure we use a weekly discount rate and return, and then we can use the exact same formula
+
+- Alright, </pre>
+</article>
+<a class="side-link is-note-link" href="14_intrinsicValue_10_17_19.html"></a>
+</main>
+</body>
+</html>

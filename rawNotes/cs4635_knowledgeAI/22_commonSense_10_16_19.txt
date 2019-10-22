@@ -1,0 +1,41 @@
+//****************************************************************************//
+//********* Common-Sense Reasoning (cont.) - October 16th, 2019 *************//
+//**************************************************************************//
+
+- *Video about how common-sense reasoning has fallen out of favor in AI research, but is still extremely important for solving issues 'Big Data' doesn't tackle*
+    - "Since the founding of AI in the 1950s, people have come to recognize common-sense reasoning as central to intelligence, human or otherwise; and it's turned out to be a very difficult problem no one is quite sure how to tackle"
+        - About 20 years ago, there was a shift in AI research; people started using large amounts of data to compensate for a lack of common-sense knowledge and side-step the issue, making some progress - but now, we're starting to realize that approach has limitations
+            - These AIs have very large amounts of data, allowing them to recognize some patterns and make basic inferences, but are unable to explain their reasoning or use logic
+        - In the last 5 years, people have begun to realize this, and are trying to combine machine learning and other methods with common-sense reasoning
+    - How do we give AIs this common-sense knowledge? It isn't clear or agreed upon!
+        - It seems we could try to hardcode all this knowledge ourselves (which is ridiculously time intensive), create a learning machine that can learn relationships on the fly (which we don't know how to do), or go with a hybrid approach (which we still don't know how to do)
+    - So, most of the hype about AI is really all coming from outside of AI, rather than inside it
+        - "Go waste some time and watch science fiction! It's fun, and that's how you'll get into this stuff!"
+--------------------------------------------------------------------------------
+
+- Now, how can common-sense reasoning help us in thematic frames to figure out the meaning of different words? One approach we talked about was to have these different frames/schemas for each definition of a word, and then check which slots apply for this sentence to get the correct meaning
+    - How do we learn these frames? We're not sure!
+    - AI researchers recognize how AWESOME human intelligence is; it's taken 70 years of the world's greatest minds to NOT figure out what 7 billion humans do every day!
+
+- Now, we've been talking about common-sense reasoning in the context of understanding; now, let's think of another way we use common-sense
+
+- How do we deal with synonyms, different words that all imply the same concept?
+    - We might say that all of these words share the same PRIMITIVE CONCEPT
+        - In fact, some researchers think that humans actually think in terms of a relatively small number of primitive concepts/actions, with our rich vocabularies just representing this set of actions in different ways
+    - So, we might have a primitive action "ingest" that's associated with the words "ate", "consumed", "devoured", etc.
+        - Once we have this concept, we can replace all its varied expressions with the primitive itself, simplifying the interpretation; this may still involve using some context with frames/slots
+            - e.g. The sentence "John fertilized the field" might have the frame:
+
+                    Action Frame
+                        primitive: move-object
+                        agent: John
+                        object: fertilizer
+                        destination: field
+
+        - We can then break down more complex sentences into multiple frames, with the action frame having "sub-actions" for constituent actions (e.g. the word "put" might imply closing a hand, moving an object, and opening a hand)
+    - We also often have a common-sense notion of STATE CHANGE; when Ashok eats a frog, we know the frog isn't alive anymore after that's done!
+        - The issue with this is that the outcome is HIGHLY context dependent
+
+- This theory of AI, however, has fallen out of favor - why? Because it requires a LOT of knowledge to decide which concepts apply in different contexts, and we aren't sure how to capture that!
+
+- Okay; we'll stop here, and continue on Friday!

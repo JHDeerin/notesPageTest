@@ -17,7 +17,7 @@
 <li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Computer Vision</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li class="active-note-page"><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li class="active-note-page"><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li><li><a class="is-note-link" href="14_structureMotionEstimation_10_16_19.html">14. Structure from Motion / Motion Estimation</a></li><li><a class="is-note-link" href="15_introDeepLearning_10_21_19.html">15. Intro. to Deep Learning</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="6_fourierTransform_9_11_19.html"></a>
@@ -62,21 +62,32 @@
         - If we're on an edge, we can at least tell we're at a boundary, but we can't tell WHERE on the edge we are...
         - But if we're at a corner, where the color changes whichever direction we move, then we're good!
     - Mathematically, how do we tell how "cornery" something is? By trying to tell how different the pixels will be if we move around a little!
-        - More specifically, we say the difference score for a pixel at (x,y) is:
+        - More specifically, we say the difference score for a WINDOW of pixels at (x,y), shifted by (u,v), is:
 
                 E(u,v) = sum over window's pixels { w(x,y) * (I(x+u, y+v) - I(x,y))^2}
 
             - Where:
-                - I(x,y) is the intensity of the original pixel
-                - I(x+u, y+v) is the intensity of the pixel shifted by (u,v) (i.e. a different pixel inside the window)
-                - W(x,y) is the "window function" telling us how to weight each pixel in the window (Gaussian to weight center pixels, mean to weight each equally, etc.)
-            - So, this is essentially giving us the sum of squared differences in brightness over all the pixels around our original pixel ("the chosen pixel"), within a given window
-        - How does this match up with our corner classifications?
-            - If we're on a flat, uniform-colored area of the image, the score would be 0 - there's no differences anywhere in the image, so we can't tell where we are!
+                - I(x,y) is the intensity of the original pixel at (x,y) in the window
+                - I(x+u, y+v) is the intensity of that pixel shifted by (u,v)
+                - W(x,y) is the "window function" telling us how to weight each pixel at (x,y) in the window (Gaussian to weight center pixels, mean to weight each equally, etc.)
+            - So, this is essentially giving us the sum of squared differences in brightness over all the pixels around our original pixel ("the chosen pixel"), between two different windows: our "original" window and the "shifted" window
+                - So, for E(0,0), the difference score will be 0 since we're subtracting our original window's brightness sum by itself!
+                    - If we shift the window by (u,v), then, the score will get higher the more different it is from our original window!
+        - How does this match up with our corner classifications? Suppose we compute these difference scores over a small range of window shifts (say 8x8), with "black" being a score of 0 and white being very high difference scores
+            - If we're on a flat, uniform-colored area of the image, this 8x8 scoring image would be totally black - there's no differences anywhere in the image, so we can't tell where we are!
             - On the edge, if we choose a pixel right in the middle of a smooth edge, we'd have 0 difference along the edge but increasing difference as we move from the side; we'd end up with a U-shaped tube
-            - On the point, though, we'd still have 0 difference in the middle, but around it the difference would quickly rise, like a bowl
+                - Or, in 2D terms, there'd be a black "line" of no difference along the edge in our 8x8 image, but lighter colors to the side, since those areas are different
+            - On the corner, though, we'd still have 0 difference in the middle, but around it the difference would quickly rise, like a bowl!
                 - So, this equation successfully identifies corners as being the "best"!
-        - So, that equation looks like a good bet - but it's HORRIBLY inefficient
+
+- So, that equation looks like a good bet - but it's HORRIBLY inefficient
+    - Not only do we have to iterate over every pixel in the image, but we have to compute these windows for EACH ONE, and for each pixel we need to compute multiple windows for our "shift range"
+        - If we have a 600x600 image, and we're using an 11x11 window size and an 11x11 "shift range" to get this grid of scores, we'd end up with:
+
+                O(image_width^2 * window_size^2 * shift_size^2)
+                = 600^2 * 11^2 * 11 ^2
+
+            - ...in other words, we need to do 11^4 = 14,641 pixel-difference calculations for each pixel in the image - not great!
 
 - So, how can we speed this equation calculation up?
     - Remember Taylor expansions from calculus? We can approximate a function by summing together it's derivatives, right?

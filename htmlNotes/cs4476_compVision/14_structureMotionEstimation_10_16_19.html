@@ -1,0 +1,99 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li><li class="active-note-page"><a class="is-note-link" href="14_structureMotionEstimation_10_16_19.html">14. Structure from Motion / Motion Estimation</a></li><li><a class="is-note-link" href="15_introDeepLearning_10_21_19.html">15. Intro. to Deep Learning</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="13_midtermReview_10_7_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//****** Structure from Motion / Motion Estimation - October 16th, 2019 *****//
+//**************************************************************************//
+
+- "So, welcome back, folks - I went to Savannah, Georgia. It was kinda cool."
+    - We never got to the structure from motion stuff; we'll cover a little bit of that today, but focus on moving on to motion estimation
+        - Next week, Professor Dellaert will be out of town at a conference, so TA Cusuh will start teaching us on Monday about deep learning
+        - We've been using CNNs in our homework, but we haven't actually done any machine learning with them - now, we'll start getting into it!
+
+- The midterms should be graded by the end of this week
+- Project 4 will be due on November 4th, and'll immediately involve getting our hands dirty with some deep learning stuff
+--------------------------------------------------------------------------------
+
+- So, structure from motion lets us do really cool stuff like do 3D scanning, but it leaves us with 2 problems: correspondence and optimization
+    - CORRESPONDENCE means figuring out which points are the same across different images
+        - Doing this among a set of images would be an O(n^2) problem; if we have a guess of what the image itself looks like, though, and compare each image to that, we can possibly get it down to O(n)!
+        - In general, though, we do this by identifying points with Harris and SIFT, and then using RANSAC to try and figure out which images are of the same object
+    - OPTIMIZATION is where, after finding all these features, we want to figure out what the most likely 3D structure would give us all these image measurements
+        - We know for a 2D point in image I "u_ik", there's a line "j_ik" it could lie along
+            - Then, for a given guess of where the actual 3D point "x_jk" is, our guess of where that point is projected is:
+
+                    h(m_i, x_jk)
+
+                - ...where "m_i" is our guess for the camera matrix w/ calibrations for focal length, etc., used to take image "i" (I think?)
+            - So, if we've got a guess like this for ALL of the points in our image, we can come up with an error function:
+
+                    sum over m{ sum over all images { (u_ik - h(m_i, x_jk))^2 }}
+
+                - We can estimate the 3D points, then, using non-linear least squares again!
+                    - It's a bit trickier than that in the real world due to a LOT of factors, but that's the big idea!
+
+- One of the BIG reasons it's trickier is due to the large number of points we have to deal with now
+    - If we have 5 images and 100 points we're trying to estimate, all with 1 camera, then we'd have to solve for 312 unknown variables (confused, he switched to saying 312,000 at some point?)
+        - 300 from the 100 points (each needing an x/y/z coordinate)
+        - 12 from the camera (3x4 = 12 numbers in the matrix for each camera)
+    - Solving a 312 x 312 matrix is bad, but not too bad; but in a HUGE problem with millions of variables, it can get NUTS!
+        - To speed this up, we can try using the SPARSE NONLINEAR LEAST SQUARES algorithm to speed things up, since many structure from motion problems involve pretty sparse matrices (since in most camera views, only a small subset of the points are visible to each image)
+            - If we're trying to get a 3D scan of a huge building, for instance, each camera would only see 1 side of the building at a time, and can ignore all the rest of the points it doesn't see
+
+- The SLAM algorithm does something very similar to this, using factors to (?)
+    - So, avoiding all the 0s in the matrix let us get HUGE speedups
+    - In SLAM, the more connections we have (i.e. the more a point appears in our images), the more accurate our estimate of where it is
+        - In our Jacobian matrix for the translation problem, we found that the Hessian basically just counted the number of matches, letting us use the mean as an estimate for combining all our images; similarly here, the Hessian represents roughly how much information we have about each point
+            - For this reason, the Hessian is sometimes called the "Information matrix," with its diagonals telling us how much information we have
+            - This makes sense the more you think about it, since we're basically forming the Hessian by doing outer products
+        - Remember: the Jacobian's columns are the partial derivative of a measurement with respect to all of our parameters, with every row being a factor (?)
+
+- Alright; with that, let's switch gears to talking about motion estimation in the least 20 minutes
+    - We've previously talked about doing image alignment with features/points; how else could we do it?
+        - Well, instead of looking at the position of our features, we can instead try to predict the color of a pixel at a given spot!
+
+                E_SDD(u) = sum{ (I_1(x_i + u) - I_0(x_i))^2 } = sum{ e_i }
+
+            - Where I_1 and I_0 are the colors/intensities in the 2 images, x_i is the pixel position, and "u" is the unknown translation we're trying to predict
+                - So, BEFORE, we were basing our error on position and trying to minimize that prediction; NOW, we're basing it off of colors and trying to minimize that error! That's different!
+                    - This is a MUCH worse-behaved optimization problem, though; the function is very noisy until you get the image alignment exactly right, when it drops to 0
+            - Why bother to do it this way? Well, because feature detection has its own problems of dealing with outliers, finding correlations, etc.
+                - It also means we preserve more data between the images; we have a whole window of pixels to use, instead of just single points
+    - One BIG assumption we're making here wit this "sum of squared differences" (SSD) is that the brightness hasn't changed between the two images (e.g. a cloud didn't pass overhead when we were taking the 2nd picture)
+        - Also, if we allow our translation "u" to involve fractional pixels, we need to allow some sort of interpolation to get correct colors (bilinear/bicubic is usually good enough)
+
+- Squared errors are often good, but there's a problem with them: they're SUPER sensitive to outliers!
+    - So, what can we do? There's a LOT, but the simplest is to become SAD: to go from SSD to the sum of absolute differences!
+        - This has one problem, though: absolute differences are discontinuous at the origin!
+            - There are ways around this, but if you really care, you can use different error functions
+
+- Alright; DON'T FORGET project 3 is due this weekend, and come next week to hear the lectures you'll need for project 4! Adios!
+</pre>
+</article>
+<a class="side-link is-note-link" href="15_introDeepLearning_10_21_19.html"></a>
+</main>
+</body>
+</html>

@@ -1,0 +1,118 @@
+//****************************************************************************//
+//************ Intro. to Deep Learning - October 21st, 2019 *****************//
+//**************************************************************************//
+
+- Okay, we're now being taught by the head TA for this class: Cusuh Ham!
+    - Professor Dellaert is suffering at a conference in sunny Italy, so he won't be here this week
+
+- Alright, today we're going to start diving into a subject that's become the very heart of computer vision over the last 10 years: DEEP LEARNING!
+    - Today, that means going over the following topics:
+        - Image Classification
+        - Supervised Learning
+        - CNN Review
+        - Loss Functions
+        - Stochastic Gradient Descent
+        - Computing Gradients
+        - Training CNNs
+    - That's a LOT to cover, so let's dive straight in!
+
+- DON'T FORGET that Project 3 is due tonight!
+    - Project 4 should also be released tonight or tomorrow; there's a heavier emphasis on the reports, and the intermediate deadline is MANDATORY, so be aware!
+        - The whole project is on stereo mapping, but the 2nd part has a specific focus on deep learning
+--------------------------------------------------------------------------------
+
+- So, image classification is a HUGE task in computer vision: predicting what the current label is for some given input
+    - ...for instance, given a cat image, the computer should slap a "THAT'S A CAT!" label on it!
+    - This is easy for us; the problem, though, is that to computers an image is just a matrix of seemingly-meaningless numbers, and that's IT
+        - This difference between how computers see the world and we do is sometimes called the SEMANTIC GAP
+
+- Image classification is also complicated by a BUNCH of other factors
+    - Taking a cat as our example object, these include (but are not limited to):
+        - VIEWPOINTS - we can photograph a cat from a bunch of angles, and it looks different from all of them, but it's still the same cat!
+        - ILLUMINATION - the cat might be lit differently at daytime, night time, in the shadows, in a lamp, etc., and all look a little different!
+        - DEFORMATION - the cat might bend and twist in many different ways
+        - OCCLUSION - the cat might be hiding behind something, or have part of its body hidden by grass, a wall, another cat, etc.
+        - CLUTTER - the cat might be a similar color to the background, making it hard to see
+        - INTRACLASS VARIATION - there are many KINDS of cats, all of which look a little different (e.g. a gray vs orange cat, older vs younger cats, etc.) - and we have to recognize ALL of them as cats!
+    - So, if we want computers to see like us, we have to deal with this
+
+- How would we define a function to classify an image?
+
+        def classify_image(image)
+            # Magical code goes here
+            return class_label
+
+    - ...unfortunately, there really isn't an obvious algorithm to hardcode this for a given object; it's hard!
+        - Coding, say, how the edges should look for every possible object from EVERY possible angle, dealing with lighting and occlusion and clutter, is NOT scalable
+            - People attempted to do this, and got surprisingly far, but most such methods are fundamentally fragile
+    - So, we're going with a different approach: machine learning!
+        - Here, we collect a TON of labeled images, use machine learning to train an algorithm that we're looking for, and then evaluate how well it classifies new images
+            - This, specifically, is SUPERVISED learning, where for a given input image we tell the classifier what the output we're expecting SHOULD be
+            - After training, this should give us a function that does what it wants, and we'll test it to
+                - This 2-stage method - training, then testing - is how we handle the bulk of machine learning
+        - This method has worked leaps and bounds better than previous techniques, but it has the downside of requiring a RIDICULOUS amount of data to work well
+
+- Since deep learning specifically involves using CNNs (convolutional neural nets), let's review what those are!
+    - Here, we have an input image, a bunch of "convolutional layers" that apply a filter to the image, have some "subsampling" layers that collect data together (like RELU or max-pool (?)), finally ending in some fully-connected layers that lets us make the actual prediction
+        - CONVOLUTIONAL LAYERS are where we apply a filter across the image (e.g. a sliding window of pixels)
+            - This lets us deal with local features in the image, and we're trying to learn the FILTER to apply (rather than the image itself)
+        - FULLY-CONNECTED LAYERS are where each pixel is connected to EVERY neuron in the layer
+            - For most layers, this isn't worth it; it requires a TON of data to not overfit the image and takes MUCH longer to train than convolutional layers, due to the higher number of connections
+            - (something about taking similar pre-trained neural nets and only updating the fully-connected layers, not the convolutional layers, to train faster? Why not train the convolutional layers?)
+    - One of the big criticisms of deep learning is how difficult it is to understand what's actually going on in the network
+        - There are some visualization techniques for deep learning, but it's still early days
+
+- So, how do we decide what our model actually needs to train towards? We use LOSS FUNCTIONS!
+    - A loss function is something that tells us how good/bad our model is doing at a task
+        - Oftentimes, it's hard to give a numerical formula that measures EXACTLY what we want, but there are many techniques that're popular
+    - Once we have this loss function, we can take in a dataset, compare our model's predictions to the actual results, and then take the average of this loss to figure out how good our model is for the set
+        - One example loss function is the "Multiclass SVM function," which looks something like this:
+            - If the correct class gets the highest score by at least X, great! No penalty!
+            - Otherwise, we penalize it by the current highest-scorers score minus the correct class's score + X:
+
+                    current_class_score - correct_class_score + X
+
+            - We then apply this calculation for each image, for each CLASS, to calculate the loss for each image
+                - Notice that this means the lowest loss we can have is 0 (for a correct answer), while there's no max - we could have an infinite loss!
+                - Notice this also means 
+            - We'll then take the average of all the losses, and that should get us the total score for our model
+        - In computer vision, we tend to use a "softmax" loss instead
+            - Rather than SVM or something (where we stop caring about our confidence percentage as long as we have the right answer), this tries to get the correct class's score as close to 100% EVERY TIME
+
+- Once we've got this loss function, how do we actually improve our model with it?
+    - Well, we need to do optimization - and in this class, specifically, we'll do GRADIENT DESCENT
+        - The idea here is that instead of trying every possible combination of filters and neural net parameters and finding the best one (which'd take unrealistically long), we'll instead try to minimize the loss function
+        - Here, we do this by following the slope of our function - in 1D this'd be the derivative, while in most ML problems it'll be the multivariable-calculus equivalent, the gradient!
+            - Think of being at the top of a hill, covered in mist so you can't see where you're going. How would you get down to the bottom? You'd look around you, see which direction is going downhill, take a step there, and keep doing it!
+            - By default, the gradient is pointing UPHILL (i.e. towards where the function increases); we want to go down, so we'll instead go in the OPPOSITE direction (i.e. the negative gradient!)
+                - If we want to get the magnitude of the slope in a certain direction, we can just take the dot product of the gradient with a unit vector in the direction we want
+        - How big of a step should we take each time? That's defined by our LEARNING RATE
+            - Choosing this can be important, since if we take too big of a step, we might overshoot our answer - but if we take too small of a step, training can take much longer than it should!
+    - Great! But there's an issue with this: how should we calculate this loss function for HUGE amounts of data spaces (e.g. millions of images) without getting really slow?
+        - To do this, we'll approximate our loss function via STOCHASTIC GRADIENT DESCENT
+            - Here, instead of computing the loss function over ALL of our images at each step, we'll just choose a MINIBATCH of images from our dataset randomly (e.g. pick 128 images from our total dataset and use THOSE to calculate our loss)
+                - This is basically doing a Monte Carlo simulation for our training
+                - The number of images chosen is usually determined by what's optimal for the GPU you're using
+        - To change regular gradient descent into SGD, all we have to do is use a random sample of images
+    - There are other challenges gradient descent needs to tackle - how to avoid getting stuck in local minima, etc. - but we'll discuss those later on
+
+- Another problem we didn't cover: how do we actually compute these gradients in the first place?
+    - There are actually quite a lot of ways!
+        - NUMERICAL gradients are slow and approximate, but are simple to code
+            - This is where you just iterate closer and closer to the true answer using the limit definition of a gradient 
+        - ANALYTIC gradients are fast and exact, but can be error-prone and difficult to compute for certain problems
+            - To check that your implementation is correct, you can use numerical gradients and check if the solution is similar
+        - AUTOMATIC DIFFERENTIATION, however, is what we'll be focusing on
+            - Every formula can be broken down into a COMPUTATION GRAPH, showing each part of the equation that goes together
+                - Forward Mode AD we don't really focus on as much
+            - REVERSE MODE AD is where we (???)
+
+- Alright; we've got all the pieces, let's put them together to train a CNN!
+    - At a high level, here's what the CNN training process looks like:
+        1. First, we do a FORWARD PASS, throwing a mini-batch of data into our model and computing the loss
+        2. We then do a BACKWARDS PASS, using Reverse AD to compute our loss gradients as we go
+        3. Finally, when we've gotten back to the beginning of the network, we'll use these gradients we just computed to update all our parameters in the neural net
+
+- In Project 4, a lot of this training skeleton has been handled for you; in later projects, you'll have a chance to implement more of it yourself
+
+- Okay, that's the lecture! See you guys on Wednesday!
