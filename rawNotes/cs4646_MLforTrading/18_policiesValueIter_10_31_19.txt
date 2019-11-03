@@ -1,0 +1,94 @@
+//****************************************************************************//
+//************* Policies and Value Iteration - October 31st, 2019 ***********//
+//**************************************************************************//
+
+- It is a very rainy Halloween
+    - ...so rainy, in fact, that it seems to have scared off 80% of the class. SpooooOOOOOOooookyyyyyy...
+    - "As a professor, I thought about not coming, and then I realized that this is my job now"
+
+- Okay, quick reminder that project 6 is due THIS WEEKEND on Sunday night; the code is fairly straightforward, so the report'll probably be the bulk of the work
+--------------------------------------------------------------------------------
+
+- "Apologies to those who've already taken Intro to AI here; we're going over MDPs and Q-learning, and it's gonna basically be identical to what you learned in that class"
+
+- Before we dive into this, let's quickly go over utility
+    - Oftentimes when we're trying to guess the "value" of doing something, there are multiple possible outcomes, some of which are good and some of which are bad
+        - How do we decide if doing something is worthwhile, then? We use UTILITY!
+            - Supervised learning is notably terrible at dealing with this stuff, which is why we cover reinforcement learning
+    - UTILITY is (broadly) the overall "goodness" of taking an action or being in a certain state
+        - We'll often represent this as a single real-numbered score, where positive values are good, negative values are bad, and 0 is neutral
+        - To compute expected utility, we'll use probabilities to decide how each outcome should be weighed:
+
+               EU(action) = Sum of each outcome {P(result_i|action, evidence) * value(result_i|action, evidence)}
+
+            - So, as an example, what's the expected utility of buying a lottery ticket that costs $1, has a $1,000,000 payoff, and 1 in 125 million chance of winning?
+                - Well, the utility of playing the lottery would be:
+
+                    EU(buy) = P(win|play)*value(win) + P(lose|play)*value(lost)
+                        = 1/125,000,000 * (1,000,000) + (1 - 1/125,000,000)*(-1)
+                        = -$0.992
+
+                - So, on average, we'd lose 99.2 cents every time we play!
+                - In contrast, the utility of not playing would be 0, since we have a 0% chance of winning or losing - which is HIGHER!
+        - In general, rational agents should always choose the action with the highest utility; sometimes they'll be wrong, but on average that means we'll be making the "right" choice
+
+- So, let's try and make agents that maximize utility!
+    - This seems logical, right? We calculate the probabilities of our actions happening, and we choose the next action with the highest utility
+        - The issue with doing this naively, though, is that our plain utility function doesn't account for the future; if our Indiana Jones agent jumps out to grab the gold monkey artifact but then gets shot to pieces by Nazis the moment after, that's not ideal!
+    - So, we'll need to come up with some way of calculating costs in the future
+
+- Let's quickly revisit MDPs
+    - To represent and solve a Markov Decision Problem, we need several things:
+        - A set of possible STATES we can reach in the world
+            - In GridWorld, these are just our X/Y coordinates
+            - Finding all of these states can sometimes be difficulty, and we often can't assume we know all of these states - we'll address those problems next week
+        - A single initial state S0
+        - A set of final, ending states/, like goals or deaths
+        - A set of all ACTIONS our agent knows how to do
+        - A TRANSITION MATRIX that, for any action in a given state, tells us the probability of each possible outcome
+            - Again, we might not always know these in advance, which we'll need to tackle somehow - but later
+        - A REWARD FUNCTION that tells us the reward for reaching a state (NOT considering the future)
+    - Once we have all these inputs, we want to create a policy: a mapping of all possible states to the correct action in that state
+        - To help us in making this, we'll again make the FIRST MARKOV ASSUMPTION (i.e. that the "right choice" only depends on our current state, and not the history of how we got there)
+            - This also assumes stationarity, that the probabilities in our transition matrix aren't changing over times
+            - Practically, this works surprisingly well for many problems, but not all; in the stock market, it typically works over a short period of time but breaks down past that
+    - To create an optimal policy, we need to choose the action with the best long-term utility at every state
+        - To find this, we can't use just our plain reward function; instead, we need a DISCOUNTED UTILITY function that weighs future events less heavily than immediate ones
+            - This is PERFECT for finance, where we're naturally dealing with things like inflation and the time-value of money
+        - How do we calculate this?
+            - We'll assume that our agent is starting from its current state, then following our known best policy so far from thence forward
+
+- So, given that we know these utilities, how do we calculate the optimal policy? Like THIS:
+
+        Policy*(s) = max_action(sum each outcome(T(s,a,s') * U(s')))
+
+    - Remember, "T(s,a,s')" is just the probability from our transition matrix
+    - So, everything's easy if we know these utilities - HOW DO WE GET THE UTILITIES?
+        - We can get them by using the BELLMAN EQUATION that Brian showed us last week:
+
+                U(s) = R(s) + g*max_action(sum each outcome(T(s,a,s') * U(s')))
+
+            - ...where:
+                - R(s) is the reward for that state
+                - "g" is the discount factor between 0 and 1 for future actions
+        - One problem with this: we need to know the other utilities "U(s')" to calculate this! How do we get started!
+    - To deal with this, we could approach it using VALUE ITERATION!
+        - To start off, we'll assume there's at least 1 terminal state we know about, meaning we have at least 1 known utility
+            - That means we'll have "n" equations we need to solve for with "n-1" unknowns - which is solvable!
+                - However, because this utility equation has a "max" in it, it isn't linear, meaning we can't solve it analytically in a straightforward way
+                - Instead, we'll solve it via iteration!
+        - "Value iteration really isn't that scary if you understand it; you can code it in 4 lines in a language like python"
+            - That code'd look like this:
+
+                '''python
+                u_0(s) = 0 # for all non-terminal states
+                loop until no U(s) changes by more than some value "e":
+                    for s in S:
+                        # New estimate = Bellman update with old estimate
+                        u_i+1(s) = R(s) + g*max_action(sum each outcome(T(s,a,s') * u_i(s')))
+                '''
+
+            - This new version of the equation is called the BELLMAN UPDATE, and it's guaranteed to converge to an optimal solution (we'll skip the proof)
+                - Essentially, this is taking the rewards from our terminal states and propagating them outwards
+
+- Alright - what happens if we don't know all these magical transition functions and such? That's what we'll talk about next week!

@@ -1,0 +1,155 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means-End Analysis</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case-Based Reasoning</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case-Based Reasoning (cont.)</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. Classification Basics</a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li><li><a class="is-note-link" href="18_morePlanning_10_4_19.html">17. Planning (cont.)</a></li><li><a class="is-note-link" href="19_knowledgeEngineering_10_7_19.html">18. Knowledge Engineering</a></li><li><a class="is-note-link" href="20_yetMorePlanning_10_9_19.html">19. Planning (cont.)</a></li><li><a class="is-note-link" href="21_understandingCommonSense_10_11_19.html">20. Understanding and Common-Sense</a></li><li><a class="is-note-link" href="22_commonSense_10_16_19.html">21. Common-Sense Reasoning (cont.)</a></li><li><a class="is-note-link" href="23_fractalReasoning_10_18_19.html">22. Fractal Reasoning</a></li><li><a class="is-note-link" href="24_explanationReasoning_10_21_19.html">23. Explanation-Based Reasoning</a></li><li><a class="is-note-link" href="25_analogicalReasoning_10_23_19.html">24. Analogical Reasoning</a></li><li><a class="is-note-link" href="26_moreAnalogicalReasoning_10_25_19.html">25. Analogical Reasoning (cont.)</a></li><li><a class="is-note-link" href="27_moreAnalogyVersionSpace_10_28_19.html">26. Analogical Reason (cont). / Version Spaces</a></li><li class="active-note-page"><a class="is-note-link" href="28_versionSpaces_10_30_19.html">27. Version Spaces</a></li><li><a class="is-note-link" href="29_constraintProp_11_1_19.html">28. Constraint Propagation</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="27_moreAnalogyVersionSpace_10_28_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//***************** Version Spaces - October 30th, 2019 *********************//
+//**************************************************************************//
+
+- Okay, last time we just started talking about VERSION SPACES, which is a way of learning that's guaranteed to always converge to an answer if convergence is possible
+    - Let's say that every time the AI agent travels to Sam's Diner (a cheap place), he gets sick, regardless of which meal he gets
+        - Remember that these examples are coming in slowly, one at a time; we can't afford to do batch learning!
+    - How can we get our agent to reason that Sam's Restaurant might not be healthy, or that cheap food might be less healthy?
+        - Let's say the agent gets its very first datapoint, a frame like this (the 1st example should ALWAYS be positive; if you get a negative example, you could just store it away for later until you get a positive one):
+
+                Visit:
+                    restaurant: Sam's
+                    meal: breakfast
+                    day: Friday
+                    cost: cheap
+                    sick: yes
+
+        - Should the agent make a specific or general conclusion from this?
+            - On the specific end, this could mean that we should only worry about getting sick at Sam's, on a Friday, during breakfast, when the cost is cheap:
+
+                    Sam's
+                    breakfast
+                    Friday
+                    cheap
+
+            - On the other hand, it could mean that ANY time we eat ANYWHERE, we could get sick!
+
+                    [any]
+                    [any]
+                    [any]
+                    [any]
+
+            - We're not sure which conclusion to draw since it's a single datapoint, so we'll store BOTH possibilities on opposite ends of a spectrum: the "most specific possible," and thr "most general possible"
+        - Let's say we then get a 2nd datapoint (a negative example):
+
+                Visit:
+                    restaurant: Kim's
+                    meal: lunch
+                    cost: expensive
+                    day: Friday
+                    sick: no
+
+            - This is a negative example, and from it we can guess that there're four GENERAL possiblities for what gets us sick besides just "anything":
+
+                    Sam's       [any]       [any]       [any]
+                    [any]       breakfast   [any]       [any]
+                    [any]       [any]       Friday      [any]
+                    [any]       [any]       [any]       cheap
+
+                - However, we know from this counter-example that we DIDN'T get sick on a Friday, so we can eliminate the 3rd one! Therefore, we have 3 GENERAL possible branches remaining:
+
+                    Sam's       [any]       [any]
+                    [any]       breakfast   [any]
+                    [any]       [any]       [any]
+                    [any]       [any]       cheap
+
+            - "So, that's the heuristic: every time we get a positive example, we'll generalize our special cases but prune away any of the general possibilities that conflict with what we know; any time we get a negative example, we'll specialize our general cases, but do so in a way that there's no conflict with the specific examples we've gotten so far"
+        - We then get a 3rd datapoint, a positive example:
+
+                Visit:
+                    restaurant: Sam's
+                    meal: lunch
+                    day: Saturday
+                    cost: cheap
+                    sick: yes
+
+            - Looking through each thing, we realize that we can get sick on Saturday, a non-Friday, AND on non-breakfast meals, so that requirement eliminated!
+
+                    Sam's
+
+
+            - "This process is almost meta-cognitive: why do I like this thing? What do they have in common?"
+                - So far, the branch's that connect all these positive examples are "Sam's restaurant" and "cheap food"; it could be either one
+
+        - We then get a 4th datapoint:
+
+                Visit:
+                    restaurant: Bob's
+                    meal: breakfast
+                    day: Sunday
+                    cost: cheap
+                    sick: no
+
+            - So, cheap food didn't get us sick! Therefore, Sam's must be the thing that gets us sick!
+
+                    Sam's
+                    [any]
+                    [any]
+                    [any]
+                    
+        - Finally, we'll get a 5th example:
+
+                Visit:
+                    restaurant: Sam's
+                    meal: breakfast
+                    day: Sunday
+                    cost: expensive
+                    sick: no
+
+            - So, Sam's didn't get us sick when we ordered expensive food! Therefore, we can update our most general "gets us sick" frame to:
+
+                    Sam's
+                    [any]
+                    [any]
+                    cheap
+
+            - Hang on - this answer matches our most specific one! Therefore, since the most specific and most general possibilities now match, we've converged on a good version of our concept!
+
+- "So far, we've assumed that learning is an automatic process that just happens without any awareness or conscious effort needed; but as humans, we also have this type of slow, reflective, deliberate learning"
+    - As humans, we don't optimize; instead, we focus on using heuristics that work most of the time
+
+- Now, let's switch gears to a different topic: do we think in images? Is there a screen in our head? What do we even mean by talking about this?
+    - For a long time, people thought that smoke meant there were things that always went up, and other things that went down; now, we know that everything is affected by gravity
+        - The point is that we can come to sensible, naive conclusions that are WRONG!
+    - We ultimately want to build a theory of AI intelligence, but before we try to build AI that can "think in images," we have to figure out if WE think in images, if adding that would help intelligence at all!
+
+- Suppose I asked you to count how many windows are in your house or apartment room right now; you can do that in your head, even though you've probably never counted them before!
+    - Because of experiments like this, it seems we do have some sort of thinking in pictures, perhaps because it's more efficient to store images of the whole house and using those to answer questions instead of keeping track of a bunch of separate things
+
+- With that, let's get into our next topic: CONSTANT PROPAGATION!
+    - This unit is going to propose something odd: that the way we use images and the way we use language is actually very similar, because they both heavily involve using constraints!
+        - If I show you a wireframe of a cube, you can tell me it's a cube even if it's from an angle that you've never seen before; how?
+
+- We'll keep discussing this more on Friday!</pre>
+</article>
+<a class="side-link is-note-link" href="29_constraintProp_11_1_19.html"></a>
+</main>
+</body>
+</html>

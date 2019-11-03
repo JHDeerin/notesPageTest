@@ -1,0 +1,151 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Machine Learning for Trading</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4646Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Machine Learning for Trading</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_numpyCrashCourse_8_22_19.html">0. Numpy Crash-Course</a></li><li><a class="is-note-link" href="1_pandasReturns_8_27_19.html">1. Pandas / Return Basics</a></li><li><a class="is-note-link" href="2_returnsRisksSharpes_8_29_19.html">2. Returns, Risk, and Sharpe's Ratio</a></li><li><a class="is-note-link" href="3_optimzationBasics_9_3_19.html">3. Optimization Basics</a></li><li><a class="is-note-link" href="4_mlBasics_9_5_19.html">4. Machine Learning Basics</a></li><li><a class="is-note-link" href="5_moreMLBasics_9_10_19.html">5. Machine Learning Basics (cont.)</a></li><li><a class="is-note-link" href="6_testDecisionTrees_9_12_19.html">6. Testing, Ensembles, and Decision Trees</a></li><li><a class="is-note-link" href="7_mlStatistics_9_17_19.html">7. Statistical Foundations for Machine Learning</a></li><li><a class="is-note-link" href="8_stockFinanceBasics_9_19_19.html">8. Stock Finance Basics</a></li><li><a class="is-note-link" href="9_moreMarketMechanics_9_24_19.html">9. More Market Mechanics</a></li><li><a class="is-note-link" href="10_moreMarketMechsShort_9_26_19.html">10. Market Mechanics (cont). / Stock Shorts</a></li><li><a class="is-note-link" href="11_leverageFunds_10_1_19.html">11. Leverage and Funds</a></li><li><a class="is-note-link" href="12_EFTMutualFunds_10_3_19.html">12. EFTs and Mutual Funds</a></li><li><a class="is-note-link" href="13_hedgeFunds_10_8_19.html">13. Hedge Funds</a></li><li><a class="is-note-link" href="14_intrinsicValue_10_17_19.html">14. Intrinsic Value / Time Value of Money</a></li><li><a class="is-note-link" href="15_markovDP_10_22_19.html">15. Markov Decision Problems</a></li><li class="active-note-page"><a class="is-note-link" href="16_evaluatingFunds_10_24_19.html">16. Evaluating Funds</a></li><li><a class="is-note-link" href="17_technicalAnalysis_10_29_19.html">17. Technical Analysis</a></li><li><a class="is-note-link" href="18_policiesValueIter_10_31_19.html">18. Policies and Value Iteration</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="15_markovDP_10_22_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//****************** Evaluating Funds - October 24th, 2019 ******************//
+//**************************************************************************//
+
+- Okay, starting slightly late, but Professor Byrd is back!
+- Coming up next, the Q-learning project!
+    - This isn't actually that long of a project, but it is highly iterative, and a small error can lead to some pretty hard-to-find bugs
+- Before that, though, Project 6 - the manual trading strategy - will be due next weekend
+    - "Don't pick your indicators randomly, since you'll need to use the same indicators in a later machine learning project, and compare them to your manual answers"
+- Also, the drop date for this class is this coming Saturday at 4pm - be aware!
+--------------------------------------------------------------------------------
+
+- Brian talked about Q-learning, which for the moment we'll pass on since you need some stuff for project 6
+    - Instead, we'll talk about some more ways to evaluate portfolio performance before talking about technical analysis
+
+- So far, we've talked about different ways to value a company, and the different types of funds, ohw they're managed, why you'd invest in each one, etc.
+    - One thing we HAVEN'T talked about is how to value a fund, and figure out if that fund is doing a good job and meeting your needs
+        - This stuff isn't too complicated, but it is important
+    - In general, there are 2 kinds of performance funds try to achieve:
+        - Beating some benchmark compared to the rest of the market/etc.
+            - These tend to aim for higher returns, and accept a reasonable amount of risk
+        - Getting a some amount of "absolute returns"
+            - Since these NEVER want to lose money, these funds are actually very conservative and low-risk
+                - You'll RARELY see an absolute-return fund giving more than 3% returns per year
+
+- How do we evaluate these funds, then? There are 3 metrics we'll worry about here:
+    - Risk is measured via VOLATILITY, which we've talked about before
+        - As we said earlier, volatility is the standard deviation of the fund's returns
+        - The problem with ONLY using volatility to measure a manager's performance, though, is that the way to minimize volatility is to not make any trades at all!
+    - CUMULATIVE RETURNS is another metric where we measure how much money we've made back over X years
+        - One thing to keep in mind, though, is that money compounds
+            - For instance, suppose we start with $100, and one manager made us 100% returns over 10 years, while another made us 50% returns over 5 years - which one is doing better?
+                - Naively, you might assume they're doing the same - but since money compounds over time, the 2nd manager is actually doing a notably better job!
+        - Rather than measuring straight-up cumulative returns, then, we'll often measure a manager/fund's COMPOUND ANNUAL GROWTH RATE (CAGR) instead
+            - If we know the growth rate, computing the final value forward is pretty trivial:
+
+                    Final = start * (CAGR+1)^years
+
+            - If we know the starting and ending values, though, and need to figure out the CAGR, we've gotta do a bit of algebra:
+
+                    CAGR = (final/start)^(1/years) - 1
+
+        - So, looking at our 2 managers, we can compute the CAGR for each one and see who's actually doing better!
+
+                manager1 = (200/100)^(1/10) - 1 = 0.072
+                manager2 = (150/100)^(1/5) - 1 = 0.084
+
+        - ...however, we almost never need to do this math because of something called the RULE OF 72
+            - This is just a heuristic that notes that the number of years it takes to double our money, multiplied by the CAGR, is ALWAYS 72%
+                - Manager 1 is a perfect example of this, where 10 years * 0.072 is 0.72, or 72%
+                    - "You know how coding interviews talk about FizzBuzz and other easy sanity check problems? Asking about this rule is the equivalent of that in finance"
+                - Similarly, for manager 2:
+
+                        72 / 8.4 ~= 8.57 years
+
+            - This is often used as a rule of thumb when we're trying to quickly, informally compare stuff
+                - For instance, if we've got an 11.8% CAGR, we might say "eh, that's close to 12%, so 72/12 ~= 6 years"
+                - Going the other way, if we want our money to double in 4 years, then we need a CAGR of 72/4 = 18%
+        - This is a decent metric, but it has the opposite problem of volatility: it doesn't account for risk at ALL
+    - Finally, we'll have a 3rd metric that combines risk and reward: the Sortino Ratio!
+
+- So, how should we combine risk and returns?
+    - As we've mentioned, the Sharpe Ratio is a fairly simple formula that does this, and looks like:
+
+            (avg. period returns - risk free returns) / volatility of period returns
+
+    - However, there's something subtle about the Sharpe Ratio that makes it non-ideal for everything: it punishes ALL deviations from the mean heavily
+        - If we're doing machine learning, this makes sense! We want it to make consistent predictions!
+        - If we have a fund manager, though, it isn't always great, because it punishes people for doing BETTER than expected!
+            - If we have a fund manager that consistently gets us a 10% return, but 1 year makes us 50% returns, he'll do WORSE than if he'd just kept giving us 10% each year
+
+- Instead, we'll use this SORTINO RATIO!
+    - The idea here is that we ONLY want to punish returns that are below some acceptable performance metric
+        - The metric itself could be a flat number, or the S&amp;P 500's value, or anything else you want
+    - The formula for it looks like this:
+
+            (avg. period returns - target returns) / (downside deviation)
+
+        - How do we define this "downside deviation?" There're a few common ways, but we'll go with this one:
+
+                downside_deviation = sqrt(avg. downside squared returns)
+
+            - ...where the downside squared returns is calculated as a conditional step function like this:
+
+                ```python
+                if return &lt; target:
+                    squared_returns.append( (return - target)**2 )
+                else:
+                    pass
+                ```
+
+            - Note that this could be 0 if our manager is too good and never falls below target, so you'll need to handle that as an edge case
+        - As an example of calculating this downside deviation, let's say our manager misses the benchmark by 4% 5 times, and 8% 5 other times
+            - The average of this would be:
+
+                    avg((4^2) * 5 + (8^2) * 5)
+                    = avg(16*5 + 64*5)
+                    = avg(400)
+                    = 40
+
+                - Thus, the downside deviation would be:
+
+                    downside_deviation = sqrt(40) ~= 6.32
+
+    - Again, remember the Sortino ratio ONLY worries about how badly the manager fails, NOT how often they fail or succeed
+
+- Alright; with the last few minutes, let's talk about how actual finance companies use technology in their investments
+    - "I just got back from J.P. Morgan, and while I can't tell you anything proprietary, I'll tell you what they DON'T do: take a bunch of data and chuck it at a learner, like we do in our final project!"
+        - The way they do things is that they take their own historical stock data (including per-person trades, letting them do clustering and other cool stuff that's hard to do on anonymous, public dataset), along with other information sources they've purchased, and put it into a forecasting algorithm for the next few days
+        - They'll then put this information, and current stock data, into an "N-day forecasting algorithm" that predicts which stocks are likely to go up in the next "N" days
+            - This is basically where our class stops, and is reasonable for small-scale traders
+                - However, for HUGE investors, it's not great to liquidate their profiles all the time
+        - Instead, they'll put this information along with their own hand-picked rules and constraints into a PORTFOLIO OPTIMIZER that says "given what we currently own, and how the market will change, here're the portfolio changes to make that'll result in the least cost to us, most profit, and affect the market the least"
+            - They'll then feed this into an actual trading algorithm that tries to optimally execute all these trades at the time of order and minimize our "implementation shortfall"
+                - Some classical algorithms for this are TWAP (time-weighted average pricing) and VWAP, but of course research has been thrown at this with reinforcement learning and other stuff
+            - This begins a loop of our algorithm making trades, re-analyzing our current portfolio, deciding on a new way trading approach until we get as close to our target portfolio as possible
+    - These 3 separate stages - the N-day forecaster, portfolio optimizer, and trading algorithm - are often handled by 3 completely separate groups at large firms
+        - Of course, there's a ton of details in each of these components that I'm not getting into, and our course will only touch on pieces of
+
+- Okay; next time we'll start getting into technical analysis, and why it's been performing worse and worse over time, fundamental analysis, and more stuff - see you next week!</pre>
+</article>
+<a class="side-link is-note-link" href="17_technicalAnalysis_10_29_19.html"></a>
+</main>
+</body>
+</html>

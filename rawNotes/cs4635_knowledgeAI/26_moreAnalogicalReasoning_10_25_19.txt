@@ -1,0 +1,42 @@
+//****************************************************************************//
+//*********** Analogical Reasoning (cont.) - October 25th, 2019 *************//
+//**************************************************************************//
+
+- I am always game for incorporating Monty Python into class
+
+- We've been talking about analogies in class, but can analogies be wrong? YES, they can!
+    - *cue "Burn the Witch" clip from Monty Python and the Holy Grail*
+    - Here, the Monty Python crew makes an invalid analogy: because witches catch on fire, and wood also catches on fire, they decide the important thing is that witches are made of wood!
+        - As our analogies compare ever more different things, we need more sophisticated ways of identifying relationships - ways that, frankly, AI researchers haven't come up with yet
+    - How can we make analogies?
+        - Almost all AI research today has been done at the level of recording cases (which is what most machine learning techniques boil down to); some work has been done on intermediate techniques, but relational reasoning? That's proven immensely difficult, and precious little progress has been made
+--------------------------------------------------------------------------------
+
+- So, what does an analogy even look like?
+    - First, RETRIEVAL is when we bring to mind a memory of something we know about that's somewhat similar to the new thing we're dealing with
+    - Then MAPPING is when we draw a potential connection between that thing we know and something knew
+    - We then TRANSFER that mapping, knowledge of what is known to something new ("the planets in the solar system revolve around the sun, and the nucleus in an atom is like the sun")
+    - We then EVALUATE the analogy to try and see if it's valid
+    - Finally, if that analogy is good, we STORE it
+        - We use analogies for almost everything; think of how often you use metaphors without noticing it (e.g. "We broke up" - but you didn't literally fall in half!)
+        - At the same time, analogies don't necessarily give us right answers; people will use different, incompatible analogies for the same thing
+
+- Retrieval we've talked about, as well as drawing superficial similarities based on features - but how can we deal with mapping and transfer in deep relationships?
+    - Here, we need to identify the relationships in a problem (which is already hard) and then somehow map those relationships to a new problem
+    - What kinds of similarities are there? We'll talk about 3:
+        - SEMANTIC SIMILARITY is when we draw some conceptual connection between a past and present scenario
+        - PRAGMATIC SIMILARITY is when two things involve similar external factors, like goals (e.g. a general trying to defeat an army is like a patient trying to defeat cancer)
+        - STRUCTURAL SIMILARITY means that the representational structures we use between two things are similar (e.g. a similar structure between atoms and the solar system)
+            - In the last 40 years of AI, a position called SYSTEMATICY has arisen: that humans tend to focus about concepts that are most nested (not sure I understand what nested refers to?)
+                - I *think* nested refers to the structure of the concept, where (for instance) the idea of attractive forces applies to the nucleus attracting electrons, which is deeper than the mere statement that "electrons go around the nucleus"
+            - This might also explain why different people make different analogies: since everyone represents concepts slightly differently, they'll come to different conclusions about how similar certain ideas are!
+    - Let's look more deeply at the atom-solar system analogy - what are the "deeper" similarities?
+        - (on the slides)
+
+- So, unlike low-level intelligence, analogies are a high-level heuristic method that isn't guaranteed to give us correct conclusions
+
+- What we want to do with analogy making, now, is this: given a target concept or case, we want to select an appropriate "source" case, map what relevant elements are similar between the two, transfer the key relationships from the source to the target (and possibly vice-versa), and then store our conclusion if it's fitting
+    - There are some experimental programs from the last 25 years that've made inroads here
+
+- How we do this may seem like magic right now - we'll go into it more next week, but please watch the videos! They'll help you understand!
+    - Alright, that's all for today - don't forget to work on your 2nd projects, and have a good weekend!

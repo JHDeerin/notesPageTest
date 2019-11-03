@@ -1,0 +1,85 @@
+//****************************************************************************//
+//************* Markov Decision Problems - October 22nd, 2019 ***************//
+//**************************************************************************//
+
+- On stage, what do we see? Not Professor Byrd, not he
+    - If I write these notes in rhyme, would you prefer to go blind?
+
+- "Okay, let's go!"
+    - Dr. Brian Hrolenok is here to give us the lay down on MDPs for machine learning
+--------------------------------------------------------------------------------
+
+- Okay, we're going to be learning about Markov Decision processes today - but let's start off with a bit of background (this is VERY similar to stuff from Intro. to AI, so apologies for the repeat)
+    - REINFORCEMENT LEARNING is the 3rd big type of machine learning, along with supervised and unsupervised learning, and it's WEIRD compared to them
+        - Reinforcement learning is when we have a sequence of decisions we need to make to get some result, and we want to find the "best" sequence for our needs
+        - The natural way to think of this is when we have some agent working in an environment, like a robot doing...um...stuff
+            - As an example, let's say we're a Roomba in 2 cell world, where the whole world is (you guessed it) 2 cells!
+                - The Roomba can move left, right, or clean the cell it's in
+                    - However, it only has a 90% chance of moving in the direction it wants to go!
+                - Why is this different from planning? Because the environment is NOT deterministic - stuff can change dynamically, so we can't just make a master plan in advance and follow it
+    - To do reinforcement learning, our agent is getting 2 pieces of input from the environment: the STATE the environment is in after the agent does something, and a REWARD it gets for doing that action and getting the resulting state
+        - We want, of course, to maximize the rewards we're getting for all the actions that we take!
+        - For our Roomba, there's a chance it'll move in the wrong direction; let's formalize this into a TRANSITION MODEL
+            - To do this, we'll say there's a 90% chance of moving correctly, a 5% chance of moving left instead, and 5% of moving to the right instead
+            - We'll define these probabilities in a transition function, like this:
+
+                    T(s, a, s') = p(s'|s, a)
+
+                - ...where "s" is the current state, "a" is the action we tried to take, and "s'" is the resulting state we're interested in ending up in
+            - So, if our Roomba is in the left cell and tries to move right, then there's the following probabilities for the left/right state:
+
+                    T(Left, MOVE-RIGHT, Right) = 0.9
+                    T(Left, MOVE-RIGHT, Left)  = 0.1
+
+                - If our Roomba INSTEAD tries to move up, into a wall, then there's:
+
+                    T(Left, MOVE-UP, Left)  = 0.95
+                    T(Left, MOVE-UP, Right) = 0.05
+
+                - ...since there's a 90% chance of moving straight and hitting a wall, a 5% chance of moving left and also hitting a wall (staying in same cell), and a 5% chance of moving right
+            - If we define these probabilities for ALL possible combinations of input states, actions, and output states, then we've got a complete transition model!
+    - Now, if we plan a sequence of optimal actions ahead of time and rigidly follow that, there's a good chance that we'll make a mistake and move somewhere wrong at some point, and then executing the rest of our plan doesn't make any sense!
+        - So, instead of a PLAN (a pre-set sequence of actions), we'll try using a POLICY (a mapping of states we could be in to actions)
+            - e.g. "When in state (Left, not_dusty), move right to check for dirt"
+        - How do we come up with this policy? Well, it'll depend on the "reward function" we use
+            - A REWARD FUNCTION is a function that gives each possible state a real-numbered "score" for how good it is
+                - Sometimes, it might also make sense to give a reward for taking an action in a given state (i.e. R(s,a) instead of R(s)); the math works out to be the exact same (and you can do the same thing by giving rewards for a resulting state), but some people have a preference
+            - Let's say we have a map we want our Roomba to move through, and we want to give it a +1 reward for reaching its charger and a -1 reward for falling down the stairs
+                - By default, an interesting thing happens: the Roomba doesn't have any encouragement to reach the charger quickly, so it'll try moving TOWARDS A WALL when it's next to the stairs, since that has a 0% chance of falling down the stairs and still a 5% chance of moving towards the charger
+                - If we change all the non-goal/death states to be -0.1, though, now the Roomba is being told it's BAD to stay still, so it'll start taking risks and trying to move straight past the stairs!
+        - Once we've got this reward function, how do we compute the best policy? I'm glad you asked!
+            - At a high level, we want to use the probabilities we have in our transition model AND the reward values to figure out the "utility" of each state; we'll then pick the policy that gets us to the state with the highest utilities!
+                - The UTILITY is just the expected long-term reward of being in a state, with future states discounted for being far in the future
+                    - How can we define this mathematically for each state?
+                        - We could just try adding up the rewards of all the future states we can reach in "T" steps, but how large should T be?
+                            - We could make this infinitely far in the future, but that's unbounded! EVERY policy that eventually gets us to the goal will have an infinite score, so we won't have a way of choosing the best one!
+                        - To fix the infinite problem, we could multiply each reward by a discount factor "y^t", where 0 < y < 1
+                            - This means that states far in the future won't count for as much, so faster plans are now scored better!
+                        - HOWEVER, right now the state we can end up in is a random variable; we don't know which state we'll be in after "T" steps!
+                            - To fix THIS, we'll use the EXPECTED VALUE of this previous equation!
+                    - So, for a given state "s", the utility of the best policy will be:
+
+                            U_bestpol(s) = Expectation( sum{y^t * R(s_t), t to inf} )
+
+                        - This definition of utility actually more-or-less captures how most people think of rewards: bigger rewards are better, and rewards now are better than rewards later
+
+- So, that's rthe utility we're using to decide this "decision problem" we're tackling - but why do we call them MARKOV decision problems?
+    - To calculate utility in this way, there's actually one more assumption we're making: that the chance of us ending up in the next state is ONLY dependent on the current state, and not the past history of how we got there
+        - This is called the MARKOV assumption, and it greatly simplifies our calculations
+            - ...although it is NOT always true; there are problems where our history of actions is VERY important
+                - Stocks are actually a HUGE example of this; if you signed a contract 2 years ago with Mr. McMoneyFace, and that contract is about to expire, that's important!
+                - However, this can still give us "good enough" performance
+    - This in hand, we can define the optimal policy like so:
+
+            Policy(s) = max_scoring_action( sum{p(s'|s,a) * U_bestpol(s'), future_states})
+
+        - This definition seems kinda circular (why?)
+    - How do we actually calculate utility, then? We can do this:
+
+            U_bestpol(s) = R(s) + y*max_action(sum{p(s'|s,a) * U_bestpol(s'), future_states})
+
+        - This *looks* circular, but it's actually just a recursive definition for each state!
+            - To get the utility, we take the reward of being in that state and then add the utilities of all the possible results from taking the best action, 
+        - This is called the "Bellman Update" equation, and it's important for many reinforcement learning operations
+
+- Where did this equation come from, and what can we do with it? That's something Professor Byrd'll cover when he gets back! Bye!

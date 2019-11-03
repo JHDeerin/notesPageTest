@@ -1,0 +1,157 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li><li><a class="is-note-link" href="14_structureMotionEstimation_10_16_19.html">14. Structure from Motion / Motion Estimation</a></li><li><a class="is-note-link" href="15_introDeepLearning_10_21_19.html">15. Intro. to Deep Learning</a></li><li class="active-note-page"><a class="is-note-link" href="16_stereoMatching_10_23_19.html">16. Stereo Matching</a></li><li><a class="is-note-link" href="17_denseMotion_10_28_19.html">17. Dense Motion Estimation</a></li><li><a class="is-note-link" href="18_panoramasHDR_10_30_19.html">18. Panoramas and HDR</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="15_introDeepLearning_10_21_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//***************** Stereo Matching - October 23rd, 2019 ********************//
+//**************************************************************************//
+
+- 4:32, and our guest lecturer isn't here...
+    - ...Cusuh actually just realized she sent him the wrong classroom number, so they're trying to correct that
+- Also, Part 1 of assignment 4 is due this Monday; that sounds REALLY short, but trust me, part 1 is much less code than the previous project
+    - Part 1 is going to be based on stuff from this lecture, doing stereo-based depth perception
+    - Part 2 will be released
+
+- And, at 4:36, the lecturer is here!
+    - "As you can see, I'm not Frank Dellaert - I'm Jim Rehg!"
+--------------------------------------------------------------------------------
+
+- Today, we're looking at stereo vision, which was one of the first breakthroughs that computer vision made (well before machine learning came in)
+    - "Stereo" comes from the greek word "solid," and means trying to recover the depth from an image using 2+ cameras
+
+- If you learn NOTHING else, the basic idea of today is that if a camera takes an image of the same scene, from 2 slightly different positions, we can recover the depth of stuff in the image
+    - The same pixels across both image will shift between the images, and the amount of that shift will depend on how far away that point is from the camera
+- Why do we care about this? For a TON of reasons, but the big one is because if we know the depth of the world around us, it means we can figure out the position of stuff in the world, which makes navigation MUCH easier for us!
+    - It can also help us to reconstruct 3D scans of the world, and a bunch of other stuff
+
+- So, if we have 2 calibrated cameras that are a known, fixed distance away from one another, we can triangulate where the same point is to figure out the depth
+    - This involves us dealing with the CORRESPONDENCE PROBLEM, where we need to find where the same point is in each image
+    - Once we've done that, if we know how the cameras are calibrated, we can shoot a ray from each camera through that pixel into the scene, and wherever they intersect must be where that point originally was!
+
+- To dig into the details, we'll go through the following:
+    - Review the pinhole camera model
+    - Go through some basic 2-view stereo algorithms:
+        - Equation-based
+        - Window-based matching
+        - Dynamic programming
+    - Multi-view stereo
+
+- So, in the basic pinhole camera model, we've got a 3D point somewhere out in the scene
+    - We'll then project that point onto a 2D in our image, with the 2D coordinates given as:
+
+            (u,v) = (f*x/z, f*y/z)
+
+        - ...where "f" is the focal length of the camera, x/y/z are the #D coordinates of the real-world point, and u/v are the 2D position of the point in the image
+    - With that in place, we can actually use 2 images to figure out the depth (the "Z" axis) of the point assuming we know the BASELINE "B" - the distance between our two cameras
+        - If we know this, then we know the 2D projection of the point in the left image is:
+
+                (u_l, v_l) = (f*x/z, f*y/z)
+
+            - ...and in the right image, it's:
+
+                (u_r, v_r) = (f*(x-b)/z, f*y/z)
+
+        - Now, if we know these 2 cameras just differ in their horizontal positions (and aren't rotated or anything), that means that the projected pixel in both images will be on the same row (or SCANLINE)
+            - That means we know where to look for the pixel, so we can ignore the vertical component!
+        - Given that, we'll say the DISPARITY of the point in these 2 images is just the difference between the left/right pixels...
+
+                d = u_l - u_r
+
+            - ...which we can use to solve for the depth!
+
+                    u_l - u_r = f*B/z
+                =&gt;  Z = f*B/(d)
+
+            - Where "z" is the depth of the pixel and "d" is the disparity between the 2 pixels
+                - The problem, though, is that we don't know the disparity ahead of time; we'd need to know the depth to figure it out exactly, so we need to find where our point is in both images to get the disparity!
+                - Points that are close to the camera might have very large disparities, while points that are very far away might not seem to shift at all
+    - "Alright, so that's the basic geometry - which should NOT be confused with meaning it's simple. It's not. It's okay if you're confused by this at first, but this is what we're going to be building off of"
+
+- Once we have this basic geometry down, how do we actually build a stereo system?
+    - First, we need to figure out how we're going to match pixels across different images using some error function
+        - In other words, how do we measure how similar different regions of our image are?
+    - We then need some way of actually accumulating errors across the image - do we use a window? An edge? Something different?
+    - Finally, we need to optimize these differences and figure out which values gives us the "winning" pixel - the one that's the actual match
+
+- One basic way of doing this is to use window-base correlation
+    - What's that? It means that - since we know what row/scanline our target pixel has to be on - we can scan across the row and take sum function of the pixels in a given window, then subtract that from our "target pixel" in the other images
+        - Then, we'll just find the window that has the minimum difference, and that's probably the most similar pixel - i.e., a match!
+        - A comkon, simple error function we'll use is SSD: the sum of squared differences, using disparity as an input:
+
+                C(x,y,d) = sum{ I_l(u,v) - I_r()}
+
+        - One problem here is that the images might be captured under different brightnesses/exposures for a number of different reasons: the cameras might have different settings, there could be glare, etc.
+            - To help deal with this in a classical (although, to be honest, not great) way, we can normalize all the pixel differences:
+
+                I'(x,y) = (I(x,y) - avg.intensity) / (window intensity sum - avg. intensity)
+
+            - We can do this more efficiently using vector (I think?)
+                - (missed this math)
+            - Keep in mind that image normalization should only be used when we NEED it, since it'll make everything in the image look more similar
+
+- So, this sounds pretty great so far! HOWEVER, there are 2 huge problems we need to deal with: occlusion and textureless regions
+    - TEXTURELESS REGIONS are flat, uniform areas that all look the same, making it difficult to find an exact match
+    - OCCLUSIONS are where objects that've shifted between the images have hidden/revealed stuff behind them, meaning we'll have missing data
+        - How can we deal with this stuff? People came up with 2 big ideas:
+            - The ORDERING CONSTRAINT says we should always use the same order for matches
+            - The UNIQUENESS CONSTRAINT says that each pixel in the 1st image should map to ONLY 1 other pixel in the other image(s)
+    - We can actually define these constraints in a dynamic programming algorithm pretty easily!
+        - (grid)
+        - Every time we're moving vertically, we have a match; if we're moving horizontally, that means we're dealing with an occluded pixel and can ignore it
+
+- This is great and actually pretty performant, but this is sadly solving a VERY simplified version of the problem
+    - First of all, the ordering constraint isn't actually true if we have very thin objects (called the "double-nail problem") - they can shift too much
+    - The uniqueness constraint can also fail because of downsampling and depth-changes; if an object is closer to one camera than the other, then something that was only 1 pixel in the 1st image might be 2 or 3 pixels wide in the 2nd image!
+
+- So, if this DP approach doesn't always work, what can we do?
+    - One classical approach was to do SEGMENTATION, where we first break up the image into visual regions, and then do our algorithm 
+        - This isn't perfect, but it helps us to deal with problems like noisy images
+    - There are more modern approaches that work even better
+        - "What's always the answer for what we do these days? That's right, DEEP LEARNING!"
+            - Stereo algorithms have progressed more slowly than classification problems since they fundamentally require searching through the images (I think?)
+        - One research topic that Professor Rehg has actually done with Stefan (a TA for this course) is to try and do machine learning like a toddler
+            - It's become obvious that machine learning is hitting some limits; it requires extremely high amounts of data, whereas toddlers seem to be able to learn from a very small number of examples incrementally
+                - Then, once they've learned that thing, they don't store the data; they just throw it away
+                - Learning in this incremental fashion has classically really been an issue for machine learning algorithms because of "catastrophic forgetting"
+                    - One thing babies, do, though, to solve this is to allow repetition and playing with stuff over and over - and, skipping over some details, that actually really helps!
+
+- So, to sum up:
+    - A good stereo algorithm should ideally have a few properties:
+        - It shouldn't rely on the order/uniqueness constraints
+        - It should account for occlusions
+        - It should account for "depth discontinuities"
+        - It should reasonably handle textureless regions
+        - It should account for reflective/non-Lambertian surfaces
+    - There are a few problems that we still haven't solved yet in stereo
+        - Handling textureless regions is still difficult
+        - Dealing with "non-rigid" transforms like lighting changes, reflections, etc.
+        - Dealing with depth discontinuities
+
+- Alright, that's the day - goodbye!</pre>
+</article>
+<a class="side-link is-note-link" href="17_denseMotion_10_28_19.html"></a>
+</main>
+</body>
+</html>

@@ -1,0 +1,66 @@
+//****************************************************************************//
+//**************** Panoramas and HDR - October 30th, 2019 *******************//
+//**************************************************************************//
+
+- Okay, the lecture schedule has been slightly adjusted; we'll cover image stitching and HDR today (Szeliski goes into MUCH more detail than we do on this stuff)
+    - What'll we teach on Monday? Who knows! Cusuh'll come up with something
+- In the project, there were some questions about Colab on Piazza; the TAs should get back to you shortly
+--------------------------------------------------------------------------------
+
+- So, stitching images together means trying to make a panoramic image from a bunch of different images - but HOW do we do that?
+    - There's 5 big overall steps:
+        - Capture some images
+        - Detect/match features in the image together
+        - Warp/align the images to fit together
+        - Blend/fade the image borders together
+        - If needed, crop the image down
+    - "In Atlanta, one of the coolest panorama's is the painted Atlanta Cyclorama at the Atlanta History Center - would recommend!"
+
+- Capturing the images is self-explanatory, and we've covered detecting features to death - so how do we align these images?
+    - To align them properly, we first have to choose a model for HOW these images transform from one another
+        - For small rotations, translation isn't terrible, but it breaks down quickly; instead, to map them correctly, we need to use a PROJECTIVE/HOMOGRAPHY transform
+            - IN ADDITION, to account for radial distortion, we'll also often need to do some type of warping to get the lines to match (this is much harder if you don't know the camera specs)
+    - To help us with this, let's talk about how we actually capture an image
+        - The way an image gets capture is that there's a BUNCH of light rays shooting towards the camera in a 360 degree circle around it, and we're basically taking a slice of those rays and preserving them
+            - The difference between 2 images, then, is that we rotate and move the image plane we're using to "slice" these rays
+        - Eventually, we hope our output panorama can combine the information in these 2+ real images into a hypothetical single BIG plane stretching across these rays
+            - One problem wth this: if stuff is moving in the scene between images, we're gonna see ghosting! The stuff just simply won't be in the same spot between different images!
+            - We're also assuming that the images have the same camera center; if they don't, we're gonna have a bit of parallax
+    - One thing to note: we'll typically slice rays using an image plane, but we can ALSO try slicing/projecting them using a spherical or cylindrical geometry (which is how you get those curvy panoramas from your phone)
+        - Why would you use this? Well, because compared to a straight-up planar panorama, it can help the image actually be more rectangular than normal
+
+- Now, to estimate a homography between 2 images, we're basically going to match up some features and then use non-linear least squares optimization; to make sure we're only using valid matches, we'll use RANSAC to filter out bad points
+    - Feature-based approaches have actually become very popular in phone panoramas, since they're computationally faster than purely image-based techniques and have gotten to be fairly high-quality
+
+- Suppose we're taking a bunch of images out-of-order (maybe from online) and we need to put them in order - how do we do that?
+    - Basically, we do feature-matching like normal to find the order, then run RANSAC to make it a sane number of points
+
+- So, let's now talk about another things your phone does: high-dynamic range (HDR) imaging!
+    - As you can tell, there's a BUNCH of different brightnesses you can have in an image
+        - There are some machine learning algorithms that can try and amplify data in very dark photos, but these always run the risk of "guessing wrong" and generating correct-looking - but false - images
+    - DYNAMIC RANGE refers to the range of luminosities a camera can see before it goes to pure white/black; humans have a HUGE range for this, from less than starlight to brighter than most sunlight, in comparison to most cameras
+        - To fully store all possible brightness values, we'd need ~5-10 million intensities per color channel - but we only get 256 with 8 bit images!
+            - We can slide that color range around, but everything outside of it will look black/white, even though there's data there!
+        - So, if we want to see very dark AND very light things in the same image, what can we do?
+            - We can try to change the brightness itself (i.e. the color "window" position) by varying the camera exposure
+            - We can take multiple images with overlapping exposure ranges/"brackets", and then combine them!
+    - So, how can we put these multiple regular images into a single, high-dynamic range image?
+        - First off, we *should* be making sure the images are aligned, even if they were taken rapidly
+        - Then, we should be ignoring the pure white/black pixels in each image, since those are the ones that're washed out and thhat we don't have any "real" information for
+        - Finally, we should brightness-match all of the remaining pixels and then average them
+            - The issue with ONLY taking the average of each pixel is that it doesn't compress the brightness into our desired range
+
+- ...that SOUNDS good, and will practically do the job most of the time, but it assumes that camera's have a purely linear brightness portfolio, which isn't true!
+    - While some scientific cameras do this, Google and Apple's cameras try to "improve" your image brightness in post to boost contrast, saturation, etc., giving us nicer-looking - but processed - photos
+        - Exactly what kind of processing goes on varies between manufacturers
+    - The linear brightness parts of the camera pipeline are the scene itself, the physical lenses, then the shutter (just opening/closing, limiting the number of photons coming in (effectively multiplying by some fraction))
+        - The non-linearity starts with the pixels hitting the CCD sensor and outputting a voltage if it's above a threshold, and then REALLY gets going when converting from analog sensor value to digital (compressing it to an 8-bit or 12-bit or whatever color space), and then finally some built-in post-processing happens + some sort of compression algorithm like JPEG
+    - So the process basically looks like this:
+
+            Luminance -> Shutter Exposure -> Conversion -> Final Image Pixel
+
+        - If we knew EXACTLY what happened at each step, we could get back to the original luminance - but, alas, we typically don't
+
+- Once we have the HDR version of our image made (iterative algorithm in the slide) and saved in a large-format version, we unfortunately have to realize our displays ALSO have a limited dynamic range they can show at a time, so we need to TONE MAP our saved HDR images to a range our images can show
+
+- So, that's a whirlwind tour through panoramas and HDR, 2 technologies that're on all of your phones - see you later!

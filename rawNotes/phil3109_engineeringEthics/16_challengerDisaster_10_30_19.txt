@@ -1,0 +1,47 @@
+//****************************************************************************//
+//************ The Challenger Disaster - October 30th, 2019 *****************//
+//**************************************************************************//
+
+- Okay, today we're talking about one of the most important cases in this entire field: the 1986 Challenger Space Shuttle disaster
+    - What happened here? In the mid-1980s, the space shuttle program was HUGE and one of the most definitive features in popular culture
+        - This disaster undercut some of NASA's international reputation, and even many American's understanding of themselves as the world's leader in science
+    - In 1986, this launch was already receiving special attention well before launch; schoolteacher Christa McAuliffe was planning on going into space with the rest of the astronauts and giving televised lessons from space, and Ronald Reagan was planning on giving his State of the Union address that same night
+        - Instead, tragically, the shuttle exploded several dozen seconds into launch, with thousands of schools and homes from around the country watching
+
+- In the wake of this, then, hundreds of engineers, lawmakers, and ethicists around the country all asked the same question: how did this happen, and how can we make sure it doesn't happen again?
+    - Mechanically, what happened was that one of the rubber O-rings connecting two segments of the rocket failed; fuel leaked out, ignited, and caught the main fuel tank on fire
+        - They didn't figure this out right away; it took a lot of effort to discover this
+    - One person to talk about that was HUGE on the report was Richard Feynman
+        - Feynman is probably the 2nd most famous physicist of the 20th century after Einstein because of his neat, adventurous, weird life; "imagine a teacher who's so good the whole country falls in love with him"
+            - He was one of the youngest members of the Manhattan Project, he was a Nobel Prize winner, and he was absolutely nuts
+            - As an older guy, Feynman gets put on the Rogers Commission with 1 goal: find out what happened to the Challenger
+                - "Honestly, they probably just picked Feynman because he was a famous American guy, and they regretted it very quickly, because Feynman ended up being absolutely scathing towards NASA"
+                - Feynman wrote that the NASA engineer's own internal reliability estimates were far more concerning than NASA's public statements
+                    - He didn't just say "oh, this was a tragedy that could've happened to anyone;" he took direct aim at NASA seeming to value public relations over the actual engineering
+    - Another pivotal player was the company that made the O-rings that failed, Morton Thiokol
+        - Dramatically, it turns out that engineers at this company raised concerns BEFORE the launch actually happened, saying the O-rings hadn't been tested at a launch temperature this low, which could affect the O-ring elasticity
+            - When management pressed them on this directly - "are you saying that we can't launch tomorrow?" - the engineers said that they couldn't *prove* anything wrong would happen for sure, but that they didn't have reliable data to show it was safe
+                - This was the reverse of what usually happened, where the engineers had to prove a launch was safe
+        - NASA ended up having a conference call with them the night before the launch, and overruled their concerns and went ahead with the launch
+            - Particularly, an engineer named Robert Boisjoly was very vocal in his concerns that night, and after the disaster testified against his company in front of Congress
+
+- Here's an interesting question: was Boisjoly a whistleblower?
+    - He famously has that reputation, but strictly by definition Boisjoly didn't leak information to the press or anything like that; he was just internally arguing with his own company about stuff they already knew
+        - When he testified to the commission later, that was certainly external, but he was testifying AFTER the disaster already happened; in that sense, he wasn't "avoiding harm" except in the possible sense of preventing future disasters
+        - Boisjoly also doesn't seem to be avoiding complicity since he already tried arguing against the launch within his company - except in the weirder sense that he doesn't want to risk future disasters by not warning the public
+    - In short, it seems that Boisjoly wasn't really a whistleblower in the traditional sense; he didn't leak information about his company, he just took a strong public stand against them
+
+- Our textbook makes an argument that (while there are some things management should decide) this whole thing should've been an engineering decision
+    - They come up wih 4 reasons for this:
+        1. There wasn't a great financial risk to Morton Thiokol if a no-launch decision was made
+            - Professor Rosenberger disagrees; he thinks there was HUGE PR pressure for them to get the launch done on time, and that a delay could've hurt the company's reputation
+        2. The temperature of the launch day was SIGNIFICANTLY different than
+        3. Though limited, data was present to indicate a risk
+        4. Lives were at stake
+    - One alternative opinion on this whole disaster (although not necessarily one Professor Rosenberg agrees with) comes from Harry Collins and Trevor Pinch, 2 big sociologists in the SCS camp
+        - In their books, they frequently use the metaphor of technology as a "golem," an enchanted stone figure that does whatever we tell it, but sometimes not what we want
+        - In a chapter about this Challenger disaster, they claim this account we've heard of the Challenger is actually a cleaned-up myth, dividing things too cleanly into "good engineers" and "bad managers"
+            - Instead, they argue that this was a much murkier story where the data wasn't clear, engineers themselves weren't in total agreement, and the managers had to make a snap decision from incomplete information
+
+- Okay, with that, there're 3 things to read for Friday on the Challenger news and some opinions about it, along with textbook sections 7.7-7.8
+    - Alright, see you on Friday! ("...well, not me, but you get the idea")

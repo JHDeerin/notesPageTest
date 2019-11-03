@@ -1,0 +1,35 @@
+//****************************************************************************//
+//************ Theories in "Big Data" - October 31st, 2019 ******************//
+//**************************************************************************//
+
+- Happy Halloween, everyone!
+    - Next Thursday, we have class on realism/anti-realism; originally, we were going to read a paper by Nancy Cartwright, but I have some colleagues who are interested in some teaching techniques they want to use to teach critical thinking
+        - Basically, they're conducting a test and they want you to be data, so class next Thursday will be OPTIONAL! There'll be some marginal amount of extra credit if you choose to come, but it isn't required
+--------------------------------------------------------------------------------
+
+- Today, we have a paper by Wolfgang Pietsch on "theory-ladenness in data-intensive science"
+    - First off, we had kind of an explosive essay from Wired Magazine by Chris Anderson called "The End of Theory;" how does his argument relate to previous authors, and what do you think of the argument?
+        - While there isn't a clear "argument," Anderson claims that because we have so much data nowadays, we don't need to form hypotheses anymore; we can just look at all our data and directly observe what the world IS like, rather than creating our own models
+            - "You can tell he's not a philosopher because he uses 'models' and 'hypotheses' interchangeably"
+        - This kind of idea goes directly against Whewell and other's conception of science as "hypothesis-driven" and fundamentally a human enterprise
+            - We all know there have been biased theories and outright wrong ideas because science traditionally does have this human, creative element
+    - One way that Anderson is DEFINITELY dead wrong is in saying we've gotten rid of models; no machine learning scientist would say that because their ENTIRE CAREERS are creating models using this data!
+        - Perhaps a more charitable way to interpret what he's saying is that we're moving from humans making theories to machines making it based on that data
+
+- So, that's Anderson; let's talk about Pietsch
+    - According to Pietsch, data-intensive science isn't theory laden in some respect but IS in others - how so? (Make sure you understand what he means by "difference-making" conception)
+        - First off, this "difference-making" idea is basically just Mill's principle of differences, where if we have 2 situations and only 1 thing changes between them AND the outcome changes, Mill thinks that correlation is enough to conclude causation (i.e. the thing we changed caused the outcomes to change)
+            - Why does Pietsch bring this up? 
+            - pg. 910-911 has the key quotation here: "We can now identify the elements of theory that have to be presupposed. In particular, (a) one has to know all parameters C that are potentially relevant for the phenomenon A in a given context determined by the background B; (b) one has to assume that for all collected instances and observations the relevant background conditions remain the same, that is, a stable context B; (c) one has to have good reasons to expect that the parameters C are formulated in stable causal categories that are adequate for a specific research question; and (d) there must be a sufficient number of instances to cover all potentially relevant configurations of the phenomenon. If such theoretical knowledge can be established, then there are enough data to avoid spurious correlations and to map the causal structure of the phenomenon without further internal theoretical assumptions about the phenomenon."
+        - Pietsch generally holds that OF COURSE these techniques are theory laden externally (e.g. what parameters we decide are relevant, what questions we try to answer, the data we select, etc.), but that internally - how all these parameters relate to one another - we don't use any pre-conceived hypotheses, and in that sense these data-heavy techniques are doing something new
+
+- Finally, let's take a look at the recommended reading from Andrew Ferguson on automated policing and what he views as the danger of biases
+    - How does Ferguson think these predictive algorithms and policing might be biased?
+        - For one thing, if we want to predict criminal behavior, we need data on criminal behavior - but we don't have that data! We have ARREST data, and there's a big difference between committing a crime and being arrested for it
+            - There tends to be more arrest data for areas that're ALREADY heavily policed, as well as for particular types of crime (drug arrests vs money laundering, for example)
+        - When Ferguson talks about these factors being "reified in the data," he means that we can get models that are every bit as biased as human beings due to the data we feed it, and self-perpetuating cycles arising
+    - Does Pietsch's analysis account for this stuff, and biases?
+        - In the quote we had, it seems "d" could partially account for this by having different amounts of data for different things, whereas to get accurate predictions we should have a "representative sample"
+        - At the same time, how do we deal with flat-out wrong datasets and other things? That isn't as much accounted for
+
+- Alright, next week we'll look at the last "post-Kuhnian" topic, then we'll head into the last part of the course. See you then!

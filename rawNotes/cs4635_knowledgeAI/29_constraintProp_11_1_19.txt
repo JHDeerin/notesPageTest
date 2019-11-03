@@ -1,0 +1,62 @@
+//****************************************************************************//
+//************** Constraint Propagation - November 1st, 2019 ****************//
+//**************************************************************************//
+
+- "I'm sorry, I found no suitable movie clips today for our topic!"
+    - Don't forget that your 3rd assignment is going to be due this Sunday night!
+--------------------------------------------------------------------------------
+
+- Last time, we started talking about "constraint propagation" with the example of a cube
+    - If we look at some wireframe outlines, we can quickly tell which ones could be made by 3D objects
+        - "David Marr was a researcher who came up with an influential idea of human vision for AI: we first create a "primal sketch" of what the object looks like by detecting edges, features, etc., use this to create a '2.5D' image by inferring surfaces, and then finally form a mental image of the possible 3D object"
+            - According to Marr, only the 2.5D and 3D images are saved in our memory, as they're the "compressed" version of what we see
+    - Similarly, with natural-language sentences, we can quickly tell which sentences are grammatically correct - even if the sentence doesn't make much sense logically!
+        - e.g. Noam Chomsky's example "Colorless green ideas sleep furiously"; even if we don't understand what it means, we can tell it's grammatically valid
+
+- How can we do this? We'll propose it's due to CONSTRAINT PROPAGATION: a method of inference that assigns values to a problem's variables in a way that certain conditions/"constraints" are satisfied
+    - In algorithms we sometimes deal with problems like 3SAT that also involve satisfying constraints; how is this different?
+        - THe BIG difference is that in AI, we tend to approach these problems heuristically rather than formally
+    - For each problem, we'll try to decide what the relevant variables are, what the constraints should be on those variables for a solution, and then try to come up with values that'll get us a solution
+        - "Constraint satisfaction is the type of problem we're solving; constraint propagation is a method of solving this"
+
+- For instance, how might constraint propagation play into Marr's theory of human vision?
+    - When going from a primal sketch to "2.5D" images, we can imagine how this works under our theory!
+        - If we have a bunch of lines and edges that we see, how do we recognize that different connections of lines form 3D surfaces (instead of, say, a flat poster with squiggles on it)?
+            - One theory is that there are only so many ways that edges can connect together, and by classifying them we can form a "grammar" (or even an ontology) of possible intersections
+                - Researchers formed a notion of "blade" and "fold" edges:
+                    - A BLADE is an edge that is part of the same surface (e.g. the edges of a flat sheet of paper)
+                    - A FOLD is an edge that defines the boundaries of a surface
+                - Essentially, if there are only 2 lines intersecting in an "L-junction", it's only made up of blades; but if there's 3 lines intersecting, then at LEAST 1 of them is a fold, and depending on the angle all 3 of the edges might be!
+            - We can then take each of these edge constraints, apply them to each line intersection, and use that to decide what each line is - and hence, which regions are in the image!
+        - Perhaps this may fail on occasion - think of optical illusions - but overall, this will work!
+            - Keep in mind these aren't all the constraints; if this is how vision actually works, then we haven't discovered all relevant constraints yet
+                - "It isn't quite proper to say we learn these constraints, biologically; they seem to be ingrained in us biologically"
+
+- In natural language processing, we can see a similar idea
+    - For a sentence, we can form some simple principles like this:
+        - A sentence is made up of a "noun phrase" and "verb phrase"
+            - A "noun phrase" is made up of (optional) adjectives, and a noun/pronoun
+            - A "verb phrase" is made up of a verb and (optional) adverbs
+    - We can then apply these principles to decide if a sentence is grammatically correct/incorrect (e.g. "soft drinks due from thank bills insurance" is incorrect)!
+
+- There're a few more details online, but that's the core idea of constraint propagation
+
+- Okay; let's talk some more about constraints, but in a different context: CONFIGURATION problem solving, which is the start of our foray into creativity
+    - First, there's a large number of problems in our life that are "configuration" problems; these are problems where we know all the pieces (we don't have to create any new ones), but we have to arrange them in a suitable way
+        - For instance, an architect might be told that he has to create 200 square-foot bathroom and 2 other 400+ square-foot rooms in a 30'x44' house - how can he do that?
+            - Spatial layout is a particularly common subclass of configuration
+        - We can think of MANY other examples: seating guests at a wedding, creating a budget for groceries, etc.
+    - Notice that this is a constraint satisfaction problem - but as you'll see next week, we'll tackle this in a slightly different way
+
+- A brief side-note: what's creativity?
+    - For a chair, we might say that we know all the components: a back, a seat, some wheels, etc.
+        - We might ask a chair designer how much our chair will weigh, what fabric it will use, how much it should cost, and so on - known constraints we're applying here
+    - If all the variables in a problem are known, and the valid range of values for each variable is known, then solving the problem is fairly routine
+        - If the variables are known but NOT what their ranges are, we'll say the problem is a little creative ("I don't know how high I need the chair to be; what do you think?")
+        - If the variables themselves aren't known, then things are TRULY creative ("I know - I'll attach a rocket booster to it!")
+            - The first designer to think of adding wheels to a chair was being creative; he was introducing a new variable!
+    - "I'll go over this again, but this is a very popular notion of creativity in AI circles and computational creativity"
+
+- From this perspective, we'd say configuration problems aren't truly creative: all the variables and their ranges are known!
+
+- We'll pause here, and pick up again next week!

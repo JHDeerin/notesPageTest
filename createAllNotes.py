@@ -114,6 +114,7 @@ notesToCreate.append(ClassNoteEntry(
 #===============================================================================
 #===============================================================================
 
+
 # Open the base notes page
 baseHtmlFile = open(baseHtmlFileName, 'r')
 basePageHtml = BeautifulSoup(baseHtmlFile, "html.parser")
@@ -138,8 +139,8 @@ def convertNoteDirectory(classNotesInfo):
     currentBaseFile.close()
 
     HTMLFromNotesDir.createFiles(classNotesInfo.pathToNoteDirectory,
-                                 outputDirectoryName=classNotesInfo.outputDirectory,
-                                 baseFileName=currentBaseFileName)
+                                outputDirectoryName=classNotesInfo.outputDirectory,
+                                baseFileName=currentBaseFileName)
 
     # Delete the temporary base
     os.remove(currentBaseFileName)
@@ -147,5 +148,6 @@ def convertNoteDirectory(classNotesInfo):
     print('\nNotes for %s created!' % (classNotesInfo.outputDirectory))
     print('========================================')
 
-with multiprocessing.Pool() as process_pool:
-    process_pool.map(convertNoteDirectory, notesToCreate)
+if __name__ == "__main__":
+    with multiprocessing.Pool() as process_pool:
+        process_pool.map(convertNoteDirectory, notesToCreate)

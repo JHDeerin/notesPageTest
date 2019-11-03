@@ -1,0 +1,133 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Machine Learning for Trading</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4646Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Machine Learning for Trading</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_numpyCrashCourse_8_22_19.html">0. Numpy Crash-Course</a></li><li><a class="is-note-link" href="1_pandasReturns_8_27_19.html">1. Pandas / Return Basics</a></li><li><a class="is-note-link" href="2_returnsRisksSharpes_8_29_19.html">2. Returns, Risk, and Sharpe's Ratio</a></li><li><a class="is-note-link" href="3_optimzationBasics_9_3_19.html">3. Optimization Basics</a></li><li><a class="is-note-link" href="4_mlBasics_9_5_19.html">4. Machine Learning Basics</a></li><li><a class="is-note-link" href="5_moreMLBasics_9_10_19.html">5. Machine Learning Basics (cont.)</a></li><li><a class="is-note-link" href="6_testDecisionTrees_9_12_19.html">6. Testing, Ensembles, and Decision Trees</a></li><li><a class="is-note-link" href="7_mlStatistics_9_17_19.html">7. Statistical Foundations for Machine Learning</a></li><li><a class="is-note-link" href="8_stockFinanceBasics_9_19_19.html">8. Stock Finance Basics</a></li><li><a class="is-note-link" href="9_moreMarketMechanics_9_24_19.html">9. More Market Mechanics</a></li><li><a class="is-note-link" href="10_moreMarketMechsShort_9_26_19.html">10. Market Mechanics (cont). / Stock Shorts</a></li><li><a class="is-note-link" href="11_leverageFunds_10_1_19.html">11. Leverage and Funds</a></li><li><a class="is-note-link" href="12_EFTMutualFunds_10_3_19.html">12. EFTs and Mutual Funds</a></li><li><a class="is-note-link" href="13_hedgeFunds_10_8_19.html">13. Hedge Funds</a></li><li><a class="is-note-link" href="14_intrinsicValue_10_17_19.html">14. Intrinsic Value / Time Value of Money</a></li><li><a class="is-note-link" href="15_markovDP_10_22_19.html">15. Markov Decision Problems</a></li><li><a class="is-note-link" href="16_evaluatingFunds_10_24_19.html">16. Evaluating Funds</a></li><li class="active-note-page"><a class="is-note-link" href="17_technicalAnalysis_10_29_19.html">17. Technical Analysis</a></li><li><a class="is-note-link" href="18_policiesValueIter_10_31_19.html">18. Policies and Value Iteration</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="16_evaluatingFunds_10_24_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*************** Technical Analysis - October 29th, 2019 *******************//
+//**************************************************************************//
+
+- Jake's Ascent from Madness, Day 1: 10 hours of sleep
+    - It is over. I have recovered my sanity...well, what I had of it to begin with, at least
+
+- "Looking around the room, we might've had a drop-day blowback...or maybe everyone was just tired from something"
+    - Project 6 is due THIS WEEKEND, and after this lecture you should have everything you need to finish it
+        - Again, make sure to choose your indicators CAREFULLY since you'll be comparing this project to your future machine-learning strategy
+            - The 2 examples on the slides/wiki are decent ones (Bollinger Bands, RSI, momentum, etc.), but for the rest we'll expect you to literally pick them from Investopedia or something
+        - "We don't necessarily expect you to make money out-of-sample (that's hard), but making money in sample? We hope you can do that"
+- Also, sadly, there's quite a bit of plagiarism happening; there were 26 instances of copied code on project 5 (which is 10% of the ENTIRE CLASS)
+    - Best-case, you get a 0% on those assignments; worst-case, OSI comes hunting to kick you out of college ("and you make me have to deal with their outdated paperwork")
+        - "I don't think you're bad people for doing this; I understand this is a stressful school and desperation happens, and I appreciate the honesty of those who've admitted cheating when they're caught - but please take this class seriously. Also, I'm required as a professor to report this stuff to OSI when it's caught, so I please don't beg me to not report you; it's part of my job"
+--------------------------------------------------------------------------------
+
+- Okay; this is the last day of finance-heavy stuff we'll be going through for a little while
+    - There's PLENTY more interesting stuff to cover - and we will come back to it - but there's also machine learning stuff to cover, and that's important for us to teach you
+
+- What'll we be covering today, exactly? A thing called TECHNICAL ANALYSIS
+    - Like fundamental analysis, this is an area of financial prediction that's part art and part science; most people agree that it's valuable, but there's only a few things that we can prove work for sure
+    - What's the distinction between fundamental and technical analysis?
+        - Fundamental analysis is where we make decisions by comparing a company's price against our estimate of its "true" value
+            - This is mostly useful for investing or not
+            - Stuff like valuing a company, etc. is the bread-and-butter of this stuff
+                - Notice, though, that the data points for it tend to come slowly via quarterly releases; that means there's a LOT of thought and human interpretation that have to go into it, including many qualitative factors (which direction people think a CEO will take a company, etc.)
+            - We can't quite prove this works, but many studies have shown there are good predictive factors; most people are confident in at least the well-studied stuff
+        - TECHNICAL ANALYSIS, in contrast, is very data-heavy, focusing on a stock's historical market performance
+            - Here, we assume the market is trying to tell us what people think about a stock, and that we can therefore find important trends in that (betting on the stock market's cyclical nature)
+                - This is a much younger field that has NOT been as well validated as fundamental analysis
+            - So, does this even work? Maybe; no one has proved these techniques actually work reliably, but there've been computers that make tons of money using these techniques
+                - At the same time, stock price and sale volume definitely do tell us *something* about the company and where it's going
+                - We also DO know similar heuristics work in other fields - so why not finance?
+
+- So, assuming technical analysis works at all, when should we use it?
+    - First of all, if it works at all, it works best over short time periods (several weeks at most, and often on the order of seconds or minutes)
+        - One thing that's somewhat alarming is that as these techniques become better-known and used by more people, they become less effective; "if 1 person finds a successful strategy, they get all the success; if 1 million people follow that strategy too, the profit gets split up at the very least"
+            - Because of this, the time-scales where technical analysis seems to work have gotten shorter and shorter
+        - "Naively applying deep learning to stock data has been much less successful than people think; they tend to do amazingly at in-sample results and then basically produce white noise in the real world. The most successful strategies have involved using deep learning to improve traditional techniques (selecting the best indicators for a market sector, etc.)"
+            - Keep in mind, though, it's still early days; machine learning for finance has only really been around for the past 10 years
+    - It works best when there're relative changes to exploit, like 2 stocks diverging or a stock against a benchmark
+    - Keep in mind that SINGLE indicators are very weak at predicting where stuff'll go (and maybe less), since - again - the more people that use an indicator, the less effective it is
+        - If we have an ENSEMBLE of different indicators, though, that actually seems to work!
+
+- So, what're some examples of technical indicators? Let's look at a few!
+    - MOMENTUM is one of the oldest and - surprisingly - one of the most promising indicators
+        - The idea here is that short-term trends continue for a little while, leading people "jumping on the bandwagon" until the trend finally goes the other way
+            - "It's like pump-and-dump without the manipulation; it's just normal human psychology"
+                - ...and, if it isn't already obvious, psychology is a HUGE factor in 
+        - Mathematically, this is effectively rolling cumulate returns; it's just the line connecting 2 points on a graph:
+
+                momentum[t] = (price[t] / price[t-n]) - 1
+
+            - ...where "n" is how many days in the past we're looking at to identify a trend (ans subtracting by 1 is just so everything is centered at 0)
+        - This seems like it's far too simple to give us useful information, but it actually does seem to let us make reliable predictions over a short period of time in certain circumstances
+            - There's a thing we might talk about called the "Efficient Market Hypothesis" 
+    - SIMPLE MOVING AVERAGE is just looking at the past "n" days and creating a smoothed-out, lagging indicator of the price
+        - If this average is higher than the stock price, that seems to indicate the stock is worth buying
+        - "SMA is commonly used as the 'mothership price' of what the stock is REALLY worth once the noise has been taken out"
+            - mathematically, this is equally simple:
+
+                price_to_SMA_ratio = price[t]/price[t-n:t].mean()
+
+        - The problem with SMA is that it lags behind the actual stock price; if you just naively trade based on when the SMA turns, that's useful (since you aren't faked out by the noise, your trend is more likely to be the "real one"), but you will be behind other people
+    - EXPONENTIAL MOVING AVERAGE avoids this lagging problem at the cost of being more jittery and volatile
+        - This is a little more complex to calculate, and is usually done in recursive form:
+            - Start with the SMA as the initial price (equally weight the days)
+                - Use a weight of "2 / n+1" for each day, where "n" is the size of your window in days/base case
+            - Then, recursively:
+
+                    EMA(t) = weight*price[t] + (1 - weight)EMA(t-1)
+
+                - Notice that the weight looks a little like the learning rate in Q-learning, because this is basically a simplified form of that!
+            - EMA is more common in practice than SMA
+    - BOLLINGER BANDS were created by a guy named Bollinger to address as problem: he knew that SMA's main use is to figure out the "mean real price" of the stock, but how far away does the stock need to go from that mean value before it's worth buying/selling?
+        - You could arbitrarily make up some heuristic like "when the stock is 30% above the mean" or something, but that might not hold up if the market gets more/less volatile
+        - Instead, with Bollinger Bands, we'll use the stock's volatility to decide this automatically!
+            - This almost always means using a rolling standard deviation
+            - It's most common to use +/- 2*std_dev (which includes 95% of random stuff), but that 2 isn't magic or required
+                - In general, a higher value of "C" will result in fewer - but more reliable - signals
+                - Lower values are the opposite: more signals, but a higher chance of getting accidentally triggered
+            - How do we use these bands once we've calculated them?
+                - One way is to say that after going far away, the stock'll eventually return to the mean; so, if the stock leaves the bottom band, we should buy it, then sell when it returns to the mean
+                - Bollinger himself actually did the opposite thing; he assumed that if the stock left the bands, that meant the old mean no longer applied and the stock's mean price was PERMANENTLY (or, at least, for some time) was shifting up/down
+                    - So, when the stock left the bottom band, he'd short the stock instead!
+                    - This latter interpretation is probably more common now, but not universal
+        - This is one of the indices that's been heavily studied, and when Bollinger first used it in the 70s, it seemed to produce ~30% returns - but after he published a paper on it, that dropped to 15%, and after talking about it on TV it dropped to 5%
+            - Obviously this isn't a proof, but it's an example of what's proved to be a trend: once an indicator gets popular, it gets steadily less effective
+            - "So, moral of the story: if you find something awesome, SHUT UP!"
+    - MACD, the "moving average convergence/divergence" oscillator, isn't as scary as it's name pretends
+        - This is basically trying to find cyclical patterns of a stock going up/down; so, how do we do that? We'll construct 2 different moving averages using different number of days (12 and 26 are pretty common) and subtract them
+            - If the faster stock has gone above the slower one, that seems to indicate the stock is higher than normal, and vice-versa
+        - Mathematically, we can also construct a SIGNAL LINE, a moving average of the MACD indicator itself:
+
+                MACD[t] = EMA(t1)[t] - EMA(t2)[t]
+                singal[t] = EMA(9, MACD)[t]
+
+        - The last thing people use MACD for is price divergence!
+            - If a stock keeps going down, but the MACD hasn't gone down as much before ,there's a school of thought that says that means the down-trend of the stock is starting to end!
+
+- Okay, sorry for going slightly over! I'll see you on Thursday!</pre>
+</article>
+<a class="side-link is-note-link" href="18_policiesValueIter_10_31_19.html"></a>
+</main>
+</body>
+</html>

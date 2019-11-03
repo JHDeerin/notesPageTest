@@ -1,0 +1,84 @@
+//****************************************************************************//
+//************** Dense Motion Estimation - October 28th, 2019 ***************//
+//**************************************************************************//
+
+- Jake's descent into madness, part 3: 32 hours without sleep
+    - ...I'm actually surprisingly lucid for a person going through the tutorial stage of fatal familial insomnia
+        - I'm 90% sure this statement is a joke
+    - I just have to survive this class, get to my room, consume calories, bang out my computer vision homework, and then begin the screaming nightmares of sleep
+
+- Alright, the microphone is dead; long live Professor Dellaert's voicebox!
+    - Professor Dellaert just got back from an apparently-wonderful conference at Rome; next week, he'll be going to another conference in Macau
+        - "I could've also gone to ICCV this week, but I came back for you"
+
+- "I know this is a rough time of the semester, so I put in at least 1 funny video in these slides"
+    - Also, DON'T FORGET that part 1 of project 4 is due tonight!
+--------------------------------------------------------------------------------
+
+- Okay, let's start going through dense motion estimation!
+    - This is widely used for all sorts of goodies like video stabilization, image alignment, and so on
+        - We need 2 things for this: an error metric, and some kind of search technique (hierarchical is probably the most common right now)
+
+- We talked about translational alignment WAYYYYYY back before the midterm, even; that was being done with feature-based errors, but we'll now go with image based errors (i.e. going off of the COLORS in the image, rather than the position of keypoints we've found)
+    - So, we'll take the sum of squared differences (SSD) as our error metric, or SAD if we need to deal with outliers more robustly
+        - Remember, SAD has the issue of being non-differentiable, although there are variants of it that are
+    - Given this error function, we want to optimize for the translation that gets us minimizes the error and gets the images to overlap the best
+        - We can then add some window functions to avoid counting pixels outside (outside of what?)
+    - (bias and gain and cross-correlation for controlling brightness)
+
+- So, all of that stuff we've actually covered before - so let's get on to something new!
+    - One common issue is that if you just estimate motion at a single (?); so, we'll use HIERARCHICAL MOTION ESTIMATION!
+        - So, we'll build the pyramid by continually downsampling/applying a low-pass filter to get different sized images
+            - We downsample to detect different coarsenesses of motion, but why do we apply this low-pass filter? To deal with aliasing!
+                - How far down do we shrink the image? You can kind of play with that on a per-application basis, but obviously there's a limit; you can't get smaller than 1 pixel
+        - So, every time we downsample the image by half, the amount of motion in the image is also cut in half (i.e. the estimated motion of each pixel is cut in half), and vice-versa when we scale up
+    - This pyramid helps us bound the computational expense by giving us initial estimates of pixel motion at each level, but if we want to get REALLY good motion estimation, we need SUB-PIXEL REFINEMENT!
+        - In any video you take, the real world doesn't move in pixel-by-pixel increments; it move in real-world, continuous units! This is especially evident in low-resolution images and far-awy objects in pictures, but it's EVERYWHERE!
+            - To estimate this sub-pixel motion, we've got to do a bit of hairy math, where we're trying to now estimate the translation not just in pixel increments, but in real-numbered units!
+            - We can do our SSD calculation at the sub-pixel level with a gradient:
+
+                    sum{ I_1(x_i + u + del(u) - I_0(x_i))^2}
+
+                - We can then use the Jacobian to approximate this via a Taylor series:
+
+                        ~= sum{ (J_1(x_i+u)*del(u) + e_i)^2 }
+
+                    - Where, remember:
+
+                        J_1(x_i + u) = (dI_1/dx, dI_1/dy)*(x_i + u)
+
+                    - So, for a given pixel, the Jacobian is just a gradient!
+                        - "If you don't understand this know, go to the textbook and try to understand it; otherwise you'll be lost for the rest of this lecture, and you'll never know how the story ends"
+            - So, with this, we can once again form our normal equations and do a variant of least-squares optimization to figure out what the sub-pixel motion "del(u)" is!
+
+                    A*del(u) = b
+                    => A = sum{J_1(x_i + u)*J_1(x_i + u)}
+                    => b = -sum{ e_i*J_1(x_i  u) }
+
+                - What this is saying, basically, is that "b" is the dot product of our gradient images with our error function's result
+                    - So, if "u" was already correct, then "b" would be 0; there wouldn't be any need to move and correct anything! (I think I get the gist, but the math?)
+                    - The most information would come from the most extreme gradients - and where've we seen that idea before? The Harris corner detector!
+            - So, maybe now you have a better idea of where the Harris detector comes from: it comes from this whole idea of the Hessian and of stronger gradients giving more information
+
+- And now, as a reward for your perseverance through all that, here's a video of a gyroscopic chicken (you, text viewers, do not get to gaze upon the chicken)
+
+- Now, if ALL we try to correct for is translation, then we're still going to end up with a very jittery video since rotation and other aspects also account for camera motion
+    - If we upgrade to solving for a SIMILARITY transform (4 DOF!), then we get a LOT less jittery, but the camera still wobbles arond a bit
+    - If we raise the stakes once more to HOMOGRAPHY (i.e. a perspective transfrom), then we can get even better results!
+        - As a side-note, whenever we stabilize videos we'll always need to crop the video a little bit, so we have room to counteract the motion of the camera without shooting "off screen"
+- Many people also do stuff like PATH SMOOTHING, where we try and replace the phone's actual movement with a cinematic curve fitted to the original
+
+- So, how do we level up from just translation to parametric transformations as a whole?
+    - Well, before, the "del(u)" we were adding was a 2D gradient vector, since we were just looking at a 2D transformation; if we change that (and the Jacobian matrix's dimensions to match), we can scale up to higher numbers of parameters!
+        - So, if we instead add "del(p)" for a homography transformation, it'd be an 8x1 vector!
+            - I MUST BE EXCITED BECAUSE IT PREVENTS ME FROM FALLING ASLEEP :D
+        - Finally, without going too far in-depth, there are 3 variants people use to address the performance issues with these techniques
+            - There's the good ol' original SSD, tried and trusty
+            - Then there's the COMPOSITIONAL approach where we warp our image and incrementally update it towards the others
+            - Finally, there's INVERSE COMPOSITIONAL, where we apply our transformation to a template instead of the image itself so that we can eventually pre-compute our Jacobians/Hessians
+                - The IC algorithm, from 2004, is pretty famous, and is important for making many of these motion algorithms viable
+                - "I don't expect you to memorize this, but it is a good thing to know"
+                    - One of Professor Dellaert's Phd. students actually improved this algorithm using deep learning, using ML to decide where the equation needs to be optimized and giving really good, fast results
+    - So, if you really understand image alignment deeply and how all this math and pipelining stuff works, you can understand how to apply these modern techniques like deep learning to it effectively to end up with something truly state-of-the-art and special
+
+- Alright, I think we're done; see you Wednesday!

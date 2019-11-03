@@ -1,0 +1,40 @@
+//****************************************************************************//
+//*********** Impediments to Responsibility - October 23rd, 2019 ************//
+//**************************************************************************//
+
+- Alright; today, we're starting a new unit on management in engineering, and 
+    - In Chapter 3 of our textbook, there's a neat section on challenges to taking responsibility that come up in organizations
+        - Most of these are psychological, some for individuals and others for groups
+
+- Throughout this semester, our goal has been to figure out how engineers can do "right things" and avoid doing "wrong things"
+    - So far, we've been trying to tackle what those right and wrong things are; today, we're taking a more pragmatic, psychological perspective
+
+- So, what're some of these issues? Let's list them!
+    - The PROBLEM OF MANY HANDS is where, in a large organization with a LOT of people working on a project, it can be hard to assign blame - and people instinctively say "I'm not at fault; everyone here had a hand in it"
+        - Sometimes, this is just a way of people dodging responsibility, but it also does raise legitimate issues: who should be punished for this? Who do we hold accountable?
+            - Sometimes companies even intentionally set up their management structure so it isn't clear who
+    - BLIND SPOTS are where people fail to notice responsibility issues, and come in several forms
+        - SELF-DECEPTION is when you do genuinely want to be a good person, but you also don't want to risk losing your job/etc. by raising issues; so, because you're afraid, you lie to yourself and say "well, I'm not sure if I actually saw something, maybe I was wrong..."
+            - WILLFUL BLINDNESS is very similar, but it's where you avoid even noticing problems at all; you think something shady *might* be going on with your colleague over there, but you don't even look at the person since you don't want to get involved
+        - INATTENTIONAL BLINDNESS is when you see things, but don't recognize that anything wrong is going on, or when we're so focused on doing our jobs that we don't notice there's a moral problem
+            - The "person in a gorilla suit" study, or distracted driving, is a good example of this, where your mind is somewhere else even though stuff is happening right in front of you
+    - NORMALIZING DEVIANCE is when a group "enlarges the boundaries of acceptable risk without a sound engineering basis"
+        - Say your job is to check some sort of a dial, and it goes from 1 to 10, and if it's ever above 5 the manual says that's reason for concern
+            - You come in on your first day, and you see it's 6! So you run to your manager, and he says "oh, yeah, it's at 6 all the time; that's normal. Don't worry about it."
+                - No, you SHOULD worry about it - but because these conditions are normal, and nothing bad's happened yet, people have just gotten used to it without good reason! They've become okay with things being "slightly wrong"
+        - The Columbia disaster is a prominent example here, where the investigation board found that the culture at NASA disregarded the foam-shredding on the space shuttle because it had happened on previous flights without issue - even though it clearly shouldn't have happened!
+    - EGOISM is when we hold our self-interest above the "greater good;" we KNOW something wrong is going on, but we consciously choose to not act since we might hurt
+        - As a quick side-note: "egotistic" means you have an inflated opinion of yourself and think you're super-awesome, while "egoism"
+        - More commonly, we can often be EGOCENTRIC, meaning that we have difficulty seeing things from other people's perspectives
+            - This comes up all the time in adolescent studies, where kids ROUTINELY overestimate how many people care about what they're wearing or doing or etc.
+            - Piaget's stages of child development also include this; famously, kids below a certain age (~3) literally can't understand that someone might have incorrect beliefs about the world
+                - Classic example: if you take all the reconstituted garbage chips out of a Pringle's can, and ask a 3 year old what's in it, they'll say (correctly) "Chips, I think." If you pour it out and show them you actually put pencils in the can, and ask them "what did you think was going to be in the can?", the 3 year olds will change their answer and say "pencils!"
+                    - ...they're not lying here; they legitimately can't see things from their own perspective several minutes ago! 
+        - So, egocentrism is that idea of not being able to put ourselves in other people's shoes
+    - MICROSCOPIC VISION is the idea of "tunnel vision" and each person getting so focused on their own work that they don't notice larger issues
+        - "That's not my job;" it's technically true, but you still have a responsibility to watch out for issues
+    - UNCRITICAL ACCEPTANCE OF AUTHORITY is...well, exactly what it sounds
+        - The Milgram experiment in psychology is a SUPER famous example of this, where people were asked to give other people increasingly large electric shocks - and as long as an actor (pretending to be the head researcher) kept telling them "the experiment requires you to continue," a HUGE percentage of people (9/20) kept delivering shocks even when the "learner" (who was also an actor, and not actually shocked) demanded to be let off, and EVEN when the dosages were fatally high
+            - Milgram believed this was literally how Nazi Germany happened: ordinary people believing the people in charge knew what they were doing
+
+- Alright; don't forget recitation on Friday (the reading'll be about a "3 webcams" article), and see you later!
