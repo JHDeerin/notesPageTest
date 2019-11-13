@@ -1,0 +1,73 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means-End Analysis</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case-Based Reasoning</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case-Based Reasoning (cont.)</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. Classification Basics</a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li><li><a class="is-note-link" href="18_morePlanning_10_4_19.html">17. Planning (cont.)</a></li><li><a class="is-note-link" href="19_knowledgeEngineering_10_7_19.html">18. Knowledge Engineering</a></li><li><a class="is-note-link" href="20_yetMorePlanning_10_9_19.html">19. Planning (cont.)</a></li><li><a class="is-note-link" href="21_understandingCommonSense_10_11_19.html">20. Understanding and Common-Sense</a></li><li><a class="is-note-link" href="22_commonSense_10_16_19.html">21. Common-Sense Reasoning (cont.)</a></li><li><a class="is-note-link" href="23_fractalReasoning_10_18_19.html">22. Fractal Reasoning</a></li><li><a class="is-note-link" href="24_explanationReasoning_10_21_19.html">23. Explanation-Based Reasoning</a></li><li><a class="is-note-link" href="25_analogicalReasoning_10_23_19.html">24. Analogical Reasoning</a></li><li><a class="is-note-link" href="26_moreAnalogicalReasoning_10_25_19.html">25. Analogical Reasoning (cont.)</a></li><li><a class="is-note-link" href="27_moreAnalogyVersionSpace_10_28_19.html">26. Analogical Reason (cont). / Version Spaces</a></li><li><a class="is-note-link" href="28_versionSpaces_10_30_19.html">27. Version Spaces</a></li><li><a class="is-note-link" href="29_constraintProp_11_1_19.html">28. Constraint Propagation</a></li><li><a class="is-note-link" href="30_moreConstraintProp_11_4_19.html">29. Constraint Propagation (cont.)</a></li><li><a class="is-note-link" href="31_diagnosis_11_6_19.html">30. Diagnosis</a></li><li><a class="is-note-link" href="32_mistakeCorrection_11_8_19.html">31. Learning from Mistakes</a></li><li class="active-note-page"><a class="is-note-link" href="33_metacognition_11_11_19.html">32. Metacognition</a></li><li><a class="is-note-link" href="34_advancedTopics_11_13_19.html">33. Advanced Topics</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="32_mistakeCorrection_11_8_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******************* Metacognition - November 11th, 2019 *******************//
+//**************************************************************************//
+
+- *cue a clip from "A.I.: Artificial Intelligence"*
+    - "In this movie, the boy - David - is a mecha, a robot, and he's being abandoned by his 'mother' in the woods for reasons that are likely unclear to you, and the boy howls and cries and is obviously distraught"
+        - "The word 'robot' comes from the Czech word for slavery - is that what we're doing? Do we have a right to do whatever we want with these robots? Do they have any rights at all? Is it acceptable for us to be terrible people to our creations?"
+        - Perhaps we would never build a robot that could show the emotional distress we see in this movie clip, but is it wise to build a robot without emotions? Many people find robots too mechanical to talk too, and loneliness is a common human complaint - those may be motivations to build human-like robots, down to human
+    - The reason these questions are being raised here is because they show there are some very serious ethical issues involved in AI, and the time to answer them is NOW, before they become a problem, rather than in 100 years when we've already started building such machines
+--------------------------------------------------------------------------------
+
+- Last time, we were discussing learning by correcting mistakes, where we want the agent to identify the error in its model, explain what led to the error, and then fix the underlying problem
+    - This is related to the idea of getting robots to ask questions: how does the robot know what it doesn't know, and realize that it's interested in knowing the answer?
+- So far, we've been using the example of recognizing that a bucket with a swinging handle isn't a cup, since we can't hold it by the handle to drink from it
+    - We've been trying to use explanation-based reasoning to justify this; in this case, we need to recognize that "object is liftable" doesn't mean it enables drinking just because it also carries liquid, since the handle can be lifted, but will swing
+        - We could fix this by saying "handle is fixed" as an extra requirement for "enables drinking" - but that's uninteresting! WHY didn't this work?
+            - The underlying problem is because we couldn't MANIPULATE our cup properly because of the swinging handle - so, instead, we'll add an "is-manipulatable" requirement to "enables drinking," with the requirements that the object is liftable and that it has a fixed handle
+                - We may change the requirement for manipulation to more generally be that the object is "orientable," of which a fixed handle is a necessary condition
+            - "This is the same way question-asking systems work: they have some partial understanding of the world, and they want to make their understanding complete, so they keep asking questions until the answer is complex enough to satisfy them"
+                - These systems are becoming increasingly a focus of research, especially in conversational systems like Amazon Alexa
+                - Importantly, these should be MEANINGFUL questions that are relevant and fix our understanding, and not just parrot-like systems
+
+- With that, let's start on our next topic: META-REASONING!
+    - Many cognitive scientists believe that this - or at least human proficiency at it - is what sets humans apart from the rest of the animal kingdom
+    - We've been discussing this in oblique ways throughout the class: our idea of possible operators in means-end analysis, for instance, is an example (?)
+        - If you look at all of the techniques we've learned in this class so far, we can build a very simple periodic table of intelligence - but from Chemistry, we know that just having a list of chemicals isn't enough. We need to know what chemicals to mix for different uses and situations, and what their combinations can do that individual techniques can't
+        - As we do something as simple as driving to the airport, we're constantly changing what problem-solving strategies we use - how can we get our AIs to do the same thing?
+    - METACOGNITION plays the critical role: thiking about when to use/abandon a given strategy, and how to use strategies together
+        - Let's think about what knowledge each learning technique requires, what it says about correctness, and how fast each method is:
+            - Learning by Recording Cases requires previous cases, isn't guaranteed to be correct, and is pretty fast
+            - Logic requires logical rules and information in prepositional forms, is very slow, but guarantees correct answers
+        - If we have these requirements, we can decide what technique is appropriate; if we're taking an algebra test, we care a lot more about correctness then speed! But if we're fleeing an angry orangutan, we'd better get an answer quick!
+    - "This is a suprisingly simple, elegant solution, isn't it? We're just using what we already know to do metacognition! We pick the technique that we have enough time for, meets some required quality, and that we have enough knowledge to use"
+        - This idea is certainly taking the idea that we have multiple problem-solving techniques in our head, rather than the opposing view that there's some general-purpose AI technique that'll always work
+    - How do we switch strategies if one isn't working, then, or integrate different strategies together?
+        - Most strategies require multiple stages (e.g. case-based reasoning involves retrieval, adaptation, evaluation, and storage), each of which we may recursively use our metacognition to decide which other technique is appropriate to solve it
+
+- According to this view, the diversity of human behavior comes from these multiple problem-solving strategies we have and their many combinations
+    - But if metacognition is so good, then how many layers of metacognition are there? Is there meta-metacognition that chooses what strategy we use to choose strategies? Is there another layer higher up? Does it keep going forever? Where does it stop?
+        - The current psychological hypothesis is that there's just 1 layer of metacognition, since we think this way about our deliberation processes, but if we ever think metacognitively about our own metacognition, it seems we can explain that sufficiently through recursion, rather than through completely different techniques
+
+- Alright, we'll stop there for today!</pre>
+</article>
+<a class="side-link is-note-link" href="34_advancedTopics_11_13_19.html"></a>
+</main>
+</body>
+</html>

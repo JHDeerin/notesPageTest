@@ -1,0 +1,35 @@
+//****************************************************************************//
+//*********** Constraint Propagation (cont.) - November 4th, 2019 ***********//
+//**************************************************************************//
+
+- THE CLASS IS BEGINNING, WHOOP-DE-DOO
+- "Alright, we'll begin with a short clip from the movie Blade Runner - the original, not the new one"
+    - This is an excellent movie, but I share this test scene because it is both an example of a Turing test and involves a robot that doesn't realize it's a robot
+        - If we create robots, they might not think of themselves as that, or as servants
+    - Again, why are we doing this human-level AI? If we succeed, then what does that mean?
+        - It raises all sorts of ethical and social problems; we tend to assume that we will be the creators and robots will be the created, but will the robots accept that?
+        - Why do we want these servants, in the first place? Are we trying to build the "next level" of intelligence? Are we trying to play God and just showcase how smart we are? Are trying to advance past neuroscience by building working models of intelligence?
+    - Another, relevant things this video clip mentions: humans will have memories of a lifetime, but robots will not have that, and these may be important for intelligence
+--------------------------------------------------------------------------------
+
+- Alright, last time we were talking about how vision an natural-language processing both have quite a lot in common, and both involve forms of induction
+    - More relevantly, it seems both of them use CONSTRAINT PROPAGATION (at least in part)
+        - Visually, we can use how lines intersect to resolve a bunch of edges into shapes and surfaces (although we might not yet know what those shapes/surfaces mean)
+            - Certain constraints make this processing easier, e.g. saying what different types of edge intersections MUST mean ("this is a fold separating surfaces", "this is a blade defining the edge of a surface", etc.)
+
+- There are 3 things going on here: knowledge of these constraints, the problem of constraint satisfaction, and then the method of constraint propagation
+    - "Perhaps we could put these constraints in rule form"
+
+- Why are we talking about this? Constraints are a type of knowledge, and despite their complexity, constraint satisfaction problems seem to be solved very easily by us, and constraint propagation is a possible way we do this
+
+- We also began talking about CONFIGURATION PROBLEMS, where we talk about design problems in which all the possible components are known
+    - "If you ask a bike seller for a mountain bike, they don't start building parts from scratch; instead, they try to find an existing bike that best suits your needs"
+        - One of the successes of AI (which has become less prominent today) is that many computer-building robots use configuration solvers to optimally decide where different computer parts should go
+        - Thousands of companies use similar configuration design methods to choose items for their customers, design different parts and items, etc.
+    - As an experienced designer of chairs, for instance, we may know that chairs should have 3-5 legs, weighs between 0.5 and 10kg, etc., and we know the exact cost and weight of different materials
+        - If a customer asks us to build a chair weighing more than 1kg, with 4 legs, that costs at most $20, then we can define our chair variables that we KNOW it must satisfy and then pick the rest of them satisfy those requirements
+            - "People used to say knowledge is power; now, AI researchers prefer to say organized knowledge is power"
+    - How is this different from case-based reasoning?
+        - In CBR, it's as if we're a novice designer that might only have a single matching example to go off of; here, we instead of a conceptual hierarchy of dependencies, constraints, etc. that we've abstracted from MANY examples
+
+- Alright, we'll stop here for today; thank you!

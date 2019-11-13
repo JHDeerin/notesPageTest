@@ -1,0 +1,66 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means-End Analysis</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case-Based Reasoning</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case-Based Reasoning (cont.)</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. Classification Basics</a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li><li><a class="is-note-link" href="18_morePlanning_10_4_19.html">17. Planning (cont.)</a></li><li><a class="is-note-link" href="19_knowledgeEngineering_10_7_19.html">18. Knowledge Engineering</a></li><li><a class="is-note-link" href="20_yetMorePlanning_10_9_19.html">19. Planning (cont.)</a></li><li><a class="is-note-link" href="21_understandingCommonSense_10_11_19.html">20. Understanding and Common-Sense</a></li><li><a class="is-note-link" href="22_commonSense_10_16_19.html">21. Common-Sense Reasoning (cont.)</a></li><li><a class="is-note-link" href="23_fractalReasoning_10_18_19.html">22. Fractal Reasoning</a></li><li><a class="is-note-link" href="24_explanationReasoning_10_21_19.html">23. Explanation-Based Reasoning</a></li><li><a class="is-note-link" href="25_analogicalReasoning_10_23_19.html">24. Analogical Reasoning</a></li><li><a class="is-note-link" href="26_moreAnalogicalReasoning_10_25_19.html">25. Analogical Reasoning (cont.)</a></li><li><a class="is-note-link" href="27_moreAnalogyVersionSpace_10_28_19.html">26. Analogical Reason (cont). / Version Spaces</a></li><li><a class="is-note-link" href="28_versionSpaces_10_30_19.html">27. Version Spaces</a></li><li><a class="is-note-link" href="29_constraintProp_11_1_19.html">28. Constraint Propagation</a></li><li class="active-note-page"><a class="is-note-link" href="30_moreConstraintProp_11_4_19.html">29. Constraint Propagation (cont.)</a></li><li><a class="is-note-link" href="31_diagnosis_11_6_19.html">30. Diagnosis</a></li><li><a class="is-note-link" href="32_mistakeCorrection_11_8_19.html">31. Learning from Mistakes</a></li><li><a class="is-note-link" href="33_metacognition_11_11_19.html">32. Metacognition</a></li><li><a class="is-note-link" href="34_advancedTopics_11_13_19.html">33. Advanced Topics</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="29_constraintProp_11_1_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*********** Constraint Propagation (cont.) - November 4th, 2019 ***********//
+//**************************************************************************//
+
+- THE CLASS IS BEGINNING, WHOOP-DE-DOO
+- "Alright, we'll begin with a short clip from the movie Blade Runner - the original, not the new one"
+    - This is an excellent movie, but I share this test scene because it is both an example of a Turing test and involves a robot that doesn't realize it's a robot
+        - If we create robots, they might not think of themselves as that, or as servants
+    - Again, why are we doing this human-level AI? If we succeed, then what does that mean?
+        - It raises all sorts of ethical and social problems; we tend to assume that we will be the creators and robots will be the created, but will the robots accept that?
+        - Why do we want these servants, in the first place? Are we trying to build the "next level" of intelligence? Are we trying to play God and just showcase how smart we are? Are trying to advance past neuroscience by building working models of intelligence?
+    - Another, relevant things this video clip mentions: humans will have memories of a lifetime, but robots will not have that, and these may be important for intelligence
+--------------------------------------------------------------------------------
+
+- Alright, last time we were talking about how vision an natural-language processing both have quite a lot in common, and both involve forms of induction
+    - More relevantly, it seems both of them use CONSTRAINT PROPAGATION (at least in part)
+        - Visually, we can use how lines intersect to resolve a bunch of edges into shapes and surfaces (although we might not yet know what those shapes/surfaces mean)
+            - Certain constraints make this processing easier, e.g. saying what different types of edge intersections MUST mean ("this is a fold separating surfaces", "this is a blade defining the edge of a surface", etc.)
+
+- There are 3 things going on here: knowledge of these constraints, the problem of constraint satisfaction, and then the method of constraint propagation
+    - "Perhaps we could put these constraints in rule form"
+
+- Why are we talking about this? Constraints are a type of knowledge, and despite their complexity, constraint satisfaction problems seem to be solved very easily by us, and constraint propagation is a possible way we do this
+
+- We also began talking about CONFIGURATION PROBLEMS, where we talk about design problems in which all the possible components are known
+    - "If you ask a bike seller for a mountain bike, they don't start building parts from scratch; instead, they try to find an existing bike that best suits your needs"
+        - One of the successes of AI (which has become less prominent today) is that many computer-building robots use configuration solvers to optimally decide where different computer parts should go
+        - Thousands of companies use similar configuration design methods to choose items for their customers, design different parts and items, etc.
+    - As an experienced designer of chairs, for instance, we may know that chairs should have 3-5 legs, weighs between 0.5 and 10kg, etc., and we know the exact cost and weight of different materials
+        - If a customer asks us to build a chair weighing more than 1kg, with 4 legs, that costs at most $20, then we can define our chair variables that we KNOW it must satisfy and then pick the rest of them satisfy those requirements
+            - "People used to say knowledge is power; now, AI researchers prefer to say organized knowledge is power"
+    - How is this different from case-based reasoning?
+        - In CBR, it's as if we're a novice designer that might only have a single matching example to go off of; here, we instead of a conceptual hierarchy of dependencies, constraints, etc. that we've abstracted from MANY examples
+
+- Alright, we'll stop here for today; thank you!</pre>
+</article>
+<a class="side-link is-note-link" href="31_diagnosis_11_6_19.html"></a>
+</main>
+</body>
+</html>

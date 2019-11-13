@@ -1,0 +1,40 @@
+//****************************************************************************//
+//****************** Advanced Topics - November 13th, 2019 ******************//
+//**************************************************************************//
+
+- Alright, today we have a clip from the movie "Ex Machina" - "in my opinion, the best AI movie I have seen"
+    - *cue clip where a robot asks one of the human designers if he's attracted to her*
+    - "We're still talking about AI ethics, and we see here a completely new frontier for sexual abuse - humans abuse other humans sexually, so how badly will we abuse robots that we create? Is that somehow okay, or is that terrible?"
+        - Last year, a certain chatbot website published that 30% of their recorded conversations would classify as "romantically or sexually intimate" - are we just creating AIs so that we can use and abuse them? Is it okay because we're doing this in a purely artificial environment? Is it okay because AIs won't be "conscious," so far as we know?
+    - In a TEDx talk recently, one speaker claimed that before we create AIs, we need to first get human ethics sorted out - heck, there are colleagues that say that if robots rebelled against us, they'd be JUSTIFIED!
+        - "As scientists, we rarely talk about ethics - I doubt you mentioned it in your mathematics or physics classes. But I think it's critical we talk about these complex things, and keep talking about them. As engineers, we have ethical responsibilities, and we need to take them seriously - before they become a problem."
+            - In Professor Goel's own lab, they've previously done research that now makes him cringe
+--------------------------------------------------------------------------------
+
+- Toda,y we're going to quickly go through 4 advanced topics we've referenced, but not really talked about clearly
+    - "We won't go through these in any detail, but hopefully you'll better understand what they are"
+
+- First up is VISUOSPATIAL REASONING!
+    - Often when we talk about KBAI, we discuss symbolic knowledge, like frames or logical predicates
+        - Nowadays, though, many cognitive scientists think we think in images - so how can we represent that? Especially because all of the knowledge representations we've talked about have ONLY been symoblic and relational, and not spatial?
+        - "Code, in particular, is inherently text-based, so many programmers aren't predisposed to think in these visual terms"
+    - Can we humans think about and reason about things without first translating images and shapes into symbols? That's the goal of this topic, and it requires completely rethinking how we program!
+        - "Similar ideas apply for things like smells and sounds: trying to think about them directly, rather than going through an intermediate logic"
+    - Humans seem to do this all the time ("thinking in pictures"), but how we do this is unclear
+        - One theory is that people do this in a similar way to analogical transfer, but it's still in the air
+
+- Next up, we have SYSTEMS THINKING!
+    - Systems thinking is very popular these days for thinking about complex concepts, and is basically thinking of things as being connected to everything else
+        - "In this view, Georgia Tech isn't just a university, but is a complex connected web of professors and students and administrators and buildings and so forth"
+        - We try to think about these multi-component systems at many different levels of abstraction
+    - One way that people talk about these is that systems have certain "functions" and "structures," with "behaviors" at different levels of abstraction
+
+- Let's also talk about DESIGN!
+    - We design computer programs and our rooms and other things all the time, but how is it different from problem-solving? It seems the key difference is that design deals with open-ended, poorly-defined problems
+
+- Finally, let's mention CREATIVITY
+    - Creativity in the AI field, perhaps surprisingly, has come in the last 10 years to be pragmatically understood as a "non-obvious, new, valuable product"
+        - So, something creative has to have an element of novelty and be worth something to someone (even if that worth isn't exactly economic)
+    - We've seen creativity come up throughout this class again and again: analogical reasoning, explanation-based reasoning, planning, production systems, etc.
+
+- We'll return to this - and especially creativity - next time!

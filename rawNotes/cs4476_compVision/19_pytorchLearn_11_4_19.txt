@@ -1,0 +1,139 @@
+//****************************************************************************//
+//********* Pytorch Deep Learning Example - November 4th, 2019 **************//
+//**************************************************************************//
+
+- Okay, the class doesn't seem very enthsuastic about project 4 (I know this because, when it was mentionewd, the rest of the class very professionally boo'd)
+--------------------------------------------------------------------------------
+
+- Alright - you guys voted for a Pytorch tutorial, so let's go through a Pytorch tutorial!
+
+- "For this tutorial, we'll be developing directly in our Jupyter notebook; usually, this isn't a good idea (it leads to disorganized code), but we'll be rebels"
+
+- Pytorch and TensorFlow are nice because they come with a lot of stuff already built-in - even datasets!
+    - For this tutorial, we'll use the CIFAR10 dataset (in torchvision.datasets.CIFAR10)
+
+- So, the most common libraries we'll be using are "torch", "torchvision," "torch.utils.data", and "torchvision.transforms"
+    - First off, let's create a spot to store our data:
+
+            data_root = './data'
+
+            # Create a single transform that will normalize a dataset into a tensor between -1.0 and 1.0 (I think?)
+            transform = transforms.Compose([transforms.toTensor(),
+                                            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+
+            # 'download=True' says to download the set if we don't have it already
+            train_dataset = torchvision.datasets.CIFAR10(data_root, train=True, download=True, transform=transform)
+            test_dataset = torchvision.datasets.CIFAR10(data_root, train=False, download=True, transform=transform)
+
+    - Alright; let's then split up our dataset into several "batches" (which we can use to help with overfitting a little bit)
+
+            # Only use 4 images per batch
+            batch_size = 4
+
+            train_loader = data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+            test_loader = data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+
+    - SIDE NOTE: Pytorch defaults to (channel, heigh, width), which is different than numpy/matplotlib's ordering, so you may have to switch some dimensions around
+        - With that, we can then get our batch of images:
+
+                images, labels = next(iter(train_loader))
+
+- Alright, we've defined our data loader - cool!
+    - SIDE NOTE: Tanh and Sigmoid used to be really popular activation functions in computer vision, but ReLU has become more popular; it's a simple function that's just the identity function up to a certain point and 0 beyond it
+        - ReLU is less prone to noise/overfitting than the others, but it has the issue of being nonlinear and wrecking gradients for back (I THINK???)
+    - So, let's create the actual learning model we want:
+
+            import torch.nn
+            class N(nn.Module):
+                def __init__(self, n_classes=10):
+                    super(Net, self).__init__()
+
+                    # Define the layers we'll be using in the network
+                    # 3 input channels since it's an RGB image, 
+                    self.conv1 = nn.Conv2d(in_channels=3, out_channels=6, 5)
+                    self.relu = nn.ReLU
+                    self.pool = nn.MaxPool2d(2,2)
+                    self.conv2 = nn.Conv2d(6, 16, 5)
+
+                     # num outputs of our convolutional layers: (w - k + 2p) / s + 1
+                    self.fc1 = nn.Linear(16 * 5 * 5, 120)
+                    self.fc2 = nn.Linear(120, 84)
+                    self.fc3 = nn.Linear(84, n_classes)
+
+                def forward(self, x):
+                    '''
+                    Do 1 pass through our layer (we can either call each layer individually in the order we want, or use nn.Sequential() if we only care about the output or don't want to try reusing layers, only training specific layers, etc.)
+
+                    Note that pool/ReLU aren't "learned" layers, so we're safe to reuse them
+                    '''
+                    # Pass through the 1st/2nd convo layer
+                    x = self.pool(self.relu(self.conv1(x)))
+                    x = self.pool(self.relu(self.conv2(x)))
+
+                    x = x.view(-1, 16*5*5)
+                    x = self.relu(self.fc1(x))
+                    x = self.relu(self.fc2(x))
+                    x = self.fc3(x)
+                    # In general, do NOT use ReLU on your final output layer
+                    return x
+
+    - *something about BatchNormalization layers and how they can let us use a faster learning rate, but should usually be used in conjuction with dropout, etc.*
+
+- Great! With our model defined, let's now start training it!
+    - We need a few pieces to get this working:
+        - An optimizer, which'll actually update all our neurons
+        - A loss function
+        - Some hyperparamters like our learning rate, etc.
+            - Learning rate is SUPER important; a too-high learning rate ver commonly causes a bunch of weird stuff like NaNs, non-converging results, etc.
+    - Alright, let's go!
+
+            import torch.optim as optim
+
+            n_epochs = 2
+            learn_rate = 1e-3
+
+            net = Net()
+            net.cuda()      # If you have a GPU, this'll activate it for training use
+
+            loss_criterion = nn.CrossEntropyLoss()
+            # SGD and Adam are 2 popular optimizers; Adam is probably the default
+            optimizer = optim.Adam(net.parameters(), lr=learn_rate)
+
+            # The actual training loop begins!
+            for epoch in range(n_epochs):
+                total_loss = 0.0
+                for i, data in enumerate(train_loader, 0):
+                    # Delete gradients from previous loop
+                    optimizer.zero_grad()
+
+                    # Get data from dataloader
+                    images, labels = data
+
+                    images = images.cuda()
+                    labels = labels.cuda()
+
+                    # Pass data through model
+                    out = net(images)
+                    loss = loss_criterion(out, labels)
+                    loss.backward()
+                    optimizer.step()    # IMPORTANT! This actually applies your weight updates!
+
+                    total_loss += loss.item()
+                    if i % 2000 == 0:
+                        print(f'Epoch: {epoch}/{n_epochs} iter: {i} loss: {total_loss/2000}')
+                        total_loss = 0.0
+
+    - Alirght; once that's all trained up, we can save our trained model
+
+            save_path = './checkpoints/model.pth'
+            torch.save(net.state_dict(), save_path)
+
+    - We can then load our neural net whenever we want!
+
+            same_net = Net()
+            same_net.cuda()
+            same_net.load_state_dict(torch.load(save_path))
+
+    - Finally, we can test our dataset however we want in a similar way to how we iterated through and trained it
+
+- Okay, next lecture we'll have a guest lecture from Dr. Judy Hoffmann on object recognition, and there WILL be attendance quiz - good luck finishing project 4, and goodbye!

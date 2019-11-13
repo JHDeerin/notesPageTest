@@ -1,0 +1,42 @@
+//****************************************************************************//
+//******************* Metacognition - November 11th, 2019 *******************//
+//**************************************************************************//
+
+- *cue a clip from "A.I.: Artificial Intelligence"*
+    - "In this movie, the boy - David - is a mecha, a robot, and he's being abandoned by his 'mother' in the woods for reasons that are likely unclear to you, and the boy howls and cries and is obviously distraught"
+        - "The word 'robot' comes from the Czech word for slavery - is that what we're doing? Do we have a right to do whatever we want with these robots? Do they have any rights at all? Is it acceptable for us to be terrible people to our creations?"
+        - Perhaps we would never build a robot that could show the emotional distress we see in this movie clip, but is it wise to build a robot without emotions? Many people find robots too mechanical to talk too, and loneliness is a common human complaint - those may be motivations to build human-like robots, down to human
+    - The reason these questions are being raised here is because they show there are some very serious ethical issues involved in AI, and the time to answer them is NOW, before they become a problem, rather than in 100 years when we've already started building such machines
+--------------------------------------------------------------------------------
+
+- Last time, we were discussing learning by correcting mistakes, where we want the agent to identify the error in its model, explain what led to the error, and then fix the underlying problem
+    - This is related to the idea of getting robots to ask questions: how does the robot know what it doesn't know, and realize that it's interested in knowing the answer?
+- So far, we've been using the example of recognizing that a bucket with a swinging handle isn't a cup, since we can't hold it by the handle to drink from it
+    - We've been trying to use explanation-based reasoning to justify this; in this case, we need to recognize that "object is liftable" doesn't mean it enables drinking just because it also carries liquid, since the handle can be lifted, but will swing
+        - We could fix this by saying "handle is fixed" as an extra requirement for "enables drinking" - but that's uninteresting! WHY didn't this work?
+            - The underlying problem is because we couldn't MANIPULATE our cup properly because of the swinging handle - so, instead, we'll add an "is-manipulatable" requirement to "enables drinking," with the requirements that the object is liftable and that it has a fixed handle
+                - We may change the requirement for manipulation to more generally be that the object is "orientable," of which a fixed handle is a necessary condition
+            - "This is the same way question-asking systems work: they have some partial understanding of the world, and they want to make their understanding complete, so they keep asking questions until the answer is complex enough to satisfy them"
+                - These systems are becoming increasingly a focus of research, especially in conversational systems like Amazon Alexa
+                - Importantly, these should be MEANINGFUL questions that are relevant and fix our understanding, and not just parrot-like systems
+
+- With that, let's start on our next topic: META-REASONING!
+    - Many cognitive scientists believe that this - or at least human proficiency at it - is what sets humans apart from the rest of the animal kingdom
+    - We've been discussing this in oblique ways throughout the class: our idea of possible operators in means-end analysis, for instance, is an example (?)
+        - If you look at all of the techniques we've learned in this class so far, we can build a very simple periodic table of intelligence - but from Chemistry, we know that just having a list of chemicals isn't enough. We need to know what chemicals to mix for different uses and situations, and what their combinations can do that individual techniques can't
+        - As we do something as simple as driving to the airport, we're constantly changing what problem-solving strategies we use - how can we get our AIs to do the same thing?
+    - METACOGNITION plays the critical role: thiking about when to use/abandon a given strategy, and how to use strategies together
+        - Let's think about what knowledge each learning technique requires, what it says about correctness, and how fast each method is:
+            - Learning by Recording Cases requires previous cases, isn't guaranteed to be correct, and is pretty fast
+            - Logic requires logical rules and information in prepositional forms, is very slow, but guarantees correct answers
+        - If we have these requirements, we can decide what technique is appropriate; if we're taking an algebra test, we care a lot more about correctness then speed! But if we're fleeing an angry orangutan, we'd better get an answer quick!
+    - "This is a suprisingly simple, elegant solution, isn't it? We're just using what we already know to do metacognition! We pick the technique that we have enough time for, meets some required quality, and that we have enough knowledge to use"
+        - This idea is certainly taking the idea that we have multiple problem-solving techniques in our head, rather than the opposing view that there's some general-purpose AI technique that'll always work
+    - How do we switch strategies if one isn't working, then, or integrate different strategies together?
+        - Most strategies require multiple stages (e.g. case-based reasoning involves retrieval, adaptation, evaluation, and storage), each of which we may recursively use our metacognition to decide which other technique is appropriate to solve it
+
+- According to this view, the diversity of human behavior comes from these multiple problem-solving strategies we have and their many combinations
+    - But if metacognition is so good, then how many layers of metacognition are there? Is there meta-metacognition that chooses what strategy we use to choose strategies? Is there another layer higher up? Does it keep going forever? Where does it stop?
+        - The current psychological hypothesis is that there's just 1 layer of metacognition, since we think this way about our deliberation processes, but if we ever think metacognitively about our own metacognition, it seems we can explain that sufficiently through recursion, rather than through completely different techniques
+
+- Alright, we'll stop there for today!

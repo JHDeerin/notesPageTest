@@ -1,0 +1,59 @@
+//****************************************************************************//
+//*********************** Diagnosis - November 6th, 2019 ********************//
+//**************************************************************************//
+
+- If you squeeze your eye at the right angle, it makes a slight squishing sound; I find this disturbing and amusing
+    - Sure, discovering that parts of your anatomy make noises is kinda middle-school-level behavior, but it's my EYE! That's WEIRD! It's physically painful for me to imagine someone's eye being deformed and poked!
+
+- Alright let's begin! Today, we'll begin with a brief scene from the movie "The Theory of Everything," as today's topic is diagnosis
+    - *roll clip where Steven Hawking is first diagnosed with his motor neuron disease*
+    - Diagnosis is clearly very important; we've all been to the doctors, but we also do it in our everyday life
+        - What makes diagnosis hard? How do we do it, and how could we get machines to do it? We've had AIs since the 1980s that've actually been almost as good as doctors at specific kinds of diagnosis, but they don't get used very often because the machines can't give good explanations for how they came to their conclusions, and patients don't trust them as much as human doctors
+            - This is interesting: people refuse this NOT because the technology has failed, but because they don't trust the technology
+    - Think about where else diagnosis comes up every day for us computer scientists: debugging! Wouldn't it be great if we could develop an AI that could point out exactly where all our program's bugs are?
+        - One key part of diagnosis is the CREDIT ASSIGNMENT problem, which Marvin Minsky first raised in the 1960s (and which frequently comes up in machine learning)
+            - Let's say we give a program an input, and it then gives us some unexpected answer; if we tell the program what the right answer SHOULD have been, can we get the program to identify what went wrong and how to fix it?
+    - Diagnosis, sadly, is really hard
+        - What methods do we have for diagnosis? We've already learned them! They're case-based reasoning, semantic reasoning, and production systems, or some combination of them!
+--------------------------------------------------------------------------------
+
+- Very generally, DIAGNOSIS is determining what's gone wrong with a malfunctioning device
+    - Essentially, we start off in some "data space" of a bunch of different data we had about what's going wrong, and we also have a bunch of possible explanations; how do we decide which hypothesis best matches the data?
+        - There are too many permutations/combinations to check every possibility for large, complex problems, so how can we deal with that?
+            - At a certain level, we could think of this as being a minimal set covering problem, where we try to find the minimum number of hypotheses that can explain the data we see (e.g. "I have a fever and a sore throat, both of which are explained by Whooping Cough")
+        - However, this isn't quite sufficient:
+            - A single data point could be explained by multiple hypotheses (e.g. a high temperature could be from a fever, or heatstroke, or something else!)
+            - Furthermore, a single hypothesis might have multiple sets of data (e.g. maybe not everyone with whooping cough exhibits a high temperature)
+            - WORSE, these hypotheses interact, since many hypotheses are correlated with one another, or mutually exclusive, etc., and those interactions make diagnosis much more complicated
+            - Finally, what makes diagnosis REALLY hard is that the data points themselves can interact! We could have a disease that raises our temperature and another disease that lowers our temperature, and so our temperature looks normal - which isn't supposed to happen with either disease!
+                - This last point isn't covered by most minimal set theory at all, and it's what really makes diagnosis tricky
+
+- How can we tackle this problem using the tools we've learned in this class?
+    - Let's say there's some cause that generates an effect, and there's some rule that triggers this
+        - DEDUCTION means that if we know the rule and the cause, we can deduce the effect!
+            - e.g. "If you don't balance the brackets in a program, you'll get an error"
+        - INDUCTION means given a cause and its effect, we can induce a rule
+            - e.g. If I'm driving through my neighborhood and the first 5 houses I see are all red brick, I might induce the rule "All houses in this neighborhood are made of red brick"
+            - Us humans do this kind of induction all the time, even without realizing it!
+        - ABDUCTION means if we're given a rule and the effect, we can try and abduce a cause
+            - e.g. If we see a bug in our computer program, we know from our set of rules that only certain kinds of bugs could cause this behavior, so we can 
+                - Surprisingly enough, abduction has only been seriously studied for the past 100 years, satarting with Charles Peirce (who was one of the first world-renowned American philosophers)
+            - Similarly, you might describe your symptoms to a doctor, and he may say "Ah, I had a patient 3 years ago with those exact same symptoms, and he had X disease! I bet that's your problem!"
+    - How can this abductive logic occur?
+        - In medicine, about 10 years ago there started to be a new research term going around caused "evidence-based medicine"
+            - "This came as quite a shock to me, because I wondered 'wait a second, if they weren't using evidence, what were they doing BEFORE 10 years ago?'"
+        - Often, actually, doctors rely HEAVILY on heuristics to make their diagnosis and guide their decision making!
+            - A few of these heuristics might look as follows:
+                - Hypotheses should cover as much of the data as possible
+                - The smallest number of hypotheses possible should be used to get our answer
+                - Some hypotheses may be more common than others, and should be preferred
+
+- This leads us to something that goes well beyond diagnosis: what's the overall vision AI researchers have been trying to achieve?
+    - For the past 50 years, AI researchers have mostly been operating under a very general theory that goes like this:
+        - We have an agent, which operates and observes the world
+            - When it gets some data, it ABDUCES something about the world using its internal hypotheses: "huh, it's cloudy; I guess it might be raining"
+            - It then builds up an internal model of the world via induction, and deduces some new data about the world from that
+                - If its deductions hold up and match our observations in the real world, that's great! If (more commonly) they don't, then we discard that conclusion and try and correct where we went wrong in our model
+    - What AI researchers typically have done is focus on a single area - abduction or induction or hypothesis-formation or data-sensing - and then spend their whole careers just working on that problem, but the overall structure and goal looks something like this
+
+- So, Friday's topic will be learning from correcting mistakes, where we'll start moving from deliberation to metacognition - PLEASE watch the videos for that segment if you have time!

@@ -1,0 +1,125 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Machine Learning for Trading</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4646Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Machine Learning for Trading</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_numpyCrashCourse_8_22_19.html">0. Numpy Crash-Course</a></li><li><a class="is-note-link" href="1_pandasReturns_8_27_19.html">1. Pandas / Return Basics</a></li><li><a class="is-note-link" href="2_returnsRisksSharpes_8_29_19.html">2. Returns, Risk, and Sharpe's Ratio</a></li><li><a class="is-note-link" href="3_optimzationBasics_9_3_19.html">3. Optimization Basics</a></li><li><a class="is-note-link" href="4_mlBasics_9_5_19.html">4. Machine Learning Basics</a></li><li><a class="is-note-link" href="5_moreMLBasics_9_10_19.html">5. Machine Learning Basics (cont.)</a></li><li><a class="is-note-link" href="6_testDecisionTrees_9_12_19.html">6. Testing, Ensembles, and Decision Trees</a></li><li><a class="is-note-link" href="7_mlStatistics_9_17_19.html">7. Statistical Foundations for Machine Learning</a></li><li><a class="is-note-link" href="8_stockFinanceBasics_9_19_19.html">8. Stock Finance Basics</a></li><li><a class="is-note-link" href="9_moreMarketMechanics_9_24_19.html">9. More Market Mechanics</a></li><li><a class="is-note-link" href="10_moreMarketMechsShort_9_26_19.html">10. Market Mechanics (cont). / Stock Shorts</a></li><li><a class="is-note-link" href="11_leverageFunds_10_1_19.html">11. Leverage and Funds</a></li><li><a class="is-note-link" href="12_EFTMutualFunds_10_3_19.html">12. EFTs and Mutual Funds</a></li><li><a class="is-note-link" href="13_hedgeFunds_10_8_19.html">13. Hedge Funds</a></li><li><a class="is-note-link" href="14_intrinsicValue_10_17_19.html">14. Intrinsic Value / Time Value of Money</a></li><li><a class="is-note-link" href="15_markovDP_10_22_19.html">15. Markov Decision Problems</a></li><li><a class="is-note-link" href="16_evaluatingFunds_10_24_19.html">16. Evaluating Funds</a></li><li><a class="is-note-link" href="17_technicalAnalysis_10_29_19.html">17. Technical Analysis</a></li><li><a class="is-note-link" href="18_policiesValueIter_10_31_19.html">18. Policies and Value Iteration</a></li><li><a class="is-note-link" href="19_policyIterRL_11_5_19.html">19. Policy Iteration / Intro. Reinforcement Learning</a></li><li class="active-note-page"><a class="is-note-link" href="20_qLearning_11_7_19.html">20. Q-Learning</a></li><li><a class="is-note-link" href="21_CAPM_11_12_19.html">21. CAPM</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="19_policyIterRL_11_5_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//********************* Q-Learning - November 7th, 2019 *********************//
+//**************************************************************************//
+
+- Alright, we have 2 projects left!
+    - The first is going to be building a Q-learning agent
+        - This isn't a whole lot of code, but it's important to get the code that is there right, and it can be a little annoying to debug
+    - The 2nd will be adapting your Q-learning agent so that it works for stock-trading
+--------------------------------------------------------------------------------
+
+- Alright, last time we started to talk about model-based and model-free reinforcement learning
+    - As we said, this is similar to the difference between value iteration and policy iteration; model-based learning is where we're dropped into an unknown world, and we try and figure out T and R first to calculate a policy, then throw T and R out
+        - Sometimes this is good, but if we're going to throw out T and R anyway, then that's wasted work! We didn't actually care about getting them!
+        - This also involves a lot of experimentation where we're just randomly bumming around the world without getting better until we actually make our policy, which isn't great (particularly if the real-world version of "exploring" is stuff like your expensive robot driving off a cliff, a medical robot going stabby-stabby, etc.)
+    - Model-free learning, then, tries to learn the policy directly as an "online" learner, meaning it gets better IMMEDIATELY
+        - Our transition function, reward functions, and utilities aren't particularly online - can we change that
+
+- To solve this, we'll use an online version of our utility function: the Q-function!
+    - The Q-function Q(s,a) represents the total expected rewards (current and future) from:
+        - Being in our current state "s"
+        - Taking an action "a" in state s
+        - Continuing to act according to the policy our Q-function implies
+            - What do we man by "implies?" We'll see...
+    - Using this, we can do Q-LEARNING: the most popular (though definitely NOT the only) model-free reinforcement learning algorithm in existence right now
+        - For now, we'll assume S/A are discrete (although there are variants that avoid this), so that we can create a "Q-table" that gives a utility-like "Q-value" for each state/action pair
+            - Then, at any given time, our policy is just to do the highest-scoring action for the current state we're in!
+    - How do we actually learn the Q-values? Here's the pseudocode version:
+
+            ```
+            s = s_0
+            Q = all 0s or random numbers for each state/action pair
+            # Small random numbers is generally preferred, since 0s can accidentally encourage staying on the same initial path your agent tried first, taking longer to improve (how small depends on the size of your rewards; you want these to be easily overwritten by your rewards, like 1000x smaller than actual rewards)
+            while Q hasn't stopped changing by &gt;= some constant epsilon:
+                a = argmax(Q[s,a])
+                observe resulting s', reward
+                improve Q using (s,a,s',r) tuple
+                s = s'
+                if s is a goal/terminal state:
+                    # Start 
+                    s = s_0
+            ```
+
+        - That's not too bad! But there's one big black box here: how exactly do we "improve Q?"
+            - "It's not *too* hard, but it's generally the most challenging part of Q-learning"
+            - Basically, it looks like this:
+
+                    Q_new(s,a) = (1 - learning_rate) * Q(s,a)
+                                + learning_rate * (r + g*Q(s', argmax(Q[s',a'])))
+
+                - Where "r" is the reward and "g" is the discount rate for future knowledge (between 0 and 1)
+                    - Essentially, we're taking the old value and updating it a little bit with our reward and the value of the best action we could take in the new state
+                - "This should look VERY similar to the Bellman Update equation; over time, as we explore more and more of the world, these Q values will becomes less and less random and more and more meaningful, converging on the best strategy we're aware of"
+
+- So, that's the Q-learning process - are there any tweaks we can do to make it better?
+    - One problem is that if we always do the "best action" we're aware of, then we might fall into a local minima and never explore if there's a better option somewhere out there
+        - This is called the EXPLORATION-EXPLOITATION problem, and we can solve this by having our agent randomly take actions every now and then to explore the world
+        - ...after a certain point, though (like going into production), we want our agent to stop doing stupid stuff and just act optimally, so always taking random actions isn't going to be great
+            - "If our agent is playing around near a cliff, that's not the greatest time to check if there's something interesting at the bottom"
+        - To solve this, we'll use the EPSILON-GREEDY algorithm: every X percent of the time, take some random NON-OPTIMAL action
+            - Like the learning rate, we'll usually decrease this over time once we think we've got a pretty good idea of the world
+            - "In your project, these are called `rar` - random action rate - and `radr` - random action decay rate"
+
+- So, Q-learning seems great! Why don't we use it for everything?
+    - First off, Q-learning IS awesome - think about it!
+        - Your learner doesn't need to know ANYTHING about the world; the same algorithm will work in any world we put it in, as long as it's aware of its state and its actions
+        - We even have a proof that, given enough examples and a properly-structure problem, Q-learners 
+    - However ,there are some issues:
+        - Classic Q-learning requires a discrete state/action space, which isn't practical for every problem AND brings in the "curse of dimensionality:" the more states we have, the less likely it is that we have data to learn each possible state
+            - Stock trading is a good example of something that doesn't discretize easily
+        - For many problems, it's hard to figure out WHY you got a reward; if you lose a chess game, your agent might have problems figuring out which move was its main mistake
+            - Similarly, if we buy a stock position and don't make very much money, where did we go wrong? Did we buy on the wrong day? Was there an uncontrollable market swing? Did we buy too late? Should we have recognized that downturn?
+            - This is known as the CREDIT ASSIGNMENT PROBLEM, and it's hard
+        - Experimentation can also be VERY slow, which for worlds where we only have a limited number of actions in a given time period (e.g. only buying/selling once per day)
+        - Last and probably biggest, experimentation can be VERY costly if we're in the real world
+            - If we're "exploring" in a real stock agent, we'd be losing actual money by letting our agent "explore." If we're using Q-learning for a robot, letting it drive off a cliff for the sake of "exploration" probably wouldn't make our superiors very happy.
+            - For things like stock trading, we could still learn by making a decision and then not executing it (just "pretending" we did), but there's an opportunity cost there: if we WOULD have made money, then we missed our chance!
+
+- So, Q-learning is still pretty good, but there's that pesky exploration problem that exploration takes a LONG time, and rewards take a long time to propagate from terminal states through the rest of our table
+    - To help deal with this, we can use something called DYNA-Q!
+        - In modern terms, this is called "experience replay," but a researcher named Rich Sutton was talking about it all the way back in the 1990s
+    - The idea here is that our agent will "hallucinate" many additional experiences after each experience tuple it gets, letting us distribute new experiences through our Q-table more quickly
+        - This is like our agent replaying stuff in its head to let these consequences sink in
+        - "This is NOT faster computationally, but it does make our agent learn from less experiences, which is often VERY useful"
+    - The main drawback is that, to generate these hallucinations, we need to build up a model of the world again
+        - Here's roughly how the algorithm works:
+            - First, do regular Q-learning
+            - Then, learn the world models T/R from our experiences (like an online version of model-based learning)
+                - "Sutton's original suggestion is to keep a count of how many times we took a state/action pair and how many times each possible outcome state happened, and to compute T from that "
+            - Finally, hallucinate a BUNCH of new experiences from this
+                - To do this, we'll pick a random previous state we've seen, a random action we took in that state, and then choose an output state/reward probabilistically based on our model of the world
+                - Then, run our Q-update using that new tuple, just like normal!
+            - Keep doing this until we've got a good enough model, and we're done!
+
+- Alright, see you next week!</pre>
+</article>
+<a class="side-link is-note-link" href="21_CAPM_11_12_19.html"></a>
+</main>
+</body>
+</html>

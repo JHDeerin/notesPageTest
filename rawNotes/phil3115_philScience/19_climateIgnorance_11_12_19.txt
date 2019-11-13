@@ -1,0 +1,34 @@
+//****************************************************************************//
+//*********** Climate Denial and Ignorance - November 12th, 2019 ************//
+//**************************************************************************//
+
+- Okay; you should've gotten your midterms back, ask me any questions you might have of them
+--------------------------------------------------------------------------------
+
+- Alright, today we're getting into the last unit of the course: the interaction of science and culture, and 
+    - The reading we had from today was a chapter from a book by Naomi Orestes
+        - Naomi Oreskes is a historian of science at Harvard University, and helped right a book called "The Merchants of Doubt" with
+    - The reading for today was fairly straightforward, and it was also different in that it wasn't so much "philosophical" as historical
+
+- First off, what was their paper's main conclusion, and what supporting reasons do they give for this?
+    - Well, the paper starts off with the authors trying to explain a fact: the scientific community has a strong consensus that human-caused climate change is in fact happening, while the public seems to be much more divided over the issue and think that it's still uncertain
+        - They trace the origin of this to a small, well-funded group called the Marshall Institute, which has a number of scientists who've historically opposed issues like links between tobacco and cancer, CFCs affecting the ozone, acid rain being caused by pollution, etc.
+        - They argue that the common thread behind these actions is the scientists' strong political belief in a free market, and that any science that might lead to regulations needs to be undermined, since it would cause (in their minds) more harm than good
+            - For that reason, tey argue that in these particular sciences, the scientists try to "create ignorance" by raising questions about how certain the research is, possible alternative explanations, etc.
+        - "Obviously, the Marshall Institute themselves claim they take a very different view, and that they're modern-day Galileos fighting against the established opinion"
+            - Notice, too, that all of these scientists were very reputable scientists - but they were PHYSICISTS, not climate scientists, and were essentially speaking as non-experts
+            - "As we've discussed, all hypotheses and models are gonna have some uncertainties in them, so a recurring question comes up: how certain do we need to be before we can act on something? That's not a scientific question, but it's an important and contentious one"
+
+- The reading we had today was also from a book called "Agnotology: The Making and Unmaking of Ignorance"
+    - So, what does this chapter have to say about ignorance, and what strategies do they claim climate-denying scientists use to foster it?
+        - One BIG argument from the authors is that ignorance is something that can be produced: in addition to just "not knowing" something, they believe ignorance can be manufactured
+        - As for how this is done, they point out a few strategies: fostering uncertainty by hyping up that something HASN'T been proved definitively ("it's only correlation, they haven't showed the firm link"), funding scientific research to "throw off the scent," giving media time to minority positions in the interest of "fairness"
+            - "A lot of the tobacco-funded research was GOOD SCIENCE about alternative causes of cancer - but they strategically funded it in different areas so it looked like there were bunch of alternative explanations for cancer, making it look like it wasn't them (or at least wasn't just them) and giving their PR people ammunition"
+
+- So, as we start to get into what implications science has on policy and culture over the next few weeks, let's think about that for a minute
+    - Based on this paper, how should we think about how science and values are related, especially ethical and political values?
+        - For one thing, the science that is done seems to be affected by our values - after all, if we think something is boring and won't help society, who's gonna research it?
+        - Our external values and beliefs are also going to affect what hypotheses we find most convincing or "default" to
+        - Does science feed back into values, too? Keep those thoughts in mind...
+
+- Alright; we'll end a little bit early today. See you on Thursday!

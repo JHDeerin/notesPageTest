@@ -1,0 +1,67 @@
+//****************************************************************************//
+//************** Object Recognition Basics - November 6th, 2019 *************//
+//**************************************************************************//
+
+- Okay, today we have a guest lecture from Dr. Judy Hoffmann on object recognition - let's go!
+--------------------------------------------------------------------------------
+
+- Even in crazy "I Spy" style images, we can understand and recognize objects, which is crazy! How can we get our computers to do the same thing?
+    - ...unfortunately, it's not as easy as we'd like
+    - We'll first:
+        - ...give a broad overview of the task
+        - ...then go over some statistical learning apporaches
+        - ...then talk about classic/"shallow" techniques like bag of words and SVM
+        - ...and then finally go through modern techniques
+
+- At a high level, what do we want to do for image recognition?
+    - CLASSIFICATION is where we try to say what the WHOLE image represents, and give a label (or labels) to that
+    - We may also want to do "object detection," where instead of classifying the whole image we want to find and label individual objects in the image, or even identify if the people are walking, sitting, talking, fleeing a flock of birds, etc.
+    - Finally, we may want to do SEGMENTATION, labeling every pixel in the image with what it belongs to ("these pixels are part of person 23," etc.)
+        - INSTANCE specification is identifying which particular object in the image a pixel is a part of; SEMANTIC segmentation is just
+
+- So, those are the core tasks we're trying to do - but in this class, we'll really only focus on classification, and one way we can approach this is via statistical learning
+    - The hope here is that we can pass our raw image input (or some features representing the image) into a function, and then it spits out the correct label
+    - To do this, we need a bunch of images and their correct labels so that we can do supervised learning, letting us try to learn this function by minimizing our error
+        - Once we have this, we'll take each image we want to train on, extract some relevant features from the image, do some training statistical magic, and 
+    - So, the "classic" recognition pipeline involves 2 big steps: representing features, and then training a classifier
+        - How can we represent features? One way is to use BAG OF WORDS, where we chop the input image into different, smaller objects we know (like bicycle wheel, noses, etc.), and record which objects appear and how often they appear
+            - As the "words" name might imply, this idea originally came from natural-language processing (you can think of bag of words basically being like a word cloud)
+        - In computer vision, instead of literal words, we'll instead use SIFT or a similar algorithm to pull out patches from each image
+            - We'll then create a descriptor for each patch, and then use some sort of unsupervised clustering algorithm (like K-means) to group similar patches together, and consider the center of each group to be the true "word" for that category
+                - If you haven't seen K-means before, it basically tries to minimize the squared error of euclidean distances between each feature and its nearest cluster center
+                    - We'll randomly initialize "K" cluster cetners, then assign each feature to the nearest center and recompute each center based on the mean position of all features within a certain distance of it
+                    - After a few iterations, the hope is that the clusters will navigate to the center of 
+            - Once we've created this vocabulary of "words" we can use to describe the image, 
+                - To deal with the issue of things appearing at different scales in different images, we can create "spatial pyramids" by scaling our images down and splitting it into quadrants, leading to higher performance
+
+- Alright, we've got this vocabulary of words describing our image - how do we use that to classify our image?
+    - Well, we need to put it into a classifier - and the simplest classifier we could come up with is K-Nearest Neighbors!
+        - How do we compute the distance of 2 images from each other? There's a few distance functions that people commonly use
+        - This is useful because no training is required at all, and it scales well to larger number of classes/labels, but it does depend heavily on distance functions and - worst - it's SLOW to compute for each query, since we have to compute these distances!
+            - The higher "K" is, the more robust it is against being affected outliers, but the less discriminating its classifications are
+    - We could also use LINEAR CLASSIFIERS that draw lines through our input space to split it into distinct regions, with different regions corresponding to different classes
+        - These are SUPER fast to query (we just need to consult some weight matrix), but every time we add a new class, we have to re-train our function with a new weight matrix
+            - Even worse, there seems to be some data that isn't linearly separable (e.g. concentric circles), and cases where there are multiple linear functions that still give us the same answers
+
+- Those were more classic techniques - but how are "deep" pipelines different?
+    - Basically, we replace our bag-of-words of features with raw images, and replace our 2-stage model with a neural net with a bunch of layers, letting our algorithm choose which images features are most relevant
+        - Unsurprisingly, neural nets have grown a LOT more popular in the last few years; 10 years ago, SVMs (support vector machines) were all the rage, but they've been hugely eclipsed
+    - As we've talked about before, we can train these multi-layered neural nets through gradient descent, using backpropagation to update our weights after computing our loss function
+        - More specifically, we use stochastic gradient descent, where we'll only sample a small batch of our data at a time
+    - One reason neural nets are SUPER cool is that neural nets with just a single hidden layer between the input and output are technically universal function approximators
+    - However, neural nets aren't magical; we still have to decide how many features we want to learn, how many hidden neurons there are, etc., and somehow avoid making our neural net "too flexbile" and overfitting to the data
+        - To avoid overfitting, one thing people do is called REGULARIZATION: adding a penalty to our loss function for each weight squared that encourages our neural nets to spread weights out over the whole network (using ALL input features, rather than just a few)
+            - This means adding another hyperparameter, though, and the higher the penalty, the more our neural net will tend to act like a linear classifier
+    - To extend this to multiple output classes, we can use a "softmax" function to put all of our scores on a probability scale from 0.0 to 1.0 (I believe summing to 1.0 for each class?)
+        - Overall, the biggest pro of using neural nets in general is that they're EXTREMELY flexible
+        - The issues, though, are that they're hard to analyze and are very "black boxy," they require a ridiculous amount of training data and computing power, and the number of different implementation spaces is ginormously huge
+
+- A few final thoughts on how to best train classifiers...
+    - "This stuff isn't that challenging, but it's EXTREMELY important and easy to mess up"
+    - First off, your goal is ALWAYS to generalize well to actual, unseen test data; how well it performs on training data shouldn't matter at ALL
+        - To that end, you should split your datas into training, validation, and test sets; train on the training set, tune your hyperparameters based on your validation set, but do NOT peek at your test data at all (otherwise, you'll cheat and tweak your model to do better on the test data because you've seen the results)
+    - You also need to be aware of the bias-variance tradeoff, where bias results from having a too-simple model while variance comes from having an overfit, inconsistent model
+        - You want to avoid falling too hard into either of these errors
+    - Underfitting usually comes from either having poor data or too simple a model, and is when your model just flat-out doesn't work; overfitting can happen from either having too complex a model or not enough data
+
+- Alright, you're free to go! Bye!

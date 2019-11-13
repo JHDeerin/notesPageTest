@@ -1,0 +1,74 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Knowledge-Based AI</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4635Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Knowledge-Based AI</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_introKBAI_8_21_19.html">1. Introduction to KBAI (cont.)</a></li><li><a class="is-note-link" href="2_principlesOfKBAI_8_23_19.html">2. Principles of KBAI</a></li><li><a class="is-note-link" href="3_introFrames_8_26_19.html">3. Introduction to Frames</a></li><li><a class="is-note-link" href="4_moreFrames_8_28_19.html">4. Frames (cont.)</a></li><li><a class="is-note-link" href="5_semanticNets_8_30_19.html">5. Semantic Networks</a></li><li><a class="is-note-link" href="6_optionsGenTest_9_4_19.html">6. Choosing Options / Generate and Test</a></li><li><a class="is-note-link" href="7_genTestMeansEnd_9_6_19.html">7. Generate and Test / Means-End Analysis</a></li><li><a class="is-note-link" href="8_productionSys_9_9_19.html">8. Production Systems</a></li><li><a class="is-note-link" href="9_moreProductionSys_9_11_19.html">9. Production Systems</a></li><li><a class="is-note-link" href="10_caseBasedReasoning_9_13_19.html">10. Case-Based Reasoning</a></li><li><a class="is-note-link" href="11_moreCaseBased_9_16_19.html">11. Case-Based Reasoning (cont.)</a></li><li><a class="is-note-link" href="13_introToClassification_9_20_19.html">12. Classification Basics</a></li><li><a class="is-note-link" href="14_incrementalConceptLearning_9_23_19.html">13. Incremental Concept Learning</a></li><li><a class="is-note-link" href="15_conceptLogic_9_25_19.html">14. Concept Learning (cont.) / Logic</a></li><li><a class="is-note-link" href="16_moreLogic_9_30_19.html">15. Logic (cont.)</a></li><li><a class="is-note-link" href="17_evenMoreLogicPlanning_10_2_19.html">16. Logic (cont.) / Planning</a></li><li><a class="is-note-link" href="18_morePlanning_10_4_19.html">17. Planning (cont.)</a></li><li><a class="is-note-link" href="19_knowledgeEngineering_10_7_19.html">18. Knowledge Engineering</a></li><li><a class="is-note-link" href="20_yetMorePlanning_10_9_19.html">19. Planning (cont.)</a></li><li><a class="is-note-link" href="21_understandingCommonSense_10_11_19.html">20. Understanding and Common-Sense</a></li><li><a class="is-note-link" href="22_commonSense_10_16_19.html">21. Common-Sense Reasoning (cont.)</a></li><li><a class="is-note-link" href="23_fractalReasoning_10_18_19.html">22. Fractal Reasoning</a></li><li><a class="is-note-link" href="24_explanationReasoning_10_21_19.html">23. Explanation-Based Reasoning</a></li><li><a class="is-note-link" href="25_analogicalReasoning_10_23_19.html">24. Analogical Reasoning</a></li><li><a class="is-note-link" href="26_moreAnalogicalReasoning_10_25_19.html">25. Analogical Reasoning (cont.)</a></li><li><a class="is-note-link" href="27_moreAnalogyVersionSpace_10_28_19.html">26. Analogical Reason (cont). / Version Spaces</a></li><li><a class="is-note-link" href="28_versionSpaces_10_30_19.html">27. Version Spaces</a></li><li><a class="is-note-link" href="29_constraintProp_11_1_19.html">28. Constraint Propagation</a></li><li><a class="is-note-link" href="30_moreConstraintProp_11_4_19.html">29. Constraint Propagation (cont.)</a></li><li><a class="is-note-link" href="31_diagnosis_11_6_19.html">30. Diagnosis</a></li><li class="active-note-page"><a class="is-note-link" href="32_mistakeCorrection_11_8_19.html">31. Learning from Mistakes</a></li><li><a class="is-note-link" href="33_metacognition_11_11_19.html">32. Metacognition</a></li><li><a class="is-note-link" href="34_advancedTopics_11_13_19.html">33. Advanced Topics</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="31_diagnosis_11_6_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************** Learning from Mistakes - November 8th, 2019 ****************//
+//**************************************************************************//
+
+- As a side-note, we're actually rapidly approaching the end of the term; we only have 2 more weeks of planned lectures
+    - Let's briefly talk about ethics in AI: George Lankoff (?) is a professor of Philosophy at Berkeley, and he says to imagine aliens, and the idea that there may be other intelligent species in other solar systems
+        - AI philosophers seem to often propose a counter-argument that humans are unique, and the argument goes like this: yes, physicists tell us there are many galaxies and many solar systems with planets in each galaxy, but the chance of life existing on each planet is exceedingly small - and the chance that such life is intelligent is even smaller! Therefore, there may be a reasonable chance that we are the only intelligent creatures (not sure about this...?)
+        - Going back a few weeks, if you accept that a) humans are unique and b) Darwin made a mistake, then that changes how we think about our responsibilities when building AI
+--------------------------------------------------------------------------------
+
+- Okay, here's an exercise we'll focus on today:
+    - Suppose we have a rule in our heads saying that we enjoy parties whenever our friends George and Sally are there. However, after some time, we realize this rule doesn't always work; on rare occasions, we DON'T enjoy parties when George and Sally are both there, and on rarer occasions we can still enjoy parties when George or Sally are missing
+        - After thinking about it, you realize that Frank was always there when you enjoyed the parties, but that he was missing when you didn't enjoy it - so Frank should be part of this rule!
+            - If we wanted to simplify the rule, we might even say that George and Sally aren't even factors in our party happiness, and it ONLY depends on Frank (although we might not have enough data to conclude that)
+        - "Oftentimes, and so far in this course, we've assumed that learning is an automatic process - but to correct these kinds of mistakes requires effort! You have to THINK about it, and the data, and what you know! It requires reflection to realize we made a mistake, and to correct that mistake"
+
+- Here's the position we'll take today: some of our learning takes place rapidly and automatically, while much of it also is very slow and deliberate
+    - "In this particular field, rather than provably-correct algorithms, we like algorithms that occasionally fail and can be improved; that's how humans work, after all"
+    - We want to build systems capable of INTROSPECTION:
+
+- Earlier in the class, we described a cognitive architecture with 3 components: reaction, deliberation, and metacognition
+    - We've talked about the previous 2, but today, we're finally getting to talk about metacognition
+        - Specifically, when we detect that something isn't working like we expect it to, how do we figure out what's wrong with it, and then how to fix it?
+            - When we do this with external things like a broken TV, we call it diagnosis
+            - When we do it with our own, internal behaviors and thoughts, it's metacognition, and involves actually learning and changing!
+                - However, this does often involve a deliberative component
+                - *cue Professor Goel dropping his marker behind the whiteboard*
+                    - "Judging from what I can see down there, I'm not the first to do this"
+
+- So, let's move on to our first metacognitive topic: learning by correcting our mistakes!
+    - Back in explanation-based reasoning, we considered how we might prove an object was a cup, or a chair, or so on based on what properties we knew a cup should have
+        - Suppose we try and figure out if something can be used as a cup because it is stable, can hold water, and has a handle - can we use a bucket as a cup?
+            - By this definition, it IS a cup - but if we try to drink from it using this handle, it's not going to go well! So we SHOULDN'T count a bucket as a cup!
+    - To learn from our mistakes, we need to do 3 things:
+        - Isolate the error from the rest of the model
+            - We may do this by comparing the mistake against successful examples and seeing what features are different, to figure out what could possibly make this "not a cup"/etc.
+        - Explain the problem that led to the error
+            - If we look at our explanation for what makes a cup, we might notice that "enables drinking" has 2 requirements: "carries liquids" and "is liftable." Since the tilting handle was a possible reason we failed, we know that something involving the handle is the issue - and since it comes into play where "is liftable" is involved
+                - This is a DELIBERATIVE process - it takes effort!
+                - This is a process known as FAULT LOCALIZATION, where we try to figure out what was responsible for our error
+        - Correct our model so we don't make the same error again
+
+- There's a better way of doing this - but we're running out of time, so we'll refine this next week</pre>
+</article>
+<a class="side-link is-note-link" href="33_metacognition_11_11_19.html"></a>
+</main>
+</body>
+</html>

@@ -1,0 +1,59 @@
+//****************************************************************************//
+//************** Honesty in Engineering - November 4th, 2019 ****************//
+//**************************************************************************//
+
+- THE STRESS GROWS AAAAAAAAAAGGGGGGGGGGGGGHHHHHHHHHHHHHHHHHHHH!!!
+    - Actually, it's going reasonably; I got the Computer Vision notebook open on Google Colab (dodging network errors like laser beams), and hopefully implementing the network architecture will be easier than I think (Pytorch was designed for this stuff, after all); I just need to get it done, start answering the report questions, and then ship the thing off to Gradescope and Canvas and take a not-so-well-earned nap
+        - ...I mean, I'll probably have worked hard, but if I'd started this last week than I wouldn't have had to work hard
+    - For posterity: this stress is not at all related to Engineering Ethics, and is past
+
+- "What's going on? Let's find out!"
+--------------------------------------------------------------------------------
+
+- Alright, today we'll be talking about honesty in engineering and why it's important, how you can be dishonest, etc.
+
+- "Obviously, you can be dishonest by lying - but there are other ways, too!"
+    - What exactly IS telling a lie, though? It's not just saying something that's false!
+        - A lie involves 3 things:
+            - Telling something false or misleading
+            - Involves INTENTION to deceive ("you can be wrong without lying!")
+            - It's usually - although not necessarily - verbal
+                - "There's a philosopher named Harry Frankfurt who wrote a work called 'On Bull****', and he argues that the definition of 'bull****' is when we say stuff to convince people without caring if it's true or not; we're just trying to win the argument, "
+        - We know lying is wrong, but why would it be wrong based on the ethics we've learned in class?
+            - Virtue ethics says it's wrong because honesty is a virtue, and dishonesty is a vice that you should avoid practicing lest it creep into your character
+            - Deontologically, lying fails to pass the categorical imperative; it would break down if everyone did it! Furthermore, it doesn't "respect people," as when we lie we're assuming we know what's best for someone to hear
+            - With utilitarianism, it's a little more complicated
+                - Generally, dishonesty is bad for engineers here because it undercuts professionalism, erodes trust in engineering work, and can jeopardize reliable work - all of which is bad for society
+                - However, utilitarianism does offer a path to allowing "acceptable" lies if the benefits are good enough
+    - Besides lying, there also a BUNCH of other ways of being dishonest that also aren't great
+        - DELIBERATE DECEPTION is when we don't explicitly tell a lie, but we try to get someone to infer something incorrect from what we're telling them - basically, being manipulative
+            - Kant is strictly against lying and making false promises, but he does seem to think deception is slgihtly different (although still usually not okay)
+        - WITHOLDING INFORMATION is when we choose to not tell someone a truth we know, intentionally miselading them
+        - FAILURE TO SEEK THE TRUTH is less obviously bad, but it's where we suspect something is true or something bad is going on and we fail to follow up on it
+
+- In research, this dishonesty can come up in 2 special forms: fabrication and falsification (they're NOT the same!)
+    - FABRICATION is when we just straight make-up data that doesn't exist, like saying "oh, my orangutang's health is improving" when you don't actually own any orangutangs
+        - This is a pretty conscious decision
+    - FALSIFICATION is when you take existing, actual data you have and modify it to suit your needs better, like cherry-picking data, modifying a photo, etc.
+        - "There are legal ways to cut out statistical outliers and stuff like that, and then there are illegal things that go too far"
+    - Intellectual property violations can also come up here, too
+    - PLAGIARISM is, of course, another big thing we need to avoid
+        - You should know this from the syllabus (and, well, every other class you've ever taken), but it's basically copying someone else's work without acknowledging that it isn't yours
+            - Self-plagiarism is also a thing that usually isn't okay; you should acknowledge that you didn't do new work for an assignment or journal you're submitting something to
+                - "If someone paid you to write a brand-new article, and you turn in something from an old, already-published thing you did, they're not gonna be happy"
+        - "Plagiarism does NOT mean you have to copy the exact word-for-word sentence from something, but taking ideas from someone else - if you copy a piece of code and changed the variable names, guess what? It's still copied code!"
+            - A classic example of plagiarism is a guy named Jonah Lehrer, a former science writer for Wired Magazine who ran the whole gamut of recycling his old work, copying news articles, stealing whole books worth of information from others, and other stuff
+
+- Finally, we need to talk about a REALLY important concept: CONFLICTS OF INTEREST!
+    - "A conflict of interest is when there's something you could personally gain from your professional work"
+        - This is stuff like if a person asks for your advice, and you tell them to buy from this "random company" that's actually a company you own
+    - For engineers, these conflicts of interest are a few things
+        - They're NOT just overcommitment
+        - They're restricted to morally legitimate concerns
+        - Just having a conflict of interest is NOT the problem; it's only an issue if you don't disclose it
+    - Classic example: say you've been working as an engineer in a city for 10 years, and a new company sets up shop and says "hey, we want to know where to buy concrete, where to hire engineers, etc."
+        - If you have a sister who works at one of those concrete plants, you HAVE to tell them that - "I think this plant is still the best at concrete-making, but you HAVE to know my sister works there"
+            - If you stand to personally gain from something, and that could even potentially affect your work or advice, you need to make it clear
+    - "Since I'm a philosopher, I don't have to report financial conflicts of interest all that often - but engineers? They need to do this all the time"
+
+- Alright, cya Wednesday!

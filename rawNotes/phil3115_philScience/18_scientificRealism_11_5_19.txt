@@ -1,0 +1,54 @@
+//****************************************************************************//
+//*************** Scientific Realism - November 5th, 2019 *******************//
+//**************************************************************************//
+
+- We had a quiz today. I took it. It is now done.
+- Talking about the midterm:
+    - Statistically, people ended up doing pretty well; there was a median score of 86%, with a range from 62%-98%
+    - The exams were graded by printing out all of the papers without names and then grading all the Q1s together, then all the Q2s, etc., so they'd be graded consistently
+        - Quick reminder: you NEED to cite sources if you get it from somewhere else, UNLESS it's "common knowledge" (e.g. Einstein's E=MC^2)
+        - The most common feedback was to just highlight a sentence and say "explain" or "expand," if you needed to elaborate on a point to be fully correct or show me you understand what you're taking about
+            - These were graded less harshly if you didn't have room to expand on it, and if you showed understanding in the rest of the essay
+    - Overall, Q1 (giving examples of deductive and inductive arguments, and the differences) went well for most people; keep in mind that terms like "proves," "follows logically," etc. need to be strictly defined, and that soundness requires the premises to be true (not that we *think* them to be true)
+        - Inductive arguments, also, fundamentally don't guarantee their conclusions - that's important!
+    - Q2 (comparing what Whewell, Mill, and Popper said about hypotheses) had some variance, with a lot of perfect scores and a lot of not-so-perfect scores
+        - Whewell tended to say hypotheses were mental, creative concepts, that testing requires rigor, and that hypotheses can be justified by successful prediction
+        - Mill thought that hypotheses were less inventions and more mechnaical generalizations, and he thought that hypotheses couldn't be justified by correct predictions, but only by showing the hypothesis was the ONLY one that could make those predictions
+        - Popper proposed testing hypotheses deductively, and that hypotheses couldn't be proven true - only proven false
+    - Q3, about explaining what logical empiricism was, was more rocky
+        - Many people correctly said that logical empiricism partly means "stating things in formal terms," but it became clear they didn't fully understand what this meant. What it means is that logical empiricists were trying to rigidly re-define things like "explanation" in purely logical/mathematical ways, such that they could be 100% proved correct and avoid induction
+    - Q4, on Kuhn's argument for different theories being incommensurable, mostly followed our in-class discussion about Kuhn's arguments
+--------------------------------------------------------------------------------
+
+- Alright, today we'll discuss 2 different papers we read today on scientific realism - a pretty classic philosophical debate that's been raging for awhile, continues to rage, and probably will keep raging until the end of time
+
+- Currently in this course, we've been talking about issues in post-Kuhnian philosophy, especially in modeling
+    - Next week, we'll be departing from our more "pure" discussions of philosophy of science and talking more about what implications science, and our understanding of it, have on society
+
+- First off, what the heck is realism?
+    - It's a term that can mean different things in different contexts and fields, but it generally means an attempt to represent the "real world" accurately as it actually is, not just as we understand it
+        - In science, basically *everyone* thinks that scientific theories have been highly successful in some sense, letting us make many accurate predictions, build working technologies, etc.
+        - Here's the question, then: just because these theories are successful, does that mean we can conclude that scientific theory is actually true? Or approximately "true"? And if it is, does it justify believing in ALL aspects of that model - even the unobservable ones?
+            - "The common-sense idea most people have is that, well, yeah - of course these theories are true! But many philosophers, and even many scientists, don't think it's that simple"
+
+- Alright, we first read an excerpt by Ernest Nagel on this - let's talk about it!
+    - What were the 3 views he talked about, and how are they related?
+        - INSTRUMENTALISTS believe that theories about things we can't directly test aren't either true or false, but are "useful fictions" that should be judged based on how useful they are (e.g. making accurate predictions); in short, they believe we make theories because they're useful, not because we care if they're "really true"
+            - pg. 202 "The central claim...inferring observation statements from other such statements"
+        - DESCRIPTIVISTS basically believe that theories are just summaries of our observations; in that sense, theories are "true" if they work, and they should make claims about observable phenomena but NOT about unobservable phenomena
+            - It's similar to instrumentalism in that it wants to make accurate predictions, but it characterizes truth in a different way than realism
+            - pg. 198 "...a compendious but elliptic...do not signify some observationally inaccessible physical reality"
+        - REALISTS then say that theories are making claims about what is really true in the natural world, and believe that in certain contexts we can say theories are literally true
+    - Which one of these theories is popular is kind of the flavor of the month, and varies from field to field: biologists tend to be realists, while physicists tend to get into arguments (there's a surprising number of instrumentalists among physicists)
+
+- We also read a paper by Larry Laudan called the "Confutation of Convergent Realism"
+    - What's his main argument in this?
+        - In general, Laudan argues that realism isn't supported by the history of science - and in particular, the common realist assertion that successful theories are more likely to be true, and vice-versa
+            - Laudan argues that this isn't historically true! The aether theory of electromagnetic waves made many correct predictions, but was ultimately proven false - and we can think of plenty of other theories that were considered well-supported at the time and later shown to be not merely flawed, but completely incorrect
+                - Note that this is a historical argument, rather than a logical argument; if we had a historical example of theories becoming gradually "more true" and similar over time, it seems likely that Laudan's conclusion would be different
+    - Why would someone not be a realist?
+        - Historically, many instrumentalists come from the logical empiricist camp, where they believe it doesn't "make sense" to talk about things we can't directly observe
+        - Intuitively, realism is very intuitive because it explains WHY science has worked so well: because these things are true. As Laudan quotes from Hilary Putnam, "the argument for realism is that it is the only philosophy that doesn't make the success of science a miracle"
+            - The problem realists have to grapple with, as Laudan points out, is that there seemingly have been many scientific theories that were wrong but DID work - so why did those theories work out? Were they just lucky? Were they miracles? And if those theories wee've dismissed "just got lucky," then how do we know that's not true for the theories we currently accept?
+
+- Alright, that's all - come on Thursday for the extra credit part of the class (or don't)! We'll start in earnest again next week!

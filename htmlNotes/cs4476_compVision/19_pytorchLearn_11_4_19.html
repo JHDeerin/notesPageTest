@@ -1,0 +1,170 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Computer Vision</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4476Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Computer Vision</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_8_19_19.html">0. First Day</a></li><li><a class="is-note-link" href="1_projectiveGeometry_8_21_19.html">1. Projective Geometry</a></li><li><a class="is-note-link" href="2_cameraProjection_8_26_19.html">2. Camera Projection</a></li><li><a class="is-note-link" href="3_reflectanceModelsImages_8_28_19.html">3. Reflectance Models / Real-World Images</a></li><li><a class="is-note-link" href="4_filterNeuralNets_4_9_4_19.html">4. Image Filtering / Intro. Neural Nets</a></li><li><a class="is-note-link" href="5_moreCNN_9_9_19.html">5. Convolutional Neural Nets (cont.)</a></li><li><a class="is-note-link" href="6_fourierTransform_9_11_19.html">6. Crash-Course Fourier Transforms</a></li><li><a class="is-note-link" href="7_featuresHarris_9_16_19.html">7. Feature Detection / Harris Detector</a></li><li><a class="is-note-link" href="8_SIFTFeatureMatch_9_18_19.html">8. SIFT and Feature Matching</a></li><li><a class="is-note-link" href="9_edgeDetectionHough_9_23_19.html">9. Edge Detection and Hough Transforms</a></li><li><a class="is-note-link" href="10_imageAlignment_9_25_19.html">10. Feature-Based Image Alignment</a></li><li><a class="is-note-link" href="11_poseEstimation_9_30_19.html">11. Pose Estimation</a></li><li><a class="is-note-link" href="12_fundamentalMatrices_10_2_19.html">12. Fundamental Matrices</a></li><li><a class="is-note-link" href="13_midtermReview_10_7_19.html">13. Midterm Review &amp; Fear-Mongering</a></li><li><a class="is-note-link" href="14_structureMotionEstimation_10_16_19.html">14. Structure from Motion / Motion Estimation</a></li><li><a class="is-note-link" href="15_introDeepLearning_10_21_19.html">15. Intro. to Deep Learning</a></li><li><a class="is-note-link" href="16_stereoMatching_10_23_19.html">16. Stereo Matching</a></li><li><a class="is-note-link" href="17_denseMotion_10_28_19.html">17. Dense Motion Estimation</a></li><li><a class="is-note-link" href="18_panoramasHDR_10_30_19.html">18. Panoramas and HDR</a></li><li class="active-note-page"><a class="is-note-link" href="19_pytorchLearn_11_4_19.html">19. Pytorch Deep Learning Example</a></li><li><a class="is-note-link" href="20_objectRecognition_11_6_19.html">20. Object Recognition Basics</a></li><li><a class="is-note-link" href="21_classicDetection_11_11_19.html">21. Classical Object Detection</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="18_panoramasHDR_10_30_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//********* Pytorch Deep Learning Example - November 4th, 2019 **************//
+//**************************************************************************//
+
+- Okay, the class doesn't seem very enthsuastic about project 4 (I know this because, when it was mentionewd, the rest of the class very professionally boo'd)
+--------------------------------------------------------------------------------
+
+- Alright - you guys voted for a Pytorch tutorial, so let's go through a Pytorch tutorial!
+
+- "For this tutorial, we'll be developing directly in our Jupyter notebook; usually, this isn't a good idea (it leads to disorganized code), but we'll be rebels"
+
+- Pytorch and TensorFlow are nice because they come with a lot of stuff already built-in - even datasets!
+    - For this tutorial, we'll use the CIFAR10 dataset (in torchvision.datasets.CIFAR10)
+
+- So, the most common libraries we'll be using are "torch", "torchvision," "torch.utils.data", and "torchvision.transforms"
+    - First off, let's create a spot to store our data:
+
+            data_root = './data'
+
+            # Create a single transform that will normalize a dataset into a tensor between -1.0 and 1.0 (I think?)
+            transform = transforms.Compose([transforms.toTensor(),
+                                            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+
+            # 'download=True' says to download the set if we don't have it already
+            train_dataset = torchvision.datasets.CIFAR10(data_root, train=True, download=True, transform=transform)
+            test_dataset = torchvision.datasets.CIFAR10(data_root, train=False, download=True, transform=transform)
+
+    - Alright; let's then split up our dataset into several "batches" (which we can use to help with overfitting a little bit)
+
+            # Only use 4 images per batch
+            batch_size = 4
+
+            train_loader = data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+            test_loader = data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+
+    - SIDE NOTE: Pytorch defaults to (channel, heigh, width), which is different than numpy/matplotlib's ordering, so you may have to switch some dimensions around
+        - With that, we can then get our batch of images:
+
+                images, labels = next(iter(train_loader))
+
+- Alright, we've defined our data loader - cool!
+    - SIDE NOTE: Tanh and Sigmoid used to be really popular activation functions in computer vision, but ReLU has become more popular; it's a simple function that's just the identity function up to a certain point and 0 beyond it
+        - ReLU is less prone to noise/overfitting than the others, but it has the issue of being nonlinear and wrecking gradients for back (I THINK???)
+    - So, let's create the actual learning model we want:
+
+            import torch.nn
+            class N(nn.Module):
+                def __init__(self, n_classes=10):
+                    super(Net, self).__init__()
+
+                    # Define the layers we'll be using in the network
+                    # 3 input channels since it's an RGB image, 
+                    self.conv1 = nn.Conv2d(in_channels=3, out_channels=6, 5)
+                    self.relu = nn.ReLU
+                    self.pool = nn.MaxPool2d(2,2)
+                    self.conv2 = nn.Conv2d(6, 16, 5)
+
+                     # num outputs of our convolutional layers: (w - k + 2p) / s + 1
+                    self.fc1 = nn.Linear(16 * 5 * 5, 120)
+                    self.fc2 = nn.Linear(120, 84)
+                    self.fc3 = nn.Linear(84, n_classes)
+
+                def forward(self, x):
+                    '''
+                    Do 1 pass through our layer (we can either call each layer individually in the order we want, or use nn.Sequential() if we only care about the output or don't want to try reusing layers, only training specific layers, etc.)
+
+                    Note that pool/ReLU aren't "learned" layers, so we're safe to reuse them
+                    '''
+                    # Pass through the 1st/2nd convo layer
+                    x = self.pool(self.relu(self.conv1(x)))
+                    x = self.pool(self.relu(self.conv2(x)))
+
+                    x = x.view(-1, 16*5*5)
+                    x = self.relu(self.fc1(x))
+                    x = self.relu(self.fc2(x))
+                    x = self.fc3(x)
+                    # In general, do NOT use ReLU on your final output layer
+                    return x
+
+    - *something about BatchNormalization layers and how they can let us use a faster learning rate, but should usually be used in conjuction with dropout, etc.*
+
+- Great! With our model defined, let's now start training it!
+    - We need a few pieces to get this working:
+        - An optimizer, which'll actually update all our neurons
+        - A loss function
+        - Some hyperparamters like our learning rate, etc.
+            - Learning rate is SUPER important; a too-high learning rate ver commonly causes a bunch of weird stuff like NaNs, non-converging results, etc.
+    - Alright, let's go!
+
+            import torch.optim as optim
+
+            n_epochs = 2
+            learn_rate = 1e-3
+
+            net = Net()
+            net.cuda()      # If you have a GPU, this'll activate it for training use
+
+            loss_criterion = nn.CrossEntropyLoss()
+            # SGD and Adam are 2 popular optimizers; Adam is probably the default
+            optimizer = optim.Adam(net.parameters(), lr=learn_rate)
+
+            # The actual training loop begins!
+            for epoch in range(n_epochs):
+                total_loss = 0.0
+                for i, data in enumerate(train_loader, 0):
+                    # Delete gradients from previous loop
+                    optimizer.zero_grad()
+
+                    # Get data from dataloader
+                    images, labels = data
+
+                    images = images.cuda()
+                    labels = labels.cuda()
+
+                    # Pass data through model
+                    out = net(images)
+                    loss = loss_criterion(out, labels)
+                    loss.backward()
+                    optimizer.step()    # IMPORTANT! This actually applies your weight updates!
+
+                    total_loss += loss.item()
+                    if i % 2000 == 0:
+                        print(f'Epoch: {epoch}/{n_epochs} iter: {i} loss: {total_loss/2000}')
+                        total_loss = 0.0
+
+    - Alirght; once that's all trained up, we can save our trained model
+
+            save_path = './checkpoints/model.pth'
+            torch.save(net.state_dict(), save_path)
+
+    - We can then load our neural net whenever we want!
+
+            same_net = Net()
+            same_net.cuda()
+            same_net.load_state_dict(torch.load(save_path))
+
+    - Finally, we can test our dataset however we want in a similar way to how we iterated through and trained it
+
+- Okay, next lecture we'll have a guest lecture from Dr. Judy Hoffmann on object recognition, and there WILL be attendance quiz - good luck finishing project 4, and goodbye!</pre>
+</article>
+<a class="side-link is-note-link" href="20_objectRecognition_11_6_19.html"></a>
+</main>
+</body>
+</html>

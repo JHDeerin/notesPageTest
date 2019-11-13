@@ -1,0 +1,86 @@
+//****************************************************************************//
+//** Policy Iteration / Intro. Reinforcement Learning - November 5th, 2019 **//
+//**************************************************************************//
+
+- I AM PREPARING FOR PART 2 OF CS 3600 REVIEW
+    - WHY AM I TYPING LIKE THIS? I...have no justification whatsoever
+
+- "We're getting close to the end of the semester: you've got 2 projects and 1 exam left, and then presto, the semester's done!"
+    - Today and for the next 1-2 lectures, we'll keep chugging along with reinforcement learning; after that, we'll wrap up some of the more advanced finance stuff we skipped over, and hopefully take the last exam BEFORE finals week starts
+        - "For once, my class isn't going to be the reason someone misses their family vacation"
+--------------------------------------------------------------------------------
+
+- Last time, we basically finished our Markov Decision Problem (MDP) discussion and talked about Value Iteration for a well-defined MDP (i.e. we have all necessary information to calculate the optimal policy)
+    - Today, we'll talk about why the real world often doesn't follow the rules of MDPs, and we'll talk about how we can solve those issues with reinforcement learning (which is NOT the same thing as MDPs)
+    - We'll talk about both model-free and model-based reinforcement learning, and might get to combining them through some work an old guy named Rich Sutton did in the 1990s
+
+- With value iteration, we mentioned that we iteratively use the best utility estimates from each previous "round" to calculate the utilities for all possible states
+    - What's wrong with this? It's guaranteed to come to an optimal solution for a valid MDP, so why is it bad?
+        - First off, it's pretty inefficient because it has a non-linear max function in the update equation, making it slow to run
+            - It's ALSO slow because we're running it until ALL of the utilities settle down to within some epsilon, which means we'll often be running well after we already know the optimal policy just so we get better utilities
+                - We don't actually care about those utilities, though! We just want the policy!
+
+- There's a 2nd, even more common method for solving MDPs that tries to improve on this performance issue: POLICY ITERATION!
+    - The idea here is that we'll now try to skip past as many utility calculations as we can and just skip to the policy we want
+    - How do we do this? Here's the basic idea:
+        - Start off with some random policy mapping states to actions
+        - Until the policy doesn't change...
+            - Evaluate the utility of our current policy for each state
+                - Since the policy only recommends one action for each state, we don't have to use our max function - instead, we can solve this utility using linear algebra solvers, which are SUPER well optimized!
+            - Compute a new, better policy using our utilities:
+
+                    pi(s) = argmax(action, sum { T(s,a,s') * U(s') })
+
+                - This still involves using a max function, but since we already know all possible utilities it doesn't significantly impact performance
+    - In other words, policy iteration is just doing 2 things: calculating our current state utilities given our policy, and then calculating a new policy using those utilities
+        - This means when we stop, we don't need to do any post-processing to extract our policy from some utilities; we just have the policy given to us right away!
+        - Policy iteration is also almost always faster, and it still guarantees us an optimal policy
+
+- So, that sounds smashing - why would we ever use value iteration instead of this?
+    - First off, if we need the utilities for some other purpose or analysis, we'd obviously need to use value iteration
+    - There's also a specific case where value iteration IS faster: if you have a VERY large state space, then calculating a new policy/solving a linear system of equations each step is actually SLOWER than just iterating!
+
+- So far, we've also assumed that our reward is only a function of our current state and not on how we got to that state, our history, etc.
+    - We could also structure our reward based on both the current state AND the action we took there, or finally by that PLUS the actual state we end up in
+    - Basing our rewards purely off the current state doesn't always make sense; if we're trying to get to the floor, there's a big difference between carefully climbing down from a ladder and falling face-first on it
+
+- Finally, a quick side-note before we leave MDPs: do their inputs have to be discrete?
+    - For this exact approach, yes, they do!
+    - At the same time, there's no reason in general why our transition or reward function inputs have to be real numbers
+        - If we do this, and allow real-numbered inputs, we start to get into CONTROL THEORY, which is kind of like a parallel-version of analog MDPs that developed in mechanical and electrical engineering to answer problems like "What should my rocket's thrust be for a given position to course-correct it into the right trajectory?"
+            - Computer science caught up with this by using deep reinforcement learning; "the biggest advantage of neural nets for MDPs, honestly, was enabling continuous state spaces"
+    - The big problem with having a discrete state space is that we end up with a sparsity of input data; if we have a huge state space with millions of possible states, there's a good chance we'll NEVER see examples of some of those states in training!
+        - With deep RL and naturally continuous neural nets, though, we can just work with real-numbered inputs and everything should just kinda work!
+    - In short: T and R don't have to be discrete, and it's GOOD if they're continuous...but making them continuous introduces a number of new problems (which we'll talk about with RL)
+
+- So, what are the problems with BOTH value and policy iteration?
+    - First off, both of them require a "fully observable environment" to work; in other words, our agent has to already know ALL possible states and transition probabilities and rewards in advance, which doesn't happen very often!
+        - If we just dump our robot in a random city block it's never seen before, it won't know where to go, and MDPs won't help it figure that out!
+    - To learn any policy at all, though, we don't need all this stuff! To start learning a policy, we just need 3 things:
+        - The current state "identifier"
+            - "Our agent doesn't have to know what its state 'means,' it just has to recognize when it's in the same kind of state"
+        - Some allowed actions in this state
+        - The numeric reward of taking a given action
+            - "With this minimal agent, we could lock it in a room with a bunch of randomly colored buttons and a speaker that cheers and boos it - and, eventually, it will figure out which buttons it needs to press to get the most cheers and the least boos!"
+            - By just taking actions and experimenting, we can eventually figure out what we need to do!
+
+- REINFORCMENT LEARNING is basically trying to solve these kinds of minimal policy problems
+    - Usually, we'll have 2 different, connected models in a given RL problem:
+        - We'll have our agent, which learns the optimal policy and knows the states/action pairs it's taken and the outcomes that came from that
+        - We'll have a model of the world, representing the probabilities and rewards of different states (as we know them)
+            - So, the world tells our agent what state it's in, the agent tells the world which action it wants to do, and then the world gives a resulting state and reward for doing that thing
+    - This process of acting, getting results, etc., gives us EXPERIENCE TUPLES of information, like this:
+
+            (s_0, a_0, s'_0, r_0)
+
+        - Where s_0 is our starting state, a_0 was the action we took in that state, s'_0 is the state we ended up in afterwards, and r_0 is the reward we got from doing that
+            - In classic reinforcement learning, we just get a BUNCH of these types of tuples (either up-front or after exploring the world for awhile) and use that to decide our policy!
+
+- There are 2 big kinds of reinforcement learning we can do: model-based and model-free
+    - MODEL-BASED RL is the older kind, and essentially means that we build up our transition matrix and reward tables from these experience tuples we get as we explore the world, then use those to solve an MDP as per usual when we have enough experience
+        - Model based is really just using reinforcement learning to get enough information to use policy or value iteration
+        - "We know we won't observe EVERY possible state here, but the hope is that we'll see most common states if we explore for long enough, and that anything we don't encounter will be rare enough to ignore for our purposes"
+            - A problem with this technique, though, is that the exploration and plan are totally unconnected; our exploration doesn't get better or more intelligent, and our plan (once formed) doesn't get better. We could run this multiple times, but they'll always be alternating
+    - MODEL-FREE RL is basically doing what policy iteration did for value iteration: we don't ACTUALLY care about T and R (unless we need those probabilities for some other reason), we just want a good policy!
+
+- How do we actually do this model-free reinforcement learning? We'll get into that - via Q-learning - on Thursday!

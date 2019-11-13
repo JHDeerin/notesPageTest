@@ -1,0 +1,115 @@
+//****************************************************************************//
+//*********************** CAPM - November 12th, 2019 ************************//
+//**************************************************************************//
+
+- Professor Byrd is a minute late - 1 WHOLE MINUTE! The SCANDAL!
+    - "Sorry for my hair; the wind is crazy out there today"
+- Alright, project 7 is due this coming Sunday; it's on Q-learning, so make sure you do it!
+    - 2 weeks from today, we'll have our last lecture, which'll be when the final exam is given - "in other words, your exam will be done BEFORE the final exam period, and we won't have anything going on during deadweek. After that, good luck, God bless, you're on your own."
+--------------------------------------------------------------------------------
+
+- Alright, let's take a break for machine learning and try to cover some more important finance-y stuff
+    - The stuff we're talking about today is conceptually simple, but SUPER important and does have some nuances that you can dig further into
+
+- First off, let's talk about CAPM - the "Capital asset pricing model"
+    - This was proposed in the 1960s by some financial economists like William Sharpe (of Sharpe ratio fame) and Harry Markowitz, and tries to explain how the stock market impacts individual stock prices
+        - Markowitz has some other interesting 
+    - Originally, the intent of CAPM was to show how the market pushes around stock prices, and became important in passive investing philosophies like hedge funds - nowadays, though, it's often viewed from the other direction as how stock prices affect the market as large
+        - An important variant of this is "Black CAPM," which relaxes certain assumptions to make it easier to apply to certain situations
+
+- Before we can talk in detail about CAPM, though, we need to (slightly) formalize our idea of a portfolio
+    - Basically, the ABSOLUTE VALUE percentage of all the stocks we own in a portfolio have to sum up to 100% ("absolute value" so we can account for shorting)
+        - Basic example: the following is a portfolio
+
+                60% AAPL, w1 = 0.6
+                20% IBM, w2 = 0.2
+                20% MSFT, w3 = 0.2
+
+        - The following with an IBM short is also a portfolio:
+
+                60% AAPL, w1 = 0.6
+                -20% IBM, w2 = -0.2
+                20% MSFT, w3 = 0.2
+
+        - The following is NOT a portfolio:
+
+                60% AAPL, w1 = 0.6
+                -20% IBM, w2 = 0.2
+
+        - ...but if we explicitly list our cash, then it does count!
+
+                60% AAPL, w1 = 0.6
+                -20% IBM, w2 = -0.2
+                20% cash, w3 = 0.2
+
+    - So, the only thing that doesn't count as a portfolio, really, is when we have over 100% leverage
+    - Now, let's talk about portfolio returns
+        - With our portfolio represented like this, we can talk about the total return of our portfolio as the sum of each individual stock's return times it's weight in the portfolio
+            - For instance, if w1 = 0.75 and w2 = -0.25, and returns1 = 1% and returns2 = -2%, then our total portfolio return is:
+
+                returns = (0.75*0.01) + (-0.25*-0.02) = 0.0075 + 0.005 = 0.0125
+
+    - As a side-note, then, what's the S&P 500?
+        - All the S&P 500 is is a portfolio - in fact, it's just an imaginary portfolio of IF someone had bought the 500 highest-cap stocks in the U.S.
+            - ...although it's occasionally slightly more/less than 500; right now, for instance, there are 505 stocks in it
+            - It also doesn't HAVE to be the 500 extact highest-cap stocks; a committee is allowed to veto stocks they don't think represent the market
+        - The stocks are also NOT equally-weighted, but are instead weighted by their market captializations
+            - The total weight of each stock in the portfolio is pretty simple to calculate:
+
+                    w_i = MktCap_i / (sum of all stock MktCaps)
+
+        - Remember that you CANNOT directly invest in the S&P 500, since it's just a hypothetical portfolio to track the market; you can invest in funds that're based on the S&P 500, like SPY, but not the thing itself
+
+- ...with that background, let's talk about CAPM
+    - "This is a little different from how it appears in most finance classes, since CAPM usually isn't written with a time component, but trust me: it's the same thing"
+    - As we mentioned, CAPM was created to try and guess how the market causes individual stock prices to change, and it looks like this:
+
+            r_i(t) = r_f + B_i*(r_m(t) - r_f) + a_i(t)
+
+        - Where "r_i(t)" is the stock's return, r_f is the risk-free return, r_m(t) is the market's overall return, B_i is the "stock beta" (how much is the market affecting the stock) and a_i(t) is the "stock alpha" (the residual, excess returns of this stock above the market - the stuff that's ONLY due to the stock's own performance, rather than just the market or risk-free returns)
+            - The basic idea is that the stock's returns are the returns we could get without risk, plus the market's effects on it (in ADDITION to the risk-free return), plus the stock's own independent performance
+    - What this model claims is that most of a stock's performance has NOTHING to do with the stock itself, but instead is just based on the market
+        - If a stock has a beta = 1, that means the stock EXACTLY follows the market; if the stock has a beta of 2, then it follows the market movement but twice as much (e.g. market moves up 1%, stock jumps 2%), beta = -1 would be inverse correlation, and beta = 0 would be a stock that's completely independent of the market
+            - In an efficient market, CAPM asserts that - in the long run - the "alpha" of a stock has an expected value of 0, and that therefore there really isn't much point to picking stocks - after all, they all just follow the market eventually!
+            - If we graph our stock's returns against a market benchmark like SPY, then the stock's alpha is the Y-intercept (how much it consistently over-under performs relative to the market), and beta is the slope of the line (how much the stock price changes relative to the market)
+
+- So, if we believe what CAPM says, what does that mean for our investing?
+    - In general, it's historically seemed that passive managers do better, like CAPM implies - stocks may briefly do better than the market, but over time they follow the market, so you should just diversify to spread out your risk and then hold (and *maaaayyyyyybe* buy stocks with higher beta if you want to go for that risk vs reward)
+        - Active portfolio management, on the other hand, means trying to consistently pick positive-alpha stocks, often starting from some market index like SPY and then over-weighing stocks we think will do well (whether it's because we trust their business model, or our technical indicators are predicting a bump, etc.)
+    - Both active/passive managers agree that beta is important, and represent risk vs reward: higher betas mean we're taking on more risk in the hope of getting higher gains
+        - Active managers, though, believe that we can predict alphas through expertise or magic or what-have-you; passive managers think we can't reliably do this, and so downplay its importance
+
+- We mentioned Black CAPM; the idea here is that ignore the risk-free return part and try to pick a portfolio with positive/negative betas to hopefully get a portfolio with an overall beta of 0, meaning its performance is independent of the market
+    - Applying CAPM to portfolios, we'll end up with an overall return of:
+
+            return(t) = sum{ w_i * (B_i*r_m(t) + a_i(t)) }
+
+        - Therefore, our portfolio's overall beta is just the weighted sum of our stock betas
+            - The portfolio alpha is composed of the individual alphas, but since each "a_i" is a random variable with an expectation of 0, we instead estimate it via back-calculations
+                - "We CAN'T directly compute alpha; instead, we just calculate it by taking each stock's overall returns and subtracting the market returns from that. This is why alpha is sometimes called the 'residual' returns"
+
+- So, what're the high-level implications of this CAPM stuff if it's correct?
+    - In a long-only portfolio...
+        - It's better to have high-beta portfolios when the market's up, and a low-beta portfolio when it's going down
+        - "And, if CAPM is right, this is the ONLY way we can beat the market; we can only adjust how much risk we take on via beta"
+    - However, if the efficient market hypothesis (which we'll talk about more on Thursday) is correct, then we can't predict the market's overall return - which means we can't know if the market's going up or down, so we can't adjust beta either!
+        - If BOTH of these are true, then the best we can do is buy the market - which isn't terrible! SPY has an average annual return of ~+10% (even though there'll be some years when it'll drop 30% or something nuts)
+
+- An important extension of CAPM is APT - "arbitrage pricing theory"
+    - CAPM only has a single beta per stock, related to this weird, nebulous thing called "the market"
+        - However, we know there are some market that get affected more/less by certain events - the housing market can crash without bringing the rest of the market down as much, tech stocks can boom before the rest of the market follows, etc.
+    - To deal with this, APT splits this beta between various "stock sectors," each representing a "risk factor" or "exposure" for that stock relative to each industry, e.g.
+
+            r_i = B_ifinance*r_finance + B_itech*r_tech + ... + a_i
+
+        - Again, a_i is the "alpha" part of the stock returns we can't explain from the rest of the market's movement
+    - As a simple example, let's say a stock has exposure to four factors:
+        - B_gold = 0.3, B_realEstate = 0.6, B_currency = -0.5, B_energy = 1.2
+        - If we have their respective returns at 4%, 2%, -6%, and 3%, what's the expected return of our asset?
+
+            returns = 0.3*4% + 0.6*2% + -0.5*-6% + 1.2*3% = 9.0%
+
+- "This might seem really simple, but if you really think about these factors, it'll make you a more sophisticated trader and get you in the mindset of how a lot of Wall Street traders think: exposing my portfolio a little ibt to international stocks, a little bit to tech, etc."
+
+- However, can we do better than this? Many people still hope so - and we'll talk about why they think so next lecture!
+

@@ -1,0 +1,42 @@
+//****************************************************************************//
+//*************** Risk in Engineering - November 11th, 2019 *****************//
+//**************************************************************************//
+
+- Clickity-clack, this class is back, and so are the quizzes today!
+    - ...I'd rather they not, but I'd not forgot, and thus have no reason to bray
+- "On one hand, there's a month of semester left - on the other hand, for this class, there's only 2 weeks left!"
+    - This week, we're talking about risks in engineering, and it's probably another core topic we covered
+    - Next week, we'll cover the last 2 chapters of the textbook, which are basically relevant topical issues that aren't "core" but'll be important to a lot of you
+    - We'll then have no class ALL of Thanksgiving week, and then we'll have 1 more class for exam review, and finally have our final exam on Friday, December 6th, at 11:20 AM
+        - "PLEASE double-check this final date; the exam should be of similar length to the first exam, but you'll have the full 2+ hour final block should you wish to use it"
+--------------------------------------------------------------------------------
+
+- So, let's start talking about risk!
+    - The book makes an interesting philosophical point that engineering INHERENTLY involves some risk; if we innovate in any way, that cool new thing we do might introduce risks or side-effects we didn't anticipate
+        - As the textbook said, innovation by definition means we're doing something non-standard that existing rules and standards might not've thought of
+    - More specifically, the book claims that engineers should roughly understand risk in terms of 2 questions:
+        - How much harm could something cause?
+        - How likely is that harm to happen?
+    - The book then talks about 2 approaches we could have to risk
+        - The UTILITARIAN APPROACH is the bog-standard one, and it's straightforward and a little bit unclear
+            - Under this, we say an "acceptable risk" is when the probabilities/magnitudes of the benefits outweigh the probabilities/magnitudes of the harms
+                - "Notice that the book slides into cost-benefit analysis here instead of ethical utilitarianism, and that those are NOT the same thing...but it's what the book does, so let's teach that"
+            - pg. 127-128 are the key passages here
+            - The book talks about a couple limitations of this apporach that make it less straightforward than we'd like:
+                - First off, it's not easy to know what benefits or harms'll happen in advance!
+                - It's hard to quantify certain effects: how much is a human life worth? How much is psychological trauma "worth"?
+                - It doesn't usually account for how those effects are distributed; is a lot of moderate inconveniencing worse than 10 people tragically dying in gruesome ways?
+                    - With technology in particular, it's hard to figure out who "bears" the risks in society (e.g. pollution in poor neighborhoods, smartphone addiction for children, etc.)
+                - It doesn't usually account for informed consent (are risks more acceptable if I agreed to the contract? Are things worse if I didn't know the building was about to fall down when I went inside?)
+        - The CAPABILITIES APPROACH is a newer idea
+            - "...I'm not convinced the book clearly understands what this actually is"
+            - The capabilities approach says that rather than focusing on "utility," we should instead focus on well-being and human flourishing/potential
+                - "It's not quite virtue ethics, but it has this neo-Aristotelian edge to it of reacting against utilitarianism's apparent indifference to people"
+                - "We might say that someone who had their legs permanently broken that they lost the capability to be an athlete, or to someone whose bank burned down that they lost the ability to go to school"
+            - The 2 big figures in this movement are Amartya Sen and Martha Nussbaum ("who're super famous living philosophers who lead UN commissions on things and stuff")
+                - Where this theory makes a lot of sense to people is in stuff like disaster aid: under a straw-man utilitarian theory, we might say "people need food, housing, and medical care, so we'll send that stuff. Day 2: send more housing, send more food, send more care. Day 3: send better housing, better food..."
+                - But a capabilities person might say "that's not bad, but you know what? It's more important that we rebuild the schools and businesses and churches there, because every day the people don't go to school, their kids are missing out on their future chances! Every day people don't have their businesses, they don't get the dignity of working! Every day they don't have the church, their missing an important place in their community!"
+                    - pg. 130 in the book gives an acceptable look at this from an engineering perspective
+            - The benefits of this are that we focus on normally-overlooked factors, we're focusing on primary concerns for actual people, and it more accurately quantifies what's actually going on (?)
+
+- Alright; we've got a reading for Wednesday (and a homework due, too) - see you then!
