@@ -1,0 +1,60 @@
+//****************************************************************************//
+//**************** Image Segmentation - November 20th, 2019 *****************//
+//**************************************************************************//
+
+- "Believe it or not, we only have 3 lectures left - and it's the last 'officially' scheduled lecture!"
+    - Today, we'll wrap up what we have to say on segmentation
+    - Next week, we'll have 2 guest lectures from other Georgia Tech professors on language processing and servo controls, both of whom are really great at their stuff!
+        - "So, because attendance has been dwindling, the last 2 attendance quizzes will be next week/when we get back from Thanksgiving - so come on!"
+- Also, Project 6 is officially out - so get on it!
+--------------------------------------------------------------------------------
+
+- Last lecture, we were talking a bit about how people group stuff together visually, and using optical illusions as an example of that
+
+- How, though, can we do segmentation on a computer?
+    - One possible way we could do this is via clustering - we want to separate images into different object sections, and if we "cluster" similar looking pixels together, we'll probably be able to separate different-colored objects!
+        - One idea here is moving from the pixel level to the "superpixel" level of representing images, although the idea has faded a little bit over time (since machine learning has done well without this stuff)
+        - The easiest way to do this is just to go by pixel color, and group all similarly-colored pixels together
+            - This is great for simple images, but what if the image is noisy - how do we decide where one region's pixels end and the other's begins?
+            - We can use K-MEANS to decide these regions, but if the regions are overlapping, K-means can't handle that; it'll choose sharp boundaries between the centers of the different clusters
+                - K-means is nice because it's efficient and converges to a local minimum solution, but it has some issues - we have to decide the number of clusters "k" in advance (which we won't always know), it's a greedy algorithm that's sensitive to initialization, and it's sensitive to outliers (since it uses sum of squared errors)
+                - Because it tries to find the centers using Euclidean distance, it also inherently tries to find circular/spherical clusters, meaning it has trouble finding regions that aren't linearly separable
+                    - We can try to fix this again by going into a higher dimension (like we did for SVDs), but it isn't guaranteed to work
+        - Colors alone can give us unsatisfactory results (e.g. different objects with similar colors), so we can instead try to add position or other variables to our feature space, or we can use textures/etc. instead of color
+            - Clustering on texture histograms was particularly popular for a long time, and it works much better than color, but still doesn't give practical-quality results
+
+- Rather than using K-means, we can use another algorithm called MEAN-SHIFT, which is a VERY cool algorithm that doesn't require us to use K!
+    - We'll skip this for time, but it's often used when you need an efficient segmentation algorithm
+
+- Let's also talk about a very influential way of clustering: graph-based algorithms!
+    - Here, we can represent the image as a graph, where each pixel is a node and it has connections with the pixels around it
+        - We *could* make this a fully-connected graph, but that'd be crazy expensive; instead, we'll usually connect each pixel to its immediate neighbors
+    - We'll then assign weights to those edges based on AFFINITY, which is some measure of how similar we think the pixels are, based on distance in some feature space we choose (color, position, intensity, etc.)
+        - Once we have those differences, we can assign how much strength we need for pixels to be considered similar via a sigma parameter:
+
+                affinity(i,j) = e^(-(1/(2*sigma^2)) * (|x-y|)^2)
+
+            - Something about shuffling matrix? (FIX THIS)
+        - Once we have this matrix, how can we find out how many clusters there are?
+            - One SUPER expensive algorithm (n!) is to try every permutation of nodes
+        - A better algorithm is to treat this affinity matrix as an adjacency matrix, and then try to create graph cuts that'll eliminate low-weight edges (i.e. separate dissimilar groups)
+            - To do this, we can use any min-cut algorithm from graph theory, like Ford-Fulkerson
+                - "...honestly, it's been 20 years since I've had to code these algorithms for myself, but they exist!"
+            - If we want to ignore the size of the cluster when making cuts (so the algorithm isn't biased towards smaller groups, I think?), we can normalize the value of the cut (how?)
+    - This algorithm isn't perfect, but it actually works pretty well!
+
+- "These are the 'traditional' segmenting algorithms, and while they were pretty good, they never gave perfect results, and always seemed to randomly cut objects in half an stuff like that. Deep learning has revolutionized this stuff to be FAR better!"
+
+- Early on, efforts to apply deep learning to segmentation focused on fully convolutional nets
+    - The idea here is that we'd take an entire image detection network to classify parts of an image as "cat," "dog," "horse," etc., and then convolve the WHOLE network across the image like a filter to classify each pixel
+        - This is SUPER expensive, and initially barely worked better than graph algorithms
+    - In 2015, some medical computer science researchers managed to apply an improved version called "U-Net" to identify cells in images
+        - It's called U-net because, well, the architecture looks like a "U"
+            - The idea here is that we downscale the image multiple times but increase the number of convolution channels at each step, and then learned to upscale the images and combine that high-level output with the detailed output (similar to the image pyramid from earlier)
+            - An important innovation here were also "skip" layers, where the original images were passed to layers farther down the line (I think?)
+    - These are all based on very bottom-up grouping features, trying to use textures and feature vectors and all that stuff; a very influential paper from 2 years ago called "Mask R-CNN" tried to take a top-down approach instead, using object detection to find objects and then - within each object - just asking "okay, which pixels belong to this car instance?"
+        - This blew EVERYTHING out of the water, and gives crazy impressive results compared to other stuff
+        - "As a side note, a LOT of cutting edge research nowadays comes out of companies like Microsoft and Facebook and Google, not just out of universities"
+    - Recently, a new trend has begun regarding "panoptic" segmentation, which is trying to combine top-down and bottom-up segmentation techniques
+
+- Alright, come next week for the guest lecture, and see you after the break!

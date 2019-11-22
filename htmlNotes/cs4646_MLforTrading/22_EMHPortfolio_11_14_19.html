@@ -1,0 +1,118 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Machine Learning for Trading</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4646Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Machine Learning for Trading</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_numpyCrashCourse_8_22_19.html">0. Numpy Crash-Course</a></li><li><a class="is-note-link" href="1_pandasReturns_8_27_19.html">1. Pandas / Return Basics</a></li><li><a class="is-note-link" href="2_returnsRisksSharpes_8_29_19.html">2. Returns, Risk, and Sharpe's Ratio</a></li><li><a class="is-note-link" href="3_optimzationBasics_9_3_19.html">3. Optimization Basics</a></li><li><a class="is-note-link" href="4_mlBasics_9_5_19.html">4. Machine Learning Basics</a></li><li><a class="is-note-link" href="5_moreMLBasics_9_10_19.html">5. Machine Learning Basics (cont.)</a></li><li><a class="is-note-link" href="6_testDecisionTrees_9_12_19.html">6. Testing, Ensembles, and Decision Trees</a></li><li><a class="is-note-link" href="7_mlStatistics_9_17_19.html">7. Statistical Foundations for Machine Learning</a></li><li><a class="is-note-link" href="8_stockFinanceBasics_9_19_19.html">8. Stock Finance Basics</a></li><li><a class="is-note-link" href="9_moreMarketMechanics_9_24_19.html">9. More Market Mechanics</a></li><li><a class="is-note-link" href="10_moreMarketMechsShort_9_26_19.html">10. Market Mechanics (cont). / Stock Shorts</a></li><li><a class="is-note-link" href="11_leverageFunds_10_1_19.html">11. Leverage and Funds</a></li><li><a class="is-note-link" href="12_EFTMutualFunds_10_3_19.html">12. EFTs and Mutual Funds</a></li><li><a class="is-note-link" href="13_hedgeFunds_10_8_19.html">13. Hedge Funds</a></li><li><a class="is-note-link" href="14_intrinsicValue_10_17_19.html">14. Intrinsic Value / Time Value of Money</a></li><li><a class="is-note-link" href="15_markovDP_10_22_19.html">15. Markov Decision Problems</a></li><li><a class="is-note-link" href="16_evaluatingFunds_10_24_19.html">16. Evaluating Funds</a></li><li><a class="is-note-link" href="17_technicalAnalysis_10_29_19.html">17. Technical Analysis</a></li><li><a class="is-note-link" href="18_policiesValueIter_10_31_19.html">18. Policies and Value Iteration</a></li><li><a class="is-note-link" href="19_policyIterRL_11_5_19.html">19. Policy Iteration / Intro. Reinforcement Learning</a></li><li><a class="is-note-link" href="20_qLearning_11_7_19.html">20. Q-Learning</a></li><li><a class="is-note-link" href="21_CAPM_11_12_19.html">21. CAPM</a></li><li class="active-note-page"><a class="is-note-link" href="22_EMHPortfolio_11_14_19.html">22. The Efficient Market Hypothesis</a></li><li><a class="is-note-link" href="23_stockOptions_11_19_19.html">23. Stock Options</a></li><li><a class="is-note-link" href="24_moreStockOptions_11_21_19.html">24. Options (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="21_CAPM_11_12_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//********** The Efficient Market Hypothesis - November 14th, 2019 **********//
+//**************************************************************************//
+
+- Microsoft, in their infinite wisdom, have chosen this moment to update my PC. Right before lecture starts. Right. Before.
+    - ...Professor Byrd appears to also be having some computer troubles, but I imagine his will be resolved before mine. (It’s taken 5 minutes to get to 20% - sure, the back half may go faster, but THE SLOWNESS).
+- “I never understood why the wireless microphone has a mute button”
+- Don’t forget, Project 7 is due this Sunday!
+--------------------------------------------------------------------------------
+
+- Alright, today we’ll talk about the Efficient Market Hypothesis: what it is, it’s 3 different forms, and why it’s controversial
+    - We’ll also talk about portfolio management a bit - “didn’t we go over that?” Yes, we did - but we’ll talk about an alternative way to make your portfolios in a potentially smarter way
+    - “Hopefully I can also sneak in 20 minutes of Q learning for stocks in the next few lectures, too, to help with your next project”
+
+- So, what is the Efficient Market Hypothesis?
+    - Thus far in the class, we’ve been assuming these financial indicators we’ve been talking about can give us some knowledge of what stocks will do in the future
+        - In the early 1900s, Louis Bachelier proposed something different: that over short time periods, stocks follow a “random walk” that can’t be predicted
+    - This likely isn’t completely true, but another economist named Eugene Fama formalized this into the EMH, with 4 propositions:
+        - First, we assume the market is made up of a large number of investors all actively seeking profit
+        - Second is that information that could affect stocks (news, etc.) arrives randomly and can’t be reliably predicted
+            - We do assume that all investors receive public information at the same time, i.e. there's no insider trading or cheating
+        - Third, prices adjust quickly in response to new information (this is partly due to part 1, which is why the EMH doesn’t always apply to small markets or thinly-traded countries)
+        - Therefore, 4: stock prices themselves represent ALL information we already have, and have already been adjusted to account for this; therefore, there’s no predictive information left to predict where the stock market will go!
+
+- Before we keep going, what do we mean by “information?”
+    - We’re not talking in an information theory sense about entropy or whatnot; instead, we’re talking about 4 economic things in the context of EMH:
+        - Information from the market itself, like stock prices, sale volumes, technical indicators, etc.
+        - “Fundamental” information about companies like quarterly earnings, their marketing strategies, CEOs, employees, fundamental analysis, etc.
+        - Company insiders who know non-public things, like board members, etc.     - Say there’s a bio company that’s waiting for their product to be approved by the FDA; certain scientists will know if and when the drug passes before the press does, and that’s important!
+        - Finally, there’s outside “exogenous” information, which is basically any piece of news that effects the company but isn’t directly related to it (e.g. a terrorist attack on an oil field might affect an airline’s stock, due to jet fuel)
+
+- Knowing this, there are 3 main forms of the EMH
+    - All of these say that price reflects all available stock information, but which information are we talking about?
+        - The WEAK EMH says that only information from the market itself “counts” as information, meaning technical analysis wouldn’t work
+        - The SEMI-STRONG EMH says that fundamental knowledge also counts
+            - Therefore, fundamental analysis would ALSO fail, since anything you read about the company would already have affected its stock price
+        - The STRONG EMH also considers insider information as counting in addition to the other 2 types
+            - This claims that even insider trading would be unprofitable, which is...well...not the most likely thing
+                - Side note: in order to trade on “non-public information,” you have to announce 1 month ahead of time what trades you’re going to be making related to your company in any way; otherwise, you’re liable to being sued later on
+                - “Bezos would need to do this if he wanted to sell Amazon to go to the moon or Mars or something, which used to be funny (but I guess is actually happening now)”
+    - Therefore, if this last version is true, the only information that isn’t baked into the stock price is news/exogenous info, which arrives randomly and unpredictably - therefore, it’s IMPOSSIBLE to beat the stock market!
+
+- What evidence do we have for each form of the EMH?
+    - It seems there’s evidence the weak form isn’t correct
+        m- Jim Simons, a mathematician, founded Renaissance Technologies in 1988 as a hedge fund, and he’s basically the anti-Warren Buffet; instead of purchasing reliable companies and holding them forever, he hired a bunch of engineers and mathematicians and instead tried to predict short-term stock prices over the next several minutes, making thousands of trades a day
+            - Historically, did they fail as victims of the EMH? NO! Over the past 30 years they’ve had a CAGR of 66%, making them the most profitable hedge fund in the world
+        - That’s not proof - and economists don’t study the weak form very much due to how noisy it is - but it does seem something is going on here
+            - One important caveat to the weak form is the so-called “momentum exception,” where momentum DOES seem to be a good predictor (likely due to psychological factors)
+                - ...but over time, it’s seemed the market has been becoming “more efficient” as more and more people rely on electronic trading and technical indicators
+    - Next, the semi-strong form proposes that fundamental analysis doesn’t work as a predictor, and we also have at least 1 seeming proof that this isn’t true in certain cases
+        - Robert Shiller is an economist who back in 2000 plotted a rolling 10-year window of the company’s price/earnings ratio against the stock’s performance, and it consistently came out that a high P/E (CAPE) resulted in lower earnings
+            - This makes sense! If my company’s been overpriced compared to what it’s currently making, then it’ll take some time to catch up to that, and vice-versa
+        - There are other examples, but it seems that fundamental analysis definitely has some prediction, and is useful for long-term predictions over multiple years - and that, therefore the semi-strong EMH idea has some serious problems, if it’s true at all
+            - “People predict recessions all the time, but is interesting to not many companies CAPEs are at an all-time high...”
+    - What about the strong form, then?
+        - In 1997, Craig MacKinlay did an “events study” of how company stock prices changed in relation to their press releases. We’d expect that if the strong form is true, insider trading wouldn’t be a thing and prices would change when the news arrives - but instead, prices seemed to go up and down several weeks BEFORE the announcements
+            - That may be due to speculation the run-up to announcements, buuuuuut...
+    - So, in summary, it seems the weak EMH is kinda true and getting more so, while the others seem pretty unlikely - “which is good for us, because it means there’s hope of us trying to predict the market!”
+
+- Alright, that's all we'll say about the Efficient Market Hypothesis for now
+
+- Let's now go back to portfolio optimization
+    - We mentioned waaayyyy back when the semester started that "risk" is the volatility of a stock price (like its standard deviation), and that the return of a stock is its CAGR
+    - When we construct a portfolio, we're just creating a weighted combination of a bunch of stocks
+        - It seems that the overall risk/return of our portfolio should be somewhere in the middle of them...right?
+            - Traditionally, portfolios were equally weighted across 4-8 stocks that people liked, just to balance out their preferred risk/reward ratio - and until the 1940s, that's about as sophisticated as portfolio management got
+                - Could we try to buy stocks in a way that we can minimize our risk but STILL have similar returns to this strategy? For a long time, people assumed the answer was "no"
+                - Harry Markowitz - a Nobel Prize winner - instead showed that the answer is "YES!" You can create a portfolio that's better than the individual stocks making it up!
+        - The reason has to do with covariance between different stocks
+            - If we see that 2 stocks are very correlated (i.e. high covariance), there's not much point to investing in them together; they're both doing the same things!
+            - If we buy a stock, though, that's anti-correlated with another, then we can get a portfolio with the same returns but MUCH less volatility!
+    - This was Markowitz's main intuition: to get the same returns for lower risk, we should look for uncorrelated or anti-correlated stocks and put them together in our portfolio
+
+- What's the specific technique he used to do this? It's called MEAN-VARIANCE PORTFOLIO OPTIMIZATION! (TODO: need to clean this up)
+    - "The whole point of this portfolio-making nonsense is to break out of the simple dichotomy of 'low-risk, low-reward' vs 'high-risk, high-reward'"
+    - The way this optimization works is that for each possible stock we're considering buying, we need to know its expected returns, its volatility, and its covariances with all the other stocks
+        - We'll then also need to say what out target returns for the portfolio are ("15% or whatever"), so long as its within the min/max bounds of what the stocks can realistically give us
+        - From there, we'll basically do project 2 and run some optimization function to try and 
+    - Using this, we can then generate something called the "efficient frontier" on a risk/return graph, where for each target CAGR return possible we can generate the portfolio that gives us that return for the least amount of risk
+        - The idea here is that we should ALWAYS pick a portfolio that's on this curve; if it's to the left of the curve, there's no combination of stocks that can give us that low of a risk, and if it's to the right then we could get the same returns for less risk
+            - We also ALWAYS want to pick a portfolio above the curve's inflection point, since below that point, we're taking on more risk for less reward!
+        - On this curve, then, the maximum Sharpe ratio portfolio will be the tangent line from the origin to the efficient frontier
+
+- "So, that's a crash-course overview of how modern portfolio optimization works"
+    - There is, of course, nothing special about this for stocks - you can do it for sectors, hedge funds, currencies, potatoes, playground candy swaps, you name it!
+
+- Alright, next week we'll talk about adapting Q-learning for trading and a little bit about stock options - and then, incredibly, that's basically it until the exam!</pre>
+</article>
+<a class="side-link is-note-link" href="23_stockOptions_11_19_19.html"></a>
+</main>
+</body>
+</html>

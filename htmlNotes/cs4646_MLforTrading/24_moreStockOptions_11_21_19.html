@@ -1,0 +1,147 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Machine Learning for Trading</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4646Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Machine Learning for Trading</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_numpyCrashCourse_8_22_19.html">0. Numpy Crash-Course</a></li><li><a class="is-note-link" href="1_pandasReturns_8_27_19.html">1. Pandas / Return Basics</a></li><li><a class="is-note-link" href="2_returnsRisksSharpes_8_29_19.html">2. Returns, Risk, and Sharpe's Ratio</a></li><li><a class="is-note-link" href="3_optimzationBasics_9_3_19.html">3. Optimization Basics</a></li><li><a class="is-note-link" href="4_mlBasics_9_5_19.html">4. Machine Learning Basics</a></li><li><a class="is-note-link" href="5_moreMLBasics_9_10_19.html">5. Machine Learning Basics (cont.)</a></li><li><a class="is-note-link" href="6_testDecisionTrees_9_12_19.html">6. Testing, Ensembles, and Decision Trees</a></li><li><a class="is-note-link" href="7_mlStatistics_9_17_19.html">7. Statistical Foundations for Machine Learning</a></li><li><a class="is-note-link" href="8_stockFinanceBasics_9_19_19.html">8. Stock Finance Basics</a></li><li><a class="is-note-link" href="9_moreMarketMechanics_9_24_19.html">9. More Market Mechanics</a></li><li><a class="is-note-link" href="10_moreMarketMechsShort_9_26_19.html">10. Market Mechanics (cont). / Stock Shorts</a></li><li><a class="is-note-link" href="11_leverageFunds_10_1_19.html">11. Leverage and Funds</a></li><li><a class="is-note-link" href="12_EFTMutualFunds_10_3_19.html">12. EFTs and Mutual Funds</a></li><li><a class="is-note-link" href="13_hedgeFunds_10_8_19.html">13. Hedge Funds</a></li><li><a class="is-note-link" href="14_intrinsicValue_10_17_19.html">14. Intrinsic Value / Time Value of Money</a></li><li><a class="is-note-link" href="15_markovDP_10_22_19.html">15. Markov Decision Problems</a></li><li><a class="is-note-link" href="16_evaluatingFunds_10_24_19.html">16. Evaluating Funds</a></li><li><a class="is-note-link" href="17_technicalAnalysis_10_29_19.html">17. Technical Analysis</a></li><li><a class="is-note-link" href="18_policiesValueIter_10_31_19.html">18. Policies and Value Iteration</a></li><li><a class="is-note-link" href="19_policyIterRL_11_5_19.html">19. Policy Iteration / Intro. Reinforcement Learning</a></li><li><a class="is-note-link" href="20_qLearning_11_7_19.html">20. Q-Learning</a></li><li><a class="is-note-link" href="21_CAPM_11_12_19.html">21. CAPM</a></li><li><a class="is-note-link" href="22_EMHPortfolio_11_14_19.html">22. The Efficient Market Hypothesis</a></li><li><a class="is-note-link" href="23_stockOptions_11_19_19.html">23. Stock Options</a></li><li class="active-note-page"><a class="is-note-link" href="24_moreStockOptions_11_21_19.html">24. Options (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="23_stockOptions_11_19_19.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//**************** Options (cont.) - November 21st, 2019 ********************//
+//**************************************************************************//
+
+- Alright, this is actually the last ML4T lecture of the year!
+    - Next lecture will be the non-cumulative final, and then there'll be the last project due, and then you'll be done!
+        - The practice quiz for that is due tonight, so if you haven't already, try to do that!
+- TODO: This lecture would really benefit from some graphs
+--------------------------------------------------------------------------------
+
+- Alright, we've talked about what options are and that you can use them to "call"/"put" stocks, but what else can we do with them?
+    - The basic option trades are:
+        - BUY CALL (purchase an option contract that lets you buy stock)
+            - Once you've bought this, you should NEVER exercise the option if the stock price is below the strike price you'd agreed to; otherwise, you could make more money by just buying the stock outright!
+                - So, the maximum loss you should ever have here is whatever premium you paid to get the option
+            - To make money, the stock's price needs to be above the strike price PLUS the premium you paid
+        - BUY PUT (purchase an option contract the lets you sell stock)
+            - The profit/loss graph for this looks like the "call" graph, but flipped; the lower the stock price sinks, the more money you make by selling at the strike price, and you should never exercise the option if the stock price is above the strike price
+                - Again, to make money, the stock price needs to be below the strike price minus the premium you paid per stock
+            - The maximum possible profit we can make here is the strike price minus the premium, since stocks can only go down to $0
+                - If the stock becomes completely worthless, then 
+        - WRITE CALL (create an option contract for calling stocks, selling your stock to the person)
+            - Here, the maximum money you can make is the premium, and remains so up to the strike price; then, your profit steadily shrinks until it breaks even at the strike price + premium, and then you start to lose money
+            - On the other hand, there's no limit to how much money you can lose here
+        - WRITE PUT (ditto for putting stocks)
+            - Again, this is flipped vertically from the "buy" criteria, where we can make a max of the premium and lose a max of "strike price - premium"
+
+- So, by combining these different profit/loss curves, we can - theoretically - end up with any curve we want based on the stock price!
+    - The safest way to handle options in the eyes of most brokers is something called the COVERED CALL strategy
+        - Let's say we already own 100 of some stock, and we then write a call option for that stock
+            - The hope here is that we end up with 
+        - There's 3 broad possible outcomes for this:
+            - If the stock ends up above the strike price, then we have to sell the stock at the strike price and miss out on any profits above that
+                - So, in other words, our profit is:
+
+                        Strike price - stock purchase price + premium
+
+                    - Notice here that 
+            - If the stock goes up, but remains below the stock price, then the option isn't exercised and we get to keep the stock
+                - So, we make money off of the premium, in addition to however much we'd normally get from a stock we own going up!
+            - If the stock price falls, then we've lost some money from the stock price going down, but we have the premium to make up for some of that!
+        - If our option wasn't exercised ,then we can keep issuing covered calls indefinitely
+            - As an example, let's say we bough 100 shares of AAPL at $100, and the market is mildly bullish (i.e. we think the stock'll go up a little bit) - perfect!
+                - Let's say the current price is $111.57, so our current total profit is $1157.
+                - If we now write a $115 call, with a contract premium of $53, what're our outcomes in different scenarios?
+                    - If the stock goes DOWN to $105:
+                        - We've overall gained +$5/share, for $500 profit - a loss from where we were, but still better than when we bought it
+                        - +$53 from the premium
+                        - Therefore, we've got a total
+                    - If the stock exactly hits the strike price at $115:
+                        - We get +$15/share anyway
+                    - If the stock price rises to $125:
+                        - Ordinarily, we'd have a profit of +$25 * 100 = $2500...
+                        - But INSTEAD, we need to sell at the stock price, so we only make $1500
+                        - Then, from the premium, we make +$53
+                        - ...for a total of $1553 - the same as we had before!
+    - Overall, then, this is a strategy that intentionally caps our ptoential profits in exchange for having a premium
+
+- Another, related option strategy is the MARRIED PUT
+    - This is where we basically buy "insurance" on a stock we already have, where we buy 100 shares of stock and then also buy a "PUT" option for the same stock
+        - If the stock price goes above the strike price, then we make "premium" less of profit - but if it goes below the strike price, then 
+        - This is a pretty common way of using options to hedge our stocks
+
+- A more complicated one is the LONG SYNTHETIC FUTURE strategy
+    - The idea here is that we can use those "greeks" we'd studied to essentially just buy 100 shares
+        - This relies on the fact that at-the-money call/puts have a delta of ~0.5, so we can do both a CALL/PUT call on the stock and - in exchange for missing out on the premium - end up with profit/loss of basically the stock price itself (?) until the contract runs out
+            - Essentially, we're "renting" the stock
+    - Why would we do this instead of just buying the stock? Because of leverage! Options let us control more stock for the same amount of money!
+
+- One really cool strategy is the STRADDLE, which means we can make money if the stock goes up OR down, and only lose money if it stays the same
+    - Let's say a piece of news is about to come out, and we think a stock is about to become volatile - but we don't know if the news is good or bad! Can we profit from either one?
+    - To do this, we just buy a CALL and a PUT at the same strike price, getting a "V" shaped graph by putting them together
+        - If the stock price doesn't change at ALL, then we lose the most money (i.e. the premium for both calls)
+        - If the stock price moves either way, then we start to recoup our losses, and once we've passed the combined premium per stock in either direction, then we start to make a profit!
+    - The downside is that we have to pay this premium and overcome it to make money; the upside is that as long as the stock takes a big swing, we'll make money!
+        - Remember that the break-even point will change based on how far out the expiration date is for the contract
+        - "Yahoo Finance actually has a separate straddle curve, because of how common this strategy is"
+
+- Finally - Professor Byrd's personal favorite - the LONG CALL BUTTERFLY is when we want to profit from the stock NOT changing price at all!
+    - To do this, we'll buy 2 different CALL options with different strike prices, and then also write two CALL options with a strike price halfway between our 2 bought calls (usually at the stock's current price)
+        - Using real current prices for AAPL, you can enter this position for a premium of $100, which is the maximum amount you can lose - and if the stock price doesn't change at all, you'll make a net profit of $400!
+    - This is a more complicated position, but it lets us do something we could never do with stocks!
+        - "If you think everyone's going home for the holidays and nothing'll happen"
+        - That'd be a great strategy, except that people who are writing options tend to adjust their prices when they expect low volatility to account for stuff like this
+
+- "These certainly aren't secret strategies among brokers and option-traders, but the number of people trading in options compared to stocks is TINY in the U.S."
+    - These option topics WILL be on the exam, even if they weren't on the practice quiz
+
+- Now, for the last 20 minutes, let's talk about how you can apply Q-learning to trading
+    - If you do optimization, or random forests, it isn't too different; you'll just plug your known data into the algorithm and then see what it's predicting your action should be
+    - To use Q-learning for stocks, you don't need to adjust your Q-learning algorithm AT ALL - but the environment has completely changed!
+        - Now, our state isn't X/Y coordinates, but our technical indicators, along with the agent's internal state information (like what stocks our agent is holding)
+        - The actions'll be buying/selling stocks, or doing nothing
+            - Since this project requires you to have multiple of 1000 stock, we'd recommend going with the simplest option of just having "LONG/SHORT/NEITHER" positions
+        - There are also 2 ways you can handle rewards!
+            - In the real-world, you'd probably want to use cumulative rewards since you opened a position
+                - However, for Q-learning, this suffers from the credit assignment problem: if we only get cumulative rewards, how do we know which exact trade was bad and caused us to lose money several days later?
+                - It also tends to converge more slowly
+            - The more misleading - but easier to use - metric is daily rewards
+                - This has the problem of being misleading; if we have short-term dips or growths, trades might look pretty good for certain positions
+                    - Basically, we end up with a very noisy signal
+                - On the plus side, we'll converge more quickly, so we'd recommend this approach for our simple project
+                    - The easiest way to do this is to use our portfolio's overall total value each day, with our reward being the returns between today and yesterday
+    - How should we represent our state, then?
+        - Since our states are now continuous instead of discrete, this is more complicated - but fortunately, researchers have been looking at this stuff for awhile, and in other engineering fields control theory is focused on dealing with continuous functions
+            - For this project, though, our Q-learner used a table, so we somehow need to map our states to some discrete integer
+                - The dumb way to do this is to have equal-sized bins for a histogram between the minimum/maximum values I've seen in my training data
+                - The smarter way is to try and create these bins based on a distribution, so there's an equal number of data points in each of our bins (hopefully giving us smaller bins where there's more data points)
+                    - Note that this assumes those values that were more common in our training data will keep being more common in the future
+                    - If you even wanted to go above and beyond, you could try using one of the ML algorithms we've talked about in this class to form these bis!
+                - Either way, it's ESSENTIAL you only use training data to form these bins, since otherwise you'll be cheating with data from the future!
+            - You can then combine all these features to a single unique state hash (somehow)
+                - When you get your financial indicators/returns for the current day, you can then apply this discretizing formula to that data, get the state based on the bins each number falls into, and then throw that into your Q-learner
+        - This could potentially land us in the "curse of dimensionality," where we have too many bins and don't get enough data to make a prediction; while continuous RL approaches solve this nicely, for this project, just lower the number of bins for each feature to get less states
+
+- Alright, I'll post these explanations on Piazza - see you on Tuesday for the exam!</pre>
+</article>
+<a class="side-link is-note-link" href="24_moreStockOptions_11_21_19.html"></a>
+</main>
+</body>
+</html>

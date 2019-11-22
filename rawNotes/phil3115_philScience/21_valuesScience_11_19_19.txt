@@ -1,0 +1,43 @@
+//****************************************************************************//
+//************* Values Throughout Science - November 19th, 2019 *************//
+//**************************************************************************//
+
+- So, last week we talked about this idea of "inductive risk" and Rudner's argument for why this means scientists make value judgments in scientific work - what was that argument?
+    - Basically, we never have enough evidence to be 100% sure if a hypothesis is correct, and since we have to decide how much evidence is "enough" to determine if a hypothesis should be rejected, and that's something that'll be colored by our view of the consequences of accepting a hypothesis, value judgements must be inherent in science
+        - Jeffrey criticized this argument partially by saying that scientists shouldn't accept or reject hypotheses, and that instead scientists should just collect the evidence and leave it up to the public to decide what hypothesis suits their needs
+            - If this works, it creates a sharp division of labor between science and policy-making (which scientists aren't trained in) - but does it work out?
+            - In our reading today, Douglas thinks scientists can't get away from policy-making since they're figures of authority today, and if they publish data saying "there are X tumors after exposure to Y," people are going to trust you!
+
+- With that, we read a paper by Heather Douglas today - let's talk about it
+    - First off, what was her argument?
+        - Douglas thinks that "non-epistemic values" are inherent THROUGHOUT the research process (pg. 559)
+            - EPISTEMIC values mean how we evaluate something as true or reliable, like Kuhn's ideas of simplicity, accuracy, etc.
+                - Kuhn argued that these DID function as values, rather than algorithmic rules, but that they were still rational
+            - NON-EPISTEMIC values are values that aren't related to this, such as ethics
+        - Essentially, she's building off of Rudner's argument by saying that inductive risk isn't just an issue in selecting hypothesis, but in almost EVERY scientific judgment that scientists need to make
+    - Douglas argues that there's inductive risk at each of 3 stages of science: choosing methodologies, gathering/characterizing data, and interpreting data
+        - At every step of this process, we can make an (epsitemically) wrong choice that can have (non-epistemic) consequences - how exactly is there risk in each of the 3 steps, and why are non-epistemic values important?
+            - Douglas uses the example of a 1990 toxicology experiment, where they were trying to determine if a chemical called dioxin caused cancer in rats (and, by extension, humans) in different doses
+                - Notice we're assuming that the rat accurately models how human beings will respond, but let's pass over that
+            - At the methodological level, we have to choose a significance level to count a difference in cancer rates as statistical significant, which (a la Rudner) is a value judgment
+            - When characterizing the data, it was sometimes vague whether a tumor was malignant or not - and it seems value judgments played into what they observed!
+                - Interestingly, the when the EPA did this study, they found significantly higher levels of tumors, which makes sense! The EPA wants to keep the public and environment safe, while the company wants to use the chemicals in its products!
+                - Both groups were looking at the same exact data, but coming to different conclusions
+                    - This harkens back to the Hansen paper we read earlier this semester
+            - When interpreting the data, it seemed ambiguous if the data implied a linear or threshold relationship between the dioxin and cancer at low doses - and again, what we conclude may have consequences that we value differently
+        - In these cases, the data is legitimately ambiguous, and so there's always the chance we'll be wrong - and those errors can affect different groups down the road, which scientists are often very aware of
+            - If we have false positives and guess there're more tumors than there really are, it'll lead to excess regulations; if we miss tumors, then we're exposing people to potential harm
+            - Which type of error are we more willing to tolerate, if we're unsure? That's a value judgment!
+
+- These differences aren't because scientists are fudging data or turning a blind eye to the world or something; instead, it seems more likely that there are legitimately many ambiguities in normal scientific procedure, and that values have to come out when we're making those choices
+
+- So, what do Douglas's conclusions mean for Jeffrey's argument that scientists should just provide the evidence for hypotheses in a value-neutral way?
+    - From Douglas's perspective, this is impossible, since scientific process itself - even gathering evidence - requires us to make non-epistemic judgments at some point!
+
+- One last point: Douglas makes this distinction between direct and indirect roles for values. What's this distinction, and why does she bring it up?
+    - First off, we don't want scientists to make judgments solely from ethics: Douglas wants to say that science is value-laden but that it can STILL remain objective
+        - Her solution to this is to say that the methods scientists use for evaluating things aren't value-laden, but our criteria for determining when to accept/reject things are
+            - In this way, values are playing an "indirect" role in science by influencing what standards we use for classifying things, but they aren't "directly" telling us to reject evidence because we think it's immoral or something
+    - While some philosophers might argue about this, Douglas thinks that some degree of error is inevitable in science, and that that also means we inevitably are forced to make some degree of value judgment
+
+- Alright, we'll see you Thursday

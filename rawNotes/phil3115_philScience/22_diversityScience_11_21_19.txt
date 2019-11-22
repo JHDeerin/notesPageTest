@@ -1,0 +1,30 @@
+//****************************************************************************//
+//*************** Diversity in Science - November 21st, 2019 ****************//
+//**************************************************************************//
+
+- Okay; the final exam should be coming out in 2 weeks, and it'll be very similar in format to the midterm as a series of mid-sized essay questions
+--------------------------------------------------------------------------------
+
+- Alright, today we have a reading from Carla Fehr on diversity in science - which is a little bit different from what we've talked about so far, but trust me, there's a connection to what we've been doing
+    - Fehr starts off by presenting data about the lack of gender diversity in STEM, where only ~15% of science professors at top universities are women - with many fields where it's in the single digits!
+        - Fehr discusses some studies that say this is at least partly due to unjust discrimination - what's the evidence?
+            - Some of this evidence is that the number of women getting Phds. in these fields has tripled with only a marginal increase in tenured female professors; furthermore, there's a ton of social studies showing that identical CVs with female names are critiqued more heavily than the male-named CV, that letters of recommendation for female medical students tend to be more reserved in their praise (e.g. women are more likely than men to be called "hard-working" instead of "brilliant"), etc.
+            - Fehr points out that much of this discrimination is likely unintentional, but it nevertheless seems to be happening
+    - One could certainly say that this lack of representation is unfair and unethical, but Fehr contends that it's also a problem because "diversity promotes excellence" and can lead to better science!
+        - The main way she argues this happens is that people with different "epistemic" approaches and assumptions can challenge unseen biases and assumptions the other scientists were making, hopefully revealing errors in their thinking
+            - There have been a BUNCH of issues with studies that used men as the sample population - for instance, many medical studies in the 1900s only tested their products on white men, and then the drugs or diagnoses would obviously work differently on women!
+            - People just assumed that men were representative of the whole population, and this idea was never challenged until it become problematic
+                - There are plenty of other examples, such as female biologists noticing that male researchers undervalued nurturing behaviors in animal social dynamics, facial recognition software having much poorer success rates on minority groups (and not being pointed out until minority group programmers tested it), etc.
+    - So, research quality can be improved by having diversity, but what does this have to do with the value-ladeness we saw with Rudner and Douglas?
+        - Well, if science doesn't depend on what values people are holding, then diversity doesn't matter - we can just follow the algorithm and ignore who's actually carrying it out!
+        - If our values and beliefs and assumptions CAN lead to different interpretations and results, though, then having a diverse pool of researchers is important for challenging those assumptions and making sure all the possible perspectives/outcomes are considered - particularly ones that we later realize are non-obvious or faulty!
+            - The hope is that this will transform critically-considered opinions into a set of thought-out values that can guide our science
+
+- One thing that Fehr particularly points out, though, is that we need to have a nuanced view of what counts as a "diverse community"
+    - First of all, she points out that there can be "informal" communities of non-researchers that we casually interact with, and "formal" communities of actual researchers
+        - Fehr cautions that we can "free load" off of diversity from informal communities and conversations without giving minorities there a chance to be represented in the formal community, which can be problematic
+
+- So, thoughts on this?
+    - There seems to be a tension between diversity and consensus; our authors from earlier in the semester
+    - There's also the question of if we should have NO limits whatsoever on whose views get to be expressed - do Nazis get a platform? Do flat earthers get to be included in geology conferences?
+        - Fehr has elsewhere argued that in a diverse community irrational views should eventually be weeded out due to their lack of rational support

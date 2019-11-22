@@ -1,0 +1,62 @@
+//****************************************************************************//
+//************* SVMs and Neural Nets - November 13th, 2019 ******************//
+//**************************************************************************//
+
+- Alright; we're still talking about image classification, where we're trying to train a function that'll swallow an input image, chew on it for a little while, and then spit out what it thinks it's an image of
+
+- First off, let's finish talking about SVMs (support vector machines)
+    - As we mentioned, this involves trying to draw a margin between different classes, and get our boundary to be as close to the "middle" of the two classes as possible (i.e. maximizing how big the margin is)
+        - This generalizes to larger dimensions and larger numbers of classes
+    - This works great, BUT: how can we deal with non-linear boundaries?
+        - Boosting deals with this basically by having not 1 line, but HUNDREDS of lines; each learner is essentially another boundary, so we can have a lot of nuance by varying the learner weights
+        - The way SVMs deal with this, though, is different: if we can't separate it at our current dimension, we'll instead somehow map the data to a HIGHER dimension until we CAN linearly separate it!
+            - This is known as the KERNEL TRICK, and it turns out to come up in several other fields
+                - It's called the kernel trick since we can compute this via a kernel (the product of 2 datasets), just like we did when Gaussian filtering
+    - How does this nonlinear SVM "trick" work?
+        - Imagine we've got some data on a flat, 1D line, like so:
+
+                o  o   oo   o  x xx x o  o  o  oo
+
+            - We can separate this pretty easily with 2 lines...
+
+                o  o   oo   o |x xx x|o  o  o  oo
+
+            - ...but we can't do so linearly! So, instead, we can do a 2D mapping where the Y-axis'll be y = x^2
+
+                o                               o
+                  o                            o
+                      oo              o  o
+                            o     x x
+                              x x
+
+        - Now, we can draw a straight line to separate all the "x" values, and it works!
+            - Note that in order to get something that's possibly linearly separable, this new dimension has to be a NONLINEAR transformation; if we just used "y = 2x" or something, we'd just end up with a straight line again, and then we're back to square one!
+    - So, which transformation makes our data "most separable," and how do we find it? That's a good question, and one that didn't have consensus!
+    - In general, though SVMs work by:
+        - Picking an image representation (like HOG)
+        - Picking a kernel function for that representation, and then...
+        - Computing the matrix of kernel values for all our training examples
+        - Feeding this into some SVM solver to get our "support vectors"/boundaries
+        - Then finally throwing our test data at it
+    
+- "This SVM stuff got computer vision nerds going for a good 10 years, before deep learning had to come and ruin it"
+    - So, pros of SVMs:
+        - For a time, they were SUPER well supported with libraries
+        - They tend to work very well in practice, even with relatively small training sets
+    - Cons:
+        - SVMs are still fundamentally binary classifiers, so you need to combine multiple SVMs to get multi-class results
+        - Training times can take quite awhile
+
+- Alright, with SVMs done, let's wander into the modern age and start talking about NEURAL NETS!
+    - This all started with the ImageNet database in 2012, which was a HUGE dataset that was arranged hierarchically and was much, much more diverse than mnay existing datasets, with tons of clutter
+        - Existing datasets were doing okay, but there was still like a 30% failure rate, and increases of just 1-2% were considered HUGE advances
+    - In 2012, though, we got a breakthrough: AlexNet
+        - While CNNs had been used before (there were a few papers published on it in 2011, and there was a lot of foundational work done in the 1980s by Fukushima and Yann LeCun), and neural nets had been applied to speech recognition in 2010, this was the first time someone used it in a high-profile computer vision context
+        - "These guys came along and dropped a paper that had a 15% error rate - which was 10% better than ANY other model. This was HUGE!"
+            - They trained a fairly shallow neural net with SGD
+    - Of course, people started publishing papers on deep learning IMMEDIATELY
+        - In 2014-2015, people started to realize that making deeper neural nets with more and more layers kept getting better results (e.g. VGG, ResNet, etc.)
+            - With deeper networks, we need to do a few tricks like gradient vanishing to get them to train effectively, but the net result is better output performance
+            - In particular, RESIDUAL MAPPING becomes necessary once we have more than ~50 layers to make the training calculations practical
+
+- Alright; we're out of time, so we'll finish this next week! Don't forget to work on Project 6 over the weekend!

@@ -1,0 +1,37 @@
+//****************************************************************************//
+//**************** Principles of AI - November 15th, 2019 *******************//
+//**************************************************************************//
+
+- Okay; we've been mentioning AI ethics over the last few days, and we've talked a lot about the dangers of AI, but what about the benefits?
+    - *cue clip from "Minority Report", where detectives use AI to predict crimes*
+    - Many events may have "trajectories" of progression, allowing us to detect and predict them early; for instance, observing signs of depression before it becomes chronic
+        - Predicting the future is a VERY powerful tool that AI is increasingly being used to research - yet it seems it's obviously error prone, and "Minority Report" itself deals with those issues
+    - We can imagine many other applications where AI could be used for good, like automating menial tasks, helping with human planning, and so forth
+- One interesting concern that AI researchers are becoming increasingly concerned with AI's implications for philosophy and theology and religion
+    - In "2001: A Space Odyssey," a monolith (later revealed to be an AI) visits humanity's ancestors, and they seem to worship it as a deity
+    - With AI, people often talk about people "playing God," and many AI researchers think that by creating beings that have at least an appearance of intelligence it will change society's perception of religion in some way
+--------------------------------------------------------------------------------
+
+- We've talked throughout this class about this 3-stage model of KBAI as reaction, deliberation, and meta-cognition, and then gone through a number of topics of how to build up and off of this architecture
+    - Let's try to abstract a few principles of KBAI from this class, and later we'll talk about AI conundrums we may have to deal with (problems being intractable, yet expecting near real-time performance, etc.)
+        - Principle 1: KBAI agents represent and organize knowledge into structures to guide and support reasoning
+            - Some other camps of AI don't begin with knowledge, necessarily, but with data or logic or something else; this class takes a different approach
+            - We've seen with semantic networks and other things that representing knowledge can be extrememly useful for solving problems, and may indeed be the key to intelligence
+            - Representing knowledge correctly, too, seems to be able to lead to creativity through explanation-based reasoning or scripts or so forth
+                - In all of these techniques, KNOWLEDGE is the key ingredient in our souffle of intelligence!
+                - In this theory, we deal with novelty by using what we already know, knowledge-wise, and trying to understand it in our already-known terms
+        - Principle 2: Learning in KBAI is often incremental, 1 example at a time
+            - This means that (at least initially) we can't use statistical algorithms and so forth; instead, we need to organize this knowledge using what we have
+                - Since we're doing this from few examples, this organization will probably be sub-optimal - and for human-like AI, that's okay!
+                - This may also explain why science is based on hypotheses and conceptual models - we don't have enough data, so we always have to use models!
+            - In version spaces, we saw this come up, too, using our examples to hopefully get closer and closer to converging on a concept
+                - "What we're discovering here are some basic principles of building AI machines, no matter "
+        - Principle 3: Reasoning in KBAI is both top-down and bottom-up
+            - By this, we mean that reasoning is both data-based (bottom up) and involves high-level rules and methods and abstractions we've learned (top-down)
+                - When we're trying to decide which verb meaning makes sense for a sentence, for instance, we need to first process all the words in the sentence (bottom-up), and then apply our possible frames to it (top-down)
+                - Similarly, we may have a script for how to sit down in a restaurant (top-down) and, when we enter the restaurant, figure out from our visual images where the seats are (bottom-up)
+        - Principle 4: KBAI agents match methods to tasks
+            - We especially discussed this in metacognition, but in this class we've discussed many tasks (classification, configuration, diagnosis, creativity, etc.) as well as many methods to approach these (generate and test, means-ends analysis, case-based reasoning, etc.)
+                - For each task, we want to decide what the best approach is given our current knowledge
+
+- Next time, we'll go through the last 3 principles and start talking about conundrums - see you then!

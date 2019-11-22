@@ -1,0 +1,95 @@
+//****************************************************************************//
+//******************* Stock Options - November 19th, 2019 *******************//
+//**************************************************************************//
+
+- Note that the final exam for this class is NEXT WEEK - there'll be an online practice quiz released later tonight, so be on the lookout for that
+    - "It'll basically be everything we didn't cover on the first exam; it should be stuff from intrinsic value onwards"
+--------------------------------------------------------------------------------
+
+- Alright, let's talk about derivatives and exchange-traded stock options!
+    - This stuff is a SUPER interesting way of trading, and we'll only scratch the surface of it, but hopefully it'll pique your interest enough to look at it in the future
+
+- "Exchange-traded stock options have NOTHING to do with employee stock options, so what are they?"
+    - Essentially, this is a form of leverage, and there are 3 kinds of leverage we need to worry about:
+        - Financial leverage in companies, where a company takes on "structural debt" to reduce how much equity they need from investors
+            - This is basically where a company borrows money from a bank so they and their investors don't need to pay for everything personally
+            - This has the advantage of being able to grow the company (and hopefully your returns will outweigh the debt), but it has the downside of the loans becoming a time bomb you have to pay off
+        - Debt leverage with your broker
+            - This is when you open a margin account with your broker, letting you borrow a limited amount of money to invest, buy/short stocks, etc.
+            - "This is the kind of leverage we talked about earlier this semester"
+        - Leveraging derivatives of stocks
+            - This is where we can buy an "option contract" for MUCH less money than buying the stock outright, but still be able to profit from the stock - but we can also lose money, too!
+                - For example, we could "control" $300 worth of stock by buying a $30 option contract, and get all of the profit/loss from that
+
+- With that, let's talk about options!
+    - An OPTION is a contract that gives someone the right (but NOT the obligation) to buy/sell the underlying stock at a specific price on or before some expiration date
+        - A couple caveats:
+            - When we first purchase the contract, we have to choose if we're buying/selling, and can then only buy/sell
+            - There are options for non-stock things as well
+            - The specific price we agree to is called the STRIKE PRICE
+            - U.S. style options let us buy/sell anytime before the expiration date, while European style options only let you buy/sell ON the agreed date
+        - Also, an option "call" means we want to buy the stock from someone, while an option "put" means we want to sell the stock to someone
+    - As a quick example of this, let's say that AAPL closed at $111.57 on some day. It's "options chain" for the FRONT MONTH (next expiration date, in this case December 16th, 2016) looked like:
+
+            ROOT        STRIKE      LAST        OPEN INTEREST
+            AAPL        105         7.16        10856
+            AAPL        110         2.73        64871
+            AAPL        115         0.53        223479
+
+        - Where "ROOT" is the stock we care about, "STRIKE" is the, "LAST" is how much it costs to buy/sell the contract for that stock, and "OPEN INTEREST" is how many of those options have been bought
+    - An option contract ALWAYS controls 100 shares of the underlying stock; you want 500 shares? You buy 5 contracts. 50 shares? Too bad
+        - The prices, though, are always PER SHARE, so this contract with a $115 strike price would cost $0.53 * 100 = $53
+            - This contract price is called the PREMIUM
+    - When we "exercise" an option and choose to use it, then whoever sold us the stock option HAS to buy/sell 100 shares of the stock from/to us at the predetermined strike price, REGARDLESS of what the current stock price is
+        - So, we're betting that AAPL will rise to at least $115 by December 15th; in fact, because of the premium, we're betting it'll rise to at least $115.53 so we break even!
+            - ...ignoring transaction costs, of course (which can raise the break-even price even higher)
+
+- So, if all we're doing is buying the right to buy the stock, why don't we just buy the stock directly?
+    - Let's suppose we buy 100 shares of AAPL at the $111.57 price, and then it goes up to $120, giving us a total profit of $843 - not bad!
+        - Let's suppose we instead did the 110 strike price option, which costs us $273; we exercise this when the stock goes up to $120, effectively "purchasing" it at $11,000, and then selling it for $12,000
+            - This'd get us a total profit of $727 - not quite as high, but still pretty good!
+    - More clearly, let's say we did the same thing, but AAPL's stock goes down to $100
+        - If we'd bought the stock, we'd lose $1,570
+        - If we'd bought the option, we'd have spent $273 on the premium - but if we see the price isn't going our way, we can just not exercise our option and let it expire!
+            - So, we only lost our $273 premium!
+    - So, we get most of the profit for less downside! Why wouldn't we always use stock options?
+        - We ALWAYS lose some money on the premium, so it'll never be quite as profitable as just buying stocks
+        - Expiration dates mean we can't wait for the stock to rise
+        - We don't own the stock, so we don't get any dividends, voting rights, tax benefits, etc.
+
+- Most options on the market (like 90%), though, won't make us money - very few people actually use options as a replacement for buying/selling stocks in this way
+
+- To talk about what people do instead, we need to talk about MONEYNESS
+    - "This isn't a real English word, but it IS a real financial term!"
+    - Let's say AAPL is still at $111.57; if we could buy the stock at $110, and we could sell it RIGHT NOW for $110, then we'd be guaranteed $1.57/share in profit
+        - For an option with a given strike price, we call this the option's INTRINSIC VALUE (what it'd be worth if we could buy/sell at its strike price right now)
+            - Options obviously won't be priced below this - but most options are priced higher than this (e.g. the $115 option has an intrinsic value of 0, but has a last cost of $0.53)
+        - An option is IN THE MONEY
+    - Where does the rest of this prices comes from? It comes from the TIME VALUE of an option, i.e. price goes up if there's a higher chance of the stock reaching the stock price - and a longer period of time means a higher chance of things changing
+        - If you later decide that an option isn't a good deal, you can sell it to someone else, but "time decay" will mean the option is worth less now
+            - As the expiration date gets closer and closer, the time value approaches 0, and the option price will therefore approach the intrinsic price
+            - This also means that time value will proportionally shrink faster as expiration gets closer, especially during the last 2 weeks; for that reason, you should trade options at LEAST 
+
+- We should also talk about a pretty in-depth thing called "the Greeks," which are some Greek-letter terms related to option trading
+    - DELTA is "how much does this option price change as the stock price increases?"
+        - A delta of 1 means that a $1 stock increase would cause a $1 increase in the option price, ofr example
+            - If the option is very OTM, then this'll be near 0, while very ITM options would be close to 1. At the money will split the difference at 0.5
+            - As expiration dates get closer, this'll go towards the extremes (out-of-money goes to 0, in-the-money goes to 1.0)
+    - THETA is how much my option will lose value due to the passage of time per day
+        - This gets REALLY high close to expiration, and stays relatively low otherwise
+        - "Theta should always be negative; your option shouldn't gain value as the expiration date gets closer"
+    - GAMMA is second-order derivative, and is the change in delta per dollar of stock increase
+        - Near expiration, or in volatile markets, delta can change VERY quickly; gammas help capture this, with higher gammas indicating a riskier option that can change more easily
+        - This tends to increase
+    - VEGA is less common, but is how the stock's volatility affects the option price (with higher volatilities often widening the spread of prices)
+        - Rumors about a stock can also cause option changes, even if the stock price doesn't change that much - "since, again, many people treat options as short-term bets on a stock!"
+    - RHO is barely ever used right now, due to how low risk-free interest rates are, but it's how much the option price changes as the risk-free interest rate increases
+        - "All 5 of these are used in the Black-Scholes model, which is how most option prices get calculated"
+- "...I know that's a little bit of a firehose of information, but I don't expect you to know these in detail. It's mostly just so you're aware they exist."
+
+- Okay, what else can we actually do with options?
+    - We've mentioned that you can buy CALL options (which'll buy stock), and you can also buy PUT options (which'll sell the stock - and if you don't own the stock, it'll count as a short)
+    - You can also sell these options yourself, called WRITING the option contract
+        - Here, you collect an immediate premium, but the purchaser can collect the stock from you until the epxiration date - now, instead of an option, you have an obligation to fulfill the contract
+
+- Next time, we'll see how you can construct strategies using these options and do a bunch of cool stuff - come around then!

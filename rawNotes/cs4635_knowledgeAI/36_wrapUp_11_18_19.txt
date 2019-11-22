@@ -1,0 +1,52 @@
+//****************************************************************************//
+//**************** Wrapping Up - November 18th, 2019 ************************//
+//**************************************************************************//
+
+- Believe it or not, class, this is the very last day of KBAI - we still have the project due a week from now, but this is the last lecture of the course
+    - Before we continue, let's watch 2 more brief clips from "2001: A Space Odyssey"
+        - *cue the apes' discovery of tools in the beginning of the movie, triggered by the monolith*
+    - We always think of robots as humanoids, but in this movie, the AI is a black slab, and isn't even clearly intelligent at first
+        - Studying AI has been changing researchers' perception of who we are - we talked a little bit about "Darwin's mistake" (where biological evolution seems contiguous to cognitive scientists, but intelligence seems to have taken a sudden jump)
+            - Whether this is true or not is arguable - and because AI is such a young field it still is waiting to be accepted in the same way as biology and physics - but it is a fascinating notion
+            - Could human intelligence have been jumpstarted from the outside, by a divine presence, or aliens, or some natural event? That is extraordinarily controversial, but it is something that a few people have proposed before
+--------------------------------------------------------------------------------
+
+- We began going through some AI principles last week; today, we'll finish those up
+    - Principle 5: KBAI agents use heuristics to find non-optimal, "good enough" solutions
+        - Most other fields of AI are obsessed with doing things optimally; we haven't worried about that in this class, and that's deliberate!
+            - According to most theories about how humans think, humans don't behave optimally; instead, we use a number of shortcuts and rule-of-thumb heuristics that occasionally fail, but work most of the time
+        - We've seen this again and again in our class, like in means-end analysis
+            - Why don't we use optimal algorithms, especially since we know there ARE some efficient algorithms for certain tasks? In KBAI, it's largely because optimal algorithms tend to take much more computation to get an answer, and when dealing with large problems (as humans often do) they'd take too long to be practical
+            - Heuristics also generalize better than speciic algorithms, allowing for a wider range of behavior
+    - Principle 6: KBAI agents use recurring patterns to solve problems
+        - Just like how human designers and architects re-use patterns in their work, it seems the problems we encounter also have recurring patterns, where the same problem appears in slightly different forms and contexts over and over - and it seems human intelligence takes advantage of this, with memories and analogies and such
+        - We saw this in case-based reasoning and scripts, and it makes sense to believe that the AIs we construct will also face the same problems over and over again (e.g. eating lunch every day, but with different foods)
+    - Principle 7: Reasoning, learning, and memory go together, and in KBAI we architect the agent so these constrain and support each other
+        - This sounds obvious, but in other AI fields we don't see these go together - modern machine learning has very little to do with reasoning, for instance!
+        - In KBAI, though, we believe that we can't separate these 3 aspects of intelligence, and so we have to build an agent that has a little bit of all of them
+            - In production systems, for instance, we store cases, use reasoning to decide what rules apply, and then when an impasse occurs we learn from our memorized experiences - we're using all 3 things!
+                - Remember, knowledge is the CONTENT of our agents
+            - We have seen this in many other example, from explanation-based reasoning (we learn from the conclusions we reach and mistakes we correct, our definitions are memorized, etc.)
+            - So, each of these theories of AI are a theory of not just 1 piece of this system, but of all 3 and how they relate
+
+- So, those are the 7 big principles we've talked about this semester - and that's not a lot! Hundreds of years from now, people may add or subtract to these - but who knows? Think of Newton's 3 laws of motion, which remain the same (though they've been fleshed out and received additional nuance)!
+
+- Let's also talk about some fundamental conundrums that seem to come up in AI research - "this isn't an exhaustive list, but it is a common one"
+    - First off, intelligent agents have limited resources despite dealing with intractable, hard-to-compute problems
+        - What KBAI principle tackles this? The heuristic one - but also recognizing patterns!
+            - "It's like a Zen koan! How do we solve hard problems? We don't solve them - we look them up in our memory!"
+    - Computation is local, but problems often have global constraints
+        - What this means is that we have to deal with various layers of abstraction at the same time - to read a sentence, we have to visually recognize the squiggles on a page or screen as letters, then tie them into words, then apply grammatical rules to it, and so forth - all to understand the meaning of the WHOLE sentence!
+            - Similarly, think about attention - we can only pay attention to one small thing at a time, but we need to worry about EVERYTHING in the room to make sense of a situation
+        - How do we deal with this? In KBAI, by giving our agents memories so they can do higher-level thinking and "see the big picture"
+    - Logic is deductive, but many problems are not
+        - As I'm sure you know (or will learn), most of mathematics deals with symbolic logic and deduction, but many AI problems require induction or abduction
+        - How can we get away with this? We've talked about using past experiences through creativity or analogies, and using heuristics to do more than get "strictly correct" deductive answers
+    - The world is dynamic, but knowledge is limited
+        - The world is always changing, our knolwedge goes out of date, and we'll never have total knowledge of the world anyway
+        - How did we tackle this? Analogical reasoning is a BIG way humans seem to do this
+    - Explanation and justification of our answers is even more complex than problem-solving and reasoning
+        - We tackled this in explanation-based reasoning by using our experiences to form rules and criterion, which we can then use to provide deductions
+            - Many researchers think this causal explanation-making is a key goal of intelligence, and one that remains very difficult
+
+- And - with that - that's all I have for you. Goodbye, and good luck!
