@@ -36,7 +36,7 @@
 
 - Towards the end of his essay, Kuhn also mentions that just using the terms "objective" and "subjective" are problematic because of the way English works
     - Specifically, because there are 2 different meanings for "subjective"
-        - In contrast to "objective," meaning it's down to individual choose and not arguable (e.g. "I like the color green" - you can't argue I'm wrong!)
+        - In contrast to "objective," meaning it's down to individual choice and not arguable (e.g. "I like the color green" - you can't argue I'm wrong!)
         - (another one, something about making judgements, which can be questioned)
 
 - So, what do we think about Kuhn's overall argument here?
@@ -57,7 +57,7 @@
 - ...and so, with that, we're done with the "historical readings" for this class
     - Kuhn's work changed the philosophy of science in a number of important ways, but 2 ways especially:
         - After Kuhn, people realized that they needed to pay attention to sciences besides physics, and see what problems that raised
-        - Kuhn also rightly pressed on the need to study scientific process itself, and question it
+        - Kuhn also rightly pressed on the need to study the scientific process itself, and question it
             - Hempel, for instance, drew his scientific ideals mostly from logic rather than actually looking at how "real science" gets done
     - So, our next unit will be us looking at a grab-bag of topics from post-Kuhnian philosophers, and exploring the issues they raised
 

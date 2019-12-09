@@ -7,17 +7,17 @@
 --------------------------------------------------------------------------------
 
 - Alright, if you stretch your minds back to before the midterm, we did a 1-week mini-unit on the sociology of technology - TODAY, we'll be doing another short digression into the philosophy of technology!
-    - This is a much more recent, less defined field than something like ethics or philosophy of science (basically any smartish person who thinks deeply about technology gets in)
+    - This is a much more recent, less defined field than something like ethics or philosophy of science (basically any smartish person who thinks deeply about technology counts as a "philosopher of technology" right now)
 
-- There are a couple big trends of thought in this field
+- Even in a field so young, though, here are a couple big trends of thought
     - TECHNOLOGICAL DETERMINISM is the idea that, somehow, our lives are determined by technology and its inevitable march forward, and comes in two non-edible flavors:
-        - Technological OPTIMISTS/UTOPIANS believe technology is a good force for society and just keeps getting better, while PESSIMISTS/DYSTOPIANS 
-            - Most of you, as engineers, probably think along optimistic lines: are medicines keep us safer, our houses keep us warmer, and so forth - technology fixes stuff!
+        - Technological OPTIMISTS/UTOPIANS believe technology is a good force for society and just keeps getting better, while PESSIMISTS/DYSTOPIANS think that it somehow makes things worse
+            - Most of you, as engineers, probably think along optimistic lines: medicines keep us safer, our houses keep us warmer, and so forth - technology fixes stuff!
             - Dystopians, on the other hand, view technology as making things worse: we've gone from bows and arrows to bombs, talking with each other to social media, living with nature to global warming, etc.
     - INSTRUMENTALISM, on the other hand, says that technology doesn't really determine anything in itself; it's just an innocent tool that we can use for good or bad
-        - Georgia Tech students in the past have trended towards a weird mix of optimism and instrumentalism; they've wanted to simultaneously say technology is a "force for good" while also trying to say it isn't political or something that shapes our choices
+        - Georgia Tech students I've taught in the past usually have a weird mix of optimism and instrumentalism; they've wanted to simultaneously say technology is a "force for good" while also trying to say it isn't political or something that shapes our choices
 
-- A LOT of contemporary philosopher of technology have tried to split the difference here, saying that technology doesn't completely determine us but that it isn't a "non-factor" either
+- A LOT of contemporary philosophers of technology have tried to split the difference here, saying that technology doesn't completely determine us but that it isn't a "non-factor" either
     - People tend to agree technology is somehow pervasive and "non-neutral"
         - One classic example is Langdon Winner's essay "Do Artifacts Have Politics?", analyzing bridges in New York
             - Robert Moses was a city planner in early 1900s New York, and he had ridiculous gobs of power to plan where stuff went and what areas got to develop
@@ -27,22 +27,22 @@
     - Borgmann himself kinda disputes this, but he's a neo-Aristotelian who views ethics as partly coming from habits and character, and technology as a shaper of that
         - In the essay we read, he simultaneously tries to diagnose where our relationship with technology is at and give us a potential solution
     - So, what does he say?
-        - Borgmann says we currently live in a DEVICE PARADIGM, where we've tended to separate "commodities" (what a technology does for us) from "machinery" (what actually makes getting that stuff possible)
+        - Borgmann says we currently live in a DEVICE PARADIGM, where we've tended to separate "commodities" (what a technology does for us) from "machinery" (the implementation makes getting that stuff possible)
             - So, a commodity might be the entertainment we get from a TV, while the machinery might be the set-up process of that TV
-                - A couple hundred years ago, we might've had to go to a play to see this entertainment; then, we had to set up this chunky TV, and now we can just take our laptops into any room we want
-        - So, now all this work and complexity is hidden from us, and the commodities we want are more and more available
+                - A couple hundred years ago, we might've had to go to a play to see this entertainment; then, we had to set up this chunky TV -  and now, we can just take our laptops into any room we want!
+        - So, now all this work and complexity that goes into getting us commodities is hidden from us by our machinery, and the commodities we want are more and more available
             - That sound good! What's the problem this that?
-            - Borgmann thinks the problem is that we're *not doing what we want with our lives,*
+            - Borgmann thinks the problem is that we're *not doing what we want with our lives!*
                 - Imagine Borgmann climbs into your window one day - and you're okay with it - and he asks you "Okay, what do you want from your day?"
                     - You might talk about how you want to get your studying done for that chemistry test, and he stops you and says: "No! What do you want IN GENERAL from your days?"
-                        - Meaningful experiences? Quality time with friends? "Okay," he says, "sure! So, what're you going to do today!"
+                        - Meaningful experiences? Quality time with friends? "Okay," he says, "sure! So, what're you going to do today about that?"
                     - So, what DO we do? We play around on the internet for 3 hours!
-            - Borgmann says that even though chopping logs and stuff for warmth sucked more, it had MEANING in it as providing for our family and other people - nowadays, we're not even doing what we SAY we want to do!
-                - Instead, *we're just doing stuff that's easy and right there instead of what we ACTUALLY want!*
+            - Borgmann says that even though chopping logs and stuff for warmth sucked more, it was work that had MEANING in it as providing for our family and other people - nowadays, we're not even doing what we SAY we want to do!
+                - Instead, *we're just doing stuff that's easy and right there instead of what we ACTUALLY want!* Because what we REALLY want is hard, we just do the easy stuff that's right in front of us!
             - So, because we've hidden the machinery and difficulty of getting these commodities we actually care about, the tendency is now to float between easily available commodities instead of doing the more difficult things we actually care about
         - That's Borgmann's diagnosis of where we are: PARADIGMATIC CONSUMPTION (i.e. consumption in the age of the device paradigm)
-    - In Borgmann's view, this kind of consumption leads us away from FOCAL PRACTICES of stuff we actually want to do: stuff like Thanksgiving, where instead of getting a Big Mac from down the street we choose to fly across the country and make this big turkey meal
-        - It's harder, but we choose to organize our lives around it; the preparation isn't as entertaining as binge-watching a show, but it's putting meaningful things in our own life ahead of 
+    - In Borgmann's view, this kind of consumption leads us away from FOCAL PRACTICES of stuff we actually want to do: stuff like Thanksgiving, where instead of getting a Big Mac from down the street we choose to fly across the country and make this big turkey meal with our family
+        - It's harder, but we choose to organize our lives around it; the preparation isn't as entertaining as binge-watching a show, but it's putting meaningful things in our own life ahead of the easily available clutter
         - So, Borgmann's solution is for him to say we shouldn't abandon technology or anything like that; instead, we should decide what's important in our lives
             - Having a fireplace was less convenient than central heating, but it forced the family together
             - ...there's definitely an element of existentialism in his philosophy, but it isn't the main point; the point is that technology making stuff easy can lead us to not living how we actually want to live

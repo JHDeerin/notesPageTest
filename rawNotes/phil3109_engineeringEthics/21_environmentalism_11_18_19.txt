@@ -7,7 +7,7 @@
 --------------------------------------------------------------------------------
 
 - Thus far, we've been focused on "normal ethics" in this course; the foundational stuff all engineers (and, honestly, all people) should be worried about
-    - Today, we're going to apply what we've learned to environmentalism, and on Wednesday we'll
+    - Today, we're going to apply what we've learned to environmentalism, and on Wednesday we'll talk about "international engineering"
 
 - Why should engineers care about the environment?
     - The book argues it's for 2 major reasons:
@@ -47,21 +47,21 @@
             - Why this matters for restaurants is that there may be periods when the fishing industry is giving the salmon population "a break" to recuperate, and so you have to figure out what sustainable fish you'll serve in the meantime
         - If we fish smartly and sustainably, then, we can keep fish from running out, and make sure our grandchildren can stay in business fishing indefinitely
 
-- There's a big apparent tension here: do we need to be sustainable at the expense of the economy? Do we have to give up money to help the enviornment?
+- There's a big apparent tension here: do we need to be sustainable at the expense of the economy? Do we have to give up money to help the environment?
     - Sustainability is trying to hack around this and be both profitable AND sustainable (pg. 162)
     - The book sees 3 problems with sustainability we need to tackle:
         - First off, it seems that the economy and environmentalism may actually be inherently in low-key conflict
             - 
         - Also - although it's kinda petty - sustainability is HARD! We don't know how to do everything yet, and it requires cultural shifts and changing how we do things!
-        - Finally, many people think sustainability will lead to democracy and equity and all that nice stuff, but is that true? Whose environment are we worried about? Will this lead to 1st-world countries taking advantage of developing nations?
+        - Finally, many people think sustainability will lead to democracy and equity and all that nice stuff, but is that true? Whose environments are we worried about? Will this lead to 1st-world countries taking advantage of developing nations?
 
 - Why is sustainability justified, form an ethical viewpoint?
     - Utilitarian-wise, you could argue we have a responsibility to maximize happiness for future generations and preserve stuff and not screw our kids
     - Deontologically, we need to respect rights for life in polluted areas
     - Virtue ethics wise, caring for and respecting nature seem to be a virtue, so...yeah?
 
-- Lastly, a bit closer to home: Georgia Tech is SUPER concerned with sustainability (we're a world-class engineering institution, after all)
+- Lastly, a bit closer to home: Georgia Tech is SUPER concerned with sustainability (we're an engineering institution, after all)
     - Almost all buildings on campus are LEED certified, the Civil Engineering college pours a ton of research money into this every day, and it's enticing! We're engineers, and we want to invent our way out of our problems!
-        - Why can't you be the person who does that stuff, and invents stuff to make money and save the planet?
+        - Why can't you be the person who does that stuff, and invents stuff to make money AND save the planet?
 
 - Alright, see you Wednesday!

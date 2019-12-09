@@ -6,9 +6,9 @@
     - Thomas Kuhn (1922 - 1996) originally earned his Phd. in Physics at Harvard, but got interested in scientific history while having to teach a course on "Understanding Science" at Harvard for non-scientists
         - Kuhn would later serve as a professor of philosophy at Berkeley, Princeton, and MIT
 
-- Soi, let's talk about this famous book of his
+- So, let's talk about this famous book of his
     - In the book, Kuhn is trying to put forward an image of "how science works," and he views that as a challenging task because most people have a very distorted view of science
-        - In Kuhn's view, science textbooks themselved promulgate "Whig history," where we view past events as inevitably marching forward to today
+        - In Kuhn's view, science textbooks themselves promulgate "Whig history," where we view past events as inevitably marching forward to today
             - This view claims that science develops by ACCUMULATION, in which we follow the scientific method as an algorithm and keep getting an ever-more accurate view of the world
             - There's also a heavy focus on individual scientists, focusing on the "brilliant minds" of people like Newton and Einstein instead of your garden-variety, everyday scientists 
         - Kuhn argues that we can better understand science by looking at its actual history

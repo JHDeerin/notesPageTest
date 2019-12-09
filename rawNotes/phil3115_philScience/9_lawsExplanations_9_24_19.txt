@@ -2,14 +2,14 @@
 //************* Laws and Explanations - September 24th, 2019 ****************//
 //**************************************************************************//
 
-- So, forgetting about the reading for a second, is it important to develop an account of "explanations" anyway - in other words, what it means for a theory to "explain" something?
+- So, forgetting about the reading for a second, why is it important to develop an account of "explanations" anyway - in other words, what it means for a theory to "explain" something?
     - Most people think it is very important - Hempel certainly does - but different scientists have disagreed about what it means for a theory to "explain" something
     - In general, though, scientists think it's crucial for scientific theories to explain 
         - Note that explanation is NOT the same as prediction; there are cases where we can predict something without really understanding why it's true (e.g. current machine learning algorithms, geocentric theories of the planets, etc.), and vice versa
             - One of the reasons the Copernican model was accepted relatively quickly wasn't because it gave better predictions (it didn't, at first), but because it explained why the planets moved in this way, instead of the crazy-multi-circle thing of previous models
     - In general, people have agreed scientific theories should give explanations that are relevant, testable, and give true accounts rather than "psychological comfort" - beyond that, there's been disagreement
         - When Newton developed his theory of gravity, for instance, he said that it "explained" the motion of the moon, the tides, etc.
-        - Leibnitz, though, thought that it explained NOTHING - there's this magical, invisible force that pulls on everything else in the universe? How's that for an explanation!
+        - Leibnitz, though, thought that it explained NOTHING - "There's this magical, invisible force that pulls on everything else in the universe? How's that for an explanation!"
             - Leibnitz would've argued that Newton's law did a great job at prediction, but didn't actually explain "why" or "how" gravity worked and did stuff. They didn't disagree about the data; they disagreed about what "counts" as explaining something
 
 - As for Hempel, he has two main criteria for an explanation: that it has to have EXPLANATORY RELEVANCE and TESTABILITY
@@ -18,7 +18,7 @@
             - The conclusion must follow deductively from the premises
             - The premises must be general laws that are required to explain the conclusion
             - The premises must be true
-            - 
+            - The conclusion must be observable in the real world
     - Hempel also gives an "I-S" model of explanation, where the conclusion only follows probabilistically (e.g. we might have a general law that you'll *probably* get sick if you touch a sick kid, but it's not certain)
         - This is very similar to the D-N model, except that the conclusion isn't guaranteed; it's just probable to some degree
 - In both of these cases, Hempel talks about "subsumption under law" - but what's a "law" in Hempel's view?
@@ -33,7 +33,7 @@
 - So, that's Hempel's account, but here's a question: does this model of scientific explanation generalize to ALL sciences?
     - Most of his examples deal with physics - but do his frameworks also hold up for biology and chemistry and history?
         - For instance, can we "explain" lung cancer by saying a person smokes?
-            - In patricular, it seems that there's a split between the "social sciences" and the "natural sciences," 
+            - In particular, it seems that there's a split between the "social sciences" and the "natural sciences" in how they view explanation 
     - We'll talk about this later, and the debate around if it even makes sense to talk about the "philosophy of science" in general or if it's a hopeless task to unify disparate things
 
 - With that, we're all done with Hempel; on Thursday we'll start reading about Norvig Russell Hansen and some critiques of logical empiricism - see you then!

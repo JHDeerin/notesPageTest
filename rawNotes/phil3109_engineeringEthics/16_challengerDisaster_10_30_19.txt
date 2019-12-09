@@ -4,7 +4,7 @@
 
 - Okay, today we're talking about one of the most important cases in this entire field: the 1986 Challenger Space Shuttle disaster
     - What happened here? In the mid-1980s, the space shuttle program was HUGE and one of the most definitive features in popular culture
-        - This disaster undercut some of NASA's international reputation, and even many American's understanding of themselves as the world's leader in science
+        - This disaster undercut some of NASA's international reputation, and even many Americans' understanding of themselves as the world's leader in science
     - In 1986, this launch was already receiving special attention well before launch; schoolteacher Christa McAuliffe was planning on going into space with the rest of the astronauts and giving televised lessons from space, and Ronald Reagan was planning on giving his State of the Union address that same night
         - Instead, tragically, the shuttle exploded several dozen seconds into launch, with thousands of schools and homes from around the country watching
 
@@ -21,7 +21,7 @@
     - Another pivotal player was the company that made the O-rings that failed, Morton Thiokol
         - Dramatically, it turns out that engineers at this company raised concerns BEFORE the launch actually happened, saying the O-rings hadn't been tested at a launch temperature this low, which could affect the O-ring elasticity
             - When management pressed them on this directly - "are you saying that we can't launch tomorrow?" - the engineers said that they couldn't *prove* anything wrong would happen for sure, but that they didn't have reliable data to show it was safe
-                - This was the reverse of what usually happened, where the engineers had to prove a launch was safe
+                - This was the reverse of what usually happened, where the engineers had to prove a launch was safe for the launch to proceed
         - NASA ended up having a conference call with them the night before the launch, and overruled their concerns and went ahead with the launch
             - Particularly, an engineer named Robert Boisjoly was very vocal in his concerns that night, and after the disaster testified against his company in front of Congress
 
@@ -35,7 +35,7 @@
     - They come up wih 4 reasons for this:
         1. There wasn't a great financial risk to Morton Thiokol if a no-launch decision was made
             - Professor Rosenberger disagrees; he thinks there was HUGE PR pressure for them to get the launch done on time, and that a delay could've hurt the company's reputation
-        2. The temperature of the launch day was SIGNIFICANTLY different than
+        2. The temperature of the launch day was SIGNIFICANTLY different than normal
         3. Though limited, data was present to indicate a risk
         4. Lives were at stake
     - One alternative opinion on this whole disaster (although not necessarily one Professor Rosenberg agrees with) comes from Harry Collins and Trevor Pinch, 2 big sociologists in the SCS camp

@@ -13,14 +13,14 @@
             - Many people also feel that engineering "applies" the truths discovered by science, and in that sense engineering is dependant on science
             - This is a fairly traditional understanding, but it has been challenged on occasion
                 - The steam engine, for instance, was originally built as a purely practical tool, but studying it led to the development of thermodynamics and scientific laws
-                    - Much of science also depends on enigineering achievement
+                    - Much of science also depends on engineering achievements
                 - So, this linear relation of science "feeding" engineering, at least, seems simplistic
 
 - Before we dig into Nersessian, though, let's go back to Giere's "Models and Theories" paper
     - There's an important last sentence in one of his paragraphs:
         - "My immediate concern, however, is to challenge the view that the laws of motion function in classical mechanics as well-confirmed, empirical generalizations" (pg. 76)
     - Giere doesn't believe natural laws are generalizations of how nature truly works; instead, he believes they describe MODELS we create that are supposed to represent nature in some context, to some degree
-        - He notes that physicists themselves seem to talk about science like this, mentioning stuff like the "small-angle approximation" for pendulums that they known isn't *quite* right, but is good enough for certain purposes
+        - He notes that physicists themselves seem to talk about science like this, mentioning stuff like the "small-angle approximation" for pendulums that they know isn't *quite* right, but is good enough for certain purposes
     - By and large, Giere was talking here about mental models we have of science: there's no such "actual" thing as a "simple harmonic oscillator," but we use it anyway for convenience
         - How is this different from what Whewell and Popper were saying?
             - While previous people talked about inquiring into nature, and testing our hypotheses to see if they were correct, Giere's view places the emphasis on investigating the *models* we build
@@ -28,12 +28,12 @@
         - Another thing to take note of here is that in most of this course, there's been a focus on the individual scientist or thinker; in Kuhn, we see a shift towards focusing on how science is done by a community, not just isolated geniuses
 
 - Okay; let's start looking at what Nersessian has to say
-    - First off, what research was going on at lab A and D anyway (from a cognitive and a sociological view)? Who's doing it, and what are some features of the lab?
+    - First off, what research was going on at labs A and D anyway (from a cognitive and a sociological view)? Who's doing it, and what are some features of the lab?
         - "Lab A" was an old, established tissue lab looking into constructing blood vessels and blood flow, while "Lab D" was a relatively new lab doing research into how systems of neurons learn
             - The first lab was headed by a well-respected bioengineer, with an engineering background and a crew almost entirely composed of engineers (although from various backgrounds); the 2nd was headed up by a younger but promising post-doc, with a scientific background (and a more diverse group of researchers)
     - Why is she talking about all this? What was Nersessian's point?
         - Why is Lab A building physical models? Not for fun, right? They're building these blood vessels to help with human blood transplants!
-            - But they can't directly experiment on human beings (you can't ethically cut out people's hearts); instead, to do their research, they build physical models of blood vessels that they experiment on to figure out how the human body *would* behave
+            - But they can't directly experiment on human beings (you can't ethically cut out people's hearts, to my knowledge); instead, to do their research, they build physical models of blood vessels that they experiment on to figure out how the human body *would* behave
                 - This is model-based reasoning; they WANT to know about the human body, but they infer that information from non-human models
                 - It's similar to what Giere was talking about, although with a physical model in addition to the mental models
     - Notice here that Nersessian's research was VERY practice-heavy; she interviewed scientists, had people follow them around the lab and watch what they're doing, etc.
@@ -42,7 +42,7 @@
         - What does she mean here, and what does it have to do with Giere?
             - By "distributed" cognition, Nersessian means that problem-solving can be spread out over other researchers AND the artifacts in the lab they produce; those artifacts shape how we think about the problem
                 - Let's say you park at a movie theater, take a picture of where you parked, watch the movie, and then as you're coming out you look back at your phone to see where you parked
-                    - Is the cognitive system just you, here? Or is so much of what you do dependant on that?
+                    - Is the cognitive system just you, here? Or is so much of what you do dependant on your phone?
                     - Nersessian thinks that much of the learning and doing that goes on in that lab is crucially shaped by these models and tools, and they're "crucial elements" in the cognitive system
                         - Your phone in that example is an extension of your thinking; your thinking is relying on it. Books can do a similar thing, and Nersessian argues that the models we make do the same thing, capturing knowledge and replacing our thinking
                     - So, these physical models are interlocked with our mental models

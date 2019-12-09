@@ -35,7 +35,7 @@
         - Conversely, Whewell thinks we should be skeptical about hypotheses where we have to make defensive hypotheses just to defend old predictions as new data comes to light - if we have to keep adding to the hypothesis as more data comes to light, he think that's a sign the hypothesis is being strained
 
 - Notice that the title of this paper was "Hypothetico-Deductivism" - Whewell's method involved induction AND deduction
-    - We use induction to come up with a hypothesis, and then deduce "okay, if this is true, we should expect to see THIS"  -and then we compare that with reality!
+    - We use induction to come up with a hypothesis, and then deduce "okay, if this is true, we should expect to see THIS" - and then we compare that with reality!
     - So, the deductive step here is trying to figure out what the full implications of our hypothetical claims are, and then making sure that matches up with reality
 - Notice here, too, that for Whewell a true theory is one that accurately represents the way the world actually is, which he proposed doing by seeing if the theory makes accurate predictions
     - The epicycle theory of orbits was false, but it made pretty accurate predictions - enough for sailors to navigate to specific cities from the stars

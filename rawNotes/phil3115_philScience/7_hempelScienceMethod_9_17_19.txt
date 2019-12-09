@@ -5,10 +5,10 @@
 --------------------------------------------------------------------------------
 
 - Okay, before we move on to today's reading, we'll wrap up our discussion from last time
-    - Here' Professor Biddle's version of Salmon's argument:
+    - Here's Professor Biddle's version of Salmon's argument:
 
         1. According to Popper, there's no rational way to make an inductive inference from past to future events
-        2. According to Popper, corroboration of theories involves statements about past and present performance of theories, no the future
+        2. According to Popper, corroboration of theories involves statements about past and present performance of theories, not the future
         3. There are infinitely many generalization about the future that are compatible with the past
         4. Making a prediction in the sphere of practical action involves making a choice about which generalization to use
         5. Making a rational prediction 
@@ -17,7 +17,7 @@
     - Hempel (1905 - 1997) was a German philosopher of natural science who worked in a number of 20th century universities, fleeing to America and Israel during the holocaust
         - Hempel was one of the big proponents of LOGICAL EMPIRICISM (or "positivism") as a school of thought
             - It's logical in that it emphasizes articulating the logic of fundamental things - laws, theories, confirmation, etc. - in a purely formal way
-            - It's empirical in that they say statements ONLY have meaning only if they have empirical/observable content
+            - It's empirical in that they say statements ONLY have meaning if they have empirical/observable content
                 - Under Hempel's view, some scientific theories of the time were problematic because they were untestable (e.g. origin-of-life theories)
     - So, today's reading was from Chapters 2 and 3 of Hempel's textbook
         - Reading the quote on page 11, how does Hempel critique the "narrow inductivist view of scientific inquiry?"
@@ -26,7 +26,7 @@
                     - In particular, Hempel says data is "relevant" if it could affect the outcome of a hypothesis/experiment
                 - Even if we DID have all the data, Hempel argues that we wouldn't know how to categorize it without making some assumptions about what's important, which'd require a hypothesis
                     - ...Mill and Bacon arguably lean towards this narrow view, depending much more on data-collection and de-emphasizing hypotheses
-                    - "It's also an argument that's come back in this age of big data and machine learning, with some people claiming we can skip hypotheses and jump 'straight from the data' - although Hempel would obviously disagree"
+                    - "It's also an argument that's come back in this age of big data and machine learning, with some people claiming we can skip hypotheses and jump 'straight to the data' - although Hempel would obviously disagree"
             - So, Hempel would say we NEED a hypothesis to guide us in our collection and interpretation of the data; otherwise, we literally don't know what to look for!
         - Also, how do you think Hempel would respond to the kinda-common idea that the scientific method is a mechanical "algorithm" that guarantees success?
             - On Page 15, he gives a very Whewell-like counter to this, arguing that hypotheses often require a creative leap beyond the data, with no obvious way to reliably get them from the data alone; he certainly doesn't believe in a mechanical version of the scientific method

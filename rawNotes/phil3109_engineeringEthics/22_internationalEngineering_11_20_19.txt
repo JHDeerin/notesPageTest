@@ -3,18 +3,18 @@
 //**************************************************************************//
 
 - Alright, let's get down to business!
-    - "There's no class this week. Don't come to class next week!"
-    - Friday is our last recitation, so go to that
+    - "There's no class next week. Don't come to class next week!"
+    - Friday is our last recitation, so go to that please
     - After Thanksgiving break, we'll have our last lecture, which'll mostly be review for the final
-        - "The final will NOT be cumulative, so hopefully that eases your hearts a little - that being said, keep in mind that stuff from last unit has been referenced by stuff from this unit"
+        - "The final will NOT be cumulative, so hopefully that eases your hearts a little - that being said, keep in mind that some stuff from last unit has been referenced by stuff from this unit"
 - "I hear people coughing - I'm with you! Solidarity! Fall sickness rules!"
 --------------------------------------------------------------------------------
 
-- On Monday, we did more a non-core ethical topic by talking about environmentalism; now, we'll be talking about another one of those big non-core topics, international engineering!
+- On Monday, we did a non-core ethical topic by talking about environmentalism; now, we'll be talking about another one of those big non-core topics, international engineering!
     - Let's say your business wants to do engineering work in another country, and when your representative gets back he informs you that your product won't go to market before your competitors unless you pay a bribe to the local official - whom all the rest of the companies have bribed already
         - Do you pay the bribe? Probably some of you would never pay it, some of you are like "well, if that's how that country does things, okay!", and some of you just don't have a strong opinion
     - So, how can we still do engineering ethically when the practices in a different country go against our own American ethics? How can we deal with that?
-        - The book says that some people are trying to create international, worldwide standards, like for education and certification
+        - The book says that some people are trying to create international, worldwide standards, like for education and certification - but we're not there yet
         - It also considers whether engineers in other countries count as "professionals" - and it's controversial, especially in Asian countries where engineering isn't as prestigious of a job!
         - Engineering codes in other countries, too, often don't have an ethical focus
             - The main point the book makes, though, is that international standards aren't strong enough or enforced enough - at least not yet - and so we have to make ethical judgments at some point, using what we've learned throughout this course
@@ -33,10 +33,10 @@
     - We can try following the golden rule: "do unto others as you would have them do unto you"
         - This isn't full-blown deontology, but maybe it helps you to think about how to act
     - We can think about universal human rights, like a right to life, a country's right to freely develop, etc.
-        - These are NOT country-specific rights, like the right to remain silent, 
+        - These are NOT country-specific rights, like the right to remain silent, but general ones
     - Promoting "well-being" for all humans, looking at the capabilities approach and making sure our work provides for both basic human needs and a chance at a "normal life" through education, stability, etc.
         - "Look at box 8.4, pg.184 in the textbook for Nussbaum's list of what rights human beings should have promoted"
-    - Virtue ethics that want to practice might also be a guide
+    - Virtue ethics that we want to practice might also be a guide
     - Finally, we can look at our own engineering codes; while their specific rules won't apply to the country we're working in, they might have general principles or approaches to ethics we might find helpful
         - "There often aren't clear-cut solutions to these problems, but the hope is that these ideas can help us navigate our actions"
 
@@ -49,11 +49,11 @@
             - "Bribes usually mean that you're paying someone to influence their judgment; extortion means there's some kind of threat involved"
         - GREASE PAYMENTS are more like small, everyday extortions, like bringing coffee to your boss everyday so you "stay on his good side" and things run more smoothly
             - A more classic example is paying an official $20 every time they inspect your building out of "thanks" or something like that, just so things keep running
-            - "Does tipping count here? That's an excellent question - but I know there're plenty of people who visit the U.S. who are BAFFLED that tipping is a near-required thing in this country!"
+            - "Does tipping count here? That's an excellent question - I know there're plenty of people who visit the U.S. who are BAFFLED that tipping is a near-required thing in this country!"
     - NEPOTISM is favoring people in your family for jobs and contracts, instead of hiring the best people - in some countries, they think this is perfectly okay, and will give the best jobs to their relatives!
     - EXCESSIVE GIFTS could be considered with bribes, but they're slightly different; if giving business gifts is a part of the culture, then suddenly what gifts the companies are giving becomes an influencing factor! It becomes an "entrance fee" to doing business, and might lock out smaller companies
     - PATERNALISM mean that you're treating someone like a child, and trying to tell them what to do and think - so, when you go to another country, you shouldn't be like "we have all the science, the 3rd world country doesn't know what they're talking about!"
-        - You might be trying to do what's best, but you still need to respect the country you're working in an seriously consider their input
+        - You might be trying to do what's best, but you still need to respect the country you're working in and seriously consider their input
     - NEGOTIATING TAXES is an issue because you might be taxed at a rate that assumes you're bribing people, etc., and you need to deal with that
 
 - Alright - go to recitation, and then I'll see you after Thanksgiving! Have a good one!

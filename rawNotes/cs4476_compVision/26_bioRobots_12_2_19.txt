@@ -1,0 +1,70 @@
+//****************************************************************************//
+//********** Biologically-Inspired Robotics - December 2nd, 2019 ************//
+//**************************************************************************//
+
+- So, before we get to today's guest lecture, let's talk about the final
+    - The final exam will be on December 11th, from 2:40pm-5:30pm, in THIS ROOM
+        - "Because the TAs want a break, and we're pushing on the semester deadline, I'm leaning towards making the final easy and multiple choice...and, on that note, let's talk about course surveys!"
+            - The TAs and myself made a HUGE effort to overhaul this class and introduce deep learning into it; hopefully you appreciated that, but it probably also introduced some speed bumps along the way, so let us know how we can improve things
+--------------------------------------------------------------------------------
+
+- Now, we've got a guest lecture from Dr. Seth Hutchinson, the director of the robotics institute here at Georgia Tech
+
+- "I don't really do computer vision specifically, but Frank invited me to come - nd while I'm not doing anything too deep in computer vision, I hope this gives you an idea of how robotics experts use the ideas you've learned about in the real world...well, real lab"
+    - "Also, I'm reusing my robotics presentation from CMU that I gave to a bunch of robotics Phds. there on biologically inspired robots. I apologize for that; you weren't special enough"
+    - In robotics, you can have very weak bio-inspirations ("I was watching National Geographic, and I saw a snake. I'll build a robot that moves like a snake!") and very strong, direct inspirations ("I dissected 3 snakes to get a feel for the spinal structure of the Western Asp, which I'll mimic using a cartilage substitute")
+        - Dr. Hutchnison's problem is more meta: to figure out HOW bio-inspired a particular project should be
+            - Most of these questions aren't too vision inspired, but some of them are!
+                - As roboticists making a flying robot, for instance, aerodynamic equations like Navier-Stokes are WAYYYYY too heavy to compute in real-time, so we instead try to reduce it to geometry
+                - We can tackle this using computer vision by looking at images of things that already fly, using CV algorithms to identify the structure and motion of the bat, and so on
+                    - If we look at an actual bat, it has far too much complexity to be practically built, so we can instead draw a visual analogy from its wings to the human hand - which we've done a TON of research into building!
+                    - We've also done that study and realized that while the human hand CAN move in many different ways, there are really only a few fundamental movements that people use; only a small sub-space of the possibilities are actually used!
+                - How can we do that using computer vision? Well, there's a sub-field called PCA - "Principal Component Analysis" - that we can use to break down complex objects and figure out the parts that are most relevant (similar to old-school facial recognition before ML)
+
+- When we apply this PCA to bats, and throw some inverse kinematics at it, we find that there are really just 3 fundamental movements that bats move if you look at the angles of their muscles:
+    - Synchronous flapping
+    - Asynchronous folding of the wings
+    - Asynchronous moving of their feet
+- So, once we've done this analysis, we can simplify our design into creating a robot that can accomplish these 3 types of movement!
+    - How do we actually optimize the mechanism parameters that let us do this, like the angles of the wing with the body, the length of the wing, etc?
+        - We want to copy the bat, but not exactly; we want to see how it flies at a high-level and apply those ideas and constraints to our robot
+        - To do this, we can use some motion-tracking dots, put all their positions over time into a matrix, compute the SVD for it to simplify computations, and observe the diagonal elements to see what the correspondence strength between the rows are
+            - This lets us figure out what aspects of the data matrix are important, and see how many degrees of freedom there are; we can then choose how much we want to simplify it, only take the "N" most important factors and 0 out the rest of the diagonals, and then reconstruct the matrix from that
+        - We'll then use that simplified matrix to solve an optimization problem multiplied by a vector of possible parameters for our robot, and try to solve for what parameters in the machine get us close to the original bat matrix
+            - "Computer scientists sneer with disdain at Matlab, but THIS is where it shines!"
+    - So, we built this robot based on the world AND...it didn't fly. Turns out, that physics stuff was important!
+        - So, to fix that, we had to adjust our bat wing based on some aerodynamic models
+        - This is a common thing in science: we build up a model of how we think something works, try to approximate it, find that doesn't work, and need to adjust it
+            - "Can you keep parts of the broken model? Probably, and you can probably get it to work; but it wouldn't be robust at all"
+
+- So, here's the question: can we use machine learning to do this better? Yup!
+    - However, we can't throw the bat robot enough times to collect enough data for machine learning; we could get maybe 5 throws a day
+        - We could improve this with simulations, but because of the flexible wing design that involved some complicated aerodynamics that slowed simulations to a crawl
+    - Instead, we used machine learning at a low level instead after measuring stuff like how our bat robot pitches up and down (it's not that sinusoidal, and was actually smoother than our simulations for once!), etc., and then using ML to find an optimal trajectory for different starting angles
+
+- "Why did we make a bat robot at all? Because it's cool, but what we TOLD the university was that a soft wing design would be less damaging in the event of a crash"
+    - "...that's pretty cynical advice, I know, but what I've often found happens in research is that people figure out what they think is cool and interesting, and then try to sell it to people and get funding for reasons after-the-fact"
+
+- "Now, I like control theory a LOT, but it's a difficult subject and a very well studied one - much like machine learning today. However, a few years ago, it was possible to combine a mediocre knowledge of control theory with basic machine learning knowledge and get tenure - and I just so happen to have lived in those days"
+    - You've learned in this class that, given a set of images, you can figure out where the position of the camera is
+        - It's a relatively small step to go backwards from there and reconstruct the scene given a bunch of images and camera positions
+    - How can we do the intermediate problem of "given this image of where I want to be, and an image of the current camera position, how can I figure out how to move the camera to get from A to B?"
+        - This is the VISUAL SERVO problem, and there are a ton of variations on it
+        - As a very simple example, if I have a set of keypoints on an image, and I then see a rotate version of the same image, I know I need to rotate the camera in a certain direction based on the error vectors!
+            - The control theory part of this is that the robot is constantly adjusting itself to get better and better performance (i.e. trying to get the desired image to match up with what it actually sees)
+                - Here, the camera origin has a linear velocity "v" and an angular velocity "w"
+                - The cool thing is that the rate of change of our keypoint positions (i.e. it's derivative) is related to the velocity of the camera LINEARLY - and in control theory, that holds for almost EVERYTHING!
+                    - "Figuring out your precise hand positions and angle might be complicated, but if you give me the velocity those fingers are moving at, I can simplify it and work with it!"
+        - "So, the basic idea is just that I want to minimize the error between what I currently see and what I want to see"
+            - Given this control thing, we can figure out that the derivative of the error function is linearly related to the velocity vector of our camera!
+                - Solving a basic differential equation with a Jacobian-like matrix, we can solve for the CONTROL LAW that tells us what velocity to move at for a given time!
+            - "We're making a lot of simplifications here, but that's the gist"
+
+- Visual servos have a LONG history, going all the way back to the 1970s; by the 1980s, the math was mostly in place, and in the early 1990s the hardware got fast enough for us to start doing cool stuff
+    - Using an algorithm called PBVS, we can do a bunch of cool computer vision stuff to solve this problem!
+    - How do we know that this approach works? We know gradient descent sometimes fails due to local minima, so why trust this?
+        - We can trust the results thanks to a control theory thing called LYAPUNOV THEORY, which lets us analyze the stability of non-linear systems (particularly about "equilibrium points")
+            - We can say that if a system has a Lyapunov function that behaves in a certain way, then it has some stable equilibrium points we can calculate!
+    - There are, of course, plenty of wrinkles here - what if we move in a way that we can't see our target anymore? What if we have calibration errors? What if we're dealing with moving objects? Along with a TON of other things
+
+- So, that was our lecture's last class - I hope you enjoyed it, and I'll see you for the final!

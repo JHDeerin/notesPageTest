@@ -23,7 +23,7 @@
     - Per our textbook, we'll say informed consent requires 3 things:
         - First off, the consent CANNOT be coerced; we might be able to use some legal loopholes, but ethically, we can't pressure someone into doing this thing; it has to be their free choice
             - "If I hold a gun to someone's neck and tell them to sign the form, that's NOT consent! If I'm teaching in a classroom and say 'Hey, can you sign this form? By the way, make sure you stay on my good side - I can fail you!', that's not okay either!"
-            - Does getting paid for an experiment count as coercion? 
+            - Does getting paid for an experiment count as coercion? Hmmmm...
         - The person must have all information relevant to the risks involved clearly presented
         - The person must be rational and competent enough to understand that information
             - "If I hand a legal document to my 6 year old and ask him to sign it, that's not okay! He doesn't know how to read, let alone understand this stuff!"

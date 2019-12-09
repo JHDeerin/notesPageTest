@@ -1,0 +1,44 @@
+//****************************************************************************//
+//*********** Science, Experts and Democracy - December 3rd, 2019 ***********//
+//**************************************************************************//
+
+- The last day; how I waste the time
+- Today, we'll go over the last reading by Elizabeth Anderson, spend a few minutes talking about what the final exam will look like, and then give you some time at the end of class to fill out the CIOS course survey
+
+- Alright, let's talk about the final!
+    - It'll be similar in format and length to the midterm, and is due next WEDNESDAY (the 11th) at midnight
+    - The test'll focus on our science and values section, rather than the whole modeling dispute; "the modeling papers were honestly kinda difficult, and while I think it's an important subject to teach, most of the papers are kinda in the weeds for an introductory course like this"
+        - The test itself should be released later tonight; as we said, it'll be open-note and open-internet as long as you cite everything
+--------------------------------------------------------------------------------
+
+- This last reading we did ties into some larger issues with science and society we've talked about, and talks about a possible tension between science and democracy
+    - What is this tension? In democracies, we believe in having all people cooperate in making policies, but in science we seem to only trust the experts to do research and make decisions - and most citizens don't have that expertise!
+        - How, then, can regular citizens possibly judge laws about the safety of nuclear power plants or creating high-tech phones and so forth?
+        - ...but if we can't do this, then we've violated a fundamental principle of democracy by deferring to a scientific elite
+    - So, that's the tension: how can we be both democratic and scientifically responsible at the same time?
+
+- In this paper, Anderson argues that we CAN resolve this tension since regular citizens can still "judge who can be trusted" to make policies
+    - Notice here that we're starting to talk about "trust" and its importance - you might never have been to the Grand Canyon, but you probably believe it exists
+        - Why? Because you've seen pictures that you trust haven't been forged, because you've had friends you believe tell you they've been there, and so forth
+            - "If you were to list out your most important beliefs, almost all of them are somewhat based on trust; there are relatively few things we experience for ourselves"
+        - Similar beliefs, of course, apply to science: you might believe that radiation in high doses causes cancer, but we only believe that because scientific authorities we view as trustworthy have told us so!
+    - Anderson believes that the average citizen with internet access can judge which scientific experts they should consider trustworthy, and lays out some criteria they can use to do so
+        - What are these criteria? Essentially, Anderson says that if we can't judge the evidence directly, we can evaluate if someone should be trusted when making these claims based on 3 things:
+            - Does this person have expertise in the field in question? Have they gone to school for it, have they published research on it in well-respected journals? Are their opinions in line with the majority opinion in their field (based on respected institution studies and such)?
+            - Is this person generally honest? Do they have any conflicts of interest? Do they have a history of cherry-picking data or making straw-man arguments?
+            - Is this person "epistemically responsible?" Do they respond to objections to their theories in a rational way, or just keep making the same claims? Do they avoid sharing their data or publishing in peer-reviewed journals?
+        - Are these criteria sufficient? Are there any that you think should/shouldn't be included?
+            - As a side-note, Anderson seems to be taking an "innocent until proven guilty" approach here, where we should give scientists the benefit of the doubt unless we have a reason NOT to believe them
+    - Anderson then applies these criteria to the climate change debate, saying that just looking up the Wikipedia entry for this and reading a few of the linked sources from both sides should lead you to believe that the evidence FOR anthropogenic climate change is pretty trustworthy
+        - She notes that while a few climate supporters have fallen from grace, the vast majority have integrity and publish their findings in peer-reviewed journals, whereas their opponents often have conflicts of interest, spend little time answering objections, and tend to make their claims from media outlets rather than in respected journals
+        - What if we end up on a different set of websites, though, that give us less-balanced information?
+
+- At the same time, while Anderson believes citizens can evaluate trustworthiness in this way, she also believes there's a number of social factors that can (and do) inhibit most people from doing this
+    - In section 4, Anderson mentions 3 social conditions that prevent people from objectively evaluating experts as trustworthy - what are they?
+        - "Cultural cognition" - people tend to initially judge ideas based on how they'd impact their social/religious/political values, and be more skeptical of ideas that might challenge or result in changes against those values
+        - Segregation - people increasingly only go on websites that have opinions they agree with, and live among people with similar opinions
+        - Misleading media reports - media outlets, particularly in the U.S., tend to have a bias towards "balance" and sensationalizing issues as combative even when there's general scientific consensus
+    - Anderson also mentions some ideas for trying to combat these tendencies, like framing problems in less-biased ways to different audiences, revising media norms, and getting people of different viewpoints to talk with one another respectfully
+        - Are these ideas utopian? People in the U.S. ESPECIALLY tend to be pessimistic about how these ideas can actually happen; Europeans tend to be a little more hopeful that they can be fixed
+
+- Alright, with that, fill out the CIOS survey ("I do listen to student feedback") - and, otherwise, good luck on the final and the rest of your exams! That's the end!

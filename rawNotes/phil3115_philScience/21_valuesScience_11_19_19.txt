@@ -8,7 +8,7 @@
             - If this works, it creates a sharp division of labor between science and policy-making (which scientists aren't trained in) - but does it work out?
             - In our reading today, Douglas thinks scientists can't get away from policy-making since they're figures of authority today, and if they publish data saying "there are X tumors after exposure to Y," people are going to trust you!
 
-- With that, we read a paper by Heather Douglas today - let's talk about it
+- With that, we read a paper by Heather Douglas today - let's talk about it!
     - First off, what was her argument?
         - Douglas thinks that "non-epistemic values" are inherent THROUGHOUT the research process (pg. 559)
             - EPISTEMIC values mean how we evaluate something as true or reliable, like Kuhn's ideas of simplicity, accuracy, etc.
@@ -16,12 +16,12 @@
             - NON-EPISTEMIC values are values that aren't related to this, such as ethics
         - Essentially, she's building off of Rudner's argument by saying that inductive risk isn't just an issue in selecting hypothesis, but in almost EVERY scientific judgment that scientists need to make
     - Douglas argues that there's inductive risk at each of 3 stages of science: choosing methodologies, gathering/characterizing data, and interpreting data
-        - At every step of this process, we can make an (epsitemically) wrong choice that can have (non-epistemic) consequences - how exactly is there risk in each of the 3 steps, and why are non-epistemic values important?
+        - At every step of this process, we can make an (epistemically) wrong choice that can have (non-epistemic) consequences - how exactly is there risk in each of the 3 steps, and why are non-epistemic values important?
             - Douglas uses the example of a 1990 toxicology experiment, where they were trying to determine if a chemical called dioxin caused cancer in rats (and, by extension, humans) in different doses
                 - Notice we're assuming that the rat accurately models how human beings will respond, but let's pass over that
-            - At the methodological level, we have to choose a significance level to count a difference in cancer rates as statistical significant, which (a la Rudner) is a value judgment
+            - At the methodological level, we have to choose a significance level to count a difference in cancer rates as statistically significant, which (a la Rudner) is a value judgment
             - When characterizing the data, it was sometimes vague whether a tumor was malignant or not - and it seems value judgments played into what they observed!
-                - Interestingly, the when the EPA did this study, they found significantly higher levels of tumors, which makes sense! The EPA wants to keep the public and environment safe, while the company wants to use the chemicals in its products!
+                - Interestingly, when the EPA did this study, they found significantly higher levels of tumors, which makes sense! The EPA wants to keep the public and environment safe, while the company wants to use the chemicals in its products!
                 - Both groups were looking at the same exact data, but coming to different conclusions
                     - This harkens back to the Hansen paper we read earlier this semester
             - When interpreting the data, it seemed ambiguous if the data implied a linear or threshold relationship between the dioxin and cancer at low doses - and again, what we conclude may have consequences that we value differently

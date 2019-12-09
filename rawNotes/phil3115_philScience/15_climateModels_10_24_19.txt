@@ -22,13 +22,13 @@
 
 - Alright - let's get to Parker's essay
     - First off, what're the main arguments Parker is making, and what reasons does she use to support them?
-        - Right in the abstract, Parker gives a general overview of what she's trying to look at
+        - Right in the abstract, Parker gives a general overview of what she's trying to look at:
             - "I argue that climate model pluralism results both from uncertainty concerning how to best represent the climate system and from difficulties faced in evaluating the relative merits of complex models. I describe how incompatible climate models are used together in ‘multi-model ensembles’ and explain why this practice is reasonable, given scientists’ inability to identify a ‘best’ model for predicting future climate. Finally, I characterize climate model pluralism as involving both an ontic competitive pluralism and a pragmatic integrative pluralism"
         - So, there're a few main conclusions Parker makes:
             - Climate models really are logically incompatible with each other
                 - Specifically, they're incompatible in the sense that they all can't be literally true, since they make fundamentally different assumptions about how different weather phenomena operate
                 - She argues these different, incompatible models come from us being legitimately unsure about how certain phenomena "work" (e.g. no settled equations for cloud formation), as well as difficulties in testing each model's predictions due to a limited amount of data in the past
-                    - For instance, we simply don't have data about high-altitude temperatures more than 50 years ago
+                    - For instance, we simply don't have data about high-altitude temperatures from more than 50 years ago
                     - To deal with this, many researchers try to fill in the blanks using RETRODICTION - but this involves making some educated guesses, which - even if they're done sophisticatedly - may be wrong, and researchers may disagree which is right!
                         - Also, remember that these models aren't predicting exactly what the world will be like in 50 years, but instead what trends we can expect under various possible scenarios
                 - Furthermore, it's been difficult for scientists to agree on how to best evaluate climate models using a single metric, and when we do evaluate them, no single best model has emerged; typically, there are several models that each do better or worse at different things
@@ -39,12 +39,12 @@
                 - One of the main benefits of this is that we can see that even models that disagree about things still show the same general trends, as a "robustness" test
                     - A thing to flag here: there are many areas of science that have similar uncertainties, but where these "robustness" tests don't really exist
     - One other question: climate science is viewed by many as an urgent societal problem, so how does that affect it as a science? Should it affect it?
-        - It seems that it makes scientists more willing to be "pragmatic" about this issue; since they need to make decisions soon, climate scientists might be more willing 
+        - It seems that it makes scientists more willing to be "pragmatic" about this issue; since they need to make decisions soon, climate scientists might be more willing to use competing models, etc.
             - One argument you'll sometimes hear from climate-change deniers is that, because climate change is of urgent care to people, the scientists are more willing to be subjective and take risks
                 - There's certainly something to this - if you have 30 seconds left on a test, you can't think through things; you've got to write an answer now!
                 - Of course, other people say that it's backwards and that the reason it's urgent at all is BECAUSE of the climate science, but we can come back to that later
-    - There aren't may scientific issues that've become politically charged; evolution has historically been one, but no one gets up in arms about quarks. So why is this issue problematic?
-        - Is could be that "fixing" climate change would require huge societal changes that people want to avoid, or that it'd affect businesses, or because it charges the human race with a gross amount of irresponsibility
+    - There aren't many scientific issues that've become politically charged; evolution has historically been one, but no one gets up in arms about quarks. So why is this issue problematic?
+        - Is could be that "fixing" climate change would require huge societal changes that people want to avoid, or that it'd affect businesses, or because it charges the human race with a gross amount of irresponsibility we'd rather not own up to
         - So, is this legitimate disagreement, or some other disagreement that's "hiding" behind scientific disputes?
 
 - Up to this point, we've mostly talked about science as a mode of inquiry, independent of other human concerns; we've just been viewing science as seeking "truth for truths sake"

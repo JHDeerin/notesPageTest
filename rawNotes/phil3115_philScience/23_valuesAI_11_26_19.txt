@@ -1,0 +1,48 @@
+//****************************************************************************//
+//************* Values in AI Sentencing - November 26th, 2019 ***************//
+//**************************************************************************//
+
+- Alright - it's right before Thanksgiving, so class is a little sparse today
+    - We have only 1 more class and 1 last reading; that reading moves away from values in science and more towards science's place in a democracy - is science a field that should be self-governed by trained scientists, or should they be held accountable for the masses, whose lives may be affected by scientific work?
+--------------------------------------------------------------------------------
+
+- Today, we're going over a paper about technology in the criminal justice system - but why?
+    - Obviously, technology has an effect on human beings, the criminal justice system is a place where that's very relevant, and machine learning algorithms are an important example of that today: companies are using these algorithms to decide if people are allowed to take out a loan and so forth, replacing decision-making that was normally done by human beings
+        - In today's paper, the author argues that there are many value judgments that happen when these pieces of software are designed, and that people need to be aware of this and not just treat these programs as "scientific" or "objective"
+    - Relevantly to the class, we can see this as an extension of Douglas's work
+
+- What're the stakes involved here?
+    - As you may or may not know, the U.S. has the highest incarceration rate in the world by a pretty good margin, with 707 arrests per 100,000 citizens
+        - Black and Latino minorities are over 3x more likely to be incarcerated than Whites, with other significant disparities in sentencing, paroles, etc.
+            - For instance, despite marijuana usage being basically identical across races, black Americans are 3x more likely to be imprisoned if they're caught
+            - There are many reasons for this, but where police departments choose to police (partially based on algorithms) is certainly a factor
+    - What does AI have to do this? Well, the response of some people is to say "well, if humans are biased, let's use data-based algorithms to make unbiased, fair decisions!"
+        - In the past few years, "objective" risk assessment tools have started appearing in several states to help guide decisions about sentencing, policing, etc., hoping to more effectively allocate their resources and
+
+- Now, onto the paper we read by Jennifer Eaglin
+    - Eaglin argues from the get-go that designers of "recidivism risk-assessment tools" inevitably make a series of value judgments when creating their tools
+        - "Computer scientists are actually pretty well-aware that creating biased algorithms is a problem - but the users of these tools might not realize that"
+        - What are these steps that Eaglin identifies, and how do they involve judgments that're reflecting values?
+            - Collecting data on relevant populations
+                - Do you use data that's already available but not ideal, or choose to conduct a costly study? What data is important to collect?
+            - Defining what counts as "recidivism" (i.e. committing another crime) - does getting arrested count? Any arrest, or just arrests that lead to formal charges? Being convicted? Violating probation?
+                - If you take a lower standard, such as being arrested, you might get more but lower-quality data (e.g. plenty of people are arrested who aren't even charged!)
+            - Selecting predictive factors - now that you have the dataset, what variables do you want to use to predict if a crime will occur? How will you weight each factor? Should you use controversial factors like race or gender, even if they seem well-correlated?
+                - Some factors are even constitutionally not allowed to be used as evidence, like race or socioeconomic status (e.g. a case in Georgia 100 years ago ruled that you can't keep someone imprisoned for being poor because you think they'll steal something) - but some of these models are still using those banned factors!
+                - Also, this brings up the issue of accuracy vs equality before the law - in the Georgia case, they'd say "even if being poor DOES make you more likely to rob, that's not relevant! We can't legally judge someone more harshly for being poor!"
+                    - If you disagree, and say that accuracy is the most important factor, that itself is a value judgment!
+            - Constructing the model itself - how do you use these factors predict someone's chance of committing a new crime?
+                - What error functions do you use? What regression algorithms?
+            - Presenting the risk level to the users - what counts as someone being "high-risk?"
+                - In the name of user-friendliness, many companies hide a lot of the data and calculations and assumptions they make; that makes it easier to use, but doesn't it make it harder to see what the tool's actually saying?
+        - Many of these tools also seem to implicitly assume theories of punishment in their design, e.g. "the point of punishment is to keep society safe" vs "the point of punishment is to punish offenders," which can lead to designers prioritizing different types of crimes
+    - So, designers make value-based choices when they create these tools - why is that an issue?
+        - One BIG issue is that people using these tools might not realize what assumptions its designers made, and will treat its word as law without critically considering it
+        - Eaglin also thinks that designers need to be held more accountable by the community, and have to have these kinds of value judgments disclosed and be up for review
+
+- As an ending story, there was a case in Wisconsin a year ago where a man committed a crime, and he received an unusually long sentence on the basis of an algorithm like this
+    - Because the designer is a private company, they considered the inner workings of their algorithm a "trade secret" and refused to share why the algorithm made the prediction it did - and because of that, the prisoner argued that he hadn't received due process
+    - This went up to Wisconsin's supreme court, which controversially ruled in favor of the private company
+        - Should this kind of information be kept private? That's an open debate
+
+- Alright - with that, we'll leave a bit early today. Happy Thanksgiving!

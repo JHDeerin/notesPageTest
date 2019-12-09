@@ -4,7 +4,7 @@
 
 - THE STRESS GROWS AAAAAAAAAAGGGGGGGGGGGGGHHHHHHHHHHHHHHHHHHHH!!!
     - Actually, it's going reasonably; I got the Computer Vision notebook open on Google Colab (dodging network errors like laser beams), and hopefully implementing the network architecture will be easier than I think (Pytorch was designed for this stuff, after all); I just need to get it done, start answering the report questions, and then ship the thing off to Gradescope and Canvas and take a not-so-well-earned nap
-        - ...I mean, I'll probably have worked hard, but if I'd started this last week than I wouldn't have had to work hard
+        - ...I mean, I'll probably have worked hard, but if I'd started this last week then I wouldn't have had to work hard
     - For posterity: this stress is not at all related to Engineering Ethics, and is past
 
 - "What's going on? Let's find out!"
@@ -18,24 +18,24 @@
             - Telling something false or misleading
             - Involves INTENTION to deceive ("you can be wrong without lying!")
             - It's usually - although not necessarily - verbal
-                - "There's a philosopher named Harry Frankfurt who wrote a work called 'On Bull****', and he argues that the definition of 'bull****' is when we say stuff to convince people without caring if it's true or not; we're just trying to win the argument, "
+                - "There's a philosopher named Harry Frankfurt who wrote a work called 'On Bull****', and he argues that the definition of 'bull****' is when we say stuff to convince people without caring if it's true or not; we're just trying to win the argument"
         - We know lying is wrong, but why would it be wrong based on the ethics we've learned in class?
             - Virtue ethics says it's wrong because honesty is a virtue, and dishonesty is a vice that you should avoid practicing lest it creep into your character
             - Deontologically, lying fails to pass the categorical imperative; it would break down if everyone did it! Furthermore, it doesn't "respect people," as when we lie we're assuming we know what's best for someone to hear
             - With utilitarianism, it's a little more complicated
                 - Generally, dishonesty is bad for engineers here because it undercuts professionalism, erodes trust in engineering work, and can jeopardize reliable work - all of which is bad for society
-                - However, utilitarianism does offer a path to allowing "acceptable" lies if the benefits are good enough
+                - However, utilitarianism does offer a path to allowing "acceptable" lies if the benefits are good enough (e.g. spying, Nazis at the door, etc.)
     - Besides lying, there also a BUNCH of other ways of being dishonest that also aren't great
         - DELIBERATE DECEPTION is when we don't explicitly tell a lie, but we try to get someone to infer something incorrect from what we're telling them - basically, being manipulative
-            - Kant is strictly against lying and making false promises, but he does seem to think deception is slgihtly different (although still usually not okay)
-        - WITHOLDING INFORMATION is when we choose to not tell someone a truth we know, intentionally miselading them
+            - Kant is strictly against lying and making false promises, but he does seem to think deception is sightly different (although still usually not okay)
+        - WITHHOLDING INFORMATION is when we choose to not tell someone a truth we know, intentionally misleading them or giving them incomplete information
         - FAILURE TO SEEK THE TRUTH is less obviously bad, but it's where we suspect something is true or something bad is going on and we fail to follow up on it
 
 - In research, this dishonesty can come up in 2 special forms: fabrication and falsification (they're NOT the same!)
-    - FABRICATION is when we just straight make-up data that doesn't exist, like saying "oh, my orangutang's health is improving" when you don't actually own any orangutangs
+    - FABRICATION is when we just straight make-up data that doesn't exist, like saying "oh, my orangutan's health is improving" when you don't actually own any orangutans
         - This is a pretty conscious decision
     - FALSIFICATION is when you take existing, actual data you have and modify it to suit your needs better, like cherry-picking data, modifying a photo, etc.
-        - "There are legal ways to cut out statistical outliers and stuff like that, and then there are illegal things that go too far"
+        - "There are acceptable ways to cut out statistical outliers and stuff like that, and then there are illegal things that go too far"
     - Intellectual property violations can also come up here, too
     - PLAGIARISM is, of course, another big thing we need to avoid
         - You should know this from the syllabus (and, well, every other class you've ever taken), but it's basically copying someone else's work without acknowledging that it isn't yours

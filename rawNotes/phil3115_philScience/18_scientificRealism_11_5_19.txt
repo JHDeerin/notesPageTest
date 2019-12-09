@@ -13,7 +13,7 @@
         - Inductive arguments, also, fundamentally don't guarantee their conclusions - that's important!
     - Q2 (comparing what Whewell, Mill, and Popper said about hypotheses) had some variance, with a lot of perfect scores and a lot of not-so-perfect scores
         - Whewell tended to say hypotheses were mental, creative concepts, that testing requires rigor, and that hypotheses can be justified by successful prediction
-        - Mill thought that hypotheses were less inventions and more mechnaical generalizations, and he thought that hypotheses couldn't be justified by correct predictions, but only by showing the hypothesis was the ONLY one that could make those predictions
+        - Mill thought that hypotheses were less inventions and more mechanical generalizations, and he thought that hypotheses couldn't be justified by correct predictions, but only by showing the hypothesis was the ONLY one that could make those predictions
         - Popper proposed testing hypotheses deductively, and that hypotheses couldn't be proven true - only proven false
     - Q3, about explaining what logical empiricism was, was more rocky
         - Many people correctly said that logical empiricism partly means "stating things in formal terms," but it became clear they didn't fully understand what this meant. What it means is that logical empiricists were trying to rigidly re-define things like "explanation" in purely logical/mathematical ways, such that they could be 100% proved correct and avoid induction
@@ -49,6 +49,6 @@
     - Why would someone not be a realist?
         - Historically, many instrumentalists come from the logical empiricist camp, where they believe it doesn't "make sense" to talk about things we can't directly observe
         - Intuitively, realism is very intuitive because it explains WHY science has worked so well: because these things are true. As Laudan quotes from Hilary Putnam, "the argument for realism is that it is the only philosophy that doesn't make the success of science a miracle"
-            - The problem realists have to grapple with, as Laudan points out, is that there seemingly have been many scientific theories that were wrong but DID work - so why did those theories work out? Were they just lucky? Were they miracles? And if those theories wee've dismissed "just got lucky," then how do we know that's not true for the theories we currently accept?
+            - The problem realists have to grapple with, as Laudan points out, is that there seemingly have been many scientific theories that were wrong but DID work - so why did those theories work out? Were they just lucky? Were they miracles? And if those theories we've dismissed "just got lucky," then how do we know that's not true for the theories we currently accept?
 
 - Alright, that's all - come on Thursday for the extra credit part of the class (or don't)! We'll start in earnest again next week!

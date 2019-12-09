@@ -7,14 +7,14 @@
 
 - So, what was the main point of this paper, and why might it be a critique of logical empiricism?
     - First off, let's cover a little background
-        - Many scientists (and ESPECIALLY logical empiricists) view observations as ways of "testing" existing theories, and most scientists viewed observation as a pretty straightforward thing: we just "look" at it and see the same thing!
-            - Most examples the empiricists give, like seeing how high the mercury tube goes, makes observation seem like an obvious thing - they rarely give complicated observation examples
+        - Many scientists (and ESPECIALLY logical empiricists) view observations as ways of "testing" existing theories, and most scientists in Hansen's day viewed observation as a pretty straightforward thing: we just "look" at it and see the same thing!
+            - Most examples the empiricists give, like seeing how high a mercury tube goes on a barometer, make observations seem obvious - they rarely give complicated observation examples
         - Here, Hansen is pushing back on that and saying that observation is NOT straightforward - it's complicated! In fact, he says some pretty controversial stuff!
             - Hansen asks how 2 people can look at something like an amoeba and "see" 2 different things
                 - From a "Physicalist" view, people do literally see the same thing: the same photons hit their retinas and present the same colors, shapes, and so forth
             - For Hansen, though, we never "see" raw sensory data: we always filter it through our mental lens. As he puts it, seeing is a type of EXPERIENCE
                 - Hansen is trying to argue that observation itself is "theory-laden;" that people who believe different things might literally see different things from the same physical stimuli, and have different experiences (e.g. the duck-rabbit)
-                    - Now, other people pushed back on Hansen and tried to argue that this cognitive processing is fairly low-level and isn't significantly affected by our beliefs (i.e. that the differences were interpretative, with the immediate processing )
+                    - Now, other people pushed back on Hansen and tried to argue that this cognitive processing is fairly low-level and isn't significantly affected by our beliefs (i.e. that the differences were interpretative, with the immediate processing being near-identical between people)
         - Hansen believed that this theory-ladenness was a pervasive feature of all scientific practice
     - So, if we grant that Hansen is right and that observations ARE theory laden, what are its implications for testing theories?
         - Many people would worry that when we test theories, we would end up unconsciously having "biased tests" towards certain theories, and that what we see would then be influenced by our theories in the first place

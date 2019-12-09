@@ -133,7 +133,7 @@
                 - The dumb way to do this is to have equal-sized bins for a histogram between the minimum/maximum values I've seen in my training data
                 - The smarter way is to try and create these bins based on a distribution, so there's an equal number of data points in each of our bins (hopefully giving us smaller bins where there's more data points)
                     - Note that this assumes those values that were more common in our training data will keep being more common in the future
-                    - If you even wanted to go above and beyond, you could try using one of the ML algorithms we've talked about in this class to form these bis!
+                    - If you even wanted to go above and beyond, you could try using one of the ML algorithms we've talked about in this class to form these bins!
                 - Either way, it's ESSENTIAL you only use training data to form these bins, since otherwise you'll be cheating with data from the future!
             - You can then combine all these features to a single unique state hash (somehow)
                 - When you get your financial indicators/returns for the current day, you can then apply this discretizing formula to that data, get the state based on the bins each number falls into, and then throw that into your Q-learner

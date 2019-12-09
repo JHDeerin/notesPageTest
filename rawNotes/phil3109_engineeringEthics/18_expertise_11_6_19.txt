@@ -23,14 +23,14 @@
     - Our reading from today was an interview with Harry Collins (a sociologist we've briefly seen mentioned in our readings before)
         - Collins has come up with some super-duper complex versions of expertise, but his broad version breaks down different kinds of "expertise" for a given topic X
             - NON-EXPERTS don't know enough to meaningfully contribute or talk sophisticatedly about the topic
-            - CONTRIBUTORY EXPERTISE means that you can "do" things in the field, like use the particle accelerator and write a paper on it, or be a doctor that can perform heart surgery, or a plumber that fix a valve gasket doohickey
+            - CONTRIBUTORY EXPERTISE means that you can "do" things in the field, like use the particle accelerator and write a paper on it, or be a doctor that can perform heart surgery, or a plumber that fixes a valve gasket doohickey
             - INTERACTIONAL EXPERTISE is a middle-ground between these 2, where you can talk about the field intelligently and make good points, but you can't actually do the work
                 - Collins points this out with how he personally has interviewed gravitational wave physicists: he can discuss at a high level how the physicists conduct their research, he understands their concerns, he can ask intelligent questions and understand counter-explanations, etc., even though the actual math and techniques are way over his head
-                - In Collins mind, science journalists are a good example of this class: they understand what's going on, and can even give usueful input to scientists, but they don't have expertise at a very deep level
+                - In Collins mind, science journalists are a good example of this class: they understand what's going on, and can even give useful input to scientists, but they don't have expertise at a very deep level
 
 - Our third (and a big public policy) problem, then, is who do we decide has authority when the experts disagree?
     - Classic example: 2 "experts" are on a talkshow, and the first one says "this is happening," and another says "nu-uh, it's not happening!"
-        - How do we believe, if we're not experts? Another expert might be able to look at the data and evaluate for themselves - but what if we can't understand the research?
+        - Who do we believe, if we're not experts? Another expert might be able to look at the data and evaluate for themselves - but what if we can't understand the research?
         - What do we do if we're a juror and we're hearing two blood-spatter experts arguing about where the shooter must have stood? How can we, as non-experts, tell who's credible and who's not?
             - This also goes back to the 1st question: should the experts decide this, or is there something important about having a democratic expert?
     - When the Chernobyl nuclear disaster happened in 1986 ("I heard the TV show of it was great"), there was an interesting study on sheep-herders in Britain
@@ -41,11 +41,16 @@
 - The fourth big problem: what should YOU do if you're an expert witness?
     - This one DOES have a good answer: avoid perjury!
         - "Basically, don't lie on the stand! Why is that an issue?"
-        - The book has 5 pieces of advice (pg. 113), and while they're pretty common-sensical ("only become an expert research if you've done all your research")
+        - The book has 5 pieces of advice (pg. 113), and while they're pretty common-sensical ("only become an expert research if you've done all your research"), it'd be bad if you didn't at least consider these things:
+            - Don't take a case if there isn't enough time to conduct the proper research
+            - Only take the case if you can testify with a good conscience, without being pressured into withholding information to protect a client, etc.
+            - Consult extensively with the lawyer so he's familiar with the technical details of the case
+            - Stay objective and unbiased on the witness stand; stick to the questions asked, don't lose your temper, answer honestly, etc.
+            - Always be open to new information, even in the trial
 
 - Finally, the fifth problem: who has authority to critique experts?
-    - Traditionally, the answer has been "only other recognized experts," since they know what's going on - but what about people have lower levels of expertise, like science writers or critics? Don Ihde was a big proponent of this
-        - "We have music critics who aren't themselves music producers, so why can't we have science critics who aren't scientists themselves? We understand that you can evaluate if something is good or not separately from being good at MAKING that thing in these other things, so why not apply that to science and engineering?"
+    - Traditionally, the answer has been "only other recognized experts," since they know what's going on - but what about people who have lower levels of expertise, like science writers or critics? Don Ihde was a big proponent of this
+        - "We have music critics who aren't themselves music producers, so why can't we have science critics who aren't scientists themselves? We understand that you can evaluate if something is good or not separately from being good at MAKING that thing in these other domains, so why not apply that to science and engineering?"
         - Similarly, there are people who are great actors or musicians or directors who are TERRIBLE at talking about their job - it seems like it could be a separate skill
     - You don't have to agree with this - you may think science is fundamentally different - but it's something to think about
 

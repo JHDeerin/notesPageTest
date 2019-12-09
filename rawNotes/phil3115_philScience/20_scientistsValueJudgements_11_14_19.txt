@@ -25,9 +25,9 @@
     - The modern view, then, is that science is value-laden in lots of ways - but are there parts of science that can or should remain "value free?"
         - Traditionally, people have wanted to say YES: the valuation of hypotheses! We should avoid letting ANY biases try to come in here, since we want to be as objective as possible
 
-- Richard Rudner - from our reading today - starts by examining this traditional view in his paper
+- Richard Rudner - from our reading today - starts by examining this traditional view in his 1950s paper
     - Rudner argues that in the traditional view, science means trying to avoid letting our personal feelings and biases and values get involved in our science; we're still "human beings," but we should try and put all that stuff aside to do objective science
-        - As he puts it, EVERYONE acknowledges that scientists make value judgements as PEOPLE - what he argues for is that scientists "qua scientists" - acting as scientists - also inherently make value judgements
+        - As he puts it, EVERYONE acknowledges that scientists make value judgements as PEOPLE; what he argues for is that scientists "qua scientists" - acting as scientists - also inherently make value judgements
     - What's Rudner's main argument here? It's often known as the "argument from inductive risk," and goes like this:
         - The "scientist qua scientist" accepts and rejects hypotheses
         - No scientific hypothesis is ever verified with 100% certainty
@@ -35,15 +35,15 @@
         - The decision to accept or reject a hypothesis depends on if the evidence is sufficiently strong
         - Whether or not the evidence is SUFFICIENTLY strong to accept/reject a hypothesis is a value judgement
             - As Rudner says, how high this bar is "is a function of the importance of making a mistake in accepting or rejecting a hypothesis, typically in an ethical sense"
-            - Many scientific fields use a 95% confidence interval as their standard, but importantly that's just a convention; there's no objective reason why it was set here
+            - Many scientific fields use a 95% confidence interval as their standard, but importantly that's just a convention; there's no objective reason why it was set there
         - Therefore, scientists make value judgements as scientists
     - So, here's the question: is this a valid, sound deductive argument?
         - It seems to be valid; if the premises all hold, then we've literally got a premise that says "scientists do this thing, and that thing means value judgments"
         - Many people would think it's a sound argument, too - but that 1st premise? It provides a little bit of wiggle room to...
 
-- Richard Jeffrey, tries to avoid Rudner's argument completely by claiming that scientists SHOULDN'T accept or reject hypotheses
+- Richard Jeffrey, who tries to avoid Rudner's argument completely by claiming that scientists SHOULDN'T accept or reject hypotheses
     - Instead, he claims 
-    - As Jeffrey himself recognizes, though, his own theory has some pretty big shortcomings: practicing scientists DO say they accept and reject hypotheses quite often, it "presupposes a satisfactory theory of probability" to 
+    - As Jeffrey himself recognizes, though, his own theory has some pretty big shortcomings: practicing scientists DO say they accept and reject hypotheses quite often, it "presupposes a satisfactory theory of probability" to , and
 
 - While Rudner believes that scientists should still try to be objective, he thinks we have to recognize that values are inherent in the scientific process, and to that end we should explicitly recognize which judgements we're making
 

@@ -1,0 +1,99 @@
+//****************************************************************************//
+//****************** Exam 2 Review - December 2nd, 2019 *********************//
+//**************************************************************************//
+
+- Okay, it's the last class!
+    - The final is taking place THIS FRIDAY, December 6th, in this room at 11:20am
+    - The exam will be NON-CUMULATIVE, and'll be a similar format and length as the midterms (i.e.a mix of multiple-choice and short, 2-3 sentence answers)
+--------------------------------------------------------------------------------
+
+- With that, let's start going over what'll be on the 2nd exam!
+
+- First up, stuff from ALBERT BORGMANN, including:
+    - Borgmann was this philosopher of technology
+        - DEVICE PARADIGMS were probably his most important idea
+        - Machinery vs commodity
+        - Paradigmatic Consumption (in that article we read)
+        - Focal things / Practices
+        - General philosophy of technology stuff, like technological determinism, utopianism, dystopianism, and instrumentalism
+            - "This is honestly some of the hardest stuff we covered, in part because it was just so darn long ago"
+
+- We then talked about another tech philosopher, DON IHDE
+    - He's a "phenomenologist" - what's that?
+    - "Prognostic predicament"
+    - Multistability (what is it? Why does he mention it?)
+    - He also talked about 3 ways people approach technology, which we talked about in lecture:
+        - Embodiment relationships
+        - Hermeneutic relationships
+        - Alterity relationships
+
+- Also mentioned: psychological impediments to ethical thinking for engineers!
+    - The Problem of Many Hands
+    - Blind spots (a few different types)
+    - Normalizing deviance
+    - Egoism / egocentrism
+    - Microscopic vision
+    - Uncritical deference to authority (Stanley Milgram)
+    - Groupthink
+        - "These really lend themselves to test questions; I mean, it's a bunch of technical terms!"
+
+- We talked about organizations and management stuff
+    - How can engineers and managers come into conflict? What are their different loyalties/commitments?
+    - What about WHISTLEBLOWING?
+        - What does it mean, technically?
+        - What are the 2 justifications for whistleblowing (i.e. harm-prevention and complicity-avoiding)?
+
+- We then moved on to the CHALLENGER DISASTER!
+    - What happened here? What's the general story?
+        - Don't forget there are 2 parts: the event itself, and then the investigation
+        - Who/what was involved, particularly in the investigation into the disaster?
+    - Who's Boisjoly? Was he a whistleblower?
+    - What's Harry Collins' take?
+    - What did Feynman do?
+
+- There was a chapter on HONESTY
+    - Why is it wrong to tell lies from utilitarian, deontological, and virtue-based positions?
+    - What kinds of dishonesty are there BESIDES just lie-telling?
+    - Intellectual property - what kinds are there?
+    - Dishonesty in research - what are its different forms? (e.g. plagiarism, ways of spoofing the data, etc.)
+    - Conflicts of interest: what are these, how can they arise, and how can we avoid them?
+        - This is one of the most practical, important ideas from this unit; "it's the standard-of-care of this half of the semester"
+
+- There was a chapter on EXPERTISE
+    - What did we cover on the lecture here?
+    - What's the tension between "expertise" and "democracy?"
+    - What does the book say about being an expert witness?
+    - What does Collins say about "interactional expertise"?
+
+- ...and another one on RISK
+    - How does the textbook say engineering vs public ideas of risk differ?
+    - What are the "utilitarian" and "capabilities" approach to risk?
+    - What's required for "informed consent?"
+    - Perrow's concept of "normal accidents" (as well as what the book says about them)
+    - Schrader-Frechette's article about nuclear waste
+    - Liability: how does this differ between "tort law" and "criminal law?"
+
+- Penultimately, there's the ENVIRONMENT
+    - What's the U.S. government's goal for environmental law right now?
+    - What kinds of attitudes can companies take toward regulation?
+    - Anthropocentrism vs ecocentrism
+    - What kinds of cleanliness accounts are there?
+    - What's sustainability?
+    - Who's Rachel Carson?
+
+- And, lastly, INTERNATIONAL ENGINEERING
+    - Absolutist vs relativist approaches
+    - What're the book's 6 suggestions for tackling boundary-crossing problems?
+    - What are "boundary-crossing" problems?
+        - What KINDS of boundary-crossing problems does the book name?
+        - "These are SUPER important and'll definitely appear, so look at them!"
+
+- Also, know the cases you read for recitation! They might make an appearance!
+
+- So, that's what we covered! Before you go...
+    - The School of Public Policy offers a minor in Philosophy - consider taking that!
+    - Also, please fill out the CIOS course evaluation! It helps me, and I thank you in advance!
+        - "...I mean, I have tenure, so you're not going to get me fired, but I do read them and adjust my class, and my bosses read them to evaluate me as a teacher"
+        - In particular, if you know a professor who isn't tenured yet, fill out the CIOS! Those actually matter for them getting tenured!
+
+- And with that, we'll end a bit early today - see you for the final!
