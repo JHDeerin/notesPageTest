@@ -23,18 +23,67 @@ class FilesFromNotesDirectory(ABC):
         return directoryFiles
 
     @staticmethod
-    def _getTitleOfNoteFile(notesFilename):
+    def _getTitleOfTxtNoteFile(notesFilename):
         '''
-        Returns the title written INSIDE the given file in the following format:\n
+        Returns the title and date string written INSIDE the given .txt file\n
+        in the following format:\n
+
         //*****************************************//\n
-        //****** <TITLE> - <OTHER INFO> **********//\n
+        //*********** <TITLE> - <DATE> ***********//\n
         //***************************************//
         '''
         notesTextFile = open(notesFilename, 'r')
         titleLine = notesTextFile.read().split('\n')[1]
         notesTextFile.close()
-        
+
         return getTitleAndDateFromTitleLine(titleLine)[0]
+
+    @staticmethod
+    def _getTitleOfMdNoteFile(notesFilename):
+        '''
+        Returns the title string written INSIDE the given .md Markdown file\n
+        in the following format:\n
+
+        # <TITLE>\n
+        \n
+        # <DATE>
+        '''
+        notesTextFile = open(notesFilename, 'r')
+        titleLines = notesTextFile.read().split('\n')[:3]
+        notesTextFile.close()
+
+        # Ignore first character to ignore Markdown heading hash
+        titleString = titleLines[0].strip(chars='#')[1:].strip()
+        dateString = titleLines[2].strip(chars='#')[1:].strip()
+
+        # TODO: Currently, date is ignored
+        return titleString
+
+
+    @staticmethod
+    def _getTitleOfNoteFile(notesFilename):
+        '''
+        Returns the title string written INSIDE the given file in the\n
+        following format:\n
+
+        .txt:\n
+        //*****************************************//\n
+        //*********** <TITLE> - <DATE> ***********//\n
+        //***************************************//
+        \n
+        .md:\n
+        # <TITLE>\n
+        \n
+        # <DATE>
+
+        Returns an empty string if no title/date could be found
+        '''
+        if notesFilename[-4:] == '.txt':
+            return FilesFromNotesDirectory._getTitleOfTxtNoteFile(notesFilename)
+        if notesFilename[-3:] == '.md':
+            return FilesFromNotesDirectory._getTitleOfMdNoteFile(notesFilename)
+
+        return ''
 
     @classmethod
     def _isNotesFile(cls, fileName):
@@ -67,7 +116,7 @@ class FilesFromNotesDirectory(ABC):
                     rawNotesDirectoryName='rawNotes',
                     baseFileName=''):
         '''
-        Creates files based on the notes files found in the given 
+        Creates files based on the notes files found in the given
         directoryPath, using the base file as a template; all output files
         placed in the given output directory. Creates a backup copy of the
         original notes in the rawNotesDirectory.
