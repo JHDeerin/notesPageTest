@@ -18,10 +18,10 @@
 
 - Capturing the images is self-explanatory, and we've covered detecting features to death - so how do we align these images?
     - To align them properly, we first have to choose a model for HOW these images transform from one another
-        - For small rotations, translation isn't terrible, but it breaks down quickly; instead, to map them correctly, we need to use a PROJECTIVE/HOMOGRAPHY transform
+        - For small rotations, translation isn't terrible, but it breaks down quickly; instead, to map them correctly, we need to use a PERSPECTIVE/HOMOGRAPHY transform
             - IN ADDITION, to account for radial distortion, we'll also often need to do some type of warping to get the lines to match (this is much harder if you don't know the camera specs)
     - To help us with this, let's talk about how we actually capture an image
-        - The way an image gets capture is that there's a BUNCH of light rays shooting towards the camera in a 360 degree circle around it, and we're basically taking a slice of those rays and preserving them
+        - The way an image gets captured is that there's a BUNCH of light rays shooting towards the camera in a 360 degree circle around it, and we're basically taking a slice of those rays and preserving them
             - The difference between 2 images, then, is that we rotate and move the image plane we're using to "slice" these rays
         - Eventually, we hope our output panorama can combine the information in these 2+ real images into a hypothetical single BIG plane stretching across these rays
             - One problem wth this: if stuff is moving in the scene between images, we're gonna see ghosting! The stuff just simply won't be in the same spot between different images!
@@ -39,14 +39,14 @@
     - As you can tell, there's a BUNCH of different brightnesses you can have in an image
         - There are some machine learning algorithms that can try and amplify data in very dark photos, but these always run the risk of "guessing wrong" and generating correct-looking - but false - images
     - DYNAMIC RANGE refers to the range of luminosities a camera can see before it goes to pure white/black; humans have a HUGE range for this, from less than starlight to brighter than most sunlight, in comparison to most cameras
-        - To fully store all possible brightness values, we'd need ~5-10 million intensities per color channel - but we only get 256 with 8 bit images!
+        - To fully store all possible brightness values the eye can see, we'd need ~5-10 million intensities per color channel - but we only get 256 with 8 bit images!
             - We can slide that color range around, but everything outside of it will look black/white, even though there's data there!
         - So, if we want to see very dark AND very light things in the same image, what can we do?
             - We can try to change the brightness itself (i.e. the color "window" position) by varying the camera exposure
             - We can take multiple images with overlapping exposure ranges/"brackets", and then combine them!
     - So, how can we put these multiple regular images into a single, high-dynamic range image?
         - First off, we *should* be making sure the images are aligned, even if they were taken rapidly
-        - Then, we should be ignoring the pure white/black pixels in each image, since those are the ones that're washed out and thhat we don't have any "real" information for
+        - Then, we should be ignoring the pure white/black pixels in each image, since those are the ones that're washed out and that we don't have any "real" information for
         - Finally, we should brightness-match all of the remaining pixels and then average them
             - The issue with ONLY taking the average of each pixel is that it doesn't compress the brightness into our desired range
 
@@ -61,6 +61,6 @@
 
         - If we knew EXACTLY what happened at each step, we could get back to the original luminance - but, alas, we typically don't
 
-- Once we have the HDR version of our image made (iterative algorithm in the slide) and saved in a large-format version, we unfortunately have to realize our displays ALSO have a limited dynamic range they can show at a time, so we need to TONE MAP our saved HDR images to a range our images can show
+- Once we have the HDR version of our image made (iterative algorithm in the slide) and saved in a large-format version, we unfortunately have to realize our displays ALSO have a limited dynamic range they can show at a time, so we need to TONE MAP our saved HDR images to a range our displays can show
 
 - So, that's a whirlwind tour through panoramas and HDR, 2 technologies that're on all of your phones - see you later!

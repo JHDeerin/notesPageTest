@@ -2,7 +2,7 @@
 //******** Deep Learning (cont.) / Segmentation - November 18th, 2019 *******//
 //**************************************************************************//
 
-- Alright, there's - astonishigly - only 4 lectures left in the semester, including this one!
+- Alright, there's - astonishingly - only 4 lectures left in the semester, including this one!
     - Today, we'll hopefully finish deep object recognition, then go on an talk about segmentation
     - We'll then hopefully finish with 2 guest lectures
 - "Also, I bought a new laser pointer for lecture, and I'm very excited to try it"
@@ -15,10 +15,10 @@
     - Then there was VGG and that reigned for a few months, then Google came along in 2015 with the "inception" architecture (sub-networks in the network)
         - Interestingly, this had a number of 1x1 convolutions in it, which combines channels together to reduce the dimensions of the data and make training less computationally intensive
         - This network only had ~7 million parameters, but it outperformed AlexNet and VGG by a pretty decent margin!
-    - People thought, "well, we don't need to go any deeper than 20 layers, right?" WRONG! Microsoft created a 152 layer neural net called ResNet (using residuals to deal with vanishing gradients as the network got deeper), and they managed a whole 3% improvement!
+    - People thought, "well, we don't need to go any deeper than 20 layers, right?" WRONG! Microsoft created a 152 layer neural net called ResNet (using residuals to deal with vanishing gradients as the network got deeper), and they managed to get a whole 3% improvement!
 
 - Now, so far we've been talking about "image classification," which means labeling images as a whole; now, we want to talk about OBJECT DETECTION, where we try and detect and label all the interesting stuff in the image
-    - One way to do this is R-CNN: to generate a bunch of rectangular "region proposals" where something interesting might be, then put each one through the neural net to try and recognize it and keep the most confident ones
+    - One way to do this is R-CNN: to generate a bunch of rectangular "region proposals" where something interesting might be, then put each one through the neural net classifier to try and recognize it and keep the most confident ones
         - This is pretty accurate, but SUPER expensive since we have to run the neural net for each region (and we choose the regions themselves using an expensive algorithm called "selective search")
         - People also increasingly wanted "end-to-end training," where we use gradient descent and learning on EVERY piece of the pipeline, so there're no hardcoded parts (like region-selecting)
     - This led to FAST R-CNN in 2015, where the neural net is now used to select the bounding boxes and only classified once the regions have been chosen
@@ -28,7 +28,7 @@
 
 - In 2016, a new detection algorithm came out called YOLO: "You Only Look Once"
     - This is less accurate than fast R-CNN, but importantly, it queries SUPER fast (~50ms per image)
-        - "The author of this algorithm is a guy named Joseph Redmond, and he's hilarious. His resume is My Little Pony themed, and somehow he still convinces people to hire him!"
+        - "The author of this algorithm is a guy named Joseph Redmond, and he's hilarious. His resume is 'My Little Pony' themed, and somehow he still convinces people to hire him!"
     - The architecture behind this is pretty simple, too, and he's improved it over the past 2 years
 
 - One thing to note here is that all of our object bounds so far have been boxes, instead of trying to find the exact shape of the object; there are several papers that've tried to tackle this (like "Detectron")
@@ -36,9 +36,9 @@
 - "There are so many questions I could ask on an exam about this: why is fast R-CNN end-to-end trainable, for instance?"
 
 - Alright, let's jump back to chapter 5 and talk about SEGMENTATION!
-    - In vision - artificial or otherwise - we want to group related features together. We want to figure out which region of the image is the "hand" part, the "strawberry field" part, the "vicious man-eating tiget Hobbes" part, etc.
+    - In vision - artificial or otherwise - we want to group related features together. We want to figure out which region of the image is the "hand" part, the "strawberry field" part, the "vicious man-eating tiger Hobbes" part, etc.
         - We might also want to separate the foreground from the background, for example
-        - Psychologically, humans do this call the time - ever hear of a "dotted line?" We can fill in the gaps and recognize the dots are supposed to form a line, even though the dots aren't connected!
+        - Psychologically, humans do this all the time - ever hear of a "dotted line?" We can fill in the gaps and recognize the dots are supposed to form a line, even though the dots aren't connected!
             - Things that are close together seem related, things that seem to form shapes we recognize get grouped, etc.
             - GESTALT is the idea that people see things as a whole and that what we see psychologically is very affected by context (think of optical illusions)
     - The big idea, though, is that we want to replace a pixel-by-pixel idea of the image with a region-by-region description!

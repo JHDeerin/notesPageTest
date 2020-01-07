@@ -2,7 +2,7 @@
 //********* Pytorch Deep Learning Example - November 4th, 2019 **************//
 //**************************************************************************//
 
-- Okay, the class doesn't seem very enthsuastic about project 4 (I know this because, when it was mentionewd, the rest of the class very professionally boo'd)
+- Okay, the class doesn't seem very enthusiastic about project 4 (I know this because, when it was mentioned, the rest of the class very professionally boo'd)
 --------------------------------------------------------------------------------
 
 - Alright - you guys voted for a Pytorch tutorial, so let's go through a Pytorch tutorial!
@@ -33,14 +33,14 @@
             train_loader = data.DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
             test_loader = data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
-    - SIDE NOTE: Pytorch defaults to (channel, heigh, width), which is different than numpy/matplotlib's ordering, so you may have to switch some dimensions around
+    - SIDE NOTE: Pytorch defaults to (channel, height, width), which is different than numpy/matplotlib's ordering, so you may have to switch some dimensions around
         - With that, we can then get our batch of images:
 
                 images, labels = next(iter(train_loader))
 
 - Alright, we've defined our data loader - cool!
-    - SIDE NOTE: Tanh and Sigmoid used to be really popular activation functions in computer vision, but ReLU has become more popular; it's a simple function that's just the identity function up to a certain point and 0 beyond it
-        - ReLU is less prone to noise/overfitting than the others, but it has the issue of being nonlinear and wrecking gradients for back (I THINK???)
+    - SIDE NOTE: Tanh and Sigmoid used to be really popular activation functions in computer vision, but ReLU has become more popular; it's a simpler function that's just the identity function up to a certain point and 0 beyond it
+        - ReLU is less prone to noise/overfitting than the others, but it has the issue of being nonlinear and wrecking gradients for backpropagation without some workarounds (I THINK???)
     - So, let's create the actual learning model we want:
 
             import torch.nn
@@ -77,14 +77,14 @@
                     # In general, do NOT use ReLU on your final output layer
                     return x
 
-    - *something about BatchNormalization layers and how they can let us use a faster learning rate, but should usually be used in conjuction with dropout, etc.*
+    - *something about BatchNormalization layers and how they can let us use a faster learning rate, but should usually be used in conjunction with dropout, etc.*
 
 - Great! With our model defined, let's now start training it!
     - We need a few pieces to get this working:
         - An optimizer, which'll actually update all our neurons
         - A loss function
         - Some hyperparamters like our learning rate, etc.
-            - Learning rate is SUPER important; a too-high learning rate ver commonly causes a bunch of weird stuff like NaNs, non-converging results, etc.
+            - Learning rate is SUPER important; a too-high learning rate commonly causes a bunch of weird stuff like NaNs, non-converging results, etc.
     - Alright, let's go!
 
             import torch.optim as optim
@@ -136,4 +136,4 @@
 
     - Finally, we can test our dataset however we want in a similar way to how we iterated through and trained it
 
-- Okay, next lecture we'll have a guest lecture from Dr. Judy Hoffmann on object recognition, and there WILL be attendance quiz - good luck finishing project 4, and goodbye!
+- Okay, next lecture we'll have a guest lecture from Dr. Judy Hoffmann on object recognition, and there WILL be an attendance quiz - good luck finishing project 4, and goodbye!

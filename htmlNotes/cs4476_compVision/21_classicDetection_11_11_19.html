@@ -37,7 +37,7 @@
     - As a brief recap of last week, though:
         - Classification is when we have a bunch of training images that we want to use to teach a prediction function what an image is a picture of, usually by minimizing a loss function
             - "Make sure you NEVER test on a testing set; that's cheating, and has led to some earth-shattering scandals in the AI community"
-            - There was one group that submitted a bunch of papers under different names to a conference, figured out what their different models test errors were, and then used that to tweak their model. They won that competition...until they got caught, and shamed, and disowned (but evidently not forgotten)
+            - There was one group that submitted a bunch of papers under different names to a conference, figured out what their different model's test errors were, and then used that to tweak their model. They won that competition...until they got caught, and shamed, and disowned (but evidently not forgotten)
         - These basic classifiers were the first pioneering attempts to bring machine learning into the field
 
 - How can we use these techniques to detect faces in images?
@@ -49,7 +49,7 @@
     - Wayyyyyy back in 1946, LINEAR CLASSIFIERS - or PERCEPTRONS - hit the field
         - The idea here is that we're trying to find a linear, straight-line/plane/etc. function to separate our data into different classes
             - That's great if our data is separable - but what if they're mixed together, or they're in a weirder shape to separate, like a spiral?
-        - There may be multiple "cuts" that separate the data correctly, but as long as we find one that works
+        - There may be multiple "cuts" that separate the data correctly, but as long as we find one that works, perceptrons don't care
             - For an "N" dimensional space, we need to define an "N-1" dimensional figure to cut it (for a 2D space, we need to define the 1D line, for 3D we need to define a 2D plane, etc.)
         - The algorithm for training perceptrons is pretty simple:
 
@@ -63,10 +63,10 @@
                 End once all examples are correctly classified
 
             - So, this algorithm will ONLY terminate if the data is linearly separable, which is definitely not guaranteed
-                - Nowadays, you'd almost always replaced this with gradient descent
+                - Nowadays, you'd almost always replace this with gradient descent
         - Compared to KNN...
             - KNN is SUPER simple to implement (there's no learning!), it can handle non-linear boundaries, it works for any number of classes, and it's non-parametric (i.e. it remembers EVERYTHING)
-                - HOWEVER, it needs a good distance function to work and is slow
+                - HOWEVER, it needs a good distance function to work, and is slow
             - Perceptrons are low-dimensional and SUPER fast, but it only works for 2 classes, can be difficult to train, and requires linearly-separable data to work well
 
 - BOOSTING, then, tries to deal with these issues by combining a bunch of weak learners together
@@ -80,7 +80,7 @@
             - This converges on a low training error VERY quickly; each iteration, we'll pick the best classifier we have so far, and when we make a mistake, we'll figure out what examples we mis-classified and give the learners that DON'T make those mistakes higher weights to compensate (I think??)
         - If we keep doing this, and adding more and more weak learners, we can show that the classifier'll tend to get better and better
             - Viola/Jones actually used this AdaBoost algorithm in their research, using it to find 200 different appropriately-weighted features
-                - "I met Paul Viola recently - he's now a professor at MIT - and he's apparently doing work"
+                - "I met Paul Viola recently - he's now a professor at MIT - and he's apparently doing work on (missed this)"
             - "I won't ask you detailed questions about this - it's been well surpassed by neural nets - but these historical results were surprisingly successful"
 
 - Before we get to the last classical technique, we'll talk about a VERY relevant problem: PEDESTRIAN DETECTION!
@@ -89,14 +89,14 @@
 
 - What're SVMs? They're SUPPORT VECTOR MACHINES!
     - The idea behind these is that they're a linear classifier that tries to maximize the MARGIN between different classes (i.e. the distance of the decision boundaries from the closest examples in each class)
-        - The intutition is that making our margins bigger will give us more room for error, but how can we express that mathematically for high-dimensional spaces?
-            - To do this, we'll say the margin - the distance between our hyperplane and the closest points in either class - it'll be:
+        - The intuition is that making our margins bigger will give us more room for error, but how can we express that mathematically for high-dimensional spaces?
+            - To do this, we'll say the margin - the distance between our hyperplane and the closest points in either class - will be:
 
                     margin = min( (w/|w| * x_i))
 
                 - ...where "x_i" is a given training datapoint and W is the vector PERPENDICULAR to our boundary; we're essentially taking the dot product to project the datapoint onto our perpendicular line, and taking the minimum
             - We'll then try to maximize this margin by finding the MAXIMUM margin for each possible boundary/vector we have (rotating/moving the hyperplane)
-                - "10 years ago, we would've gone into much more detail on how to do this and constraint optimization and blah-blah-blah; now, I think it's just enough for you to understand the gist"
+                - "10 years ago, we would've gone into much more detail on how to program this and constraint optimization and blah-blah-blah; now, I think it's just enough for you to understand the gist"
 
 - Alright, we'll get on to better techniques next time!</pre>
 </article>

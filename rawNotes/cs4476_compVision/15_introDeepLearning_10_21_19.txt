@@ -24,7 +24,7 @@
 - So, image classification is a HUGE task in computer vision: predicting what the current label is for some given input
     - ...for instance, given a cat image, the computer should slap a "THAT'S A CAT!" label on it!
     - This is easy for us; the problem, though, is that to computers an image is just a matrix of seemingly-meaningless numbers, and that's IT
-        - This difference between how computers see the world and we do is sometimes called the SEMANTIC GAP
+        - This difference between how computers see the world and how we do is sometimes called the SEMANTIC GAP
 
 - Image classification is also complicated by a BUNCH of other factors
     - Taking a cat as our example object, these include (but are not limited to):
@@ -34,7 +34,7 @@
         - OCCLUSION - the cat might be hiding behind something, or have part of its body hidden by grass, a wall, another cat, etc.
         - CLUTTER - the cat might be a similar color to the background, making it hard to see
         - INTRACLASS VARIATION - there are many KINDS of cats, all of which look a little different (e.g. a gray vs orange cat, older vs younger cats, etc.) - and we have to recognize ALL of them as cats!
-    - So, if we want computers to see like us, we have to deal with this
+    - So, if we want computers to see like us, we have to deal with these
 
 - How would we define a function to classify an image?
 
@@ -46,9 +46,9 @@
         - Coding, say, how the edges should look for every possible object from EVERY possible angle, dealing with lighting and occlusion and clutter, is NOT scalable
             - People attempted to do this, and got surprisingly far, but most such methods are fundamentally fragile
     - So, we're going with a different approach: machine learning!
-        - Here, we collect a TON of labeled images, use machine learning to train an algorithm that we're looking for, and then evaluate how well it classifies new images
+        - Here, we collect a TON of labeled images, use machine learning to train an algorithm on what we're looking for, and then evaluate how well it classifies new images
             - This, specifically, is SUPERVISED learning, where for a given input image we tell the classifier what the output we're expecting SHOULD be
-            - After training, this should give us a function that does what it wants, and we'll test it to
+            - After training, this should give us a function that does what it wants, and we'll test it to make sure it works
                 - This 2-stage method - training, then testing - is how we handle the bulk of machine learning
         - This method has worked leaps and bounds better than previous techniques, but it has the downside of requiring a RIDICULOUS amount of data to work well
 
@@ -58,6 +58,7 @@
             - This lets us deal with local features in the image, and we're trying to learn the FILTER to apply (rather than the image itself)
         - FULLY-CONNECTED LAYERS are where each pixel is connected to EVERY neuron in the layer
             - For most layers, this isn't worth it; it requires a TON of data to not overfit the image and takes MUCH longer to train than convolutional layers, due to the higher number of connections
+                - However, they can be useful at the end of the network, where we want to take all the information we have and condense it down into a final prediction
             - (something about taking similar pre-trained neural nets and only updating the fully-connected layers, not the convolutional layers, to train faster? Why not train the convolutional layers?)
     - One of the big criticisms of deep learning is how difficult it is to understand what's actually going on in the network
         - There are some visualization techniques for deep learning, but it's still early days

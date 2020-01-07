@@ -43,7 +43,7 @@
             - If we want to ignore the size of the cluster when making cuts (so the algorithm isn't biased towards smaller groups, I think?), we can normalize the value of the cut (how?)
     - This algorithm isn't perfect, but it actually works pretty well!
 
-- "These are the 'traditional' segmenting algorithms, and while they were pretty good, they never gave perfect results, and always seemed to randomly cut objects in half an stuff like that. Deep learning has revolutionized this stuff to be FAR better!"
+- "These are the 'traditional' segmenting algorithms, and while they were pretty good, they never gave perfect results, and always seemed to randomly cut objects in half and stuff like that. Deep learning has revolutionized this stuff to be FAR better!"
 
 - Early on, efforts to apply deep learning to segmentation focused on fully convolutional nets
     - The idea here is that we'd take an entire image detection network to classify parts of an image as "cat," "dog," "horse," etc., and then convolve the WHOLE network across the image like a filter to classify each pixel

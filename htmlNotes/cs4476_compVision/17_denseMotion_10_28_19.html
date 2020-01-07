@@ -35,7 +35,7 @@
 
 - Alright, the microphone is dead; long live Professor Dellaert's voicebox!
     - Professor Dellaert just got back from an apparently-wonderful conference at Rome; next week, he'll be going to another conference in Macau
-        - "I could've also gone to ICCV this week, but I came back for you"
+        - "I could've also gone to ICCV this week, but I came back for you" :)
 
 - "I know this is a rough time of the semester, so I put in at least 1 funny video in these slides"
     - Also, DON'T FORGET that part 1 of project 4 is due tonight!
@@ -47,8 +47,8 @@
 
 - We talked about translational alignment WAYYYYYY back before the midterm, even; that was being done with feature-based errors, but we'll now go with image based errors (i.e. going off of the COLORS in the image, rather than the position of keypoints we've found)
     - So, we'll take the sum of squared differences (SSD) as our error metric, or SAD if we need to deal with outliers more robustly
-        - Remember, SAD has the issue of being non-differentiable, although there are variants of it that are
-    - Given this error function, we want to optimize for the translation that gets us minimizes the error and gets the images to overlap the best
+        - Remember, SAD has the issue of being non-differentiable, although there are variants of it that solve this
+    - Given this error function, we want to optimize for the translation that minimizes the error and gets the images to overlap the best
         - We can then add some window functions to avoid counting pixels outside (outside of what?)
     - (bias and gain and cross-correlation for controlling brightness)
 
@@ -59,7 +59,7 @@
                 - How far down do we shrink the image? You can kind of play with that on a per-application basis, but obviously there's a limit; you can't get smaller than 1 pixel
         - So, every time we downsample the image by half, the amount of motion in the image is also cut in half (i.e. the estimated motion of each pixel is cut in half), and vice-versa when we scale up
     - This pyramid helps us bound the computational expense by giving us initial estimates of pixel motion at each level, but if we want to get REALLY good motion estimation, we need SUB-PIXEL REFINEMENT!
-        - In any video you take, the real world doesn't move in pixel-by-pixel increments; it move in real-world, continuous units! This is especially evident in low-resolution images and far-awy objects in pictures, but it's EVERYWHERE!
+        - In any video you take, the real world doesn't move in pixel-by-pixel increments; it moves in real-world, continuous units! This is especially evident in low-resolution images and far-awy objects in pictures, but it's EVERYWHERE!
             - To estimate this sub-pixel motion, we've got to do a bit of hairy math, where we're trying to now estimate the translation not just in pixel increments, but in real-numbered units!
             - We can do our SSD calculation at the sub-pixel level with a gradient:
 
@@ -74,8 +74,8 @@
                         J_1(x_i + u) = (dI_1/dx, dI_1/dy)*(x_i + u)
 
                     - So, for a given pixel, the Jacobian is just a gradient!
-                        - "If you don't understand this know, go to the textbook and try to understand it; otherwise you'll be lost for the rest of this lecture, and you'll never know how the story ends"
-            - So, with this, we can once again form our normal equations and do a variant of least-squares optimization to figure out what the sub-pixel motion "del(u)" is!
+                        - "If you don't understand this now, go to the textbook and try to understand it; otherwise you'll be lost for the rest of this lecture, and you'll never know how the story ends"
+            - So, with this, we can once again form our "normal equations" and do a variant of least-squares optimization to figure out what the sub-pixel motion "del(u)" is!
 
                     A*del(u) = b
                     =&gt; A = sum{J_1(x_i + u)*J_1(x_i + u)}
@@ -89,8 +89,8 @@
 - And now, as a reward for your perseverance through all that, here's a video of a gyroscopic chicken (you, text viewers, do not get to gaze upon the chicken)
 
 - Now, if ALL we try to correct for is translation, then we're still going to end up with a very jittery video since rotation and other aspects also account for camera motion
-    - If we upgrade to solving for a SIMILARITY transform (4 DOF!), then we get a LOT less jittery, but the camera still wobbles arond a bit
-    - If we raise the stakes once more to HOMOGRAPHY (i.e. a perspective transfrom), then we can get even better results!
+    - If we upgrade to solving for a SIMILARITY transform (4 DOF!), then we get a LOT less jittery, but the camera still wobbles around a bit
+    - If we raise the stakes once more to HOMOGRAPHY (i.e. a perspective transform), then we can get even better results!
         - As a side-note, whenever we stabilize videos we'll always need to crop the video a little bit, so we have room to counteract the motion of the camera without shooting "off screen"
 - Many people also do stuff like PATH SMOOTHING, where we try and replace the phone's actual movement with a cinematic curve fitted to the original
 
@@ -105,7 +105,7 @@
                 - The IC algorithm, from 2004, is pretty famous, and is important for making many of these motion algorithms viable
                 - "I don't expect you to memorize this, but it is a good thing to know"
                     - One of Professor Dellaert's Phd. students actually improved this algorithm using deep learning, using ML to decide where the equation needs to be optimized and giving really good, fast results
-    - So, if you really understand image alignment deeply and how all this math and pipelining stuff works, you can understand how to apply these modern techniques like deep learning to it effectively to end up with something truly state-of-the-art and special
+    - So, if you really understand image alignment deeply and how all this classical math and pipelining stuff works, you can understand how to apply these modern techniques like deep learning to it effectively to end up with something truly state-of-the-art and special
 
 - Alright, I think we're done; see you Wednesday!</pre>
 </article>

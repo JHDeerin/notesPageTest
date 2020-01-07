@@ -41,7 +41,7 @@
     - CORRESPONDENCE means figuring out which points are the same across different images
         - Doing this among a set of images would be an O(n^2) problem; if we have a guess of what the image itself looks like, though, and compare each image to that, we can possibly get it down to O(n)!
         - In general, though, we do this by identifying points with Harris and SIFT, and then using RANSAC to try and figure out which images are of the same object
-    - OPTIMIZATION is where, after finding all these features, we want to figure out what the most likely 3D structure would give us all these image measurements
+    - OPTIMIZATION is where, after finding all these features, we want to figure out what the most likely 3D structure is that would give us all these image measurements
         - We know for a 2D point in image I "u_ik", there's a line "j_ik" it could lie along
             - Then, for a given guess of where the actual 3D point "x_jk" is, our guess of where that point is projected is:
 
@@ -71,7 +71,7 @@
             - This makes sense the more you think about it, since we're basically forming the Hessian by doing outer products
         - Remember: the Jacobian's columns are the partial derivative of a measurement with respect to all of our parameters, with every row being a factor (?)
 
-- Alright; with that, let's switch gears to talking about motion estimation in the least 20 minutes
+- Alright; with that, let's switch gears to talking about motion estimation in the last 20 minutes
     - We've previously talked about doing image alignment with features/points; how else could we do it?
         - Well, instead of looking at the position of our features, we can instead try to predict the color of a pixel at a given spot!
 
@@ -82,7 +82,7 @@
                     - This is a MUCH worse-behaved optimization problem, though; the function is very noisy until you get the image alignment exactly right, when it drops to 0
             - Why bother to do it this way? Well, because feature detection has its own problems of dealing with outliers, finding correlations, etc.
                 - It also means we preserve more data between the images; we have a whole window of pixels to use, instead of just single points
-    - One BIG assumption we're making here wit this "sum of squared differences" (SSD) is that the brightness hasn't changed between the two images (e.g. a cloud didn't pass overhead when we were taking the 2nd picture)
+    - One BIG assumption we're making here with this "sum of squared differences" (SSD) is that the brightness hasn't changed between the two images (e.g. a cloud didn't pass overhead when we were taking the 2nd picture)
         - Also, if we allow our translation "u" to involve fractional pixels, we need to allow some sort of interpolation to get correct colors (bilinear/bicubic is usually good enough)
 
 - Squared errors are often good, but there's a problem with them: they're SUPER sensitive to outliers!

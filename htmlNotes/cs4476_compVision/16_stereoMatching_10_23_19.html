@@ -32,7 +32,7 @@
     - ...Cusuh actually just realized she sent him the wrong classroom number, so they're trying to correct that
 - Also, Part 1 of assignment 4 is due this Monday; that sounds REALLY short, but trust me, part 1 is much less code than the previous project
     - Part 1 is going to be based on stuff from this lecture, doing stereo-based depth perception
-    - Part 2 will be released
+    - Part 2 will be released next week
 
 - And, at 4:36, the lecturer is here!
     - "As you can see, I'm not Frank Dellaert - I'm Jim Rehg!"
@@ -42,7 +42,7 @@
     - "Stereo" comes from the greek word "solid," and means trying to recover the depth from an image using 2+ cameras
 
 - If you learn NOTHING else, the basic idea of today is that if a camera takes an image of the same scene, from 2 slightly different positions, we can recover the depth of stuff in the image
-    - The same pixels across both image will shift between the images, and the amount of that shift will depend on how far away that point is from the camera
+    - The same pixels across both images will shift between the images, and the amount of that shift will depend on how far away that point is from the camera
 - Why do we care about this? For a TON of reasons, but the big one is because if we know the depth of the world around us, it means we can figure out the position of stuff in the world, which makes navigation MUCH easier for us!
     - It can also help us to reconstruct 3D scans of the world, and a bunch of other stuff
 
@@ -59,7 +59,7 @@
     - Multi-view stereo
 
 - So, in the basic pinhole camera model, we've got a 3D point somewhere out in the scene
-    - We'll then project that point onto a 2D in our image, with the 2D coordinates given as:
+    - We'll then project that point onto a 2D plane in our image, with the 2D coordinates given as:
 
             (u,v) = (f*x/z, f*y/z)
 
@@ -91,14 +91,14 @@
 
 - Once we have this basic geometry down, how do we actually build a stereo system?
     - First, we need to figure out how we're going to match pixels across different images using some error function
-        - In other words, how do we measure how similar different regions of our image are?
+        - In other words, how do we measure how similar different regions of our image are, so we can figure out which pixels are the same in each image?
     - We then need some way of actually accumulating errors across the image - do we use a window? An edge? Something different?
     - Finally, we need to optimize these differences and figure out which values gives us the "winning" pixel - the one that's the actual match
 
 - One basic way of doing this is to use window-base correlation
-    - What's that? It means that - since we know what row/scanline our target pixel has to be on - we can scan across the row and take sum function of the pixels in a given window, then subtract that from our "target pixel" in the other images
+    - What's that? It means that - since we know what row/scanline our target pixel has to be on - we can scan across the row and take a sum function of the pixels in a given window, then subtract that from our "target pixel" in the other images
         - Then, we'll just find the window that has the minimum difference, and that's probably the most similar pixel - i.e., a match!
-        - A comkon, simple error function we'll use is SSD: the sum of squared differences, using disparity as an input:
+        - A common, simple error function we'll use is SSD: the sum of squared differences, using disparity as an input:
 
                 C(x,y,d) = sum{ I_l(u,v) - I_r()}
 
@@ -109,7 +109,7 @@
 
             - We can do this more efficiently using vector (I think?)
                 - (missed this math)
-            - Keep in mind that image normalization should only be used when we NEED it, since it'll make everything in the image look more similar
+            - Keep in mind that image normalization should only be used when we NEED it, since it'll make everything in the image look more similar, making it harder to find the best pixel match
 
 - So, this sounds pretty great so far! HOWEVER, there are 2 huge problems we need to deal with: occlusion and textureless regions
     - TEXTURELESS REGIONS are flat, uniform areas that all look the same, making it difficult to find an exact match
@@ -121,7 +121,7 @@
         - (grid)
         - Every time we're moving vertically, we have a match; if we're moving horizontally, that means we're dealing with an occluded pixel and can ignore it
 
-- This is great and actually pretty performant, but this is sadly solving a VERY simplified version of the problem
+- This is great and actually pretty performant, but this is sadly only solving a VERY simplified version of the problem
     - First of all, the ordering constraint isn't actually true if we have very thin objects (called the "double-nail problem") - they can shift too much
     - The uniqueness constraint can also fail because of downsampling and depth-changes; if an object is closer to one camera than the other, then something that was only 1 pixel in the 1st image might be 2 or 3 pixels wide in the 2nd image!
 

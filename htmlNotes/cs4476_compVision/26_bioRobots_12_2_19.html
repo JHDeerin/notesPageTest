@@ -36,10 +36,10 @@
 
 - Now, we've got a guest lecture from Dr. Seth Hutchinson, the director of the robotics institute here at Georgia Tech
 
-- "I don't really do computer vision specifically, but Frank invited me to come - nd while I'm not doing anything too deep in computer vision, I hope this gives you an idea of how robotics experts use the ideas you've learned about in the real world...well, real lab"
-    - "Also, I'm reusing my robotics presentation from CMU that I gave to a bunch of robotics Phds. there on biologically inspired robots. I apologize for that; you weren't special enough"
+- "I don't really do computer vision specifically, but Frank invited me to come - and while I'm not doing anything too deep in computer vision, I hope this gives you an idea of how robotics experts use the ideas you've learned about in the real world...well, real lab"
+    - "Also, I'm reusing my robotics presentation from CMU that I gave to a bunch of robotics Phds there on biologically inspired robots. I apologize for that; you weren't special enough"
     - In robotics, you can have very weak bio-inspirations ("I was watching National Geographic, and I saw a snake. I'll build a robot that moves like a snake!") and very strong, direct inspirations ("I dissected 3 snakes to get a feel for the spinal structure of the Western Asp, which I'll mimic using a cartilage substitute")
-        - Dr. Hutchnison's problem is more meta: to figure out HOW bio-inspired a particular project should be
+        - Dr. Hutchinson's problem is more meta: to figure out HOW bio-inspired a particular project should be
             - Most of these questions aren't too vision inspired, but some of them are!
                 - As roboticists making a flying robot, for instance, aerodynamic equations like Navier-Stokes are WAYYYYY too heavy to compute in real-time, so we instead try to reduce it to geometry
                 - We can tackle this using computer vision by looking at images of things that already fly, using CV algorithms to identify the structure and motion of the bat, and so on
@@ -64,8 +64,8 @@
             - "Can you keep parts of the broken model? Probably, and you can probably get it to work; but it wouldn't be robust at all"
 
 - So, here's the question: can we use machine learning to do this better? Yup!
-    - However, we can't throw the bat robot enough times to collect enough data for machine learning; we could get maybe 5 throws a day
-        - We could improve this with simulations, but because of the flexible wing design that involved some complicated aerodynamics that slowed simulations to a crawl
+    - However, we can't throw the bat robot enough times to collect enough data for machine learning; we could get maybe 5 throws in a day
+        - We could improve this with simulations, but because of the flexible wing design there were some complicated aerodynamics that would've slowed simulations to a crawl
     - Instead, we used machine learning at a low level instead after measuring stuff like how our bat robot pitches up and down (it's not that sinusoidal, and was actually smoother than our simulations for once!), etc., and then using ML to find an optimal trajectory for different starting angles
 
 - "Why did we make a bat robot at all? Because it's cool, but what we TOLD the university was that a soft wing design would be less damaging in the event of a crash"
@@ -76,7 +76,7 @@
         - It's a relatively small step to go backwards from there and reconstruct the scene given a bunch of images and camera positions
     - How can we do the intermediate problem of "given this image of where I want to be, and an image of the current camera position, how can I figure out how to move the camera to get from A to B?"
         - This is the VISUAL SERVO problem, and there are a ton of variations on it
-        - As a very simple example, if I have a set of keypoints on an image, and I then see a rotate version of the same image, I know I need to rotate the camera in a certain direction based on the error vectors!
+        - As a very simple example, if I have a set of keypoints on an image, and I then see a rotated version of the same image, I know I need to rotate the camera in a certain direction based on the error vectors!
             - The control theory part of this is that the robot is constantly adjusting itself to get better and better performance (i.e. trying to get the desired image to match up with what it actually sees)
                 - Here, the camera origin has a linear velocity "v" and an angular velocity "w"
                 - The cool thing is that the rate of change of our keypoint positions (i.e. it's derivative) is related to the velocity of the camera LINEARLY - and in control theory, that holds for almost EVERYTHING!
@@ -91,7 +91,7 @@
     - How do we know that this approach works? We know gradient descent sometimes fails due to local minima, so why trust this?
         - We can trust the results thanks to a control theory thing called LYAPUNOV THEORY, which lets us analyze the stability of non-linear systems (particularly about "equilibrium points")
             - We can say that if a system has a Lyapunov function that behaves in a certain way, then it has some stable equilibrium points we can calculate!
-    - There are, of course, plenty of wrinkles here - what if we move in a way that we can't see our target anymore? What if we have calibration errors? What if we're dealing with moving objects? Along with a TON of other things
+    - There are, of course, plenty of wrinkles here - what if we move in a way that we can't see our target anymore? What if we have calibration errors? What if we're dealing with moving objects? Along with a TON of other things - that's why this is still research!
 
 - So, that was our lecture's last class - I hope you enjoyed it, and I'll see you for the final!</pre>
 </article>

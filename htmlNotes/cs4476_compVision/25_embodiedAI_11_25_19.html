@@ -34,8 +34,8 @@
 - Alright, today we have a guest lecturer: Professor Dhruv Batra, who does research both at Facebook and with Georgia Tech on the Habitat AI project, using deep learning to enhance robotics with computer vision and language processing
     - Dr. Batra teaches the Deep Learning class here at GT
     - "Most of you have spent a semester learning about computer vision, but how do you train stuff with datasets? Let me tell you, change is coming!"
-    - Currently, you download a bunch of images and run an algoritmh on it; now, there's hopefully going to be a shift towards EMBODIED AI, with a physical agent taking actions in the world and getting feedback
-        - This is a classic idea in robotics can also take the form of virtual assistants, etc.
+    - Currently, you download a bunch of images and run an algorithm on it; now, there's hopefully going to be a shift towards EMBODIED AI, with a physical agent taking actions in the world and getting feedback
+        - This is a classic idea in robotics, and can also take the form of virtual assistants, etc.
         - "I claim that in the next 5-10 years this stuff will start making deep inroads into computer vision"
     - While embodied AI is a noble goal, there's a TON of classical problems with it: the proper hardware often doesn't exist, it's often too slow, it can be dangerous to have stuff running in the real world, the equipment is often expensive, and the research solutions tend to be VERY specific to each robot and don't generalize well to new environments
         - "I hope that the way to solve many of these problems is by using simulations - particularly photorealistic simulations and 3D datasets of environments"
@@ -43,20 +43,20 @@
 
 - We'll talk about this in terms of 3D datasets, simulators, and tasks - let's start with datasets!
     - There's a startup company called "Matterport3D" that's basically trying to be Google Street View for your house by taking 3D scans and photos - and while it's currently geared towards real estate, it has a lot of implications for our purposes!
-        - The camera is actually relatively inexpensive
-    - We can use this technology to generate initial datasets
+        - The 3D camera itself is actually relatively inexpensive
+    - We can use this technology to generate initial datasets, taking 3D scans of houses
 
-- We'll then use simulators, which are basically game engines (and sometimes actually ARE build off of game engines!) we've repurposed to let our agent simulate walking around different environments
+- We'll then use simulators, which are basically game engines (and sometimes actually ARE built off of game engines!) we've repurposed to let our agent simulate walking around different environments
     - Combined with our datasets, we can use these to train our agent and generate a bunch of data 
     - Common examples of this are DeepMind lab ("which isn't photorealistic at all, but does provide basic 3D navigation"), etc.
 
 - Finally, TASKS are stuff we want our agent to actually do, like image classification, etc.
     - Currently, there are 3 big embodied AI communities: the computer vision people, the natural language people, and the robotics people
-        - These fields have some overlap; vision and robotics people are often interested in navigation, vision and language people are interested in visual-based question answering ("how many napkins are on my desk right now?"), and robotics and language people are interested in "language grounding" (a bit abstract, but it basically means connecting disparate language symbols/images to some fundamental, concrete concept)
+        - These fields have some overlap; vision and robotics people are often interested in navigation, vision and language people are interested in visual-based question answering ("how many napkins are on my desk right now?"), and robotics and language people are interested in "language grounding" (a bit abstract, but it basically means connecting disparate language symbols/images to some fundamental, concrete concepts)
 
 - HABITAT is the project my team is working on, where we try to support generic 3D datasets, take those into a custom simulator for training many types of agents, and then use that to train agents to solve many different types of tasks
     - At Facebook, the Reality Labs team has built a set of 3D camera rigs that they can use to make photorealistic reconstructions of apartments - it even detects stuff like mirrors, etc. (although there are still small errors they're trying to work out)
-        - Once we have this scan, we have a bunch of 3D meshes and textures, which we then go ahead nad label as "wall," "chair," "mug," "door," "bed," etc.
+        - Once we have this scan, we have a bunch of 3D meshes and textures, which we then go ahead and label as "wall," "chair," "mug," "door," "bed," etc.
             - Once these labels have been generated (either manually or otherwise), we can take images of this dataset in our simulator and automatically have them labeled as training examples for free!
     - Once we've got this dataset, we can plug it into our simulator - and as it turns out, most of the research being done in this field today is in video games
         - While this initially seems great, video game research and simulation research have very different goals: gamers care a lot about visuals and realistic looks, only need ~60hz performance, etc., while AI researchers need THOUSANDS of frames per second (so we can generate TONS of training images quickly), don't care about high resolutions, etc.
@@ -75,7 +75,7 @@
             - "This is much harder, since it's a search problem; we don't know where our goal is, so we have to find that first"
         - Embodied question answering, like "what color is my TV?"
     - The hope with Habitat is that - eventually - you can just pass it some configuration file about your task, and then it'll automatically handle training an agent for that goal
-        - At CVPR this year in October, they ran a "Habitat Challenge Workshop" to try and refine this and get people, using a pipeline of creating a simply python script for your agent, writing a Docker file to run this code on a container in any enviornment we want, and then sending it to "EvalAI" (missed what their purpose is?)
+        - At CVPR this year in October, they ran a "Habitat Challenge Workshop" to try and refine this and get people using a pipeline of creating a simple python script for your agent, writing a Docker file to run this code on a container in any environment we want, and then sending it to "EvalAI" (missed what their purpose is?)
             - The research team from CMU won, by the way
     - The hope is that, eventually, Habitat can standardize the embodied AI pipeline and help make research in this area far more efficient
 
@@ -90,7 +90,7 @@
 
 - So, other stuff!
     - I mentioned that we're scanning real-world environments, but we're also researching GENERATING artificial environments procedurally
-    - Habit-Sim is currently completely static, and is basically just a mesh+texture renderer; we're working on implementing physics so the agent can work
+    - Habit-Sim is currently completely static, and is basically just a mesh+texture renderer; we're working on implementing physics so the agent can work with that
     - Work is being done to get Habitat running on a browser to allow agents to collaborate and share data, and train on that (as well as allowing humans to give virtual feedback to the agent)
 
 - Alright, that's embodied AI - if you're interested in working on this, apply to Facebook or to my research group! Besides that, have a happy Thanksgiving break!</pre>
