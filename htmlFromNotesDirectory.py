@@ -98,4 +98,3 @@ if __name__ == '__main__':
     directoryPath = sys.argv[1]
     htmlBaseFileName = sys.argv[2]
     HTMLFromNotesDir.createFiles(directoryPath, baseFileName=htmlBaseFileName)
-    createHtmlFromNotesDir(htmlBaseFileName, directoryPath)

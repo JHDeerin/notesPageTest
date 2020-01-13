@@ -111,6 +111,32 @@ notesToCreate.append(ClassNoteEntry(
     'htmlNotes/phil3115_philScience',
     "Philosophy of Science"))
 
+
+
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/spring2020/cs3311_juniorDesign/notes',
+    'css/cs3311Theme.css',
+    'htmlNotes/cs3311_juniorDesign',
+    "Junior Design I"))
+
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/spring2020/phil3103_modernPhil/notes',
+    'css/phil3103Theme.css',
+    'htmlNotes/phil3103_modernPhil',
+    "Modern Philosophy"))
+
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/spring2020/cs4510_automataComplexity/notes',
+    'css/cs4510Theme.css',
+    'htmlNotes/cs4510_automataComplexity',
+    "Automata and Complexity"))
+
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/spring2020/cx4220_highPerformanceComp/notes',
+    'css/cx4220Theme.css',
+    'htmlNotes/cx4220_highPerformanceComp',
+    "Introduction to High-Performance Computing"))
+
 #===============================================================================
 #===============================================================================
 
