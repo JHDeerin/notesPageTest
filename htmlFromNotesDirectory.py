@@ -6,6 +6,7 @@ To run from the command line:\n
 
 from bs4 import BeautifulSoup
 from filesFromNotesDirectory import FilesFromNotesDirectory
+from htmlFromMdNotes import HtmlFromMdNotes
 from htmlFromTxtNotes import HtmlFromTxtNotes
 from textUtils import getTitleAndDateFromTitleLine
 
@@ -73,7 +74,12 @@ class HTMLFromNotesDir(FilesFromNotesDirectory):
         baseNotesFileName = ntpath.basename(notesFileName)
         outputHTMLFilename = ''.join(baseNotesFileName.split('.')[:-1]) + '.html'
         outputHTMLFilename = os.path.join(outputDirectoryName, outputHTMLFilename)
-        HtmlFromTxtNotes.fromNotesFile(notesFileName, outputHTMLFilename, baseFileName)
+
+        if notesFileName[-4:] == '.txt':
+            HtmlFromTxtNotes.fromNotesFile(notesFileName, outputHTMLFilename, baseFileName)
+        elif notesFileName[-3:] == '.md':
+            HtmlFromMdNotes.fromNotesFile(notesFileName, outputHTMLFilename, baseFileName)
+
 
     def _filesPostProcessing(cls, inputDirectoryName, outputDirectoryName):
         '''

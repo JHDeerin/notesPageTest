@@ -90,7 +90,7 @@ class FilesFromNotesDirectory(ABC):
         '''
         Returns True if the given file is a notes file, false otherwise
         '''
-        return fileName.endswith('.txt')
+        return fileName.endswith('.txt') or fileName.endswith('.md')
 
     @staticmethod
     @abstractmethod
