@@ -1,0 +1,149 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Automata and Complexity</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4510Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Automata and Complexity</a></li>
+</ul>
+<ul class="note-links-slider"><li class="active-note-page"><a class="is-note-link" href="0_automataTuring_1_7_20.html">0. Automata and Turing Machines</a></li><li><a class="is-note-link" href="1_moreTuringMachines_1_9_20.html">1. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="2_evenMoreTuringMachines_1_14_20.html">2. Turing Machines (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="0_automataTuring_1_7_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text"># Automata and Turing Machines
+
+## January 7th, 2020
+
+- There is, on the board, a coffee stain. How it arrived on the board is something of a mystery to me
+- Also on the board is a list:
+    - Intro
+    - Algorithms
+    - Automata
+    - Turing Machines
+- "Okay, the mic just isn't very happy today - also, this room is HUGE! I clearly brought a marker to a slide lecture hall"
+
+- Some logistic stuff to go through:
+    - We do have a Canvas page, but the actual course page is just an old-fashioned external HTML page
+    - We WILL have Piazza, and homeworks will be submitted through Canvas
+        - There'll also be a lecture feedback form you can fill out mid-lecture; we'll have a 5-minute break each lecture, and I'll look at the feedback forms then and try to answer any questions you have
+    - We'll start off defining P vs NP using set theory, talk about how you can do those computations with Turing Machines, take away the tape and talk from scratch about different types of lemmas, and then finally we'll discuss what we CAN'T compute
+        - The hope is that, by the end of this, we can talk about algorithms and computation in a rigorous way, and even get a little bit into the philosophy of what we can and can't do
+    - There'll be 6 homeworks, most of which'll be about algorithms and the basics of automata; you'll usually have a week to do 3-4 questions per homework
+        - The lowest homework grade will be dropped
+    - There'll be 4 tests: 3 midterms and the final exam (which'll be longer than normal, and cumulative with more weight on recent material)
+        - IMPORTANTLY, your lowest test will be dropped IF you do your CIOS ("I had problems with people last semester tuning out during finals week when I let people skip the final, and they all forgot to do it")
+    - Homework is worth 25% of your grade, tests are worth 75%
+--------------------------------------------------------------------------------
+
+- So, welcome to this course on automata and computation!
+    - This course is actually OLDER than algorithms, and our textbook assumes you've taken a discrete math class rather than algo, but I understand that all of you have taken our algorithms course before this one
+    - This class is very much an extension of 3510 - and in particular, we're going to be doing an extension of P vs NP
+        - In 3510, your discussion of WHAT P and NP actually were was a little informal, but we can actually define them formally using set theory
+        - In this class, we're going to formalize all that stuff
+            - Normally, we'd only get to P vs NP near finals week - but this semester, we're gonna switch it up and define it in the first few weeks, then show how that ties ito Turing Machines
+
+- Core to the idea of this class is the idea of a LANGUAGE
+    - We say a LANGUAGE is a subset of all possible strings using some alphabet, e.g. all strings you can make using the binary characters {0,1}
+    - We can start by defining computation very simply, using strings
+        - e.g. "All strings with an odd # of 1s" is technically a language!
+        - Basically ALL computation problems can be reduced to "check if a given string is in the set of our language"
+            - From that perspective, an algorithm is just a set membership test; given some input, we check if the thing is in the set!
+                - How would a sorting algorithm work in this definition? It's a little funny, since it's one of the first types of algorithms where we care about polynomial complexity - and, to be honest, sorting DOESN'T really fit into this model
+                - However, you can convert SOME types of sorts into this model by asking questions about the string/array: e.g. "is the ith number the smallest?"
+                    - Here, we'd define a language "L" where strings start with "K" and are separated by
+                    - So, "3, 1, 2, 3, 1" would be in L, while "2, 42, 5, 1" would NOT be in L (???)
+                - "It's okay if you don't get the exact language here; what I'm trying to show is that you can ENCODE the sorting problem into a language consisting of sorted strings, and then implement bubble sort by checking if the string is sorted or not (i.e. in the language)"
+                    - So, you can still do these problems by converting them into a language!
+                    - "Sorting is a complicated conversion example because you have to somehow write a comparison function just using membership tests"
+            - A simpler example might be a language of strings that are repeated twice, e.g. "L = {W # W}", where W's characters are elements of the alphabet {0,1} and "#" is an arbitrary separator
+                - Therefore, "0 # 1" is NOT in L, but "0 # 0" is!
+
+- The main point of this course is that we're going to study several different models of computation, starting off with Turing machines, and also showing that you CAN'T compute certain things
+    - There will be a decent amount of proofs; in algorithms, you could state things pretty informally, while in this class it's more like discrete math, where you'll occasionally have to use exact mathematical language
+    - We'll also use some basic set theory (things like complements, intersections, power sets, etc.)
+
+- So, with that, let's start off with Turing Machines (as promised!)
+    - First, though, remember finite state machines?
+        - The textbook gives the example of a revolving door, with a sensor in front and a sensor in back - and because the door is swinging open, you DON'T want the door to open if someone is standing on the front sensor (since then the door would hit them!)
+            - So, we ONLY want the door to open if someone is on the back sensor, and no one is on the front
+                - This example kinda shows why this stuff predates algorithms; people were using sensors and control theory well before actual computers came on the scene!
+        - This is a simple example of an AUTOMATA, which is made up of 5 pieces:
+            - Q: the states the automata can be in
+            - $\Sigma$: the alphabet's set of characters (which'll be used for the automata's inputs)
+            - $\delta$: the transition
+                - This is specifically denoted Q X $\Sigma$ -&gt; Q; in other words, given some state and some input(s), go to some other state
+            - $q_0$: the starting state
+            - F: the final/accepting state(s)
+        - In this example, we have 2 states: CLOSED and OPEN
+            - Our alphabet, here, has 4 kinds of inputs: NEITHER, FRONT, BACK, or BOTH
+            - Our transitions are that the door stays closed if we have a NEITHER/FRONT/BOTH input, go from closed to open if we have a BACK input, stay open if we have only a BACK input, and go from open to closed
+                - More formally, delta
+            - We'll assume the door starts off in  CLOSED state
+            - Here, we don't have a final state; it just keeps running forever! So, F = UNDEFINED
+    - Essentially, this is a really simple 1-bit computer!
+        - Due to how many bits we have in modern computers, it'd be impractical for us to write down ALL possible states it can have
+
+- TURING MACHINES are just a kind of automata, but with a special "tape" that gives it infinite memory
+    - Here, we have an INFINITELY long tape containing strings, and the machine itself is an automata that sits on top of the tape
+        - For instance, let's say we have a tape like this:
+
+                1 | 0 | # | 1 | 0 |
+
+            - How can we design an automata that can take this string and solve the problem from our language example: determining if the 1st and nd strings before the "#" separator are the same?
+                - This is trickier because our ONLY memory is the tape, so we can't record anything UNLESS we write it on the tape
+                - To help with this, we can increase the size of our alphabet!
+                    - Let's add the following characters besides {#, 0, 1}:
+                        - "!" = start of a string
+                        - ":)" = already matched character
+            - NOW, we can solve this problem by marking the start of the string, remembering the first character, and moving forward until the hash tag - then, we move forward until we find our first not-already matched character and check if it matches our remember character or not!
+                - How can we remember a single character? By adding a state to our state machine!
+        - So, we could write our Turing Machine's transition function as such:
+
+                Q X P -&gt; Q X P X {L, R}
+
+            - ...where "Q" is our state, "P" is our tape symbol, and we move to a new state, add our replacement symbol to the tape, and move the tape reader/automata LEFT or RIGHT
+        - We can then write out the state machine that would do this match-checking we want to do!
+            - (on the slides, but basically record the current character as a state, dropping the happy face as a transition and the left/right movement as part of the state transition (not a state itself), and then consider each possible character we read as a transition; when we read the hash symbol, )
+        - So, running our "program" would look like this:
+
+               *
+               ! | 1 | 0 | # | 1 | 0 |
+
+                   *
+               ! |:) | 0 | # | 1 | 0 |
+
+                       *
+               ! |:) | 0 | # | 1 | 0 |
+
+                           *
+               ! |:) | 0 | # | 1 | 0 |
+
+                               *
+               ! |:) | 0 | # |:) | 0 |
+
+               *
+               ! |:) | 0 | # |:) | 0 |
+
+                    (...)
+
+- Okay, we'll finish this example on Thursday; see you then!</pre>
+</article>
+<a class="side-link is-note-link" href="1_moreTuringMachines_1_9_20.html"></a>
+</main>
+</body>
+</html>

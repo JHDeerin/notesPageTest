@@ -1,0 +1,90 @@
+//****************************************************************************//
+//********* Homework 1 Review / Intro. to MPI- January 16th, 2020 ***********//
+//**************************************************************************//
+
+- Okay, question about the homework for you: WHY, in problem 1, could we achieve superlinear speedup?
+    - The reason is because our proof that there couldn't be superlinear speedup assumed that as we added more processes, the work they had to do increased with time, meaning that the speedup is time-dependant
+        - Essentially, this means that the amount we have to pay "k" increases as the processes take longer
+    - In the problem 1 case, though, the total amount we pay each week remains the same REGARDLESS of how many people are working, so the speedup will just keep increasing
+- In problem 2, you should've found that as "n" went to infinity, the fixed N case resulted in the speedup going to O(n), while the proportional "n" case should've grown without bound
+- In problem 3, we can scale each of the algorithms to a number of processors less than "n" by distributing their work over "p" processors
+    - For part A), this means that T_a = n^3/p, while T_b = n^2 * sqrt(n)/p
+    - Where's the crossover point where one becomes faster than the other? It turns out to be when "p = n * sqrt(n)"
+        - WHY? Because for the 2nd algorithm (B), Brent's lemma (i.e. efficiency remaining the same) ONLY holds if p <= n; pas that, T_b(p) will go back to being n*sqrt(n)
+        - Therefore, for n < p <= n^2, we get:
+
+                n^3/p = n * sqrt n
+                => p = n^3 / (n * sqrt n)
+                => p = n^3 / n^1.5
+                => p = n^1.5
+
+    - For part B, apparently we're supposed to assume they both have the same number of workers (essentially, try to give 1 worker per run)?
+        - HOWEVER, for T_a, this runtime actually still always works out to k*n
+
+                T_a(n, n^2/k) = (n^2) / (n^2/k) * n = kn
+
+        - For T_b, then, it'll work out to:
+
+                T_b(n, n^2/k) = n/(n^2/k) * n sqrt(n) = k*sqrt(n), BUT it will work out to n*sqrt(n) when k >= n
+
+            - Therefore, we can solve for the crossover point where B becomes more efficient than A:
+
+                kn = n sqrt(n)
+                k = sqrt(n)
+
+- For problem 4, we get:
+
+        E(1) = O(n^3) / p*O(n^3/p + (n^3/p)^2/3 log p)
+            = O(n^3) / O(n^3 + p^1/3 * n^2 * log p)
+            = O(n) / O(n + p^1/3 * log p)
+            => O(n) = O(p^1/3 log p)
+
+    - Then, using property of logarithms, we can say that:
+
+            log q^3 = 3 log q, meaning if q = p^1/3, => log p = 3 log p^1/3
+
+        - Therefore, we get O(p^1/3 log p)
+            = O(p^1/3 * 3 * log p^1/3)
+            = O(q log q) = O(n)
+
+        - That's what we had in the slides!
+            - Therefore, we assume q = O(n log n)
+                => p^1/3 = O(n log n)
+                => p = O(n^3 log^3 n)
+--------------------------------------------------------------------------------
+
+- Alright, let's switch gears back to MPI now!
+    - You should have access to Georgia Tech's PACE educational cluster now; if you look for "gatech pace," their website has some pretty good getting started guides for how to access the cluster and submit your stuff to run
+        - To log in on a linux machine you'll do:
+
+                ssh
+
+        - Do NOT do work in login mode, since multiple people might try to use the same machine; instead, you should submit a compute job via a shell script using "qsub"
+            - "Like every other linux command, qsub is mystifying until you're forced to use it 1000 times"
+            - You can say you want an interactive session with the "-I" flag, giving you a command prompt (once it's your turn)
+                - Don't hog this, as other people want to use it; treat working in a compute node like reserving a room in the CULC. Don't reserve it for 2 hours and only use it for 10 minutes!
+        - I'd recommend you try to at least log in and make sure you have access, can navigate around, and so forth
+
+- Last time, we talked about communicators in MPI, where you can have groups of workers together
+    - Let's say we're running quicksort, and we find the pivot; recursively, what happens on one side of the pivot recursively has NOTHING to do with the other side
+    - Therefore, we can use "MPI_Comm_Split" to split our group into left/right recursive groups, each of which can do its own thing
+        - Splitting comes up ALL the time in recursive problems
+    - In linear algebra, too, we often want to do operations independently on each row/column; so, we can create a communicator for each row/column, and each element can belong to both of them
+        - "Scope is a pretty good way to think about communicators, where you're limiting which threads can talk to each other"
+
+- So, the simplest MPI communicator usage is to just use MPI_COMM_WORLD (the ENTIRE range of all threads MPI has created) and have each one print out its rank
+    - Here, the terminal is a shared resource; note that each thread could potentially have its own clock time, meaning you can NOT rely on things happening in a set order without some additional work
+        - The 2 big problems of having different clocks:
+            - How do we do synchronization? How do we guarantee the threads are all done before we keep going?
+            - How do we avoid deadlocks?
+                - "Remember, this is when we have a situation like 'process 0 i waiting to get a message from 1 before it does anything,' and process 1 is ALSO waiting for a message from process 0 before it does anything!"
+                - As you write more complex code, deadlocks can come up in subtle ways, so it's a way
+
+- So far, we haven't actually done anything with these communicator groups; let's change that by looking at POINT-TO-POINT communication!
+    - In MPI, sending messages is a "push" MPIs (?); for every message we send, we need to say which process we're sending it to (i.e. its rank) and the communicator group we're sending the message within
+        - Each message we send consists of an "envelope," and then the actual data/payload we want to send
+            - The envelope looks like the location of the data (void pointer *buf), how much of it there is (int count), what type of data we have (the datatype), etc.
+            - The data, essentially, is described as a block of memory, with the size defined by "count" and our specified datatype
+    - We then also have a "receive" message
+
+- Next time, we'll give an example of sending/receiving, and start talking about how we can deal with deadlocks - until then, have a good weekend!

@@ -53,8 +53,8 @@ class FilesFromNotesDirectory(ABC):
         notesTextFile.close()
 
         # Ignore first character to ignore Markdown heading hash
-        titleString = titleLines[0].strip(chars='#')[1:].strip()
-        dateString = titleLines[2].strip(chars='#')[1:].strip()
+        titleString = titleLines[0].strip('#')[1:].strip()
+        dateString = titleLines[2].strip('#')[1:].strip()
 
         # TODO: Currently, date is ignored
         return titleString

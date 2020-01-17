@@ -1,0 +1,46 @@
+//****************************************************************************//
+//************** Syllabus and Email Tips - January 8th, 2020 ****************//
+//**************************************************************************//
+
+- Professor Shelley's verdict is in: "Cats" is a bad movie!
+- "So far, Cedric and I have liked you because you haven't caused any problems yet - don't screw up now!"
+
+- ALSO: there will be career fair at Mercedes-Benz stadium on the 17th with 120 companies. There'll be bus shuttles to/from campus; we'll let you know more details via email
+- "You have readings on our calendar - DO THEM! They're kinda important, and we'll be looking for this stuff in our reviews!"
+--------------------------------------------------------------------------------
+
+- Alright, let's finish going over the syllabus first, since there're 2 pretty major components we didn't cover; then, we'll start talking about the first big task you need to do
+    - First off, your grade in this class is out of 1000 points, and the breakdown is available on the syllabus
+    - "Every semester, people ask us how we're going to grade them, and here's how the baseline works: if 5 of the best university students on the planet form a team and work on something for 90 days, we expect that to be impressive. I expect a lot, but I know you can do it - don't just get by!"
+        - To clarify that:
+            - Yes, we expect you to impress us to get into the "definitive A" range
+                - If you do something we don't expect in a much better way than the obvious route, that's probably A+ material!
+                - Simple example: if we asked you to give us a table of your research, did you color code it? Did you make it interactive? Did you do some research about UX or technical issues we didn't even imagine would come up?
+            - If you basically do the assignment thoroughly and meet all the requirements well, you'll probably be ~88-90% - not a high A, but still PROBABLY an A
+        - "This class is much more of a marathon than a sprint - sadly a lot of teams fall apart towards the end due to a lack of communication or scheduling, especially with revising the final report (with a lot of people not addressing our recommendations). PLEASE do consistent work, know that everything builds, and you'll be fine. Try to sustain your work."
+    - There'll be anonymous peer feedback through CATME; people get pretty candid, which is good, so be aware that if you don't do work and slack off and say "oh, my team's got it", your teammates WILL tell us
+        - "At the same time, I've seen people honestly praising good team members, which is really nice to see"
+        - We will ALSO ask the clients you're working with for their feedback, and if they're not satisfied with your communication or results, that's an issue!
+            - "While we don't tell you to do this explicitly, if you do a project in this class, send it to your client! Ask for their feedback! They'll appreciate it! Occasionally clients are less responsive than we'd like, but most of the time they appreciate seeing you're actually doing work"
+    - ATTENDANCE WISE, we expect you to attend every class; you'll have 3 free unexcused absences, along with 2 absences for job interviews (which you have to give us evidence for)
+        - Obviously, dean-approved emergencies or absences are fine
+        - AFTER those 3 absences, any non-excused absence will reduce your grade by ONE LETTER GRADE, and missing 5 classes will AUTOMATICALLY make you fail the class
+            - "Just show up, and you'll be fine, okay?"
+    - Finally, as a note, the last class day will be on April 20th; there's no final exam, but there WILL be a final report from your team due on WEDNESDAY, April 29th at 10:50 AM
+        - Traditionally, we require you to visit the student design expo on the last day, but that might depend on scheduling
+    - ALOS, PARTICIPATION!
+        - We expect each of you to participate 7 times this semester, which we'll do by giving you a card each time you participate (asking a question, contributing to in-class discussions, etc.)
+
+- Alright, with the last 15 minutes, let's talk about your project bids!
+    - RIGHT NOW, you're expected to be working with your team to identify at least 3 projects you all want to work on
+    - Once you've identified these, you need to write an email to Professor Cedric and I arguing WHY your team would be good fits for these (convince us you're impressive students, you have relevant expertise, etc.)
+        - A couple tips:
+            - Use your official email when sending these (and for communicating with the client!); people aren't as impressed getting a work report from "xGamerGuy2790@yahoo.com"
+            - Be aware of slight differences; for instance, it isn't correct to call Professor Stallworth "Dr. Stallworth" since he doesn't have a Phd.
+                - For emailing US, you can use first names! We'll assume you know us well; however, if you're writing to a client, you probably should NOT be that informal, and should probably refer to him as "Professor Stallworth" instead of "Cedric"
+            - Do NOT mispell people's names! My name is "Jonathan Shelley," NOT "Shelly"
+            - In general, know your punctuation; using a colon after "Dear X:" is considered more formal than a comma, although it's becoming more common to use a comma regardless
+                - Note that there also might be generational differences; older people might think that colons are normal, while younger people might think a text is "cold" if you end it with a period. Be aware of the context you're working in, and that the context might evolve over time
+                - "You don't have to wear a suit to your final presentations in this class, for instance, but if you wear T-shirts, they better all match! Otherwise, no lower than polo"
+
+- Okay, we'll finish going over how to structure your emails properly on Friday; goodbye!

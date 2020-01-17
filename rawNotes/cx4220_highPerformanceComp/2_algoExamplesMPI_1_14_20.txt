@@ -1,0 +1,177 @@
+//****************************************************************************//
+//********* Algorithm Examples / Intro. to MPI - January 14th, 2020 *********//
+//**************************************************************************//
+
+- Okay - last time I got some feedback that I went through the slides kinda quickly, and that some concrete examples might be helpful. I'll try to take that feedback into account going forward, so thank you!
+
+Today's agenda:
+    - Connect speedup/efficiency with DAG representation of algorithm (through some examples from linear algebra)
+    - Amdahl's Law
+    - MPI slides
+--------------------------------------------------------------------------------
+
+- Last time, we talked about how a parallel algorithm has a runtime of T(n, f(n)), with an efficiency "O(g(n))"
+    - Where do these numbers/limits come from? One of the places they come from is the DAG of the algorithm's operations!
+
+- As some example, let's take some common operation from linear algebra - like the dot product! You take 2 vectors, multiply their numbers, and sum all their numbers up, right?
+
+        x1 ... xn
+
+        y1 ... yn
+
+    - So, we multiply x1*y1, x2*y2, and so forth; essentially, our DAG connects all of the "xis" and "yis" with multiplication arrows
+
+            x1 ... xn
+            |      |
+            y1 ... yn
+
+        - We then need to take all the resulting sums and combine them!
+
+            (x1*y1) -+- (x2*y2) -+- ... -+- (xn*yn) ---> Final Sum!
+
+- If I have a DAG representing the operations in my algorithm, then clearly the MAXIMUM steps/length from input to output is a sequence of things that have to happen, one after another
+    - This is the absolute lower-bound on our algorithm's runtime: the maximum length of a path in my DAG
+    - Given our above example, this implies the upper-bound of our algorithm is O(n), right? We have to sum up all the multiplication results!
+        - ...HOWEVER, while this is true for our given algorithm, we can write a faster algorithm to get us the same result since addition is associative! We can restructure our DAG as a tree!
+
+
+                (x1*y1)   (x2y2)  (x3y3)  (x4y4)
+                    \     /          \    /
+                     \   /            \  /
+                     (sum1)          (sum2)
+                        \              /
+                         \            /
+                          \          /
+                           (final sum)
+
+        - This'll now give us a O(log n) longest path - great!
+            - HOWEVER, notice something here: our workers in the lower branches of the tree can't do any work until the uppermost branches have finished! They're dependent!
+            - Therefore, the maximum number of workers who can work at any given time simultaneously is the largest number of operations in the "same layer" as one another (in this case, 4)
+                - This is known as the SPAN of the DAG graph, and is the limit on our parallelism
+    - So, this algorithm has an efficiency of O(log n) (since only "log n" workers can work at any given time, I think?), and a speed of T(n, n) (I think?)
+
+- Now, let's consider that we're multiplying 2 vectors to get their outer product (i.e. a matrix)
+    - Here, our DAG looks something like this:
+
+                y1
+            x1  (x1*y1)     (x2*y2)
+                (x2*y1)     (...)
+
+        - Notice that this DAG technically just has a BUNCH of 1-length multiplication operations! We have O(n^2) multiplications, and EVERY processor can operate totally independently!
+            - Therefore, we have T(n, n^2) and an efficiency of O(1) - it's perfectly efficient and can be maximally parallelized
+                - This kind of algorithm where ALL the pieces can be trivially parallelized are known as "embarrassingly parallel" algorithms
+
+- We can use our dot-product algorithm to compute a vector-matrix multiplication, y = A*x, row-by-row
+    - If we do the serial dot-product algorithm (i.e. the non-tree one), we get an O(n) runtime but an O(1) efficiency
+    - If we do the shared dot-product algorithm, we have T(n, n^2) and a runtime of O(log n); it's faster, but less efficient, since we have workers that aren't always doing work (I think?)
+
+- Now, let's look at our final algorithm example: Gaussian elimination!
+    - TODO: Need to review Gaussian Elimination so I understand what's going on here
+    - "All of the algorithms we're doing right now are just straight-line, non-branching algoritmhs; in the rela world, I'd hope you were checking for inversion, division by zero, that kind of stuff, but let's ignore that for now"
+    - The algorithm looks like this:
+        1) Take the first row and divide each value by "ai" (???)
+            - T(n,n) in O(1); this is embarrassingly parallel, so we can use "n" workers simultaneously to do this in constant time
+        2)
+            - T(n, n^2), runs in n - DxN (?)
+            - This is solving "n-1" linear equations, each with
+        3) Recurse on the next subproblems?
+    - So, with a single processor T(n,1), we can get a runtime of O(n^3)
+    - With a parallel algorithm and n^2 worker, we get T(n,n^2) and can do this in O(n) time
+
+- Now, let's say we have an algorithm with 2 parts:
+    - "n" inputs, all going into some mysterious black box that does "k" operations
+    - A sequential bit that has "L" operations all in sequence
+
+            * * * * -------
+            | | | |        |
+            -----------    (L)
+            | K stuff |    |
+            -----------    (L)
+                 |          |
+                 |          |
+              Output --------
+
+    - Let's assume that the "K-stuff" box is completely parallelizable; we can use "K" workers to do it in O(1) time, and "p" workers to do it in T(n,p) = O(k/p) time
+        - However, let's ALSO assume the "L" sequential part isn't parallelizable at all, meaning we have to always do "L" operations:
+
+                T(n+L, 1) = O(k + L)
+
+            - Therefore,
+
+                T(n + L, p) = max(O(k/p), O(L))
+
+        - This means that as soon as "k/p" < L, we can't get any more speedup; we always have to take at LEAST "L" time to do anything!
+    - While this exact structure is kind contrived, the idea is this: in ANY algorithm we write, there's going to be some amount of work "L" that we can't parallelize, and the algorithm is going to take at LEAST that long no matter how much we parallelize the algorithm
+        - We then have to add the time for the parallel stuff to finish on top of this
+        - If we normalize this by "k+L" (the amount of work per worker), and call the percentage of non-parallizable work in the algorithm "alpha," we'll end up with a total runtime of:
+
+                O(alpha + (1 - alpha)/p)
+
+            - ...where, again, "p" is the number of workers/processors we have
+        - In this case, our speedup looks like:
+
+                T(1) / T(p) = 1 / (alpha + (1-alpha)/p)
+                    = p / (alpha*p + (1 - alpha))
+
+            - Therefore, as "p" goes to infinity - as we add more and more workers to this algorithm - we get:
+
+                    ...= 1/alpha
+
+            - This is known as AMDAHL'S LAW: the maximum speedup we can EVER get is going to be limited by how much non-parallized work is in our algorithm
+
+- "Now, ideally theory and practice would be the same thing, but if you guys are going to do programming then I'll need to go over the tools you need for this class; so, we're going to take a break from theory-land and start introducing MPI"
+
+- There are a TON of parallel computing languages, and valid arguments for using many in different circumstances - but one thing you'll need to deal with at scale are distributed memory issues, where you have to deal with managing memory across multiple processors in parallel
+    - To help you understand this instead of just, say, letting Java abstract it away from you, we're going to use MPI: the MESSAGE PASSING INTERFACE
+        - This is a standard for parallel computing, but it isn't owned by any single group; it emerged out of research efforts in the 1990s, and ended up defining a standard interface that has multiple implementations floating around
+            - Some implementations, like OpenMPI, are free, while some vendors choose to make machine-specific versions to take advantage of their specific computer architectures
+        - It's designed to be portable and efficient across a wide variety of
+    - So, what're the parts of this standard?
+        - Every MPI implementation has to include 3 things:
+            - The MPI header file in "mpi.h"
+                - This is where you'll actually find the function headers you'll use to program
+            - A compiler wrapper, like "mpicc" or "mpicxx"
+                - This just makes linking all the included implementation files easier
+                - This means you CANNOT use the same compiler wrapper for different MPI versions/implementations, since they might have completely different files for their own implementation that a different linker won't recognize
+            - A runtime system with the "mpirun"/"mpiexec" tool
+                - This lets you run MPI programs correctly in a multithreaded way
+    - In this class, we'll be running our algorithms on Georgia Tech's PACE computing cluster
+        - Once you're logged in, you can type "module avail" to see which
+        - You can then type "module list" to see which modules you actually have loaded on your system
+            - You may habe a different installed module then the available one
+        - "There are notes on Canvas about the details for how to log into PACE, install the modules you need, uploading your code, etc."
+    - Once you've compiled a program, just running it from the command line will only run it in a single thread - so INSTEAD, you need to use "mpirun" to specify how many threads you want your program to run on
+        - Basically, this just says "whatever program I give you, run it inside an MPI environment with X number of threads"
+
+- Once you've got that setup in mind, you're ready to start writing a program!
+    - Here's the minimum code you need:
+
+            #include <mpi.h>        // Include the MPI library
+
+            int main(int argc, char* argv[]) {
+                // Initialize MPI library
+                MPI_Init(&argc, &argv);
+
+                // (...your code here...)
+
+                // Finish MPI, clean up MPI stuff
+                MPI_Finalize();
+                return 0;
+            }
+
+    - To compile and run this, you can then do the following:
+
+            mpicxx fileName.cpp -o executableName
+            mpiexec -np 4 ./executableName
+
+        - ...where "-np" specifies the number of threads/processors you want to use
+    - So, if we're passing messages, we need to know who we're passing messages to - how can we do that?
+        - MPI includes a concept called COMMUNICATORS, where we can group processes together and say "okay, these threads are allowed to talk to one another, and each gets a unique name/rank"
+            - A thread of rank "k" will be the "kth" thread to run WITHIN ITS GROUP (it may have a different rank for the MPI program as a whole)
+        - You can have a thread be part of multiple groups, and organize them into sub-groups for different purposes; 2 special groups are:
+            - MPI_COMM_WORLD (ALL the threads you have)
+            - MPI_COMM_SELF
+        - There are a couple different operations you can do with communicator groups, which we'll cover more of on Thursday
+
+- Alright, I'd recommend getting a local version of MPI installed on your laptop for debugging purposes; just try running something simple like "echo hello" to make sure you can run it
+    - Besides that, don't forget to do your homework and I'll see you on Thursday!

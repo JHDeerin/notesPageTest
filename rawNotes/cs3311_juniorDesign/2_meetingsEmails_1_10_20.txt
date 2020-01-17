@@ -1,0 +1,49 @@
+//****************************************************************************//
+//*************** Meetings and Emails - January 10th, 2020 ******************//
+//**************************************************************************//
+
+- Alright, here we go! The beginning of the descent down the roller coaster of work!
+- Cedric should be here soon, but in the meantime, it's Dr. Shelley's pedagogical duty to instruct us
+--------------------------------------------------------------------------------
+
+- Alright, we started off today with a stand-up meeting - if you did your readings, this is form of brief meeting that comes from agile, where each team member should only take 30 seconds to a minute "standing up" to force themselves to be brief
+    - Rather than getting bogged down in the details, the hope is that you go through the major points so everyone's on the same page
+    - "You're not required to do stand-up meetings, of course, but your team might find them helpful"
+    - We DO, though, ask for meeting minutes once a week, and usually ask for them to be posted on Saturday
+        - There's a template we posted on Canvas that's pretty good, but if you really prefer a different one, go ahead and use it!
+        - "I realize meeting minutes can feel a bit...redundant, and useless, and busywork. I get that - but let me say 2 things first"
+            - If your team is working well, these WILL be irrelevant because you'll all be on the same page and know what's going on
+            - Meeting minutes become SUPER helpful when your team falls behind or someone misses a meeting, to help catch them up and remind everyone what needs to be done
+                - When you have a real-world boss, these are also super helpful for having a record of everything and for showing your boss that these were decisions that THEY made, in case they forget and start blaming your team
+            - Minutes ALSO help to resolve conflicts by having a clear record of what people said, and for reminding you the reasons WHY certain decisions were agreed upon
+
+- With that, let's finish talking about the emails you're expected to write tomorrow and the presentation you're expected to give on Monday
+    - "Note here: There's an error with Canvas where the homepage you make this semester will NOT stay open into the Fall, so make sure you back up everything and download it"
+    - First off, let's take a detour and talk about the PRESENTATIONS
+        - You have to prepare an oral bid for the projects you want to have - we'll give you 2 minutes (or, possibly, 3, since we have less teams this semester), and should only be about your FIRST choice of project and talking about why your group would be a good fit
+        - Do NOT just read your email, as it'll be too long; instead, take the most relevant parts of your email and build a presentation around it
+            - "Generally, I find the best bids are the ones that can catch attention. Think about what a commercial does; it grabs your attention right away with something that's compelling ('did you know 5% of Atlanta's population is homeless, and don't have a regular meal? Well, our project is aiming to change that', or 'Who in here has a cell phone? If you have a cell phone, you're already at risk - and we want to fix that')"
+            - My idea: "Show of hands: how many of you came to Georgia Tech without ever seeing this school in-person? How did you know it was a good fit for you? Because it had a good reputation, because there's plenty of information about it on our websites, because you can look around it on Google Maps, right? Or maybe just because "
+        - If you want, you can have a single person present, or all 5 people present, or something else
+            - "Also, automatic extra credit for doing a barbershop quartet that somehow ties into your project"
+    - Alright, let's talk about the emails now; let's talk about the 2 sample emails posted on Canvas
+        - The first email makes a MAJOR guffaw right of the bat by insulting the other products - in fact, I think being negative and dumping on something else is almost NEVER professional and should be avoided
+            - Also, NEVER undermine the importance of a project you're working on - saying "well, this project is cool, but Uber will make it obsolete within"
+        - It does a GOOD thing, though, in showing that they understand the importance and content of the project and that the team has relevant experience
+        - Also, don't dump on your own team! Try to rework things as positives; instead of saying "this project will be difficult for us because we've never used Rust before," instead say that you're interested in embedded programming and view it as an exciting learning opportunity, or that your related knowledge of C will help you to get up-and-running with Rust fairly quickly
+            - "Turn your lemons into lemonade, folks!"
+        - Also, PLEASE put your last names at the end! We're still trying to figure out who you are!
+    - Let's look at the 2nd email
+        - First red flag: this email was sent at 2:00 AM, which might seem like you're dedicated to some, but to most people seems like you're not managing your time well
+            - It also has NO SUBJECT LINE, which is a big no-no for emails
+        - This one does do something smart, though: it CC'd all the team members on the email, which helps the client to have ALL of your contact information and to keep everyone up-to-date
+            - "Some clients prefer to just assign 1 person as their contact and communicate near-exclusively with them, but it's still a good practice to keep everyone in the loop"
+        - This email introduces each team member in a separate paragraph and then shows how each of their experiences is relevant, rather than the other email; it prioritizes the people rather than the project!
+            - One isn't necessarily better than the other; both can work well! Emphasizing that your team is made up of effective people is helpful, while alternatively going project-by-project can seem more straightforward and relevant
+        - This email also puts their team number in the emil, which is helpful for us!
+        - ALSO, having a straightforward project ranking list instead of burying it in text is SUPER helpful for us; it just makes it clear to us and saves time having to dig through the text
+    - So, avoid those land mines of undermining yourself and others, don't put any emojis, and you should be good
+        - Email-length wise, I'd expect you to describe yourself fairly well in 1-2 sentences, so a single page should be sufficiently long
+        - Also, you ONLY need to include the body text and then submit it on Canvas
+
+- Alright, we'll see you and hear your bids on Monday - have a good weekend! Watch out for the severe weather tomorrow!

@@ -1,0 +1,210 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Introduction to High-Performance Computing</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4220Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Introduction to High-Performance Computing</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li class="active-note-page"><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="0_firstDay_1_7_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//********** Parallel Algorithm Design Goals  - January 9th, 2020 ***********//
+//**************************************************************************//
+
+- The class is starting late - LATE, I say! The nerve!
+
+- "Hopefully, that pre-quiz analyzing the median of medians wasn't too mysterious (that algorithm'll come up again in parallel sorting later on)"
+    - You could've used the master theorem for this - "the powerpoint with those notes is on Canvas"
+        - It was a little bit of a sneaky use of the master method, since in order to be allowed to combine the 2 T(n)s in the equation, you have to assume that the runtime grows linearly!
+            - So, you could use the master theorem to guess and check, but yes, you kind of had to assume it was going towards O(n)
+
+- Okay; your first homework is a set of 4 problems for optimizing for speedup and efficiency, and'll be due NEXT WEDNESDAY (the 15th); hopefully it shouldn't be too challenging, but I'll be in office hours next week if anyone needs me
+--------------------------------------------------------------------------------
+
+- Alright, today we're going to go over our goals for designing parallel algorithms!
+
+- In sequential computing, our algorithm's runtime is ONLY dependant on the problem size "n":
+
+        T(n)
+
+    - In PARALLEL algorithms, though, the runtime is also dependant on "p" - the number of processors we have!
+
+            T(n, p)
+
+    - So, to find the SPEEDUP an algorithm gives us over normal sequential algorithms, we can divide the two!
+
+            S(p) = BEST sequential algorithm time / parallel algorithm time
+                       = T(n) / T(n, p)
+
+    - LEMMA: The speedup S(p) &lt;= p, for all parallel algorithms
+        - In other words, we're saying that the best possible parallel algorithm would be to split the problem perfectly evenly across "p" processors, with no overhead and each processor using the best sequential algorithm it can
+            - Intuitively, that makes sense! Each sequential processor is working at its theoretical best!
+        - To prove this, let's use contradiction; assume that S(p) is strictly GREATER than p (i.e. S(p) &gt; p)
+            - Plugging in, this means that:
+
+                    T(n) &gt; p*T(n,p)
+
+                - ...in other words, that the best sequential algorithm takes more time than all the parallel one's processors combined
+            - BUT, we know that we could make a sequential algorithm T(n) that's just as fast by simulating all the parallel one's steps, meaning that it's the new "best" sequential algorithm and that:
+
+                    T(n) &lt;= p*T(n,p)
+
+                - That's a contradiction! Therefore, our assumption can't be true, and instead S(p) must be on larger than p
+    - So, that's theoretically the best that we can do, right? But PRACTICALLY, it's not! We can have SUPERLINEAR speedups in the real world!
+        - We can achieve SUPERLINEAR speedups mainly for 2 practical reasons:
+            - Caching can gives us better-than-expected speeds
+            - T(n,p) is solving for the WORST-CASE runtime, meaning we can still get higher speeds than that in the average case
+
+- Let's look at another metric, EFFICIENCY!
+    - "Speedup is measuring how much time our algorithm takes; efficiency is measuring how much work/operations the algorithm is actually doing on EACH PROCESSOR, and therefore how well it's utilizing each processor"
+        - If we could buy ten trillion processors to solve our problem SUPER fast, but if most of the processors are just sitting idle for half the time, our algorithm isn't very efficient
+    - To compute how efficient our algorithm is at distributing its work, we'll again compare it's running time against that of the BEST sequential algorithm we know of:
+
+            E(p) = T(n)/(p*T(n,p))
+                = S(p)/p
+
+        - Per our theorem from before, this efficiency will ALWAYS be &lt;= 1
+
+- So, should we aim for efficiency or speedup when designing parallel algorithms?
+    - As an example, let's consider matrix multiplication
+        - A naive algorithm T(n,1) takes O(n^3)
+        - Let's say we have two parallel algorithms:
+            - Algorithm #1: T(n, n^3) = O(log n)
+                - Speedup = n^3/log(n)
+                - Efficiency = 1/log(n)
+            - Algorithm #2: T(n, n^2) = O(n)
+                - Speedup = n^2
+                - Efficiency = O(1)
+        - So, #1 has a better speedup, but #2 is more efficient
+    - To help understand this, we can also derive something called BRENT'S LEMMA:
+        - Let T(n, p1) be the run-time of a parallel algorithm running on "p1" processors
+        - If we have a different computer with a lesser "p2" number of processors (i.e. p2 &lt;= p1), then the efficiency of our algorithm should be the SAME on both computers!
+        - PROOF: To run on the smaller "p2" number of processors, each one has to simulate CEIL(p1/p2) processors ("CEIL" just because we can't have fractional processors)
+            - Therefore,
+
+                    T(n, p2) = CEIL(p1/p2) * T(n, p1)
+
+                - ...meaning that...
+
+                    E(p2) = T(n,1) / (p2 * T(n, p2))
+                        = T(n,1) / (p2 * CEIL(p1/p2) * T(n,p1))
+                        ~= T(n,1) / (p1 * T(n,p1))
+                        = E(p1)
+
+        - So, apart from some small constant factor if we have to add an extra processor when p1/p2 is fractional, the algorithm should be equally efficient on a smaller number of cores!
+    - So, should we prefer speedup or efficiency?
+        - First off, noe that when the number of processors is fixed, better efficiency is EQUIVALENT to better speedup - they're directly correlated!
+        - In general, speedup tries to minimize T(n) but ONLY for a fixed number of processors, while efficiency tries to maximize the usage of each processor as we increase their number/scale
+            - In other words, speedup does NOT necessarily hold as we change the number of processors, but efficiency WILL hold (within limits), so a more efficient algorithm will run better than inefficient-but-high-speedup ones as the number of processors gets smaller
+        - In this case, therefore, algorithm 2 is actually FASTER on the same number of cores as #1 because it's splitting the amount of work better - and remember, efficiency is conserved as the number of processors change!
+            - Usually, we don't have enough processors to reach the ideal speedup for an inefficient but high-speedup algorithm, making high-efficiency algorithms the more practical choice
+            - *something about more general trade-offs between them*
+            - Therefore, a more-efficient algorithm at "p" processors will run faster than ANY less-efficient algorithms on p' &lt;= p processors
+                - This is because efficiency and speedup are directly related, so if the number of processors gets smaller but efficiency stays the same, the speedup will increase!
+
+- Let's now consider a 3rd algorithm, where T(n,n) = O(n^2)
+    - In this case, BOTH #2 and #3 have an efficiency of O(1), so which one should we choose?
+        - Well, looking at the input for the processors:
+            - For #2, doubling the size of the problem "n" (which, in this case, will QUADRUPLE the number of processors) will result in a 2x longer runtime
+            - For #3, though, doubling the problem size AND doubling the number of processors will result in a 4x longer runtime
+        - So, at "n" size, both algorithms look very similar - but as the problem scale increases, #2 is able to utilize its additional processors better!
+            - As you can see, Brent's Lemma (and thus efficiency) does NOT necessarily hold as we increase the number of processors
+    - In general, the more efficient an algorithm is, the better it will scale, while INEFFICIENT algorithms (like #1) will perform much worse as "n" increases
+        - As a side-note, what we've called "efficiency" here is sometimes called "Strong Scaling Efficiency," how the solution time varies with the number of processors for a fixed TOTAL problem size (taking into account that the sequential part of the algorithm won't speed up as we add more processors)
+            - "Weak Scaling Efficiency," on the other hand, takes into account how this time varies with a fixed problem size PER PROCESSOR (i.e. it assumes that as we get more processors, the problem itself will get proportionally bigger)
+                - Think of a computer monitor; as the monitor gets larger, you have to render more pixels
+        - These two different measures are useful for seeing how algorithms scale with both numbers of processors alone, and to larger problems + more processors
+
+- So, once we understand those 2 pieces of analysis, we can use them to pick the best number of processors to maximize our algorithm's efficiency or speed
+    - Let's say, for instance, that we have an algorithm for computing the sum of "n" numbers on "p" processors with:
+        - Serial runtime: T(n,1) - O(n)
+        - Parallel runtime: T(n,p) = O(n/p + log n)
+            - "This is pretty common in parallel algorithms; it means we were able to perfectly divide the work, but there was some overhead"
+        - So, if we want to achieve the maximum speed (i.e. minimizing the runtime), then we can use some basic calculus to find the critical point and the best number of processors!:
+
+                d/dp(n/p + log p) = 0
+                =&gt; -n/(p^2) + 1/p = 0
+                =&gt; p = n
+
+        - If we want to achieve an efficiency of E(p) = O(1), instead, we can solve for that too!
+
+                E(p) = T(n,1) / (p * T(n,p)) = O(1)
+                =&gt; n / (p * (n/p + log(p))) = O(1)
+                =&gt; n / (n + p*log(p)) = O(1)
+                =&gt; p * log(p) = O(n)
+
+            - To keep going, let's guess from this that p ~= O(n/log(n)) (where does this come from?); therefore,
+
+                =&gt; (n/log(n)) * log(n/log(n))
+                = (n/log(n)) * (log(n) - log(log(n)))
+                = (n/log(n)) * log(n)
+                = O(n)
+
+            - Our math checks out; our guess was right!
+                - "So, we need to step back by a factor of 1/log(n)" (??)
+    - Let's also consider another algorithm, where:
+        - T(n,1) = O(n^2)
+        - T(n,p) = O(n^2/p + sqrt(n)), p &lt;= n^2
+            - "This means that here our overhead isn't on the number of processors, but on the problem size!" (since the "sqrt(n)" part is independent of the number of processors "p")
+        - So, plugging in the given upper limit of processors, we can solve for the maximum speed and it's efficiency:
+
+                T(n,n^2) = O(n^2/n^2 + sqrt(n)) = O(sqrt(n))
+
+            - Therefore,
+
+                    E(n^2) = O(n^2) / (n^2 * O(sqrt(n)))
+                    = O(1 / sqrt(n))
+
+            - Now, to solve for what number of processors will get us a maximum efficiency of O(1), we have:
+
+                    E(p) = O(n^2) / (p * O(n^2/p + sqrt(n))) = O(1)
+                    =&gt;  n^2 / (n^2 + p*sqrt(n)) = O(1)
+                    =&gt; p * sqrt(n) = O(n^2)
+                    =&gt; p = O(n * sqrt(n))
+
+            - "Here, instead of a logarithmic factor we should step back by to maintain our desired efficiency, we should actually add MORE processors as the problem grows based on this equation if we want to achieve maximum efficiency"
+    - What does this mean for the 2nd algorithm? It means that we can minimize the absolute running time for this algoritmh by using n^2 processors, but that each run will waste some processor time by leaving some processors idle; if we use a smaller number of processors (n * sqrt(n) or less) to achieve maximum efficiency, it'll take a little longer, but we won't waste ANY processor time!
+        - What this means is that for a single run, using n^2 processors is better - but over time, the wasted processor time will add up
+        - If we only use "n" processors and schedule "n" simulation runs at the same time, then eventually we can do more runs in LESS time than the all-processor speedup approach, since we're not wasting idle time!
+            - More specifically, the more efficient algorithm overtakes the speed-first n^2 one after "sqrt(n)" runs, since:
+
+                    T(n,n^2) = O(x * sqrt(n))
+
+            - ...while
+
+                    T(n,n) = O(n)
+
+- Therefore, since for smaller-than-optimal problem sizes (which are very common practice) efficient algorithms are both more efficient AND take less time overall to complete, the goal when we're designing parallel algorithms should almost always be this:
+    - Design an algorithm that uses as many processors as available while achieving maximum efficiency
+        - Note that O(1) efficiency isn't possible for all algorithms, so we may just have to do as best we can
+
+- So, that analysis all looks well and good, but speedup and efficiency aren't the whole story
+    - *cue Georg Hager's "Fooling the Masses" computing blog*
+    - We said in the slide that speedup was defined by the best sequential algorithm, while in papers speedup is often just used to compare two algorithms relatively
+        - "If you see this, big alarm bells should be going off in your head that they're trying to make their algorithm look more impressive than it really is"
+        - Speedup should ALWAYS be done relative to the best known serial algorithm for the task you're doing
+
+- Okay, homework is out, so look at that over the weekend - see you next week!</pre>
+</article>
+<a class="side-link is-note-link" href="2_algoExamplesMPI_1_14_20.html"></a>
+</main>
+</body>
+</html>

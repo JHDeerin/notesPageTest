@@ -1,7 +1,7 @@
 .cs4510 header:after {
-    background: linear-gradient(90deg,#94c737, #1fe783);
+    background: linear-gradient(90deg,#ba9771, #89503a);
 }
 
 ul.note-links-slider > li.active-note-page {
-    background: linear-gradient(90deg,#372030, #ef8206);
+    background: linear-gradient(90deg,#ba9771, #89503a);
 }

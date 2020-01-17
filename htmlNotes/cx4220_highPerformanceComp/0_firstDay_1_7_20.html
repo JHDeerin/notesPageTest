@@ -1,0 +1,138 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Introduction to High-Performance Computing</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4220Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Introduction to High-Performance Computing</a></li>
+</ul>
+<ul class="note-links-slider"><li class="active-note-page"><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="0_firstDay_1_7_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******************** First Day - January 7th, 2020 ************************//
+//**************************************************************************//
+
+- Professor Vuduc is here! I have no idea why, since he isn't the listed professor, but I'll take it!
+    - ...possibly because Toby Isaac is a first-time professor here?
+
+- "And now, since you've signed up for this class, here's some targeted advertising from Professor Vuduc!"
+    - Apparently Professor Vuduc is building an undergraduate team to compete in the Supercomputing Cluster Competition, where students compete to build their own cluster and run it with a bunch of crazy tests (cutting power mid-run, power limits, etc.)
+        - This WILL count as a VIP if you have time, so yay!
+        - "I do NOT assume you have supercomupting experience for this VIP; instead, we'll teach you what you need to know as long as you have a core programming base"
+
+- ALSO: there's an ungraded self-assessment quiz on Canvas. Please do it! If you're struggling, I'd recommend reading up on your algorithm notes
+--------------------------------------------------------------------------------
+
+- Alright, logistics!
+    - First up, office hours!
+        - Professor Isaac has office hours from 1-2pm on Tuesday, in CODA S1323
+        - Jinwoo Go is our TA, and'll have office hours Wednesday 1-2pm in Klaus 1361 (the common area)
+    - Prerequisites-wise, I assume you've taken some undergraduate class in algorithms analysis; "we won't do anything crazy, but you will have to analyze runtimes"
+    - There are NO required textbooks - "computing moves too fast, so what's the point?"
+        - Instead, all readings we expect you to do will be posted online
+    - Grading wise, the breakdown is:
+        - 20% homeworks
+        - 20% programming assignments (using MPI, a parallel library)
+        - 15% for EACH of our 2 midterms
+        - 30% for the CUMULATIVE final exam
+    - Homework-wise, you are allowed to discuss ideas with other people, but can't share source code
+        - For other homeworks, you ARE allowed to work with up to 2 other people, but have to name them as such on your homework - and if they don't name YOU, there'll be issues
+
+- Alright, so let's start off with a question: what IS parallel computing?
+    - Let's assume we have our super-awesome (and awesomely-named) algorithm, "f(x)"
+        - To run this algorithm, our computer needs to consume resources, like time, energy, and money - but it already works!
+    - The fundamental problem of high-performance computing is to ask "okay, this algorithm works, but is it GOOD?"
+        - Annoyingly, in the real world, this answer depends on what computer we're running something on; O(n^2) might be perfectly fine on our super-powerful desktop, but be WAY too slow on an embedded system
+            - In your previous algorithms class, you probably worked in theory-land and ignored those, and pretended everything ran on a single-threaded ideal Turing machine
+        - For our purposes, here, "good" means that this algorithm not only works, but completes in a reasonable amount of time for our purposes and, doesn't use more memory than we have, and consumes a reasonable amount of power
+    - In this class, then, we'll assume we're working with a computer that has PARALLELISM, i.e. it can run multiple operations at the same time
+        - Multi-core processors have become the norm these days, since we had a problem: as we made single cores faster, they consumed increasingly more power and produced increasingly more heat, eventually making heat a HUGE problem
+        - So, instead, people decided to put MORE cores on a single processor, rather than making the individual cores faster
+
+- So, we've got these parallel computers - what can we do with them?
+    - First off, we have to develop parallel algorithms that can take advantage of these multiple processors!
+        - Oftentimes, we'll need to model these algorithms slightly differently for particular architectures, so we'll need things like PRAM to represent these models
+    - Then, we have to PROGRAM this parallel algorithm using some language and library (e.g. MPI, UPC, OpenMP, CUDA, etc.), turning the algorithm into code, then compiling it into machine instructions
+    - We may also have to figure out how to build machines that can run our algorithms to their maximum capacity, optimized for parallel workloads and whatnot
+    - Finally, we have to assess the performance of our algorithm, both by itself in theory-land as well as on our specific machine
+
+- So, how can we do all this? That'll be the focus of the rest of this course!
+    - We'll focus on algorithm analysis, then dive into the specifics of parallel algorithms, talk a bit about modeling for distributed networks and embedding, discuss general parallel techniques, and get into some of the specifics of implementing all this (using MPI in our case)
+    - (missed some of the course goals???)
+
+- With that, let's take a brief peek at the kind of computer we're building these algorithms for
+    - Our computer has a processor that does operations and math and things, and has memory/data that holds all the stuff we want to work with; these two are then connected together
+        - Already, there's a few things we'd like to know about this computer:
+            - What's the clock rate of the processor (FLOPS)?
+                - "FLOPS" is "floating-point operations per second," and defines how fast we can get work done
+            - How much memory do we have?
+            - What's the BANDWIDTH between the processor/memory (i.e. how fast can we move data between the 2, in bytes/second?)
+            - What're the LATENCIES we need to worry about, e.g. how long does it take from giving a command to that command actually starting to execute/finish, or between requesting a piece of memory and actually getting it?
+                - Bandwidth is NOT the same thing as latency due to CACHING, meaning that recently-gotten data (or nearby data, since we retrieve memory in blocks) is faster to access than normal
+                    - This means we ALSO have separate bandwidths/latencies between the cache/processor
+                    - We also now need to worry about our CACHE SIZE
+    - This is a bit of a cartoon of an actual computer, but even at this stage, we can start to do some basic parallel level stuff using instruction-level parallelism and some clever caching tricks
+        - If we wanted to make it REALLY parallel, though, we can add ANOTHER processor/cache and connect it to our memory/RAM
+        - If we have a REALLY big system, we might also have a completely SEPARATE memory/caches/processors system, and connect the 2 separate pieces of RAM together
+            - We might also have a GPU, which has a BUNCH of tiny processors on it; "you can think of the GPU as taking slow bites, but biting off HUGE chunks of the problem every time it does something"
+        - Finally, for even BIGGER problems, we might have to connect totally separate systems with ALL these parts over a network
+            - This means we have to deal with network latency/bandwidth
+            - It also means we have to deal with the problems of having potentially totally different architectures/operating systems, different memory addressing schemes across the 2+ computers, etc.
+
+- "...so, we've made our idea of a computer definitely more complicated. Don't worry if you don't get all of this right now; we'll revisit this kind of rough architecture idea many times"
+
+- So, now that we have a more sophisticated idea of a computer, let's try to add some nuance to our idea of an algorithm, too
+    - We could think of an algorithm flowing as a DAG (directed acyclic graph), where we start with our inputs, flow to some processor, do some stuff in that processor, and then branch off to one of many potential outputs
+        - With a parallel processor, though, our DAG doesn't just have to flow to a single processor - we can split the pieces of our DAG across all the computer's components
+            - "Mathematically, that's basically what we're doing this semester; taking an algorithm and trying to map the pieces of its DAG to different pieces of computer hardware"
+        - Note that each of these edges from an operation to the next thing isn't free, but takes some time/resources to "traverse"
+
+- Now, as for physical computers...
+    - There's a rough hierarchy of them from least-t-most powerful:
+        - Embedded devices
+        - Personal Mobile Devices
+        - (...)
+        - Superclusters
+    - As we've discussed, individual cores aren't getting all that more powerful now, but there's still a version of Moore's Law as we try to pack more processors on the same chips
+    - Bandwidth (or "throughput") has gotten MUCh faster, but somewhat at the cost of latency research (where we've only seen marginal improvements)
+    - When we're running the computer, every transistor switch takes some amount of energy, and power increases as we switch more frequently
+        - Slowing down the processor's clock speed reduces how much power we're using, but NOT the total amount of energy we need to complete something
+    - So, the current trends in computer architecture are that:
+        - We can't leverage INSTRUCTION-LEVEL PARALLELISM (ILP) anymore (where the processor itself automatically takes each instruction and passes it off to free cores, I think?), as single processor performance has started plateauing (check what ILP is exactly?)
+        - INSTEAD, we need to leverage parallelism at the data, thread, and request level, which unfortunately means we need to restructure a lot of our algorithms and existing programs to take advantage of this
+
+- There are 7 main types of parallel problems we'll need to worry about (although there are other, weirder edge cases):
+    - DENSE LINEAR ALGEBRA problems are where we're dealing with large blocks of data, and trying to solve systems of related equations
+    - SPARSE LINEAR ALGEBRA / GRAPH OPERATIONS are where we're dealing with less structured data, and need to worry more about branching and caching
+    - STRUCTURED GRIDS (or STENCILS) are between the two, and are where we're dealing with things like Lagrangians (e.g. using neighboring grid points) that have some regularity
+        - This is nicer, since we know exactly where the data is, but we can't take advantage of the parallelism and linear algebra like we can with dense problems
+    - SPECTRAL METHODS (e.g. the Fast Fourier Transform)
+    - PARTICLE METHODS are unstructured and dynamic (why?)
+    - MONTE CARLO / EMBARRASSINGLY PARALLEL / MAP REDUCE problems are where we have a LOT of work to do, but none of it is related or dependant on each other until the very end
+        - This means we don't need to do a whole lot of work to get stuff to run in parallel
+
+- ...we'll ignore the ILP slides for now, since processors nowadays largely handle those by themselves and you don't really need to deal with that stuff unless you're designing a processor
+
+- Alright; next class, we'll pick up with a simplified model of a computer, talking about how to start splitting up work, what "good" means for this class's purposes, and so forth. Stay tuned!</pre>
+</article>
+<a class="side-link is-note-link" href="1_parallelGoals_1_9_20.html"></a>
+</main>
+</body>
+</html>

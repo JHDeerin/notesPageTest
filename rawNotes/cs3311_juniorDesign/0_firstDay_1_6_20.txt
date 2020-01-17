@@ -1,0 +1,67 @@
+//****************************************************************************//
+//******************** First Day - January 6th, 2020 ************************//
+//**************************************************************************//
+
+- Alright, we're in CS 3311, aka Junior Design, aka "the bunch-of-work" class!
+    - As you're likely aware, there are alternate ways to fulfill the capstone requirement (research, etc.), but this is the traditional way!
+- You'll choose a project, form a team (hopefully before the end of this class!), work with a client, deal with internal and external strife until Christmas next semester, and then you're done!
+    - BIG thing right away: you NEED to make sure you do your research before you begin implementing things. When a client asks why you did something, you better be able to give them a reason for it!
+
+- Some quick teacher introductions:
+    - Professor Cedric Stallworth is an assistant dean in the CoC, a GT alum from the CS Master's program, and a "Senior Lecturer" for CS 1371 ("teaching MATLAB to people who don't know how to code")
+        - His life, apparently, is currently run by his daughter ("along with my finances")
+    - Jonathan Shelley is less on the CS side and is instead more on the LMC side - "I went to a little school called UC Berkeley, but I think I've finally been accepted by the pack"
+        - He'll be focusing on the writing and communications side of things, whereas Cedric will be your go-to guy for technical issues
+    - Sam is a former student in this class who'll currently be the TA for our section, so she'll help out with grading and general work questions
+
+- Let's start off with this: most of you are aware that Steve Jobs was kicked out of Apple in the 80s, right?
+    - In 1985, Steve Jobs was essentially forced out of his own company after disagreeing with where the company was headed, and in 1986 he bought a then-little-known company called Pixar ("pixel art")
+        - Pixar actually started out as a hardware company that focused on complex visualizations; their hardware ended up flopping HARD, and Jobs decided a change of direction was needed
+            - Later, when Jobs was back at Apple introducing the iPad, Jobs claimed that "computers are not enough," and that they needed to also work to advance the humanities and society as a whole - lofty, PR-friendly language, but still!
+        - At Pixar, Jobs was able to get technical wizards and skilled artists to work together, putting everyone in a single building and emphasizing interaction between people
+            - Jobs realized it wasn't enough to just put people in the same space, however; instead, he saw this as a design problem to get people actually interacting, and so he put everyone's mailboxes together, intentionally put the cafe in a central location, and even tried (and failed)
+            - Pixar's big central atrium might *seem* like wasted space, but it's actually a critical part of their building: it's where people meet!
+                - So, Jobs believed that the best work happens when very different people come together and interact and clash to do something
+    - "...so, why are most of you not excited about working on a team?"
+        - Post-2340 nightmares from previous bad teams?
+            - Some people DID have good experiences, and are excited about learning this as an important real-world skill ("no one codes alone - heck, no one even truly WRITES alone!")
+        - Not liking having to confront problematic team members
+            - "You probably won't be a code-monkey your entire career, and you'll quickly learn that managers need to deal with conflict a LOT - one person wants a red button, another person wants a green button, and you have to get people to actually listen to and understand one another and come to an agreement"
+        - Having to relinquish control
+            - "I'm STILL bad at this, since in teams not everyone will agree with me and I won't always get to have my way - that's FRUSTRATING!. You'll have to respect the client's wishes, your own team's opinions"
+        - Having to communicate with others
+
+- This class is about dealing with these teamwork problems by learning how to communicate and work together
+
+- Now, let's form teams!
+    - Research has shown over and over that diverse teams perform better - and diversity is a BROAD idea. 4 white people from Montana can be very diverse work-wise if they all have different skills and backgrounds
+        - There are 4 broad skills teams need to succeed in this class:
+            - Technical Knowledge (Front-End)
+            - Technical Knowledge (Back-End)
+            - Communication (graphic design, writing, presentation, etc.)
+            - Management Skills
+        - To form teams, I want each of you to choose 2 of these 4 that you're best at, and then find people who COMPLEMENT you and form teams of 4 or 5 people
+            - (I chose communication and front-end, and am on team 0100)
+
+- Next up, everyone's favorite part of the course: logistics!
+    - The course page for this class is on Canvas; there's a single link for both the CS abd LMC portion
+    - This class moves VERY fast, so be aware of that
+        - At the end of the semester, you should end up with a final presentation video, research report, and basic prototype, and hopefully all of those things will actually get used your next semester
+        - This first semester is more writing and research-intensive; your 2nd semester with these teams will be more coding-intensive
+    - You DO have 2 required textbooks for this class:
+        - James Shore's "The Art of Agile," which is freely available online!
+        - "Handbook of Technical Writing, 11th Edition"; you WILL be asked to refer to this book occasionally, and it's actually not useless!
+    -  Some resources you can use throughout the library:
+        - The Purdue On-Line Writing Lab is a go-to standard research for grammar and writing conventions
+        - Lynda is useful for learning new technologies
+        - IEEE citation style guides
+            - "You WILL need to learn citation style, but honestly, you'll probably use Chicago-style citations more than the IEEE stuff"
+        - STAR Services at GT can give you short-term loans (and occasionally outright gives fees) if you need help for
+    - On Canvas, there's a calendar showing EVERYTHING we're doing this semester: when assignments are due, when lectures are, etc.
+    - Grade-wise, there's 1000 points available this semester, and you can see the grade breakdown on the syllabus
+
+- When you leave this class, you should be able to design a working piece of software and back it up with research, and thoroughly demonstrate you understand what has been done before and what you're adding
+
+- Now that you have a team, you need to decide on a project you want to do by NEXT WEEK; we'll go over that next time
+    - Your first assignment as a team will be to write a "project bid email" listing the top 3 projects you want to do as a team and why you believe that project would be a good fit
+        - Due to conflict-of-interest, you can NOT work on Jonathan or Cedric's project; also, you can't work on SLS projects, as those're reserved for other sections (although something can probably be worked out)
