@@ -5,7 +5,8 @@ window.MathJax = {
         inlineMath: [['$', '$'], ['\\(', '\\)']]
     },
     options: {
-        skipHtmlTags: [            //  HTML tags that won't be searched for math
+        //  HTML tags that won't be searched for math
+        skipHtmlTags: [
             'script', 'noscript', 'style', 'textarea',
             'code', 'annotation', 'annotation-xml'
         ]
@@ -18,3 +19,7 @@ window.MathJax = {
     script.async = true;
     document.head.appendChild(script);
 })();
+
+function reloadMathJax() {
+    window.MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+}

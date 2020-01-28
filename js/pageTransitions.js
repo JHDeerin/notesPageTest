@@ -12,7 +12,7 @@ let currentOriginalText = main.querySelector('.main-note-text').innerText;
 let cache = {};
 let newPageLoading = false;
 
-// When our 1st page is loaded, wrap its text and go to the 
+// When our 1st page is loaded, wrap its text and go to the
 wrapElementText(main.querySelector('.main-note-text'));
 changeSelectedNoteLink(document.body, scrollBehavior='auto');
 
@@ -49,7 +49,7 @@ function changePage(isLinkToAnotherNote) {
     loadPage(url).then(function(responseText) {
         var wrapper = document.createElement('div');
         wrapper.innerHTML = responseText;
-    
+
         var oldContent = document.querySelector('.main-note-text');
         var newContent = wrapper.querySelector('.main-note-text');
 
@@ -77,6 +77,7 @@ function wrapElementText(element) {
         }
     }
     element.innerText = softWrapTextLines(element.innerText, lineLengthChars);
+    reloadMathJax(); // MathJax needs to be updated after content change
 }
 
 function getAllPossibleLineWidths(maxLineWidthInChars) {
@@ -98,7 +99,7 @@ function getAllPossibleLineWidths(maxLineWidthInChars) {
 function resetSideLinks(newHtmlWrapper) {
     const currentSideLinks = document.querySelectorAll('a.side-link');
     const newSideLinks = newHtmlWrapper.querySelectorAll('a.side-link');
-    
+
     currentSideLinks[0].setAttribute('href', newSideLinks[0].getAttribute('href'))
     currentSideLinks[1].setAttribute('href', newSideLinks[1].getAttribute('href'))
 }
@@ -148,7 +149,7 @@ document.addEventListener('click', function(e) {
     var el = e.target;
 
     //go up the DOM tree until we find something with a link
-    while (el && !el.href) { 
+    while (el && !el.href) {
         el = el.parentNode;
     }
 
