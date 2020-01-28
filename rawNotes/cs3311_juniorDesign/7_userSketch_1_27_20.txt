@@ -1,0 +1,49 @@
+//****************************************************************************//
+//*************** 2.5D User Sketches - January 27th, 2020 *******************//
+//**************************************************************************//
+
+- Alright, you're getting your participation cards today! Woohoo!
+- "There will certainly be a time in this semester that you hate me, because I come from the humanities and we spend a lot of time doing criticism, looking at things and saying why they're not good enough"
+    - You, on the other hand, are engineers, and so you come from more of a creative background of making things and solving problems - "then I come in and tell you why what you made isn't good enough"
+    - In a lot of ways, I actually think those creative positions are more "noble" in a sense, and I definitely respect those groups that are trying, but I'm trying to take your work seriously enough to give it serious criticism to try and make it better, and that sometimes means I won't come across as very friendly
+--------------------------------------------------------------------------------
+
+- Now, we're switching over from Professor Shelley to Professor Stallworth to talk about our 2.5D sketches!
+    - "I, being a 2-time alumni of Georgia Tech, understand something Professor Shelley does not: that NONE of you actually do the reading assignments!"
+
+- On the calendar, let's look at where we're headed
+    - You've got a client, and you've got your teams, and you're meeting - great. You've got a project - that's great. Now you have to actually start developing your project
+        - We're going to be using Agile software development, and that means starting out by defining our users
+            - "Don't design your software for the client - design it for your USERS, the people who will actually be using your software day-to-day! If you just add all the features the client requests without thinking about the people"
+                - Long ago, the user was rarely considered, and that was how IBM made hot-garbage generic business software for decades
+                    - Then the pendulum swung the OTHER way to making over-defined theoretical user personas, which got us thinking about users but that made things too specific and inflexible
+                - We're now trying to find a middle-ground of creating "sketches" of our users while recognizing those users may be different and evolve over time
+            - So, you're going to research who your users actually are and what they're doing
+        - You're then going to come up with the minimum viable product (MVP) you have to produce, the smallest thing you can give your client that will be useful for your users
+            - This is often trying to figure out what your users actually WANT/need the most, based on your research
+        - Then, you'll start doing user stories, trying to map out how your users will use your software in different scenarios
+        - Once you've done that, you can start making prototypes (paper or digital) and applying UX design heuristics to improve them
+            - "Then, you can show your user your prototype and hear the most useful thing ever: them telling you your software is s***, and WHY it's s***. You'll never hand them something and hear them say 'it's perfect'; you don't understand their needs as well as they do, so you're bound to do something that doesn't make sense to them"
+            - Every semester, someone forgets to add a back button to something, and usually a lot more besides - and that's okay! That's why making these prototypes early and getting feedback in
+        - Thn, after Spring Break, you'll start finalizing your digital prototype and writing your final report
+            - "You're welcome to work over the summer and do the whole thing and chill when you get back next semester, but that's up to you"
+    - Remember, NONE of Agile is concrete - as you do more research and talk with your client and users, your designs for each of these steps will change (and, hopefully, improve)
+
+- So, for this first step - defining your software's users - we're going to use a technique called 2.5D sketching
+    - First off, there's an article in your readings talking about personas - fake idealized "average" users we come up with based on research - and how some designers think that while they were a cool idea 10 years ago, they're arguably now "past their prime" and less useful than just doing user interviews directly, as they can result in an inflexible, finalized portraits of users that doesn't reflect how varied users can be, and can be over-simplified and become detached from reality
+        - At the same time, they can still be useful for summarizing research, and for giving us a target to shoot for - but the article argues we should use them as "conversation starters" for design rather than the last word
+    - The article therefore proposes a "lightweight" version of personas called "2.5D sketches" (based on the idea that human vision sees in "2.5D", filling in the gaps in what it sees based on background assumptions, like assuming a door has a room behind it)
+        - The "sketch" reminds us that these personas don't have to be fixed or final or perfect
+    - After doing some research into your users (interviews, former studies, etc.), you can create multiple such sketches for different user types, each one having 4 things:
+        - The name of the user type your sketch represents
+        - Important facts you know about the users (age, gender, job, etc.)
+        - Several behaviors these users do relevant to the task your software is solving
+        - Several goals these users have that they want your software to help them achieve
+    - The idea with these sketches is that you SHOULDN'T spend hours or days trying to come up with the perfect 2.5D sketches; instead, do your research with your users, make the sketches quickly as outlines of your findings, and then iterate on it with your team and users and clients and correct them where you went wrong
+        - "Don't just read 2 articles and make these sketches and then forget about them; instead, do some research, make these, share them with your client, see if you can talk to the actual users and ask if you got anything wrong or missed something, and so on; this should be an ongoing conversation, and you should recognize that your sketches may be constantly evolving throughout the product"
+        - These sketches should be made pretty informally; don't get hung up on making it perfect. These should be spontaneous, like brainstorming
+
+- How do you get these started? You can do it in different ways, but you can have everyone on the team brainstorm 4-5 ideas of stuff users need/want/will do, and then you can cluster together those ideas ito a few different users
+    - Once you've finished compiling those into users and brainstorming, you can write those results up digitally
+
+- Alright; on Wednesday we'll see an example in-class of how to do this. See you then!

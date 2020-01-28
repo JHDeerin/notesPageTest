@@ -1,0 +1,158 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Introduction to High-Performance Computing</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4220Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Introduction to High-Performance Computing</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li class="active-note-page"><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="5_permuationsCollectiveComm_1_23_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*********** Collection Example / Prefix-Sum - January 28th, 2020 **********//
+//**************************************************************************//
+
+- Okay, some MPI implementations apparently don't do a good job of cleaning up their workspaces - if you get a warning like that, don't worry; it's not your fault (which warning?)
+
+- The agenda for today:
+    - 'dboard(N)' confusion
+    - Collective examples from linear algebra
+    - Analysis of collectives
+    - Prefix sum
+
+- "One of the BIG points of confusion about the first programming assignment is the difference between the input 'n' to the program, and the 'n' of numbers we're giving to each processor"
+    - I personally am a big fan of structuring code in reusable components, so I want dboard to look something like this:
+
+            dboard(int N, MPI_Comm comm) {
+                my_size = GetSizes(N, comm);
+                GetRange(N, comm, &amp;my_start, &amp;my_end);
+            }
+
+        - So, we've got "N" numbers that we somehow need to divide evenly among our processors - how can we do that?
+            - I want each thread to receive a chunk of the numbers that's non-overlapping with other threads, doesn't give us any holes, and who's start is increasing with processor rank
+                - So, for a process "p", we'd want:
+
+                        my_start_p &lt;= my_start_q    (if p &lt; q)
+                        my_end_p &lt;= my_end_q        (if p &lt; q)
+
+                - How could we write a function like "GetRange" to give us this? We can actually do it without ANY direct communication!
+
+                        void GetRange(int N, MPI_Comm comm, int *my_start, int *my_end) {
+                            rank = MPI_Comm_Rank(comm);
+                            p = MPI_Comm_Size(comm);
+
+                            *my_start = (N/p) * rank;
+                            *my_end = (N/p) * (rank+1);
+                        }
+
+                - So, that looks good - but what about if "p" doesn't divide into "N" evenly? How can we deal with the "leftover" elements?
+                    - We could use "N % p" to get the remaining elements, and then distribute them somehow
+                    - More simply - and probably more commonly - we can just multiply by the rank FIRST and then take advantage of truncation!
+
+                            *my_start = (N*rank) / p;
+                            *my_end = (N*(rank+1)) / p;
+
+                    - Now, for VERY large problems, you may have to deal with integer overflow when you're doing this multiplication (when N*rank could potentially be larger than 2 billion), but not for this homework
+--------------------------------------------------------------------------------
+
+- So, thinking about examples from linear algebra was how we tried to explain complexity analysis - let's do the same thing with collective communication!
+    - "Okay, no one's seen the conjugate gradient method before - it's a way of solving a system of equations A*x = b"
+        - Suppose we can ONLY do matrix multiplication with vectors, but we can't look directly inside the matrix A to see its elements - how can we still solve for what "x" must be?
+            - For mathematical reasons, we can still solve this - but we're not concerned with that. We're concerned with how we can speed this up!
+                - We need to do a dot product, multiplying a bunch of numbers on different threads and then adding them up - what communication is that? It's a reduction!
+                - We then need to get that constant out to all our processes via a broadcast - so how can we do both of these in one step? MPI_ALLREDUCE!
+                    - "Plain broadcasts are necessary for things like I/O, where a single process reads something and then sends out that information to everyone"
+                    - In linear algebra, a plain broadcast might be useful for doing outer-product vector multiplication, where you need to broadcast "y_i" or something to column/row "i" (NOT the whole world, but just the processors for that column), giving us "2n" broadcasts to get n^2 output numbers in an array
+            - Then, for the remaining steps, each process will have the vectors it needs to calculate everything locally, so no communication is needed
+        - Now, broadcasts and reductions assume each message is the same size, whereas "scatter" and "gather" operations can take different messages
+            - In linear algebra, this might be useful in matrix-vector multiplication; we have to get each distinct component from different processors, "gathering" them to a single one
+                - These operations of a BUNCH of stuff going to/from 1 process is quite common in linear algebra
+        - We can also send/receive messages from EVERY process using "ALL-TO-ALL," which is the closest thing to an "ALLSCATTER" that we have
+            - We don't have an "ALLBROADCAST," but "ALLGATHER," receiving messages from each process, is quite similar and can be used to do the same things
+                - "ALLGATHER" is useful for figuring out what our range is for bins, histograms, etc.
+                - "ALLTOALL" is useful for transposes - since that's basically what it does! It's also SUPER useful for Fourier transforms in many fields
+                    - We'll talk about the Fast Fourier Transform later on in this class
+
+- So, those are some operations we might have to do for different linear-algebra things - but how expensive are they?
+    - They're all collective operations, so they're all somehow dependent on the number of processors "p" we have in a group - but how so?
+        - BROADCAST seems like it'd have to be linear, but using a hypercubic permutation we can split the communication like a branching tree among multiple processes to only do O(log p) rounds of communication
+            - Since it's communication, sending each message will take "t + uB" time
+            - There's a problem with splitting messages like this, though: what if we don't have 2^x processes? Will this algorithm still work?
+                - Well, we can just "pretend" to send the message to the non-existing process and not actually do it, so this algorithm will still work! At no point is a lower-rank process waiting for a message from a higher-rank one, so we can cut them out without fear!
+            - Therefore, we've got an overall runtime of O(t*log(p) + u*m*log(p))
+                - If we're broadcasting from a non-rank-0 processor, we could just offset our rank without too much cost - but we can do even better!
+
+                        rpartner = rank XOR (2 XOR j)     // Rank 0
+                        (rpartner XOR Mask) = (rank XOR Mask) XOR (2 XOR j)
+
+                    - ...where we can say "Mask" = the "root" process's rank we're broadcasting from
+                    - So, by also keeping track of who the root process is in our broadcast message, we can run the algorithm with almost no extra cost!
+        - REDUCTIONS have the same runtime O(t*log(p) + u*m*log(p)), but result in some processes idling while our master thread waits to get all its messages and then do its work before broadcasting the results out
+            - ALLREDUCE, in contrast, duplicates some computation and does extra work to avoid having to do a separate broadcast, ensuring everyone ends up with the full result
+                - This is asymptotically the same as a regular reduction, but with HALF the actual messages needing to be sent
+        - GATHER concatenates a bunch of messages tree-wise, similar to broadcast, still giving us "log p" rounds of communication - but because all of these messages are being concatenated, the message size wil GROW as the rounds increase (each round, half the messages are sent but each one's size is doubled)
+            - This means that each "round" in that "log p" will be computationally more expensive as the message size increases
+                - So, we have a runtime of:
+
+                        O(t*log(p) + u*m*(1 + 2 + 4 + ... + p/2))
+                        = O(t*log(p) + u*m*p)
+
+                - "This is important! GATHER and ALLGATHER are MORE expensive than reductions, and use up more bandwidth!"
+            - ALLGATHER does a similar thing to ALLREDUCE, where it's asymptotically the same but duplicates work to avoid having to do an extra broadcast at the end
+        - SCATTER is sending the same messages as GATHER, but with the tree flipped the other way (one process to many, rather than many to one), giving it the same same O(t*log(p) + u*m*p) runtime
+
+- So, in summary:
+    - Broadcast/Reduction/AllReduce take O(t*log(p) + u*m*log(p))
+    - Scatter/Gather/AllGather take O(t*log(p) + u*m*p)
+        - We haven't yet talked about All-to-All, as that's a little bit weirder
+
+- There's also one operation we skipped over last time in MPI: SCAN!
+    - "Scan" helps us with the "prefix sums" problem - what's that?
+        - Basically, we start off with "n" numbers "x1, x2, ..., xn", and want to compute the successive sums of adding ONLY the first "i" numbers:
+
+                S_1 = x1
+                S_2 = x1 + x2
+                (...)
+                S_n = sum i = 1 ... n{x_i}
+
+            - When is this useful? One place would actually be for our "GetRanges" problem for the homework; each of our processes needs to figure out where its OWN start/end position is, so if we have these numbers stored in a global array, we can send each process's start as one of these sums:
+
+                rank_p_start = S_p
+
+        - If we assume "n" is a power of 2, then how could we compute this?
+            - We could give each process , getting:
+
+                    T(n, n(n+1)/2) = O(log(n))
+
+                - ...but this algorithm is pretty inefficient
+            - Instead, we can use a divide-and-conquer algorithm to split these sums and then combine them together somehow, and broadcast our sub-sums to all processors that need them, getting us:
+
+                    T(n,n) = O(log(n)^2)
+
+                - Can we do better? Can we reduce this to log(n)?
+                    - This algorithm is better, but we only have 1 processor that's trying to broadcast its final value - so let's do 2 things: compute the prefix sum AND the first sum each round (uses a butterfly hypercubic-permutation communication pattern)
+                        - This DOES get us to O(log(n)), but it's complicated
+
+- We'll wrap up our prefix-sum algorithm next lecture; take a look at the course notes (section 1.4) to get a better feel for it, and I'll see you all later!</pre>
+</article>
+<a class="side-link is-note-link" href="6_collectivesPrefixSum_1_28_20.html"></a>
+</main>
+</body>
+</html>

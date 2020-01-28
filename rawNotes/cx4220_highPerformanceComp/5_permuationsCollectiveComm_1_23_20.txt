@@ -1,0 +1,135 @@
+//****************************************************************************//
+//***** Permutations and Collective Communication - January 23rd, 2020 ******//
+//**************************************************************************//
+
+- Okay, the homework 1 grades have been released and there's unfortunately a bimodal distribution going on; some people did really well (31% got 95% or above, and 62% total got 90% or above), while other people clearly didn't put in the effort (27% got Fs)
+    - "I believe in giving second chances rather than lowering standards, so if you want a boost, I've posted some extra-credit work on Canvas that'll replace your lowest-scoring question on the homework"
+    - If you're struggling, PLEASE see me in office hours or talk to your peers; it's okay to admit you need help with something
+--------------------------------------------------------------------------------
+
+- Last time, we started talking about our distributed memory model of parallel computers
+    - On the algorithm side, each worker/process/rank can send or receive 1 message simultaneously without congestion (i.e. interference)
+        - This is the PERMUTATION NETWORK MODEL
+        - We then decided that, based on this, we have a MESSAGE COST MODEL where the time to send a message of length "B" will take:
+
+                T(send(p to q, A, |A|=B)) = t + u*B
+
+            - Where "t" is the time for latency, and "u" is the time per byte (i.e. inverse bandwidth)
+        - Is this useful? Let's take a quick look at actually running something
+            - "On the instructional cluster, we have various computer architectures, with the largest single node having 28 processors"
+                - The "-n" option, by the way, just means you don't want to share the node while you're running stuff on it
+                - Remember, too, we're using the module operation to load the programs we need (compilers like GCC, MPI runtimes, etc.)
+            - So, let's run a built-in benchmark from MPI, like the "Ohio State University Microbenchmarks" (which are available on the course repository)
+                - For the latency benchmark, 2 threads will just keep sending messages back-and-forth between each other and recording how long it took
+                    - So, each cycle will involve 2 messages: 1 being sent one way, and 1 being sent back
+                    - "We're doing both since send isn't guaranteed to be blocking, so we might only measure the time to copy a message into a buffer"
+                - Since measuring only 2 messages is very short and subject to noise, we'll take the average over sending a lot of them
+                - Since we have a Makefile, specifying our compiler and compilation flags and files, we can use that by just running
+
+                        make osu_latency
+
+            - We can now run the latency test using mpirun
+                - "We can see here that sending messages of length 0, 1, 2, 4, and 8 bytes all take ~0.19 microseconds; its really not until we get up to 128 bytes that a difference becomes noticeable, meaning 'u' is probably fairly small"
+                - Looking at larger values, then, like for sending thousands of bytes, we can see where doubling the number of bytes roughly doubles the sending time, which we can use to calculate 'u'!
+
+                        377 s / 4194304 bytes ~= 8.98838 e-05
+
+                    - "So, roughly a millionth of a microsecond per byte"
+                - In this experiment, there's a small kink where the sending time went DOWN for sending 65536 bytes; we'll talk about this more later, but basically, when messages get too big, we switch from "eager" to "rendezvous" sending, where we wait for multiple messages to come in and send them all at once to cut down on latency
+                    - After a certain point, this becomes more efficient than just sending messages as soon as we request
+        - So, these latencies and bandwidths seem to be properties of the machine we're running on, right? But that's actually not totally true
+            - If we add more processors when running the program, then EVEN THOUGH the program is still only using 2 threads, the software has to worry about managing a larger potential communication group, slowing it down
+            - "So, pure t + uB isn't totally correct; we also have to worry about software overhead"
+        - If we examine the PACE system, the 28 processors are split between 2 "sockets," or groups of processors; if the 2 processors are on the same socket, they'll be closer together and can communicate more efficiently
+        - If we specify the 2 threads to be on sockets, the time will go up slightly more!
+
+- Now, between multiple processors, we need to specify something called AFFINITY
+    - This is, basically, how many software threads each physical processor is allowed to run, and is important when we're concerned about benchmarks
+        - Having multiple threads on the same processor can also mean you get the threads "fighting" over the same cache, which can practically slow down performance if you don't distribute your threads in a clever way
+
+- "All this is to say that latency and bandwidth aren't the whole story; if we want to do fine-grained optimization, we need a more detailed model of the system we're working on"
+    - When we get into collective communication (rather than point-to-point between just 2 threads, like we've been doing), we'll elaborate on our computer model a bit more
+
+- In the permutation model, there's an ideal network design that can support this design with only "2 p log p" connections (rather than p^2)
+    - In practice, we use 2 common communication permutations to build algorithms:
+        - CYCLIC SHIFT permutations let us just communicate with the processor to the right/left of us, like so:
+
+                Left shift = (i - 1 + p) mod p
+                Right Shift = (i + 1) mod p
+
+        - HYPERCUBIC permutations are weirder
+            - Here, we assume we have "2^d" processors, and can represent each one with a "d" bit binary ID number
+            - Hypercubic permutations involve communicating with partners that differ by ONLY 1 bit, with each processor agreeing on which bit we're changing for this round of communication
+                - For example, if p = 8 (and, therefore, d = 3), and the bit we're flipping is "j", then the following processors would talk with one another:
+
+                        j=0:
+                            0 <--> 1
+                            2 <--> 3
+                            4 <--> 5
+                            6 <--> 7
+
+                        j=1:
+
+                        (...)
+
+    - Why are hypercubic permutations useful?
+        - One place their SUPER useful is for communicating down trees, like in our addition example from last time!
+            - For finding the sum of "n" numbers, then our algorithm for "p_i" would be:
+
+                add local n/p numbers
+                for j = 0 to d-1:
+                    if (rank AND 2^j) != 0:
+                        send sum to rank XOR 2^j
+                        exit
+                    else:
+                        receive sum' from rank XOR 2^j
+                        sum += sum'
+
+                if rank=0
+                    print sum
+
+        - "These are called hypercubic permutations, by the way, because we can think of each ID as being a corner of a 'd' dimensional hypercube, and at each step we're flattening the cube along 1 dimension (with the merged vertices communicating with each other)"
+        -
+    - This also reveals why we use the MAXIMUM processor time for running each program; the earlier "collapsed" threads will end up ending early while the remaining ones are still doing work
+
+- Hypercubic permutations are useful for operations where EVERY thread needs to be involved, and that brings us to the idea of COLLECTIVE COMMUNICATION
+    - Here, we say that all collective operations are BLOCKING - but except for barriers that all threads must reach, we don't assume any synchronization
+        - MPI_Barrier(MPI_Comm comm) means that each thread will wait until EVERY thread in the communicator reaches it, and blocks until that happens
+            - "This is one of the simplest methods of synchronization, but it's still useful"
+            - It's also useful for benchmarking how long collective communication is taking on your system/network
+    - We may also want to send messages from one thread to many other threads - how can we do that?
+        - BROADCAST is where one thread sends a single message to every other thread
+            - In MPI, we do this with:
+
+                    MPI_Bcast(void* buf, int countm )
+
+        - SCATTER is where a certain thread sends DIFFERENT messages to each thread
+            - Note that each message has to be the same size; if you want to sent variable-length messages to each thread, you can use "scatterv" (for "variable")
+        - GATHER is where a single thread receives a message/report from each other thread
+            - This is useful when we have a "master" or "control" thread
+            - In MPI, this is:
+
+                int MPI_Gather(void *sbuf, int scount, MPI_datatype stype, void* rbuf, int rcount, MPI_Datatype r_type)
+
+            - The "send" buffer on each process is fairly small, and the receive buffer
+    - Sometimes, we also want pieces of information to go to everyone so that something becomes common knowledge
+        - We can use ALLGATHER to do this, with each process essentially doing a broadcast
+        - We can use ALLTOALL to send distinct messages to EVERY process and ALSO receive messages from each process; "I think of this as being like a transpose of messages"
+    - Now, collective operations can be implemented using point-po-point methods, but these methods make them easier to handle
+
+- So far, we've been summing numbers together and doing intermediate operations at each step
+    - An alternate way we could do that is to GATHER all our numbers together, then have a single process add them together
+        - In this case, however, the original branching tree has less depth, and is therefore faster
+    - To keep this tree-branching efficiency (I think?), we can use REDUCTIONS
+        - For instance, to sum all the numbers, we can do this:
+
+                int a = A[rank]
+                int sum = 0
+                MPI_Reduce(&a, &sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD)
+                std::cout << sum
+
+            - We can replace "MPI_SUM" with any associative operation (meaning multiplication, etc., but NOT division)
+        - If we want this result to end up on EVERY process instead, we can use "MPI_Allreduce"
+            - Basically, this is a combination of MPI_Reduce and MPI_Bcast, and it's used ALL the time when we have stuff in our algorithms that need to be universally known
+
+- Okay, next time we'll analyze the runtimes of these collective communication things using latencies and such; see you next week!

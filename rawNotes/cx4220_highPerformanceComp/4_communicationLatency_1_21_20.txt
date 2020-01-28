@@ -1,0 +1,128 @@
+//****************************************************************************//
+//******** Communication, Deadlock, and Latency - January 21st, 2020 ********//
+//**************************************************************************//
+
+- The class before us is all still here, lining up behind their professor with questions - in other words, they just had a really good or a truly awful class
+
+- For our class, though, announcements!
+    - NEW OFFICE HOUR LOCATION: Tuesday, Klaus 3121
+        - "The time is the same, but hopefully this closer location will make things easier"
+    - Also, the 1st programming assignment has been posted as of today!
+        - This assignment is largely practice, rather than practical; you'll be computing the value of pi using a Monte Carlo random sampling method, counting how many points in a box landed inside/outside a circle
+            - The catch is that we'll have multiple threads placing these points in PARALLEL
+            - You can think of this as approximating a continuous integral/probability distribution using a sampling distribution
+                - The rate of convergence to the actual value is based on this:
+
+                        Error in statistical quantity = 1 / sqrt(N independent samples)
+
+                - Since ALL of these samples are independent, this should be fairly easy to parallelize in theory; this assignment is mostly to get you familiar with writing C++ programs and working with MPI
+                - One side-note here: a LOT of you will probably have to deal with parallel statistic-calculation outside of this class, and you'll have to deal with that "independent sample" qualifier
+                    - When it comes to most pseudo-random number generators on computers, though, their functions are deterministic and based on a starting state - so you NEED to make sure each thread is initialized to a different state/seed, or using an RNG algorithm specifically built for parallelism
+--------------------------------------------------------------------------------
+
+- So, last week we were going over DAGs for representing speedup/efficiency/parallelism, with the classic example being summing up numbers together in an efficient way
+    - We decided that the maximal parallelism we can have is based on the number of distinct operations at some "level" of the tree, and speedup will compare the optimal serial algorithm to the depth of the tree
+        - Notice that there's VERY little about the actual computer in here; we're not thinking about specific computer architectures at all
+    - We also talked about MPI and starting getting into communication; today, we'll try to tie these 2 ideas together
+
+- So, in MPI we talked about how we can describe an "envelope" for a given piece of data at a low level to send/receive messages, containing things like the size of the message, the type of message, the datatypes involved, etc.
+    - However, as soon as we start dealing with functions that can BLOCK (like "MPI_Recv", which won't return until it gets a message, and you *should* wait for an acknowledgement from the "MPI_Send" method), with each thread on different clocks, we can possibly write ourselves into DEADLOCK
+        - For instance, if we send a message and wait until we get an acknowledgement, and the OTHER thread is waiting to receive a message with an ID tag different than the sent one, it'll deadlock!
+            - If they're only waiting for the same ID tag, however, then it'll work!
+    - MPI_Send, while it sometimes waits for an acknowledgement message, will also ALWAYS block until the send buffer is usable (since when you call "MPI_Send", it has to copy all the stuff in the data buffer over into the message)
+        - EVERY send has to have a matching receive call; however, we can specify "tag=MPI_ANY_TAG" and "source=MPI_ANY_SOURCE" to receive any message type from any thread (respectively), and use "MPI_Status" to check what's inside our "envelope" instead
+            - This'd be useful if we were writing a data server that needs to respond to any data request it gets, for instance
+            - Note, though, that message order is NOT guaranteed at all (EXCEPT for if 2 messages were sent from the same thread, in which case MPI will do its magic to make sure messages sent from the same source DO have their relative order preserved)
+
+- This all sounds well and good, but there are still some problems we can run into
+    - Let's say we want all our processors to send a message to the next one (i.e. processor "i" sends a message to "i + 1 mod N") - this means we'll end up with a CYCLIC DEPENDENCY, where each message is dependent on receiving the previous one
+        - This can end up in deadlock, since every SEND method on EVERY thread is waiting for an acknowledgement that it's message has been received - meaning it'll never get to the receive method!
+
+                MPI_Send(...);
+                MPI_Recv(...);  // Will never be reached, since Send is waiting for an acknowledgement
+
+    - To get around this, we can INSTEAD use MPIs non-blocking communication methods so that MPI_Send won't wait for an acknowledgement
+
+            MPI_Isend(..., &req);   // "Request" handle returns the ID of this send
+            MPI_Irecv(...);
+
+        - To block when we need to, we can use "MPI_Wait(&req, &stat)" to block until the given send/receive "req" request completes (meaning MPI says it's done using our send/receive buffer)
+            - "MPI_Test" instead returns a boolean saying if the request is completed, without blocking; this is useful for doing work while we're waiting for communication to finish
+    - With this, we can now fix our deadlocking circular dependency using a non-blocking receive:
+
+            MPI_Request req;
+            MPI_Irecv(..., &req);   // This'll continue on
+            MPI_Send(...);
+            MPI_Wait(&req, &stat);  // NOW we'll wait for both operations to finish in-order!
+
+- Cool, we can write programs! But how can we analyze the performance of an algorithm with send and receives like this?
+    - Let's look back at our addition example:
+
+            x1  x2  x3  x4
+             \ /     \ /
+              +       +
+               \     /
+                \   /
+                  +
+
+    - Each one of these "x" threads is independent, with it's own data and memory, but we have to run those addition operations somewhere - which thread should we use to do it?
+        - We could say the FIRST thread in each operation will handle it, so that "x1" and "x3" will do the 1st level of additions, and then "x1" will do the final addition
+        - To do this, we have to send x2 and x4s data to x1/x3, and then send s3s final result to x1
+            - One tricky thing is that ALL of these threads are running the same program, so we need to somehow do some sort of branching based on what thread we're in
+    - Originally, our serial algorithm took "O(n)" time, while our parallel algorithm took O(log n) time with an "n/log n" speedup
+        - Each of these "O(n)" has "hidden" constant multiplier that the Big-O throws out:
+            - C1, the time to do each serial addition
+            - C2, the time to do each parallel addition (which must be at LEAST as long as C1, plus our communication time)
+                - Check this C2 definition?
+    - To run this on an actual computer, then, we need to think about actual architectural stuff!
+        - First,  we need to send all of these messages on the BUS, which can only support 1 message (to all processors) at a time - for this algorithm, we need to send:
+
+                n/2 + n/4 + n/8 + ... + 1 = n - 1 total messages
+
+            - This'll result in a runtime of c2 * (n - 1), c2 is always greater than c1; worse, c2 is the LATENCY "t" of sending messages, meaning the total time we'll take will be:
+
+                    T(n,n) = t * log n
+
+    - ALTERNATIVELY, let's say we have MUCH less than "n" processors, so we have to divvy up the work
+        - To do this, we'll say each processor gets "n/p" numbers to deal with, and we'll then say:
+            - Each processor locally sums up it's assigned numbers
+            - We'll then run the parallel algorithm
+        - This will give us a runtime of:
+
+                T(n,p) n/p + t * log p
+
+            - Giving us a speedup of:
+
+                    S(p) = n / ((n/p) + t*log p)
+
+                - Which, assuming t*p*log p <= n, gets us a speedup S(p) >= p/2
+            - "The more latency, the less parallelism we can have while beating linear speedups"
+    - Now, instead of a simple bus, let's say we instead have an INTERCONNECTION NETWORK and many computers are sending messages over some network
+        - Here, we're sending a message from "p_i" to "p_j" of size "n"
+        - Network latencies aren't getting much better, but network BANDWIDTHS (i.e. the rate we can send data at, like GB/s) are increasing all the time!
+            - Therefore, it's smart to try and bundle our messages together, rather than trying to send a bunch of small packets and have each one subject to latency, since after doing the pre-processing to send the 1st byte sending subsequent bytes is comparatively cheap
+                - "Think of it like turning on a hose; when you first turn on the hose, there's some time for the water to come out and reach the nozzle - that time's the latency. Then, after that, the bandwidth is like how fast the water starts coming out once it starts"
+            - Roughly (assuming a bandwidth of 10 Gbps), the time it takes to send a single byte is:
+
+                u(1 byte) = 1 / 1.25 * 10^9 = 0.8 ns
+
+            - The time it takes to send 1 word (8 bytes):
+
+                u(1 word) = 3.2 ns
+
+            - 1 clock cycle/operation:
+
+                3 Ghz ~= 1/3 ns
+
+        - So, sending a message of size B to a certain processor will take:
+
+                t + u*B
+
+            - ...i.e. latency + bandwidth*size
+    - So, practically due to latency, we have to keep in mind that each processor can only receive a certain amount of messages in a given chunk of time, and each processor can only send/receive 1 message per communication step
+        - Therefore, a good strategy for parallel algorithms is to think in terms of "bulk phases," where we alternate big chunks/epochs/etc. of computation with chunks of communication
+        - So, given that ALL of our processes are communicating in parallel at the same time, the time for each communication step in our algorithm will be the LONGEST message-send between any 2 processors
+    - "This whole thing is known as the PERMUTATION NETWORK MODEL, since we can implement any permutation of send/receives possible"
+
+- Next time, we'll talk about how to implement an algorithm like this using MPI's sends/receives - stay tuned!
+

@@ -1,0 +1,32 @@
+//****************************************************************************//
+//************** Invention Case-Study - January 24th, 2020 ******************//
+//**************************************************************************//
+
+- "The printer has failed you again - it failed to print your cards"
+- ALSO, I need you to re-submit the team charters because we forgot to submit it as a group project
+    - You're submitting the EXACT same thing, we're just now marking it as a group assignment so you'll all have access to our comments
+--------------------------------------------------------------------------------
+
+- Okay, today we'll keep plowing on with development and research types
+    - "Hopefully, this'll help you think about how to do research for your own project, and decide what types of research are important for your project"
+
+- To do this, we'll look at a case study: the SignAloud project!
+    - This is a video from a couple years ago of some students who created a glove that translated sign language into spoken words
+        - Some thoughts from the video:
+            - The presentation style seems to be a lot more about IMPRESSING people and making them look smart, rather than actually being useful; they come across as arrogant
+            - We never see a deaf person actually using the device in the video, or any indication that they worked with deaf people while developing the device - did they do the proper research? When they say it'll help "70 million people," do they realize that there are different dialects of sign language?
+            - Who is the audience for this video? If you're making a video for deaf people, you better have closed-captions on the video!
+            - The video appears kind of staged; where's the live demos with outside users? Will this work outside of a lab?
+        - "The same scrutiny you're applying to this video is how people are going to look at YOUR presentations and research"
+    - What kind of development is this?
+        - While they probably want it to be an outsourced project for other people, from the video and the fact that they're making this for a competition it comes off as a LOT closer to a personal development project that they made for themselves
+            - "Oh, I'm going to imagine I'm a deaf person, and imagine what I would need in that situation" - that's not good!
+    - This team actually won the invention award in their competition, but quickly came under scrutiny, with professors doing hearing impairment research critiquing their invention as not actually catering to the needs of deaf people (not taking into account facial features in ASL, requiring too slow signing to be practical, requires the deaf person to do extra work, etc.)
+        - "Interestingly, when we did this same video last year, the initial reaction was that it was a cool project with perhaps a few flaws"
+            - Research-wise, it's also interesting they NEVER mention that this same project HAS been done before
+            - "I like to call this technological Columbus-ing" - thinking you're doing something brand-new when there's actually a VERY similar solution already out there
+                - "This is a very common piece of feedback for research papers, where people think they've done something novel and then hear back that similar stuff has been said before - although it ALSO happens the other way sometimes, where people get a ton of accolades for basically re-hashing Aristotle or whatnot"
+        - This project could probably be labeled as having technological, linguistic, and ethical issues
+        - There are also just practical issues of what this is actually trying to solve; people can just write down what they want to say on a piece of paper a LOT more easily!
+
+- Alright, we'll wrap this up on Monday and start introducing the 2.5D sketches you'll be doing for your project - see you then!

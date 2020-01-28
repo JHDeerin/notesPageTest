@@ -12,7 +12,7 @@
     - Also, note that homework 1 has been updated to have some clarifications; the problems themselves haven't been changed, so don't worry if you already started working on it
     - The homework shouldn't be too bad; "the set questions just depend on the definition of a set, not on any theorems, and should be pretty similar to discrete math stuff you've seen in the past"
         - You don't have to be AS formal as you were in discrete math, following a template - you just have to be mathematical and show proofs
-        - For q_{reject}, we don't care if your tape head goes left or right, since we didn't specify that behavior
+        - For $q_{reject}$, we don't care if your tape head goes left or right, since we didn't specify that behavior
         - For the 3rd question, you do NOT need to prove your Turing Machine is correct; that's formal verification, and that's a WHOLE separate topic
             - Instead, you just need to show your algorithm itself is correct
             - Also, "deciding" for a Turing Machine means that the program will eventually terminate
@@ -52,11 +52,16 @@
         - Then, just give us the implementation details instead of all the explicit states (unless we ask for you to do that)
 
 - From this, you can also build something cool: the UNIVERSAL TURING MACHINE!
-    - These are where take a Turing Machine "M" as an input ALONG with a given tape "x," and returns he results of running "M" on x
+    - These are where we take a Turing Machine "M" as an input ALONG with a given tape "x," and returns he results of running "M" on x
         - It's possible for M to have even more states than our universal TM itself (which we can solve by encoding those extra states in some way on a tape)
 
 - So, the last thing we'll talk about is Time Complexity!
-    - Turing Machines play nice with this because they are GUARANTEED to run in polynomial time (I think?), meaning we can write its runtime as O(n^k) for some finite "k"
+    - We say a given language $L$ is in Time(f(n)) if there exists some Turing Machine such that for ALL inputs of length $n$, the TM accepts/rejects the input within O(f(n)) steps
+    - Turing Machines play nice with this because they are GUARANTEED to run in POLYNOMIAL TIME (I think?) under certain conditions, meaning we can write its runtime as O(n^k) for some finite "k"
+        - In other words, P means the language is:
+
+                TIME($n^k$)
+
     - If the input to our Turing Machine is polynomial, then it'll complete in polynomial time (I THINK?)
 
 - Alright, next time we'll talk about non-determinism - stay tuned!
