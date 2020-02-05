@@ -21,11 +21,11 @@
         - When we have a single-tape, we have the issue that variables can be arbitrarily long - and when we have an infinitely-long tape, that means they can be INFINITELY long! There's no such thing as an integer overflow in these things!
             - "States act like flowcharts, not like variables; we can't store things in our states"
         - So, having a 2nd tape, we can actually start doing stuff like having counter variables, etc, because we now have an infinite-length tape to store them on!
-            - "In your first homework, when I gave you the Turing Machine, probably everyone's first reaction was to "
-            - Sidenote: "OS isn't a required class here? I chose the wrong undergrad!"
+            - "In your first homework, when I gave you the Turing Machine, probably everyone's first reaction was to try and use a counter - but that's hard to do when you only have 1 tape!"
+            - Sidenote: "OS isn't a required class here? I chose the wrong school for undergrad!"
                 - When you DO have a multi-tape TM, though, you can use variables by implementing a hacky version of a memory manager, similar to in OS design, and by coming up with some encoding scheme
         - Formally, though, having a multi-tape TM means that your transition function now takes an input from ALL tapes at each step
-            - So, the formal definition looks like:
+            - So, the formal definition for a 2-tape TM looks like:
 
                 $\gamma = Q \times \Gamma^2 \implies Q \times \Gamma^2 \times \{L,R\}^2$
 
@@ -36,7 +36,7 @@
         - To specify Turing Machines at a higher-level with implementation details, then, you'll set up a description for what larger operations like "rewind tape" mean, and then describe your TM in those terms
             - These won't be as formal as mathematical set theory, but you need to convince us that you COULD figure out how to write the state diagram for this stuff if you had to
             - Literally, an encoding of a TM is a binary/etc. string in your language that can represent the 7-tuple describing a TM, which you can then pass to a universal TM
-            - You then specify shorthand ike "fetch variable" instead of having to list the explicit states for every single operation
+            - You then specify shorthand like "fetch variable" instead of having to list the explicit states for every single operation
 
 - So, let's define P
     - Last time, we said a language $L$ is in TIME(f(n)) if there is a TM $M$ such that for all inputs $w$ of length $n$, $M$ correctly accepts or rejects $w$ in O(f(n)) steps
@@ -76,11 +76,11 @@
     - "This is the same as the definition of non-determinism" (???)
 
 - Finally, briefly, let's talk about reductions
-    - If language A is poly-time reducible to another language B, then we say A $leq_{p}$ B if there's a poly-time function "f" such that:
+    - If language A is poly-time reducible to another language B, then we say A $\leq_{p}$ B if there's a poly-time function "f" such that:
 
              w \in A \iff f(w) \in B
 
         - In other words, if there is a function in P time that can map between an input in language A to the same input in language B
-    - This'll lead to the Cook-Levin Theorem, which says that if L is NP, then it's equally as difficult as 3SAT (or, in other words, it cn be REDUCED to 3SAT)
+    - This'll lead to the Cook-Levin Theorem, which says that if L is NP, then it's equally as difficult as 3SAT (or, in other words, it can be REDUCED to 3SAT)
 
 - Okay, we'll stop there for today.

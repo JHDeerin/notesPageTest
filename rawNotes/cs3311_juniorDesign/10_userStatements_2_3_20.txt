@@ -1,0 +1,30 @@
+//****************************************************************************//
+//***************** User Statements - February 3rd, 2020 ********************//
+//**************************************************************************//
+
+- Okay! The Super Bowl has been bowled out, hail to the Chiefs, yada yada
+    - ALSO, don't forget the 2.5D sketches are due tonight!
+--------------------------------------------------------------------------------
+
+- Okay - today was SUPPOSED to be about MVP design (minimum viable product), but instead we're going to keep elaborating on secondary research and about making a charter with your client (since certain projects have need for that at this point)
+    - "This class is a little awkward in that we always cover a topic right before it's due"
+
+- One thing that'll be building off your 2.5D sketches is the "well-defined user statement"
+    - Here, after you've created a rough sketch of your user types, you'll be doing proper research and make claims about your user groups, backing up your claims with research citations
+        - "The point of this is NOT to give us summaries of the articles you look at, but to use their main ideas to justify your conclusions about your user"
+        - The majority of this material should be from academic sources, of course, and should be using Chicago Style
+            - This means you are NOT going to use in-text citations, but'll instead use footnotes; HOWEVER, you'll still have a bibliography with all your sources at the end, and the format is slightly different between the footnotes and bibliography
+            - In particular, the bibliographic citations should be in alphabetical order, while footnotes should be in order of appearance; bibliographies should also cite the article as a whole, while footnotes should only cite the relevant page
+            - For a brief summary of Chicago-style citation, look here: https://www.chicagomanualofstyle.org/tools_citationguide/citation-guide-1.html
+    - This statement is basically a chance to conform or revise the ideas you brought up in your 2.5D sketches, as well as to answer the research gaps you had and to give a clear, convincing assessment of who your users are and what they want
+        - There is NO minimum length, but I'd recommend having it be at least 1500 words (~500 words per user type) with 4-5 quality sources per user type
+
+- Okay; in the last 10 minutes, let's talk about the "Client Charter," which is due on Friday
+    - Your team charter set out the expectations you have for one another as a team; this is setting out the expectations your customer can have of you, and vice-versa
+        - Some of this is boilerplate text we'll give you, but for most of them you WILL have to put your own requirements (e.g. what you need from the client and a reasonable timeline for getting it, such as a web server for hosting), project deliverables (what you're promising to deliver to the client by such-and-such date), and a place for your clients to "sign" and agree to abide by the charter
+        - Notice that there may be other sections you'll have to edit (e.g. adding your team name, client contact info, etc.)
+    - "PLEASE submit this as an editable Google Doc; it's less annoying than dealing with PDFs"
+        - Another thing that legally comes up sometimes: regarding intellectual property (IP), software developed BY the students remains the student's own property, BUT the software must be released to the client under an open-source license (which your team can choose) unless an alternate agreement with the client is reaches
+        - "Technically, you *can* monetize your product from this class later, and clients sometimes request if the students can transfer ownership to them, but you CANNOT sell the product to the client (at least while you're still a Georgia Tech student)"
+
+- Okay; time's up, so I'll see you Wednesday, when we'll wrap up the charter discussion and start getting into MVP stuff!

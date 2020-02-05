@@ -1,0 +1,143 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Introduction to High-Performance Computing</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4220Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Introduction to High-Performance Computing</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li class="active-note-page"><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="6_collectivesPrefixSum_1_28_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*************** Prefix-Sum Algorithm - January 30th, 2020 *****************//
+//**************************************************************************//
+
+- "Alright, you're here early (i.e. on time) - so let's reward you by talking about some logistic stuff!"
+    - To run on the cluster, you should be running it as follows:
+
+            qsub -q coc-ice-multi -n -1 nodes=4:core8,walltime=00:30:00 -I
+            mpirun -np 16 ./prog1.out
+
+        - When we start using multiple nodes, we need to specify a "hostfile" that says how much work we want each node to do
+            - It seems when you run this, it's actually only allocating 4 cores, which means there are more threads then there are processors - and that can lead to HUGE performance overheads, especially with communication protocols
+                - "Logically, you think this'd give us 4*8 = 32 cores, but it appears that's not what PACE is doing"
+                - However, because PACE is a shared cluster among multiple classes, asking for more nodes than are currently available may mean it gives you just the nodes that're currently available
+        - To fix this, we can instead ask for a single node with 16 processors on it:
+
+                qsub -q coc-ice-multi -n -1 nodes=1:ppn=16,walltime=00:30:00 -I
+
+            - "Going forward, I'd use this syntax; the number of nodes and the number of processors per nodes"
+        - To actually send files from your computer to the cluster, you can use scp before you "ssh" into the cluster
+        - Also, note that we're generating distances from (0, r^2) and then taking the square root of them (e.g. x = sqrt(dist)*cos(th)) for statistical reasons; not taking the square root would change the distribution (don't they cancel out?)
+--------------------------------------------------------------------------------
+
+- Alright, let's get back to prefix sum!
+    - As we started learning last time, this is where we're trying to compute all the sums from "x_0 ... x_i" in "x_0 ... x_n"
+    - MPI_Scan can do this in parallel for us, and note just for sums, but for ANY associative operation
+        - If can fit things into this prefix sum algorithm, we can save ourselves a lot of code and communication over the network - it might look specific and technical, but it's actually a VERY general technique
+            - A lot of iterative operations can be expressed in terms of associative things, which "scan" can then compute for us
+    - Last time, we talked briefly about HOW we can do this in parallel
+        - Basically, we take the sum of all the things we've seen so far, and pass it forward/backward in a hypercubic permutation; if we receive a number from a lower rank, we add it to our own value, but if from a higher rank then we add it to our "separate" sum to be passed on later
+        - We can also implement this using shift communicators, which may be more intuitive but is slightly slower and can be awkward on some networks
+
+- Where would we use this? Let's look at some examples!
+    - Let's say we're doing "polynomial evaluation," where we have the function:
+
+            P(x) = a_0 + a_1*x + a_2*x^2 + (...)
+
+        - Let's assume the coefficients "a_0 ... a_n" are distributed in even-sized blocks over our "p" processors
+            - It seems like each processor would have to compute "x, x^2, etc." by itself, which can get REALLY big for large values of x^n
+            - INSTEAD, we'll compute these powers by having an array where "1" is the first element and "x_0" are in the rest of the elements, with "multiplication" as our operation
+                - We can then run MPI_Scan on this array, giving all the needed powers of "x" to each processor
+                - Then, we can compute the sub-sums for each processor (e.g. "a_0 + a_1*x + ... a_(n/p)*x^(n/p)")
+            - Finally, we can add all these partial sums together with reduction
+        - Computation-wise, this means T=O(n/p * log(p)), with the communication time being O((t+u) * log(p))
+            - Efficiency wise, this means
+    - Let's look at an example that EVERYONE'S seen before: the Fibonacci sequence!
+        - So, f_0 = f_1 = 1, S_i = S_i-1 + x_i
+            - Or, in linear algebra land, our update is:
+
+                    [f_i f_i-1] = [f_i-1 f_i-2] * [1 1]
+                                                  [1 0]
+
+            - We can turn this into a prefix-sum problem by noting that we have some overlapping series - each new element is dependant on the two that came before it!
+            - If we look at the linear algebra version, we're accumulating these small fixed-size matrices each time we multiply - so we can do prefix-sum on 2x2 Matrix multiplication!
+
+                    S_i = S_1 x M^(i-1)
+
+                - This is NOT something that MPI has built-in, but luckily, we can extend it with our own function to give each processor M^2, M^3, etc.
+            - We can generalize this to 3x3 matrices for 3-term recurrences, 4x4 for 4-term recurrences, etc. (within reason, since we're still doing matrix multiplications)
+    - We can ALSO do this with modular arithmetic to get parallel pseudo-random numbers, which is great!
+        -
+
+- So, all of these examples are naturally "lines of things," where things are dependant one after the other - but we can also use prefix sums to do less obvious stuff!
+    - For instance, TREE ACCUMULATION, where we're trying to compute the sums of all the subtrees below a given node (or alternatively, going above "we need directions from our boss's boss's boss or something")
+        - Naively traversing the tree, this'd take O(n) in a serial algorithm
+        - How can we make this a prefix sum? First, we can list the nodes in order of an EULER TOUR, making this list 2*v - 1 long
+            - Then, to do upward accumulation, we can split this list into "p" blocks among our processors
+            - Then, the first time (??)
+        - To do downward accumulation, we can do something similar:
+            - Put "x_i" for the first occurrence of a node, "-x_i" for the last occurrence of a node, and 0 otherwise
+            - (?)
+            - However, this doesn't include leafs in our sum! So, for leaf nodes, we'll put "0"
+    - "The critical thing to take away here is that we could linearize our tree, taking something that wasn't linear and being able to do linear operations on it"
+        - Constructing the Euler tour of our tree can be done efficiently in O(n/p), but we'll skip the details for now
+
+- Finally, let's talk about a SUPER important problem in computational biology: DNA SEQUENCE ALIGNMENT!
+    - Let' say you give me 2 DNA sequences over the alphabet "A,C,G,T", and we want to show how similar they are to one another by trying to ALIGN them
+        - We'll put the 2 strings together and say that ech match is a +1 score, a mismatch is a 0, but introducing a gap to help align them is BAD: that's a -1!
+            - So, given the sequences ATGACC and AGAATC, the best alignment would be:
+
+                    ATGA-CC
+                    A-GAATC
+
+                - Which gives us a score of "2"
+    - However, how do we know where to put our gaps? How do we know when adding a gap will give us a higher score?
+        - We could go with a dynamic programming solution VERY similar to edit distance, where we say we make an "m+1"x"n+1" table and say T[i,j] = best score between "a0...ai" and "b0...bj"
+            - Then, we can define the following update:
+
+                    T[i,j] = max(
+                        T[i-1,j-1] - g,     //what's g???
+                        T[i,j-1] - g,
+                        T[i-1,j-1] + f(ai, bj));
+
+
+        - How can we make this a parallel prefix sums problem?
+            - (details on slides, moved a little fast)
+        - So, the ultimate algorithm works out to this:
+            - Use right shift to send last element of (i-1)th row on each processor (O(t+u))
+            - Create vector A in O(n/p):
+                (on slides)
+            - Computer parallel prefix on A using MAX as an operate; store results in X (O(n/p + (t+u)* log p))
+            - Compute T[i,j] using (missed this) in O(n/p)
+    - So, how much time will this algorithm take?
+        - TODO: fill this in from slides
+
+- That's a LOT better than we had, but can we do even better?
+    - In short, YES, we can! (again, slides; moving fast at the end there)
+
+- So, in general, finding ways to turn your algorithm into calls to MPI routines that are highly optimized is GREAT, and you should strive to do that
+
+- Alright, on Monday your first homework is due, and we'll finish up the MPI</pre>
+</article>
+<a class="side-link is-note-link" href="8_prefixCAllToAll_2_4_20.html"></a>
+</main>
+</body>
+</html>

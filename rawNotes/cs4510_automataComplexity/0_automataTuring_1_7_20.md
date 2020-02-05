@@ -28,7 +28,7 @@
     - This class is very much an extension of 3510 - and in particular, we're going to be doing an extension of P vs NP
         - In 3510, your discussion of WHAT P and NP actually were was a little informal, but we can actually define them formally using set theory
         - In this class, we're going to formalize all that stuff
-            - Normally, we'd only get to P vs NP near finals week - but this semester, we're gonna switch it up and define it in the first few weeks, then show how that ties ito Turing Machines
+            - Normally, we'd only get to P vs NP near finals week - but this semester, we're gonna switch it up and define it in the first few weeks, then show how that ties into Turing Machines
 
 - Core to the idea of this class is the idea of a LANGUAGE
     - We say a LANGUAGE is a subset of all possible strings using some alphabet, e.g. all strings you can make using the binary characters {0,1}
@@ -77,7 +77,7 @@
 
                 1 | 0 | # | 1 | 0 |
 
-            - How can we design an automata that can take this string and solve the problem from our language example: determining if the 1st and nd strings before the "#" separator are the same?
+            - How can we design an automata that can take this string and solve the problem from our language example: determining if the 1st and 2nd strings before the "#" separator are the same?
                 - This is trickier because our ONLY memory is the tape, so we can't record anything UNLESS we write it on the tape
                 - To help with this, we can increase the size of our alphabet!
                     - Let's add the following characters besides {#, 0, 1}:

@@ -1,0 +1,434 @@
+//****************************************************************************//
+//********* Prefix Sum C Example / All-to-All - February 4th, 2020 **********//
+//**************************************************************************//
+
+- What glyphs shall grace the whitest board this morn?
+    - Pause on project 1 discussion until Canvas comes back up
+    - Example of prefix sum in MPI polynomials
+    - All-to-all communication
+    - Start thinking about sorting
+
+- "On Canvas this morning, there was an announcement that said Canvas accidentally dropped ~3000 courses for random people across campus; fortunately, it seems most people in this class still submitted the project, but I'll wait until Thursday"
+    - Also, you got your first programming project done! Congratulations!
+- "Does anyone in the class have a USB-C to HDMI dongle? I forgot mine for once today, so the projector might get a break this class"
+--------------------------------------------------------------------------------
+
+- Last week, we went through some examples for how prefix sum can actually be used; today, we'll be looking at how to actually implement some of that via polynomials!
+    - Polynomials as math functions are useful for approximation;
+
+            f(x) ~= sum from i=0 to k{ a_i * x^i }
+
+        - As we discussed last time, we need to compute powers of X to find this, which we can do using prefix-sum with multiplication as our operator
+    - So, how can we do this in MPI?
+        - In data, we have the following things:
+            - A vector of coefficients a_0 ... a_k
+            - A vector of X-values x_0 ... x_k (something about picking these?)
+        - We then want to SOLVE for f(x_0) ... f(x_k), which is essentially solving for the following matrix:
+
+                [x_0^0  x_1^0   (...)]
+                [x_0^1  x_1^1   (...)]
+                [(...   (...)        ]
+                [               x_k^n]
+
+        - So, how can we get a set of polynomials to use as our basis function (??)
+            - We can use this set of polynomials called CHEBYSHEV POLYNOMIALS, which can be evaluated as a 3 term recurrence:
+
+                    T_0(x) = 1
+                    T_1(x) = x
+                    T_n+1 = 2*x*T_n(x) - T_n-1(x)
+
+            - How can we do prefix sum on this, based on last time with the Fibonacci sequence? Basically, we tried to turn this scalar operation into a VECTOR update operation:
+
+                    [T_n(x)]    =   [0  1]   *  [T_n-1(x)]
+                    [T_n+1(x)]      [-1 2*x]    [T_n(x)]
+
+                    =>  [T_n(x)]    = A^n   * [T_0(x)]
+                        [T_n+1(x)]            [T_1(x)]
+
+                - ...where "A" is our update matrix, raised to successive powers
+        - How can we actually write this in C, using MPI? Well, I wrote up some code on GitLab that you can find here (https://gitlab.com/tisaac/chebyshev-live)
+            - *Goes through the C code for a little while; I'll probably append the C code at the end of these notes*
+            - A few sidenotes:
+                - MPI_Scan is inclusive; MPI_Exscan is exclusive (something about Exscan being used when we only need to update previous stuff???)
+                - For doing parallel I/O, where we want to print stuff on multiple threads, there are a few things we could do:
+                    - We could have a "talking lock" where process 0 prints first, then releases the lock for process 1, etc.; however, we can still end up with them printing
+                    - You could also have everyone send their information to a single process, and then have that process handle all the printing; this is good enough for simple cases
+                - For receiving messages of an unknown size, we can use "MPI_Probe," which does (???)
+
+- Okay, the last collective communication function we haven't looked at is "All-to-all" communication; let's do that!
+    - ALL-TO-ALL means that each process has a custom message for each other process; we assume all of them are the same size
+        - Essentially, we're "transposing" messages from each processor to the others; we want to go from:
+
+                p0: [m00 m01 m02]
+                p1: [m10 m11 m12]
+                p2: [m20 m21 m22]
+
+            - To:
+
+                p0: [m00 m10 m20]
+                p1: [m01 m11 m21]
+                p2: [m20 m21 m22]
+
+    - How could we implement this?
+        - We could just have a loop in each of our "p" processes and have them loop through and send each of their "p-1" messages of length "m"
+            - This is simple, but it has a problem: we send "p-1" messages to p0, then send "n-1" messages to p1, etc., meaning each process has to do "n-1" iterations of message-receiving and process ALL its received messages at each communication step before we can move on to the next one - not good!
+                - This means the messages are interfering with one another, violating our permutation property (?)!
+            - So, we could have p^2 communication rounds going on, with a time of:
+
+                    O(t*p^2 + u*m*p^2)
+
+                - Not great!
+        - Instead, we could send these messages using our cycle shifts, where p0 sends to p1, p1 send to p2, etc., with "n-1" such rounds of communication, giving us:
+
+                O(t*p + u*m*p)
+
+            - This is way better - and since each message-passing algorithm has to process at least O(p) messages, it's asymptotically optimal!
+            - BUT in the real, practical world, latency "t" is MUCH bigger than our bandwidth "u," so we want to minimize the number of our communication rounds (which we currently have "p" of)
+        - To shorten the number of rounds, then, we'll use hypercubic permutations
+            - Note here that the receiving process has to send BOTH messages it received to the next process, so we don't get the "log m" runtime (since while the number of messages is being cut in half each round, the message size is also doubling each round)
+            - Therefore, we'll end up with a runtime of:
+
+                    O(t*log(p) + u*m*p*log(p))
+
+                - So, we're slightly sub-optimal in "u" runtime, but optimal for our latency term "t" - which for the real world is good!
+
+- So, All-to-all is our most expensive "standard" communication primitive, but not ridiculously so; for arbitrary permutations, the runtime will be even worse at "O(t*p + u*m*p)"
+
+- Let's say, though, that we don't have such a nice pattern, and instead we're trying to send many messages from SOME processes to some other number of processes, each of a different size - what can we do?
+    - This is known as a MANY-TO-MANY communication, where we say "m_ij" is a message from process i to process j, and we assume the size of each message is <= "S" (where a size of 0 means the message doesn't exist)
+        - "R", meanwhile, is the largest size of a message we're receiving, and "R_i" is the largest message being received by process i
+    - Unlike our other algorithms, there isn't a single "best" algorithm for many-to-many; some do well for sparse communication, while others do well for dense communications
+        - One algorithm for it goes as follows:
+            - In the 1st round, we split the messages each process has into parts and send part of each to P_0, P_1, etc. to get each message into equal-sized blocks, each <= S/p
+                - We can do this via an all-to-all in:
+
+                        O(t*p + u*(S/p)*p)
+                        = O(t*p + u*S)
+
+            - In the 2nd round, we then want to re-route each of these message fragments to the final destination process (where they'll be re-assembled into the correct message); we can do that with an all-to-all with a max message size of R/p
+                - This'll take O(t*p + u*R)
+        - Together, these 2 steps give us a runtime of O(t*p + u*(R+S))
+        - However, there's a question we haven't answered yet: after stage 1, how does each process know where to send each message fragment, and what size each one is?
+            - To do this, we can include an O(p) extra bits to each message saying where each fragment should be sent (I think?), giving us new message sizes of "S/p + p" and "R/p + p", respectively
+            - This gives us a new runtime of:
+
+                    O(t*p + u*(R+S+p^2))
+
+                - Or, if we make the common assumption that p^2 is O(S+R):
+
+                    O(t*p + u*(R+S))
+
+- Okay, we've looked at the communication times of all of these collectives and seen an example of using scan; next time, we'll break down Project 1 and start getting into the next class of problems we have: sorting!
+    - "I'll bring all my adapters next time, too!"
+
+--------------------------------------------------------------------------------
+================================================================================
+--------------------------------------------------------------------------------
+
+// chebyshev.c
+
+/* Let's evaluate a Chebyshev polynomial in parallel.
+ *
+ * Chebyshev polynomials: https://en.wikipedia.org/wiki/Chebyshev_polynomials
+ *
+ * There is a direct evaluation formula that requires cos and arccos to
+ * evaluate, but there is also a recursive definition that does not require
+ * any special functions:
+ *
+ * T_0(x) = 1
+ * T_1(x) = x
+ * T_n(x) = 2 * x * T_{n-1}(x) - T_{n-2}(x)
+ */
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <mpi.h>
+
+/* Looking at the slides, we see a three term recurrence (where one terms is
+ * defined by the previous two), and we know we want to turn this into a
+ * vector two term recurrence with a matrix defining the update rule:
+ *
+ * T_n     = [ 0    1 ] T_{n-1}
+ * T_{n+1} = [ -1 2*x ] T_n,
+ *
+ * =>
+ *
+ * T_n     = [ 0    1 ]^n T_0
+ * T_{n+1} = [ -1 2*x ]   T_1.
+ *
+ * So we can use 2x2 matrix multiplication as our associative operation.
+ *
+ * Let's set up a data structure for that.
+ */
+typedef struct
+{
+  double m[2][2];
+} two_by_two_mat;
+
+/* We are going to register two_by_two_mat as an MPI_Datatype.  When we do,
+ * we will store that data type here */
+MPI_Datatype MPI_TWOBYTWO = MPI_DATATYPE_NULL;
+
+/* We need to write the associate 2x2 matrix multiplication routine:
+ * it must match the MPI_User_function prototype:
+ * https://www.mpich.org/static/docs/v3.1/www3/MPI_Op_create.html
+ *
+ * For operations that were commutative, we didn't have to worry about the
+ * order of the two operations, but matrix multiplication is not commutative.
+ * The user function is supposed to do the update
+ *
+ * b <- a op b
+ *
+ * So should if `a` is a 2x2 matrix and `b` is a 2x2 matrix, should
+ * `a op b` be `a*b` or `b*a`?  We have to look at our recurrence relationship
+ * to find out.
+ *
+ * In our case it doesn't matter, as long as we're consistent,
+ * so let's choose `a op b` to mean `a*b`.
+ */
+void two_by_two_multiplication(void * a, void *b, int * len, MPI_Datatype *datatype)
+{
+  two_by_two_mat *As, *Bs;
+  int            i, l = *len;
+#if defined(DEBUG)
+  if (*datatype != MPI_TWOBYTWO) printf("Error, not implemented!\n");
+#endif
+
+  /* get the packed list of inputs */
+  As = (two_by_two_mat *) a;
+  Bs = (two_by_two_mat *) b;
+  for (i = 0; i < l; i++) {
+    int j, k;
+    two_by_two_mat temp;
+    /* get the two matrices I'm multiplying together */
+    two_by_two_mat *A = &As[i];
+    two_by_two_mat *B = &Bs[i];
+    /* write the results in temp */
+    for (j = 0; j < 2; j++) {
+      for (k = 0; k < 2; k++) {
+        temp.m[j][k] = A->m[j][0] * B->m[0][k] + A->m[j][1] * B->m[1][k];
+      }
+    }
+    /* copy temp to B */
+    *B = temp;
+  }
+}
+
+/* I like to use the MPI error returns to immediately stop the program if
+ * something goes wrong */
+#define MPI_CHK(err) if (err != MPI_SUCCESS) return err
+
+/* Let's use the GetRange function discussed in class
+ *
+ * Input Args:
+ *   comm (MPI_Comm) - The communicator
+ *   N (int) - the number of things to divide
+ *
+ * Out Args:
+ *   my_start (int *) - The lower bound associated with this rank, inclusive
+ *   my_end (int *) - The upper bound associated with this rank, exclusive
+ *
+ * Returns:
+ *   int: MPI_SUCCESS if there were no errors, an MPI error code otherwise
+ */
+int GetRange(MPI_Comm comm, int N, int *my_start, int *my_end)
+{
+  int size, rank, err;
+
+  err = MPI_Comm_size(comm, &size); MPI_CHK(err);
+  err = MPI_Comm_rank(comm, &rank); MPI_CHK(err);
+
+  *my_start = (N * rank) / size;
+  *my_end = (N * (rank+1)) / size;
+
+  return 0;
+}
+
+/* We want equally spaced points
+ *
+ * Input Args:
+ *   M (int) - the number of points
+ *   i (int < M) - the index
+ *
+ * Returns:
+ *   double: the location of this equally spaced point in [-1, 1]
+ */
+double IndexToPoint(int M, int i)
+{
+  if (M == 1) {
+    /* just evaluate at zero if we only want one point */
+    return 0;
+  }
+  return -1. + 2. * ((double) i) / ((double) M - 1);
+}
+
+/* Now let's write a main program that reads in a number N of polynomomials to
+ * evaluate at a number of points M:
+ *
+ * mpirun -np P ./chebyshev N M
+ */
+
+int main(int argc, char **argv)
+{
+  int i, j, k, N, M;
+  int my_start, my_end;
+  int my_size;
+  int rank, size;
+  int err;
+  two_by_two_mat *matrices_all;
+  two_by_two_mat *matrices_global_scan;
+  double   *values;
+  MPI_Op   twomatmult;
+  MPI_Comm comm;
+
+  err = MPI_Init(&argc, &argv); MPI_CHK(err);
+
+  if (argc != 3) {
+    fprintf(stderr, "Usage %s N M\n\nN = number of Chebyshev polynomials\nM = number of equally spaced points\n", argv[0]);
+    return -1;
+  }
+  N = atoi(argv[1]);
+  if (N <= 0) {
+    fprintf(stderr, "Polynomial degree must be positive\n");
+    return -2;
+  }
+  M = atoi(argv[2]);
+  if (M <= 0) {
+    fprintf(stderr, "Number of points must be positive\n");
+    return -3;
+  }
+
+  comm = MPI_COMM_WORLD;
+
+  err = GetRange(comm, N-1, &my_start, &my_end); MPI_CHK(err);
+  my_size = (my_end - my_start);
+
+  /* create the work space */
+  matrices_all = (two_by_two_mat *) malloc(sizeof(two_by_two_mat) * my_size * M);
+  if (my_size > 0 && !matrices_all) {
+    fprintf(stderr, "Error allocating matrices_all\n");
+    return -4;
+  }
+  matrices_global_scan = (two_by_two_mat *) malloc(sizeof(two_by_two_mat) * M);
+  if (my_size > 0 && !matrices_global_scan) {
+    fprintf(stderr, "Error allocating matrices_global_scan\n");
+    return -5;
+  }
+  values = (double *) malloc(sizeof(double) * my_size * M);
+  if (my_size > 0 && !values) {
+    fprintf(stderr, "Error allocating values\n");
+    return -6;
+  }
+
+  /* initialize the matrices */
+  for (j = 0; j < M; j++) {
+    double x = IndexToPoint(M, j);
+    two_by_two_mat initmatx;
+
+    initmatx.m[0][0] = 0.;
+    initmatx.m[0][1] = 1.;
+    initmatx.m[1][0] = -1.;
+    initmatx.m[1][1] = 2.*x;
+    for (i = 0; i < my_size; i++) {
+      two_by_two_mat *thismat = &matrices_all[M * i + j];
+
+      *thismat = initmatx;
+    }
+  }
+
+  /* create the datatype */
+  err = MPI_Type_contiguous(4, MPI_DOUBLE, &MPI_TWOBYTWO); MPI_CHK(err);
+  err = MPI_Type_commit(&MPI_TWOBYTWO); MPI_CHK(err);
+
+  /* create the operation: the 0 means it is not commutative */
+  err = MPI_Op_create(two_by_two_multiplication, 0, &twomatmult); MPI_CHK(err);
+
+  /* Scan locally */
+  for (i = 1; i < my_size; i++) {
+    two_by_two_multiplication(&matrices_all[(i-1)*M], &matrices_all[i*M], &M, &MPI_TWOBYTWO); MPI_CHK(err);
+  }
+
+  /* Exclusive scan globally */
+  err = MPI_Exscan(&matrices_all[(my_size-1)*M], matrices_global_scan, M, MPI_TWOBYTWO, twomatmult, comm); MPI_CHK(err);
+
+  /* Update the local scan with the global scan results */
+  err = MPI_Comm_size(comm, &size); MPI_CHK(err);
+  err = MPI_Comm_rank(comm, &rank); MPI_CHK(err);
+  if (rank) {
+    for (i = 0; i < my_size; i++) {
+      two_by_two_multiplication(matrices_global_scan, &matrices_all[i*M], &M, &MPI_TWOBYTWO); MPI_CHK(err);
+    }
+  }
+
+  /* Now that we have the matrices, apply them to the first vector [1, x] */
+  for (j = 0; j < M; j++) {
+    double x = IndexToPoint(M, j);
+    for (i = 0; i < my_size; i++) {
+      two_by_two_mat *thismat = &matrices_all[M * i + j];
+
+      values[i * M + j] = thismat->m[1][0] + thismat->m[1][1] * x;
+    }
+  }
+
+  /* every rank sends its results to rank 0 to print */
+  if (rank) {
+    err = MPI_Send(values, M * my_size, MPI_DOUBLE, 0, 0, comm); MPI_CHK(err);
+  } else {
+    for (i = 0; i < size; i++) {
+      double *recv_buf = NULL;
+      int recv_size = -1;
+      if (i) {
+        /* For demonstration, I'm going to pretend I don't know the incoming
+         * size, and allocate a buffer on the fly */
+        MPI_Status status;
+
+        err = MPI_Probe(i, 0, comm, &status); MPI_CHK(err);
+        err = MPI_Get_count(&status, MPI_DOUBLE, &recv_size); MPI_CHK(err);
+        recv_buf = (double *) malloc(sizeof(double) * recv_size);
+        if (recv_size > 0 && !recv_buf) {
+          fprintf(stderr, "Error allocating recv_buf\n");
+          return -6;
+        }
+        err = MPI_Recv(recv_buf, recv_size, MPI_DOUBLE, i, 0, comm, MPI_STATUS_IGNORE); MPI_CHK(err);
+      }
+      else {
+        recv_buf = values;
+        recv_size = my_size * M;
+        /* We have computed the powers >= 2, the constant and linear values
+         * are already known */
+        printf("np.array([[");
+        for (j = 0; j < M; j++) {
+          printf("%g, ", 1.);
+        }
+        printf("],\n    [");
+        for (j = 0; j < M; j++) {
+          double x = IndexToPoint(M, j);
+          printf("%g, ", x);
+        }
+        printf("],");
+      }
+
+      for (j = 0; j < recv_size / M; j++) {
+        printf("\n    [");
+        for (k = 0; k < M; k++) {
+          printf("%g, ", recv_buf[j * M + k]);
+        }
+        printf("],");
+      }
+      if (i) {
+        free(recv_buf);
+      }
+    }
+    printf("])\n");
+  }
+
+  /* clean up */
+  err = MPI_Op_free(&twomatmult); MPI_CHK(err);
+  err = MPI_Type_free(&MPI_TWOBYTWO); MPI_CHK(err);
+  free(values);
+  free(matrices_global_scan);
+  free(matrices_all);
+
+  err = MPI_Finalize();
+  return err;
+}

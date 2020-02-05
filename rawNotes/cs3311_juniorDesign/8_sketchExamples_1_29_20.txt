@@ -1,0 +1,35 @@
+//****************************************************************************//
+//************** 2.5D Sketch Example - January 29th, 2020 *******************//
+//**************************************************************************//
+
+- EVERYONE IS MISSING! PANIC!!!!!
+    - ...thishasbeenatestoftheGTENSemergencybroadcastsystem...
+--------------------------------------------------------------------------------
+
+- Okay, today'll really be a lot of brainstorming about who your users are, which you'll make
+    - "It's brainstorming, so no idea is a dumb idea; if you think about it, right it down and slap it on the board"
+    - After that, you can start loosely putting related sticky notes togethers
+        - Later, you can refine the groups - if we're making a music app, should "Restaurant owners" and "party hosts" be grouped together because they're both hosts trying to set a mood, or are their uses different? Do teenagers count as kids? Can you group musicians and choreographers together as "creatives"? Do you group "truckers" with regular commuters, or do they have different needs?
+            - Do "uber drivers" go under the "commuter" category, or "set the mood host" category? Maybe you provisionally put them in-between. Does "riot control" go with "teachers"? (The answer is yes!)
+    - So, after we quickly, loosely put these sticky notes into groups, we need to figure out WHAT ties each group in common - what are the different reasons people are playing the music?
+        - Hosts, DJs, etc. could be grouped as "setting the mood"
+            - But, from that perspective, teachers could ALSO be counted as setting the mood for their students, and gym instructors might be setting the mood to pump up their students
+        - Maybe people are using music for work, but there are shades of "low-intensity listeners" (passive) and "high-intensity listeners" (active)
+            - Truckers, etc. probably fall under passive listeners
+        - For the "creative" people, how do they listen differently? Are they searching for particular music for inspiration, or to use in their work?
+        - Do "money makers" like advertisers and business people
+
+- So, when you're making these sketches, you start out just coming up with users and then trying to figure out WHY they would use your app
+    - You should be writing this stuff down, and then do RESEARCH to figure out if your guesses for how they would use your product are accurate, or if you need to change your reasoning
+    - Then - after you've formed these groups of people - do a 2.5D sketch for each group of users
+
+- *cue group sticky-note brainstorming session*
+
+- With the last 5 minutes, let's talk about where you go from here
+    - For each user group, research and brainstorm:
+        - What facts you know about that group: their age range, gender, occupation, education level, technical skill, maturity, access to resources, where they'll use this, etc.
+        - Their behaviors: how and when and what do they use this software to do?
+        - The needs/goal,s the WHY of why they'd use our software
+    - More specifics are in a 2.5D PowerPoint
+
+- For Friday, we're expecting an image of your brainstorming sessions for EACH of these user groups, and then your completed 2.5D sketches for each user group

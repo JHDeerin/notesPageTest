@@ -43,7 +43,8 @@
 
 - So, since we can't draw state diagrams practically for super-huge state spaces, we'll talk about Turing Machines more abstractly now
     - What if we have a TM with TWO tapes?
-        - You can simulate this on a single-tape TM by just concatenating the 2+ tapes together, with some special character separating them AND a special character marking where the tapehead is for each tape, and then making a bunch of extra states for when you're on the 1st/2nd/etc, tape
+        - You can simulate this on a single-tape TM by just concatenating the 2+ tapes together, with some special character separating them AND a special character marking where the tapehead is for each tape, and then making a bunch of extra states for when you're on the 1st/2nd/etc. tape
+            - Fortunately, this only incurs at most an (O(n^2c)) additional cost, so we're still in polynomial time!
         - "These are Turing Machines that're too complicated to actually implement for most purposes (since your input state is now every possible PAIR of characters), but we can think about them at a high-level"
             - One thing that DOES help us is that Turing Machine computation is purely local, so we don't need to remember every state combination
             - "Don't treat Turing Machines as a computer; treat them as very low-level programs with a very limited instruction set"
@@ -52,16 +53,16 @@
         - Then, just give us the implementation details instead of all the explicit states (unless we ask for you to do that)
 
 - From this, you can also build something cool: the UNIVERSAL TURING MACHINE!
-    - These are where we take a Turing Machine "M" as an input ALONG with a given tape "x," and returns he results of running "M" on x
+    - These are where we take a Turing Machine "M" as an input ALONG with a given tape "x," and return the results of running "M" on x
         - It's possible for M to have even more states than our universal TM itself (which we can solve by encoding those extra states in some way on a tape)
 
 - So, the last thing we'll talk about is Time Complexity!
     - We say a given language $L$ is in Time(f(n)) if there exists some Turing Machine such that for ALL inputs of length $n$, the TM accepts/rejects the input within O(f(n)) steps
-    - Turing Machines play nice with this because they are GUARANTEED to run in POLYNOMIAL TIME (I think?) under certain conditions, meaning we can write its runtime as O(n^k) for some finite "k"
+    - Turing Machines play nice with this because they are GUARANTEED to run in POLYNOMIAL TIME under most conditions, meaning we can write its runtime as O(n^k) for some finite "k"
         - In other words, P means the language is:
 
                 TIME($n^k$)
 
-    - If the input to our Turing Machine is polynomial, then it'll complete in polynomial time (I THINK?)
+    - If the input to our Turing Machine is polynomial, then it'll complete in polynomial time (i.e. as long as we're not brute-force checking every possibility, basically)
 
 - Alright, next time we'll talk about non-determinism - stay tuned!

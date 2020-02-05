@@ -32,7 +32,7 @@
         - This is why our textbook sweeps conversions between binary/ternary/etc. encodings under the rug, since these conversions can still be done in polynomial time
     - The trouble with non-deterministic Turing Machines is that, since we have multiple options for different steps, we get BRANCHING possibilities that grow exponentially
         - It will then check the leafs of all the branches, and if ANY of the possible conclusions will "accept" the string, then we accept it!
-            - In other words, you can think of this as a brute-force search! Except we assume we can magically check them instantly!
+            - In other words, you can think of this as a brute-force search!
         - If you think back to 3-SAT, the canonical NP-hard problem,
     - So, the definition of non-deterministic time is the maximum amount of time a non-deterministic TM could potentially take to check a given input (i.e. not just the length of the longest branch, but to traverse the whole "tree" of possibilities)
         - So, for a language "L", we say "L" is in NTIME()

@@ -18,7 +18,7 @@
 <li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Automata and Complexity</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_automataTuring_1_7_20.html">0. Automata and Turing Machines</a></li><li><a class="is-note-link" href="1_moreTuringMachines_1_9_20.html">1. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="2_evenMoreTuringMachines_1_14_20.html">2. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="3_yetMoreTMsPvNP_1_16_20.html">3. Odd TMs and P/NP</a></li><li class="active-note-page"><a class="is-note-link" href="4_stillMoreTMsNPComplete_1_21_20.html">4. Weird TMs and NP-Completeness</a></li><li><a class="is-note-link" href="5_reductions_1_23_20.html">5. Reductions</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_automataTuring_1_7_20.html">0. Automata and Turing Machines</a></li><li><a class="is-note-link" href="1_moreTuringMachines_1_9_20.html">1. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="2_evenMoreTuringMachines_1_14_20.html">2. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="3_yetMoreTMsPvNP_1_16_20.html">3. Odd TMs and P/NP</a></li><li class="active-note-page"><a class="is-note-link" href="4_stillMoreTMsNPComplete_1_21_20.html">4. Weird TMs and NP-Completeness</a></li><li><a class="is-note-link" href="5_reductions_1_23_20.html">5. Reductions</a></li><li><a class="is-note-link" href="6_reductionsCookLevin_1_28_20.html">6. Reductions (cont.) / Cook-Levin Theorem</a></li><li><a class="is-note-link" href="7_finiteAutomata_2_4_20.html">7. Finite Automata</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="3_yetMoreTMsPvNP_1_16_20.html"></a>
@@ -59,7 +59,7 @@
         - This is why our textbook sweeps conversions between binary/ternary/etc. encodings under the rug, since these conversions can still be done in polynomial time
     - The trouble with non-deterministic Turing Machines is that, since we have multiple options for different steps, we get BRANCHING possibilities that grow exponentially
         - It will then check the leafs of all the branches, and if ANY of the possible conclusions will "accept" the string, then we accept it!
-            - In other words, you can think of this as a brute-force search! Except we assume we can magically check them instantly!
+            - In other words, you can think of this as a brute-force search!
         - If you think back to 3-SAT, the canonical NP-hard problem,
     - So, the definition of non-deterministic time is the maximum amount of time a non-deterministic TM could potentially take to check a given input (i.e. not just the length of the longest branch, but to traverse the whole "tree" of possibilities)
         - So, for a language "L", we say "L" is in NTIME()
