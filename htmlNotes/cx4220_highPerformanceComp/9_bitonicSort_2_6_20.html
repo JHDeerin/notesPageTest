@@ -1,0 +1,172 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Introduction to High-Performance Computing</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4220Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Introduction to High-Performance Computing</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li class="active-note-page"><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="8_prefixCAllToAll_2_4_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//****************** Bitonic Sort - February 6th, 2020 **********************//
+//**************************************************************************//
+
+- 2 minutes to class and almost no one's here...
+    - ...
+    - BOO!
+    - ...
+- What is the outline of our lecture this rain-strewn day?
+    - Announcements:
+        - Homework 1 solutions posted
+            - "Apologies for this taking awhile, but hopefully it'll help you"
+        - Program 1 example solution/submission script posted
+        - Midterm 1 (on TUESDAY, Feb. 18th)
+            - Will be on everything we covered BEFORE sorting algos
+                - "I'll give you a more detailed study guide next week"
+            - "If you aren't able to make that date for any reason, let me know NOW and I can arrange a make-up test for you"
+
+- As for programming assignment 1, I was pretty happy with most of the solutions
+    - There weren't really any universal mistakes; there were some "I'm new to C++" mistakes here and there, and some people were a bit confused about why adding more points increased the program runtime (each thread had to do more work!), but nothing major
+        - "Don't forget to compile with -Wall and -03 flags to speed things up"
+    - As for what you SHOULD have seen:
+        - A single processor on PACE can process 5 million points in ~0.3 seconds, meaning we're processing ~1.67 * 10^7 points/second - not bad!
+        - The parallel time, though, was EVEN FASTER! The speedup was very close to that ideal "N/p" time
+--------------------------------------------------------------------------------
+
+- Alright, we're now getting into our next classical parallel algorithm after prefix sum - sorting!
+    - "I think there's something lost in translation when you use PDFs instead of PowerPoint for discussing algorithms"
+    - The notes for this, by the way, should be on section 2 of the course notes
+
+- We know there're TONS of sequential algorithms for sorting: quicksort, mergesort, bubble sort...which one should we try to parallelize?
+    - In general, there are 2 broad categories of sorting algorithms:
+        - BRANCHING algorithms are ones where we use if statements and do different things based on the elements, e.g. quicksort's "if &lt; pivot"
+        - Swapping is where we directly compare elements in the array and swap them if they're out-of-order
+            - This is still branching though, right? We're doing an if statement!
+            - The difference, though, is that THESE type of branches can be implemented "in core," so it doesn't actually change the control flow of our program; the program itself doesn't take different paths, but pretty much works in a straight line down the array
+    - Which approach we take'll change how we parallelize them
+        - There are O(n^2) algorithms like bubble sort, insertion sort, etc.
+        - There are also O(n log n) algorithms like heap sort ,merge sort, etc.
+            - "Quick sort technically isn't in here, since in the absolute worst case it can degrade to O(n^2)"
+
+- Divide-and-conquer algorithms seem branchy and parallizable, so let's start trying to parallize merge sort!
+    - At each step we split the array in half, giving us:
+
+            T(n,p) = T(n/2, p/2) + merge
+
+        - ...but how expensive is that merge step? How can we merge in parallel when it seems like an inherently sequential thing, since we have to ?
+            - So, it seems merging has to take O(n) per iteration...
+
+                T(n,p) = T(n/2, p/2) + O(n)
+                    = T(n/4, p/4) + O(n/2) + O(n)
+                    = (...)
+                    = T(n/p, 1) + O(n + n/2 + n/4 + ... + n/(p/2))
+                    = O(n/p * log(n/p) + n)
+
+        - So, this IS faster, but not by that much, and it doesn't get any faster if we use more than log(n) processors
+    - To REALLY speed this up, we need some way to parallelize our merging algorithm...
+
+- So, we're going to use a variant of merge sort called BITONIC SORT!
+    - So, we're going to write down our 2 lists of numbers, the first in increasing order and the 2nd in DECREASING order:
+
+            l1: 2 6 8 11 14 19 26 28
+            l2: 23 16 10 9 7 5 4 1
+
+        - We'll then compare EACH element "across" from it's neighbor (i.e. l1[0] with l2[0], etc.), and then store the larger one in "l_max" and the smaller in "l_min":
+
+                l_max: 23, 16, 10, 11, 14, 19, 26, 28
+                l_min: 2, 6, 8, 9, 7, 5, 4, 1
+
+        - What's the big deal here? Notice that the greatest element in l_min is SMALLER than the smallest element in l_max!
+            - Will this ALWAYS happen? How can we prove it?
+            - (detailed proof on slides)
+            - Essentially, if we have 1 line of numbers that only goes up, and another that only goes down, there's 2 possibilities:
+                - The lines don't cross, meaning all the numbers in one are larger than another
+                - They DO cross, meaning that after the crossing point the maximum line will bend upwards and the minimum line will bend downwards!
+        - So, this WILL always hold true - but does it help up parallelize?
+            - This swap of comparing the 2 elements only require 1 communicating partner, meaning we can do multiple of them at the same time - i.e. in parallel!
+                - This comparison is going to take 1 computation per value pair, giving us O(n/p) time
+                - However, we then need to do some minor post-processing to pt the two halves of the list into a single array again, which'll take T(n/2, p/2)
+        - So, what's the total runtime of this?
+
+                T(n,p) = T(n/2, p/2) + O(n/p) + T(n/2, p/2)
+                    = 2T(n/2, p/2) + O(n/p)
+                    = (...)
+                    = p*T(n/p, 1) + O(n/p(1 + 2 + 4 + ... + p/2))
+                    = O(p * n/p * log(n/p) + n)
+                    = O(n * log(n/p))
+
+        - Aw, this isn't ANY faster than regular merge sort in parallel! What gives?
+            - ...actually, we're VERY close to a breakthrough right now
+    - In the general case of comparing completely arbitrary elements, this is true - HOWEVER, we know that "l_min" and "l_max" will be "bitonic" lines (i.e. bending in 2 directions)
+        - What this means is that we can recursively apply this bitonic combining on our output bitonic lines AGAIN!
+            - However, this might get us zig-zaggy lines with multiple crossing-points, like tritonic lines
+            - (side-proof about the value of the endpoints, not sure I completely follow?)
+            - However, if we kow where the 2nd bend is, and we know one endpoint is strictly greater than the other, we can do a cyclic shift to get it BACK to being bitonic!
+        - Formally, we say a sequence x0 ... xn is bitonic if there exists "k" such that:
+            - x0 ... xk is non-decreasing AND x_k+1 ... xn is non-increasing OR
+            - x0 ... xk is non-increasing AND x_k+1 ... xn is non-decreasing OR ...
+    - So, we can do a BITONIC SPLIT (on slides)
+        - Therefore, if "l" is a bitonic sequence and "l_min" and "l_max" result from its bitonic split, then we know:
+            - l_min and l_max are bitonic
+            - max(l_min) &lt;= min(l_max)
+                - "The proof for this isn't really elegant or enlightening; it's literally just showing these two things"
+        - (bitonic sort example on slides)
+    - So, using this bitonic property, we can do a BITONIC MERGE in log(p) time!
+    - If we do this, we end up with a "sorting network," where after a bunch of swaps the output will end up sorted
+    - What's the full runtime of bitonic sort, then? Essentially, it looks like this:
+
+            BS(p,p) = BM(2,2) + BM(4,4) + ... + BM(p,p)
+            =&gt; BS(p,p) = 1+2+3+...+log(p)
+            =&gt; BS(p,p) = O(log(p)^2)
+
+    - The pseuduocode, using our good ol' hypercubic permutations, looks something like this:
+
+            for i=0 to log(p) - 1:
+                for j=i down to 0:
+                    if (i+1) bit is 0:
+                        compare_exchange_up with (RANK XOR 2^j)
+                    else:
+                        compare_exchange_down with (RANK XOR 2^j)
+
+    - The communication time will then be O(t*log(p)^2 + u*log(p)^2)
+        - If we have less than "n" processors, we can split the array and:
+            - Sort n/p elements locally on each processor
+            - Run bitonic sort using "mergeSplit" instead of "compareExchange"
+        - This gives us a runtime of:
+
+                O(n/p*log(n/p) + n/p*log(p)^2)
+
+            - With a communication time of:
+
+                O(t*log(p)^2 + u*n/p*log(p)^2)
+
+- Now, we know the best general serial algorithm takes O(n * log(n)), so we'd expect a perfectly-parallel sorting algorithm to take O(...)/n = O(log n) time, right?
+    - Right now, we have a sorting depth of
+    - As it turns out, we can!
+        - Since the 1980s, we've known about a sort called AKS that has a sorting network that gets us T(p,p) = O(log p) time!
+            - "HOWEVER, we don't teach it in this class because it has a HUGE amount of overhead; it doesn't actually become faster than bitonic sort until 2^(ungodly large number) elements"
+
+- Bitonic sort still probably feels a bit mysterious right now, so I'd encourage you to go through the slides and the course notes again; when you come back next week, we'll start talking about the other wonderful types of sorts you can do!</pre>
+</article>
+<a class="side-link is-note-link" href="9_bitonicSort_2_6_20.html"></a>
+</main>
+</body>
+</html>
