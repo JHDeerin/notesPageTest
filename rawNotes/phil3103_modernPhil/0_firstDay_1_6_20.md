@@ -1,31 +1,4 @@
-<html>
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>Jake's CS Notes - Modern Philosophy</title>
-<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
-<link href="../../css/testStyle.css" rel="stylesheet"/>
-<link href="../../css/notePageStyle.css" rel="stylesheet"/>
-<link href="../../css/phil3103Theme.css" id="class-theme-styles" rel="stylesheet"/>
-<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
-</head>
-<body>
-<script defer="" src="../../js/wrapText.js"></script>
-<script defer="" src="../../js/pageTransitions.js"></script>
-<script async="" defer="" src="../../js/loadMathJax.js"></script>
-<nav class="nav-top">
-<ul>
-<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
-<li><a href="#" id="class-title-link">Modern Philosophy</a></li>
-</ul>
-<ul class="note-links-slider"><li class="active-note-page"><a class="is-note-link" href="0_firstDay_1_6_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_inductionScholasticClash_1_8_20.html">1. Induction and Clashes from Scholasticism</a></li><li><a class="is-note-link" href="2_descartesMeditations_1_13_20.html">2. Descartes "Meditations"</a></li><li><a class="is-note-link" href="3_descartesArgumentsGod_1_15_20.html">3. Descartes, Arguments, and God</a></li><li><a class="is-note-link" href="4_descartesDualism_1_22_20.html">4. Descartes and Dualism</a></li></ul>
-</nav>
-<main>
-<a class="side-link is-note-link" href="0_firstDay_1_6_20.html"></a>
-<article>
-<!-- Actual note text goes into 'pre' -->
-<pre id="text-width-ruler"></pre>
-<pre class="main-note-text"># First Day
+# First Day
 
 ## January 6th, 2020
 
@@ -76,9 +49,4 @@
         - There'll be a LOT of readings in this class, and while they're interesting, many of the readings are difficult: they're written in an older style, and often contain pretty intricate arguments
             - "Don't be scared if you read something and it isn't immediately obvious what they mean; this class is supposed to make you better at that stuff, but be aware this class isn't a cakewalk"
 
-- Alright; since this day was really just supposed to be going over the syllabus, we'll get out a little early today! Do your Bacon and Galileo readings for Wednesday, and see you later!</pre>
-</article>
-<a class="side-link is-note-link" href="1_inductionScholasticClash_1_8_20.html"></a>
-</main>
-</body>
-</html>
+- Alright; since this day was really just supposed to be going over the syllabus, we'll get out a little early today! Do your Bacon and Galileo readings for Wednesday, and see you later!

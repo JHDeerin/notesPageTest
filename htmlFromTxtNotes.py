@@ -24,7 +24,7 @@ class HtmlFromTxtNotes(FileFromNotes):
         '''
         Converts the given text file and HTML template into an HTML file with the
         .txt's content copied into any element in the template with the
-        'main-note-text' class; saves the file in the given directory with 
+        'main-note-text' class; saves the file in the given directory with
         '''
         if not notesFileName[-4:] == '.txt':
             print(f'***{notesFileName} is not a .txt file!***')
@@ -38,8 +38,8 @@ class HtmlFromTxtNotes(FileFromNotes):
         if not os.path.exists(outputFileDestFolder):
             os.makedirs(outputFileDestFolder)
 
-        htmlBaseFile = open(baseFileName, 'r')
-        notesTextFile = open(notesFileName, 'r')
+        htmlBaseFile = open(baseFileName, 'r', encoding='utf8')
+        notesTextFile = open(notesFileName, 'r', encoding='utf8')
 
         outputHtml = BeautifulSoup(htmlBaseFile, "html.parser")
         textContainers = outputHtml.find_all(class_ = "main-note-text")
@@ -47,7 +47,7 @@ class HtmlFromTxtNotes(FileFromNotes):
         for element in textContainers:
             element.string = noteText
 
-        outputHtmlFile = open(outputFileName, 'w')
+        outputHtmlFile = open(outputFileName, 'w', encoding='utf8')
         outputHtmlFile.write(str(outputHtml))
         outputHtmlFile.close()
 

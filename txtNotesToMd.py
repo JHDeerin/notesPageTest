@@ -91,10 +91,10 @@ class MarkdownFromTxtFile(FileFromNotes):
             return
 
         markdownText = ''
-        with open(notesFileName, 'r') as txtFile:
+        with open(notesFileName, 'r', encoding='utf8') as txtFile:
             markdownText = MarkdownFromTxtFile.fromNotesText(txtFile.read())
 
-        with open(outputFileName, 'w') as mdFile:
+        with open(outputFileName, 'w', encoding='utf8') as mdFile:
             mdFile.write(markdownText)
 
 if __name__ == "__main__":

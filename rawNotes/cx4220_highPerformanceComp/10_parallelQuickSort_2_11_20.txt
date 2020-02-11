@@ -1,0 +1,112 @@
+//****************************************************************************//
+//*************** Parallel Quick Sort - February 11th, 2020 *****************//
+//**************************************************************************//
+
+- I want to try typing notes in Scots one day, if only for the frustration and hilarity it will bring
+
+- But, more presently, ANNOUNCEMENTS!
+    - NO LECTURE THURSDAY (Professor Isaacs will be out of town)
+        - Therefore, office hours'll be held online this week (probably just by lurking on Piazza)
+    - Our 1st exam will be held NEXT WEEK on Tuesday, in this room, closed book
+        - There'll likely be 4-5 questions in a similar format to the homework problems; a study guide will be put on Canvas before this weekend
+        - "If you can confidently give answers for the practice test, you should be in good shape for the exam"
+
+- Even more presently, TODAY'S AGENDA!
+    - Program 1 review
+    - Review bitonic sort
+    - Parallel quicksort
+
+- Let's talk about program 1 submissions really quick
+    - "I was pretty happy with people's code quality for the most part, except for a few small mistakes I did see several people make:"
+        - When you're seeding a random number generator, DON'T DO IT MULTIPLE TIMES! You don't need to, and it wastes processing power!
+         - Some people were getting almost-right powers of Pi but not converging; that generally happens because your degrees are getting truncated to integers, meaning you'd only be sampling from 360 angles instead of the full range of doubles
+    - For the reports, the single biggest problem I saw was "handwavy analysis," like vaguely saying "oh, this lack of decay is due to some kind of overhead" or "oh, this speedup seems to be roughly exponential"
+        - We've been developing these computer message-passing models like "t + uB" so we can describe these trends in terms of what's actually happening, and reason about it
+        - So, BE SPECIFIC in comparing your results to the computer models we have in this class
+            - Graphs are a big help with this; if you do the garden-variety thing of taking a fixed problem size and doubling the number of processors, what should that look like for a perfectly efficient algorithm? It should look like "<some constant>/p" according to our model (NOT exponential) - so, if you change the axes to logarithms, it should be a straight-line plot if your hypothesis holds!
+                - More realistically, though, our model says this runtime should be:
+
+                        n/p + (t + u)log(p)
+
+                    - So, we should be approaching some sort of asymptote over time - which, if you made your graphs carefully, is what you should've seen
+                - "Does my data match my model?" That's what we're trying to answer in these graphs
+
+- "Also, I should probably say 1 or 2 things about homework 2 - which is due TOMORROW NIGHT!"
+    - For question 1, people were a bit confused about how these operations corresponded to the parallel prefix master algorithm we went over in class
+        - What the question is asking is "given this function op(a,b)", we can write it serially as:
+
+                x[i] = // (...)
+                for i in range(1, len(x)):
+                    x[i] = op(x[i-1], x[i])
+
+            - BUT, can we parallelize this - meaning, for parallel prefix, IS THIS OPERATION ASSOCIATIVE?
+                - Remember that associativity has a formal definition: does this hold for ALL real-numbered inputs?
+
+                        op(a, op(b,c)) === op(op(a,b), c)
+
+--------------------------------------------------------------------------------
+
+- Okay, we talked about bitonic sort last time - let's talk about it some more!
+    - A bitonic sequence is one where there are 2 segments where all the numbers are strictly greater/less than the preceding ones - and if there're 3 segments, we may still be able to turn it into a bitonic sequence if the 1st element is greater/less than the last one
+    - We swap the maximum elements in each half of some array to get the input array into bitonic form
+        - We split the array in half successively, eventually getting the elements in one array in ascending order and the other in descending order
+        - We then do a hypercubic "bitonic swap" where one array gets all the maximum elements and the OTHER gets all the minimum element, which we can prove is strictly smaller thn all the elements in the max array
+            - If we don't have a power-of-2 number of elements, then just like how we can do hypercubic communication with an arbitrary number of processors, we can ALSO make bitonic sort work by creating "phony processes"
+                - We won't go over the exact details, but it does work
+
+- Okay; it sound like people are getting bitonic sort pretty well
+    - This is a good algorithm, but it has a big-O with a pesky "log(p)^2" runtime, and we'd really like to get that down to "log(p)"
+
+- Last lecture, though, we mentioned that there are sorts without control-flow branching (e.g. merge sort) and those WITH control-flow branching (e.g. quick sort) - how can we parallelize the latter?
+    - At a coarse level, we could draw quicksort as a DAG, where our 1st operation takes an array, computes the pivot, and then splits the array based on if elements are greater/smaller than the pivot
+        - Those 2 halves then don't need to communicate with one another at ALL, which is good for parallelism
+        - We can then keep splitting recursively until each processor has a single array chunk, which it can then sort luckily and return to be combined
+    - More formally, then, the algorithm looks like:
+        - Pick a pivot and broadcast it to all processors: O(log(p)*(t+u))
+        - Partition each chunk locally: O(n/p)
+        - Re-arrange the partitions together: O(t + un/p)
+        - Split the processors and recursively do the same thing
+        - When p=1, locally sort the array chunk you have
+    - So, in the BEST case, assuming the array is roughly balanced, we have O(log(p)) rounds of splitting before the local sort happens, which gives us:
+
+            Runtime: O(n/p * log(p) + n/p * log(n/p))
+                    = O(n * log(n) / p)
+            Communication: O(t*log(p) + un/p * log(p))
+
+        - Of course, though, this is quicksort; in the worst case of a completely imbalanced array, it can get MUCH worse!
+
+- So, quicksort is still pretty good - but can we do even better?
+    - For comparison-based sequential sorts, we know sorting "n" elements has to take at least O(n log(n)) time
+    - Assuming we can divide n/p elements per process, and in the worst case that ALL of the n/p elements we should have belong to other processes (?), then we have to have a communication time of:
+
+            O(un/p)
+
+    - Then, if we've split up each array perfectly, it will give us a computational complexity of:
+
+            O(n * log(n)/p)
+
+    - These, then, are our lower bounds
+
+- That's the goal we're shooting for; did we hit it?
+    - In bitonic sort, we DIDN'T, as we ended up multiplying our required data movement by log(n)^2
+
+- As an aside, quicksort usually chooses it's pivots randomly, right? In serial, this works really well for load-balancing - but in parallel, it's NOT a good idea!
+    - The reason is because in parallel, the time each communication round takes is dependant on the MAXIMUM time it takes each processor to complete!
+        - In serial, our expected runtime was based on the expected size of "low" (i.e. the array elements smaller than the pivot), which was n/2
+        - In parallel, though, this now changes to be:
+
+                E(max(low, high)) = n * 3/4
+
+            - This comes since, if we choose 0 as our pivot, the max elements in one half of the array will be "1*n", and only if we choose it exactly in the middle will it be "n/2" before going up again; drawing out the graph, it'll average out between these two so the average maximum length of one-half of the array is
+        - This is going to change our runtime COMPLETELY to now be:
+
+                T(a,n,p) = Tpivot(p) + Tsplit(a,n,p) + T(max(low, high),3n/4, p/2)
+                    = O((t + u) log(p)) + O(n/p)
+                        + O(3/2 * n/p) + O((3/2)^2 * n/p) + ...
+                        + O((3/2)^log(p) * n/p)
+                    = O(n/p * (1 + (3/2) + (3/2)^2 + ... + (3/2)^log(p)))
+
+        - So, this COMPLETELY destroys any advantage that quicksort has over bitonic sort, and basically gives us log(p)^2 runtime again
+
+- So, quicksort with randomly chosen pivots gives us mediocre performance in the average case - how can we fix it? Do we choose better pivots? Do we divide the array more finely? We'll see what to do after the exam next week!
+    - DON'T FORGET the homework is due tomorrow, ask questions on Piazza, and good luck on the exam! I'm going to run to the airport now!

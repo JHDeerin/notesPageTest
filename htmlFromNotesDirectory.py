@@ -25,7 +25,8 @@ class HTMLFromNotesDir(FilesFromNotesDirectory):
         outputHtmlFiles = cls._getFilesInDir(outputDirectoryName)
         for i in range(0, len(outputHtmlFiles)):
             currentHtmlFile = open( os.path.join(outputDirectoryName, outputHtmlFiles[i]),
-                    'r')
+                    'r',
+                    encoding='utf8')
             updatedHtml = BeautifulSoup(currentHtmlFile, "html.parser")
             currentHtmlFile.close()
             sideLinks = updatedHtml.find_all("a", class_="side-link")
@@ -35,7 +36,8 @@ class HTMLFromNotesDir(FilesFromNotesDirectory):
             sideLinks[1]['href'] = nextPageName
 
             currentHtmlFile = open( os.path.join(outputDirectoryName, outputHtmlFiles[i]),
-                    'w')
+                    'w',
+                    encoding='utf8')
             currentHtmlFile.write(str(updatedHtml))
             currentHtmlFile.close()
 
@@ -48,7 +50,8 @@ class HTMLFromNotesDir(FilesFromNotesDirectory):
         outputHtmlFiles = cls._getFilesInDir(outputDirectoryName)
         for i in range(0, len(outputHtmlFiles)):
             currentHtmlFile = open( os.path.join(outputDirectoryName, outputHtmlFiles[i]),
-                    'r')
+                    'r',
+                    encoding='utf8')
             updatedHtml = BeautifulSoup(currentHtmlFile, "html.parser")
             currentHtmlFile.close()
 
@@ -63,7 +66,8 @@ class HTMLFromNotesDir(FilesFromNotesDirectory):
                 headerNoteLinks.append(newTag)
 
             currentHtmlFile = open( os.path.join(outputDirectoryName, outputHtmlFiles[i]),
-                    'w')
+                    'w',
+                    encoding='utf8')
             currentHtmlFile.write(str(updatedHtml))
             currentHtmlFile.close()
 

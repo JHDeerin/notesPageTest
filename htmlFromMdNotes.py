@@ -38,8 +38,8 @@ class HtmlFromMdNotes(FileFromNotes):
         if not os.path.exists(outputFileDestFolder):
             os.makedirs(outputFileDestFolder)
 
-        htmlBaseFile = open(baseFileName, 'r')
-        notesTextFile = open(notesFileName, 'r')
+        htmlBaseFile = open(baseFileName, 'r', encoding='utf8')
+        notesTextFile = open(notesFileName, 'r', encoding='utf8')
 
         outputHtml = BeautifulSoup(htmlBaseFile, "html.parser")
         textContainers = outputHtml.find_all(class_ = "main-note-text")
@@ -47,7 +47,7 @@ class HtmlFromMdNotes(FileFromNotes):
         for element in textContainers:
             element.string = noteText
 
-        outputHtmlFile = open(outputFileName, 'w')
+        outputHtmlFile = open(outputFileName, 'w', encoding='utf8')
         outputHtmlFile.write(str(outputHtml))
         outputHtmlFile.close()
 

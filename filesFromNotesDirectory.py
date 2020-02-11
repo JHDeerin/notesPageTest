@@ -32,7 +32,7 @@ class FilesFromNotesDirectory(ABC):
         //*********** <TITLE> - <DATE> ***********//\n
         //***************************************//
         '''
-        notesTextFile = open(notesFilename, 'r')
+        notesTextFile = open(notesFilename, 'r', encoding='utf8')
         titleLine = notesTextFile.read().split('\n')[1]
         notesTextFile.close()
 
@@ -48,7 +48,7 @@ class FilesFromNotesDirectory(ABC):
         \n
         # <DATE>
         '''
-        notesTextFile = open(notesFilename, 'r')
+        notesTextFile = open(notesFilename, 'r', encoding='utf8')
         titleLines = notesTextFile.read().split('\n')[:3]
         notesTextFile.close()
 

@@ -1,0 +1,44 @@
+//****************************************************************************//
+//*************** User Stories - February 10th, 2020 *****************//
+//**************************************************************************//
+
+- (Missed the last class's notes due to computer issues; we generally covered the process of taking our detailed user statements.sketches, coming up with tasks to do, and deciding what the most important ones are for a minimum viable product (MVP))
+- "My watch says to start, but common-sense says I should wait 'til 50% of the class gets here"
+    - "Professor Stallworth is very nice and assumes you don't do the readings; I'm mean and assume you actually do work for this class"
+--------------------------------------------------------------------------------
+
+- Okay; today, we'll skim over the MVP process again, and go over user stories/acceptance criteria in terms of MVPs
+    - In theory, you guys should've started brainstorming for the MVP stuff
+
+- After creating your 2.5D sketches, you should start coming up with your product's minimum viable 
+    - "Don't just record the features you choose to go with; record the ones you rejected, and WHY you chose to reject them, in case they ever come up in the future"
+    - Eventually, you should come up with an MVP map of the most important features as "epics" with sub-requirements underneath them (ordered in importance from "essential" to "nice-to-haves" to "pie-in-the-sky goals")
+        - After you've done this, for EACH one of these requirements like "Add Gmail sign-in," you should create a user story for that feature, along with a list of
+    - You'll then plan which features you'll work on over a series of sprints
+
+- Okay, that's the high-level view - but what's a user story?
+    - A USER STORY is a description of a feature from a CUSTOMER'S perspective, with a set of accompanying ACCEPTANCE CRITERIA saying what that feature has to do in several different circumstances
+        - "Sharing these with your clients is a great idea, so that they can correct you if you're building something wrong and so that they can see how well you understand their business"
+    - User stories can come in a number of different formats, but the most common one probably looks like this:
+
+            As a <user type>, I want to <use feature> so that <some goal>
+
+        - For example, this might look like:
+
+                As a website user, I want to register a new account so that I can monitor my banking expenses
+
+            - "This might seem tedious, but listing all 3 of these things helps to remind you WHO has to use this feature and WHY it's important for someone - and if you have trouble thinking why it's important to a specific type of person, it might not be a feature you need!"
+            - Also, try to make sure the goal is more specific than just "use feature;" saying "I want to track vehicles so I can monitor buses" doesn't give you ANY additional information about the user's goals
+        - Your acceptance criteria can then be written as a bunch of scenarios in the following format: "Given _____, When _____, Then ____"
+            - e.g.:
+
+                    Scenario 1: A new user wants to register
+                    GIVEN the user is on the registration page and hasn't already registered,
+                    WHEN their name, email, and password is entered and the register button pressed,
+                    THEN this user is added to the list of valid users
+
+            - This helps us to decide when we've actually finished a feature to the USER'S satisfaction, instead of just stopping and saying "eh, this is good enough"
+
+    - We only write user stories for in-scope features that you're actually going to implement - NOT for the pie-in-the-sky stuff, or even for far-off future sprints
+
+- Okay, come up with your MVP table stuff and then finish your 

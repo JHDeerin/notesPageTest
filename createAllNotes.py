@@ -135,14 +135,14 @@ notesToCreate.append(ClassNoteEntry(
     '../../../Class Materials/spring2020/cx4220_highPerformanceComp/notes',
     'css/cx4220Theme.css',
     'htmlNotes/cx4220_highPerformanceComp',
-    "Introduction to High-Performance Computing"))
+    "Intro. to HPC"))
 
 #===============================================================================
 #===============================================================================
 
 
 # Open the base notes page
-baseHtmlFile = open(baseHtmlFileName, 'r')
+baseHtmlFile = open(baseHtmlFileName, 'r', encoding='utf8')
 basePageHtml = BeautifulSoup(baseHtmlFile, "html.parser")
 baseHtmlFile.close()
 
@@ -160,7 +160,7 @@ def convertNoteDirectory(classNotesInfo):
     if not os.path.exists(classNotesInfo.outputDirectory):
         os.makedirs(classNotesInfo.outputDirectory)
     currentBaseFileName = classNotesInfo.outputDirectory + '_basePage.html'
-    currentBaseFile = open(currentBaseFileName, 'w')
+    currentBaseFile = open(currentBaseFileName, 'w', encoding='utf8')
     currentBaseFile.write(str(basePageHtml))
     currentBaseFile.close()
 
