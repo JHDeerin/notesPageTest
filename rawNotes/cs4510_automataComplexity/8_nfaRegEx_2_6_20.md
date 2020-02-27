@@ -7,8 +7,8 @@
     - Converting NFAs to DFAs
     - Regular Expressions
     - Regular Expressions generating regular languages
-- "...I'm also strongly tempted to tell everyone to crowd up against the wi"
-    - Next week, I will
+- "...I'm also strongly tempted to tell everyone to crowd up against the whiteboard"
+    - Next week, I probably will!
 
 - "I've also noticed that today's lecture is a little...sparse, but it's career fair week, and raining, so I can't blame people"
 
@@ -62,10 +62,10 @@
 
 - REGULAR EXPRESSIONS are basically ways of expressing "hey, I want to match any strings that match the following rules"
     - These are defined recursively, using basic rules like:
-        - Unions (?)
+        - Unions (take either of 2 things, i.e. "a OR b")
         - Concatentation of 2+ strings
         - \* = 0 or more copies of the preceding (aka the "Kleen Star")
-    - For example, 0$\Sigma$*0 means "any string that starts and ends with a 0"
+    - For example, $0\Sigma*0$ means "any string that starts and ends with a 0"
         - "Regular expressions are practically super useful, but theoretically they're also one of the easiest ways of expressing out an infinite language"
     - Here's a claim I'll make: regular expressions match strings from regular languages (i.e. ones that can be accepted by DFAs)
         - PROOF: We can do this via induction

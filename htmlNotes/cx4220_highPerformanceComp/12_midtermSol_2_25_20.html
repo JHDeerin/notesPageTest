@@ -1,0 +1,131 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. to HPC</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4220Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. to HPC</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li class="active-note-page"><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="11_sampleSort_2_20_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//**************** Midterm Solutions - February 25th, 2020 ******************//
+//**************************************************************************//
+
+- Alright, we've got a LOT to go through today, so let's get started!
+- THE PLAN:
+    - Review Homework 2 solutions
+        - Unfortunately, there were some honor code violations related to homework 2 that have slowed down grading, so these grades might not be released until the end of the week
+        - Homework 2 may come down to replacement for what you did
+    - Review Exam 1 solutions
+    - Introduce programming assignment 2
+
+--------------------------------------------------------------------------------
+
+- Alright, homework 2!
+    - There weren't many questions for the first 2 questions; for the 3rd one, we're given a recurrence, so let's try expanding it for 2-3 terms and see if any patterns emerge
+        - Sure enough, we see that the numerator and denominator keep flipping, with even-numbered indices on one side and odd-numbered indices one the other
+            - So, to take advantage of that, we can either encode that flipping division in a matrix multiplication operation OR we can do 2 prefix operation algorithms - one for the even indices and one for the odd indices - and then calculate which one should be the numerator/denominator based on the processor index
+            - Both methods, it turns out, work out to have the same Big-O complexity
+    - The last problem, #4, was ranking a set of values in an array based on 2 things: their order in the array, and their actual "category" value
+
+- Alright, let's look at the midterm problems
+    - For the 1st problem, we're given a parallel algorithm's T(n,p) runtime
+        - To  determine the maximum speedup, we just have to take the partial derivative with respect to p, set it to 0, find the "best" speedup value of p and THEN plug this p into the speedup equation (remember, the serial runtime is T(n,1))
+        - To determine the maximum efficiency as a function of "p", we have to set this algorithm's efficiency equation to O(1) and simplify it; you should get it down to:
+
+                p log p = O(sqrt(n))
+
+            - From similar examples in class, then, we know that works out to:
+
+                    p = O(sqrt(n) / log(sqrt(n)))
+
+    - Question 2 should remind you a LOT of Homework 1 and its supplement, where we're comparing 2 algorithms and determining which has greater speedup, when one is faster than the other, etc.
+        - For the fastest speedup, we can see right away that algorithm 2 has the smaller runtime when number of processor's isn't an issue, so algorithm 2 has more speedup
+        - To find when we should use 1 or the other, we use Brent's law, dividing the runtime by "p" when p &lt; the maximum # of processors for that algorithm; Algorithm 1 is then clearly faster for "n" processor and algo 2 is for "n^2" processors, and setting their runtime equal to one another
+        - For the 3rd question, having a fixed total amount of memory means algorithm 1 will use "n/p" bytes per processor and algorithm 2 will use "n^2/p" bytes per processor
+            - Since the memory per processor is fixed at a constant, though, we have the constraint
+
+                    (bytes needed) $\in$ O(1)
+                    =&gt; n/p = O(1) =&gt; p = O(n)
+                    =&gt; n^2/p = O(1) =&gt; p = O(n^2)
+
+                - So, since this is a tighter constraint, we HAVE to use algorithm 1 if p &lt; O(n^2)
+    - Question 3 involves a recurrence, and since it's dependent on multiple values, we can again add a 1 as a "dummy value" to a matrix to keep the values around, getting a 3x3 matrix that looks like:
+
+            [x_i]   [A_hi | b_hi]   [x_i-1]
+            [y_i] = [0,   0,   1] * [y_i-1]
+            [1]                     [  1  ]
+
+        - So, we can put a matrix like this one each processor, reduce using 3x3 matrix multiplication, and then take the 2 components of the vector to get our answer
+    - Question 4 involved finding the "maximum forward variation" of a given array for the first "k" elements, given as follows:
+
+            F[k] = max(i &lt;= j &lt;= k){A[j] - A[i]}
+
+        - HOWEVER&lt; we can rewrite this as:
+
+                max(j &lt;= k){A[j] - min(i &lt;= j){A[i]}}
+
+        - So, we can do 2 separate parallel prefix operations: one to get the min A[i]s, then subtract that from A[j] and find the max one on each processor using max parallel-prefix
+            - "The theme of these homeworks and exams is that we can write MUCH shorter code if we can fit the thing we're trying to do into the operations we already know about"
+    - Question 5 asked us to imagine this new "reduce_scatter_block" algorithm
+        - In part 1, you're just asked to state the runtime complexity of this; due to the smaller output message post-reduction, it's dominated by the reduction, with the complexities:
+
+                Comp: O(mp * log(p))    (for reductions, have to do log(p) sums, 1 for each communication round)
+                Comm: O((t + ump) * log(p))
+
+        - In part 2, you had to notice the inefficiency in the communication came from ALL the work being done on a single processor and then having to be broadcasted; by using hypercube routing, we could've cut this communication down to:
+
+                O(t*log(p) + ump)
+
+            - ...in other words, we have to send the same number of messages, but the message size doesn't grow as it propagates (I think?)
+        - Computation and communication we've looked at so far looks like "bulk phases," where everyone does some work independently, THEN communicates, and we go back-and-forth
+            - In parallel programming, though, we don't want to let ANY resources go idle if we can help it, so we may see future algorithms that are OVERLAPPING instead of alternating, with some processors doing work while others communicate
+
+- "Now, I know that just because these solutions are short doesn't mean these problems were easy; they were hard problems where you had to use a lot of various techniques from class, so look over these solutions and make sure you understand them"
+
+- Now, we mentioned there's this distinction between overlapping and alternating communication; for programming assignment 2, you're going to practice doing some overlapping stuff by writing a program to solve the N-QUEENS PROBLEM!
+    - Unlike the last project, you WILL have some starter code to help you out this time, provided via a class GitHub repository
+    - The N-Queen problem itself goes as follows: how many queens can we put onto an NxN chessboard so that none of them are attacking each other?
+        - In general, this works out to "N" queens, but there's more than 1 solution for a given board, and the number of possibilities to check can combinatorially EXPLODE!
+    - We want to find all the given solutions for a given board, so how can we do this?
+        - We can do this using a master-worker paradigm, where we have a "master" thread that's assigning tasks to various "worker" process; a good parallel solution will keep the workers and the master thread as busy as possible
+        - This is VERY distributed and overlapping; other than broadcasting that the problem is done, there probably shouldn't be any collective operations in sight for this!
+    - All the work you have to do will be in the "solver.cpp" file
+    - When run, the output will be the number of possible configurations of queens on the board and a string for each configuration (showing what row each queen is on for a given column)
+        - Like with class last time, there'll be a report at the end where you have to describe your algorithm, show how its runtime varies with several variables, etc.
+
+- Okay - with the last 10 minutes of class, let's introduce embeddings before we properly dive into them on Thursday
+    - Right now, we have a disconnect between the way we've been writing algorithms and the way people REALLY build machines
+        - We write collective algorithms in terms of hypercube routing, cyclic shifts, and subcommunicators, and assume we can efficiently communicate using a permutation network
+        - HOWEVER, we might not always have a network like that available; in that case, MPI or whatever will have to make the best of what it has behind the scenes
+            - For instance, suppose we've got our classic processes-on-a-rope communication, where each process can only communicate with the one adjacent to it, meaning sending messages to far away processors actually takes longer!
+    - EMBEDDINGS is the process of trying to automatically make algorithms written for one kind of network work well on a different kind of network
+        - In general, this transformation isn't invertible; we can map from A to B, but not from B to A
+        - Often, this means assuming our "source" network has less nodes than our "target" (but not always)
+    - Essentially, we're trying to "embed" our source graph G(V, E) onto a target graph G'(V', E') - we're trying to save our algorithms with graph theory!
+
+- Alright - maybe take some time to remember some graph theory stuff for Thursday, and then we'll get into embeddings proper! I'll see you then!
+</pre>
+</article>
+<a class="side-link is-note-link" href="12_midtermSol_2_25_20.html"></a>
+</main>
+</body>
+</html>

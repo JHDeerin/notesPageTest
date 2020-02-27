@@ -2,7 +2,7 @@
 //******** Communication, Deadlock, and Latency - January 21st, 2020 ********//
 //**************************************************************************//
 
-- The class before us is all still here, lining up behind their professor with questions - in other words, they just had a really good or a truly awful class
+- The class before us is all still here, lining up behind their professor with questions - in other words, they just had a really good or a truly awful class, and I'm unsure which it was
 
 - For our class, though, announcements!
     - NEW OFFICE HOUR LOCATION: Tuesday, Klaus 3121
@@ -125,4 +125,3 @@
     - "This whole thing is known as the PERMUTATION NETWORK MODEL, since we can implement any permutation of send/receives possible"
 
 - Next time, we'll talk about how to implement an algorithm like this using MPI's sends/receives - stay tuned!
-

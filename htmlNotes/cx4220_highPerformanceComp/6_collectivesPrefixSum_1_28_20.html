@@ -18,7 +18,7 @@
 <li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Intro. to HPC</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li class="active-note-page"><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li class="active-note-page"><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="5_permuationsCollectiveComm_1_23_20.html"></a>
@@ -81,7 +81,7 @@
                     - "Plain broadcasts are necessary for things like I/O, where a single process reads something and then sends out that information to everyone"
                     - In linear algebra, a plain broadcast might be useful for doing outer-product vector multiplication, where you need to broadcast "y_i" or something to column/row "i" (NOT the whole world, but just the processors for that column), giving us "2n" broadcasts to get n^2 output numbers in an array
             - Then, for the remaining steps, each process will have the vectors it needs to calculate everything locally, so no communication is needed
-        - Now, broadcasts and reductions assume each message is the same size, whereas "scatter" and "gather" operations can take different messages
+        - Now, broadcasts and reductions assume each message is the same, whereas "scatter" and "gather" operations can take different messages
             - In linear algebra, this might be useful in matrix-vector multiplication; we have to get each distinct component from different processors, "gathering" them to a single one
                 - These operations of a BUNCH of stuff going to/from 1 process is quite common in linear algebra
         - We can also send/receive messages from EVERY process using "ALL-TO-ALL," which is the closest thing to an "ALLSCATTER" that we have
@@ -129,10 +129,11 @@
 
                 S_1 = x1
                 S_2 = x1 + x2
+                S_3 = x1 + x2 + x3
                 (...)
                 S_n = sum i = 1 ... n{x_i}
 
-            - When is this useful? One place would actually be for our "GetRanges" problem for the homework; each of our processes needs to figure out where its OWN start/end position is, so if we have these numbers stored in a global array, we can send each process's start as one of these sums:
+            - When is this useful? One place would actually be for our "GetRanges" problem for the homework: each of our processes needs to figure out where its OWN start/end position is, so if we have these numbers stored in a global array, we can send each process's start as one of these sums:
 
                 rank_p_start = S_p
 
@@ -141,7 +142,7 @@
 
                     T(n, n(n+1)/2) = O(log(n))
 
-                - ...but this algorithm is pretty inefficient
+                - ...but this algorithm is pretty inefficient, requiring a lot of processors
             - Instead, we can use a divide-and-conquer algorithm to split these sums and then combine them together somehow, and broadcast our sub-sums to all processors that need them, getting us:
 
                     T(n,n) = O(log(n)^2)
@@ -150,7 +151,8 @@
                     - This algorithm is better, but we only have 1 processor that's trying to broadcast its final value - so let's do 2 things: compute the prefix sum AND the first sum each round (uses a butterfly hypercubic-permutation communication pattern)
                         - This DOES get us to O(log(n)), but it's complicated
 
-- We'll wrap up our prefix-sum algorithm next lecture; take a look at the course notes (section 1.4) to get a better feel for it, and I'll see you all later!</pre>
+- We'll wrap up our prefix-sum algorithm next lecture; take a look at the course notes (section 1.4) to get a better feel for it, and I'll see you all later!
+</pre>
 </article>
 <a class="side-link is-note-link" href="7_morePrefixSum_1_30_20.html"></a>
 </main>

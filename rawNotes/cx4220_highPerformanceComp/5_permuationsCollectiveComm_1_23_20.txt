@@ -2,7 +2,7 @@
 //***** Permutations and Collective Communication - January 23rd, 2020 ******//
 //**************************************************************************//
 
-- Okay, the homework 1 grades have been released and there's unfortunately a bimodal distribution going on; some people did really well (31% got 95% or above, and 62% total got 90% or above), while other people clearly didn't put in the effort (27% got Fs)
+- Okay, the homework 1 grades have been released and there's unfortunately a bimodal distribution going on; some people did really well (31% got 95% or above, and 62% of the class total got 90% or above), while other people clearly didn't put in the effort (27% got Fs)
     - "I believe in giving second chances rather than lowering standards, so if you want a boost, I've posted some extra-credit work on Canvas that'll replace your lowest-scoring question on the homework"
     - If you're struggling, PLEASE see me in office hours or talk to your peers; it's okay to admit you need help with something
 --------------------------------------------------------------------------------
@@ -32,7 +32,7 @@
                 - "We can see here that sending messages of length 0, 1, 2, 4, and 8 bytes all take ~0.19 microseconds; its really not until we get up to 128 bytes that a difference becomes noticeable, meaning 'u' is probably fairly small"
                 - Looking at larger values, then, like for sending thousands of bytes, we can see where doubling the number of bytes roughly doubles the sending time, which we can use to calculate 'u'!
 
-                        377 s / 4194304 bytes ~= 8.98838 e-05
+                        377 us / 4194304 bytes ~= 8.98838 e-05
 
                     - "So, roughly a millionth of a microsecond per byte"
                 - In this experiment, there's a small kink where the sending time went DOWN for sending 65536 bytes; we'll talk about this more later, but basically, when messages get too big, we switch from "eager" to "rendezvous" sending, where we wait for multiple messages to come in and send them all at once to cut down on latency
@@ -41,11 +41,11 @@
             - If we add more processors when running the program, then EVEN THOUGH the program is still only using 2 threads, the software has to worry about managing a larger potential communication group, slowing it down
             - "So, pure t + uB isn't totally correct; we also have to worry about software overhead"
         - If we examine the PACE system, the 28 processors are split between 2 "sockets," or groups of processors; if the 2 processors are on the same socket, they'll be closer together and can communicate more efficiently
-        - If we specify the 2 threads to be on sockets, the time will go up slightly more!
+        - If we specify the 2 threads to be on separate sockets, the time will go up slightly more!
 
 - Now, between multiple processors, we need to specify something called AFFINITY
     - This is, basically, how many software threads each physical processor is allowed to run, and is important when we're concerned about benchmarks
-        - Having multiple threads on the same processor can also mean you get the threads "fighting" over the same cache, which can practically slow down performance if you don't distribute your threads in a clever way
+        - Having multiple threads on the same processor can mean you get the threads "fighting" over the same cache, which can practically slow down performance if you don't distribute your threads in a clever way
 
 - "All this is to say that latency and bandwidth aren't the whole story; if we want to do fine-grained optimization, we need a more detailed model of the system we're working on"
     - When we get into collective communication (rather than point-to-point between just 2 threads, like we've been doing), we'll elaborate on our computer model a bit more
@@ -60,7 +60,7 @@
         - HYPERCUBIC permutations are weirder
             - Here, we assume we have "2^d" processors, and can represent each one with a "d" bit binary ID number
             - Hypercubic permutations involve communicating with partners that differ by ONLY 1 bit, with each processor agreeing on which bit we're changing for this round of communication
-                - For example, if p = 8 (and, therefore, d = 3), and the bit we're flipping is "j", then the following processors would talk with one another:
+                - For example, if p = 8 (and, therefore, the number of bits d = 3), and the bit we're flipping is "j", then the following processors would talk with one another:
 
                         j=0:
                             0 <--> 1
@@ -69,7 +69,10 @@
                             6 <--> 7
 
                         j=1:
-
+                            0 <--> 2
+                            1 <--> 3
+                            4 <--> 6
+                            5 <--> 7
                         (...)
 
     - Why are hypercubic permutations useful?
@@ -101,21 +104,21 @@
         - BROADCAST is where one thread sends a single message to every other thread
             - In MPI, we do this with:
 
-                    MPI_Bcast(void* buf, int countm )
+                    MPI_Bcast(void* buf, int countm, )
 
         - SCATTER is where a certain thread sends DIFFERENT messages to each thread
-            - Note that each message has to be the same size; if you want to sent variable-length messages to each thread, you can use "scatterv" (for "variable")
+            - Note that each message has to be the same size; if you want to send variable-length messages to each thread, you can use "scatterv" (for "variable")
         - GATHER is where a single thread receives a message/report from each other thread
             - This is useful when we have a "master" or "control" thread
             - In MPI, this is:
 
                 int MPI_Gather(void *sbuf, int scount, MPI_datatype stype, void* rbuf, int rcount, MPI_Datatype r_type)
 
-            - The "send" buffer on each process is fairly small, and the receive buffer
+            - The "send" buffer on each process is fairly small, and the receive buffer is large enough to receive the "sends" from the oher threads
     - Sometimes, we also want pieces of information to go to everyone so that something becomes common knowledge
         - We can use ALLGATHER to do this, with each process essentially doing a broadcast
         - We can use ALLTOALL to send distinct messages to EVERY process and ALSO receive messages from each process; "I think of this as being like a transpose of messages"
-    - Now, collective operations can be implemented using point-po-point methods, but these methods make them easier to handle
+    - Now, collective operations can each be implemented using point-po-point methods, but these methods make them easier to handle
 
 - So far, we've been summing numbers together and doing intermediate operations at each step
     - An alternate way we could do that is to GATHER all our numbers together, then have a single process add them together
@@ -128,7 +131,7 @@
                 MPI_Reduce(&a, &sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD)
                 std::cout << sum
 
-            - We can replace "MPI_SUM" with any associative operation (meaning multiplication, etc., but NOT division)
+            - We can replace "MPI_SUM" with any associative operation (meaning multiplication, max, etc., but NOT division)
         - If we want this result to end up on EVERY process instead, we can use "MPI_Allreduce"
             - Basically, this is a combination of MPI_Reduce and MPI_Bcast, and it's used ALL the time when we have stuff in our algorithms that need to be universally known
 

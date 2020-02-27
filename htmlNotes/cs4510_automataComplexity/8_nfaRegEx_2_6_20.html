@@ -18,7 +18,7 @@
 <li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Automata and Complexity</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_automataTuring_1_7_20.html">0. Automata and Turing Machines</a></li><li><a class="is-note-link" href="1_moreTuringMachines_1_9_20.html">1. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="2_evenMoreTuringMachines_1_14_20.html">2. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="3_yetMoreTMsPvNP_1_16_20.html">3. Odd TMs and P/NP</a></li><li><a class="is-note-link" href="4_stillMoreTMsNPComplete_1_21_20.html">4. Weird TMs and NP-Completeness</a></li><li><a class="is-note-link" href="5_reductions_1_23_20.html">5. Reductions</a></li><li><a class="is-note-link" href="6_reductionsCookLevin_1_28_20.html">6. Reductions (cont.) / Cook-Levin Theorem</a></li><li><a class="is-note-link" href="7_finiteAutomata_2_4_20.html">7. Finite Automata</a></li><li class="active-note-page"><a class="is-note-link" href="8_nfaRegEx_2_6_20.html">8. NFAs / Regular Expressions</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_automataTuring_1_7_20.html">0. Automata and Turing Machines</a></li><li><a class="is-note-link" href="1_moreTuringMachines_1_9_20.html">1. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="2_evenMoreTuringMachines_1_14_20.html">2. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="3_yetMoreTMsPvNP_1_16_20.html">3. Odd TMs and P/NP</a></li><li><a class="is-note-link" href="4_stillMoreTMsNPComplete_1_21_20.html">4. Weird TMs and NP-Completeness</a></li><li><a class="is-note-link" href="5_reductions_1_23_20.html">5. Reductions</a></li><li><a class="is-note-link" href="6_reductionsCookLevin_1_28_20.html">6. Reductions (cont.) / Cook-Levin Theorem</a></li><li><a class="is-note-link" href="7_finiteAutomata_2_4_20.html">7. Finite Automata</a></li><li class="active-note-page"><a class="is-note-link" href="8_nfaRegEx_2_6_20.html">8. NFAs / Regular Expressions</a></li><li><a class="is-note-link" href="9_regExPumping_2_11_20.html">9. Regular Expressions and NFAs</a></li><li><a class="is-note-link" href="10_pumpingLemma_2_13_20.html">10. The Pumping Lemma</a></li><li><a class="is-note-link" href="11_complementPumping_2_18_20.html">11. Complements / Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="12_yetMorePumping_2_20_20.html">12. Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="13_exam2Review_2_25_20.html">13. Exam 2 Review</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="7_finiteAutomata_2_4_20.html"></a>
@@ -34,8 +34,8 @@
     - Converting NFAs to DFAs
     - Regular Expressions
     - Regular Expressions generating regular languages
-- "...I'm also strongly tempted to tell everyone to crowd up against the wi"
-    - Next week, I will
+- "...I'm also strongly tempted to tell everyone to crowd up against the whiteboard"
+    - Next week, I probably will!
 
 - "I've also noticed that today's lecture is a little...sparse, but it's career fair week, and raining, so I can't blame people"
 
@@ -89,10 +89,10 @@
 
 - REGULAR EXPRESSIONS are basically ways of expressing "hey, I want to match any strings that match the following rules"
     - These are defined recursively, using basic rules like:
-        - Unions (?)
+        - Unions (take either of 2 things, i.e. "a OR b")
         - Concatentation of 2+ strings
         - \* = 0 or more copies of the preceding (aka the "Kleen Star")
-    - For example, 0$\Sigma$*0 means "any string that starts and ends with a 0"
+    - For example, $0\Sigma*0$ means "any string that starts and ends with a 0"
         - "Regular expressions are practically super useful, but theoretically they're also one of the easiest ways of expressing out an infinite language"
     - Here's a claim I'll make: regular expressions match strings from regular languages (i.e. ones that can be accepted by DFAs)
         - PROOF: We can do this via induction
@@ -104,9 +104,10 @@
                 - Let M be an NFA such that L(M) = L with starting state $q_0$ and accepting states $F$. Create M' for the language L* (i.e. the language with a * appended to the end) by creating a new starting state $q'$ and add $\epsilon$-transitions from $q'$ to $q_0$, and from each state in $F$ to $q_0$.
                 - (still slightly confused about why this works?)
 
-- Next week, we'll finish the base cases for concatenation/union and wrap up this proof - see you then!</pre>
+- Next week, we'll finish the base cases for concatenation/union and wrap up this proof - see you then!
+</pre>
 </article>
-<a class="side-link is-note-link" href="8_nfaRegEx_2_6_20.html"></a>
+<a class="side-link is-note-link" href="9_regExPumping_2_11_20.html"></a>
 </main>
 </body>
 </html>

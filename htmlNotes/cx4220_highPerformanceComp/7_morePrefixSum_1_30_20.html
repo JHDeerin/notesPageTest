@@ -18,7 +18,7 @@
 <li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Intro. to HPC</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li class="active-note-page"><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li class="active-note-page"><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="6_collectivesPrefixSum_1_28_20.html"></a>
@@ -50,7 +50,7 @@
 
 - Alright, let's get back to prefix sum!
     - As we started learning last time, this is where we're trying to compute all the sums from "x_0 ... x_i" in "x_0 ... x_n"
-    - MPI_Scan can do this in parallel for us, and note just for sums, but for ANY associative operation
+    - MPI_Scan can do this in parallel for us, and not just for sums, but for ANY associative operation
         - If can fit things into this prefix sum algorithm, we can save ourselves a lot of code and communication over the network - it might look specific and technical, but it's actually a VERY general technique
             - A lot of iterative operations can be expressed in terms of associative things, which "scan" can then compute for us
     - Last time, we talked briefly about HOW we can do this in parallel
@@ -88,7 +88,7 @@
         -
 
 - So, all of these examples are naturally "lines of things," where things are dependant one after the other - but we can also use prefix sums to do less obvious stuff!
-    - For instance, TREE ACCUMULATION, where we're trying to compute the sums of all the subtrees below a given node (or alternatively, going above "we need directions from our boss's boss's boss or something")
+    - For instance, TREE ACCUMULATION, where we're trying to compute the sums of all the subtrees below a given node (or alternatively, going above ("we need directions from our boss's boss's boss or something"))
         - Naively traversing the tree, this'd take O(n) in a serial algorithm
         - How can we make this a prefix sum? First, we can list the nodes in order of an EULER TOUR, making this list 2*v - 1 long
             - Then, to do upward accumulation, we can split this list into "p" blocks among our processors
@@ -102,7 +102,7 @@
 
 - Finally, let's talk about a SUPER important problem in computational biology: DNA SEQUENCE ALIGNMENT!
     - Let' say you give me 2 DNA sequences over the alphabet "A,C,G,T", and we want to show how similar they are to one another by trying to ALIGN them
-        - We'll put the 2 strings together and say that ech match is a +1 score, a mismatch is a 0, but introducing a gap to help align them is BAD: that's a -1!
+        - We'll put the 2 strings together and say that each match is a +1 score, a mismatch is a 0, but introducing a gap to help align them is BAD: that's a -1!
             - So, given the sequences ATGACC and AGAATC, the best alignment would be:
 
                     ATGA-CC
@@ -114,28 +114,46 @@
             - Then, we can define the following update:
 
                     T[i,j] = max(
-                        T[i-1,j-1] - g,     //what's g???
+                        T[i-1,j] - g,     //"g" is the penalty for adding a gap
                         T[i,j-1] - g,
-                        T[i-1,j-1] + f(ai, bj));
+                        T[i-1,j-1] + f(ai, bj)
+                    );
 
-
+            - In serial, this algorithm will take O(m*n) time to fill, with entry T[m,n] having the best possible score we could get
         - How can we make this a parallel prefix sums problem?
-            - (details on slides, moved a little fast)
-        - So, the ultimate algorithm works out to this:
+            - Essentially, when we're filling in a given row from left-to-right, we already know the above row (and therefore T[i-1, j] and T[i-1,j-1]) - however, we DON'T know T[i, j-1] (i.e. the element to the left of the current one)
+
+                    (...known, previous row...)
+                    ? | ? | ? | CURRENT T[i,j] | ? | ...
+
+                - What we CAN do, then, to compute these left elements, is to start at the leftmost element, initialize it to "-i*g" (i.e. assume it's all gaps), and then treat all the elements to the right as a prefix sum operation where we're taking the MAX of the previous calculation (T[i, j-1]) and the max of the known previous row's stuff (MAX(T[i-1, j-1] and T[i-1, j]))!
+        - So, the ultimate algorithm works out to this: for each row (I believe?)...
             - Use right shift to send last element of (i-1)th row on each processor (O(t+u))
-            - Create vector A in O(n/p):
-                (on slides)
-            - Computer parallel prefix on A using MAX as an operate; store results in X (O(n/p + (t+u)* log p))
-            - Compute T[i,j] using (missed this) in O(n/p)
+            - For each COLUMN j, create vector A in O(n/p) using the previous row's information:
+
+                    A[j] = jg + max{T[i-1, j-1] + f(ai, bj), T[i-1, j] - g}
+
+                - ...where f(ai, bj) is the score of the current letter match if we DON'T add a gap
+            - Compute parallel prefix on A using MAX as an operator; store results in an array x[j] (O(n/p + (t+u) * log p))
+            - Compute each T[i,j] using in O(n/p) as:
+
+                    T[i,j] = x[j] - g
+
     - So, how much time will this algorithm take?
-        - TODO: fill this in from slides
+        - Overall, it'll take:
+
+                Computation time = O(mn/p + m log p)
+                Communication time = O((t+u) * m * log p)
+
+            - ...and'll be maximally efficient when p = O(n / (log n))
 
 - That's a LOT better than we had, but can we do even better?
     - In short, YES, we can! (again, slides; moving fast at the end there)
 
 - So, in general, finding ways to turn your algorithm into calls to MPI routines that are highly optimized is GREAT, and you should strive to do that
 
-- Alright, on Monday your first homework is due, and we'll finish up the MPI</pre>
+- Alright, on Monday your first programming homework is due, and we'll finish up the MPI stuff then
+</pre>
 </article>
 <a class="side-link is-note-link" href="8_prefixCAllToAll_2_4_20.html"></a>
 </main>

@@ -18,7 +18,7 @@
 <li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Intro. to HPC</a></li>
 </ul>
-<ul class="note-links-slider"><li class="active-note-page"><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li></ul>
+<ul class="note-links-slider"><li class="active-note-page"><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="0_firstDay_1_7_20.html"></a>
@@ -35,7 +35,7 @@
 - "And now, since you've signed up for this class, here's some targeted advertising from Professor Vuduc!"
     - Apparently Professor Vuduc is building an undergraduate team to compete in the Supercomputing Cluster Competition, where students compete to build their own cluster and run it with a bunch of crazy tests (cutting power mid-run, power limits, etc.)
         - This WILL count as a VIP if you have time, so yay!
-        - "I do NOT assume you have supercomupting experience for this VIP; instead, we'll teach you what you need to know as long as you have a core programming base"
+        - "I do NOT assume you have supercomputing experience for this VIP; instead, we'll teach you what you need to know as long as you have a core programming base"
 
 - ALSO: there's an ungraded self-assessment quiz on Canvas. Please do it! If you're struggling, I'd recommend reading up on your algorithm notes
 --------------------------------------------------------------------------------
@@ -61,10 +61,10 @@
     - The fundamental problem of high-performance computing is to ask "okay, this algorithm works, but is it GOOD?"
         - Annoyingly, in the real world, this answer depends on what computer we're running something on; O(n^2) might be perfectly fine on our super-powerful desktop, but be WAY too slow on an embedded system
             - In your previous algorithms class, you probably worked in theory-land and ignored those, and pretended everything ran on a single-threaded ideal Turing machine
-        - For our purposes, here, "good" means that this algorithm not only works, but completes in a reasonable amount of time for our purposes and, doesn't use more memory than we have, and consumes a reasonable amount of power
+        - For our purposes, here, "good" means that this algorithm not only works, but completes in a reasonable amount of time for our purposes, doesn't use more memory than we have, and consumes a reasonable amount of power
     - In this class, then, we'll assume we're working with a computer that has PARALLELISM, i.e. it can run multiple operations at the same time
         - Multi-core processors have become the norm these days, since we had a problem: as we made single cores faster, they consumed increasingly more power and produced increasingly more heat, eventually making heat a HUGE problem
-        - So, instead, people decided to put MORE cores on a single processor, rather than making the individual cores faster
+        - So, instead, people decided to put MORE cores on a single processor, rather than just making the individual cores faster
 
 - So, we've got these parallel computers - what can we do with them?
     - First off, we have to develop parallel algorithms that can take advantage of these multiple processors!
@@ -105,7 +105,7 @@
         - Note that each of these edges from an operation to the next thing isn't free, but takes some time/resources to "traverse"
 
 - Now, as for physical computers...
-    - There's a rough hierarchy of them from least-t-most powerful:
+    - There's a rough hierarchy of them from least-to-most powerful:
         - Embedded devices
         - Personal Mobile Devices
         - (...)
@@ -113,7 +113,7 @@
     - As we've discussed, individual cores aren't getting all that more powerful now, but there's still a version of Moore's Law as we try to pack more processors on the same chips
     - Bandwidth (or "throughput") has gotten MUCh faster, but somewhat at the cost of latency research (where we've only seen marginal improvements)
     - When we're running the computer, every transistor switch takes some amount of energy, and power increases as we switch more frequently
-        - Slowing down the processor's clock speed reduces how much power we're using, but NOT the total amount of energy we need to complete something
+        - Slowing down the processor's clock speed reduces how much power we're using, but NOT the total amount of energy we need to complete some task
     - So, the current trends in computer architecture are that:
         - We can't leverage INSTRUCTION-LEVEL PARALLELISM (ILP) anymore (where the processor itself automatically takes each instruction and passes it off to free cores, I think?), as single processor performance has started plateauing (check what ILP is exactly?)
         - INSTEAD, we need to leverage parallelism at the data, thread, and request level, which unfortunately means we need to restructure a lot of our algorithms and existing programs to take advantage of this
@@ -130,7 +130,8 @@
 
 - ...we'll ignore the ILP slides for now, since processors nowadays largely handle those by themselves and you don't really need to deal with that stuff unless you're designing a processor
 
-- Alright; next class, we'll pick up with a simplified model of a computer, talking about how to start splitting up work, what "good" means for this class's purposes, and so forth. Stay tuned!</pre>
+- Alright; next class, we'll pick up with a simplified model of a computer, talking about how to start splitting up work, what "good" means for this class's purposes, and so forth. Stay tuned!
+</pre>
 </article>
 <a class="side-link is-note-link" href="1_parallelGoals_1_9_20.html"></a>
 </main>

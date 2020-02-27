@@ -39,7 +39,7 @@
         - There are also O(n log n) algorithms like heap sort ,merge sort, etc.
             - "Quick sort technically isn't in here, since in the absolute worst case it can degrade to O(n^2)"
 
-- Divide-and-conquer algorithms seem branchy and parallizable, so let's start trying to parallize merge sort!
+- Divide-and-conquer algorithms seem branchy and parallelizable, so let's start trying to parallelize merge sort!
     - At each step we split the array in half, giving us:
 
             T(n,p) = T(n/2, p/2) + merge

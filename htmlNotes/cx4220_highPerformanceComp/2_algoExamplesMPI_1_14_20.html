@@ -18,7 +18,7 @@
 <li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Intro. to HPC</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li class="active-note-page"><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li class="active-note-page"><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="1_parallelGoals_1_9_20.html"></a>
@@ -94,7 +94,7 @@ Today's agenda:
 
 - Now, let's look at our final algorithm example: Gaussian elimination!
     - TODO: Need to review Gaussian Elimination so I understand what's going on here
-    - "All of the algorithms we're doing right now are just straight-line, non-branching algoritmhs; in the rela world, I'd hope you were checking for inversion, division by zero, that kind of stuff, but let's ignore that for now"
+    - "All of the algorithms we're doing right now are just straight-line, non-branching algorithms; in the real world, I'd hope you were checking for inversion, division by zero, that kind of stuff, but let's ignore that for now"
     - The algorithm looks like this:
         1) Take the first row and divide each value by "ai" (???)
             - T(n,n) in O(1); this is embarrassingly parallel, so we can use "n" workers simultaneously to do this in constant time
@@ -103,7 +103,7 @@ Today's agenda:
             - This is solving "n-1" linear equations, each with
         3) Recurse on the next subproblems?
     - So, with a single processor T(n,1), we can get a runtime of O(n^3)
-    - With a parallel algorithm and n^2 worker, we get T(n,n^2) and can do this in O(n) time
+    - With a parallel algorithm and n^2 workers, we get T(n,n^2) and can do this in O(n) time
 
 - Now, let's say we have an algorithm with 2 parts:
     - "n" inputs, all going into some mysterious black box that does "k" operations
@@ -144,7 +144,7 @@ Today's agenda:
 
                     ...= 1/alpha
 
-            - This is known as AMDAHL'S LAW: the maximum speedup we can EVER get is going to be limited by how much non-parallized work is in our algorithm
+            - This is known as AMDAHL'S LAW: the maximum speedup we can EVER get is going to be limited by how much non-parallelized work is in our algorithm
 
 - "Now, ideally theory and practice would be the same thing, but if you guys are going to do programming then I'll need to go over the tools you need for this class; so, we're going to take a break from theory-land and start introducing MPI"
 
@@ -152,7 +152,7 @@ Today's agenda:
     - To help you understand this instead of just, say, letting Java abstract it away from you, we're going to use MPI: the MESSAGE PASSING INTERFACE
         - This is a standard for parallel computing, but it isn't owned by any single group; it emerged out of research efforts in the 1990s, and ended up defining a standard interface that has multiple implementations floating around
             - Some implementations, like OpenMPI, are free, while some vendors choose to make machine-specific versions to take advantage of their specific computer architectures
-        - It's designed to be portable and efficient across a wide variety of
+        - It's designed to be portable and efficient across a wide variety of hardware
     - So, what're the parts of this standard?
         - Every MPI implementation has to include 3 things:
             - The MPI header file in "mpi.h"
@@ -163,9 +163,9 @@ Today's agenda:
             - A runtime system with the "mpirun"/"mpiexec" tool
                 - This lets you run MPI programs correctly in a multithreaded way
     - In this class, we'll be running our algorithms on Georgia Tech's PACE computing cluster
-        - Once you're logged in, you can type "module avail" to see which
+        - Once you're logged in, you can type "module avail" to see which packages are available
         - You can then type "module list" to see which modules you actually have loaded on your system
-            - You may habe a different installed module then the available one
+            - You may have a different installed module then the available one
         - "There are notes on Canvas about the details for how to log into PACE, install the modules you need, uploading your code, etc."
     - Once you've compiled a program, just running it from the command line will only run it in a single thread - so INSTEAD, you need to use "mpirun" to specify how many threads you want your program to run on
         - Basically, this just says "whatever program I give you, run it inside an MPI environment with X number of threads"
@@ -189,7 +189,7 @@ Today's agenda:
     - To compile and run this, you can then do the following:
 
             mpicxx fileName.cpp -o executableName
-            mpiexec -np 4 ./executableName
+            mpirun -np 4 ./executableName
 
         - ...where "-np" specifies the number of threads/processors you want to use
     - So, if we're passing messages, we need to know who we're passing messages to - how can we do that?
@@ -201,7 +201,8 @@ Today's agenda:
         - There are a couple different operations you can do with communicator groups, which we'll cover more of on Thursday
 
 - Alright, I'd recommend getting a local version of MPI installed on your laptop for debugging purposes; just try running something simple like "echo hello" to make sure you can run it
-    - Besides that, don't forget to do your homework and I'll see you on Thursday!</pre>
+    - Besides that, don't forget to do your homework and I'll see you on Thursday!
+</pre>
 </article>
 <a class="side-link is-note-link" href="3_hw1MPI_1_16_20.html"></a>
 </main>

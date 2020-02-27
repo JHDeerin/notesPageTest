@@ -1,0 +1,28 @@
+//****************************************************************************//
+//*************** Prototyping Basics - February 19th, 2020 ******************//
+//**************************************************************************//
+
+- "Not to steal Professor Stallworth's thunder, but I want to show you a paper prototype from last semester that I thought was pretty cool"
+- "I was in Sam's Club - they call it a 'club', but whatever - but my wife raves about it, and so I finally downloaded the app and it'll let you just scan a QR code of what you put in your cart and walk out the door - no register or anything!"
+--------------------------------------------------------------------------------
+
+- So, we've gone from our 2.5D sketches to our MVP plan, but how do we get from our MVP to our actual project, and figuring out what work we actually need to do next semester to turn this stuff into reality?
+    - First, based on our MVP mappings and user stories and secondary research, we're going to start doing PROTOTYPES, which in this class looks like this:
+        - First, drawing a quick sketch of the overall app and the flow through it, like a wireframe of our application
+            - Starting from the home screen, which other screens can you go to? On each of those screens, what can you do? Are there any pop-ups that can come up? Think through what you're actually DOING on each screen!
+            - This doesn't have to look pretty at ALL, or have any details; it should just show which screens go to which other screens
+        - Then, you do some more detailed sketches of individual screens
+        - Then, you make a paper prototype to test the interaction and flow
+        - Next, you make a quick digital version of the prototype to try
+        - Finally
+            - At EACH of these steps, you should also be doing user testing and getting feedback from the client so that you get a feedback loop, and can refine each prototype as you go along
+    - Obviously, this assumes you're making a client-facing UI based program, and not something non-visual like a library or API
+
+- There are parts of these wireframes and prototypes where you'll need feedback from the user to know how they respond and how they'll actually use your app and expect it to work, and defend WHY you chose to lay out your app in a certain way
+    - You want to fail fast and make your prototype easy to test, get feedback from, throw away, and repeat, hopefully making your prototype better each time
+
+- *cue video from Google*
+
+- Okay, finish your wireframes and then on Friday you'll finish those up and and start making your paper prototypes proper. See you then!
+    - Next week'll be devoted towards paper prototypes, and at the end of next week you'll be reviewing another team's prototype and giving them feedback based on the usability things we've been discussing
+    - You'll then write a report about how your prototype will be adjusted based on that feedback

@@ -92,5 +92,3 @@
         - Well, we can do it by creating a state for EVERY possible subset of states we could be in, and accept if any state in the subset end in an accepted state
 
 - Alright, we'll keep talking about this next class!
-
-

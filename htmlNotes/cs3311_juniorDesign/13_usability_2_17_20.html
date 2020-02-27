@@ -1,0 +1,79 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Junior Design I</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs3311Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Junior Design I</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_6_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_syllabusEmailTips_1_8_20.html">1. Syllabus and Email Tips</a></li><li><a class="is-note-link" href="2_meetingsEmails_1_10_20.html">2. Meetings and Emails</a></li><li><a class="is-note-link" href="3_presentationsCharter_1_13_19.html">3. Presentations / Team Charter</a></li><li><a class="is-note-link" href="4_clientEmails_1_15_20.html">4. Client Emails</a></li><li><a class="is-note-link" href="5_developmentResearch_1_22_20.html">5. Development and Research</a></li><li><a class="is-note-link" href="6_inventionCaseStudy_1_24_20.html">6. Invention Case-Study</a></li><li><a class="is-note-link" href="7_userSketch_1_27_20.html">7. 2.5D User Sketches</a></li><li><a class="is-note-link" href="8_sketchExamples_1_29_20.html">8. 2.5D Sketch Example</a></li><li><a class="is-note-link" href="9_secondaryResearch_1_31_20.html">9. Secondary Research</a></li><li><a class="is-note-link" href="10_userStatements_2_3_20.html">10. User Statements</a></li><li><a class="is-note-link" href="11_userStories_2_10_20.html">11. User Stories</a></li><li><a class="is-note-link" href="12_moreUserStories_2_12_20.html">12. User Stories</a></li><li class="active-note-page"><a class="is-note-link" href="13_usability_2_17_20.html">13. Usability</a></li><li><a class="is-note-link" href="14_prototypeBasics_2_19_20.html">14. Prototyping Basics</a></li><li><a class="is-note-link" href="15_userTesting_2_24_20.html">15. User Testing</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="12_moreUserStories_2_12_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//******************** Usability - February 17th, 2020 **********************//
+//**************************************************************************//
+
+- Okay, your user statements should all be graded now (and in general, they were quite good!)
+--------------------------------------------------------------------------------
+
+- Alright; this week, we're getting into the exciting world of PROTOTYPES and actually making something tangible - hurrah!
+    - Professor Stallworth will get into some practical stuff on Wednesday, but I'll be introducing a big general concept: USABILITY
+        - Look at this vegetable peeler from OXO (pronounced "ox-oh", apparently); their goal was to create a peeler that anyone could use regardless of strength or hand size, and so compared to a regular metal peeler it has:
+            - A larger grip that's rubber (proper handle), making it easier to hold
+            - Different movement from the direction of the blade; instead of swiping side-to-side with your wrist/forearm, you can pull with your whole arm
+            - It has a whole, letting it be hung up nicely
+        - So, the design actually helps dictate how people use their vegetable peeler, and this
+
+- In general, USABILITY is the ease of use/access/"learnability" of some device or tool for humans
+    - While this definitely applies to physical items, it can apply to anything humans use, physical or digital or otherwise
+        - To design something to be used by SOMEONE, you have to consider the tool's purpose and "audience"/users, almost in a rhetorical sense
+    - Heck, there's even a "usability.gov" website with an overview of this stuff!
+
+- What we'll focus on, though, are the 10 "Nielsen-Norman" usability heuristics:
+    - "Jakob Nielsen is a Danish Computer Scientist who's been working on internet usability for the past 20 years or so, and he and Norman came up with these guidelines for good design"
+    - Visibility of system status
+        - "The system should always keep users informed about what is going on, through appropriate feedback within reasonable time."
+    - Match between system and real world
+        - "The system should speak the users' language, with words, phrases and concepts familiar to the user, rather than system-oriented terms. Follow real-world conventions, making information appear in a natural and logical order."
+    - User control/freedom
+        - "Users often choose system functions by mistake and will need a clearly marked "emergency exit" to leave the unwanted state without having to go through an extended dialogue. Support undo and redo."
+    - Consistency and standards
+        - "Users should not have to wonder whether different words, situations, or actions mean the same thing. Follow platform conventions."
+    - Error prevention
+        - "Even better than good error messages is a careful design which prevents a problem from occurring in the first place. Either eliminate error-prone conditions or check for them and present users with a confirmation option before they commit to the action."
+    - Recognition &gt; recall
+        - "Minimize the user's memory load by making objects, actions, and options visible. The user should not have to remember information from one part of the dialogue to another. Instructions for use of the system should be visible or easily retrievable whenever appropriate."
+    - Flexibility and efficiency of use
+        - "Accelerators — unseen by the novice user — may often speed up the interaction for the expert user such that the system can cater to both inexperienced and experienced users. Allow users to tailor frequent actions."
+    - Aesthetic and minimalist design
+        - "Dialogues should not contain information which is irrelevant or rarely needed. Every extra unit of information in a dialogue competes with the relevant units of information and diminishes their relative visibility."
+    - Help users recognize, diagnose, and recover from errors
+        - "Error messages should be expressed in plain language (no codes), precisely indicate the problem, and constructively suggest a solution."
+    - Help and documentation
+        - "Even though it is better if the system can be used without documentation, it may be necessary to provide help and documentation. Any such information should be easy to search, focused on the user's task, list concrete steps to be carried out, and not be too large."
+
+- Take a look at some of the applications you use every day - how do they follow these? How do they break them?
+
+- In the meantime, see you guys on Wednesday!
+</pre>
+</article>
+<a class="side-link is-note-link" href="14_prototypeBasics_2_19_20.html"></a>
+</main>
+</body>
+</html>

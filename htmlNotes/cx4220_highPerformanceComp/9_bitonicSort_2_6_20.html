@@ -18,7 +18,7 @@
 <li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Intro. to HPC</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li class="active-note-page"><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li class="active-note-page"><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="8_prefixCAllToAll_2_4_20.html"></a>
@@ -66,7 +66,7 @@
         - There are also O(n log n) algorithms like heap sort ,merge sort, etc.
             - "Quick sort technically isn't in here, since in the absolute worst case it can degrade to O(n^2)"
 
-- Divide-and-conquer algorithms seem branchy and parallizable, so let's start trying to parallize merge sort!
+- Divide-and-conquer algorithms seem branchy and parallelizable, so let's start trying to parallelize merge sort!
     - At each step we split the array in half, giving us:
 
             T(n,p) = T(n/2, p/2) + merge
@@ -164,7 +164,8 @@
         - Since the 1980s, we've known about a sort called AKS that has a sorting network that gets us T(p,p) = O(log p) time!
             - "HOWEVER, we don't teach it in this class because it has a HUGE amount of overhead; it doesn't actually become faster than bitonic sort until 2^(ungodly large number) elements"
 
-- Bitonic sort still probably feels a bit mysterious right now, so I'd encourage you to go through the slides and the course notes again; when you come back next week, we'll start talking about the other wonderful types of sorts you can do!</pre>
+- Bitonic sort still probably feels a bit mysterious right now, so I'd encourage you to go through the slides and the course notes again; when you come back next week, we'll start talking about the other wonderful types of sorts you can do!
+</pre>
 </article>
 <a class="side-link is-note-link" href="10_parallelQuickSort_2_11_20.html"></a>
 </main>

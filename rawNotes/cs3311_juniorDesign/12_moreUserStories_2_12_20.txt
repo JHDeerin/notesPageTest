@@ -1,0 +1,59 @@
+//****************************************************************************//
+//****************** User Stories - February 12th, 2020 *********************//
+//**************************************************************************//
+
+- Okay, we're going to continue our trend of having no class on Fridays - happy Valentine's Day! Don't forget your MVP mapping/acceptance criteria are due then!
+    - I'll start grading your well-defined user statements this Friday, and hopefully have them done before the weekend starts
+
+- "This is one of the bigger early projects, but hopefully it'll guide you the rest of the semester and make your final report much more about assembly than creating something brand-spanking new"
+
+--------------------------------------------------------------------------------
+- What I'd like teams to do today is to write a user story/set of acceptance criteria for an EXISTING application you use, like Spotify or something - "basically, you're reverse-engineering user stories"
+    - Here's the example I came up with:
+
+            As a user, I want to create/edit playlists so that I can catalog tracks I wish to frequently access
+
+            Scenario 1:
+            Given the playlist that the user wants to modify/exists has been created
+                and the desired track has been located
+                and the track is available
+            When the user selects "add to playlist"
+            Then a menu of the user's existing playlists appears
+
+            Scenario 2:
+            Given the menu of the existing playlist's has appeared
+                and the user has selected a track to be added to the playlist
+            When the user selects the playlist to which to add the track
+            Then the desired track is added to the selected playlist
+                and the user is returned to the original screen/page
+                and a banner message appears on the bottom the banner
+                and the banner message disappears after 3 seconds
+
+    - "So, writing it out in this much detail forces us to think about what "adding to a playlist" REALLY means, and not just in a vague way"
+        - 2 scenarios is pretty good for making you think things through a bit
+
+- Our example, for Slack:
+    - As a project manager, I want to start a message thread so that I can communicate with 1 person but leave it visible to the rest of the team
+
+            Scenario 1:
+            Given an existing message in the channel
+                and the project manager has access to the channel
+                and there's no existing reply thread on the message
+            When the the project manager clicks the "reply" button
+                and enters/sends a message correctly
+            Then it opens a new thread on the message
+                and displays a "Thread" banner underneath the replied-to message
+
+            Scenario 2:
+            Given an existing message in the channel
+                and the project manager has access to the channel
+                and there is an existing reply thread on the message
+            When the project manager clicks the thread banner underneath the message
+            Then it opens a new window for replying to that thread
+
+            Given the project manager has opened the window for a thread
+            When they enter/submit a message to the thread
+            Then the message appears as a new message in that thread
+                and the message counter for the thread banner increments
+
+- Hopefully, this gets you guys to pay attention to the small things that apps do that you don't really notice, like incrementing a counter or pulling up the keyboard; this stuff is what separates professional projects

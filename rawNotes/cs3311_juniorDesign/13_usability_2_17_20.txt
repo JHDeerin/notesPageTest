@@ -1,0 +1,46 @@
+//****************************************************************************//
+//******************** Usability - February 17th, 2020 **********************//
+//**************************************************************************//
+
+- Okay, your user statements should all be graded now (and in general, they were quite good!)
+--------------------------------------------------------------------------------
+
+- Alright; this week, we're getting into the exciting world of PROTOTYPES and actually making something tangible - hurrah!
+    - Professor Stallworth will get into some practical stuff on Wednesday, but I'll be introducing a big general concept: USABILITY
+        - Look at this vegetable peeler from OXO (pronounced "ox-oh", apparently); their goal was to create a peeler that anyone could use regardless of strength or hand size, and so compared to a regular metal peeler it has:
+            - A larger grip that's rubber (proper handle), making it easier to hold
+            - Different movement from the direction of the blade; instead of swiping side-to-side with your wrist/forearm, you can pull with your whole arm
+            - It has a whole, letting it be hung up nicely
+        - So, the design actually helps dictate how people use their vegetable peeler, and this
+
+- In general, USABILITY is the ease of use/access/"learnability" of some device or tool for humans
+    - While this definitely applies to physical items, it can apply to anything humans use, physical or digital or otherwise
+        - To design something to be used by SOMEONE, you have to consider the tool's purpose and "audience"/users, almost in a rhetorical sense
+    - Heck, there's even a "usability.gov" website with an overview of this stuff!
+
+- What we'll focus on, though, are the 10 "Nielsen-Norman" usability heuristics:
+    - "Jakob Nielsen is a Danish Computer Scientist who's been working on internet usability for the past 20 years or so, and he and Norman came up with these guidelines for good design"
+    - Visibility of system status
+        - "The system should always keep users informed about what is going on, through appropriate feedback within reasonable time."
+    - Match between system and real world
+        - "The system should speak the users' language, with words, phrases and concepts familiar to the user, rather than system-oriented terms. Follow real-world conventions, making information appear in a natural and logical order."
+    - User control/freedom
+        - "Users often choose system functions by mistake and will need a clearly marked "emergency exit" to leave the unwanted state without having to go through an extended dialogue. Support undo and redo."
+    - Consistency and standards
+        - "Users should not have to wonder whether different words, situations, or actions mean the same thing. Follow platform conventions."
+    - Error prevention
+        - "Even better than good error messages is a careful design which prevents a problem from occurring in the first place. Either eliminate error-prone conditions or check for them and present users with a confirmation option before they commit to the action."
+    - Recognition > recall
+        - "Minimize the user's memory load by making objects, actions, and options visible. The user should not have to remember information from one part of the dialogue to another. Instructions for use of the system should be visible or easily retrievable whenever appropriate."
+    - Flexibility and efficiency of use
+        - "Accelerators — unseen by the novice user — may often speed up the interaction for the expert user such that the system can cater to both inexperienced and experienced users. Allow users to tailor frequent actions."
+    - Aesthetic and minimalist design
+        - "Dialogues should not contain information which is irrelevant or rarely needed. Every extra unit of information in a dialogue competes with the relevant units of information and diminishes their relative visibility."
+    - Help users recognize, diagnose, and recover from errors
+        - "Error messages should be expressed in plain language (no codes), precisely indicate the problem, and constructively suggest a solution."
+    - Help and documentation
+        - "Even though it is better if the system can be used without documentation, it may be necessary to provide help and documentation. Any such information should be easy to search, focused on the user's task, list concrete steps to be carried out, and not be too large."
+
+- Take a look at some of the applications you use every day - how do they follow these? How do they break them?
+
+- In the meantime, see you guys on Wednesday!

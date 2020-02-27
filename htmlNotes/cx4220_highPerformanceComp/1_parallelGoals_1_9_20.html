@@ -18,7 +18,7 @@
 <li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Intro. to HPC</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li class="active-note-page"><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li class="active-note-page"><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="0_firstDay_1_7_20.html"></a>
@@ -111,7 +111,7 @@
 
         - So, apart from some small constant factor if we have to add an extra processor when p1/p2 is fractional, the algorithm should be equally efficient on a smaller number of cores!
     - So, should we prefer speedup or efficiency?
-        - First off, noe that when the number of processors is fixed, better efficiency is EQUIVALENT to better speedup - they're directly correlated!
+        - First off, note that when the number of processors is fixed, better efficiency is EQUIVALENT to better speedup - they're directly correlated!
         - In general, speedup tries to minimize T(n) but ONLY for a fixed number of processors, while efficiency tries to maximize the usage of each processor as we increase their number/scale
             - In other words, speedup does NOT necessarily hold as we change the number of processors, but efficiency WILL hold (within limits), so a more efficient algorithm will run better than inefficient-but-high-speedup ones as the number of processors gets smaller
         - In this case, therefore, algorithm 2 is actually FASTER on the same number of cores as #1 because it's splitting the amount of work better - and remember, efficiency is conserved as the number of processors change!
@@ -135,7 +135,7 @@
 
 - So, once we understand those 2 pieces of analysis, we can use them to pick the best number of processors to maximize our algorithm's efficiency or speed
     - Let's say, for instance, that we have an algorithm for computing the sum of "n" numbers on "p" processors with:
-        - Serial runtime: T(n,1) - O(n)
+        - Serial runtime: T(n,1) = O(n)
         - Parallel runtime: T(n,p) = O(n/p + log n)
             - "This is pretty common in parallel algorithms; it means we were able to perfectly divide the work, but there was some overhead"
         - So, if we want to achieve the maximum speed (i.e. minimizing the runtime), then we can use some basic calculus to find the critical point and the best number of processors!:
@@ -181,7 +181,7 @@
                     =&gt; p = O(n * sqrt(n))
 
             - "Here, instead of a logarithmic factor we should step back by to maintain our desired efficiency, we should actually add MORE processors as the problem grows based on this equation if we want to achieve maximum efficiency"
-    - What does this mean for the 2nd algorithm? It means that we can minimize the absolute running time for this algoritmh by using n^2 processors, but that each run will waste some processor time by leaving some processors idle; if we use a smaller number of processors (n * sqrt(n) or less) to achieve maximum efficiency, it'll take a little longer, but we won't waste ANY processor time!
+    - What does this mean for the 2nd algorithm? It means that we can minimize the absolute running time for this algorithm by using n^2 processors, but that each run will waste some processor time by leaving some processors idle; if we use a smaller number of processors (n * sqrt(n) or less) to achieve maximum efficiency, it'll take a little longer, but we won't waste ANY processor time!
         - What this means is that for a single run, using n^2 processors is better - but over time, the wasted processor time will add up
         - If we only use "n" processors and schedule "n" simulation runs at the same time, then eventually we can do more runs in LESS time than the all-processor speedup approach, since we're not wasting idle time!
             - More specifically, the more efficient algorithm overtakes the speed-first n^2 one after "sqrt(n)" runs, since:
@@ -202,7 +202,8 @@
         - "If you see this, big alarm bells should be going off in your head that they're trying to make their algorithm look more impressive than it really is"
         - Speedup should ALWAYS be done relative to the best known serial algorithm for the task you're doing
 
-- Okay, homework is out, so look at that over the weekend - see you next week!</pre>
+- Okay, homework is out, so look at that over the weekend - see you next week!
+</pre>
 </article>
 <a class="side-link is-note-link" href="2_algoExamplesMPI_1_14_20.html"></a>
 </main>

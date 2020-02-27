@@ -8,7 +8,7 @@
 - "And now, since you've signed up for this class, here's some targeted advertising from Professor Vuduc!"
     - Apparently Professor Vuduc is building an undergraduate team to compete in the Supercomputing Cluster Competition, where students compete to build their own cluster and run it with a bunch of crazy tests (cutting power mid-run, power limits, etc.)
         - This WILL count as a VIP if you have time, so yay!
-        - "I do NOT assume you have supercomupting experience for this VIP; instead, we'll teach you what you need to know as long as you have a core programming base"
+        - "I do NOT assume you have supercomputing experience for this VIP; instead, we'll teach you what you need to know as long as you have a core programming base"
 
 - ALSO: there's an ungraded self-assessment quiz on Canvas. Please do it! If you're struggling, I'd recommend reading up on your algorithm notes
 --------------------------------------------------------------------------------
@@ -34,10 +34,10 @@
     - The fundamental problem of high-performance computing is to ask "okay, this algorithm works, but is it GOOD?"
         - Annoyingly, in the real world, this answer depends on what computer we're running something on; O(n^2) might be perfectly fine on our super-powerful desktop, but be WAY too slow on an embedded system
             - In your previous algorithms class, you probably worked in theory-land and ignored those, and pretended everything ran on a single-threaded ideal Turing machine
-        - For our purposes, here, "good" means that this algorithm not only works, but completes in a reasonable amount of time for our purposes and, doesn't use more memory than we have, and consumes a reasonable amount of power
+        - For our purposes, here, "good" means that this algorithm not only works, but completes in a reasonable amount of time for our purposes, doesn't use more memory than we have, and consumes a reasonable amount of power
     - In this class, then, we'll assume we're working with a computer that has PARALLELISM, i.e. it can run multiple operations at the same time
         - Multi-core processors have become the norm these days, since we had a problem: as we made single cores faster, they consumed increasingly more power and produced increasingly more heat, eventually making heat a HUGE problem
-        - So, instead, people decided to put MORE cores on a single processor, rather than making the individual cores faster
+        - So, instead, people decided to put MORE cores on a single processor, rather than just making the individual cores faster
 
 - So, we've got these parallel computers - what can we do with them?
     - First off, we have to develop parallel algorithms that can take advantage of these multiple processors!
@@ -78,7 +78,7 @@
         - Note that each of these edges from an operation to the next thing isn't free, but takes some time/resources to "traverse"
 
 - Now, as for physical computers...
-    - There's a rough hierarchy of them from least-t-most powerful:
+    - There's a rough hierarchy of them from least-to-most powerful:
         - Embedded devices
         - Personal Mobile Devices
         - (...)
@@ -86,7 +86,7 @@
     - As we've discussed, individual cores aren't getting all that more powerful now, but there's still a version of Moore's Law as we try to pack more processors on the same chips
     - Bandwidth (or "throughput") has gotten MUCh faster, but somewhat at the cost of latency research (where we've only seen marginal improvements)
     - When we're running the computer, every transistor switch takes some amount of energy, and power increases as we switch more frequently
-        - Slowing down the processor's clock speed reduces how much power we're using, but NOT the total amount of energy we need to complete something
+        - Slowing down the processor's clock speed reduces how much power we're using, but NOT the total amount of energy we need to complete some task
     - So, the current trends in computer architecture are that:
         - We can't leverage INSTRUCTION-LEVEL PARALLELISM (ILP) anymore (where the processor itself automatically takes each instruction and passes it off to free cores, I think?), as single processor performance has started plateauing (check what ILP is exactly?)
         - INSTEAD, we need to leverage parallelism at the data, thread, and request level, which unfortunately means we need to restructure a lot of our algorithms and existing programs to take advantage of this

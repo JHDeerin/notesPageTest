@@ -1,0 +1,32 @@
+//****************************************************************************//
+//******************* User Testing - February 24th, 2020 ********************//
+//**************************************************************************//
+
+- Readings for today:
+    - https://www.nngroup.com/articles/task-scenarios-usability-testing/
+    - https://youtu.be/v8JJrDvQDF4
+
+- Professor Stallworth comes in, drops a giant box of paper exams on the desk, and then tells us they're not for us
+    - ...instead, they contain the materials we'll use to make our paper prototypes!
+
+- Today and Wednesday will mostly be for making your paper prototypes, and on Friday you'll perform your tests
+    - Then, next week, you'll submit a report saying how you plan to modify your prototype in response to user feedback
+    - "PLEASE take pictures of your prototype and preferably video of your user testing; it'll make drafting this report easier"
+        - You'll be evaluated on the quality of your report AND your response to a different team that you'll be critiquing
+    - As part of this, you'll need to provide the tasks you used in your test (and why you chose those tasks), then describe the test, and finally say what design changes you're planning to make SUPPORTED by secondary research
+        - Including photos and diagrams and even embedded videos can really make these reports shine
+
+- Looking into the future, after that we have spring break, and then it's basically just the final report and cleaning up
+--------------------------------------------------------------------------------
+
+- "I'll talk for like 15 minutes, then let you loose"
+
+- So, we watched this video with Jakob Nielsen, and while he reviewed some stuff we talked about last week he also introduced some new things!
+    - The 3 things we've already covered are that:
+        - You are NOT your user (you need fresh eyes that don't have all your experience with the program)
+        - You need external users who aren't familiar with the product
+        - You want to test with a "think-aloud" protocol, asking your users hat they're thinking while they use your program
+    - A big new thing he introduces, though, is this idea of TASK SCENARIOS: having specific actions or activities you give your user to try and do while they're testing your program
+        - Where will these scenarios come from? If you did it right, your user stories!
+
+- Alright, keep making your paper prototypes!

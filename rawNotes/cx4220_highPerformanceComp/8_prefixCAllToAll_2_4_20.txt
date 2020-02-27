@@ -13,7 +13,7 @@
 - "Does anyone in the class have a USB-C to HDMI dongle? I forgot mine for once today, so the projector might get a break this class"
 --------------------------------------------------------------------------------
 
-- Last week, we went through some examples for how prefix sum can actually be used; today, we'll be looking at how to actually implement some of that via polynomials!
+- Last week, we went through some examples for how prefix sum can actually be used; today, we'll be looking at how to actually implement some of that via an example with polynomials!
     - Polynomials as math functions are useful for approximation;
 
             f(x) ~= sum from i=0 to k{ a_i * x^i }

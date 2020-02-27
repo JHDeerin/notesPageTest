@@ -10,10 +10,10 @@
 - Okay; today, we'll skim over the MVP process again, and go over user stories/acceptance criteria in terms of MVPs
     - In theory, you guys should've started brainstorming for the MVP stuff
 
-- After creating your 2.5D sketches, you should start coming up with your product's minimum viable 
+- After creating your 2.5D sketches, you should start coming up with your product's minimum viable features
     - "Don't just record the features you choose to go with; record the ones you rejected, and WHY you chose to reject them, in case they ever come up in the future"
     - Eventually, you should come up with an MVP map of the most important features as "epics" with sub-requirements underneath them (ordered in importance from "essential" to "nice-to-haves" to "pie-in-the-sky goals")
-        - After you've done this, for EACH one of these requirements like "Add Gmail sign-in," you should create a user story for that feature, along with a list of
+        - After you've done this, for EACH one of these requirements like "Add Gmail sign-in," you should create a user story for that feature, along with a list of "acceptance criteria" of things that feature has to do from the user's perspective
     - You'll then plan which features you'll work on over a series of sprints
 
 - Okay, that's the high-level view - but what's a user story?
@@ -41,4 +41,4 @@
 
     - We only write user stories for in-scope features that you're actually going to implement - NOT for the pie-in-the-sky stuff, or even for far-off future sprints
 
-- Okay, come up with your MVP table stuff and then finish your 
+- Okay, come up with your MVP table stuff and then finish your user stories! By!
