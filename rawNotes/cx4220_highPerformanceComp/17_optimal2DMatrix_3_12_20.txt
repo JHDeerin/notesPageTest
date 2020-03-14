@@ -1,0 +1,135 @@
+//****************************************************************************//
+//*********** Optimal 2D Matrices / Caching - March 12th, 2020 **************//
+//**************************************************************************//
+
+- Today's glorious agenda:
+    - Homework 3 (posted by tonight)
+        - due Tuesday after break
+    - Study guide posted tomorrow for Exam 2
+        - Exam topics:
+            - Bitonic sort
+            - Sample sort
+            - Embeddings
+            - Matrix-matrix multiplications
+            - MPI for above
+        - All of the above will be tested on homework 3 - "I'm planning on one homework on each of them"
+        - The exam will happen on THURSDAY when you get back
+    - In-lecture:
+        - Finish matrix-matrix multiplication
+
+- A whole 5 people braved the coronavirus to come to lecture...in a way, I'm impressed, but COME ON!
+
+- Also, example solutions for programming assignment 2 were poste; one is a TAs solution from a past semester that DOESN'T interleave master/worker processing, and the other is Professor Isaac's solution that does try to use that time
+    - The basic idea behind this is "what if we split the master thread into 2 parts: a 'backend' and a 'frontend'?" The backend generates new partial solutions, and the frontend gives those solutions to the workers when requested
+        - We only have 1 thread, though, so we basically have to implement a poor man's co-routine to handle this on a single thread
+--------------------------------------------------------------------------------
+
+- "So, I asked people to read ahead on the lower-bounds of communications needed for matrix-matrix multiplication algorithms"
+    - We'll also look at a useful idea we've been dancing around called "iteration space"
+    - ...and then talk about how we can use ideas from parallel algorithms to also improve cache performance for serial algorithms
+
+- Let's start by talking about iteration spaces - what are they?
+    - So, for matrix multiplication, we're trying to get the result
+
+            C = A x B
+
+    - Where, for individual elements/submatrices:
+
+            C(i,j) = sum from k=0...n { A(ik) x B(kj) }
+
+    - So, a naive serial algorithm for matrix multiplication looks like this:
+
+            for i:
+                for j:
+                    for k:
+                        c[i,j] += a[i,k] * b[k,j]
+
+    - We can represent this space as a 3D cube, with the axes i,j, and k
+
+                 
+                |\---------\
+                | \    C    \
+                |  \         \
+                j B k---------
+                 \  |         |
+                  \ |    A    |
+                   \|         |
+                     ---------i
+
+        - On "A", we're iterating over the i/k plane, on "B" we're iterating over the j/k plane, and over "C" we're iterating through the i/j plane
+            - Inside the cube, a random integer coordinate "xyz" corresponds to some product, a multiplication operation we have to do
+            - So, what we've been trying to with our parallel decompositions is to take some portion of these operations and divvy them up among our separate processors, giving each processor a cube of operations or plane of operations or whatnot from this space to eventually use them to compute "C"
+        - So, if we take a slice from "A" and "B", and project those slices into the cube, their intersection will form a smaller cube/rectangular prism of operations that're needed, and projecting THAT onto C will give the resulting final values those calculations give us
+            - So, assuming we've got those slices, we want to figure out how many operations are needed, and vice-versa: if we have some volume of computations, what inputs will be need from A and B, and what output will we get?
+
+- So, right now, the amount of memory moved by Cannon's algorithm (the best matrix multiplication algorithm we've seen so far) is "n^2/p"
+    - ..because to compute an "n*sqrt(p) x n*sqrt(p)" submatrix in C, we need "n" rows, each of size "n/sqrt(p)" size from the input matrices (double-check this?)
+    - But is this the BEST we can do? Can we do any better? How many multiplications do we NEED?
+        - Well, think of iterations spaces! We have some subset inputs from A "sA" and some subset of input operations "sB" from B, to get some subset of the resulting matrix C "sC"
+        - So, in intersection space, the minimum number of computations we need is the intersection of all of these splotches projected inside the cube
+            - What's the minimum size this could be? The smallest each input could be is a square "n*sqrt(p) x n*sqrt(p)" on each face, so the smallest intersection we could possibly get is a cube with sides of length "" (???)
+            - So, the number of multiplies has to be:
+
+                    <= sqrt(|sA| * |sB| * |sC|)
+
+            - Let's say we split our algorithm into phases, each of which can communicate at most "M" pieces of memory to other processes per phase; then, by the above inequality, each of the subsets has to be <= |2M|
+                - That means that, per phase, there can't be any more than:
+
+                        2*sqrt(2) * M^(3/2) multiplications
+
+                - Now, if each round does "W" computations, then the number of rounds "L" must act as follows:
+
+                        L >= W/(2*sqrt(2)*M^(3/2))
+
+                - Therefore, L*M >= w/(2*sqrt(2)*sqrt(M)) - M
+            - Thus, if there are "p" processors, at least one of them HAS to perform "m*k*n/p" multiplications, so the entire number of words moved is:
+
+                    m*k*n / (2sqrt(2)*p*sqrt(M)) - M
+
+            - Now, if we're multiplying two NxN matrices, that mean we have a minimum memory requirement of:
+
+                    >= n^3 / (2*sqrt(2)*p*sqrt(M)) - M
+                    => sqrt(3)*n/sqrt(p) ~= sqrt(M)
+                    => 1/sqrt(M) ~= sqrt(3)*sqrt(p)/n
+
+            - So, for Cannon's algorithm, the amount of memory we're trying to send per round is the whole sub-matrix "n^2/p" (I think??), meaning that YES, Cannon's algorithm is optimal!
+                - ...not sure I see it?
+
+- So, Cannon's algorithm is optimal in bandwidth, but what about latency?
+    - Assuming we only have enough memory to store 1 matrix on each processor, Cannon's is optimal; but if we have more memory, we can use 3D
+    - (confused by slides???)
+
+- "So, that's the last algorithm we'll be looking at in the linear algebra part of the class - well, the dense linear algebra part at least"
+
+- That brings us to the last bullet point of the day: how can these parallel algorithm ideas help us write serial algorithms?
+    - In the most basic model where we just have memory and a CPU then, by Brent's lemma, it doesn't help us much: serial algorithms will beat parallel ones
+        - HOWEVER, in modern processors, almost all computers have a cache of recently-used values - and while a computer architecture class would go super in-depth about where to put things in the cache and so forth, today we'll just assume we have a pretty smart cache that lets the user control where the data goes AND what data gets evicted, so we just need to worry about what memory we access
+        - In reality, a good default for real processors is to evict the least recently used piece of memory, although there's a BUNCH of different schemes
+    - Let's say we have a cache of size Z, and we write a loop that looks like this:
+
+            for i-1...n
+                for j=1...n
+                    for k=1...n
+                        C[i,j] = A[i,k] * b[k,j]
+
+        - How will the cache behave? Using iteration spaces, we can actually guess: the inner loops are the ones that change the fastest, so we're going upwards and bringing in a strip of A/B each loop, then moving along j to read in new strips of B...
+            - If each strip is "N" elements, then let's say the cache can hold N/2 elements - about half of each strip
+        - So, currently we're having NO cache reuse despite having ~2*n^3 memory movements to the cache for N^2 of these strips over the whole for loop
+    - How can we do better?
+        - Theoretically, we can do the most multiplication with values in the cache when we have 1/3 of the cache devoted to A, B, and C, respectively; in this case, the best case we can do is:
+
+                sqrt(Z/3)^3 ~= Z^(3/2)
+
+        - How many times would we have to refill this cache, then? There are n^3 total operations, so if we can do z^3/2 operations per full cache then the total amount of cache refills needed is:
+
+                n^3 / (Z^(3/2)) ~= (n/sqrt(Z))^3
+
+            - Similarly to where we had sqrt(p) in our parallel matrix lower-bound proof (??), we can achieve this optimal cache usage by basically simulating Cannon's algorithm with p = Z^2
+                - This essentially does a cube of calculations, then jumps to the next cube; the order doesn't matter too much, but the switch to cubes is HUGE!
+            - If we do this, and use the same set of memory for those Z^(3/2) operations, then we've changed the memory usage to:
+
+                    2*n^3/sqrt(Z)
+
+            - So, we've gone from not using the cache at all to getting a speedup proportional to the size of the cache - that's awesome!
+
+- Okay, that's time, so I'll post Homework 3 and the study guide for your perusing pleasure later - have a nice break!

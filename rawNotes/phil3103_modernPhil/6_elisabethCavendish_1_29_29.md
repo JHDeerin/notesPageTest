@@ -20,7 +20,7 @@
 - Okay, today we'll actually talk about Elisabeth of Bohemia's critique of Descartes and Margaret Cavendish
     - Also, what about your discussions? Discuss with your neighbors!
         - Talked about if the mind *could* be an emergent behavior, like how the internet is made up of many different servers without "belonging" to any one of them
-    - "Some of you might think this isn' a big question but for Descartes it's *huge* that physical matter isn't a thinking substance, so we can do science"
+    - "Some of you might think this isn't a big question, but for Descartes it's *huge* that physical matter isn't a thinking substance, so we can do science"
 
 - So, Elisabeth of Bohemia - in a very polite letter - raises an objection for Descartes: if the body and soul are different substances, then how can they interact?
     - In other words, how can Descartes as a substance dualist explain how the soul moves the body and makes it do stuff?
@@ -40,7 +40,7 @@
     - Perhaps weirdly at first, she also tries to take aim at Descartes' view of life
         - For Descartes, living things are just machines, and are just moving like gears
         - But Cavendish thinks that organisms are "animate" and somehow are capable of motion inherently
-    - Another question, then: if the mind doesn't occupy space, how can it move? In that sens, "you" don't really move anywhere; your mind stays still in Descartes' world!
+    - Another question, then: if the mind doesn't occupy space, how can it move? In that sense, "you" don't really move anywhere; your mind stays still in Descartes' world!
         - Cavendish thinks the mind's motion should be correlated with the body - so, to explain that, she says that there isn't a separate mental substance at all, but that everything is matter!
         - How does she explain consciousness, then? By saying that some matter is ANIMATE - in other words, that there's a bit of consciousness inside (at least organic) matter itself!
 

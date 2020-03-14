@@ -1,0 +1,117 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. to HPC</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4220Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. to HPC</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li><li><a class="is-note-link" href="13_introEmbeddings_2_27_20.html">13. Intro. to Embeddings</a></li><li><a class="is-note-link" href="14_mpiEmbeddings_3_3_20.html">14. Embeddings in MPI</a></li><li class="active-note-page"><a class="is-note-link" href="15_parallelMatrices_3_5_20.html">15. Parallel Matrix Operations</a></li><li><a class="is-note-link" href="16_2dMatrixAlgo_3_10_20.html">16. 2D-Matrix Algorithms</a></li><li><a class="is-note-link" href="17_optimal2DMatrix_3_12_20.html">17. Optimal 2D Matrices / Caching</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="14_mpiEmbeddings_3_3_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************* Parallel Matrix Operations - March 5th, 2020 ****************//
+//**************************************************************************//
+
+- Announcements for today:
+    - HW2 supplement (what was the point?)
+    - Quick review of efficient vs fast algorithms
+    - Matrix operations in parallel
+
+- "So, there was 1 big reason why I chose the problems I did for supplement 2: I think a BIG source of confusion when trying to parallelize an algorithm is that you should aim to use these pre-made parallelized operations, like reduce or span or prefix sum"
+    - For question 2, this means finding an efficient representation of a function with a finite domain (which we can do with an O(k) length lookup table, like an array), and we can then look up a given answer in O(k) time
+        - Therefore, we could do a sequence of "n" compositions in O(k * log(n)) time!
+    - Then, for question 3, we replace this not with a linear function (which we CAN parallelize efficiently, since ), but with the polynomial function "a*x^2 + b"
+        - For "n" function compositions, this'll have a degree of 2^n and 2^(n-1)+1 coefficients (slightly less, but still on the order of 2^n)
+        - Even if we have 2^n processors with all our polynomial coefficients pre-computed, we would still take at LEAST O(log(2^n)) = O(n) operations just to add these numbers together
+        - So, in this case, function composition doesn't parallelize because squaring makes the complexity grow as the number of operations grows
+            - "In tests and homeworks, I'm not asking you to give me compiling C code - but you should give me enough detail to understand what you're doing and conceivably write pseudocode for it, and figure out it's runtime"
+
+- "There's a very deep theorem about group theory that means a lot of our operations in the class end up going back to linear operations like linear algebra, but we won't go into the details of why"
+--------------------------------------------------------------------------------
+
+- Alright; we've looked at some embedding stuff, and now we want to apply those techniques to linear algebra (which is SUPER useful in the real world)
+    - Before we do that, though, we have to ask ourselves again: what's the difference between optimal efficiency and optimal speedup?
+        - So, a higher-speedup algorithm will require more max processors than a high-efficiency one, right?
+
+- Remember, broadcast/reduce/allreduce/scan (i.e. prefix-sums) are operations where the message size doesn't grow, and are therefore slightly faster than gather/scatter/allgather
+
+- Now, matrix algorithms in general have a regular structure with a natural partition for our computation, with 1D and 2D block, cyclic, or block-cyclic decompositions being most common (although certainly not the only ones, as sometimes you can more efficiently avoid downtime by using different decompositions)
+    - Typically, we can split the computation into input, intermediate, and output stages (I think?)
+    - Now, a matrix-vector multiplication has a serial complexity of O(n^2)
+        - A 1D decomposition looks like giving each row to a different processor; a 2D composition looks like giving a "square" of the array to each processor
+            - In this case, the 1D case will always have a multiplication of at most size "n", but the 2D blocks won't be longer than "n / sqrt(p)", making it more efficient in this case!
+        - Let's say each processor gets 1 row of the matrix and 1 element of the vector in a 1D partition; therefore, we can do the following algorithm:
+            - Use all-to-all/AllGather to distribute all of "x" to each processor in O(t*log(n) + u*n)
+            - For each processor Pi, compute (in O(n)):
+
+                    y[i] = Sum {j=0, p-1 (A[i,j] * x[j])}
+
+        - So, to compute a problem of size "n" with this algorithm with "n" processor will be ~O(n), meaning T(n,p) = O(n^2/p)
+            - If we calculate the efficiency, this gets us an optimally efficient algorithm!
+            - In practice, this looks like giving n/p rows and elements of x to each processor, all-to-all broadcast, and then doing n/p local dot products on rows with length "n", matching our theoretical expectation with a runtime T(n,p) = O(n^2/p + un)
+                - Therefore, this'll be cost-optimal so long as p ~= O(n)
+
+- That seems well and good - great! But we can only split this up with at most "n" rows; if we want to split these matrices up more, we need to split it into 2D blocks!
+    - Let's assume we have O(n^2) processors, with each owning a single element of the array and (by convention) the last "n" processors each owning a single element of the vector "x"(I think?)
+    - Then, for our algorithm:
+        - Each column in the matrix needs the same input vector, so send vector element for a given row to processors on main diagonal in O(t + u)
+        - Have that processor do a one-to-all broadcast along its column (i.e to "n" processors) in O((t + u)log(n))
+        - Multiply locally on each processor
+        - Reduce to get the final result from ALL processors in O((t + u)log(n)) + O(log(n))
+    - So, this gets us an overall computation time of O(log(n)) and a communication time of O(t*log(n) + u*log(n))
+        - Is this optimally efficient? Nope, since we'd have a scaled runtime of T(n,p) = O(n^2/p * log(n)) against a serial runtime of n^3/p
+            - HOWEVER, Brent Scaling assumes we can't do anything about that log term, when in actuality we can give each processor a n/sqrt(p) - size block, with the vector being distributed in n/sqrt(p) chunks
+            - Therefore, the message size is now n/sqrt(p) for all communications, changing our runtime to now be dominated by $n^2/p$ and giving us:
+
+                    T(n,p) = O(n^2/p + (t + un/sqrt(p)) * log(p))
+
+                - ...which in turn gives an efficiency of:
+
+                    n^2/(n^2 + sqrt(p)n*log(p))
+
+                - ...which'll give us O(1) efficiency if p = O(n^2/log^2(n)), similar to homework 1
+                - Continuing to improve the runtime may increase our speedups, but past this will be inefficient
+        - Overall, then, this gives us a computation efficiency of O(n^2/p) and communication of O(t*log(sqrt(p)) + )
+
+- This idea of small dimensions giving us efficient algorithms, but higher dimension ones giving us greater speedups for less efficiency, is going to repeat for these types of problems consistently
+
+- So, that's matrix-vector multiplication; what about matrix-matrix multiplication?
+    - For this, we're going to have 2 input matrices and an (initially empty) output matrix "C"
+        - A given row in C needs to use the same row in A to compute its elements, and a given column in B will always be needed for each element of the same column in C
+    - Computing this in a basic loop looks like so:
+
+            parallel-for i:0 to n-1
+                parallel-for L:0 to n-1
+                    for k:0 to p-1
+                        (...)
+
+    - Now, 1D partitioning by rows worked well for matrix-vector multiplication, so let's try it again!
+    - To implement this algorithm, we'll:
+        - (on the slides)
+    - This gives us a communication time of O(p * (t + n^2/(p*u))) = O(tp + n^2/u), and a computation time of O(2n^3/p)
+        - The difficulty here is that n ~= p, which can require a LOT of processors in some cases
+
+- Alright; that's 1 algorithm for matrix-matrix communication, but we'll go over some more next week, seeing how we can get some interesting lower bounds on memory usage. Read ahead on the slides and stay tuned!
+</pre>
+</article>
+<a class="side-link is-note-link" href="16_2dMatrixAlgo_3_10_20.html"></a>
+</main>
+</body>
+</html>

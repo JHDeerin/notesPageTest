@@ -1,0 +1,16 @@
+//****************************************************************************//
+//******************* Mid-Week Rest - March 4th, 2020 ***********************//
+//**************************************************************************//
+
+- Professor Shelley is heavily geeking out about his former Philmont days as a Boy Scout with one of the other Eagles in the room (I must hide my Boy Scout connection lest I do the same...although those days definitely have some fond memories in my noggin)
+--------------------------------------------------------------------------------
+
+- Alright - just to be clear, we're going to stick with the calendar as it appears now; we STILL need to set up CATME but that should be ready-to-go by Friday, and your paper prototype report is due this Friday, too
+    - A couple smart things we've seen different reports do in the past:
+        - Create a table of issues they've found
+        - Color-code issues (e.g. Critical, Urgent, Moderate, and Minor issues)
+        - Organize things by task (although there's MULTIPLE valid ways to organize your report, e.g. by heuristics, etc.; tailor it to the feedback you got)
+        - Integrate images in describing your issues
+    - "These papers are fun to read for us because they're the first real glimpse we get of your actual product"
+
+- For next week, we're going to run a digital prototype test (similar to what we did for the paper prototypes) and have you write another modifications report based on that - stay tuned!

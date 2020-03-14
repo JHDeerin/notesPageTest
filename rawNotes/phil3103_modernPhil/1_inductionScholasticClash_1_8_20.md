@@ -7,7 +7,7 @@
         The sitters, ruminators,
         Readers more than thinkers,
         Sit ye in this classroom?
-        Sit I longside ye?
+        Sit I 'longside ye?
 
         Why come we and wander
         More than wonder? Wherefore
@@ -54,11 +54,11 @@
     - In our reading, Galileo was arguing for "corpuscularianism," an early form of atomic theory that argued everything was made out of small particles
         - Aristotelians understood change as something acquiring new and different properties over time; Galileo instead saw change as just bits of matter changing
     - In the reading, Galileo is arguing heat is caused by motion - in other words, that it isn't an inherent property of an object. Instead, he argues heat is merely our perception of the motion of corpuscles!
-        - Galileo illustrates this by saying that feathers aren't inherently ticklish, but the sensation of touching them causes tickling!
+        - Galileo illustrates this by saying that feathers aren't inherently ticklish (there isn't a "ticklish" particle), but the sensation of touching them causes tickling!
 
-- In more modern, philosophical terms, we'd say this is a distniction between "primary" and "secondary" qualities
+- In more modern, philosophical terms, we'd say this is a distinction between "primary" and "secondary" qualities
     - PRIMARY QUALITIES are things that are actually part of an object, like size, shape, and matter
-    - SECONDARY QUALITIES are things that are just *our perception* of the object, like color, taste, etc.
+    - SECONDARY QUALITIES are things that are just *our perception* of the object, like color, taste, sound (for Galileo), etc.
         - "Notice that Galileo used a thought experiment to try and prove this difference, which Bacon would *not* have approved of; oftentimes, even thinkers with similar positions will have minor disagreements"
     - Now, Galileo gives us a problem - how do we get from primary to secondary qualities? How does consciousness come from matter, and how does it add on these rich secondary qualities on top of reality?
 

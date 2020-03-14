@@ -1,0 +1,87 @@
+//****************************************************************************//
+//****************** Embeddings in MPI - March 3rd, 2020 ********************//
+//**************************************************************************//
+
+- Okay, the (apparent) agenda for today:
+    - Embedding example (dense linear algebra)
+    - MPI 2: Distributed topologies
+    - MPI 3: Neighbor Collectives
+
+- Now, for programming assignment 2
+    - MPI_Probe let's you check if a message exists WITHOUT having to actually receive it yet; you can find how big the message is and who it came from, and once you have the message size then you can receive the message when the buffer is ready (I think?)
+    - The master thread has to listen to all the messages, but you shouldn't need to worry about too many messages being sent; MPI implementations should be able to handle that behind the scenes for you (by having a large waiting buffer or by delaying sending some messages)
+        - Congestion is NOT something you have to worry about for correctness, although it may affect performance
+    - Once the master thread has found a partial solution, it should send it out to a worker immediately (it could be technically correct to wait more, but the spirit of the assignment is to have communication and computation overlapping)
+--------------------------------------------------------------------------------
+
+- Last time, we started to go through embeddings, and the main idea was that we had some network the algorithm is written for, we have a different physical network, and we need to transform from one to the other (going from the algorithm network to the physical network and then back, e.g. changing from our algorithmic rank to the physical node that process needs to map to)
+    - To try and show this, let's try to take a dense matrix-vector product, i.e. we're trying to solve for "y" as follows:
+
+            y = A*x
+
+        - Let's say we want to evenly distribute x/y across all of our resources, and we know we're using 6 MPI processors to run this operation; how can we divide the 2D grid of work among 6 processes?
+        - Since 6 isn't a power of 2, let's divide this matrix into a 2x3 grid (i.e. 6 partitions), each part the same size
+            - So, we want to transform each section (i,j) into some MPI rank (i.e. the processor that handles it)
+            - Then, the vector "x" will be split into 3 partitions (the width of our division), and "y" will be split into 2 (the height of our division)
+        - Once we've done that division, each processor will take its chunk, multiply it by the appropriate values from x locally; then, within each row, we'll reduce and scatter (?)
+            - Here, we've chosen a row-major embedding where we count across rows first (although we could've done column-major just as well); after we've done the computation on each physical processor, we need to convert BACK to the algorithmic form and receive data from (some other processor f_col_major(i,j) ???), then allgather on our column communicator (???)
+
+- So, how can we use MPI to facilitate stuff like this? In MPI v2, there's support for distributed topologies, and in MPI v3 there's even support for something fun called "neighborhood collectives"
+    - So, WAYYYYY back when we first introduced communicators we said that we could think of them as a set of processors that need to work together, each with a unique ID
+    - We can create a copy of these communicators, or split them up (MPI_Comm_Split), and when we're done with the communicator we have to free it
+    - Besides just giving an ID to each processor, though, we can ALSO say who should be talking with whom, assigning a VIRTUAL TOPOLOGY to the MPI communicator
+        - These virtual topologies don't have to be the same as the physical machine, but regardless they can often make implementing an algorithm simpler
+        - In general, we can describe these topologies as a multi-edge directed graph, with more heavily connected nodes able to communicate better
+            - We can always describe graphs as adjacency matrices; undirected graphs will always have a binary, symmetric matrix
+                - A directed graph will still be binary, but now may no longer be symmetric!
+                - Finally, a graph with weights will no longer be binary; we can have arbitrary weights!
+            - Adjacency matrices are great for nearly-complete graphs, but if most possible connections don't exist then we have a SPARSE matrix, meaning that most of the connections are 0
+                - When this happens, we can instead use an ADJACENCY LIST (taking up O(V + E) space, instead O(V^2))
+                - What does this look like in memory? There are several possibilities, but a common one is a COMPRESSED ADJACENCY LIST representation, where each vertex has a pointer to a list of vertices reachable from it (basically, 2 lists, one with the vertex indices and another with the edges there) (phony vertex at the end form some reason)
+                - Alternatively, we could've just had a list of edges (which will be less compressed)
+
+- How do we specify a virtual topology in MPI? I'm glad you asked!
+    - We can use the function MPI_Graph_Create; it'd similar to MPI_Comm_dup, but requires some additional information
+        - This one doesn't give us any guarantees about performance, so there's a more in-depth function called MPI_DIST_GRAPH_CREATE_ADJACENT that gives us more control for optimization purposes, letting each process define its own neighborhood
+    - So, let's say we wanted to create a binary tree topology like this:
+
+                    0
+                  /   \
+                1       2
+               / \     / \
+              3   4   5   6
+
+        - How can we create this? One way to do it in MPI:
+
+                // TODO: Not sure if this is for a binary tree or a hypercube?
+                // Basic setup info
+                int nnodes = 0;
+                MPI_Comm_Size(comm, &nnodes);
+
+                int k = static_cast<int>(log2(nnodes));
+                int *index = new int[nnodes];
+
+                (...rest of the code on the slides...)
+
+    - One particularly common topology in MPI and parallel computing is CARTESIAN TOPOLOGY, which we can make using MPI_Crt_Create (defining the number of dimensions, if we want it to be a ring or just a grid, )
+        - We can then get the coordinates of the processor in MPI, both as a physical rank and algorithmically:
+
+                MPI_Cart_Rank(comm, coords, rank)
+                MPI_Cart_Coords(...)
+
+        - Shifting is a common operation in these types of grids, which we can do using MPI_Cart_Shift (NOTE that this doesn't actually send a message; see API for details)
+
+- Rather than trying to work through a complicated example of this, let's talk about a fun thing that can simplify a LOT of collective operations: neighborhood collectives!
+    - Let's say we have an operation that needs to know the results of the 4 neighboring processors around it (like for a finite difference fluid simulation or something)
+
+                            (i, j-1)
+                               |
+                (i-1, j)-----(i, j)-----(i+1, j)
+                               |
+                            (i, j+1)
+
+    - Basically, we want to do a very small "all to all" with the processor's 4 neighbors, where it gets 4 pieces of information for its neighbors and it sends its own information to those 4 neighbors
+        - We could do this by setting up a BUNCH of small communicators, but instead, we can specify a neighborhood in MPI v3 and use "MPI_Neighbor_allgather" to do this instead!
+
+- Alright, that's all for today - Homework 2 supplement is due this Wednesday, and I'll see you on Thursday!
+

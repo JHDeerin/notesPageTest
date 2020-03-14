@@ -1,0 +1,106 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. to HPC</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4220Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. to HPC</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li><li><a class="is-note-link" href="13_introEmbeddings_2_27_20.html">13. Intro. to Embeddings</a></li><li><a class="is-note-link" href="14_mpiEmbeddings_3_3_20.html">14. Embeddings in MPI</a></li><li><a class="is-note-link" href="15_parallelMatrices_3_5_20.html">15. Parallel Matrix Operations</a></li><li class="active-note-page"><a class="is-note-link" href="16_2dMatrixAlgo_3_10_20.html">16. 2D-Matrix Algorithms</a></li><li><a class="is-note-link" href="17_optimal2DMatrix_3_12_20.html">17. Optimal 2D Matrices / Caching</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="15_parallelMatrices_3_5_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//**************** 2D-Matrix Algorithms - March 10th, 2020 ******************//
+//**************************************************************************//
+
+- The schedule:
+    - Project 2 - performance analysis demo
+    - Matrix-matrix multiplication
+        - Review 1D (row-decomposition)
+        - 2D: Cannon's algorithm
+    - If time, summa and theoretical lower bounds
+
+- Okay, most of you did pretty well on the homework 2 supplement
+    - For the 1st problem, the non-commutative operation that comes to mind is the "replace" operation; other options included taking the absolute value and multiplying
+
+- Alright, and congratulations for finishing project 2!
+    - First up, why did you get the plots you did for K? It didn't really work linearly; instead, as K increases, the runtime first started out similar to the serial case, then went up a bit, then went down (wait, my code did the opposite?)
+        - Where is this inefficiency coming from? It could come from time sending messages, duplicated work, time idling waiting for messages...so which one is it?
+        - Let's start with the case where P=2; in this case, either the master is working, or the worker is (with the master making a few partial solutions), so there's little overlap of work and fairly little message-passing (on the order of the number of solutions)
+            - With K=0, there's a runtime of ~0.065 for N=12, P=1
+            - With K=0 but P=2 (the first parallel case), we get a runtime of ~0.068 - similar, but with a small amount of extra overhead
+            - Then, we start varying K
+                - For 1/2, it's around 0.07, for 4 and 5 it's getting longer, for 7 and 8 it's getting longer still, until finally ~k=9 it's taking nearly 4 seconds to solve
+                - However, once K goes to 12, the time goes back down towards the serial runtime at ~0.57 - not as fast as originally, but certainly faster
+            - So, what's causing this slowdown when the serial solution completes fairly quickly?
+                - "Overhead" is ambiguous, but if we add a counter for how many messages get sent we can see that the number of messages sent EXPLODES combinatorially from 12 messages at K=1, 110 at K-2, 4080 when K=4, 222720 for K=9, etc.
+                    - So, as K grows, we get a BUNCH more partial solutions we have to check and send out to each worker (often more than the actual number of final solutions)
+                    - How long does each message take to send? The message length itself is tiny (only 12 integers), but we know the latency for each message is ~8 microseconds from benchmarks; multiplying this by 2 * 222720 (since we have to send a message AND receive a response), we can see this takes 3.69 seconds JUST from latency - by far the majority of our wasted time!
+                - "The moral of this story is to benchmark your code for things you don't understand well ahead of time, and to try and get rough estimates for how much time is spent doing different portions of your algorithm to see where it's taking time"
+    - As we increase N, we see the runtimes growing pretty quickly - roughly exponentially, although not quite
+--------------------------------------------------------------------------------
+
+- Okay, last time we started to look at these dense linear algebra operations, and we were trying to figure out a way to efficiently parallelize matrix multiplication
+    - At the end of last time, we said that we could represent matrices as a bunch of rows, give each process a row of matrix B, multiply it against an element of A to get some components needed for a row of A, and then (...I think?)
+        - This gives us a runtime of 2*n^3/p, and a communication time of t*p + n^2/u
+        - This gives us a perfect speedup so long as n ~= p, and is efficient if p &lt; n, but that isn't always true; if we have a very large matrix with more rows than the number of processors we have, it'll become slow - meaning we have a limit on scalability!
+
+- Can we do better? The above algorithm was 1D, based on rows - but we can use 2D decompositions to get even faster, using CANNON'S ALGORITHM
+    - This is a puzzle-boxy algorithm, but by being clever it can get us REALLY nice speedups
+    - We want an algorithm that'll let us, instead of sending a row of the matrix to each process, to take a 2D block from each matrix for each process
+        - If we look at the multiplication AxB = C, we see that the resulting element C(i,j) 
+        - Unlike in the 1D case, not every processor can start working right away if we just split the original matrices into blocks; instead, some processes will have to wait on the others due to having "incompatible blocks," so we'll instead distribute our blocks in an interesting way:
+            - AFTER splitting the matrices into "i * j" blocks...
+            - We "skew" the columns of A by sending each element at row "i", "i" elements to the left cyclically (i.e. 1st row doesn't move, 2nd row moves 1 to the left, 3rd row moves 2 to the left, etc.); for B, we do this for the columns, with the 1st column not moving, the 2nd column moving 1 up, the 3rd moving 2 up, etc.
+                - Why? Because if we look at the elements needed to compute the final element C(i,j), this gets us blocks of A and B that can be multiplied to get the answer for some element in C (I THINK???)
+            - Then, we successively multiply and pass matrices to the processor on our left to get the final answer (need to look at the slides to get this)
+        - Ultimately, this algorithm will get us a perfect speedup if N ~= sqrt(p), with a runtime of:
+            - Comp: 2*n^3/p (again)
+            - Network: 4t*sqrt(p) + 4n^2/(u*sqrt(p))
+                - So, the total max amount of m
+                - So, we now have that as long as p^2 is on the order of n, our ideal speedup is preserved! In fact, this is optimal for an algorithm like this!
+
+- So, Cannon's algorithm sounds great! Why don't we always use it?
+    - Basically, it has some restrictions: we need A and B to be square matrices to get square decompositions, and it assumes the processors is a power of 2 to be efficient
+
+- Alright; can we take ideas from this algorithm but apply them to ANY matrices?
+    - First, remember that formally, any element in the output matrix C is a dot product between 2 vectors in the original matrix
+        - We can also get the SAME matrix using an outer-product approach, multiplying each vector to get an outer-product matrix and then summing up all of those resulting matrices values
+    - How can we represent this algorithmically, for starters?
+        - First, we need to take a column in A, broadcast it to all the processes in the same row for our given element, and then do the opposite for B (take a row in B, broadcast to all the same column)
+            - Then, we can compute the output element (???)
+            - So, we get an algorithm with a tuning parameter "b" where we can calculate these nice outer products and decide how many rows/columns get assigned to any 1 processor
+        - This SUMMA algorithm will, for a square matrix nXn and a sqrt(p) X sqrt(p) grid of processors, with a panel of block size b( what's a panel???) and assuming tree-based broadcasts, give us:
+            - Comp: 2n^3/p (like for the other algorithms)
+            - Communication: n/b * (broadcast-cost(p=sqrt(p), m_size=b*n/sqrt(p)))
+                = n/b * O(t*log(p) + u*log(p)*bn/sqrt(p))
+                - Here, "b" is the number of rows we broadcast at a time (I think?)
+                - Now, unlike Cannon's algorithm, we have an efficiency of "log(p)" extra memory being moved here (the message size "u" term) - that's the cost of generalizing to rectangular matrices
+            - This algorithm, then, isn't perfectly efficient for perfect speedup, unlike Cannon's algorithm
+                - Each process in this SUMMA algorithm will require 3*n^2/p + 2*nb/sqrt(p) memory to work (why???)
+        - Again, a cool thing here is that we can change "b" to balance speed against our memory requirements; b can be anything from 1 to n/sqrt(p) (again, why???)
+
+- So, the eternal question: can we do better? In particular, can we move less memory than Cannon's algorithm already does?
+    - I'd encourage you to re-read the slides on this to prepare for Thursday, and I'll see you then!
+</pre>
+</article>
+<a class="side-link is-note-link" href="17_optimal2DMatrix_3_12_20.html"></a>
+</main>
+</body>
+</html>

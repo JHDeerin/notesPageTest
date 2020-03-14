@@ -34,7 +34,7 @@
     - Finally, he argues for a classic position known as "substance dualism"
 
 - On pg. 64, Descartes claims everything he's "taught by nature" has some truth, for instance, if he's next to a fire and feels the warmth, he has an impulse to believe that fire has *something* to do with the warmth
-    - Essentially, if he can't prove something is false, and we have a great inclination to believe it to be true, we can trust our senses, since God isn't a deceiver and he made these sense
+    - Essentially, if he can't prove something is false, and we have a great inclination to believe it to be true, we can trust our senses, since God isn't a deceiver and he made these senses
     - Of course, there's a bunch of questions here: what does Descartes mean by a "perfect" being? He is NOT talking about morality, but about completeness (although people have quibbled over how well he's proved honesty is a piece of this)
 
 - So, what's the material world?
@@ -49,6 +49,6 @@
     - Because of that, Descartes thinks the world has 2 substances: thinking things, and matter, each of which can take on different "modes"/forms
         - So, Descartes would say we're distinct from material stuff, and "we" are really made up of thinking stuff
         - He offers 2 arguments for this: 1 easier, and 1 more complicated
-            - The easier one is his "indivisibility argument," which says that since there is no clear way of dividing the mid into parts as you can all physical matter, they must be essentially different!
+            - The easier one is his "indivisibility argument," which says that since there is no clear way of dividing the mind into parts as you can all physical matter, they must be essentially different!
 
 - Alright, over the weekend more about this substance dualism, that the mind is different in *kind* from matter. Enjoy!

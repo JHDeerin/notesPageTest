@@ -1,0 +1,178 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. to HPC</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4220Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. to HPC</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li><li class="active-note-page"><a class="is-note-link" href="13_introEmbeddings_2_27_20.html">13. Intro. to Embeddings</a></li><li><a class="is-note-link" href="14_mpiEmbeddings_3_3_20.html">14. Embeddings in MPI</a></li><li><a class="is-note-link" href="15_parallelMatrices_3_5_20.html">15. Parallel Matrix Operations</a></li><li><a class="is-note-link" href="16_2dMatrixAlgo_3_10_20.html">16. 2D-Matrix Algorithms</a></li><li><a class="is-note-link" href="17_optimal2DMatrix_3_12_20.html">17. Optimal 2D Matrices / Caching</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="12_midtermSol_2_25_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//************** Intro. to Embeddings - February 27th, 2020 *****************//
+//**************************************************************************//
+
+- Professor Isaac is missing - late to his own class! Bah!
+    - ...but, he has now entered with a mere minute's excess passing. Hurray!
+    - ...there's also only 7 students in the room right now. This is troubling.
+- "Hopefully you all saw that the Homework 2 supplement was posted; a theme is when different types of function compositions can be parallelized and when they can't"
+    - There was also 1 question about programming assignment 2, asking what "k" is; this is basically the number of queens that the MASTER branch tries to place, and then it passes off the rest of the problem to the workers to try and complete it
+        - So, the master branch will find the partial solutions for k, during which the workers aren't doing anything (i.e. the larger k is, the longer before the workers get to start working, and for large enough k the master might have to start backtracking)
+            - Note that each worker will receive a DIFFERENT partial solution to start off (e.g. if k=3, then each worker will receive a DIFFERENT starting configuration with 3 queens so that none of their work will be duplicated)
+--------------------------------------------------------------------------------
+
+- Last time, we started to talk about embeddings and I *might* have made a hash of things - so let's backtrack a little and try to lay a foundation
+    - In Brent's Lemma/Law/Theoremy-thing, we said that an algorithm with "p" processors such that p &lt; p_max will have the same efficiency as for "p_max", doing the work in p_max/p time
+        - We vaguely said each processor does "p_max/p" work, divided up somehow - but in reality, work isn't a magical number we can divide evenly. Instead, it's a sequence of ACTUAL STEPS we have to divide somehow and involves communicating between processors and all that fun stuff
+            - Communication, in particular, is some overhead that's COMPLETELY ignored by Brent's Law
+        - Even worse, not all communication networks are complete permutation networks; sometimes, we might have to pass messages through multiple intermediate processors to get them where we want
+    - In other words, say we have a "source" set of work we need to accomplish on each theoretical processor for our algorithm like this:
+
+            r_0, ..., r_pMax
+
+        - ...and we're trying to map it to a TARGET set of work like this:
+
+            r'_0 = {r_0 ... r_j}
+            ...
+            r'_p = {r_k, ..., r_pMax}
+
+        - How can we do this mapping efficiently? What edges should we draw?
+            - Let's say, for instance, our ideal theoretical algorithm would have a 4-processor source network like this (with processors as vertices and edges as our communication links):
+
+                    0---1
+                    |\ /|
+                    |/ \|
+                    2---3
+
+            - ...but our ACTUAL target network looks like this:
+
+                    0---1
+                    |   |
+                    |   |
+                    2---3
+
+        - So, all the vertices/processors have a mapping, BUT 2 of the communication links are missing (0 &lt;--&gt; 3 and 1 &lt;--&gt; 2); how can we solve that?
+            - Well, we can replace each of those messages with 2 hops instead: 0--&gt;1--&gt;3, and 1--&gt;3--&gt;2
+            - However, these path share a link (1--&gt;3), which can cause CONGESTION if both of those links try to send a message at the same time! How can we avoid this?
+
+- "This all seems super-hypothetical, but the reason we're covering this stuff NOW is because we're about to transition from collective communications to more dense-linear-algebra-type applications, where it makes a LOT of sense to have processors just communicate with their neighbors instead of communicating with all other processors"
+    - However, this is a COMPLETELY different hardware layout from collective communication stuff, so how can we run these types of algorithm on our existing hardware while not having performance go to puddles?
+
+- That's our challenge with EMBEDDING PROBLEMS: taking an algorithm originally designed for a "source" network and mapping it to work as efficiently as possible on a "target" network (both represented by a graph)
+    - We immediately need to worry about 4 things when we're doing this:
+        - CONGESTION is the maximum number of edges in our original graph that get mapped to a single edge in our new graph
+        - DILATION is the maximum number of edges in our new target graph that any single edge in the original is mapped to
+        - LOAD is the maximum number of nodes in the old graph that map to a single node in our target
+        - EXPANSION is the ratio of the number of nodes/vertices in the target to that in the source
+    - In general, we say:
+        - The computation slows down by a factor of "load" (since a single processor now has to handle multiple processor's work)
+        - The communication slows down by a factor of "congestion * dilation" (one indicates having to wait for other messages to be sent, the other indicates that we have to go through more connections to get the same message across)
+        - Expansion &gt; 1.0 indicates that we're wasting resources somewhere
+    - Therefore, an ideal mapping would have load, congestion, and dilation ALL equal to 1.0
+        - If that's true, then we just have to worry about mapping the processors/nodes (since the edge mapping'll be implied), and the run-time and efficiencies will be preserved on the target
+            - ...although it's possible a different algorithm will be even more optimal for the given hardware IF the algorithm we're mapping isn't optimally efficient (O(1))
+
+- Let's start talking about this with the simplest type of grid: a straight line!
+    - Let's say we've got a RING for our physical network, a circular linked-list type network like this:
+
+            0---1---2---3---4---5---6---7
+            |___________________________|
+
+        - Here, each processor only communicates with its imemdiate +/-1 neighbor
+    - In hypercube routing, we instead found our neighbor via id XOR 2^j; can we map this "hypercube" ID to a "ring" id?
+        - Since this kind of hypercubic routing would have 12 edges (as a cube, or a log(8) = 3 dimensional hypercube), we don't have a direct 1:1 mapping
+        - What else can we do, then? Well, if we draw the hypercube, we see that this ring loop is ALREADY THERE, and we can mimic it by changing our ids to be:
+
+            0---1---3---2---6---7---5---4
+            |___________________________|
+
+    - That's great, but how do we generalize this to larger numbers of nodes and higher dimensions? What if we have 1000 nodes?
+        - The key insight is that hypercube nodes share neighbors that differ by just 1 bit from itself, which we can get by using a GRAY CODE (a sequence of numbers where each one differs by 1 bit from the previous one)
+        - So, we can build a Gray Code assignment for our nodes recursively using the BINARY REFLECTED GRAY CODE ALGORITHM; each hypercube of dimension "d" contains 2 copies of the "d-1" hypercube that have their vertices connected to one another, and we can take advantage of this to build a gray code:
+            - Start with the 1-dimensional gray code "0,1":
+
+                    0
+                    1
+
+            - Create a flipped copy of this gray code (i.e. "1,0"); add a "0" in front of our original gray code and a "1" in front of our new flipped gray code copy (to distinguish them and make the elements differ by 1 bit):
+
+                    00
+                    01
+                    11
+                    10
+
+            - Repeat until you've generated a long-enough gray code
+        - These codes are NOT unique (i.e. you can have multiple valid gray codes for the same network), but this algorithm is guaranteed to generate correct gray codes
+    - So, we can embed a hypercube into a ring like this using these gray codes; let's assume we have 2 functions:
+        - "gtob" that converts a gray code to the original binary number for it (i.e. its "index" in the gray code)
+        - "btog", which converts a binary number to the corresponding gray code
+    - Given this, we can embed a hypercube as follows:
+        - (on slides)
+        - We assume the source hypercube processor rank is "r"
+        - Therefore, its physical ring rank = gtob(r)
+        - We can get its left/right neighbor by TODO: 
+            - As an example, if we have a processor of rank 3, then it's ring rank is gtob(3) = 2
+            - It's left neighbor is then btog(2-1) = 1
+            - It's right neighbor is then btog(2+1) = 2
+    - If we do this, then the dilation, congestion, and load are all 1 - great!
+        - There is an overhead cost of going "binary to gray," but we can include this in our "t" cost when sending messages
+
+- So, we can embed a 1D ring into a hypercube - what about a 2D grid (which we can think about as the "outer product" of 2 rings or lines)?
+    - Sure enough, we can think of this as mapping 2^r by 2^s mesh onto a 2^(r+s) hypercube by mapping node (i,j) onto the hpyercube node:
+
+            btog(i) || btog(j)      //i.e. concatenating the bits
+
+        - ...forming a binary string of "r+s" bits
+    - To go the OTHER way, and map from a hypercube to a mesh, we can say:
+
+            x = first "r" bits
+            y = last "s" bits
+
+            coordinate = (gtob(x), gtob(y))
+
+    - We can then find our north/south/east/west nighbors using modular arithmetic (on slides)
+- When is this useful? Well, if we're dealing with multi-dimensional datasets or stuff like images, then you bet it's pretty useful!
+    - Again, here, we end up with a congestion, dilation, and expansion of the mapping being 1 IF the number is a power of 2
+
+- Let's think of a 3rd thing: how can we map a binary tree into a hypercube (in ur N-queens problem, for instance, where instead of a single master we have a hierarchy of nodes?)
+    - Assuming the binary tree is full, the tree will have 2^(d+1) - 1 nodes - NOT a power of 2, in other words
+        - The communication pattern for a hypercube ALWAYS alternates between an even/odd number of 1s
+        - This means each "layer" of nodes in the tree have to have the same number of even/odd bits
+            - Now, in a full binary tree, the leaves will be at LEAST 50% of the tree, and will ALL have an even or odd # of 1s (I think???)
+            - ...but, in a hypercube, there are 50% off #s of 1s and 50% even #s of 1s
+        - Therefore, since the binary tree will have MORE even than odd nodes, we can't neatly embed a "d" dimensional tree into a "d" dimensional hypercube (I think?)
+        - INSTEAD, we'll (confused here??? Check class notes, chapter 3 apparently?)
+    - In short, we CAN embed a tree into a hypercube
+        - There's another choice where we can let dilation be bigger than 1, where we make one node in the hypercube the root and the bottom 2 nodes its leaves
+
+                root-----*
+                |        |
+                |        |
+                leaf0----leaf1
+
+            - ...we can keep repeating this for higher dimensions, over and over, giving an expansion approaching 1 (but slightly less) and dilation (also slightly less??)
+
+- Okay, next week we'll start looking at stuff in MPI that aren't symmetric sends/receives, letting us write new and exciting algorithms and discover many new and exotic bugs - see you next week!
+</pre>
+</article>
+<a class="side-link is-note-link" href="14_mpiEmbeddings_3_3_20.html"></a>
+</main>
+</body>
+</html>

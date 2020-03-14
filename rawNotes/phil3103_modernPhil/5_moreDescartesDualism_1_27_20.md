@@ -36,7 +36,7 @@
         - But, then, how did that innate idea get there?
     - Descartes then makes a distinction between "objective reality" and "formal reality," and says that he knows his *idea* about God is real - but that doesn't mean the thing his idea is about actually exists in "formal reality" (i.e. the "real world")
         - However, since Descartes is finite, he thinks this finite idea of an infinite God must have come from outside him somehow - he couldn't have come up with it himself!
-            - "An analogy: think of a watch. The idea of a watch in your head must have come from something at LEAST as complex as a watch; it may not be the watch itself, but it had to come from something, since we can't imagine anything more complex than naything we've seen!"
+            - "An analogy: think of a watch. The idea of a watch in your head must have come from something at LEAST as complex as a watch; it may not be the watch itself, but it had to come from something, since we can't imagine anything more complex than anything we've seen!"
         - So, if we have the idea of an infinitely complex thing in our head, it must have come from something that complex - i.e. God!
 
 - "Clearly, some of you aren't satisfied with this, but hopefully it's a starting point to learn more about Descartes"
@@ -48,7 +48,6 @@
             - In this case, note that emotions would be a mode of operation of the mind
     - How do we know, though, that the mind isn't divisible?
         - Sub-conscious and conscious doesn't do the trick, since that only shows the mind can exist in different "modes"
-
 
 - So, the mind and body are distinct - at the same time, Descartes defends the close connection between the two, so why does he bring up division in the first place?
     - Well, because if he loses this distinction, then the mind is subject to his senses, making mechanistic physics and mathematics impossible - if the the mind and body are the same, then we have to worry about physical objects possibly having mental states, which is *weird* (imagine if your microscope starting playing with you *a la* Toy Story)

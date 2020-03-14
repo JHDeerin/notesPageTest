@@ -1,0 +1,21 @@
+//****************************************************************************//
+//***************** Digital Prototypes - March 2nd, 2020 ********************//
+//**************************************************************************//
+
+- Okay, we are, as is customary, starting slightly late
+--------------------------------------------------------------------------------
+
+- This week, we're still doing prototyping - but we're transitioning to DIGITAL prototyping!
+    - Hopefully by now you've got an idea of what your program is going to look like and how it needs to perform
+    - Paper prototyping let's you figure out where stuff needs to go and if you're missing features; DIGITAL PROTOTYPING is more about getting user interaction working well
+        - Digital prototypes don't necessarily involve coding, and don't mean coding EVERY detail of your application; think of it more like how architects build a scale model of a house before they hire a construction crew to build the real thing
+            - "I mean, I don't think coding is the worst thing in the world like these designer folks, but it does save you time to skip it most of the time"
+        - Google, for instance, uses the "Principal" prototyping tool for some of their demos
+    - Digital prototypes are also SUPER useful for pitching to people, since they look more professional than paper prototypes and can show how the finished product might work
+
+- These prototypes let you add Advanced PowerPoint style interactivity to your sketches, which is great! You can get a really solid feel for how your application will feel
+    - These are also useful for solving debates in your team by demoing features ("should this be a text box or a dropdown?")
+    - "You can LITERALLY write your prototype in PowerPoint if you're confident in your PowerPoint-fu, although some types of interactions might be difficult to test"
+        - Professor Stallworth recommends using a tool called "HotGloo" for this class, but there are dozens of similar prototyping tools of various quality out there
+1
+- So, as a team, talk about your strategy and what path you want to take for this kind of prototyping, and then we'll see you on Wednesday

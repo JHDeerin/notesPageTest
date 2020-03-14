@@ -22,7 +22,7 @@ Okay, let's wrap up talking about Cavendish
             - From this perspective, everything is technically a little bit alive, a position known as "panpsychism"
     - "I'm not 100% sure I understand Cavendish, but this is how I explain her to myself"
 
-- So, let's transition to Spinoza - who admires Descartes, but goes even further. let's meet him!
+- So, let's transition to Spinoza - who admires Descartes, but goes even further. Let's meet him!
     - Spinoza is born in 1632 in Amsterdam, born into a Jewish family and a free-thinking culture
         - Some of his ideas, however, were *radical*, and so he was ostracized from his family and connections, spending the rest of his life grinding telescope lenses and corresponding with other thinkers who respected his thoughts
     - Spinoza's method, however, did not look like Descartes' *Meditations*; instead, it looks like a bunch of geometrical proofs! He even starts with a list of definitions and axioms!
@@ -31,7 +31,7 @@ Okay, let's wrap up talking about Cavendish
         - "All the prejudices which I intend to mend [stem from] the widespread belief...that all things in nature...act with an end in view"
         - Spinoza thinks the idea that things happen "for a GOOD reason" or "for man's benefit" is a *prejudice*, and he's trying to fight against it
             - e.g. Natural disasters! Spinoza thinks people are biased in trying to "explain why" God let's this happen, retroactively assuming it must have happened for some divine purpose rather than it just occurring due to nature
-        - Similiarly, he accuses people of having an anthropocentric view of the world, seeing animals as made for food, the sun as helping us see, etc., rather than existing for themselves
+        - Similarly, he accuses people of having an anthropocentric view of the world, seeing animals as made for food, the sun as helping us see, etc., rather than existing for themselves
             - Spinoza thinks this is *trash*, and is a biased way of looking at nature without a rational basis
         - Spinoza's point is that things in the world *don't happen for a purpose* (from his point of view), and that trying to explain them as such is a biased error
             - Notice, too, that he critiques religion as just a comforting example of this bias - right or wrong, that's his view

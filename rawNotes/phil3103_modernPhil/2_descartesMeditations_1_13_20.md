@@ -12,7 +12,7 @@
         living
         dead
 
-- We have a Georgia Tech emails for Professor Culbreth! `aculbreth6@gatech.edu` Should be used for all official emails with him
+- We have a Georgia Tech emails] for Professor Culbreth! `aculbreth6@gatech.edu` should be used for all official emails with him
     - We'll also start being able to use the Canvas site to take attendance, etc.
 --------------------------------------------------------------------------------
 
@@ -47,7 +47,7 @@
 
 - Alright; let's look at Meditation 1
     - We see immediately he's trying to "raze everything he knows to the ground," and then trying to go from there
-        - This is known as FOUNDATIONALISM, the idea that we have to come up with solid axioms as a foundation before we can do any further though, science, or study
+        - This is known as FOUNDATIONALISM, the idea that we have to come up with solid axioms as a foundation before we can do any further thought, science, or study
     - Descartes' method for getting to these foundations is to *doubt,* and to try and ignore anything he isn't *certain* of
         - "The burden of proof for showing something is definitely false can be high, but to show something *might* be false is much easier"
         - Descartes did NOT think his beliefs were false, but for this project he wanted to ignore anything he wasn't 100% certain he could prove
@@ -55,7 +55,7 @@
             - "His general structure here is to offer a belief, give a reason he believes it, and then provide a counter-example to show it can be doubted"
     - So, Descartes doubts a lot of stuff, and in particular 3 big, related things:
         - The truth of his sensory experience
-            - Descartes senses have previously deceived him, like when he looks at something far away and thinks it's close to him!
+            - Descartes' senses have previously deceived him, like when he looks at something far away and thinks it's close to him!
             - So, not ALL senses are reliable, but aren't there some that are? "Immediate sensory beliefs," for example (e.g. "I am holding this pen")?
                 - BUT, I could be dreaming! I often think dreams are real when they aren't! Therefore, Descartes thinks even THIS is subject to doubt!
                 - "Again, Descartes doesn't say he really is dreaming, but that it's *possible* - he just has to show there's some doubt here, however small"
@@ -64,7 +64,7 @@
                 - However, Descartes rejects THIS because his imagination might be so good that he really can make all this stuff up! He isn't sure!
             - Therefore, Descartes thinks we can't be certain of even basic sensory beliefs
         - Mathematical truths
-            - Descartes then says, though, that at least mathematical , axiomatic truths must be correct, right? A square by definition has 4 sides, and it's *inconceivable* that we could get something so obvious wrong
+            - Descartes then says, though, that at least mathematical, axiomatic truths must be correct, right? A square by definition has 4 sides, and it's *inconceivable* that we could get something so obvious wrong
             - ...however, Descartes imagines that maybe an evil demon or genius could be deceiving him, and that he's actually been taught lies about ALL this stuff!
                 - Not even logic helps us here, since those logical rules might've been taught to use by this deceiver! We can't be certain of it!
 

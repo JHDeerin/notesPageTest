@@ -22,7 +22,7 @@
         And at the end - of all the ends -
         They, like friends, surround me -
 
-- "Okay ,the 3rd meditation is HARD - we'll try and talk about it, and analyze it, and try to figure out if the argument makes sense"
+- "Okay, the 3rd meditation is HARD - we'll try and talk about it, and analyze it, and try to figure out if the argument makes sense"
 - Also, if you're confused about the text, come see me in office hours! I'm here to make sure you understand this stuff! If you want to talk for fun, too, that's great!
 - Also, you have a homework due next Wednesday - be prepared!
 --------------------------------------------------------------------------------
