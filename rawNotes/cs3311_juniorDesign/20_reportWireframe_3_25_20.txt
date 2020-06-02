@@ -1,0 +1,15 @@
+//****************************************************************************//
+//************** Final Report Wireframe - March 25th, 2020 ******************//
+//**************************************************************************//
+
+- Professor Shelley is actually in his Class A Boy Scout uniform, Professor Stallworth is just playing generic elevator hold music
+    - "You say it still fits, but I'd say I finally grew into the man Boy Scouts was trying to make me...and it only took 34 years"
+--------------------------------------------------------------------------------
+
+- So, the whole notion of wireframing is to give your report readers a visual of your application from a high level; it also helps your reader figure out whih parts of your application have been tested, and you *can* use it to map out your dataflow
+    - This should probably be an introductory part of your prototype section, rather than an entirely separate piece of your report with its own table of contents entry and such
+    - The wireframe should just give you some sample screens of your MVP features and a very basic idea of how the screens should flow
+        - You can then highlight which screens your team actually prototyped/tested; PLEASE don't bother with the login screen
+    - This seems like a simple thing, but as a visual aid it's VERY helpful for us and your readers to understand your application and give context to what you're talking about
+
+- So, that was really short, but that's all for today! Bye guys!

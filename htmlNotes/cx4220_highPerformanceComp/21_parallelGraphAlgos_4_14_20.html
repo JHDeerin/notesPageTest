@@ -1,0 +1,155 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. to HPC</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4220Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. to HPC</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li><li><a class="is-note-link" href="13_introEmbeddings_2_27_20.html">13. Intro. to Embeddings</a></li><li><a class="is-note-link" href="14_mpiEmbeddings_3_3_20.html">14. Embeddings in MPI</a></li><li><a class="is-note-link" href="15_parallelMatrices_3_5_20.html">15. Parallel Matrix Operations</a></li><li><a class="is-note-link" href="16_2dMatrixAlgo_3_10_20.html">16. 2D-Matrix Algorithms</a></li><li><a class="is-note-link" href="17_optimal2DMatrix_3_12_20.html">17. Optimal 2D Matrices / Caching</a></li><li><a class="is-note-link" href="18_hw3Review_3_31_20txt.html">18. Homework 3/Exam 2 Review</a></li><li><a class="is-note-link" href="19_introFFT_4_7_20.html">19. Intro. Fast Fourier Transform</a></li><li><a class="is-note-link" href="20_parallelFFT_4_9_20.html">20. Parallel FFT</a></li><li class="active-note-page"><a class="is-note-link" href="21_parallelGraphAlgos_4_14_20.html">21. Parallel Graph Algorithms</a></li><li><a class="is-note-link" href="22_moreGraphAlgos_4_16_20.html">22. Graph Algorithms (cont.)</a></li><li><a class="is-note-link" href="23_loadBalancing_4_21_20.html">23. Load Balancing (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="20_parallelFFT_4_9_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//*************** Parallel Graph Algorithms- April 14th, 2020 ***************//
+//**************************************************************************//
+
+- So, with just a week left before classes end for the term, our final lecture topic will be on parallelizing graph algorithms!
+    - We had 2 lectures on the FFT last week, and now the last 2 lectures will be on this
+
+- Looking ahead, too, to the final, it'll take the following form:
+    - 20 fill-in-the-blank/multiple-choice questions (1 pt each)
+        - These short answer questions will be a closed-note part on Canvas, with no work required to be shown
+        - This'll be a real-time test on Canvas DURING our exam block
+            - You'll have the full 3 hour block to do these, which should be pretty generous
+    - 4 long, midterm-style questions (20 pts total, 5 points each)
+        - These questions will be open note, and will be due at 11:59pm that same day
+        - If any of your other professors have plans for their finals that conflict with this, let me know
+    - The midterm'll be cumulative, with all of our previous topics + FFT and graph algorithms
+
+- There'll also be an extra credit homework on FFT and graph stuff posted tonight, and due next week
+
+- DON'T FORGET Programming Project 3, which is also due next week
+--------------------------------------------------------------------------------
+
+- So, when we've been talking about matrix problems - or even the FFT - we've been dealing with very structured pieces of data that've let us make nice, structured algorithms to tackle them
+    - Graph algorithms, though, are even MORE general - any relationship between discrete things can be represented with a graph, and that makes them both very useful and harder to optimize for
+
+- Let's quickly review some graph theory basics
+    - A GRAPH is a set of vertices connected by edges, where the edges is a subset of V^2 (i.e. all possible pairs of vertices)
+        - There are a bunch of extensions to this, like hypergraphs with multiple connecting edges, directed graphs, etc., but let's stick with the basics for now
+    - We can represent a graph without drawing it in several ways:
+        - An ADJACENCY MATRIX takes O(|V|^2) space
+        - ADJACENCY LISTS take O(|V| + |E|), but require traversal
+        - INCIDENCE MATRICES write edges on one axis, and vertices on another axis, and mark down the connections (this generalizes to hypergraphs, but is O(|V| * |E|))
+        - COMPRESSED SPARSE ROW/COLUMN is basically a compressed version of an adjacency list, and is also O(|V| + |E|)
+
+- How can we store these graphs in memory, then, even before we run an actual algorithm on them?
+    - We could distribute them with a block partition and due message-passing, we could have a huge shared memory bnk, we could have shared memory with "accelerators" like GPUs (a hybrid between these two)...
+
+- What sort of stuff do we commonly do with graphs?
+    - Oftentimes, we try to find something in the graph, like paths, clusters of similar stuff, partititions into different kind of things, matchings between different vertices (e.g. pairing applicants with jobs), recognizing patterns, finding orderings of the graph, etc.
+        - We can do this by using various graph algorithms, like graph traversals, shortest path algorithms, max flow algorithms, finding spanning trees, topological sorting, etc.
+            - All of these are KERNEL algorithms (???)
+            - A KERNEL is a small operation we know how to do; think of it as a small, solved problem we can use as a building block for solving larger problems
+                - "One man's huge application problem is another man's kernel, but we'll assume these algorithms in this list are pretty well-known"
+
+- Now, graph algorithms and formats come in all shapes and sizes, so how can we plan for them?
+    - To start off, let's assume we have a dense, weighted graph with close to "V" vertices and near "V^2" edges, and that all of the edges have some associated weight
+        - We'll then see if we can optimize things at all for sparse matrices
+    - We'll then look at the sequential algorithm for the problem, then try to create a distributed memory parallel version assuming an adjacency matrix representation
+        - We'll try to look at Prim's Algorithms for MSTs, then get to Dijkstra's algorithm if we have time
+
+- So, Prim's algorithm finds a "minimum spanning tree" in a graph - what's that?
+    - A MINIMUM SPANNING TREE in an undirected graph is some subgraph that contains all the vertices of G, connected using the smallest possible number of edges (o,r if the edges are weighted, the smallest possible weight)
+        - PRIM'S ALGORITHM accomplishes this in a "greedy" way by choosing some random starting vertex, connecting it to the next vertex using the smallest-weight edge we know about, and continuing until our tree has reached every edge
+        - In an adjacency matrix, this basically looks like choosing a vertex, finding the smallest weight in that vertice's row, adding that vertex, and continuing
+    - So, how long does this algorithm take in serial?
+        - It has "v" outer iterations, with 1 vertex getting added on each loop
+            - Notice here that 1 iteration really does depend on the iteration before it, making it hard to parallelize the outer loop
+            - However, each outer loop ALSO has an inner loop that involves finding the minimum weight vertex that hasn't been added yet (which is also O(v)), which is easier to parallelize
+        - So, on a dense graph, this'll take O(v^2) operations
+
+- So, to make this parallel, we can try to go for the low-hanging jugular and parallelize the inner loop!
+    - We can do this by giving some number of columns of the adjacency matrix A and the edge weights "d" to each processor, finding the minimum thus far with an AllReduce (each candidate selects its local minimum)
+        - So, we find the local minimum in O(n/p), and do the AllReduce in O(n/p + log(p))
+        - We do this inner loop for "n" loops, giving us a total parallel runtime of:
+
+                O(n^2/p + n*log(p))
+
+            - This means we can scale to p = n/log(n) while still being efficient, giving us a minimum possible runtime of O(n*log(n)) (?)
+
+- Let's try to tackle a new problem: finding a SINGLE-SOURCE SOHRTEST PATH, where we try to find the shortest path from a vertex "v" to all other vertices in the graph
+    - Serially, we do this with DIJKSTRA'S ALGORITHM, which is actually quite similar to Prim's algorithm!
+        - Why? Because the shortest path will also be a tree without any loops, with its root at our vertex "v"
+        - The only difference, really, is which new connections we need to consider
+            - We need to keep track of a list of nodes for which the shortest path is definitely known, and
+            - The big difference is that the weight of each node starts out at infinity, and then - when it's reachable from a known vertex - is equal to the cost from the start to
+                - TODO: Review Dijkstra's to make sure I understand (tons of stuff on the interwebs)
+    - Similarly to Prim's, we can parallelize this by doing a 1D partition, locally finding the closest node to the source on each processor, and broadcasting that node out
+
+- Finally, let's consider the ALL-PAIRS SHORTEST PATHS algorithm, where we're trying to find the shortest path between all pairs of vertices
+    - There are many algorithms for this, and we'll look at 3:
+        - Matrix multiplication
+        - Dijkstra's
+        - Floyd's algorithm
+    - For the Matrix Multiplication approach, we can multiply an adjacency matrix with itself, but replace multiplication with addition and addition with the "min" operator
+        - i.e., we're replacing:
+
+                C_ij = Sum(A_ik * B_kj)
+
+            - With:
+
+                C_ij = Min(A_ik + B_kj)
+
+        - This returns a matrix containing the shortest paths of length 2 between any 2 pairs of nodes
+        - Therefore, A^3 will contain the shortest paths of length 3 between any pairs, etc., and so A^n will contain all the shortest paths between any 2 nodes! We're done!
+            - Runtime-wise, we need log(n) matrix multiplications to get this (using the powers-of-2 algorithm) each taking O(n^3) time, giving us O(n^3 * log(n))
+            - If we parallelize this by doing each matrix multiplication in parallel, we can use O(n^3/log(n)) processors to compute each matrix product in O(log(n)), giving us O(log(n)^2) (although not efficiently)
+    - Let's instead do this by just calling Dijkstra's algorithm "n" times
+        - This gives a serial runtime of n * O(n^2) = O(n^3), which is BETTER than the above approach!
+        - To parallize this, we have 2 options:
+            - Execute each shortest path problem on a separate processor (the SOURCE PARTITIONED APPROACH)
+                - Here, each processor gets its own copy of the graph, and then runs Dijkstra locally without any communication at all, giving us an O(n^2) runtime
+            - Or, ALSO try to parallelize the inner loop like we did for Prim's algorithm (SOURCE PARALLEL APPROACH)
+                - We can therefore use up to O(n^2) processors, giving us a runtime of O(n^3/p) with a communication overhead of O(n * log(p))
+                - Therefore, for cost-optimality (?), we have p = O(n^2/log(p))
+    - Finally, let's use a well-known algorithm for this called FLOYD-WARSHALL ALGORITHM!
+        - Here, we start out with our original matrix and for any pair of vertices, we consider all the paths from v_i to v_j that go through the vertex "v_1" (meaning the longest path can be of length 1)
+            - Then we cosndier ones that go through the set "v_1, v_2", etc., increasing our path length by 1
+            - We find the shortest path each time, and since we eventually check all the path lengths this'll get us all the paths (double-check?)
+        - The advantage here is that this gets us a pretty simple update equation, which is nice, using dynamic programming
+            - The pseudocode for this is actually pretty simple:
+
+                D = A
+                for k = 1...n
+                    for i = 1...n
+                        for j = 1 ...n
+                            d_ij = min(d_i...)
+
+        - Parallelizing this in a 2D decomposition means each processor gets a square of the matrix, and needs all the values in its column/row (I think??)
+            - So, we still have an outer loop that doesn't get parallelized, but each process in parallel can send out its rows/columns and do its own local update
+            - Each of those iterations involves a boradcast of n/sqrt(p) elements, giving us a computation time of O(n^2/p) per loop (or O(n^3) total)
+
+- Okay, we'll go over how to further improve this later - see you guys on Thursday!
+</pre>
+</article>
+<a class="side-link is-note-link" href="22_moreGraphAlgos_4_16_20.html"></a>
+</main>
+</body>
+</html>

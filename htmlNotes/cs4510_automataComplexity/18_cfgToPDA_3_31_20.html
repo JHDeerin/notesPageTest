@@ -1,0 +1,107 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Automata and Complexity</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4510Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Automata and Complexity</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_automataTuring_1_7_20.html">0. Automata and Turing Machines</a></li><li><a class="is-note-link" href="1_moreTuringMachines_1_9_20.html">1. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="2_evenMoreTuringMachines_1_14_20.html">2. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="3_yetMoreTMsPvNP_1_16_20.html">3. Odd TMs and P/NP</a></li><li><a class="is-note-link" href="4_stillMoreTMsNPComplete_1_21_20.html">4. Weird TMs and NP-Completeness</a></li><li><a class="is-note-link" href="5_reductions_1_23_20.html">5. Reductions</a></li><li><a class="is-note-link" href="6_reductionsCookLevin_1_28_20.html">6. Reductions (cont.) / Cook-Levin Theorem</a></li><li><a class="is-note-link" href="7_finiteAutomata_2_4_20.html">7. Finite Automata</a></li><li><a class="is-note-link" href="8_nfaRegEx_2_6_20.html">8. NFAs / Regular Expressions</a></li><li><a class="is-note-link" href="9_regExPumping_2_11_20.html">9. Regular Expressions and NFAs</a></li><li><a class="is-note-link" href="10_pumpingLemma_2_13_20.html">10. The Pumping Lemma</a></li><li><a class="is-note-link" href="11_complementPumping_2_18_20.html">11. Complements / Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="12_yetMorePumping_2_20_20.html">12. Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="13_exam2Review_2_25_20.html">13. Exam 2 Review</a></li><li><a class="is-note-link" href="14_contextFreeGrammar_3_3_20.html">14. Context-Free Grammars</a></li><li><a class="is-note-link" href="15_cfgPushdown_3_5_20.html">15. CFGs (cont.) / Pushdown Automata</a></li><li><a class="is-note-link" href="16_cfgPumping_3_10_20.html">16. Pumping Lemma for CFGs</a></li><li><a class="is-note-link" href="17_moreCFGPumping_3_12_20.html">17. CFG Pumping Lemma Example</a></li><li class="active-note-page"><a class="is-note-link" href="18_cfgToPDA_3_31_20.html">18. Converting CFGs to PDAs</a></li><li><a class="is-note-link" href="19_pdaToCFG_4_2_20.html">19. PDAs to CFGs</a></li><li><a class="is-note-link" href="20_exam3Review_4_7_20.html">20. Exam 3 Review</a></li><li><a class="is-note-link" href="21_haltingProblem_4_14_20.html">21. The Halting Problem</a></li><li><a class="is-note-link" href="22_moreHalting_4_16_20.html">22. Halting Problem (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="17_moreCFGPumping_3_12_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text"># Converting CFGs to PDAs
+
+## March 31st, 2020
+
+- We're starting late due to technical issues :(
+    - "Sorry guys, I had an internet outage that set back an earlier meeting and needed to fix that"
+
+- Okay, so welcome to "Twitch Plays Finite Automata," where I livestream this class and you probably learn stuff!
+    - To chat, you have to type "!speak" and a text-to-speech thing will read it out loud to me (please don't spam it)
+
+- THE PLAN:
+    - Recap equivalence of PDAs/CFGs
+    - More PDA examples
+
+- Also, homework 5 is due THIS THURSDAY, so be aware!
+    - Test 3, then, will be NEXT WEEK on Thursday; I'll release the exam at 11am and it'll be due at 1:30pm
+        - "It should be similar to exam 2 but nerfed a little bit, where we'll tell you if something is/isn't context free and just ask you to prove it"
+        - We'll also be sure to get the answer key for the study guide out this time; last time COVID threw a wrench in things
+    - The recorded lectures from last week are on the Twitch channel, and should be helpful in providing some extra CFG pumping lemma examples
+        - For one of the problems, note that building a new CFG/PDA from scratch is usually easier than trying to do a conversion
+--------------------------------------------------------------------------------
+
+ - WAAAAAYYYYY back 2 weeks ago, we covered push-down automatas and context-free grammars, and tried to show that they're equivalent; today, we're going to recap the equivalence proof and how to convert from 1 to the other
+    - Remember that a CFG is a 4-tuple of variables, alphabet, rules for converting variables to words, and a starting variable
+        - We then, for some starting string, repeatedly replace variables with strings/other variables until we end up with a final string
+
+- *pesky internet lag issues + semi-heckling Twitch chat later...*
+    - "Pre-recording the lecture is hard because there are no questions, so it'd just be me reading my own notes, and at that point you're better off just reading the textbook"
+    - *Switching back to BlueJeans*
+        - "I'd have expected Twitch to be better about livestreaming because, y'know, it's huge, but apparently not today; I prefer Twitch, but we'll use BlueJeans "
+
+- In general, a heuristic for checking if something is a CFG is if it counts numbers 1 by 1
+    - This does NOT always work, but it's a good start
+    - A PUSHDOWN AUTOMATA, then, is basically an NFA that has a stack, and every transition has a pop/push operation
+
+- So, I want to get across today that CFGs are equivalent to PDAs
+    - You can convert between them by basically pushing/popping rules off of the stack
+        - So, to apply a rule "A -&gt; w", you would pop the variable "A" off of the stack and then push "w" onto the stack
+        - For instance, let's say we start with "S", and have the rules:
+
+                S -&gt; # | 0S00
+
+            - So, for the 1st rule, we say "If we see S, remove S from the stack and push #"
+                - Or "if we see S, pop off S and then push 0S00 onto the stack" (the order of the strong you're pushing may be reversed because it's a stack, based on the convention you use)
+            - So, we can convert this CFG into the following PDA:
+
+                (TODO: get this from the textbook)
+
+            - For this PDA, the input format is (I think?):
+
+                    &lt;input string char&gt;, &lt;char read from stack&gt; -&gt; &lt;sequence pushed to stack&gt;
+
+                - I *think* pushing epsilon means "don't push anything"? (and same thing for pop?)
+        - On this PDA, let's suppose we have the input string 00#0000
+            - So, at state q0, our stack is empty
+            - We'll then push an empty string AND "S" onto the stack (I think?):
+
+                    S,''
+
+                - We then have 2 epsilon transitions for these rules, and then (I think?) rules for consuming these on the stack IF
+
+- For actually proving stuff, CFG to PDA conversion isn't super common, but it is a formalism
+    - For the homework problem, we'll
+
+- To go from PDA to CFG, we basically create a new rule:
+
+        A_0s -&gt; c_first(A_1...s-1)c_last
+
+    - ...and then keep creating new rules to fill in that middle part
+    - (might need to look at this in the textbook???)
+
+- "Keep in mind these CFGs and PDAs are VERY non-deterministic, and rely on us using non-determinism to be lazy"
+
+- Okay, that was really messy, so my apologies, but that's as far as we'll go today; see you guys later!
+</pre>
+</article>
+<a class="side-link is-note-link" href="19_pdaToCFG_4_2_20.html"></a>
+</main>
+</body>
+</html>

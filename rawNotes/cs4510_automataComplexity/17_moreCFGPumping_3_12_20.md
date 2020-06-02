@@ -1,6 +1,6 @@
-#
+# CFG Pumping Lemma Example
 
-##
+## March 12th, 2020
 
 - Plan for today:
     - Pumping lemma for CFGs (example)
@@ -32,8 +32,8 @@
     - For this, we've got 4 possible cases:
         - $vxy$ is completely in a 1-character block
             - If this is the case, then we first need to prove a lemma: if $i,j,k,l > 0$, then $s \in L$ iff $i == j, j == l$
-                - The proof: If i == j and k == l, then then number of 0s/1s are equal. If this is not true, then we can use 2 grams!
-                    - An n-gram is a VERY useful way of looking at languages (and comes up in NLP); a 2-gram is just a pair of 2 consecutive characters
+                - The proof: If i == j and k == l, then the number of 0s/1s are equal. If this is not true, then we can use 2 grams!
+                    - An n-gram is a VERY useful way of looking at languages (and comes up in NLP); a 2-gram is just any pair of 2 consecutive characters
                 - If we look at these 2-grams, there'll be 1 copy of 10 and (need to look at proof??)
             - With this lemma, we can show that if $i=2$, then only the length of that character block changes, so $i \neq j$ or $k \neq l$ - therefore, by our lemma, it's not in the language!
         - $vxy$ spans the 0/1 block in the 1st string

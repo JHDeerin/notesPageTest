@@ -29,8 +29,8 @@
         - Keep in mind that sorting can be highly dependant on the order of the elements, so this is a worst-case communication scenario
     - We then looked at Bitonic Sort, which had the following runtimes:
 
-            O(n/p log(n/p) + n/p * log^2(p))
-            O(log^2p(t + u*n/p))
+            O((n * log(n/p) + n* log^2(p))/p )
+            O(log(p)^2(t + u*n/p))
 
         - So, there are log(p)^2 data movements - can we do better, since this is over the theoretical minimum? Is there a way we can determine where each element should go in advance?
             - The "log^2" term comes since for each comparison, an element could go to one process or the other (i.e. 2 possibilities for each element for log(p) rounds)
@@ -73,9 +73,9 @@
         - We could then use the serial "median of medians" algorithm from CS 3510 by partitioning the array into 5-element chunks, finding the median of each of THOSE in constant time, recursively doing this for all the medians we found, and then redistributing the list into elements greater, equal to, or smaller than the median (I think?)
             - As we saw in our pre-test, we can prove this algorithm completes in O(n)
             - That's better, but it's not quite fast enough - can we throw any parallel algorithmic magic at it?
-                - Unfortunately (something from slides), which leads to load imbalancing from our recursive step, since each process might have a different-sized subset of the array as we sort this thing (e.g. the extreme case of every processor but 1 having 1 element)
+                - Unfortunately (something from slides), which leads to load imbalancing from our recursive step, since each process might have a different-sized subset of the array as we sort this thing (e.g. the extreme case of every processor but 1 having 1 element, and a single processor having every other "n-p" element)
             - How can we solve this? We don't - we ignore it!
-                - Instead, we find the local median for our given sub-array, assign weights to each median (?) based on how many elements it was found on, and choose
+                - Instead, we find the local median for our given sub-array, assign weights to each median (?) based on how many elements it was found on, and choose a global median from that
                 - This gets us an array size of at MOST O(3/4n) when we recurse; we'll skip the proof for now
         - So, using this parallel median-of-median algorithm, we end up having log(p) communication rounds, giving us costs of:
 
@@ -117,7 +117,7 @@
         - Choose p-1 "good" splitters
             - By "good splitters," we mean pivots that:
 
-        - Split the local sequences into
+        - Split the local sequences into "p" segments using the splitters
         - (...)
     - How can we find these good splitters? Like this:
         - Pick p-1 equally-spaced elements from the local sorted array on each processor
@@ -135,7 +135,7 @@
                     = sum{i=0 to p-1, (s_in/p^2)} + sum{i=0 to p-1, (n/p^2)}
                     (more on the slides I missed)
 
-    - Okay; given these steps, we know bitonic sort on p^2 entries will takw O(p log^2(p)) with log^2(p) communication rounds (each with a message size of "p" (?)), and the allgather will take log(p) communication rounds
+    - Okay; given these steps, we know bitonic sort on p^2 entries will take O(p log^2(p)) with log^2(p) communication rounds (each with a message size of "p" (?)), and the allgather will take log(p) communication rounds
     - In total, then, we've got a runtime of:
 
             Comp: O(n/p * log(n/p) + n/p * log(p) + p*log^2(p))

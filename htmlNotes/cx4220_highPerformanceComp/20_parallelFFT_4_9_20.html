@@ -1,0 +1,147 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Intro. to HPC</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cx4220Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Intro. to HPC</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li><li><a class="is-note-link" href="13_introEmbeddings_2_27_20.html">13. Intro. to Embeddings</a></li><li><a class="is-note-link" href="14_mpiEmbeddings_3_3_20.html">14. Embeddings in MPI</a></li><li><a class="is-note-link" href="15_parallelMatrices_3_5_20.html">15. Parallel Matrix Operations</a></li><li><a class="is-note-link" href="16_2dMatrixAlgo_3_10_20.html">16. 2D-Matrix Algorithms</a></li><li><a class="is-note-link" href="17_optimal2DMatrix_3_12_20.html">17. Optimal 2D Matrices / Caching</a></li><li><a class="is-note-link" href="18_hw3Review_3_31_20txt.html">18. Homework 3/Exam 2 Review</a></li><li><a class="is-note-link" href="19_introFFT_4_7_20.html">19. Intro. Fast Fourier Transform</a></li><li class="active-note-page"><a class="is-note-link" href="20_parallelFFT_4_9_20.html">20. Parallel FFT</a></li><li><a class="is-note-link" href="21_parallelGraphAlgos_4_14_20.html">21. Parallel Graph Algorithms</a></li><li><a class="is-note-link" href="22_moreGraphAlgos_4_16_20.html">22. Graph Algorithms (cont.)</a></li><li><a class="is-note-link" href="23_loadBalancing_4_21_20.html">23. Load Balancing (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="19_introFFT_4_7_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text">//****************************************************************************//
+//********************* Parallel FFT - April 9th, 2020 **********************//
+//**************************************************************************//
+
+- Schedule:
+    - Midterm 2 debrief
+        - The grades on Canvas are curved, the green scores on the actual exam are the raw scores
+        - There was no curve on Question 1 or Question 4; the others received some curving
+        - Quick review
+    - Continue with FFT
+        - How to parallelize it
+        - Second half of slides
+
+- So, what happened on the 2nd midterm?
+    - We had a mean grade of 86% - not too bad!
+    - Just about everyone did well on Question 1, recognizing that the first 2 elements remained in place when sorting and that negative infinity could've been added to either end
+    - Question 2, about how using 2x as many splitters affected the worst-case sample sort case, I saw most people recognized that s_i was the number of splitters coming from a given processor, and that there were 2*(p-1)
+        - The most common mistake was how many splitters could be SENT from each processor, though; a lot of people kept the same group size BETWEEN each splitter, from the original proof on the slides (i.e. n/p^2), but the group size actually change to "n/p*(2*(p-1) + 1) = n/p(2p - 1)"
+        - So, if you run through the proof correctly, you should've ended up with a worst-case bound of "3n/2p" elements elements
+            - Some people instead wrote down "3n/p", which you should've been able to catch with a bit of checking: adding more splitters shouldn't have made the worst-case bound WORSE!
+    - Question 3 was about embedding rings in hypercubes
+        - An odd ring should NOT be possible to embed, since because the hypercube has this even-odd parity thing going on any cycles in it HAVE to be even length
+            - Another way of thinking about it: hypercubes are BIPARTITE GRAPHS (where you can assign 2 groups based on the number of 1s/0s), meaning all cycles HAVE to be even
+        - For part 2, and embedding even non-powers of 2, a lot of people gave good examples of embedding rings of length 6 or something but had difficulty describing how to generalize their algorithm (I wasn't expecting a full algorithm, and many of you got the gist, but some of the details were missing from a lot of answers)
+            - There were a few ways you could embed this; if you look at binary reflected gray codes, and place your ring in the MIDDLE of the gray code, this always forms a mini-cycle with 1 link missing
+            - One neat one a student came up with is that we know embedding a ring in a torus of the same size is trivial, and we know we can embed toruses into hypercubes pretty easily, so we can instead just map from the ring to a torus and then embed THAT torus into a hypercube!
+    - Question 4 was about calculating the matrix operation "A*A^T*x"
+        - The runtime of calculating this seriously, for a matrix of size NxM, is O(nm) - most people got that no problem
+        - For implementing this ib a parallel algorithm, it SEEMS like we basically need to calculate the transpose, and then two matrix-vector multiplications with a 1D decomposition
+            - HOWEVER, you actually can avoid doing a transpose for this problem (missed how)
+            - How can then AllReduce to calculate "A^T * x" and give it to each processor, then do a matrix-vector multipltication
+        - It was also possible to do a 2D decomposition
+        - Now, one common mistake was forgetting to compute the actual efficiency of their algorithm and find
+    - Question 5 was kind of an essay-ish question, so I won't dwell on it too long but the important things I was looking for was:
+        - Actually referencing MPI functions/datatypes, like MPI_Isend, MPI_Test, MPI_Probe, etc. to deal with unexpected messages
+--------------------------------------------------------------------------------
+
+- Alright, let's talk about what we went over yesterday in a bit of a different angle that hopefully makes things slightly more clear
+    - So, given ANY "x_n-1" values from our function, we can make a matrix of all these evaluation points with successive squaring to calculate
+        - What makes the FFT special is th points we choose, which makes computing this matrix especially fast!
+        - Think of this as a matrix decomposition, where:
+
+                M_n(w)_ij = w^(ij)
+
+        - Now, multiplying by some input vector of coefficients, we have:
+
+                M_n(w) * a = M_n(w) * P_swizzle * P_swizzle
+
+            - (???)
+        - What'll this come out to?
+
+                [M_n(w)*P_swizzle] = (2 case thing)
+
+            - (...???)
+        - So, we then have all the evens and all of the odds in separate vectors, and we have this re-ordered Fourier Transform matrix, which we can break into 4 blocks:
+
+                [A | B] * [evens]
+                -------    (...)
+                [C | D]   [odds]
+
+            - So, what will the values in this matrix look like?
+                - In A, A_ij = M_n(w)_i,2j = w^(i*2j) = M_n/2(w^2)
+                - In B, B_ij = M_n(w)_i+n/2,2j = w^((i+n/2)*2j) = w^(i*2j)*(w^(n/2))^2j
+                    - Here, since w^n=1, w^(n/2) = -1
+                    - Therefore, B_ij = A_ij, which is ALSO M_n/2(w^2)
+                - In C_ij, M_n(w)_i,2j+1 = w^(i(2j+1)) = w^(i*2j)*w^i
+                    - So, we have the same subproblem as before, but multiplied by some power of each row times omega (why???)
+                    - This looks like taking the diagonal of our original matrix time our same subproblem, giving us:
+
+                            diag(w) * M_n/2(w^2)
+
+                - I D_ij, M_n(w)_i+n/2,2j+1 = w^((i+n/2)*(2j+1))
+                    - ... = -diag(w)*M_n(w^2)
+        - So, in order to compute this matrix-vector product, we:
+            - Reorder A into even/odd indices
+            - Compute the product of those matrices with M_n/2(w^2)
+            - Diagonally scale
+            - Finally sum all the matrices together
+        - This looks like doing a lot of recursing, taking diagonal vectors, and summing them together
+
+- Let's consider what these recursions look like
+    - If we start off with the vector [a_0 ... a_7], then in the next recursion level it will go to:
+
+            [a_0, a_2, a_4, a_6 | a_1, a_3, a_5, a_7]
+
+    - For the next level, we split this further:
+
+            [a_0, a_4 | a_2, a_6 || a_1, a_5 | a_3, a_7]
+
+        - So, one level just looked like putting evens first and odds 2nd, but if we write out the binary indices of this change then this ACTUALLY just looks like flipping all the bits in our indices horizontally (e.g. from 110 to 011) (I think?)
+            - So, we can calculate these reversal permutations
+        - (something about this also working on inverses?)
+
+- So, now that you know how this works (in theory, if not in practice), how can we parallelize this algorithm?
+    - Well, the flipping bits for reversal (to get the list into even/odd halves) is actually the SAME thing as hypercube routing/bitonic merge ordering/etc!
+    - So, the parallel algorithm looks like this:
+
+            u = a_reversal(rank)
+            for i = 0 to d-1:
+                Send u to and receive V from "rank XOR 2^i"
+                m = w^(rank &lt;&lt; d-i-1)
+                if ith bit of rank == 0:
+                    u = u + mv
+                else:
+                    u = v + mu
+
+    - So, this algorithm gives us runtimes of:
+
+            Comp: O(n * log(n) / p)
+            Comm: O(t*log(p) + un/p * log(p))
+
+        - For a more in-depth look at things, there are some slides from a similar class at Berkeley that goes over this algorithm as well, which I'll post for your viewing pleasure after class
+
+- Alright, that's that!
+</pre>
+</article>
+<a class="side-link is-note-link" href="21_parallelGraphAlgos_4_14_20.html"></a>
+</main>
+</body>
+</html>

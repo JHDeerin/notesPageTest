@@ -1,0 +1,105 @@
+//****************************************************************************//
+//**************** Load Balancing (cont.) - April 21st, 2020 ****************//
+//**************************************************************************//
+
+- Currently, if I do raw grading scores, there are 3 people in the A range, 14 in the B range, and 6 in the C range
+    - I'd tried to give enough extra-credit to avoid having to use a class-wide curve, but given the extraordinary circumstances with the coronavirus, I do think some extra leniency is warranted
+    - Because of that, I'm considering a "letter-sign shift" in the grade assignments, where a B+ becomes and A-, an A becomes an A+, etc.
+        - This isn't a huge shift - just ~3.3% - but hopefully it should give us a more normal-ish looking curve
+    - In addition, it also seems that the final being a full 30% of the course when I've been less available for office hours since the break isn't fair, so I'm going to have the final work like this:
+        - If the final raises your grade, you can count it as 30%
+        - OTHERWISE, it will only count for 15% of your grade (meaning your total course grade will sum to 85%, rather than 100%)
+
+- Programming Project 3 is due tonight, so PLEASE make sure you're working on that!
+
+- Homework 4, for extra credit, is still out, and also due tonight
+    - For problem 2, you can think of this Toeplitz matrix as being like a polynomial multiplication problem, like with FFT
+        -
+
+- "My philosophy is that turning something in late is better than turning in nothing at all, so if you need extra time reach out to me 1-on-1 and, while you probably won't get full credit, something can be arranged"
+--------------------------------------------------------------------------------
+
+- Last time, we were talking about LOAD BALANCING
+    - One prominent feature of physical simulations is that data tends to have some sort of locality/spatial relations, and the density of the data at points can shift over time
+        - Think of a wind tunnel simulation, where the air can shift around and move
+    - We had a STATIC load balancing problem, where we wanted to minimize computational imbalances, and minimize communication across cuts - and these 2 goals are usually opposed!
+        - Typically, if we end up with cuts that cross a small number of edges, it means
+    - The DYNAMIC load balancing problem, then, also tries to minimize the movement of data from the old partitions to the new partitions we choose
+        - Minimizing the movement of data from the old to the new partition is the (TODO: on lecture)
+        - We tend to prefer incremental algorithms that can update the data in small increments, and small changes in the input result in gradual changes to the partitions
+
+- So, those are our problems; let's take a look at some solutions!
+    - There are 2 types of models for these problems:
+        - GEOMETRIC models are where coordinates for our data items are available, and are great for problems where the data is in an actual physical space
+        - COMBINATORIAL models are more abstract for non-physical problems, and are where we don't have any physical locations but we DO have connectivity information for our data items
+
+- Let's look at some geometric solutions!
+    - The RECURSIVE COORDINATE BISECTION (RCB) algorithm divides work into 2 equal parts by cutting it with a flat line/plane, then recursively divides each of THOSE portions to end up with an equal amount of work, lternating the direction we cut
+        - Why alternate the dimensions (i.e. horizontal, then vertical, instead of just all horizontal)? Because of a ratio: Surface Area to Volume!
+            - By alternating cuts, we're keeping our subdomains as close to square as possible, trying to minimize the size of our cuts
+        - This algorithm is hierarchical, and is IMPLICITLY incremental with the cuts changing gradually to match the data, making it a good fit for dynamic load-balancing problems
+        - So:
+            - Pros:
+                - Fairly simple and efficient to implement
+                - Regular subdomains
+                - Doesn't need connectivity information
+            - Cons:
+                - No explicit control of communication costs (since we don't use any connectivity information)
+                - Can generate disconnected domains
+                    - Basically, the partitions it generates aren't guaranteed to line up naturally with the problem space, which can make it more awkward/inefficient to calculate (e.g. )
+                - Partition quality can be meh
+                - Needs geometric coordinates
+        - Still, though, this algorithm is commonly used in particle simulations, volume rendering, crash simulations, etc.
+    - Another approach: the SPACE-FILLING CURVE PARTITION (SFC)
+        - The idea here is that we have a space-filling curve that completely fills a domain, and we can apply it recursively to obtain however much granularity as we need
+            - Given a coordinate, we can find its partition quickly, and vice-versa
+        - We can use this for partitioning as follows:
+            - Run a space-filling curve on a grid containing all our data points
+            - Order objects based on their 1D position along the curve
+            - Evenly split the data along that 1D curve (i.e. so the points are evenly distributed)
+        - Doing this gives us non-rectangular but still pretty compact sub-domains, and figuring out where to divide is SUPER simple once we have this space-filling curve function (lie Hilbert's curve)
+            - We can make this algorithm incremental, too, by taking a given grid square and recursively splitting it where we need more data!
+        - So:
+            - Pros:
+                - Simple and fast
+                - Maintains geometric locality (good for dynamic balancing)
+                - Linear ordering of objects can give great cache performance
+                    - Partitioning and cache-blocking are distinct, but definitely related
+            - Cons:
+                - No explicit control of communication costs (again, it's wholly determined by the data's position)
+                - Can still generate disconnected subdomains/partitions
+                - Partitions are often lower quality than PCB
+                - Still need geometrics coordinates
+
+- Then, for combinatorial solutions
+    - First up, MULTI-LEVEL GRAPH PARTITIONING!
+        - The idea here is that we construct small approximations of our graph repeatedly until there's one we know how to partition easily, we partition that easier problem, and then re-scale the problem back up to the original graph (making some slight changes as we scale it up to keep it good)
+        - This multi-level approach has a BUNCH of sub-approaches; the default approach is okay for static partitioning, but for dynamic partitioning some approaches use a "diffusive strategy" to take some information from the original graph into account, keeping the changes incremental
+        - So:
+            - Pros:
+                - High-quality partitions known for MANY types of graphs and applications (e.g. highly optimized engineering models, which take edges into accounts)
+                - Can control communication costs
+                - Widely used for static partitioning
+            - Cons:
+                - More expensive than geometric approaches
+                - Difficult to make incremental
+        - So, what are some applications of graph partitioning? There's tons!
+            - Finite element analysis (?)
+            - "Multi-physics" simulations (rarely need to rebalance, but need high-quality partitions to start)
+            - Linear solvers
+                - These are square and structurally symmetric, and decomposing based on the mesh indices is a natural fits
+
+- This graph-based approach to load balancing is very popular in scientific computing, but it has a flaw that becomes evident in non-spatial applications: it assumes the number of edge cuts is the same as the communication volume
+    - In reality, this ISN'T always true! Some edges get used much more than others
+    - Graph models also tend to assume a symmetri, square (???)
+    - So, is the graph based model good enough?
+        - In mesh-based applications, probably! It works well in prctice and the structure of meshes guarantees low vertex degrees and decent partitions
+        - For irregular networks, no, it doesn't;
+
+- If you want to play around with some of these approaches, a good resource is the Zoltan Toolkit (which was party developed at Georgia Tech!), which lets you write code and freely switch between these algorithms
+
+- So, to compensate for the problems of the graph model, some researchers have tried to devise the HYPERGRAPH MODEL
+    - We won't have time to cover the details, but be aware that it's a thing
+
+- Okay, I'll have office hours from 1:00 to 2:00 today to talk about the project if you have any questions; thanks for showing up today and sticking with it through this semester!
+    - I'll

@@ -1,0 +1,146 @@
+//****************************************************************************//
+//************ Intro. Fast Fourier Transform - April 7th, 2020 **************//
+//**************************************************************************//
+
+- THE ANNOUNCEMENT THINGIES:
+    - Midterm 2 has been ~75% graded, and he grades should be out by the end of this week
+    - Homework 3 grades should be out soon, according to our TA
+    - Programming assignment 2 grades should'vealready been released; they'll be sent out immediately after class
+    - Programming assignment 3 will be posted later today and'll be due April 21st
+        - Due to our whack schedule this semester, this'll be the last mandatory assignment before the final
+            - I will try to make Homework 4
+        - Just like the last assignment, you download some code from my GitHub repo, write a program, and then write a report analyzing it
+
+- Programming assignment 3 is about the JACOBI SMOOTHER PROBLEM, which is trying to solve the matrix problem "Ax = B"
+    - We can do this with Gaussian elimination, but that comes out to O(n^3) - the same as a brute force solution!
+        - Parallelizing this directly is hard, but we've talked about matrix-vector and matrix-matrix operations in class - so can we use those same methods to solve a system of equations?
+        - Using ideas from "iterative methods," yes!
+            - By using matrix-vector products and some simple operations, we can solve this!
+        - The JACOBI SMOOTHER is one approach that goes like this: given a solution guess "x0," we can improve our solution by taking the diagonal elements of A
+            - The error of our guess is "b - Ax", called the RESIDUAL
+            - We can get an improved guess sunig this as:
+
+                    x_new = s_0 + diag(A)^-1 * (b - A*x_0)
+
+        - We won't talk about why this works for some matrices and not others; instead, we'll just focus on implementing this efficiently
+            - So, what do we need to parallelize? Taking the matrix vector product, "diagonal scaling," and an update edition
+
+- Today's topic:
+    - Start discussing the FAST FOURIER TRANSFORM (FFT)!
+    - "Most of our remaining lectures are about APPLICATIONS of the FFT"
+
+- "...I just realized I was muted, so let's repeat the last 5 minutes"
+--------------------------------------------------------------------------------
+
+- So, the Fast Fourier Transform is SUPER important, but what is it? Why do we care?
+    - In context, the FFT is an example of a LINEAR OPERATOR
+        - In some classes, a linear operator is almost synoymous with "matrix," but a linear operator is actually much more general; it's any function that takes a vector as an input, gives a vector as an output, AND preserves scaling
+            - By "preserves scaling," we mean:
+
+                    Ax = y
+                    10 * Ax = 10 * y
+
+            - These linear operators are HUGELY important in machine learning and bunch of other stuff
+        - We say "A[i,j]" is the linear operator "A" with input "i" and output "j", and any time A[i,j] != 0, the input affects the output
+            - We know multiplying a general matrix by a vector requires O(mn) time, which isn't super efficiently
+            - For dense linear algebra, us storing everything is this dense matrix implies EVERY input affects every output - which is true for matrix multiplications, but isn't appropriate in every case!
+                - For instance, if we have a smoothing function that acts on some noise function, it'd be a linear operator of the form
+
+                    y[i-1] + y[i] + y[i+1] = (...some smoothing function...)
+
+                - Writing this out in matrix form would ONLY take up the min diagonal and the 2 adjacent diagonals - that's a lot of wasted space!
+            - So, for linear operators where not every input affects every output, we can use a SPARSE MATRIX to represent them more efficiently
+                - Another example of this would be outer product matrices, where a matrix is the product of 2 vectors; this'll have entries everywhere, but we can compute it from just 2 vectors!
+                    - This is a difference in storage of O(mn) vs O(m + n)!
+                    - Furthermore, the matrix-vector product from multiplying by 2 vectors is faster than multiplying by a matrix (CHECK THIS?)
+    - The FAST FOURIER TRANSFORM, then, is a linear operator this is dense, BUT dense storage doesn't make sense since there's a faster way to do it
+        - The challenge is to come up with a way to represent this operation and its input in  way that it can be parallelized
+
+- Now, we've already seen the polynomial multiplication problem, where multiplying 2 different polynomials together mean we need to compute all the coefficients
+    - In serial, this is an O(mn) operation, since we basically have to put each "vector" of each poylnomial's coefficients and then compute the terms
+
+            (a_ix^i * b_j*x^j) = (a_i*b_j)*x^(i+j)
+
+        - ...which'll look like computing a bunch of upward-sloping diagonals through our 2D grid, with O(mn) multiplications before we combine like terms
+    - HOWEVER, we're ultimately just ending up with O(m + n) output coefficients after we combine like terms, with O(m + n) "raw input numbers" from our coefficients in the polynomials
+        - This difference between the input, output, and works seem to hint that there should be a faster algorithm to do this!
+    - Let's look at this problem differently, then: if we know "m" points in the polynomial, we should be able to represent a polynomial with "m-1" values (where'd this come from???)
+        - If we know m(x) * p(x) at "m + n - 1" points, then, we can know the final products
+            - But we CAN compute this as:
+
+                    R(x_i) = P(x_i) * Q(x_i)
+
+            - So, it seems we can multiply polynomials in O(n + m)!
+        - Expressed algorithmically, this looks like this:
+            - Evaluate P(x) and Q(x) at m + n - 1 distinct values of "x", which is O((m+n)*m + (m+n)*n) = O((m+n)^2)
+            - Carry out polynomial multiplication in value-based representation in O(m+n)
+            - Convert back to a coefficient-based multiplication by solving m + n - 1 equations for that many unknowns in O((m+n)^3)
+        - So, this time got worse - it's now CUBIC!
+    - BUT, we can choose the values of x we evaluate at - and that turns out to be an important caveat!
+        - Assume we have a polynomial with "n" coefficients, and n is a power of 2
+        - In that case, we'd have a_0*x_0 + a_1*x_1 + ...
+        - BUT, we can combine the even and off terms in a tree to get the coefficients of:
+
+                Even : [x^0, x^2, x^4, ...]
+                Odd: [x^1, x^3, x^5, ...]
+
+            - BUT, note that we can represent the odd values as "x * [evens]"
+        -  Here's our idea, then: if we store the even and odd coefficients separately, we can quickly calculate the negative of a given point by choosing "x" to be PAIRS of positive/negative numbers, since (???):
+
+                P(x) =
+
+            - For instance, if P(x) = a_0 + a_1*x + a_2*x^2 + _3*x^3:
+
+                    p_even(x) = a_0 + a_2*x
+                    p_odd(x) = a_1 + a_3*x^1
+
+                - Here, each of the even degrees have been halved, while each of the odds have been decremented and THEN halved
+            - With that, then, we can say:
+
+                    P(a) = P_even(a^2) + a*P_odd(a^2)
+                    P(-a) = P_even(a^2) - a*P_odd(a^2)
+
+                - ...letting us recursively calculate these values VERY quickly!
+        - So, here'll be our divide-and-conquor-esque strategy:
+            - Choose x_0, ..., x_n-1 so that x_(i+n/2) = -x_i
+            - Evaluate n-coefficient polynomial at "n" distinct values
+
+- This is asking a LOT of our coefficients, since this recursive condition has to hold at ALL of our recursive levels, down to level log(n)
+    - This'd mean:
+
+            x_i+n/2 = -x_i
+            x_i^+(n/4) =
+
+        - How can we satisfy all of these? With real numbers, we can't - but we CAN do it with complex numbers!
+            - Specifically, we can do it with the complex ROOTS OF UNITY
+                - We normally think of multiplication as "sacling" a number, and lengthening it or shortening it
+                - In the complex plane, though, multiplying a complex number is a ROTATION
+                    - For instance, if we multiply by -1 twice, we've "rotated" 360 degrees back to our original place - so, if n=2, we can use "a = -1", "a^2 = 1"
+                    - If we need 4 points for n=4, we can think of multiplying by "i = sqrt(-1)" as rotating 90 degrees, giving us the points 1, i, -1, and -i
+                - In essence, we're just choosing the numbers we want so they all sit on the unit circle in the complex plane
+
+- So, why've we gone through all this trouble to get a recursive evaluation?
+    - BECAUSE if we can evaluate an "n"-coefficient polynomial with "n" values, then we end up with a runtime for evaluating a polynomial of:
+
+            T(n) = 2*T(n/2) + O(n)
+                = O(n * log(n))
+
+        - This means that if we have some polynomial "p," and we want to evaluate it at the "roots of unity", we can do so in O(n*log(n))
+    - As an example, let's take the polynomial:
+
+            P(x) = a_0 + ... + a_7*x^7
+
+        -
+        - p_00 is "even of even", p_01 is "even of odd," (...???) p_11 is "odd of odd"
+        - Evaluating this, then:
+
+                P(w) = P_0(w^2) + wP_1(w^2)
+                P(w^5) = P(-w) = P_0(w^2) - wP_1(w^2) = P_0(w^2) + w^5P_1(w^2)
+                P_0(w^2) = P_00(w)
+
+            - (what are we doing???????????)
+        - Essentially, we end up with a tree of operations we need to do after recrusively breaking everything down, we end up with log(n) leaves representing multiplications we need to do, then combine those leaves by going back up the tree
+            - If we wanted to, we could represent all of these operations as a matrix
+
+- Now, the DISCRETE FOURIER TRANSFORM problem is to multiply an Nx1 vector with a special matrix M(w)
+    - The FFT is an algorithm for ACCOMPLISHING this task, computing this matrix vector product in O(n * log(n)) time

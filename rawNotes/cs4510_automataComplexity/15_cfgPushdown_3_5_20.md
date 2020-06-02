@@ -36,6 +36,7 @@
                   a + a
 
             - Then, we need to add in the multiplication to the tree, and we're done!
+
                        E
                      / | \
                     E  x  E
@@ -57,7 +58,7 @@
                         - SUM -> PRODUCT | SUM + SUM
                         - PRODUCT -> PRODUCT x PRODUCT | a | b
                     - Start: SUM
-                - Now, this'll work because products will always be a child of a "SUM" operation, meaning there will never be multiplications with sums inside them - which is what we want! That's basically what precedence means! 
+                - Now, this'll work because products will always be a child of a "SUM" operation, meaning there will never be multiplications with sums inside them - which is what we want! That's basically what precedence means!
                     - We can add parentheses back in by adding an additional rule:
 
                             PROD -> (SUM)
@@ -70,7 +71,7 @@
         \delta: Q \times \Sigma \Gamma_\epsilon \implies P(Q \times \Gamma_\epsilon)
         $$
 
-        - ...where $\Gamma_\epsilon$ is something getting popped/pushed off the stack, respectively (you can pop/push $\epsilon$ to not do so, I think?)
+        - ...where $\Gamma_\epsilon$ is something getting popped/pushed off/onto the stack, respectively (you can pop/push $\epsilon$ to not do so, I think?)
     - PDAs have no way to check if their stack is actually empty or not, although you can put an "ending character" that only appears when nothing else is in the stack to get around this
     - Then, the state transitions can be written as "Input read, character popped -> character pushed"
     - Formally, we can define a PDA as a 6-tuple:
@@ -83,7 +84,7 @@
             $$
             stack_i = temp_i a_i
             stack_{i+1} = temp_i b_i
-            (state_{i+1}, b_i) \in 
+            (state_{i+1}, b_i) \in
             $$
 
 - Now, with the last few minutes, let's talk about how CFGs are equivalent to PDAs

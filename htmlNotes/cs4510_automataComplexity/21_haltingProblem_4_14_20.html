@@ -1,0 +1,97 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Automata and Complexity</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4510Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Automata and Complexity</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_automataTuring_1_7_20.html">0. Automata and Turing Machines</a></li><li><a class="is-note-link" href="1_moreTuringMachines_1_9_20.html">1. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="2_evenMoreTuringMachines_1_14_20.html">2. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="3_yetMoreTMsPvNP_1_16_20.html">3. Odd TMs and P/NP</a></li><li><a class="is-note-link" href="4_stillMoreTMsNPComplete_1_21_20.html">4. Weird TMs and NP-Completeness</a></li><li><a class="is-note-link" href="5_reductions_1_23_20.html">5. Reductions</a></li><li><a class="is-note-link" href="6_reductionsCookLevin_1_28_20.html">6. Reductions (cont.) / Cook-Levin Theorem</a></li><li><a class="is-note-link" href="7_finiteAutomata_2_4_20.html">7. Finite Automata</a></li><li><a class="is-note-link" href="8_nfaRegEx_2_6_20.html">8. NFAs / Regular Expressions</a></li><li><a class="is-note-link" href="9_regExPumping_2_11_20.html">9. Regular Expressions and NFAs</a></li><li><a class="is-note-link" href="10_pumpingLemma_2_13_20.html">10. The Pumping Lemma</a></li><li><a class="is-note-link" href="11_complementPumping_2_18_20.html">11. Complements / Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="12_yetMorePumping_2_20_20.html">12. Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="13_exam2Review_2_25_20.html">13. Exam 2 Review</a></li><li><a class="is-note-link" href="14_contextFreeGrammar_3_3_20.html">14. Context-Free Grammars</a></li><li><a class="is-note-link" href="15_cfgPushdown_3_5_20.html">15. CFGs (cont.) / Pushdown Automata</a></li><li><a class="is-note-link" href="16_cfgPumping_3_10_20.html">16. Pumping Lemma for CFGs</a></li><li><a class="is-note-link" href="17_moreCFGPumping_3_12_20.html">17. CFG Pumping Lemma Example</a></li><li><a class="is-note-link" href="18_cfgToPDA_3_31_20.html">18. Converting CFGs to PDAs</a></li><li><a class="is-note-link" href="19_pdaToCFG_4_2_20.html">19. PDAs to CFGs</a></li><li><a class="is-note-link" href="20_exam3Review_4_7_20.html">20. Exam 3 Review</a></li><li class="active-note-page"><a class="is-note-link" href="21_haltingProblem_4_14_20.html">21. The Halting Problem</a></li><li><a class="is-note-link" href="22_moreHalting_4_16_20.html">22. Halting Problem (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="20_exam3Review_4_7_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text"># The Halting Problem
+
+## April 14th, 2020
+
+- Test 3 is still being graded, but the initial grades look pretty in-line with what we expected (i.e. definitely higher than last test)
+    - Exam 3 grades will probably be released either tonight or tomorrow
+- THE PLAN:
+    - Recap of TMs
+    - An Undecidable Problem
+    - Decidability vs Recognizability
+    - An Unrecognizable Problem
+    - Proof that the Halting Problem is hard
+
+- Also, the CIOS format has been changed for this semester to handle online classes, but that means I can't see the feedback rate, so :/
+- Homework 6 is out, but remember that the lowest homework will be dropped, so it'll probably be optional for some people
+
+- Also, the Twitch chat is asking for a Professor Peng vs Professor Vigoda Starcraft match
+--------------------------------------------------------------------------------
+
+- So, this semester, we talked about Turing Machine's at the very beginning of class; now, we're going to talk about TMs in a really abstract way to show that there are some problems that TMs CAN'T solve!
+    - If you remember, a Turing Machine is basically an FSM with a tape attached to it that it can read/write to
+        - Formally, we can represent it as a 7-tuple
+        - Since we can rewind, non-determinism isn't necessary anymore to solve problems with TMs
+    - We can make Turing Machines even MORE powerful by using multi-tape TMs and Universal TMs, which run other TMs
+        - With TMs remember that there are 3 possible outcomes: accepting, rejecting, and infinitely looping on an input
+        - Universal TMs, then, output the outcome of running the other TM $M$ on some input $w$
+
+- With universal TMs, though, there's something surprising: there's a such thing as an UNDECIDABLE problem, meaning that there's no Turing Machine that will eventually accept/reject
+    - What does this problem look like? Well, one example is:
+
+        $$
+            A = \{&lt;M,w&gt; | M \text{ is a TM, and } M \text{ accepts input } w\}
+        $$
+
+    - We can show there is no TM that can decide this problem for all inputs!
+    - In contrast, RECOGNIZING just means that we need to have a TM that can simulate running a different TM on some input - "recognizer" don't have to terminate, so it's less stringent than deciding
+        - In short, a TM DECIDES a language if:
+            - For all inputs $w$, $M$ accepts or rejects $w$ correctly
+        - A TM RECOGNIZES a language if:
+            - For all $w$ IN the language, it accepts, and for all others it rejects OR keeps looping indefinitely
+
+- (INSERT HALTING PROBLEM SLIDE HERE, YOU LAZY COWARD!)
+
+- One TM whose halting might be difficult to tell is a TM that keeps looping over all even integers and checking if they match the Goldbach conjecture
+    - A RECOGNIZER would just run this program and keep going
+    - A DECIDER would tell us if the Goldbach conjecture is true or false
+    - Here's a claim: a program that can recognize this language can ALSO give a decider for it
+        - Suppose we run 1 TM to recognize $L$ and another it's complement $\not L$, and output the first one that terminates
+        - If we run 1 TM that recognizes $L$ and another than recognizes $\not L$, then for any given input, one of the two TMs will terminate because the input is/isn't in the language (???)
+            - "I won't try to talk about this too formally in this class, but I hope you get that there's computations that, if they ARE possible, imply there'd be some pretty strange things"
+
+- Now, we talked a long time about REDUCTION, saying that A reduces to B if we can transform problem A to problem B somehow
+    - If we remove even the polynomial times part, we say a TM reduces to B if there is some function computable by Turing Machines that decides a given input
+        - As an example, checking if a TM M accepts ANY string at all is undecidable, since we can reduce it to the halting problem
+            - We can do this by taking the mapping function $f(M, w)$ to create $M'$, where $M'$ erases its tape, writes out $w$ onto its tape at the very beginning, and then runs on input $w$
+            - CLAIM: $M$ accepts $w$ = $f(M, w)$ accepting ANY input (since we it created to run on any input) (??)
+        - (...I'm somewhat distracted today; need to read the textbook on this)
+
+- So, in the last bit of time, I'm going to run through a proof (which you will NOT be required to do) showing that a language isn't decidable
+    - This is mostly a syntactic proof: you assume there's a TM $M$ that decides the language, create a D(M) that accepts M if it doesn't accept M, and rejects M if it M accepts M
+        - If we then run D(D), we get a contradiction; it's the equivalent of saying "this statement is false!"
+        - Therefore, by contradiction, there can't be a TM that accepts this language (need to look at it more slowly)
+
+- Alright, see you on Thursday!
+</pre>
+</article>
+<a class="side-link is-note-link" href="22_moreHalting_4_16_20.html"></a>
+</main>
+</body>
+</html>

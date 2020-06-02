@@ -1,0 +1,89 @@
+//****************************************************************************//
+//************** Graph Algorithms (cont.) - April 16th, 2020 ****************//
+//**************************************************************************//
+
+- Alright, the plan today is to continue talking about graph algorithms, and in particular:
+    - Dealing with sparse graphs
+        - We often do this via "load balancing"
+--------------------------------------------------------------------------------
+
+- Last time, we learned about a few algorithms; let's go over those again quickly
+    - PRIM'S ALGORITHM finds a minimum spanning tree in a graph
+        - Serial runtime: O(n^2)
+        - Parallel (inner loop): O(n^2/p + n*log(p))
+    - DIJKSTRA'S ALGORITHM finds the shortest paths from a single source, using a very similar method to Prim's (just with a different update; instead of taking the shortest distance to any member in the known set, we take the distance from the original source)
+        - This has the same serial/parallel complexities
+    - We then looked at several algorithms for finding the shortest paths between ALL sources (with the same complexity as the single-source shortest path problem for each vertex)
+        - Serial-wise, this takes O(n^3)
+        - In parallel, we could run Dijkstra's for each vertex independently to get O(n^3/p), with p <= n
+            - We could also run Dijkstra's in "teams" of some processors per vertex (?), which gets us O(n^3/p + n*log(p)), but with p <= n^2, allowing for higher speedups
+        - We could also have used the adjacency matrix "multiplication" method, taking O(n^3 * log(n))
+            - However, we could get this down to O(n^3/p * log(n) * log(p)) with p <= n^3, giving a parallel runtime as short as O(log(n)^2)
+            - This is our best speedup so far, but it's not super efficient; Dijkstra's algorithm takes the cake for that, but it only scales so far
+        - Finally, at the end, we talked about the FLOYD-WARSHALL ALGORITHM, where we build up the paths incrementally by controlling what vertices can be used in building connecting paths between vertices
+            - There are TONS of explanations of this online, but the basic idea is that between any 2 vertices "v_i" and "v_j", we have to go through some intermediate vertices to get there
+                - Suppose we have some vertex "v_k" that's the last vertex we check; after step "v_k-1", we've checked every other vertex in the path between the 2 goals, which means we already know the shortest path from "v_i ... v_k" AND the shortest path "v_k ... v_j"
+                - Now, the distance d(v_i, v_j) must be <= than d(v_i, v_k) + d(v_k, v_j), so we can quickly
+                    - We have to compute this for all vertices between all pairs of nodes, giving us O(n^3)
+            - In parallel, we can compute this by doing a 2D partition of the adjacency matrix, processing each local bit, doing a broadcast across the "kth" row/column each round
+                - So, this gives us a computation time of O(n^3/p), but a communication overhead of O(n^2/sqrt(p) * log(p))
+                - This is WORSE than Dijkstra's in parallel - BUT there's a way for us to improve this!
+
+- In this algorithm, the log(p) inefficiency is coming from our broadcasts each round - but we can avoid this by relaxing STRICT SYNCHRONIZATION (the requirement that every process be on the same step at the same time)
+    - We can improve this by replacing our broadcasts in each round with sends/receives to a processor's nearest neighbors each round
+        - This essentially speeds things up by pipelining; after sending the data along, a process with nothing left to send can start working on the next iteration right away
+            - So, even though we're sending sqrt(n) messages per iteration now, we're able to have multiple computations going on WHILE the same messages are being sent out, like so:
+
+                    *   *   *   *   *   *   *   *
+                    *   *   *   *   1   *   *   *
+                    *   *   *   1   2   1   *   *
+                    *   *   1   2   3   2   1   *
+                                (...)
+
+            - So, each step is one round of communication
+            - After sqrt(p) communication time for warm-up, the last processor will receive the first elements it needs, but will then receive a new value each round
+                - This gives us a communication time for each processor of:
+
+                        O(n + sqrt(p)) = O(n)
+
+                    - And we STILL keep a computation time of O(n^3/p)
+                - So, we now have an optimal, O(1) efficiency algorithm
+                    - This idea of passing the values we need each round should remind you a bit of Cannon's algorithm
+
+- These sorts of algorithms are great for when we have a dense graph, but what about when we have a sparse graph, where the number of edges is much smaller than |v^2|?
+    - In this case, an adjacency matrix might be HUGE but have most of its entries empty - is there anything we can do to take advantage of that sparseness?
+        - Theoretically, we can! Prim's algorithm, for instance, can be reduced from O(n^2) to O(|E| * log(n))
+            - We can do this by looping over edges for a given vertex, and by then finding the minimum vertex remaining using a priority queue in O(log(n))
+        - In general, sparse graphs tend to use adjacency lists rather than adjacency matrices
+    - Partitioning a sparse adjacency list, through, is more difficult than partitioning a dense matrix, ESPECIALLY for sparse graphs - how do we avoid giving a processor a bunch of vertices with no or very few edges? In that case, some processors would do a TON of work while others would get very little!
+        - This is known as a LOAD BALANCING problem, and we'll typically use extra information we know about the problem or the graph to make those decisions
+
+- As an example, let's try to improve on Dijkstra's using JOHNSON'S ALGORITHM
+    - Essentially, we now only look at the adjacent vertices to those we looked at in the last round (didn't we already do that?)
+    - To speed this up, we'll use a priority queue to get the minimum-cost nodes!
+    - This again has an "extract minimum" step, but how can we do this for multiple different steps simultaneously while staying correct?
+        - One way we can do this is actually via error-correction, where we allow multiple nodes to be explored simultaneously, and if we ever find a shorter path to a given node we re-add the node to the priority queue to correct mistakes
+            - Since even extracting multiple nodes from a single queue is a major bottleneck, we can give each processor its own priority queue and, when we discover a new vertex, we send the distance to that vertex to all the processors we know are holding vertices adjacent to that new vertex
+            - (more on the slides)
+
+- So, when we go from a dense to a sparse matrix, the outer structure remains largely intact, but we often need more complicated data structures to take advantage of sparsity while retaining correctness
+
+- Let's then talk a little bit more about load balancing, and one way of dealing with it involving "hypergraphs" (although with more emhpasis on what load balancing actually is)
+    - Now, whenever we have a problem where we can split up the work in many different ways, the goal is to minimize the total application runtime AND maximize how much each computing resource is being used
+        - We need to do this by minimizing idle times (i.e. giving balanced workloads), but ALSO by minimizing communication between processors
+        - This becomes HUGELY important when we deal with less structured problems than your classic dense linear algebra stuff
+            - Examples of this less-structured stuff are particle simulations, adaptive meshes, collision detection, etc.
+    - In general, we want to assign the same amount of "actual" information to each processor to meet the 1st goal, but the 2nd can be more tricky
+        - As an example, let's think of FINITE DIFFERENCE METHOD problems, where we have a 7x5 2D grid of vertices with each round requiring calculation on a 5x5 stencil
+            - We want to assign an equal number of points to each processor while minimizing the communication
+            - Let's say we have 4 processors; already 35 isn't divisible by 4, so we know we won't be perfectly balanced
+                - If we assign each row + some of the next to each processor, then we end up with an even distribution of vertices but a LOT of edge cuts, representing a lot of communication cost
+                - If we instead only partition on straight lines, we end up with less edge cuts but more imbalance
+                - If we do a 2D partition on rectangles, we have VERY few edge cuts, but quite a bit more potential for imbalanced work
+        - In general, which one of these strategies is best?
+            - There are 2 big types of partitioning problems: static and dynamic partitioning
+                - STATIC partitions are where we start the application with a given partition and then keep that partition throughout the application; we're just concerned with minimizing idle times
+                - DYNAMIC partitions have to worry about problems where the amount of work will change over time, meaning that what was initially a good partition won't fit the new data that comes in over time
+                    - In these types of problems, we ALSO have to worry about the cost it takes to re-partition a set of data while the application is running
+
+- On Tuesday, we'll try to look at some potential solutions to this problem; until then, remember that Project 3 is due next week, and have a good weekend!

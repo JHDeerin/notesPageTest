@@ -51,8 +51,8 @@
 - That's our challenge with EMBEDDING PROBLEMS: taking an algorithm originally designed for a "source" network and mapping it to work as efficiently as possible on a "target" network (both represented by a graph)
     - We immediately need to worry about 4 things when we're doing this:
         - CONGESTION is the maximum number of edges in our original graph that get mapped to a single edge in our new graph
-        - DILATION is the maximum number of edges in our new target graph that any single edge in the original is mapped to
-        - LOAD is the maximum number of nodes in the old graph that map to a single node in our target
+        - DILATION is the maximum number of edges in our new target graph that any single edge in the original source is mapped to
+        - LOAD is the maximum number of nodes in the source graph that map to a single node in our target
         - EXPANSION is the ratio of the number of nodes/vertices in the target to that in the source
     - In general, we say:
         - The computation slows down by a factor of "load" (since a single processor now has to handle multiple processor's work)
@@ -100,15 +100,15 @@
         - (on slides)
         - We assume the source hypercube processor rank is "r"
         - Therefore, its physical ring rank = gtob(r)
-        - We can get its left/right neighbor by TODO: 
+        - We can get its left/right neighbor by converting back
             - As an example, if we have a processor of rank 3, then it's ring rank is gtob(3) = 2
             - It's left neighbor is then btog(2-1) = 1
             - It's right neighbor is then btog(2+1) = 2
     - If we do this, then the dilation, congestion, and load are all 1 - great!
-        - There is an overhead cost of going "binary to gray," but we can include this in our "t" cost when sending messages
+        - There is an overhead cost of going "binary to gray," but we can include this in our "t" latency cost when sending messages
 
 - So, we can embed a 1D ring into a hypercube - what about a 2D grid (which we can think about as the "outer product" of 2 rings or lines)?
-    - Sure enough, we can think of this as mapping 2^r by 2^s mesh onto a 2^(r+s) hypercube by mapping node (i,j) onto the hpyercube node:
+    - Sure enough, we can think of this as mapping a 2^r by 2^s mesh onto a 2^(r+s) hypercube by mapping node (i,j) onto the hypercube node:
 
             btog(i) || btog(j)      //i.e. concatenating the bits
 
@@ -124,12 +124,12 @@
 - When is this useful? Well, if we're dealing with multi-dimensional datasets or stuff like images, then you bet it's pretty useful!
     - Again, here, we end up with a congestion, dilation, and expansion of the mapping being 1 IF the number is a power of 2
 
-- Let's think of a 3rd thing: how can we map a binary tree into a hypercube (in ur N-queens problem, for instance, where instead of a single master we have a hierarchy of nodes?)
+- Let's think of a 3rd thing: how can we map a binary tree into a hypercube (in our N-queens problem, for instance, where instead of a single master we have a hierarchy of nodes?)
     - Assuming the binary tree is full, the tree will have 2^(d+1) - 1 nodes - NOT a power of 2, in other words
         - The communication pattern for a hypercube ALWAYS alternates between an even/odd number of 1s
         - This means each "layer" of nodes in the tree have to have the same number of even/odd bits
             - Now, in a full binary tree, the leaves will be at LEAST 50% of the tree, and will ALL have an even or odd # of 1s (I think???)
-            - ...but, in a hypercube, there are 50% off #s of 1s and 50% even #s of 1s
+            - ...but, in a hypercube, there are 50% odd #s of 1s and 50% even #s of 1s
         - Therefore, since the binary tree will have MORE even than odd nodes, we can't neatly embed a "d" dimensional tree into a "d" dimensional hypercube (I think?)
         - INSTEAD, we'll (confused here??? Check class notes, chapter 3 apparently?)
     - In short, we CAN embed a tree into a hypercube

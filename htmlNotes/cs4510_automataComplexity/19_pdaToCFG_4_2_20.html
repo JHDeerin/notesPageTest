@@ -1,0 +1,112 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Automata and Complexity</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4510Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Automata and Complexity</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_automataTuring_1_7_20.html">0. Automata and Turing Machines</a></li><li><a class="is-note-link" href="1_moreTuringMachines_1_9_20.html">1. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="2_evenMoreTuringMachines_1_14_20.html">2. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="3_yetMoreTMsPvNP_1_16_20.html">3. Odd TMs and P/NP</a></li><li><a class="is-note-link" href="4_stillMoreTMsNPComplete_1_21_20.html">4. Weird TMs and NP-Completeness</a></li><li><a class="is-note-link" href="5_reductions_1_23_20.html">5. Reductions</a></li><li><a class="is-note-link" href="6_reductionsCookLevin_1_28_20.html">6. Reductions (cont.) / Cook-Levin Theorem</a></li><li><a class="is-note-link" href="7_finiteAutomata_2_4_20.html">7. Finite Automata</a></li><li><a class="is-note-link" href="8_nfaRegEx_2_6_20.html">8. NFAs / Regular Expressions</a></li><li><a class="is-note-link" href="9_regExPumping_2_11_20.html">9. Regular Expressions and NFAs</a></li><li><a class="is-note-link" href="10_pumpingLemma_2_13_20.html">10. The Pumping Lemma</a></li><li><a class="is-note-link" href="11_complementPumping_2_18_20.html">11. Complements / Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="12_yetMorePumping_2_20_20.html">12. Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="13_exam2Review_2_25_20.html">13. Exam 2 Review</a></li><li><a class="is-note-link" href="14_contextFreeGrammar_3_3_20.html">14. Context-Free Grammars</a></li><li><a class="is-note-link" href="15_cfgPushdown_3_5_20.html">15. CFGs (cont.) / Pushdown Automata</a></li><li><a class="is-note-link" href="16_cfgPumping_3_10_20.html">16. Pumping Lemma for CFGs</a></li><li><a class="is-note-link" href="17_moreCFGPumping_3_12_20.html">17. CFG Pumping Lemma Example</a></li><li><a class="is-note-link" href="18_cfgToPDA_3_31_20.html">18. Converting CFGs to PDAs</a></li><li class="active-note-page"><a class="is-note-link" href="19_pdaToCFG_4_2_20.html">19. PDAs to CFGs</a></li><li><a class="is-note-link" href="20_exam3Review_4_7_20.html">20. Exam 3 Review</a></li><li><a class="is-note-link" href="21_haltingProblem_4_14_20.html">21. The Halting Problem</a></li><li><a class="is-note-link" href="22_moreHalting_4_16_20.html">22. Halting Problem (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="18_cfgToPDA_3_31_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text"># PDAs to CFGs
+
+## April 2nd, 2020
+
+- We have survived the Fool's Day without incident; let the cruelest month begin
+
+- "I'm not doing webcam anymore, because of the internet"
+
+- TODAY'S PLAN:
+    - Convertings CFGs to PDAs
+    - Recap converting PDA to CFG
+    - More CFG examples
+
+- Last time, we talked a little about going from a PDA to a CFG; today, we'll recap that and hopefully go the other way, too
+--------------------------------------------------------------------------------
+
+- As we've mentioned before, a PDA is just an NFA with a stack we can push/pop from, and as we've said, CFGs and PDAs are formally equivalent; you can convert from one to the other
+    - These conversions tend to NOT be reversible; since CFGs and PDAs are both non-deterministic, a conversion just shows that if there's a sequence of operations in one that accepts, there's some sequence of operations in the other that also accepts - but not necessarily the SAME sequence (e.g. there may not be a 1-to-1 correspondence between substitutions and stack pushes/pops)
+    - In other words, if f(CFG) = PDA, and g(PDA) = CFG, then f(g(PDA)) doesn't necessarily give me the same "PDA," even though it'll recognize the same language
+        - Note, too, that CFGs and PDAs aren't unique for a given language; we can always add some dummy rules to get a different one
+
+- The general rules for conversion are that:
+    - What goes up, must come down: is something gets pushed onto the stack, it should be popped eventually
+    - For PDAs, you can always simplify down to 1 accepting state by using epsilon transitions
+        - You can simplify things more by not popping AND pushing in a single state, but just doing 1 at a time
+        - THEN, since there's just 1 starting state and 1 accepting state, we can convert to a CFG by starting with the variable $A_{q_{0}q_{accept}}$
+            - We then basically reduce each path from start/end to a single rule - "if you remember the Floyd-Warshall path algorithm, it's a similar procedure to that"
+            - Along each path, we start with an empty stack and end with an empty stack
+        - For the transition from state $p$ to $s$, then, there's 2 possibilities:
+            - If we pushed nothing, then we just went from 1 state to another without changing the state
+            - If we pushed some symbol X, then x was either:
+                - Popped from an intermediate state at state $q$
+                    - This gives us the rule $A_{ps} \implies A_{pq}{qs}$
+                - Never popped until just before the ending state $s$, meaning we can ignore it for the intermediate states (since it's just lying at the bottom of the stack not doing anything!)
+                    - This gives us the rule $A_{ps} \implies c_1A_{qr}c_2$
+                    - $c_1/c_2$ are literal characters we've processed so far
+        - So, we essentially just keep building up rules for this PDA to convert it to a CFG
+        - So, we get 3 cases for our CFG (from a base case of $A_{pp} \implies \epsilon$):
+            - 1: For rules of the form (p, c, $\epsilon$) -&gt; (q, $\epsilon$), we have $A_{ps} \implies cA_{qs}$
+            - 2a: For the triple p, q, s, $A_{ps} \implies A_{pq}A_{qs}$
+            - 2b: For the tiples p, q, r, s, and rules:
+
+                    (p, c1, x) -&gt; (q, e)
+                    (r, c2, $\epsilon$) -&gt; (s, x)
+
+                - ...we add the rule $c_1A_{qr}c_2$
+
+- Okay, let's see an example for converting from a PDA to CFG
+    - Suppose we have the language $L = \{ww^R | w \in \{0, 1\} \}$
+        - A PDA that can decide this language looks something like this (using our rule of "the same state can't push and pop in the same transition"):
+
+                start--&gt;a--($\epsilon, \epsilon$ -&gt; \$)--&gt;b
+
+                    (self-loop)
+                b--(0, $\epsilon$ -&gt; x)--&gt;b--($\epsilon, \epsilon -&gt; \epsilon$)-&gt;c
+                   (1, $\epsilon$ -&gt; y)
+
+                c--(0, x -&gt; $\epsilon$)--&gt;c--($\epsilon, \$ -&gt; \epsilon$) -&gt; D_ACCEPT
+                   (1, y -&gt; $\epsilon$)
+
+            - So, we push everything, non-deterministically decide when to "split," then try popping everything off
+        - How do we convert this to a CFG? Let's think!
+            - We have 6 state transitions we need to create variables for: $A_{ab}, A_{ac}, A_{ad}, A_{bc}, A_{bd}, A_{cd}$
+            - Our starting variable will be $A_{ad}$
+            - Then, for our rules:
+                - For case 1, where the stack doesn't change, we have 2 rules:
+
+                    $$
+                    A_{bd} \implies A_{cd}, A_{bc} \implies b_{cc}
+                    $$
+
+                - For case 2, there's a TON of cases (4^3=64), since we need to worry about all triples of state combination
+                    - For case 2b, for each "x" on the stack, we'll have:
+
+                        $\$: A_{ad} \implies A_{bc}$
+                        $x: A_{bc} implies 0A_{bc}0$
+                        $y: A_{bc} \implies 1A_{bc}1$
+
+- So, this is a LOT of trouble we went through just to, basically, generate the CFG "S -&gt; 0S0 | 1S1 | $\epsilon$" - which is why coming up with a new CFG from scratch is usually faster
+</pre>
+</article>
+<a class="side-link is-note-link" href="20_exam3Review_4_7_20.html"></a>
+</main>
+</body>
+</html>

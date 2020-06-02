@@ -60,7 +60,7 @@
 - Last lecture, though, we mentioned that there are sorts without control-flow branching (e.g. merge sort) and those WITH control-flow branching (e.g. quick sort) - how can we parallelize the latter?
     - At a coarse level, we could draw quicksort as a DAG, where our 1st operation takes an array, computes the pivot, and then splits the array based on if elements are greater/smaller than the pivot
         - Those 2 halves then don't need to communicate with one another at ALL, which is good for parallelism
-        - We can then keep splitting recursively until each processor has a single array chunk, which it can then sort luckily and return to be combined
+        - We can then keep splitting recursively until each processor has a single array chunk, which it can then sort locally and return to be combined
     - More formally, then, the algorithm looks like:
         - Pick a pivot and broadcast it to all processors: O(log(p)*(t+u))
         - Partition each chunk locally: O(n/p)
@@ -73,11 +73,11 @@
                     = O(n * log(n) / p)
             Communication: O(t*log(p) + un/p * log(p))
 
-        - Of course, though, this is quicksort; in the worst case of a completely imbalanced array, it can get MUCH worse!
+        - Of course, though, this is quicksort; in the worst case of a completely unbalanced array, it can get MUCH worse!
 
 - So, quicksort is still pretty good - but can we do even better?
     - For comparison-based sequential sorts, we know sorting "n" elements has to take at least O(n log(n)) time
-    - Assuming we can divide n/p elements per process, and in the worst case that ALL of the n/p elements we should have belong to other processes (?), then we have to have a communication time of:
+    - Assuming we can give n/p elements to each process, and in the worst case that ALL of the n/p elements we should have belong to other processes and need to be moved, then we have to have a communication time of:
 
             O(un/p)
 
@@ -97,7 +97,7 @@
 
                 E(max(low, high)) = n * 3/4
 
-            - This comes since, if we choose 0 as our pivot, the max elements in one half of the array will be "1*n", and only if we choose it exactly in the middle will it be "n/2" before going up again; drawing out the graph, it'll average out between these two so the average maximum length of one-half of the array is
+            - This changed because, if we choose 0 as our pivot, the max number of elements in one half of the array will be "n", and only if we choose it exactly in the middle will the max number of elements in EITHER side of the split reach a minimum of "n/2" before going up again; drawing out the graph, the longer side of the split's length will average out between these two, so the average maximum length of one half of the array is "3/4n"
         - This is going to change our runtime COMPLETELY to now be:
 
                 T(a,n,p) = Tpivot(p) + Tsplit(a,n,p) + T(max(low, high),3n/4, p/2)

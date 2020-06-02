@@ -1,0 +1,81 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Automata and Complexity</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4510Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Automata and Complexity</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_automataTuring_1_7_20.html">0. Automata and Turing Machines</a></li><li><a class="is-note-link" href="1_moreTuringMachines_1_9_20.html">1. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="2_evenMoreTuringMachines_1_14_20.html">2. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="3_yetMoreTMsPvNP_1_16_20.html">3. Odd TMs and P/NP</a></li><li><a class="is-note-link" href="4_stillMoreTMsNPComplete_1_21_20.html">4. Weird TMs and NP-Completeness</a></li><li><a class="is-note-link" href="5_reductions_1_23_20.html">5. Reductions</a></li><li><a class="is-note-link" href="6_reductionsCookLevin_1_28_20.html">6. Reductions (cont.) / Cook-Levin Theorem</a></li><li><a class="is-note-link" href="7_finiteAutomata_2_4_20.html">7. Finite Automata</a></li><li><a class="is-note-link" href="8_nfaRegEx_2_6_20.html">8. NFAs / Regular Expressions</a></li><li><a class="is-note-link" href="9_regExPumping_2_11_20.html">9. Regular Expressions and NFAs</a></li><li><a class="is-note-link" href="10_pumpingLemma_2_13_20.html">10. The Pumping Lemma</a></li><li><a class="is-note-link" href="11_complementPumping_2_18_20.html">11. Complements / Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="12_yetMorePumping_2_20_20.html">12. Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="13_exam2Review_2_25_20.html">13. Exam 2 Review</a></li><li><a class="is-note-link" href="14_contextFreeGrammar_3_3_20.html">14. Context-Free Grammars</a></li><li><a class="is-note-link" href="15_cfgPushdown_3_5_20.html">15. CFGs (cont.) / Pushdown Automata</a></li><li><a class="is-note-link" href="16_cfgPumping_3_10_20.html">16. Pumping Lemma for CFGs</a></li><li><a class="is-note-link" href="17_moreCFGPumping_3_12_20.html">17. CFG Pumping Lemma Example</a></li><li><a class="is-note-link" href="18_cfgToPDA_3_31_20.html">18. Converting CFGs to PDAs</a></li><li><a class="is-note-link" href="19_pdaToCFG_4_2_20.html">19. PDAs to CFGs</a></li><li><a class="is-note-link" href="20_exam3Review_4_7_20.html">20. Exam 3 Review</a></li><li><a class="is-note-link" href="21_haltingProblem_4_14_20.html">21. The Halting Problem</a></li><li class="active-note-page"><a class="is-note-link" href="22_moreHalting_4_16_20.html">22. Halting Problem (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="21_haltingProblem_4_14_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text"># Halting Problem (cont.)
+
+## April 16th, 2020
+
+- "Sorry for the delays in responding to Piazza stuff, this week has been crazy for me"
+
+- The plan for today:
+    - Undecidable problems
+    - Reductions
+    - Undecidability of post-correspondence
+
+- Test 3 grades should be out, and people overall did really well! There was a mean grade of 23.01 and a median grade of 24.0
+
+--------------------------------------------------------------------------------
+
+- Today, I'm hoping to get across what the post-correspondence problem is
+    - As we said last time, a Turing Machine is DECIDABLE if it eventually terminates for all inputs, and is RECOGNIZABLE if it eventually terminates for all valid inputs in the language (but not necessarily for inputs not in the language)
+        - Notice that infinite loops are unique to Turing Machines, since the input will always terminate for NFAs/etc.
+    - As we said, there's a thing known as the HALTING PROBLEM for Turing Machines that says that there are languages that aren't decidable by ANY TM
+
+- We also have this notion of TURING REDUCTIONS, which are where we say $A$ reduces to $B$ if every instance of $A$ can be converted into an instance of $B$ (and the output can be converted back)
+    - Basically, as long as we can construct a Turing Machine to do this conversion that always halts (regardless of how long it takes), we can do a reduction
+    - The general strategy, then, for showing a problem is undecidable is to show an undecidable problem can be converted *to* it
+        - This is really similar to NP-hardness reductions except that we don't have to worry about how efficiently the problem is solved; we're just worry about whether it can be reliably solved at all
+    - In other words, what we want is some function $f()$ such that $&lt;M, w&gt; \in A_{TM} \leftrightarrow f(&lt;M, w&gt;) \in L_{HALT}$
+        - We can show this by modifying a TM to go from $M$ to $M'$, so that the new TM has the same state but all reject states loop infinitely
+
+- Here are some example of "undecidable problems"
+    - One example: deciding whether a language is regular
+        - You first convert the input to $M'$, and then modify its accepting state so that it accepts $0^n1^n$ by default, but if M accepts
+            - Note that formal reductions can't have negations in them (why?)
+            - Therefore, this Turing machine accepts 0^n1^n if it's a non-regular language, and also accepts if regular (???)
+    - Whether the language a TM accepts $L(M)$ is the same as (...)
+
+- Alright, with the last few minutes let's talk about the POST-CORRESPONDENCE PROBLEM (PCP)
+    - Think of this as like dominoes, where each "block" has a top number and a bottom number
+
+            1       13      2
+            -       -       -
+            21      3       1
+
+        - We then need to order the dominoes (possibly using repetition) to see if we can get the same number by concatenating all the tops/bottoms, respectively
+    - Here's a question: is this problem decidable?
+        - ...as it turns out, NO, it isn't!
+        - You can show this by converting a TM into a PCP instance, where the top blocks are on one tape and the bottom blocks are on another tape, and (different states for different domino positions?)
+        - You can then do a proof of correctness for this reduction, which is a bit lengthy but basically says that the top/bottom string parts correspond to states of simulating TMs (i.e. the top/bottom strings act like stack traces)
+
+- Alright, we'll stop here for the day! Have a good weekend!
+</pre>
+</article>
+<a class="side-link is-note-link" href="22_moreHalting_4_16_20.html"></a>
+</main>
+</body>
+</html>

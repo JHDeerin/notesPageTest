@@ -31,20 +31,20 @@
 - We know there're TONS of sequential algorithms for sorting: quicksort, mergesort, bubble sort...which one should we try to parallelize?
     - In general, there are 2 broad categories of sorting algorithms:
         - BRANCHING algorithms are ones where we use if statements and do different things based on the elements, e.g. quicksort's "if < pivot"
-        - Swapping is where we directly compare elements in the array and swap them if they're out-of-order
+        - SWAPPING is where we directly compare elements in the array and swap them if they're out-of-order
             - This is still branching though, right? We're doing an if statement!
             - The difference, though, is that THESE type of branches can be implemented "in core," so it doesn't actually change the control flow of our program; the program itself doesn't take different paths, but pretty much works in a straight line down the array
     - Which approach we take'll change how we parallelize them
         - There are O(n^2) algorithms like bubble sort, insertion sort, etc.
-        - There are also O(n log n) algorithms like heap sort ,merge sort, etc.
+        - There are also O(n log n) algorithms like heap sort, merge sort, etc.
             - "Quick sort technically isn't in here, since in the absolute worst case it can degrade to O(n^2)"
 
 - Divide-and-conquer algorithms seem branchy and parallelizable, so let's start trying to parallelize merge sort!
-    - At each step we split the array in half, giving us:
+    - At each step we split the array in half and give one half to half our processors and the other to the rest, giving us:
 
             T(n,p) = T(n/2, p/2) + merge
 
-        - ...but how expensive is that merge step? How can we merge in parallel when it seems like an inherently sequential thing, since we have to ?
+        - ...but how expensive is that merge step? How can we merge in parallel when it seems like an inherently sequential thing, since we have to go through and compare all the elements?
             - So, it seems merging has to take O(n) per iteration...
 
                 T(n,p) = T(n/2, p/2) + O(n)
@@ -53,14 +53,14 @@
                     = T(n/p, 1) + O(n + n/2 + n/4 + ... + n/(p/2))
                     = O(n/p * log(n/p) + n)
 
-        - So, this IS faster, but not by that much, and it doesn't get any faster if we use more than log(n) processors
+        - So, this IS faster, but not by that much, and it doesn't get any faster if we use more than log(n) processors (since that's the most times we can split the list in half)
     - To REALLY speed this up, we need some way to parallelize our merging algorithm...
 
 - So, we're going to use a variant of merge sort called BITONIC SORT!
-    - So, we're going to write down our 2 lists of numbers, the first in increasing order and the 2nd in DECREASING order:
+    - We're going to write down our 2 lists of numbers, the first in increasing order and the 2nd in DECREASING order:
 
-            l1: 2 6 8 11 14 19 26 28
-            l2: 23 16 10 9 7 5 4 1
+            l1: 2  6  8  11 14 19 26 28
+            l2: 23 16 10 9  7  5  4  1
 
         - We'll then compare EACH element "across" from it's neighbor (i.e. l1[0] with l2[0], etc.), and then store the larger one in "l_max" and the smaller in "l_min":
 
@@ -73,10 +73,10 @@
             - Essentially, if we have 1 line of numbers that only goes up, and another that only goes down, there's 2 possibilities:
                 - The lines don't cross, meaning all the numbers in one are larger than another
                 - They DO cross, meaning that after the crossing point the maximum line will bend upwards and the minimum line will bend downwards!
-        - So, this WILL always hold true - but does it help up parallelize?
-            - This swap of comparing the 2 elements only require 1 communicating partner, meaning we can do multiple of them at the same time - i.e. in parallel!
+        - So, this WILL always hold true - but does it help us parallelize?
+            - This swap of comparing the 2 elements only requires 1 communicating partner, meaning we can do multiple of them at the same time - i.e. in parallel!
                 - This comparison is going to take 1 computation per value pair, giving us O(n/p) time
-                - However, we then need to do some minor post-processing to pt the two halves of the list into a single array again, which'll take T(n/2, p/2)
+                - However, we then need to do some minor post-processing to put the two halves of the list into a single array again, which'll take T(n/2, p/2)
         - So, what's the total runtime of this?
 
                 T(n,p) = T(n/2, p/2) + O(n/p) + T(n/2, p/2)
@@ -92,10 +92,10 @@
         - What this means is that we can recursively apply this bitonic combining on our output bitonic lines AGAIN!
             - However, this might get us zig-zaggy lines with multiple crossing-points, like tritonic lines
             - (side-proof about the value of the endpoints, not sure I completely follow?)
-            - However, if we kow where the 2nd bend is, and we know one endpoint is strictly greater than the other, we can do a cyclic shift to get it BACK to being bitonic!
+            - However, if we know where the 2nd bend is, and we know one endpoint is strictly greater than the other, we can do a cyclic shift to get it BACK to being bitonic!
         - Formally, we say a sequence x0 ... xn is bitonic if there exists "k" such that:
             - x0 ... xk is non-decreasing AND x_k+1 ... xn is non-increasing OR
-            - x0 ... xk is non-increasing AND x_k+1 ... xn is non-decreasing OR ...
+            - x0 ... xk is non-increasing AND x_k+1 ... xn is non-decreasing OR - We can do a cyclic shift of the entire sequence to make it satisfy one of the above properties
     - So, we can do a BITONIC SPLIT (on slides)
         - Therefore, if "l" is a bitonic sequence and "l_min" and "l_max" result from its bitonic split, then we know:
             - l_min and l_max are bitonic

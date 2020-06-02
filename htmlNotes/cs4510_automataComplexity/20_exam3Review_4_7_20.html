@@ -1,0 +1,101 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<title>Jake's CS Notes - Automata and Complexity</title>
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"/>
+<link href="../../css/testStyle.css" rel="stylesheet"/>
+<link href="../../css/notePageStyle.css" rel="stylesheet"/>
+<link href="../../css/cs4510Theme.css" id="class-theme-styles" rel="stylesheet"/>
+<link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" rel="stylesheet"/>
+</head>
+<body>
+<script defer="" src="../../js/wrapText.js"></script>
+<script defer="" src="../../js/pageTransitions.js"></script>
+<script async="" defer="" src="../../js/loadMathJax.js"></script>
+<nav class="nav-top">
+<ul>
+<li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
+<li><a href="#" id="class-title-link">Automata and Complexity</a></li>
+</ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_automataTuring_1_7_20.html">0. Automata and Turing Machines</a></li><li><a class="is-note-link" href="1_moreTuringMachines_1_9_20.html">1. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="2_evenMoreTuringMachines_1_14_20.html">2. Turing Machines (cont.)</a></li><li><a class="is-note-link" href="3_yetMoreTMsPvNP_1_16_20.html">3. Odd TMs and P/NP</a></li><li><a class="is-note-link" href="4_stillMoreTMsNPComplete_1_21_20.html">4. Weird TMs and NP-Completeness</a></li><li><a class="is-note-link" href="5_reductions_1_23_20.html">5. Reductions</a></li><li><a class="is-note-link" href="6_reductionsCookLevin_1_28_20.html">6. Reductions (cont.) / Cook-Levin Theorem</a></li><li><a class="is-note-link" href="7_finiteAutomata_2_4_20.html">7. Finite Automata</a></li><li><a class="is-note-link" href="8_nfaRegEx_2_6_20.html">8. NFAs / Regular Expressions</a></li><li><a class="is-note-link" href="9_regExPumping_2_11_20.html">9. Regular Expressions and NFAs</a></li><li><a class="is-note-link" href="10_pumpingLemma_2_13_20.html">10. The Pumping Lemma</a></li><li><a class="is-note-link" href="11_complementPumping_2_18_20.html">11. Complements / Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="12_yetMorePumping_2_20_20.html">12. Pumping Lemma (cont.)</a></li><li><a class="is-note-link" href="13_exam2Review_2_25_20.html">13. Exam 2 Review</a></li><li><a class="is-note-link" href="14_contextFreeGrammar_3_3_20.html">14. Context-Free Grammars</a></li><li><a class="is-note-link" href="15_cfgPushdown_3_5_20.html">15. CFGs (cont.) / Pushdown Automata</a></li><li><a class="is-note-link" href="16_cfgPumping_3_10_20.html">16. Pumping Lemma for CFGs</a></li><li><a class="is-note-link" href="17_moreCFGPumping_3_12_20.html">17. CFG Pumping Lemma Example</a></li><li><a class="is-note-link" href="18_cfgToPDA_3_31_20.html">18. Converting CFGs to PDAs</a></li><li><a class="is-note-link" href="19_pdaToCFG_4_2_20.html">19. PDAs to CFGs</a></li><li class="active-note-page"><a class="is-note-link" href="20_exam3Review_4_7_20.html">20. Exam 3 Review</a></li><li><a class="is-note-link" href="21_haltingProblem_4_14_20.html">21. The Halting Problem</a></li><li><a class="is-note-link" href="22_moreHalting_4_16_20.html">22. Halting Problem (cont.)</a></li></ul>
+</nav>
+<main>
+<a class="side-link is-note-link" href="19_pdaToCFG_4_2_20.html"></a>
+<article>
+<!-- Actual note text goes into 'pre' -->
+<pre id="text-width-ruler"></pre>
+<pre class="main-note-text"># Exam 3 Review
+
+## April 7th, 2020
+
+- A man, a plan, a Twitch channel - Richard Peng!
+    - Today's aforementioned plot:
+        - CFGs, parse trees, and how to make them
+        - PDAs and how to make them
+        - Pumping lemma for CFG
+
+- "Today will mostly be review, especially from Homework 5, because REMEMBER: you have a test this Thursday!"
+    - The test will be from 11:00am - 1:15pm, this Thursday (April 9th, aka Maundy Thursday)
+        - It should be released on the course homepage AND on Canvas
+        - If you have questions during the test, we'll have TAs both on our office hour link on BlueJeans and monitoring Piazza
+        - You can submit the test as a PDF, either scanned from paper or typeset on Latex (though he'd recommend not trying to do TIKZ diagrams under time pressure)
+    - If you average ~80% on all the tests, I'd say that's fairly safe to be in the A range post-curve
+    - The test is VERY similar in structure to Exam 2, but hopefully a bit easier
+    - The study guide is up, and I'd also recommend looking at a) homework solutions, and b) questions with answers in the textbook (Chapter 2)
+
+- "We also decided we will NOT ask you to convert between PDAs to CFGs on the test; they're really only useful as a construct for proving PDAs are equivalent to CFGs, and you'd very rarely want to actually convert between them"
+
+- "Pigeons don't broadcast very nicely, so I don't think they'd work for streaming in the apocalypse" - Dr. Richard Peng, esteemed Georgia Tech Professor
+--------------------------------------------------------------------------------
+
+- As we've said already, CONTEXT-FREE GRAMMARS are basically where we have variables that we keep replacing recursively with some combination of other variables and/or literal characters
+    - Any string we can potentially generate in this way is part of a CONTEXT-FREE LANGUAGE
+    - For instance, consider the language $\{w = w^R | w \in \{0,1\}\}$ (basically, palindromes)
+        - A valid CFG for this would be $S \implies \epsilon | 0 | 1 | 0S0 | 1S1$
+        - "Remember, you have to not only generate all the strings in the language, but also ONLY generate all the strings in the language"
+    - To think about if a certain CFG would accept a given string, you can either try to come up with a sequence of substitutions that would get you that string (S -&gt; 0S0 -&gt; 01S10 -&gt; ...), or create a parse tree
+        - A PARSE TREE has the starting state as the root, and then visually represents how everything gets generated, with the variables/literals represented
+            - For a given string, it is possible to have multiple valid parse trees
+        - You SHOULD know how to make a parse tree, but it's pretty similar to building a regular CFG derivation
+
+- Another CFG example: $\{a^ib^jc^k | i=j OR j=k\}$
+    - This one is weird because you have to deal with cases, but you can do it by adding extra variables: X = the 1st case, Y = the 2nd case
+
+            S -&gt; X | Y
+            X -&gt; Xc | AB
+            AB -&gt; aABb | $\epsilon$
+            Y -&gt; aY | BC
+            BC -&gt; bBCc | $\epsilon$
+
+- Now, PDAs are basically NFAs with a stack we can push/pop characters to each transition (or not push/pop by pushing/popping $\epsilon$)
+    - You can read these transitions as "(input char, popped char -&gt; pushed char)"
+    - So, a PDA for the palindrome language would look something like this:
+
+                            (1, e -&gt; y)   (e,1 -&gt; e)      (1, y -&gt; e)
+                            (0, e -&gt; x)   (e,0 -&gt; e)      (0, x -&gt; e)
+            -&gt;q0--(e,e -&gt; $)---&gt;q1--------(e,e -&gt; e)-------&gt;q2
+                                                            |
+                                                            |
+                                                        (e, $ -&gt; e)
+                                                            |
+                                                          qAccept
+
+    - PDAs have a few interesting things about them; for instance, they do NOT stop early (unlike Turing machines), and need to consume all of their input, and are non-deterministic
+
+- Finally, we have the pumping lemma; you want to pick a string so that all the possible split cases are easy to handle
+    - We do NOT require you to prove the pumping lemma, but you do have to use it!
+    - Let's take the example of proving $\{0^i1^j0^i | i \leq j\}$ is NOT context free (from the homework)
+         - For this, make your string $w = 0^p1^p0^p$
+         - From there, then, there's just 2 cases - in fact, we can actually do the proof with just 1!
+            - Since $|vyp| \leq p$, it can't overlap both blocks of 0s
+            - Therefore, if you pump with i=0, this has less than $3p$ characters, but one of the 0 blocks still has $p$ characters - meaning either the 2nd block has less characters $\neq i$, or $j \leq i$
+                - Either way, the resulting pumped string isn't in the language!
+
+- Alright, good luck on the exam and I'll see you all later!
+</pre>
+</article>
+<a class="side-link is-note-link" href="21_haltingProblem_4_14_20.html"></a>
+</main>
+</body>
+</html>

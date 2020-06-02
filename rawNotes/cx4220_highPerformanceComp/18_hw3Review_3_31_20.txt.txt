@@ -1,0 +1,99 @@
+//****************************************************************************//
+//************** Homework 3/Exam 2 Review - March 31st, 2020 ****************//
+//**************************************************************************//
+
+- Okay, Professor Isaac is starting to teach online via iPad!
+    - ...I'm getting some serious Khan Academy vibes
+
+- Some starting announcements:
+    - Homework 3 was due yesterday, and the solutions should've been posted right before this class
+    - Programming Project 2 grades should be posted by this afternoon
+    - Exam 2 is THIS THURSDAY - be prepared!
+        - The exam will "go live" at Midnight (12am on April 2nd), and'll be due at 11:59pm; it'll be an online exam, and will be open note/open book
+            - Basically, the only thing you're NOT allowed to use are collaboration with other peers; it should be entirely your own work on the exam
+        - I'll definitely be available for questions/exam clarifications during the regular class time from 9:30-10:45, and should be able to do an afternoon "office hour" section ~2:30-3:30 as well
+            - In other words, START THE EXAM EARLY!
+            - I'll also do my best to answer emails that evening as well, but don't count on an immediate response
+    - Solutions to the Exam 2 study questions
+
+- For general problems, I don't expect any problems to come out of left field; look at the approach I'm doing in the posted solutions and try to approach problms in a similar way, and you should be off to a pretty good start
+--------------------------------------------------------------------------------
+
+- Alright, let's talk about the homework 3 questions!
+
+- Question 1 was about sorting a list given 2 already-sorted subsquences, one of length "m" and another of length "n"
+    - The basic idea was that if we could reverse one of the sequences, we'd end up with a bitonic sequence, which we could then use bitonic merging on to get a final sorted list
+        - Most people got the gist of this, but for full points you needed to be careful about HOW you were doing these steps - particularly the reversal!
+        - While we can assume p divides "m + n", we DON'T know if the division between the 2 sequences happens at a processor boundary; it's possible there's a processor with elements from BOTH sequence 1 and sequence 2, and that's where the split is!
+            - So, because of that, it's possible the last processor will need to send its elements to BOTH the 1st and 2nd processor w/ elements from sequence 2 to keep "m+n/p" elements on each processor (basically, we have to reverse the 2nd sequence and then "shift" its elements forwards to avoid having too many elements on the boundary processors/too few elements on the last processor)
+                - If we did a reversal with each processor ONLY communicating with 1 other processor, then the 1st processor that contains a PART of sequence 2 would end up receiving "(m+n)/p" elements and end up having more than "(m+n)/p" elements, making our bitonic merge step trickier (since we'd have to then have a special case to compare the extra elements from uneven list sizes during the comparison step against a DIFFERENT processor)
+            - However, at MOST a given processor will need to communicate with 2 other processors to shift its elements correctly, which doesn't affect the asymptotic runtime of the reversal:
+                - Comp: O((m+n)/p)
+                - Comm: O(t + u(m+n)/p)
+    - Then, for the bitonic merge itself, we have a logarithmic runtime:
+        - Comp: O(log(p) * (m+n)/p)
+        - Comm: O(log(p) * (t + u*(m+n)/p))
+
+- Question 2 unfortunately was worded more confusingly than I'd realized, but the question was how to accomplish permutation routing using some existing parallel sort algorithm given to us
+    - If you've looked at generic sorting libraries like C's "qsort", you have to provide the datatype of your elements along with a comparison function telling the algorithm how to compare your datatype
+        - So, the work will be proportional to the number of times compare gets called, and the memory movement will be proportional to the size of the elements you're comparing/swapping between processors
+    - Extending this logic to parallel sorting, if we're given the computation time for sorting T_comp(n,p), that'll be proportional to the max number of comparisons any given processor performs
+        - Given the communication time T_comm(n,p), then, there'll be some overhead + a time proportional to the size of the elements
+    - For this problem, when we're using sorting to actually get each message to its destination, we'll have a new datatype containing the message AND the destination processor's rank, giving us a size of "m + O(1)" (message size + some constant number of bytes)
+        - So, for the computation, we have T_comp(p,p)
+        - Then, for the communication, we'd have "p" comparisons but with each message being of size "m+1", which we can represent as T_comm((m+1)p, p)
+            - For the communication time
+    - Again, apologies for the wording, since I think this was actually a fairly straightforward problem that was worded somewhat confusingly
+        - A brief tangent on network design (won't be tested): building all-connected networks is SUPER expensive due to how many wires it requires, so what's sometimes done instead is building a "crossbar" network that looks like a grid - but (I think?) this can require traversing up to "sqrt(n)" links to send a message
+        - Alternatively, we can instead have a single big switch that looks like a sorting network in its processor connections, and if we build it correctly this can actually route any permutation without congestion at the cost of a few extra hops (up to log(p))!
+            - Instead of using p^2 switches, then, this'd instead use p * log(p)^2 switches (double-check this?), which is better!
+            - So, this algorithm DOES come up at the network-design level, even if you'd never write an application program likes this
+
+- Question 3, then, was about how to embed a ring in an array while having at most 2
+    - If we embed the ring directly in the array using the same IDs, then all but 1 of the connections is the same - but the "loop around" connection would go from having 1 link to having traverse n-1 links, which is bad! That's a dilation of "n-1"!
+    - So, what's the answer? Basically, it's taking a donut and squishing it flat!
+        - Essentially, we need to interleave the 2 halves of our ring, like so:
+
+              7---6---5---4
+             /           /      => 0-7-1-6-2-5-4
+            O---1---2---3
+
+        - Mathematically, we can express this as:
+
+                F(i) = 2i,          if i < p/2
+                     = 2p-2i-1,     otherwise
+
+    - This gets us an output network with a dilation of 2, which is what the problem is asking for!
+        - This problem wasn't too tricky once you saw it; you mostly
+        - A slightly trickier example of dilation would be embedding a ring with n^2 connections in an NxN mesh; if N is odd, then one embedding (not necessarily the best one) would be to just "snake" the ring like so:
+
+                -------|
+                |-------
+                -------|
+
+            - HOWEVER, this doesn't preserve our ring's 1st/last connection! In general, this'd give us a dilation of 2(n-1)
+                - Remember, DILATION is the worst-case number of links we have to traverse for a single link in the original source graph
+
+- Finally, we have question 4, which was about transposing an NxN matrix in parallel on an NxN torus mesh - BUT in a way that each processor held at most an O(1) number of matrix elements at any point
+    - Here, if you just wrote an algorithm like "every entry is passed to the correct row, wait, then pass it to the correct column," then there'd be a problem: you'd end up with a bottleneck where every processor in the last row would have all the processors for a given column, which'd mean that processor would be a bottleneck and take "N" operations/communication rounds just to move each element 1 space over
+    - However, remember that a transpose sends each element (i,j) to (j,i); since our NxN torus wraps around, we know the shortest distance between (i,j) and (j,i) is <= N
+        - So, to avoid this pile up issue, we just DON'T WAIT for each element to "turn the corner" and go to the correct column
+            - How do we guarantee that this DOESN'T cause a pile-up? The solution guide from previous classes was actually kinda vague about this
+            - The reasoning, though, goes like this:
+                - Each round, each process has at most 1 outgoing message in each of the N/S/E/W direction
+                - Therefore, each process has at most 1 incoming message in each of those directions each round
+                - Therefore, if each process has at most 5 items (1 it keeps at its final location, 1 it sends in each direction), then this will be true after each round completes!
+                - Therefore, the number of messages on any one process never exceeds 5
+    - That's a correct solution, and the one we gave from previous semesters; alternatively, there's a simpler solution to understand that's a little less efficient BUT makes use of embeddings
+        - One way we can understand this problem is that each element needs to move along an "L" to get to its final destination in the transpose:
+
+                | | |
+               -  | |
+               ---  |
+               ------
+                        (...)
+
+        - If we can move these elements along these "L"s without them building up, then we'll have done this transpose successfully without causing bottlenecks!
+            - Can we do this? Yes! We just need to reverse each "half" of the "L," and then move the elements past each other!
+            - So, we can do the reversal in T(n/2) steps, which for the whole array will be n/2 + n/4 + ... = n communication rounds, and then we can slide the elements past each other in "n" steps
+            - Since we're just sliding 2 lines past each other and over the main diagonal, this'll never build up more than 3 elements on a given processor!

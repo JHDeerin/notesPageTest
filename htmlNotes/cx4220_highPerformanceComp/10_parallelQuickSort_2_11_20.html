@@ -18,7 +18,7 @@
 <li class="link-with-slash"><a href="../../index.html"><i class="fas fa-home"></i></a></li>
 <li><a href="#" id="class-title-link">Intro. to HPC</a></li>
 </ul>
-<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li class="active-note-page"><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li><li><a class="is-note-link" href="13_introEmbeddings_2_27_20.html">13. Intro. to Embeddings</a></li><li><a class="is-note-link" href="14_mpiEmbeddings_3_3_20.html">14. Embeddings in MPI</a></li><li><a class="is-note-link" href="15_parallelMatrices_3_5_20.html">15. Parallel Matrix Operations</a></li><li><a class="is-note-link" href="16_2dMatrixAlgo_3_10_20.html">16. 2D-Matrix Algorithms</a></li><li><a class="is-note-link" href="17_optimal2DMatrix_3_12_20.html">17. Optimal 2D Matrices / Caching</a></li></ul>
+<ul class="note-links-slider"><li><a class="is-note-link" href="0_firstDay_1_7_20.html">0. First Day</a></li><li><a class="is-note-link" href="1_parallelGoals_1_9_20.html">1. Parallel Algorithm Design Goals</a></li><li><a class="is-note-link" href="2_algoExamplesMPI_1_14_20.html">2. Algorithm Examples / Intro. to MPI</a></li><li><a class="is-note-link" href="3_hw1MPI_1_16_20.html">3. Homework 1 Review / Intro. to MPI</a></li><li><a class="is-note-link" href="4_communicationLatency_1_21_20.html">4. Communication, Deadlock, and Latency</a></li><li><a class="is-note-link" href="5_permuationsCollectiveComm_1_23_20.html">5. Permutations and Collective Communication</a></li><li><a class="is-note-link" href="6_collectivesPrefixSum_1_28_20.html">6. Collection Example / Prefix-Sum</a></li><li><a class="is-note-link" href="7_morePrefixSum_1_30_20.html">7. Prefix-Sum Algorithm</a></li><li><a class="is-note-link" href="8_prefixCAllToAll_2_4_20.html">8. Prefix Sum C Example / All-to-All</a></li><li><a class="is-note-link" href="9_bitonicSort_2_6_20.html">9. Bitonic Sort</a></li><li class="active-note-page"><a class="is-note-link" href="10_parallelQuickSort_2_11_20.html">10. Parallel Quick Sort</a></li><li><a class="is-note-link" href="11_sampleSort_2_20_20.html">11. Sample Sort</a></li><li><a class="is-note-link" href="12_midtermSol_2_25_20.html">12. Midterm Solutions</a></li><li><a class="is-note-link" href="13_introEmbeddings_2_27_20.html">13. Intro. to Embeddings</a></li><li><a class="is-note-link" href="14_mpiEmbeddings_3_3_20.html">14. Embeddings in MPI</a></li><li><a class="is-note-link" href="15_parallelMatrices_3_5_20.html">15. Parallel Matrix Operations</a></li><li><a class="is-note-link" href="16_2dMatrixAlgo_3_10_20.html">16. 2D-Matrix Algorithms</a></li><li><a class="is-note-link" href="17_optimal2DMatrix_3_12_20.html">17. Optimal 2D Matrices / Caching</a></li><li><a class="is-note-link" href="18_hw3Review_3_31_20txt.html">18. Homework 3/Exam 2 Review</a></li><li><a class="is-note-link" href="19_introFFT_4_7_20.html">19. Intro. Fast Fourier Transform</a></li><li><a class="is-note-link" href="20_parallelFFT_4_9_20.html">20. Parallel FFT</a></li><li><a class="is-note-link" href="21_parallelGraphAlgos_4_14_20.html">21. Parallel Graph Algorithms</a></li><li><a class="is-note-link" href="22_moreGraphAlgos_4_16_20.html">22. Graph Algorithms (cont.)</a></li><li><a class="is-note-link" href="23_loadBalancing_4_21_20.html">23. Load Balancing (cont.)</a></li></ul>
 </nav>
 <main>
 <a class="side-link is-note-link" href="9_bitonicSort_2_6_20.html"></a>
@@ -87,7 +87,7 @@
 - Last lecture, though, we mentioned that there are sorts without control-flow branching (e.g. merge sort) and those WITH control-flow branching (e.g. quick sort) - how can we parallelize the latter?
     - At a coarse level, we could draw quicksort as a DAG, where our 1st operation takes an array, computes the pivot, and then splits the array based on if elements are greater/smaller than the pivot
         - Those 2 halves then don't need to communicate with one another at ALL, which is good for parallelism
-        - We can then keep splitting recursively until each processor has a single array chunk, which it can then sort luckily and return to be combined
+        - We can then keep splitting recursively until each processor has a single array chunk, which it can then sort locally and return to be combined
     - More formally, then, the algorithm looks like:
         - Pick a pivot and broadcast it to all processors: O(log(p)*(t+u))
         - Partition each chunk locally: O(n/p)
@@ -100,11 +100,11 @@
                     = O(n * log(n) / p)
             Communication: O(t*log(p) + un/p * log(p))
 
-        - Of course, though, this is quicksort; in the worst case of a completely imbalanced array, it can get MUCH worse!
+        - Of course, though, this is quicksort; in the worst case of a completely unbalanced array, it can get MUCH worse!
 
 - So, quicksort is still pretty good - but can we do even better?
     - For comparison-based sequential sorts, we know sorting "n" elements has to take at least O(n log(n)) time
-    - Assuming we can divide n/p elements per process, and in the worst case that ALL of the n/p elements we should have belong to other processes (?), then we have to have a communication time of:
+    - Assuming we can give n/p elements to each process, and in the worst case that ALL of the n/p elements we should have belong to other processes and need to be moved, then we have to have a communication time of:
 
             O(un/p)
 
@@ -124,7 +124,7 @@
 
                 E(max(low, high)) = n * 3/4
 
-            - This comes since, if we choose 0 as our pivot, the max elements in one half of the array will be "1*n", and only if we choose it exactly in the middle will it be "n/2" before going up again; drawing out the graph, it'll average out between these two so the average maximum length of one-half of the array is
+            - This changed because, if we choose 0 as our pivot, the max number of elements in one half of the array will be "n", and only if we choose it exactly in the middle will the max number of elements in EITHER side of the split reach a minimum of "n/2" before going up again; drawing out the graph, the longer side of the split's length will average out between these two, so the average maximum length of one half of the array is "3/4n"
         - This is going to change our runtime COMPLETELY to now be:
 
                 T(a,n,p) = Tpivot(p) + Tsplit(a,n,p) + T(max(low, high),3n/4, p/2)

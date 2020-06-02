@@ -37,7 +37,7 @@
                 - Finally, a graph with weights will no longer be binary; we can have arbitrary weights!
             - Adjacency matrices are great for nearly-complete graphs, but if most possible connections don't exist then we have a SPARSE matrix, meaning that most of the connections are 0
                 - When this happens, we can instead use an ADJACENCY LIST (taking up O(V + E) space, instead O(V^2))
-                - What does this look like in memory? There are several possibilities, but a common one is a COMPRESSED ADJACENCY LIST representation, where each vertex has a pointer to a list of vertices reachable from it (basically, 2 lists, one with the vertex indices and another with the edges there) (phony vertex at the end form some reason)
+                - What does this look like in memory? There are several possibilities, but a common one is a COMPRESSED ADJACENCY LIST representation, where each vertex has a pointer to a list of vertices reachable from it (basically, 2 lists, one with the vertex indices and another with the edges there) (phony vertex at the end for some reason)
                 - Alternatively, we could've just had a list of edges (which will be less compressed)
 
 - How do we specify a virtual topology in MPI? I'm glad you asked!
@@ -84,4 +84,3 @@
         - We could do this by setting up a BUNCH of small communicators, but instead, we can specify a neighborhood in MPI v3 and use "MPI_Neighbor_allgather" to do this instead!
 
 - Alright, that's all for today - Homework 2 supplement is due this Wednesday, and I'll see you on Thursday!
-

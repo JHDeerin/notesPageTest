@@ -12,14 +12,14 @@
             - Embeddings
             - Matrix-matrix multiplications
             - MPI for above
-        - All of the above will be tested on homework 3 - "I'm planning on one homework on each of them"
+        - All of the above will be tested on homework 3 - "I'm planning on one homework problem on each of them"
         - The exam will happen on THURSDAY when you get back
     - In-lecture:
         - Finish matrix-matrix multiplication
 
 - A whole 5 people braved the coronavirus to come to lecture...in a way, I'm impressed, but COME ON!
 
-- Also, example solutions for programming assignment 2 were poste; one is a TAs solution from a past semester that DOESN'T interleave master/worker processing, and the other is Professor Isaac's solution that does try to use that time
+- Also, example solutions for programming assignment 2 were posted; one is a TAs solution from a past semester that DOESN'T interleave master/worker processing, and the other is Professor Isaac's solution that does try to use that time
     - The basic idea behind this is "what if we split the master thread into 2 parts: a 'backend' and a 'frontend'?" The backend generates new partial solutions, and the frontend gives those solutions to the workers when requested
         - We only have 1 thread, though, so we basically have to implement a poor man's co-routine to handle this on a single thread
 --------------------------------------------------------------------------------
@@ -46,7 +46,7 @@
 
     - We can represent this space as a 3D cube, with the axes i,j, and k
 
-                 
+
                 |\---------\
                 | \    C    \
                 |  \         \
