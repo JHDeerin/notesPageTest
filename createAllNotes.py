@@ -149,6 +149,12 @@ notesToCreate.append(ClassNoteEntry(
     'htmlNotes/apph1040_health',
     "Health"))
 
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/fall2020/phil3050_politicalPhil/notes',
+    'css/phil3050Theme.css',
+    'htmlNotes/phil3050_politicalPhil',
+    "Political Philosophy"))
+
 #===============================================================================
 #===============================================================================
 

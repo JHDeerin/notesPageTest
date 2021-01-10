@@ -1,0 +1,87 @@
+# Exegeting Habermas
+
+## August 18th, 2020
+
+-   Alright, welcome back! We're planning to go through 2 things today:
+    -   Questions about the syllabus
+    -   3 models of democracy paper
+        -   "I know this was a REALLY, really dense paper by Habermas, but I like to use it to make a point about reading philosophy papers"
+
+-   Also, a few reminders:
+    -   Remember that we have a discussion board on Canvas, and those posts are GRADED! You should be making at least 2 substantive posts per week (either starting a new thread/question/etc. or responding THOUGHTFULLY to someone else's)
+    -   You also have a weekly response assignment; please take a look at that; it should be a fairly short 1-2 paragraph response, citing certain parts of the text
+        -   Both of those assignments are due Friday night
+    -   Finally, you should be able to see the module for next week on Canvas; take a look at that to get a sneak peak at what we'll be going through and the readings we'll be doing
+--------------------------------------------------------------------------------
+
+-   Syllabus questions:
+    -   How do the message board posts work?
+        -   You can do 2 responses, a response + a new thread, both new threads - anything! As long as you do 2 responses!
+    -   What's due this Friday?
+        -   The 2 discussion posts PLUS the short response assignment
+            -   This week's response is a little weird, in that it's asking about your response to the course and your expectations for it; later responses will be more focused on the readings
+    -   Will lectures be recorded?
+        -   Yes! Don't count on them, but yes!
+    -   What's the final project format?
+        -   You should have an "Assignment Specification" file that lists the format of all the types of assignments we have in the course
+            -   Discussion posts are similar to responses; it is NOT a class about detailed facts, but about making connections and understandings. "Are you making steps towards a clearer understanding" - like identifying clear distinctions or drawing a connection between something in the real world and something in the class? That's a good sign you're on the right track!
+            -   It's not a matter of length, but of a good-faith effort to make a distinction or achieve some clarity on a topic
+        -   The "final project," then, is going to be explained later on
+    -   Is there a class GroupMe?
+        -   Not right now; I have noticed that students often fall back on GroupMe for communication when doing team projects, but that's your own discretion. All of our communication this semester will be done through Canvas.
+    -   Will post/response grading be more lenient while we're starting out?
+        -   Yes, it will, but I try to be lenient in general; if I see you genuinely trying to understand something (instead of just trying to get credit), even if it's a bit wide of the mark, I'll give you credit
+            -   The weekly assignments are more about consistency and discipline; if you're trying to understand the text critically, you'll be fine
+        -   The exegesis assignments will be more substantive compared to the posts, but hopefully still reasonable
+-   Okay; if you have any questions, feel free to check in with me during office hours or to send me an email!
+
+-   Moving on, then, let me tell you about Habermas
+    -   Habermas is a philosopher in the discipline of CRITICAL THEORY, which emerges from Frankfurt (and is sometimes called the "Frankfurt School")
+        -   The early critical theorists were largely neo-Marxist in their thinking, and were heavily critical of Fascism, emerging in Germany during the 1920s and continuing after their exodus during WWII
+        -   Hannah Arendt, for instance, falls in the critical theorist school
+    -   Habermas came out of this school as critical of authority and power structures, but began leaving the neo-Marxist roots of the school behind, focusing instead on his background as a sociologist
+        -   Don't let that word "Marxist" scare you; what they picked up on was that Marx has a very critical approach to viewing capitalism and other societies, not necessarily the whole "communist revolution" ideas
+    -   Now, when I first read this "3 models" essay as a GRADUATE student, I got worried - I read this essay and I didn't understand it! I did not understand ONE SENTENCE of this guy! I had an actual anxiety attack that semester!
+        -   So, if you're there after reading this essay, and thought it was really dense and hard, I'm with you; "this essay is a LOT"
+        -   That being said, I got through that semester, and I know Habermas better now than I would have
+            -   "We're reading for understanding here - not collecting facts like shells on a beach, but going from not understanding what someone is saying to understanding them, which is necessarily really hard - since, you know, you don't understand it yet!"
+    -   "My plan is for us to come back to this article at the end of the semester and see how much more we understand about it; it's a dense article, but NOT impenetrable. There are starting points for understanding this text, and we have to find them, and then go from there"
+
+-   So, how do we understand complicated texts like this? By the process of "exegesis"
+    -   EXEGESIS comes out of a religious context, where theologians and priests would rigorously read a text to try and understand it correctly
+    -   This method, though, has carried over into philosophy
+
+-   Now, let's look at a passage on the very first page of the essay: "With this, the liberal architectonic..."
+    -   Look at that sentence, and talk it out as a group for ~10 minutes
+        -   Like last time, introduce yourself again, then try to understand that one sentence
+    -   So, here's the full sentence:
+
+        ```
+        With this, the liberal architectonic of society in government undergoes an important change: in addition to the the hierarchical regulations of the state and the decentralized regulations of the market, that is, besides administrative power and the individual personal interest, solidarity and the orientation to the common good appear as a third source of social integration.
+        ```
+
+    -   First part of the sentence seems to summarize what he was already talking about, with 2 pieces of
+    -   The 3rd thing, then, is talking about "solidarity" - what's that?
+        -   It seems that republicanism, besides just these 2 ideas, adds on this idea of SOLIDARITY: working intentionally towards a common goal, e.g. the American idea of "freedom"
+    -   Our stab at what this sentence means: Habermas is trying to define the difference between republican and liberal democracies, and the difference is that while BOTH have centralized power in the state AND individual personal interests, republican democracies have some sort of shared common goal for good
+        -   This is the 3rd way that people in democracies interact: through personal interests, centralized government, and having this common goal
+
+-   Okay, let's come back together as a class and figure out what this sentence is saying
+    -   Remember, Habermas is a sociologist, and so he's interested in the sociological background - what makes SOCIETY as a whole a coherent thing?
+    -   This sentence seems to say that republican democracies have 3 components: the "market," "state administration," and "solidarity" - the "public sphere"
+        -   This last one of SOLIDARITY, based on the previous sentence, seems to be that there's an awareness of mutual dependence between different people, and Habermas notes there's a definite ethical aspect to this
+            -   "Habermas goes on to say that republicanism demands that people come up with a shared ethical view of what life's about - that's a lot to ask!"
+    -   What about "market?"
+        -   Habermas seems to say this is a decentralized form of authority, motivated by private individual goals WITHOUT explicit coordination
+    -   Then what about "state administration?"
+        -   In contrast with the market, it's a centralized authority that makes rules governing society
+        -   Habermas also notes that this is a HIERARCHICAL administration - there are people with explicit levels of authority over others
+            -   This administration, then,
+    -   Habermas's point with this sentence, then, is that liberal democracies ONLY take the "market" and "state administration" into account
+        -   Because of this, Habermas characterizes liberal democracies as essentially being a way to compromise between a bunch of competing individual interests
+        -   He later talks about liberal democracies being concerned with "negative rights" - in other words, trying to allow people as much individual freedom as possible
+    -   In contrast, he says that republican democracies are ALSO concerned about this "solidarity" and common good
+        -   Habermas, though, thinks this model has
+
+-   So, hopefully this demonstrated to you what exegesis looks like, using background knowledge and putting the text in context and other things, but we are out of time!
+    -   Don't forget to do your discussion posts/responses, and I'll see you on Monday, when we get to start digging into John Locke!
