@@ -1,7 +1,3 @@
-.cx4230 header:after {
-    background: linear-gradient(90deg,#c8b665, #78bde9);
-}
-
-ul.note-links-slider > li.active-note-page {
+.cx4230 header:after, ul.note-links-slider > li.active-note-page {
     background: linear-gradient(90deg,#c8b665, #78bde9);
 }

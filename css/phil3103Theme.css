@@ -1,7 +1,3 @@
-.phil3103 header:after {
-    background: linear-gradient(90deg,#0d5eaf, #ec1811);
-}
-
-ul.note-links-slider > li.active-note-page {
+.phil3103 header:after, ul.note-links-slider > li.active-note-page {
     background: linear-gradient(90deg,#0d5eaf, #ec1811);
 }
