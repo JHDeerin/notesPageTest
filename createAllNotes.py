@@ -112,7 +112,6 @@ notesToCreate.append(ClassNoteEntry(
     "Philosophy of Science"))
 
 
-
 notesToCreate.append(ClassNoteEntry(
     '../../../Class Materials/spring2020/cs3311_juniorDesign/notes',
     'css/cs3311Theme.css',
@@ -136,6 +135,13 @@ notesToCreate.append(ClassNoteEntry(
     'css/cx4220Theme.css',
     'htmlNotes/cx4220_highPerformanceComp',
     "Intro. to HPC"))
+
+# 5th year
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/fall2020/cs3312_juniorDesign/notes',
+    'css/cs3312Theme.css',
+    'htmlNotes/cs3312_juniorDesign',
+    "Junior Design II"))
 
 #===============================================================================
 #===============================================================================

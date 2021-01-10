@@ -47,13 +47,13 @@ I created these abominations. Here's how to use them for something vaguely appro
     }
     ```
 
-4.  Generate the HTML notes for the class.
-
-5.  Add the stylesheet you just created to `index.html`.
+4.  Add the stylesheet you just created to `index.html`.
 
     ```html
         <link rel="stylesheet" href="css/classNameStyles.css">
     ```
+
+5.  Generate the HTML notes for the class.
 
 6.  Under the appropriate section, add a new card for this class to the `index.html` file. **Make sure to add the class's stylesheet class to the div, and a link to the 1st HTML notes file for the class.**
 
