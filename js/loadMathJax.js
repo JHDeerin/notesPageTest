@@ -19,7 +19,3 @@ window.MathJax = {
     script.async = true;
     document.head.appendChild(script);
 })();
-
-function reloadMathJax() {
-    window.MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-}

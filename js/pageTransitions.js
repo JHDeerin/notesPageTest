@@ -77,7 +77,6 @@ function wrapElementText(element) {
         }
     }
     element.innerText = softWrapTextLines(element.innerText, lineLengthChars);
-    reloadMathJax(); // MathJax needs to be updated after content change
 }
 
 function getAllPossibleLineWidths(maxLineWidthInChars) {
@@ -110,7 +109,7 @@ function changeSelectedNoteLink(newHtmlWrapper, scrollBehavior='smooth') {
 
     linkListElements[getSelectedLinkIndex(document)].classList.remove("active-note-page");
     linkListElements[newSelectedPageIndex].classList.add("active-note-page");
-    linkListElements[newSelectedPageIndex].scrollIntoView({behavior: scrollBehavior});
+    linkListElements[newSelectedPageIndex].scrollIntoView({behavior: scrollBehavior, inline: 'end'});
 }
 
 function getSelectedLinkIndex(htmlWrapper) {
@@ -164,6 +163,5 @@ document.addEventListener('click', function(e) {
         history.pushState({}, "", el.href);
         isLinkToAnotherNotePage = el.classList.contains("is-note-link")
         changePage(isLinkToAnotherNotePage);
-        return;
     }
 });
