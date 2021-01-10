@@ -143,6 +143,12 @@ notesToCreate.append(ClassNoteEntry(
     'htmlNotes/cs3312_juniorDesign',
     "Junior Design II"))
 
+notesToCreate.append(ClassNoteEntry(
+    '../../../Class Materials/fall2020/apph1040_health/notes',
+    'css/apph1040Theme.css',
+    'htmlNotes/apph1040_health',
+    "Health"))
+
 #===============================================================================
 #===============================================================================
 

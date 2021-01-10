@@ -1,0 +1,80 @@
+# Nutrition (cont.)
+
+## October 7th, 2020
+
+-   So, let's talk about AMDR: The "Acceptable Macronturient Range"
+    -   We want ~45-65% of our diet to be carbohydrates
+        -   1g of carbs equals 4 calories
+    -   Fats should be ~20-35% of our diet
+        -   1g of fats equals 9 calories
+    -   Protein should be ~10-35% of our diet (or 0.8g of protein for each kilogram of body weight)
+        -   Like carbs, 1g protein = 4 calories
+        -   Most Americans get too much protein, and typically from saturated fats or fatty meats that aren't great
+-   Water is ALSO considered an essential macronutrient; our body uses water for performing chemical reactions, regulating body temperature, removing waste, transporting nutrients via blood, cushioning our organs, etc.
+    -   Our bodies are ~50-70% water, and you can't live for more than a week without water
+        -   You can survive up to a month without food, in contrast
+    -   Without water, you become dehydrated, and in extreme cases it can be fatal
+        -   Thirst is the first clue for dehydration; dark colored urine is also a clue you're dehydrated (healthy urine is a pale lemonade color)
+    -   The American College of Sports Medicine recommends hydration throughout exercising; men should have 13 cups of water per day, women should have 9 cups
+        -   Fruits and vegetables are ~80-95% water, and contribute to hydration
+    -   You might need extra water while working out
+
+-   After water, the body's most abundant substance is protein, which is the major structural component in all the body's cells
+    -   The most abundant protein in the body is COLLAGEN, which makes up our connective tissues
+    -   2 other big proteins providing muscle support are ACTIN and MYOSIN
+    -   Antibodies fight disease, and depend on proteins for survival
+    -   Enzymes (e.g. lactase) act as catalysts to help the body chemically react
+    -   Hormones are proteins that regulate our body's functioning (e.g. insulin)
+        -   Proteins are built of amino acids; there are 20 of these, and 9 that are ESSENTIAL in foods (i.e. they're not produced in our diet and must be consumed)
+        -   COMPLETE PROTEINS contain all 9 of these essential acids, and largely come from animal sources or combinations of vegetarian proteins (most vegetables are incomplete proteins on their own)
+            -   WHOLE SOY PROTEINS (like soy beans) are an exception to this; they're a complete, plant-based protein source
+
+-   Again, there are 5 macronutrients
+    -   CARBOHYDRATES are the best energy source for daily activities and are the most efficiently converted to glucose (which our body uses directly)
+        -   The RDA minimum is ~130 grams of carbs daily
+        -   This is the best macronutrient for exercise fuel BECAUSE it can be used up quickly and immediately
+        -   There are 2 kinds of carbs:
+            -   SIMPLE carbs are "simple sugars" that have just 1-2 sugar molecules in them (i.e. monosaccharides and disaccharides)
+                -   Sources of these include processed sugars, fruits, and dairy
+                -   High consumption of ADDED sugars are linked to obesity and cancer
+            -   COMPLEX carbs are long chains of sugars, and provide sustained energy
+                -   There are 3 main types:
+                    -   STARCHES are the stored energy in plants (e.g. rice, flour, pasta, bread, potatoes, etc.)
+                    -   GLYCOGENS are the stored energy/glucose in animals, in the muscle and liver cells
+                    -   FIBER are the indigestible portion of plant foods
+                        -   We need ~25g and 38g for women/men daily
+                            -   Most Americans only get half the fiber they need
+                        -   While we can't digest this, it's essential to moving foods through our digestion system, lowering cholesterol, protecting against diabetes, helping w/ weight loss, etc.
+                        -   Big sources of this:
+                            -   Whole grains
+                            -   Nuts and seeds
+                            -   Some fruits/vegetables
+                            -   Beans
+                            -   Supplements (last resort)
+            -   Let's talk more about what whole grains are
+                -   They're made up of 3 parts: the BRAN (outer shell, high in fiber), GERM (high-energy part of kernel), and ENDOSPERM (innermost starches)
+                -   WHOLEGRAINS have all 3 parts
+                    -   These are abundant in vitamins, minerals, fiber, etc.
+                -   REFINED GRAINS mill out the first 2, leaving only the endosperm and removing most B-vitamins, iron, phytochemicals and fiber
+                -   ENRICHED are refined grains with some vitamins added back, but still without fiber or phytochemicals
+    -   FATS/LIPIDS, which come in 2 forms:
+        -   CHOLESTEROL, which our bodies naturally produce
+        -   TRIGLYCERIDES, where our bodies store excess energy
+        -   Fats ARE important, since they provide the densest energy source we have, maintain healthy skin/hair, help cells to function, regulate body temps, etc.
+        -   The 2 types of dietary fat, then:
+            -   SATURATED fats come primarily from animals, are solid at room temp, and can clog arteries
+                -   Trans fats (or partially hydrogenated fats) are like saturated fats, but more stable and thus a lot harder for our body to process, so they are NOT healthy
+                    -   There are trace amounts of natural trans fats in animals, but they're largely negligible
+                -   The FDA has officially deemed trans fats not safe for consumption, so they should officially be removed from stores as of 2020
+            -   UNSATURATED fats come primarily from fish and plants, are usually liquid at room temp, and promote HDL in the body (which is good!)
+                -   MONOUNSATURATED FATS, which comes especially from olive oil, are great for heat health
+        -   There are 2 essential fatty acids
+            -   OMEGA-6 are found in soy products (like corn, peanut oil, etc.) - this is found in almost every packaged product
+            -   OMEGA-3 is ound in fish fats and dark green leafy vegetables, as well as some types of nuts; this is important for heart health
+
+-   In the U.S., all foods need to have a food label detailing their nutrition facts, but many people don't know how to use that knowledge - what should you look for?
+    -   Based on a 2000 calorie diet, start by seeing how large each serving is/how many servings there are in the container
+    -   Then, look at the percent daily values:
+        -   >= 20% is high in a nutrient
+        -   <= 5% is low
+    -   You generally want high levels of nutrients but low levels of sugars and fats

@@ -1,0 +1,88 @@
+# Stress (cont.)
+
+## November 12th, 2020
+
+-   Watching this a tad late, but that's okay...just stressful...
+--------------------------------------------------------------------------------
+
+-   So, wrapping up Chapter 3, we talked about some contributors to stress:
+    -   APPRAISAL is how we interpret/evaluate situations, and is primarily what makes things stressful (not things in themselves)
+    -   SELF ESTEEM is how you feel about your self-worth
+    -   SELF-EFFICACY is your confidence in your ability to do something (and is one of the most important things affecting stress levels)
+    -   SELF-TALK is how you talk to yourself; common stressful behaviors are pessimism, perfectionism, blaming yourself, etc. in unproductive ways
+        -   Doing "cognitive restructuring" to replace negative thoughts with positive ones is key
+    -   PSYCHOLOGICAL RESILIENCE is your ability to recover quickly from trauma and not dwell on things, while PSYCHOLOGICAL HARDINESS is your ability to cope with stress in the moment (and is important in reducing stress from Type A personalities)
+        -   Hardiness consists of a few things:
+            -   CONTROL (accept responsibility of behaviors)
+            -   COMMITMENT (healthy self-esteem, working to improve that, know purpose)
+            -   Willingness to embrace change
+
+-   There are 4 big personality types, all of which contribute to stress; most people are a combination of these, not straight one or the other
+    -   TYPE A personalities are perfectionists, competitive, hard-working, etc., and have an increased risk of chronic diseases
+        -   This is the most studied personality type, but you aren't guaranteed to have increased risk; many Type As can learn to be psychologically hardy
+        -   Those with a "toxic core" and high amounts of anger or distrust are at increased risk of cardiovascular disease, though
+            -   Some checks for hostility levels: do you get easily annoyed at strangers?
+    -   TYPE B is relaxed, non-competitive, and generally tolerant of others, and is low risk for stress or chronic diseases
+    -   TYPE C are stoic people, who tend to suppress problems and feelings, be people-pleasers, conform to others, and often appear calm and in control
+        -   These tend to be susceptible to autoimmune disorders, asthma, cancer, etc.
+    -   TYPE D tend to be distressed, excessively worry, have a lack of patience, are decisive, risk-takers, and abundantly self-confident; they're often in management roles, but are at an 8x increased risk of heart attacks
+
+-   TECHNOSTRESS is stress that comes from a dependence on technology, like a perceived obligation to respond to messages, see the news, etc.
+    -   Research shows that constant internet connection can lead to anxiety, lower energy levels, damaged relationships, insomnia, etc. - some researchers have even dubbed these "iDisorders"
+    -   College students with high levels of cell phone use tend to report higher levels of stress, less satisfaction, and lower academic performance
+        -   The average college student spends 5+ hours just using their phone
+    -   What can you do to avoid this?
+        -   Have a phone schedule (limit to 30 minute chunks), turn off notifications, block people who don't matter to you, connect with friends in-person, turn device completely off, etc.
+
+-   So, how do we manage stress in general, or even prevent excessive stress in the first place?
+    -   Get some perspective!
+        -   Psychologist Martin Seligman concluded that optimists had fewer health problems than pessimists, so try to reframe problems into opportunities - instead of "oh, I HAVE to do this," view them as "wow, here's a chance I have to grow and learn!"
+        -   If you've seen "Dead Poets Society," Robin Williams had his students stand on the table to see things in a different way - "people look different from up here"
+        -   Another way to do this is by practicing "positive self-talk", a form of COGNITIVE RESTRUCTURING - don't say anything you wouldn't say to someone else!
+            -   First, be aware of your negative thinking
+                -   Journaling your thoughts over a few days might be a good way to see this
+            -   Then, STOP IT!
+            -   Finally, replace that negative thought with a productive one (e.g. instead of "oh, this problem is too complicated!," you can say "this is a complex problem, so I need to learn more to get it done")
+        -   "There's no such thing as failure, only feedback; I just have chances to learn things now so I can do them later"
+    -   Fight the urge to get angry
+        -   Anger results from feeling frustrated or out of control
+        -   Expressing anger actually IS the most healthy management technique IF it is done in a non-aggressive manner; then, once you've expressed the anger in a healthy way, you can calm it down
+            -   If you're angry at someone, give it 24 hours before expressing that or lashing out at them; give yourself time
+        -   You should also recognize patterns of what makes you angry, and either avoid those stimuli (stop going on Facebook, leave early to avoid traffic, etc.) or learn how to de-escalate your response (taking a step back, deep breaths, better self-talk, etc.)
+            -   If you're dealing with relationships, learn to communicate in a non-conflict oriented way (don't say "you never" or "you always," express your feelings instead of blaming people, turn complaints into requests, etc.)
+        -   If all else fails, "get it out" with your friends or a counselor
+        -   Have realistic expectations of yourselves and those around you
+    -   Take physical action
+        -   Stress is part of the fight/flight response, so take a cue from your body and exercise to burn off stress hormones!
+        -   Get adequate sleep
+        -   Keep a healthy diet
+        -   Practice "self-nurturing" (do something that you enjoy that calms you down; don't just constantly work); take care of yourself!
+    -   Manage your time well
+        -   There's plenty of ways to do this, but:
+            -   Do one thing at a time
+            -   Prioritize your tasks
+            -   Work in a clean, comfortable space without interruptions
+            -   Break overwhelming tasks into small chunks
+        -   Learn to laugh, be joyful, and cry
+            -   Laughter/joy increases endorphins, oxygen in the blood, decreased stress levels, relieve pain, helps recover from diseases, improves relationships, etc.
+            -   Crying relieves tension
+        -   Try DOWNSHIFTING: examining what's important to you and eliminating "clutter" in your life
+            -   For instance, are you spending money on things you need, or even want? Is there clutter in your house you can throw away? Do you enjoy your job, and can you trade a high salary for one you enjoy? etc.
+        -   Practice Mindfulness
+            -   Mindfulness meditation can reduce stress levels, make you calmer, etc; an 8 week course in meditation also improves compassion levels, makes people less self-centered, etc.
+            -   How do you do this? Sit down in a comfortable place, focus on something constant like breathing, breathe deeply, keep your focus on one thing, etc.
+            -   Deep "diaphragmatic" breathing can lower blood pressure and actually do a lot to relax you, and meditation engages the parasympathetic nervous system
+            -   Progressive muscle relaxation, too, is a technique
+    -   Finally, some other management tips:
+        -   Avoid counterproductive coping techniques like binge eating, etc.
+        -   Exercise, get sleep, and eat healthily
+        -   Have a social support group
+        -   Try to change your perception of stressors
+        -   Manage your time
+        -   Laugh!
+        -   Schedule downtime and enjoyable hobbies
+        -   Keep a journal
+            -   This is great both for being aware of things that you're thinking AND to be grateful, and focus on the things you DO have and that are going well. Imagine writing down 3 things you're thankful for each day!
+        -   Breathe - it's built-in stress relief!
+        -   Go to counseling; friends are great, but counselors are trained to deal with exceptional cases
+    -   Ultimately, do what works for you!
